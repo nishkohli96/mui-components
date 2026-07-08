@@ -8,7 +8,7 @@ import BedtimeIcon from '@mui/icons-material/Bedtime';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import { docsLink, githubRepoLink } from '@/constants';
+import { githubRepoLink } from '@/constants';
 import { useThemeContext } from '@/theme';
 
 type SubmitButtonProps = {
@@ -71,24 +71,6 @@ export const GithubButton = () => {
         sx={{ pl: { xs: 0, md: '12px' } }}
       >
         <GitHubIcon />
-      </IconButton>
-    </Tooltip>
-  );
-};
-
-export const DocsButton = () => {
-  return (
-    <Tooltip title="Docs">
-      <IconButton
-        component={Link}
-        href={docsLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Docs"
-        size="large"
-        color="inherit"
-      >
-        <MenuBookIcon />
       </IconButton>
     </Tooltip>
   );

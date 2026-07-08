@@ -42,8 +42,9 @@ html, body {
 }
 
 /* ---------------------------------------------------------------------------
- * Component documentation (.mdx pages): layout, code blocks, tables, TOC.
- * Code blocks are always dark (VS Code Dark+ via shiki), like MUI docs.
+ * Component documentation (.mdx pages): layout, code blocks, tables and
+ * TOC ( Table of contents).
+ * Code blocks follow VS Code Light+/Dark+ via shiki), like MUI docs.
  * Everything else follows MUI's `data-mui-color-scheme` attribute.
  * ------------------------------------------------------------------------ */
 
@@ -138,9 +139,11 @@ html, body {
   opacity: 0.55;
 }
 
-/* --- Code blocks: VS Code Light+/Dark+ tokens from shiki, following the
-       app theme. `defaultColor: false` emits both palettes as CSS variables
-       (--shiki-light / --shiki-dark) on every token span. --- */
+/**
+ * Code blocks: VS Code Light+/Dark+ tokens from shiki, following the
+ * app theme. `defaultColor: false` emits both palettes as CSS variables
+ * (--shiki-light / --shiki-dark) on every token span.
+ */
 
 .doc-code-block {
   position: relative;

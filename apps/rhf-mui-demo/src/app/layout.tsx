@@ -58,8 +58,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
           <AppThemeProvider>
             <AppBar />
             <Box className="content" sx={{ display: 'flex' }}>
-              {/* Sticky side navigation, hidden on small screens
-                  (DrawerMenu in the AppBar covers mobile). */}
               <Box
                 component="nav"
                 aria-label="Component pages"

@@ -4,13 +4,9 @@ import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import RHFMuiLogo from '../../../public/rhf-mui.png';
 import DrawerMenu from './DrawerMenu';
-import {
-  DocsButton,
-  GithubButton,
-  ThemeChangeButton
-} from '../buttons';
+import { GithubButton, ThemeChangeButton } from '../buttons';
+import RHFMuiLogo from '../../../public/rhf-mui.png';
 
 /**
  * Sticky, flat docs-style header: brand on the left, actions on the right.
@@ -23,9 +19,6 @@ const AppBar = () => {
       elevation={0}
       color="inherit"
       sx={{
-        /* Brand blue in light mode, flat paper strip in dark mode.
-           Static selector (not an sx callback) so this server component
-           can pass it to the client MuiAppBar. */
         bgcolor: 'primary.main',
         color: 'primary.contrastText',
         borderBottom: '1px solid',
@@ -73,9 +66,6 @@ const AppBar = () => {
           </Typography>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
-        <Box sx={{ display: { xs: 'none', md: 'inline-flex' } }}>
-          <DocsButton />
-        </Box>
         <GithubButton />
         <ThemeChangeButton />
       </Toolbar>
