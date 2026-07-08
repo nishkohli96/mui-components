@@ -9,33 +9,37 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
-import { toast } from 'react-toastify';
 import {
   FormContainer,
   GridContainer,
   FieldVariantInfo,
   FormState,
   SubmitButton,
-  ResetButton,
-  UploadedFile,
-  UploadedImage
+  ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { OptionalString, NullishOptionalString } from '@/types';
-import { reqdMsg, minCharMsg, maxCharMsg, showToastMessage, logFirebaseEvent } from '@/utils';
+import type { OptionalString, NullishOptionalString } from '@/types';
+import {
+  reqdMsg,
+  minCharMsg,
+  maxCharMsg,
+  showToastMessage,
+  logFirebaseEvent
+} from '@/utils';
 
 const emailPattern = /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
 
 const initialValues = {
-	firstName: undefined,
+  firstName: undefined,
   lastName: 'J',
-	email: ''
-}
+  email: ''
+};
 
 export default function TextFieldForm() {
   const pathName = usePathname();
 
   const [firstName, setFirstName] = useState<OptionalString>(initialValues.firstName);
+  const [firstNameError, setFirstNameError] = useState<NullishOptionalString>();
   const [lastName, setLastName] = useState<OptionalString>(initialValues.lastName);
   const [email, setEmail] = useState<OptionalString>(initialValues.email);
   const [emailError, setEmailError] = useState<NullishOptionalString>();
@@ -47,17 +51,56 @@ export default function TextFieldForm() {
     email
   };
 
-	const errors = {
-		email: emailError
-	}
+  const errors = {
+    firstName: firstNameError,
+    email: emailError
+  };
 
-	function resetForm() {
-		setFirstName(initialValues.firstName);
-		setLastName(initialValues.lastName);
-		setEmail(initialValues.email);
-	}
+  function validateFirstName(value: OptionalString) {
+    if (!value) {
+      return reqdMsg('First Name');
+    }
+    if (value.length < 4) {
+      return minCharMsg(4);
+    }
+    if (value.length > 10) {
+      return maxCharMsg(10);
+    }
+    return undefined;
+  }
+
+  function validateEmail(value: OptionalString) {
+    if (!value) {
+      return reqdMsg('Email');
+    }
+    if (!emailPattern.test(value)) {
+      return 'Enter a valid email address';
+    }
+    return undefined;
+  }
+
+  function validateForm() {
+    const nextFirstNameError = validateFirstName(firstName);
+    const nextEmailError = validateEmail(email);
+
+    setFirstNameError(nextFirstNameError);
+    setEmailError(nextEmailError);
+
+    return !nextFirstNameError && !nextEmailError;
+  }
+
+  function resetForm() {
+    setFirstName(initialValues.firstName);
+    setLastName(initialValues.lastName);
+    setEmail(initialValues.email);
+    setFirstNameError(undefined);
+    setEmailError(undefined);
+  }
 
   async function onFormSubmit() {
+    if (!validateForm()) {
+      return;
+    }
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
@@ -80,27 +123,34 @@ export default function TextFieldForm() {
 						/>
 					</Grid>
 					<Grid size={{ xs: 12, md: 6 }}>
-						<FieldVariantInfo title="Basic Input field with required validation and customOnChange" />
+						<FieldVariantInfo title="Basic Input field with required, min & max length validation" />
 						<MUITextField
 							fieldName="firstName"
 							value={firstName}
+							autoComplete="firstName"
 							onValueChange={({ newValue }) => {
 								setFirstName(newValue);
+                setFirstNameError(undefined);
 							}}
+              onBlur={() => {
+                setFirstNameError(validateFirstName(firstName));
+              }}
+              errorMessage={firstNameError}
 							disabled={disableAllFields}
 							required
+							helperText="Enter min 4 and max 10 characters"
 						/>
 					</Grid>
 					<Grid size={{ xs: 12, md: 6 }}>
-						<FieldVariantInfo title="Input with min & max length validation and renderError" />
+						<FieldVariantInfo title="Input with MUI props" />
 						<MUITextField
 							fieldName="lastName"
 							value={lastName}
 							onValueChange={({ newValue }) => {
 								setLastName(newValue.toUpperCase());
 							}}
+							variant="filled"
 							disabled={disableAllFields}
-							helperText="Enter min 4 and max 10 characters"
 						/>
 					</Grid>
 					<Grid size={{ xs: 12, md: 6 }}>
@@ -108,16 +158,13 @@ export default function TextFieldForm() {
 						<MUITextField
 							fieldName="email"
 							value={email}
+							type="email"
 							onValueChange={({ newValue }) => {
 								setEmail(newValue);
 								setEmailError(undefined);
 							}}
 							onBlur={() => {
-								setEmailError(
-									email && !emailPattern.test(email)
-										? 'Enter a valid email address'
-										: undefined
-								);
+								setEmailError(validateEmail(email));
 							}}
 							errorMessage={emailError}
 							renderError={error => (
