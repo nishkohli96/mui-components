@@ -16,8 +16,8 @@
     "./packages/*"
   ],
   "scripts": {
-    "lib": "pnpm -F @nish1896/rhf-mui-components run lib:build",
-    "lib:lint": "pnpm -F @nish1896/rhf-mui-components run lint",
+    "lib": "pnpm -F @nish1896/mui-components run lib:build",
+    "lib:lint": "pnpm -F @nish1896/mui-components run lint",
     "lib:pack": "sh pack-pkg.sh",
     "demo": "pnpm -F @nish1896/rhf-mui-demo run dev",
     "demo:lint": "pnpm -F @nish1896/rhf-mui-demo run lint",
