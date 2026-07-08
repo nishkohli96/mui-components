@@ -1,0 +1,54 @@
+{
+  "name": "@nish1896/mui-components-root",
+  "version": "1.0.0",
+  "description": "A suite of 25+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
+  "author": "Nishant Kohli",
+  "private": true,
+  "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
+  "repository": {
+    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "./apps/*",
+    "./packages/*"
+  ],
+  "scripts": {
+    "lib": "pnpm -F @nish1896/rhf-mui-components run lib:build",
+    "lib:lint": "pnpm -F @nish1896/rhf-mui-components run lint",
+    "lib:pack": "sh pack-pkg.sh",
+    "demo": "pnpm -F @nish1896/rhf-mui-demo run dev",
+    "demo:lint": "pnpm -F @nish1896/rhf-mui-demo run lint",
+    "demo:build": "pnpm lib && pnpm -F @nish1896/rhf-mui-demo run build",
+    "demo:start": "pnpm -F @nish1896/rhf-mui-demo run start",
+    "doc": "pnpm -F @nish1896/rhf-mui-docs run start",
+    "docs:lint": "pnpm -F @nish1896/rhf-mui-docs run lint",
+    "docs:build": "pnpm -F @nish1896/rhf-mui-docs run build",
+    "docs:prod": "pnpm -F @nish1896/rhf-mui-docs run prod"
+  },
+  "devDependencies": {
+    "turbo": "2.10.0"
+  },
+  "keywords": [
+    "react-hook-form",
+    "mui",
+    "material-ui",
+    "mui-v7",
+    "mui-v6",
+    "mui-v5",
+    "react forms",
+    "form validation",
+    "form components",
+    "typescript",
+    "component library",
+    "react ui",
+    "mui components",
+    "react form library",
+    "rhf",
+    "react hook form material ui"
+  ],
+  "packageManager": "pnpm@11.10.0",
+  "license": "MIT"
+}

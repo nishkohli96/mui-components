@@ -1,0 +1,7 @@
+# Ignore these files while publishing to the npm directory
+*.tgz
+src/
+.npmignore
+node_modules/
+tsconfig.json
+tsconfig.tsbuildinfo
