@@ -70,6 +70,11 @@ export const pageMetadata: Record<string, Metadata> = {
     title: 'Switch, Slider & Rating with Superstruct validation',
     description:
       'Form utilizing RHFSwitch, RHFSlider & RHFRating components with validation managed by Superstruct.'
+  },
+  textfield: {
+    title: 'TextField',
+    description:
+      'MUITextField — a controlled Material UI text field with built-in label, error and helper-text handling. Usage, live examples and full props reference.'
   }
 };
 

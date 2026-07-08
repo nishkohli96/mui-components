@@ -41,3 +41,170 @@ html, body {
   }
 }
 
+/* ---------------------------------------------------------------------------
+ * Component documentation styles (code blocks, props tables, examples).
+ * Light/dark switching follows MUI's `data-mui-color-scheme` attribute,
+ * which InitColorSchemeScript stamps on <html> before hydration.
+ * ------------------------------------------------------------------------ */
+
+/* --- Shiki code blocks --- */
+
+.doc-code-block {
+  margin: 12px 0 20px;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.85rem;
+}
+
+[data-mui-color-scheme='dark'] .doc-code-block {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.doc-code-block-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 6px 2px 14px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  background-color: #f0f2f5;
+  color: #57606a;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+[data-mui-color-scheme='dark'] .doc-code-block-header {
+  background-color: #1c2128;
+  color: #9ea7b3;
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+.doc-code-block-content pre {
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+/* Shiki dual-theme switching (`defaultColor: false` emits both palettes
+   as CSS variables; pick one per color scheme). */
+.doc-code-block-content .shiki,
+.doc-code-block-content .shiki span {
+  color: var(--shiki-light);
+  background-color: var(--shiki-light-bg);
+}
+
+[data-mui-color-scheme='dark'] .doc-code-block-content .shiki,
+[data-mui-color-scheme='dark'] .doc-code-block-content .shiki span {
+  color: var(--shiki-dark);
+  background-color: var(--shiki-dark-bg);
+}
+
+/* --- Inline code + props table --- */
+
+.doc-inline-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+[data-mui-color-scheme='dark'] .doc-inline-code {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.doc-prop-name {
+  color: #0550ae;
+  font-weight: 600;
+}
+
+[data-mui-color-scheme='dark'] .doc-prop-name {
+  color: #79b8ff;
+}
+
+.doc-prop-type {
+  color: #953800;
+}
+
+[data-mui-color-scheme='dark'] .doc-prop-type {
+  color: #ffab70;
+}
+
+.doc-prop-required {
+  color: #d32f2f;
+  margin-left: 2px;
+  font-weight: 700;
+}
+
+.doc-props-table {
+  margin: 12px 0 20px;
+}
+
+/* --- Examples (live demo + collapsible source) --- */
+
+.doc-example {
+  margin: 12px 0 24px;
+}
+
+.doc-example-demo {
+  padding: 24px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-radius: 8px 8px 0 0;
+}
+
+[data-mui-color-scheme='dark'] .doc-example-demo {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.doc-example-source {
+  border: 1px solid rgba(0, 0, 0, 0.16);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}
+
+[data-mui-color-scheme='dark'] .doc-example-source {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.doc-example-source > summary {
+  cursor: pointer;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  user-select: none;
+}
+
+.doc-example-source > summary:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+[data-mui-color-scheme='dark'] .doc-example-source > summary:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.doc-example-source .doc-code-block {
+  margin: 0;
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 0 0 8px 8px;
+}
+
+[data-mui-color-scheme='dark'] .doc-example-source .doc-code-block {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+/* --- Section headings with hover anchors --- */
+
+.doc-section-anchor {
+  margin-left: 8px;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+  color: inherit;
+}
+
+.doc-section-heading:hover .doc-section-anchor,
+.doc-section-anchor:focus-visible {
+  opacity: 0.55;
+}
+
