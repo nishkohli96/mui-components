@@ -10,8 +10,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { faker } from '@faker-js/faker';
 import { toast } from 'react-toastify';
-import RHFSelect from '@nish1896/mui-components/mui/select';
-import RHFNativeSelect from '@nish1896/mui-components/mui/native-select';
+import MUISelect from '@nish1896/mui-components/mui/select';
+import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
 import {
   FormContainer,
   FormState,
@@ -44,6 +44,7 @@ const SelectFormWithClassValidator = () => {
 
   const {
     control,
+    setValue,
     handleSubmit,
     reset,
     formState: { errors }
@@ -82,10 +83,16 @@ const SelectFormWithClassValidator = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Single select field with helpertext and renderOptionLabel" />
-            <RHFSelect
+            <MUISelect
               fieldName="favouriteColor"
-              control={control}
+              value={formValues.favouriteColor}
+              onValueChange={({ newValue }) => {
+                setValue('favouriteColor', newValue as Colors, {
+                  shouldValidate: true
+                });
+              }}
               options={Object.values(Colors)}
+              disabled={disableAllFields}
               renderOptionLabel={opn => (
                 <span style={{ color: opn }}>
                   {opn}
@@ -98,15 +105,23 @@ const SelectFormWithClassValidator = () => {
                   </Typography>
                 )
               })}
+              errorMessage={errors.favouriteColor?.message?.toString()}
               required
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Single select with multiple options as an array of strings and customIds" />
-            <RHFSelect
+            <MUISelect
               fieldName="languages"
-              control={control}
+              value={formValues.languages}
+              onValueChange={({ newValue }) => {
+                setValue('languages', newValue as string[], {
+                  shouldValidate: true
+                });
+              }}
               options={languagesList}
+              disabled={disableAllFields}
+              errorMessage={errors.languages?.message?.toString()}
               multiple
               required
               customIds={{ field: 'languages-field' }}
@@ -114,10 +129,20 @@ const SelectFormWithClassValidator = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render function, customOnChange and disabled options" />
-            <RHFSelect
+            <MUISelect
               fieldName="iplTeams"
-              control={control}
+              value={formValues.iplTeams}
+              onValueChange={({ newValue, event }) => {
+                if (newValue.length > 4) {
+                  event.preventDefault();
+                  return;
+                }
+                setValue('iplTeams', newValue as string[], {
+                  shouldValidate: true
+                });
+              }}
               options={IPLTeams}
+              disabled={disableAllFields}
               labelKey="name"
               valueKey="abbr"
               showLabelAboveFormField
@@ -134,15 +159,9 @@ const SelectFormWithClassValidator = () => {
                   {`${option.name} (${option.abbr})`}
                 </span>
               )}
-              customOnChange={({ rhfOnChange, newValue, event }) => {
-                if(newValue.length > 4) {
-                  event.preventDefault();
-                  return;
-                }
-                rhfOnChange(newValue);
-              }}
               getOptionDisabled={option =>
                 ['LSG', 'RR'].includes(option.abbr)}
+              errorMessage={errors.iplTeams?.message?.toString()}
               required
               multiple
               helperText="Select one or more teams"
@@ -150,13 +169,18 @@ const SelectFormWithClassValidator = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Select with number options" />
-            <RHFSelect
+            <MUISelect
               fieldName="randomNum"
-              control={control}
+              value={formValues.randomNum}
               options={randomNumbers}
+              disabled={disableAllFields}
               onValueChange={({ newValue }) => {
+                setValue('randomNum', newValue as number, {
+                  shouldValidate: true
+                });
                 toast.info(JSON.stringify(newValue, null, 2));
               }}
+              errorMessage={errors.randomNum?.message?.toString()}
               showDefaultOption
               showLabelAboveFormField
               hideLabel
@@ -166,10 +190,16 @@ const SelectFormWithClassValidator = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Native select" />
-            <RHFNativeSelect
+            <MUINativeSelect
               fieldName="currency"
-              control={control}
+              value={formValues.currency}
+              onValueChange={({ newValue }) => {
+                setValue('currency', newValue as string, {
+                  shouldValidate: true
+                });
+              }}
               options={Currencies}
+              disabled={disableAllFields}
               labelKey="name"
               valueKey="code"
               label="Choose a currency"
@@ -179,18 +209,26 @@ const SelectFormWithClassValidator = () => {
                   {`${opn.code} - ${opn.name} `}
                 </>
               )}
+              errorMessage={errors.currency?.message?.toString()}
               defaultOptionText="Select currency"
               required
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Native select with number options" />
-            <RHFNativeSelect
+            <MUINativeSelect
               fieldName="ageGroup"
-              control={control}
+              value={formValues.ageGroup}
+              onValueChange={({ newValue }) => {
+                setValue('ageGroup', newValue as number, {
+                  shouldValidate: true
+                });
+              }}
               options={[10, 20, 30, 40, 50]}
+              disabled={disableAllFields}
               label="Choose an age group"
               placeholder="Select age group"
+              errorMessage={errors.ageGroup?.message?.toString()}
               required
             />
           </Grid>

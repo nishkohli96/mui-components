@@ -17,12 +17,12 @@ import MUIFileUploader, {
 import RHFMultiAutocomplete, {
   type RHFMultiAutocompleteProps,
 } from './multi-autocomplete';
-import RHFNativeSelect, { type RHFNativeSelectProps } from './native-select';
+import MUINativeSelect, { type MUINativeSelectProps } from './native-select';
 import MUINumberInput, { type MUINumberInputProps } from './number-input';
 import MUIPasswordInput, { type MUIPasswordInputProps } from './password-input';
 import RHFRadioGroup, { type RHFRadioGroupProps } from './radio-group';
 import RHFRating, { type RHFRatingProps } from './rating';
-import RHFSelect, { type RHFSelectProps } from './select';
+import MUISelect, { type MUISelectProps } from './select';
 import RHFSlider, { type RHFSliderProps } from './slider';
 import RHFSwitch, { type RHFSwitchProps } from './switch';
 import MUITagsInput, { type MUITagsInputProps } from './tags-input';
@@ -37,12 +37,12 @@ export {
   RHFCountrySelect,
   MUIFileUploader,
   RHFMultiAutocomplete,
-  RHFNativeSelect,
+  MUINativeSelect,
   MUINumberInput,
   MUIPasswordInput,
   RHFRadioGroup,
   RHFRating,
-  RHFSelect,
+  MUISelect,
   RHFSlider,
   RHFSwitch,
   MUITextField,
@@ -62,12 +62,12 @@ export type {
   ExistingUploadedFile,
   FileUploadErrorDetails,
   RHFMultiAutocompleteProps,
-  RHFNativeSelectProps,
+  MUINativeSelectProps,
   MUINumberInputProps,
   MUIPasswordInputProps,
   RHFRadioGroupProps,
   RHFRatingProps,
-  RHFSelectProps,
+  MUISelectProps,
   RHFSliderProps,
   RHFSwitchProps,
   MUITagsInputProps,

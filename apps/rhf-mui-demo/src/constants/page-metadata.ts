@@ -64,7 +64,7 @@ export const pageMetadata: Record<string, Metadata> = {
   select: {
     title: 'Select with Class-Validator',
     description:
-      'Form utilizing RHFSelect and RHFNativeSelect with validation managed using class-validator.'
+      'Form utilizing MUISelect and MUINativeSelect with validation managed using class-validator.'
   },
   switchSliderRating: {
     title: 'Switch, Slider & Rating with Superstruct validation',

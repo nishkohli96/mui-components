@@ -57,6 +57,7 @@ export default function StyledReusableComponentForm() {
   const [disableAllFields, setDisableAllFields] = useState(false);
   const {
     control,
+    setValue,
     reset,
     formState: { errors },
     handleSubmit
@@ -151,14 +152,21 @@ export default function StyledReusableComponentForm() {
               />
             </Grid>
             <Grid size={6}>
-              <FieldVariantInfo title="Customized RHFSelect with a custom font family applied on form label text" />
+              <FieldVariantInfo title="Customized MUISelect with a custom font family applied on form label text" />
               <StyledSelect
-                control={control}
                 fieldName="favouriteColor"
+                value={formValues.favouriteColor}
+                onValueChange={({ newValue }) => {
+                  setValue('favouriteColor', newValue as Colors, {
+                    shouldValidate: true
+                  });
+                }}
                 label="Favourite Color"
                 options={colorOptions}
                 labelKey="label"
                 valueKey="value"
+                disabled={disableAllFields}
+                errorMessage={errors.favouriteColor?.message?.toString()}
               />
             </Grid>
             <Grid size={6}>

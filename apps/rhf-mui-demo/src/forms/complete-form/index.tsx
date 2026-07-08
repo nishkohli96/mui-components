@@ -15,8 +15,8 @@ import RHFNumberInput from '@nish1896/mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/mui-components/mui/tags-input';
 import RHFFileUploader from '@nish1896/mui-components/mui/file-uploader';
-import RHFSelect from '@nish1896/mui-components/mui/select';
-import RHFNativeSelect from '@nish1896/mui-components/mui/native-select';
+import MUISelect from '@nish1896/mui-components/mui/select';
+import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
 import RHFAutocomplete from '@nish1896/mui-components/mui/autocomplete';
 import RHFMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
 import RHFCountrySelect from '@nish1896/mui-components/mui/country-select';
@@ -65,6 +65,7 @@ const CompleteForm = () => {
 
   const {
     control,
+    setValue,
     reset,
     formState: { errors },
     handleSubmit
@@ -225,75 +226,71 @@ const CompleteForm = () => {
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFSelect
+              <MUISelect
                 fieldName="favouriteColor"
-                control={control}
-                registerOptions={{
-                  required: {
-                    value: true,
-                    message: reqdMessage('favouriteColor')
-                  }
+                value={formValues.favouriteColor}
+                onValueChange={({ newValue }) => {
+                  setValue('favouriteColor', newValue as Colors, {
+                    shouldValidate: true
+                  });
                 }}
                 options={Object.values(Colors)}
+                disabled={disableAllFields}
+                errorMessage={errors.favouriteColor?.message?.toString()}
                 defaultOptionText="--- Select ---"
                 showDefaultOption
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFSelect
+              <MUISelect
                 fieldName="sports"
-                control={control}
-                registerOptions={{
-                  required: {
-                    value: true,
-                    message: reqdMessage('sports')
-                  },
-                  validate: {
-                    minLength: value =>
-                      (value?.length ?? 0) >= 2 || minLengthMsg(2)
-                  }
+                value={formValues.sports}
+                onValueChange={({ newValue }) => {
+                  setValue('sports', newValue as string[], {
+                    shouldValidate: true
+                  });
                 }}
                 label="Select Sport(s)"
                 options={Object.values(Sports)}
+                disabled={disableAllFields}
+                errorMessage={errors.sports?.message?.toString()}
                 multiple
                 showLabelAboveFormField
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFSelect
+              <MUISelect
                 fieldName="iplTeams"
-                control={control}
-                registerOptions={{
-                  required: {
-                    value: true,
-                    message: reqdMessage('iplTeams')
-                  },
-                  validate: {
-                    minLength: value =>
-                      (value?.length ?? 0) >= 3 || minLengthMsg(3)
-                  }
+                value={formValues.iplTeams}
+                onValueChange={({ newValue }) => {
+                  setValue('iplTeams', newValue as string[], {
+                    shouldValidate: true
+                  });
                 }}
                 label="IPL Teams"
                 labelKey="name"
                 valueKey="abbr"
                 options={IPLTeams}
+                disabled={disableAllFields}
+                errorMessage={errors.iplTeams?.message?.toString()}
                 multiple
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFNativeSelect
+              <MUINativeSelect
                 fieldName="favouriteSport"
-                control={control}
-                registerOptions={{
-                  required: {
-                    value: true,
-                    message: reqdMessage('favouriteSport')
-                  }
+                value={formValues.favouriteSport}
+                onValueChange={({ newValue }) => {
+                  setValue('favouriteSport', newValue as Sports, {
+                    shouldValidate: true
+                  });
                 }}
                 options={Object.values(Sports)}
+                disabled={disableAllFields}
+                errorMessage={errors.favouriteSport?.message?.toString()}
                 required
               />
             </Grid>

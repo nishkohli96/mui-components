@@ -1,9 +1,9 @@
 /**
  * The below code snippet illustrates how to create a reusable styled Select
- * component using RHFSelect, which can be used throughout the application.
+ * component using MUISelect, which can be used throughout the application.
  *
  * A similar approach can be taken to create reusable styled components for:
- * - RHFNativeSelect
+ * - MUINativeSelect
  * - RHFCheckboxGroup
  * - RHFRadioGroup
  *
@@ -11,10 +11,9 @@
  * prop would not be included in the type definition of the styled component.
  */
 
-import { type FieldValues } from 'react-hook-form';
 import { Poppins } from 'next/font/google';
-import RHFSelect, {
-  type RHFSelectProps
+import MUISelect, {
+  type MUISelectProps
 } from '@nish1896/mui-components/mui/select';
 import type { StrNumObjOption } from '@nish1896/mui-components/types';
 
@@ -25,27 +24,25 @@ const poppins = Poppins({
 });
 
 type StyledSelectProps<
-  T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   Multiple extends boolean = false
 > = Omit<
-  RHFSelectProps<T, Option, LabelKey, ValueKey, Multiple>,
+  MUISelectProps<Option, LabelKey, ValueKey, Multiple>,
   'showLabelAboveFormField'
 >;
 
 const StyledSelect = <
-  T extends FieldValues,
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   Multiple extends boolean = false
 >({
   ...rest
-}: StyledSelectProps<T, Option, LabelKey, ValueKey, Multiple>) => {
+}: StyledSelectProps<Option, LabelKey, ValueKey, Multiple>) => {
   return (
-    <RHFSelect
+    <MUISelect
       showLabelAboveFormField
       formLabelProps={{
         sx: {

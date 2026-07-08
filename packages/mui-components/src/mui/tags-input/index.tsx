@@ -557,6 +557,7 @@ const MUITagsInput = ({
         {...otherTagsInputProps}
         id={fieldId}
         name={fieldName}
+        type="text"
         autoComplete={autoComplete}
         variant={variant}
         label={

@@ -12,8 +12,8 @@ import RHFNumberInput from '@nish1896/mui-components/mui/number-input';
 import RHFPasswordInput from '@nish1896/mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/mui-components/mui/tags-input';
 import RHFFileUploader from '@nish1896/mui-components/mui/file-uploader';
-import RHFSelect from '@nish1896/mui-components/mui/select';
-import RHFNativeSelect from '@nish1896/mui-components/mui/native-select';
+import MUISelect from '@nish1896/mui-components/mui/select';
+import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
 import RHFAutocomplete from '@nish1896/mui-components/mui/autocomplete';
 import RHFMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
 import RHFCountrySelect from '@nish1896/mui-components/mui/country-select';
@@ -73,6 +73,7 @@ const CompleteFormWithJoi = () => {
   const {
     control,
     getValues,
+    setValue,
     reset,
     formState: { errors },
     handleSubmit
@@ -166,10 +167,16 @@ const CompleteFormWithJoi = () => {
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFSelect
+              <MUISelect
                 fieldName="favouriteColor"
-                control={control}
+                value={formValues.favouriteColor}
+                onValueChange={({ newValue }) => {
+                  setValue('favouriteColor', newValue as Colors, {
+                    shouldValidate: true
+                  });
+                }}
                 options={Object.values(Colors)}
+                errorMessage={errors.favouriteColor?.message?.toString()}
                 defaultOptionText="--- Select ---"
                 showDefaultOption
                 disabled={areAllFieldsDisabled}
@@ -177,11 +184,17 @@ const CompleteFormWithJoi = () => {
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFSelect
+              <MUISelect
                 fieldName="sports"
-                control={control}
+                value={formValues.sports}
+                onValueChange={({ newValue }) => {
+                  setValue('sports', newValue as string[], {
+                    shouldValidate: true
+                  });
+                }}
                 label="Select Sport(s)"
                 options={Object.values(Sports)}
+                errorMessage={errors.sports?.message?.toString()}
                 multiple
                 showLabelAboveFormField
                 disabled={areAllFieldsDisabled}
@@ -189,23 +202,35 @@ const CompleteFormWithJoi = () => {
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFSelect
+              <MUISelect
                 fieldName="iplTeams"
-                control={control}
+                value={formValues.iplTeams}
+                onValueChange={({ newValue }) => {
+                  setValue('iplTeams', newValue as string[], {
+                    shouldValidate: true
+                  });
+                }}
                 label="IPL Teams"
                 labelKey="name"
                 valueKey="abbr"
                 options={IPLTeams}
+                errorMessage={errors.iplTeams?.message?.toString()}
                 multiple
                 disabled={areAllFieldsDisabled}
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFNativeSelect
+              <MUINativeSelect
                 fieldName="favouriteSport"
-                control={control}
+                value={formValues.favouriteSport}
+                onValueChange={({ newValue }) => {
+                  setValue('favouriteSport', newValue as Sports, {
+                    shouldValidate: true
+                  });
+                }}
                 options={Object.values(Sports)}
+                errorMessage={errors.favouriteSport?.message?.toString()}
                 disabled={areAllFieldsDisabled}
                 required
               />
