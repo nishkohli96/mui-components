@@ -44,7 +44,11 @@ export const ThemeChangeButton = () => {
 
   return (
     <Tooltip title={toolTip}>
-      <IconButton onClick={toggleTheme} aria-label={toolTip}>
+      <IconButton
+        onClick={toggleTheme}
+        aria-label={toolTip}
+        color="inherit"
+      >
         {isDarkTheme ? <BedtimeIcon /> : <LightModeIcon color="warning" />}
       </IconButton>
     </Tooltip>
@@ -61,6 +65,10 @@ export const GithubButton = () => {
         rel="noopener noreferrer"
         aria-label="Github"
         size="large"
+        color="inherit"
+        /* Zero left padding below md keeps the brand text from
+           ellipsizing on narrow screens. */
+        sx={{ pl: { xs: 0, md: '12px' } }}
       >
         <GitHubIcon />
       </IconButton>
@@ -78,6 +86,7 @@ export const DocsButton = () => {
         rel="noopener noreferrer"
         aria-label="Docs"
         size="large"
+        color="inherit"
       >
         <MenuBookIcon />
       </IconButton>

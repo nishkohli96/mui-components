@@ -32,12 +32,19 @@ const withMDX = createMDX({
      * - remark-gfm: GitHub-flavored markdown (props tables).
      * - rehype-slug: ids on headings for anchors + the page TOC.
      * - @shikijs/rehype: build-time highlighting of ```fences``` with
-     *   VS Code's Dark+ theme; emits inline colors, zero client JS.
+     *   VS Code's Light+/Dark+ themes; both palettes are emitted as CSS
+     *   variables and switched in globals.css via data-mui-color-scheme.
      */
     remarkPlugins: [['remark-gfm']],
     rehypePlugins: [
       ['rehype-slug'],
-      ['@shikijs/rehype', { theme: 'dark-plus' }]
+      [
+        '@shikijs/rehype',
+        {
+          themes: { light: 'light-plus', dark: 'dark-plus' },
+          defaultColor: false
+        }
+      ]
     ]
   }
 });

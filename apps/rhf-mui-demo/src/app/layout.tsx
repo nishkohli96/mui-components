@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
-import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from '@vercel/analytics/next';
 import {
@@ -57,19 +57,41 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
             <AppBar />
-            <Grid container className="content">
-              <Grid
-                size={{ md: 3 }}
-                sx={{ display: { xs: 'none', md: 'block' } }}
+            <Box className="content" sx={{ display: 'flex' }}>
+              {/* Sticky side navigation, hidden on small screens
+                  (DrawerMenu in the AppBar covers mobile). */}
+              <Box
+                component="nav"
+                aria-label="Component pages"
+                sx={{
+                  width: 260,
+                  flexShrink: 0,
+                  display: { xs: 'none', md: 'block' },
+                  position: 'sticky',
+                  top: 64,
+                  alignSelf: 'flex-start',
+                  height: 'calc(100vh - 64px)',
+                  overflowY: 'auto',
+                  borderRight: '1px solid',
+                  borderColor: 'divider',
+                  py: 1.5
+                }}
               >
                 <Drawer />
-              </Grid>
-              <Grid size={{ xs: 12, md: 9 }}>
+              </Box>
+              <Box
+                component="main"
+                sx={{
+                  flex: 1,
+                  minWidth: 0,
+                  p: { xs: '20px 16px 36px', md: '28px 28px 48px' }
+                }}
+              >
                 <ConfigProviderWrapper>
                   {children}
                 </ConfigProviderWrapper>
-              </Grid>
-            </Grid>
+              </Box>
+            </Box>
             <Footer />
             <FirebaseAnalytics />
             <Analytics />

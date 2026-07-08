@@ -9,8 +9,9 @@ type FormContainerProps = {
 };
 
 export const ContentContainer = ({ children }: Pick<FormContainerProps, 'children'>) => {
+  /* Horizontal gutters come from the layout's <main> padding. */
   return (
-    <Box sx={{ padding: { xs: '30px 25px', md: '50px 20px' } }}>
+    <Box sx={{ padding: { xs: '10px 0', md: '20px 0' } }}>
       {children}
     </Box>
   );

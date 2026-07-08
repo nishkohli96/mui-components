@@ -8,6 +8,10 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 const DrawerContentClient = dynamic(() => import('@/components/drawer'), { ssr: false });
 
+/**
+ * Mobile-only menu button that opens the side navigation in a temporary
+ * drawer. Closes automatically when a page link is selected.
+ */
 const DrawerMenu = () => {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
@@ -15,15 +19,13 @@ const DrawerMenu = () => {
     setDrawerOpen(newOpen);
   };
 
-  /**
-   * Add icons for github repo and docs link
-   */
   return (
     <Fragment>
       <IconButton
         aria-label="Menu"
         onClick={toggleDrawer(true)}
-        sx={{ display: { xs: 'inline-flex', md: 'none' } }}
+        color="inherit"
+        sx={{ display: { xs: 'inline-flex', md: 'none' }, mr: 0.5 }}
       >
         <MenuIcon />
       </IconButton>
@@ -31,10 +33,10 @@ const DrawerMenu = () => {
         open={drawerOpen}
         onClose={toggleDrawer(false)}
         slotProps={{
-          paper: { sx: { width: '70vw' } }
+          paper: { sx: { width: 'min(280px, 80vw)', pt: 1 } }
         }}
       >
-        <DrawerContentClient />
+        <DrawerContentClient onNavigate={toggleDrawer(false)} />
       </Drawer>
     </Fragment>
   );
