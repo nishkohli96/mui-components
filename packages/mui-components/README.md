@@ -2,10 +2,10 @@
   <img src="https://raw.githubusercontent.com/nishkohli96/rhf-mui-components/refs/heads/main/apps/rhf-mui-demo/public/logo.svg" width="200" />
 </p>
 
-<h1>@nish1896/rhf-mui-components</h1>
+<h1>@nish1896/mui-components</h1>
 
 <p>
-  <b>A suite of 25+ production-ready <a href="https://mui.com/">Material UI</a> components for <a href="https://react-hook-form.com/">react-hook-form</a> — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
+  <b>A suite of 25+ production-ready <a href="https://mui.com/">Material UI</a> components — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
 </p>
 
 <p>
