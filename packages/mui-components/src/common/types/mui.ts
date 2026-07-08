@@ -36,7 +36,6 @@ export type TextFieldProps = Omit<
   MuiTextFieldProps,
   | 'id'
   | 'name'
-  | 'defaultValue'
   | 'onChange'
   | 'error'
   | 'FormHelperTextProps'

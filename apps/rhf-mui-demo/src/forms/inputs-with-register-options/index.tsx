@@ -15,11 +15,11 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
-import RHFTextField from '@nish1896/rhf-mui-components/mui/textfield';
-import RHFNumberInput from '@nish1896/rhf-mui-components/mui/number-input';
-import RHFPasswordInput from '@nish1896/rhf-mui-components/mui/password-input';
-import RHFTagsInput from '@nish1896/rhf-mui-components/mui/tags-input';
-import RHFFileUploader from '@nish1896/rhf-mui-components/mui/file-uploader';
+import MUITextField from '@nish1896/mui-components/mui/textfield';
+import RHFNumberInput from '@nish1896/mui-components/mui/number-input';
+import RHFPasswordInput from '@nish1896/mui-components/mui/password-input';
+import RHFTagsInput from '@nish1896/mui-components/mui/tags-input';
+import RHFFileUploader from '@nish1896/mui-components/mui/file-uploader';
 import { toast } from 'react-toastify';
 import {
   FormContainer,
@@ -106,59 +106,37 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Basic Input field with required validation and customOnChange" />
-            <RHFTextField
+            <MUITextField
               fieldName="firstName"
-              control={control}
-              registerOptions={{
-                required: {
-                  value: true,
-                  message: reqdMsg('First Name')
-                }
-              }}
-              customOnChange={({ rhfOnChange, newValue }) => {
-                rhfOnChange(newValue.toUpperCase());
-              }}
               required
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Input with min & max length validation and renderError" />
-            <RHFTextField
+            <MUITextField
               fieldName="lastName"
-              control={control}
-              registerOptions={{
-                minLength: {
-                  value: 4,
-                  message: minCharMsg(4)
-                },
-                maxLength: {
-                  value: 10,
-                  message: maxCharMsg(10)
-                }
-              }}
               helperText="Enter min 4 and max 10 characters"
-              renderError={error => (
-                <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
-                  <ErrorOutlineIcon color="error" fontSize="small" />
-                  <Typography component="span" variant="body2">
-                    {error.message}
-                  </Typography>
-                </Box>
-              )}
+              // renderError={error => (
+              //   <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
+              //     <ErrorOutlineIcon color="error" fontSize="small" />
+              //     <Typography component="span" variant="body2">
+              //       {error.message}
+              //     </Typography>
+              //   </Box>
+              // )}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Input with pattern validation & label above form-field with custom ids" />
-            <RHFTextField
+            <MUITextField
               fieldName="email"
-              control={control}
-              registerOptions={{
-                pattern: {
-                  value:
-                    /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/,
-                  message: 'Enter a valid email address'
-                }
-              }}
+              // registerOptions={{
+              //   pattern: {
+              //     value:
+              //       /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/,
+              //     message: 'Enter a valid email address'
+              //   }
+              // }}
               customIds={{
                 field: 'userEmail',
                 label: 'userEmail-label',
