@@ -62,10 +62,7 @@ const emailPattern = /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](
 const InputsWithRegisterForm = () => {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('J');
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState<string>();
+
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState('');
