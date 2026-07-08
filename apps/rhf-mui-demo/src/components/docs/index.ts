@@ -1,12 +1,10 @@
 /**
- * Documentation building blocks.
+ * Documentation building blocks for .mdx pages.
  *
- * ⚠️ Import this barrel only from server components (pages/layouts).
- * `CodeBlock` pulls in shiki, which must stay out of client bundles —
- * that's also why these are NOT re-exported from `@/components`.
+ * - DocsPage: article + sticky right-rail table of contents.
+ * - MdxPre: code-block frame with a copy button (mapped in mdx-components).
+ * - PageToc: standalone TOC, already included by DocsPage.
  */
-export { default as CodeBlock } from './CodeBlock';
-export { default as CopyButton } from './CopyButton';
-export { default as DocSection } from './DocSection';
-export { default as ExampleBlock } from './ExampleBlock';
-export { default as PropsTable } from './PropsTable';
+export { default as DocsPage } from './DocsPage';
+export { default as MdxPre } from './MdxPre';
+export { default as PageToc } from './PageToc';

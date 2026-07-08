@@ -42,169 +42,185 @@ html, body {
 }
 
 /* ---------------------------------------------------------------------------
- * Component documentation styles (code blocks, props tables, examples).
- * Light/dark switching follows MUI's `data-mui-color-scheme` attribute,
- * which InitColorSchemeScript stamps on <html> before hydration.
+ * Component documentation (.mdx pages): layout, code blocks, tables, TOC.
+ * Code blocks are always dark (VS Code Dark+ via shiki), like MUI docs.
+ * Everything else follows MUI's `data-mui-color-scheme` attribute.
  * ------------------------------------------------------------------------ */
 
-/* --- Shiki code blocks --- */
+/* --- Page layout: article + right-hand contents rail --- */
+
+.doc-page {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.doc-article {
+  flex: 1;
+  min-width: 0;
+}
+
+.doc-toc {
+  position: sticky;
+  top: 90px;
+  width: 200px;
+  flex-shrink: 0;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  font-size: 0.8rem;
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .doc-toc {
+    display: block;
+  }
+}
+
+.doc-toc-title {
+  margin: 0 0 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.doc-toc ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.doc-toc li a {
+  display: block;
+  padding: 4px 0 4px 12px;
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.75;
+  border-left: 2px solid transparent;
+  margin-left: -1px;
+}
+
+.doc-toc li.doc-toc-sub a {
+  padding-left: 26px;
+}
+
+.doc-toc li a:hover {
+  opacity: 1;
+}
+
+.doc-toc li.doc-toc-active a {
+  opacity: 1;
+  color: #1976d2;
+  border-left-color: #1976d2;
+  font-weight: 500;
+}
+
+[data-mui-color-scheme='dark'] .doc-toc li.doc-toc-active a {
+  color: #90caf9;
+  border-left-color: #90caf9;
+}
+
+/* --- Headings: hover anchor links --- */
+
+.doc-heading-anchor {
+  margin-left: 8px;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.doc-heading:hover .doc-heading-anchor,
+.doc-heading-anchor:focus-visible {
+  opacity: 0.55;
+}
+
+/* --- Code blocks: always dark, VS Code Dark+ tokens from shiki --- */
 
 .doc-code-block {
-  margin: 12px 0 20px;
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  border-radius: 8px;
+  position: relative;
+  margin: 16px 0 24px;
+  border-radius: 10px;
   overflow: hidden;
-  font-size: 0.85rem;
+  border: 1px solid rgba(128, 128, 128, 0.35);
 }
 
-[data-mui-color-scheme='dark'] .doc-code-block {
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-.doc-code-block-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 2px 6px 2px 14px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.75rem;
-  background-color: #f0f2f5;
-  color: #57606a;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-[data-mui-color-scheme='dark'] .doc-code-block-header {
-  background-color: #1c2128;
-  color: #9ea7b3;
-  border-bottom-color: rgba(255, 255, 255, 0.12);
-}
-
-.doc-code-block-content pre {
+.doc-code-block pre {
   margin: 0;
-  padding: 14px 16px;
+  padding: 16px 48px 16px 18px;
   overflow-x: auto;
-  line-height: 1.6;
-}
-
-/* Shiki dual-theme switching (`defaultColor: false` emits both palettes
-   as CSS variables; pick one per color scheme). */
-.doc-code-block-content .shiki,
-.doc-code-block-content .shiki span {
-  color: var(--shiki-light);
-  background-color: var(--shiki-light-bg);
-}
-
-[data-mui-color-scheme='dark'] .doc-code-block-content .shiki,
-[data-mui-color-scheme='dark'] .doc-code-block-content .shiki span {
-  color: var(--shiki-dark);
-  background-color: var(--shiki-dark-bg);
-}
-
-/* --- Inline code + props table --- */
-
-.doc-inline-code {
+  font-size: 0.85rem;
+  line-height: 1.65;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  font-size: 0.8rem;
+  /* Match shiki's dark-plus background even before its inline style loads. */
+  background-color: #1e1e1e;
+}
+
+.doc-code-copy {
+  position: absolute !important;
+  top: 8px;
+  right: 8px;
+  color: #9da5b4 !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.doc-code-copy:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* --- Inline code --- */
+
+.doc-article :not(pre) > code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82em;
   padding: 2px 6px;
   border-radius: 4px;
-  background-color: rgba(0, 0, 0, 0.06);
+  background-color: rgba(128, 128, 128, 0.15);
 }
 
-[data-mui-color-scheme='dark'] .doc-inline-code {
-  background-color: rgba(255, 255, 255, 0.1);
+/* --- Markdown tables (e.g. props tables) --- */
+
+.doc-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0 24px;
+  font-size: 0.875rem;
+  display: block;
+  overflow-x: auto;
 }
 
-.doc-prop-name {
+.doc-article th,
+.doc-article td {
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.doc-article th {
+  background-color: rgba(128, 128, 128, 0.08);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.doc-article td:first-child code {
   color: #0550ae;
   font-weight: 600;
 }
 
-[data-mui-color-scheme='dark'] .doc-prop-name {
+[data-mui-color-scheme='dark'] .doc-article td:first-child code {
   color: #79b8ff;
 }
 
-.doc-prop-type {
-  color: #953800;
+/* --- Lists --- */
+
+.doc-article ul,
+.doc-article ol {
+  margin: 8px 0 16px;
+  padding-left: 24px;
+  line-height: 1.8;
 }
-
-[data-mui-color-scheme='dark'] .doc-prop-type {
-  color: #ffab70;
-}
-
-.doc-prop-required {
-  color: #d32f2f;
-  margin-left: 2px;
-  font-weight: 700;
-}
-
-.doc-props-table {
-  margin: 12px 0 20px;
-}
-
-/* --- Examples (live demo + collapsible source) --- */
-
-.doc-example {
-  margin: 12px 0 24px;
-}
-
-.doc-example-demo {
-  padding: 24px 20px;
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  border-radius: 8px 8px 0 0;
-}
-
-[data-mui-color-scheme='dark'] .doc-example-demo {
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-.doc-example-source {
-  border: 1px solid rgba(0, 0, 0, 0.16);
-  border-top: none;
-  border-radius: 0 0 8px 8px;
-}
-
-[data-mui-color-scheme='dark'] .doc-example-source {
-  border-color: rgba(255, 255, 255, 0.16);
-}
-
-.doc-example-source > summary {
-  cursor: pointer;
-  padding: 8px 16px;
-  font-size: 0.85rem;
-  user-select: none;
-}
-
-.doc-example-source > summary:hover {
-  background-color: rgba(0, 0, 0, 0.04);
-}
-
-[data-mui-color-scheme='dark'] .doc-example-source > summary:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-}
-
-.doc-example-source .doc-code-block {
-  margin: 0;
-  border: none;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 0 0 8px 8px;
-}
-
-[data-mui-color-scheme='dark'] .doc-example-source .doc-code-block {
-  border-top-color: rgba(255, 255, 255, 0.12);
-}
-
-/* --- Section headings with hover anchors --- */
-
-.doc-section-anchor {
-  margin-left: 8px;
-  text-decoration: none;
-  opacity: 0;
-  transition: opacity 0.15s ease-in-out;
-  color: inherit;
-}
-
-.doc-section-heading:hover .doc-section-anchor,
-.doc-section-anchor:focus-visible {
-  opacity: 0.55;
-}
-

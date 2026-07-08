@@ -1,0 +1,72 @@
+import { DocsPage } from '@/components/docs';
+import { pageMetadata } from '@/constants';
+import TextFieldsForm from '@/forms/textfield/Client';
+
+export const metadata = pageMetadata.textfield;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUITextField
+
+`MUITextField` extends the Material UI [TextField](https://mui.com/material-ui/react-text-field/)
+component, accepting almost all of its props while wiring up the label, error state and
+helper text for you. It is a controlled component that works with plain `useState` or any
+form library able to provide a value and receive changes.
+
+## Usage
+
+```tsx
+import MUITextField from '@nish1896/mui-components/mui/textfield';
+```
+
+Provide `fieldName`, `value` and `onValueChange` to render a fully functional text field:
+
+```tsx
+const [firstName, setFirstName] = useState('');
+
+<MUITextField
+  fieldName="firstName"
+  value={firstName}
+  onValueChange={({ newValue }) => setFirstName(newValue)}
+/>
+```
+
+Validation stays in your hands — derive `errorMessage` from your own state or form
+library and the field renders in an error state:
+
+```tsx
+<MUITextField
+  fieldName="email"
+  value={email}
+  onValueChange={({ newValue }) => setEmail(newValue)}
+  onBlur={() => setEmailError(validateEmail(email))}
+  errorMessage={emailError}
+/>
+```
+
+## Props
+
+`MUITextFieldProps` also accepts the remaining
+[TextFieldProps](https://mui.com/material-ui/api/text-field/)
+(`variant`, `placeholder`, `slotProps`, `sx`, ...) in addition to the props below.
+Props marked with * are required.
+
+| Name | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `fieldName`* | `string` | - | Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute. |
+| `value` | `string \| null` | - | Current value of the field. This is a controlled component — `value` and `onValueChange` must be supplied together, typically backed by your own state or form library. `undefined`/`null` are treated as an empty string. |
+| `onValueChange`* | `({ newValue, event }) => void` | - | Called on every input change with the next string value and the original change event. Call your state setter (or form library's setter) with `newValue` to update `value`. |
+| `errorMessage` | `string \| null` | - | Error message for the field. Any non-empty string puts the field into an error state and is shown as the helper text. Pass `undefined` or `null` to clear the error state. |
+| `renderError` | `(error: string) => ReactNode` | - | Custom renderer for `errorMessage`. Receives the raw error string and must return renderable content, e.g. wrapping it with an icon or a styled element. |
+| `hideErrorMessage` | `boolean` | - | If `true`, hides the error message text while keeping the field in an error state. |
+| `showLabelAboveFormField` | `boolean` | - | When `true`, renders the field label above the form field instead of inside or beside it. |
+| `hideLabel` | `boolean` | - | When `true`, hides the rendered field label while preserving accessible labeling where possible. |
+| `formLabelProps` | `Omit<FormLabelProps, 'id'>` | - | Props forwarded to the internal `FormLabel`. The `id` is managed by the component. |
+| `formHelperTextProps` | `Omit<FormHelperTextProps, 'id'>` | - | Props forwarded to the internal `FormHelperText`. The `id` is managed by the component. |
+| `customIds` | `CustomComponentIds` | - | Custom ids for generated field, label, helper text, and error elements. |
+
+## Playground
+
+<TextFieldsForm />

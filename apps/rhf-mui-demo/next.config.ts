@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next';
+import createMDX from '@next/mdx';
 
 const nextConfig: NextConfig = {
+  /* .mdx pages compile to server components — docs ship as static HTML. */
+  pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'mdx'],
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',
@@ -22,4 +25,21 @@ const nextConfig: NextConfig = {
   }
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  options: {
+    /**
+     * Turbopack requires plugins as serializable strings, not imports.
+     * - remark-gfm: GitHub-flavored markdown (props tables).
+     * - rehype-slug: ids on headings for anchors + the page TOC.
+     * - @shikijs/rehype: build-time highlighting of ```fences``` with
+     *   VS Code's Dark+ theme; emits inline colors, zero client JS.
+     */
+    remarkPlugins: [['remark-gfm']],
+    rehypePlugins: [
+      ['rehype-slug'],
+      ['@shikijs/rehype', { theme: 'dark-plus' }]
+    ]
+  }
+});
+
+export default withMDX(nextConfig);
