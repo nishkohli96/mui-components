@@ -30,7 +30,7 @@ export type MUITextFieldProps = {
    * Current value of the field. This is a controlled component: `value` and `onValueChange`
    * must be supplied together, typically backed by your own state or form library.
    */
-  value: string;
+  value?: string | null;
   /**
    * Called on every input change with the next string value and the original change event.
    * Call your state setter (or form library's setter) with `newValue` to update `value`.
@@ -82,7 +82,7 @@ export type MUITextFieldProps = {
 
 const MUITextField = ({
   fieldName,
-  value,
+  value: muiValue,
   onValueChange,
   disabled: muiDisabled,
   label,
@@ -135,11 +135,12 @@ const MUITextField = ({
         {...otherTextFieldProps}
         id={fieldId}
         name={fieldName}
+        type="text"
         autoComplete={autoComplete}
         label={
           !hideLabel && !isLabelAboveFormField ? <FormLabelText label={fieldLabel} required={required} /> : undefined
         }
-        value={value ?? ''}
+        value={muiValue ?? ''}
         disabled={muiDisabled}
         onChange={event => {
           const newValue = event.target.value;
