@@ -36,9 +36,12 @@ export type TextFieldProps = Omit<
   MuiTextFieldProps,
   | 'id'
   | 'name'
+  | 'value'
+  | 'defaultValue'
   | 'onChange'
   | 'error'
   | 'FormHelperTextProps'
+  | 'ref'
 >;
 
 export type CheckboxProps = Omit<

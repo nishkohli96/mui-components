@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, type ReactNode, type ChangeEvent } from 'react';
+import { useContext, forwardRef, type ReactNode, type ChangeEvent, type Ref } from 'react';
 import TextField from '@mui/material/TextField';
 import {
   FormControl,
@@ -14,7 +14,7 @@ import {
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { fieldNameToId, fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: string;
@@ -23,16 +23,22 @@ type OnValueChangeProps = {
 
 export type MUITextFieldProps = {
   /**
-   * Name/path of the React Hook Form field this component controls.
+   * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
   fieldName: string;
   /**
-   * Called after the default text field handler stores the next string in React Hook Form.
+   * Current value of the field. This is a controlled component: `value` and `onValueChange`
+   * must be supplied together, typically backed by your own state or form library.
+   */
+  value: string;
+  /**
+   * Called on every input change with the next string value and the original change event.
+   * Call your state setter (or form library's setter) with `newValue` to update `value`.
    *
    * @param newValue - Next input string.
    * @param event - Original input change event.
    */
-  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
+  onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
    * When true, renders the field label above the form field instead of inside or beside it.
    */
@@ -46,19 +52,20 @@ export type MUITextFieldProps = {
    */
   hideLabel?: boolean;
   /**
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   * Error message for the field. Any non-empty string puts the field into an error state
+   * (shown via `FormControl`/`TextField` `error` and surfaced through `FormHelperText`).
+   * Pass `undefined` or `null` to clear the error state.
    *
-   * Use `renderError` to customize how the field error is rendered.
+   * Use `renderError` to customize how this message is rendered.
    */
-  errorMessage?: ReactNode;
+  errorMessage?: string | null;
   /**
-   * Custom renderer for the React Hook Form field error.
-   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   * Custom renderer for `errorMessage`. Receives the raw error string and must return
+   * renderable content, e.g. wrapping it with an icon or a styled element.
    *
-   * @param error - React Hook Form field error for this text field.
+   * @param error - Current `errorMessage` for this text field.
    */
-  renderError?: (error: ReactNode) => ReactNode;
+  renderError?: (error: string) => ReactNode;
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
@@ -73,7 +80,7 @@ export type MUITextFieldProps = {
   customIds?: CustomComponentIds;
 } & TextFieldProps;
 
-const MUITextField = ({
+const MUITextField = forwardRef(function MUITextField({
   fieldName,
   value,
   onValueChange,
@@ -91,10 +98,9 @@ const MUITextField = ({
   onBlur: muiOnBlur,
   autoComplete = defaultAutocompleteValue,
   slotProps: muiSlotProps,
-  ref: muiRef,
   customIds,
   ...otherTextFieldProps
-}: MUITextFieldProps) => {
+}: MUITextFieldProps, ref: Ref<HTMLInputElement>) {
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(showLabelAboveFormField, allLabelsAboveFields);
@@ -103,8 +109,10 @@ const MUITextField = ({
   const fieldLabel = label ?? defaultFieldLabel;
   const accessibleFieldLabel = typeof fieldLabel === 'string' ? fieldLabel : defaultFieldLabel;
 
-  const fieldErrorMessage = renderError?.(errorMessage) ?? errorMessage;
   const isError = !!errorMessage;
+  const fieldErrorMessage = isError
+    ? renderError?.(errorMessage) ?? errorMessage
+    : undefined;
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
   return (
@@ -126,17 +134,17 @@ const MUITextField = ({
       <TextField
         {...otherTextFieldProps}
         id={fieldId}
-        name={fieldNameToId(fieldName)}
-        inputRef={muiRef}
+        name={fieldName}
+        inputRef={ref}
         autoComplete={autoComplete}
         label={
           !hideLabel && !isLabelAboveFormField ? <FormLabelText label={fieldLabel} required={required} /> : undefined
         }
-        value={value}
+        value={value ?? ''}
         disabled={muiDisabled}
         onChange={event => {
           const newValue = event.target.value;
-          onValueChange?.({ newValue, event });
+          onValueChange({ newValue, event });
         }}
         onBlur={blurEvent => {
           muiOnBlur?.(blurEvent);
@@ -166,6 +174,6 @@ const MUITextField = ({
       />
     </FormControl>
   );
-};
+});
 
 export default MUITextField;

@@ -26,7 +26,7 @@ import RHFSelect, { type RHFSelectProps } from './select';
 import RHFSlider, { type RHFSliderProps } from './slider';
 import RHFSwitch, { type RHFSwitchProps } from './switch';
 import RHFTagsInput, { type RHFTagsInputProps } from './tags-input';
-import RHFTextField, { type RHFTextFieldProps } from './textfield';
+import MUITextField, { type MUITextFieldProps } from './textfield';
 import { selectAllOptionValue } from '@/common/constants';
 
 export {
@@ -45,7 +45,7 @@ export {
   RHFSelect,
   RHFSlider,
   RHFSwitch,
-  RHFTextField,
+  MUITextField,
   RHFTagsInput,
   countryList,
   selectAllOptionValue,
@@ -71,7 +71,7 @@ export type {
   RHFSliderProps,
   RHFSwitchProps,
   RHFTagsInputProps,
-  RHFTextFieldProps,
+  MUITextFieldProps,
   CountryISO,
   CountryDetails,
 };
