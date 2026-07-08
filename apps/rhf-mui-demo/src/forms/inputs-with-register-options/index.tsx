@@ -16,8 +16,8 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import VisibilityOffTwoToneIcon from '@mui/icons-material/VisibilityOffTwoTone';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
-import RHFNumberInput from '@nish1896/mui-components/mui/number-input';
-import RHFPasswordInput from '@nish1896/mui-components/mui/password-input';
+import MUINumberInput from '@nish1896/mui-components/mui/number-input';
+import MUIPasswordInput from '@nish1896/mui-components/mui/password-input';
 import RHFTagsInput from '@nish1896/mui-components/mui/tags-input';
 import RHFFileUploader from '@nish1896/mui-components/mui/file-uploader';
 import { toast } from 'react-toastify';
@@ -41,8 +41,6 @@ import {
 } from '@/utils';
 
 type FormSchema = {
-  password: string;
-  confirmPassword: string;
   age?: number;
   weight?: number;
   balance?: number;
@@ -54,8 +52,6 @@ type FormSchema = {
 };
 
 const initialValues: FormSchema = {
-  password: '',
-  confirmPassword: '',
   keywords: ['hello', 'world', 'foo', 'bar', 'lorem ipsum']
 };
 
@@ -70,6 +66,15 @@ const InputsWithRegisterForm = () => {
   const [lastName, setLastName] = useState('J');
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState<string>();
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState<string>();
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState<string>();
+  const [age, setAge] = useState<number | null>(null);
+  const [weight, setWeight] = useState<number | null>(null);
+  const [balance, setBalance] = useState<number | null>(null);
+  const [balanceError, setBalanceError] = useState<string>();
+
   const {
     control,
     reset,
@@ -79,11 +84,17 @@ const InputsWithRegisterForm = () => {
     defaultValues: initialValues,
     disabled: disableAllFields
   });
+  const watchedFormValues = useWatch({ control });
   const formValues = {
+    ...watchedFormValues,
     firstName,
     lastName,
     email,
-    ...useWatch({ control })
+    password,
+    confirmPassword,
+    age,
+    weight,
+    balance
   };
 
   async function onFormSubmit(formValues: FormSchema) {
@@ -167,19 +178,23 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Simple Password Field with hidden label" />
-            <RHFPasswordInput
+            <MUIPasswordInput
               fieldName="password"
-              control={control}
-              registerOptions={{
-                required: {
-                  value: true,
-                  message: reqdMsg('Password')
-                },
-                minLength: {
-                  value: 4,
-                  message: minCharMsg(4)
+              value={password}
+              onValueChange={({ newValue }) => {
+                setPassword(newValue);
+                setPasswordError(undefined);
+              }}
+              onBlur={() => {
+                if (!password) {
+                  setPasswordError(reqdMsg('Password'));
+                } else if (password.length < 4) {
+                  setPasswordError(minCharMsg(4));
+                } else {
+                  setPasswordError(undefined);
                 }
               }}
+              errorMessage={passwordError}
               placeholder="Enter a secure password"
               hideLabel
               required
@@ -187,21 +202,25 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Password Field with custom icons & validate rule" />
-            <RHFPasswordInput
+            <MUIPasswordInput
               fieldName="confirmPassword"
-              control={control}
-              registerOptions={{
-                required: {
-                  value: true,
-                  message: reqdMsg('your password again')
-                },
-                validate: {
-                  minLen: v =>
-                    (v && `${String(v)}`.length >= 4) || minCharMsg(4),
-                  isPswdMatch: (value, formValues) =>
-                    value === formValues.password || 'Passwords do not match'
+              value={confirmPassword}
+              onValueChange={({ newValue }) => {
+                setConfirmPassword(newValue);
+                setConfirmPasswordError(undefined);
+              }}
+              onBlur={() => {
+                if (!confirmPassword) {
+                  setConfirmPasswordError(reqdMsg('your password again'));
+                } else if (confirmPassword.length < 4) {
+                  setConfirmPasswordError(minCharMsg(4));
+                } else if (confirmPassword !== password) {
+                  setConfirmPasswordError('Passwords do not match');
+                } else {
+                  setConfirmPasswordError(undefined);
                 }
               }}
+              errorMessage={confirmPasswordError}
               variant="filled"
               showPasswordIcon={<VisibilityOffTwoToneIcon />}
               hidePasswordIcon={<VisibilityTwoToneIcon />}
@@ -211,9 +230,12 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Number Input with integer value & Typography as a helper text" />
-            <RHFNumberInput
+            <MUINumberInput
               fieldName="age"
-              control={control}
+              value={age}
+              onValueChange={({ newValue }) => {
+                setAge(newValue);
+              }}
               variant="filled"
               placeholder="What is your age?"
               nonNegative
@@ -224,9 +246,12 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Number Input with decimal place limit and integer stepAmount" />
-            <RHFNumberInput
+            <MUINumberInput
               fieldName="weight"
-              control={control}
+              value={weight}
+              onValueChange={({ newValue }) => {
+                setWeight(newValue);
+              }}
               maxDecimalPlaces={3}
               placeholder="Enter your weight"
               stepAmount={weightStepAmount}
@@ -249,15 +274,20 @@ const InputsWithRegisterForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Number Input with 2 decimal places and stepAmount" />
-            <RHFNumberInput
+            <MUINumberInput
               fieldName="balance"
-              control={control}
-              registerOptions={{
-                required: {
-                  value: true,
-                  message: reqdMsg('balance')
-                }
+              value={balance}
+              onValueChange={({ newValue }) => {
+                setBalance(newValue);
+                setBalanceError(undefined);
               }}
+              onBlur={() => {
+                setBalanceError(
+                  balance === null ? reqdMsg('balance') : undefined
+                );
+              }}
+              errorMessage={balanceError}
+              required
               variant="filled"
               maxDecimalPlaces={2}
               stepAmount={balanceStepAmount}

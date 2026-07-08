@@ -1,27 +1,16 @@
 'use client';
 
 import {
+  useCallback,
   useContext,
   useMemo,
-  useCallback,
-  forwardRef,
-  type ReactNode,
-  type JSX,
   type ChangeEvent,
   type ClipboardEvent,
   type FocusEvent,
   type KeyboardEvent,
   type MouseEvent,
-  type Ref
+  type ReactNode
 } from 'react';
-import {
-  Controller,
-  type FieldError,
-  type FieldValues,
-  type Path,
-  type Control,
-  type RegisterOptions
-} from 'react-hook-form';
 import MuiTextField from '@mui/material/TextField';
 import {
   FormControl,
@@ -31,15 +20,13 @@ import {
   defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
-  type TextFieldProps,
-  type CustomOnChangeProps
+  type TextFieldProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
-  mergeRefs,
   sanitizePastedNumber,
   useFieldIds
 } from '@/utils';
@@ -101,6 +88,7 @@ function isNativeNumberMarkerClick(
  * `nonNegative` is false; digits; optional decimal with length limit.
  * @param nonNegative - When `true`, only non-negative values (including 0) match
  *   while typing. When `false` or omitted, `-` and negative numbers are allowed.
+ * @param onlyIntegers - When `true`, decimal values are blocked.
  * @param maxDecimalPlaces - The maximum number of decimal places allowed.
  * @returns A RegExp pattern for in-progress typing.
  */
@@ -120,43 +108,23 @@ function buildNumberInputDecimalPattern(
   return new RegExp(`^${sign}\\d*(\\.\\d*)?$`);
 }
 
-export type RHFNumberInputProps<T extends FieldValues> = {
+export type MUINumberInputProps = {
   /**
-   * Name/path of the React Hook Form field this component controls.
+   * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
-  fieldName: Path<T>;
+  fieldName: string;
   /**
-   * React Hook Form control object returned by `useForm`.
+   * Current numeric value of the field. Pass `null` or `undefined` to render an empty input.
    */
-  control: Control<T>;
+  value?: number | null;
   /**
-   * Validation rules passed to React Hook Form for this field.
-   */
-  registerOptions?: RegisterOptions<T, Path<T>>;
-  /**
-   * Overrides the default number input change handling.
-   * Receives the parsed numeric value and the original input change event.
-   * Call `rhfOnChange` with the number or `null` value that should be stored; else the form value will not be updated.
-   *
-   * @param rhfOnChange - React Hook Form field change handler for the numeric value.
-   * @param newValue - Parsed number value, or `null` when the input is empty.
-   * @param event - Original input change event.
-   */
-  customOnChange?: ({
-    rhfOnChange,
-    newValue,
-    event
-  }: CustomOnChangeProps<OnValueChangeProps, number | null>) => void;
-  /**
-   * Called after the default number input handler stores the parsed numeric value in React Hook Form.
-   *
-   * ⚠️ Important:
-   * This callback is not called when `customOnChange` is used.
+   * Called on every valid input change with the parsed number, or `null` when the input is empty.
+   * Call your state setter (or form library's setter) with `newValue` to update `value`.
    *
    * @param newValue - Parsed number value, or `null` when the input is empty.
    * @param event - Original input change event.
    */
-  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
+  onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
    * When true, renders the field label above the form field instead of inside or beside it.
    */
@@ -177,7 +145,7 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   /**
    * When `true`, negative and exponential values are not allowed
    * while typing or pasting.
-  */
+   */
   nonNegative?: boolean;
   /**
    * Maximum number of decimal places allowed. When set, the user cannot type
@@ -195,20 +163,20 @@ export type RHFNumberInputProps<T extends FieldValues> = {
    */
   stepAmount?: number;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   * Error message for the field. Any non-empty string puts the field into an error state
+   * (shown via `FormControl`/`TextField` `error` and surfaced through `FormHelperText`).
+   * Pass `undefined` or `null` to clear the error state.
    *
-   * Use `renderError` to customize how the field error is rendered.
+   * Use `renderError` to customize how this message is rendered.
    */
-  errorMessage?: ReactNode;
+  errorMessage?: string | null;
   /**
-   * Custom renderer for the React Hook Form field error.
-   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   * Custom renderer for `errorMessage`. Receives the raw error string and must return
+   * renderable content, e.g. wrapping it with an icon or a styled element.
    *
-   * @param error - React Hook Form field error for this field.
+   * @param error - Current `errorMessage` for this number input.
    */
-  renderError?: (error: FieldError) => ReactNode;
+  renderError?: (error: string) => ReactNode;
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
@@ -223,11 +191,9 @@ export type RHFNumberInputProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
-const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldValues>({
+const MUINumberInput = ({
   fieldName,
-  control,
-  registerOptions,
-  customOnChange,
+  value: muiValue,
   onValueChange,
   disabled: muiDisabled,
   label,
@@ -254,7 +220,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   onMouseDown,
   onPaste,
   ...otherNumberInputProps
-}: RHFNumberInputProps<T>, ref: Ref<HTMLInputElement>) {
+}: MUINumberInputProps) => {
   const {
     fieldId,
     labelId,
@@ -282,6 +248,15 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
     ? Math.max(1, Math.floor(stepAmount))
     : stepAmount;
 
+  const isError = !!errorMessage;
+  const fieldErrorMessage = isError
+    ? renderError?.(errorMessage) ?? errorMessage
+    : undefined;
+  const showHelperTextElement = !!(
+    helperText
+    || (isError && !hideErrorMessage)
+  );
+
   const handleMouseDown = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
       const input = e.target instanceof HTMLInputElement ? e.target : null;
@@ -308,7 +283,7 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
 
   if (onlyIntegers && maxDecimalPlaces !== undefined) {
     console.warn(
-      'RHFNumberInput: "onlyIntegers" and "maxDecimalPlaces" props cannot be used together'
+      'MUINumberInput: "onlyIntegers" and "maxDecimalPlaces" props cannot be used together'
     );
   }
 
@@ -401,166 +376,125 @@ const RHFNumberInputInner = forwardRef(function RHFNumberInput<T extends FieldVa
   );
 
   return (
-    <Controller
-      name={fieldName}
-      control={control}
-      rules={registerOptions}
-      render={({
-        field: {
-          name: rhfFieldName,
-          value: rhfValue,
-          onChange: rhfOnChange,
-          onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
-        },
-        fieldState: { error: fieldStateError }
-      }) => {
-        const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
-        return (
-          <FormControl error={isError} disabled={isDisabled}>
-            {!hideLabel && (
-              <FormLabel
-                label={fieldLabel}
-                isVisible={isLabelAboveFormField}
-                required={required}
-                error={isError}
-                disabled={isDisabled}
-                formLabelProps={{
-                  ...formLabelProps,
-                  id: labelId,
-                  htmlFor: fieldId
-                }}
-              />
-            )}
-            <MuiTextField
-              {...otherNumberInputProps}
-              id={fieldId}
-              name={rhfFieldName}
-              type="number"
-              inputRef={mergeRefs(rhfRef, ref)}
-              autoComplete={autoComplete}
-              label={
-                !hideLabel && !isLabelAboveFormField
-                  ? <FormLabelText label={fieldLabel} required={required} />
-                  : undefined
-              }
-              value={
-                rhfValue === null
-                || rhfValue === undefined
-                || Number.isNaN(rhfValue)
-                  ? ''
-                  : rhfValue
-              }
-              disabled={isDisabled}
-              onChange={event => {
-                const changeEvent = event as ChangeEvent<HTMLInputElement>;
-                const { value: inputValue, validity } = changeEvent.target;
+    <FormControl error={isError} disabled={muiDisabled}>
+      {!hideLabel && (
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          disabled={muiDisabled}
+          formLabelProps={{
+            ...formLabelProps,
+            id: labelId,
+            htmlFor: fieldId
+          }}
+        />
+      )}
+      <MuiTextField
+        {...otherNumberInputProps}
+        id={fieldId}
+        name={fieldName}
+        type="number"
+        autoComplete={autoComplete}
+        label={
+          !hideLabel && !isLabelAboveFormField
+            ? <FormLabelText label={fieldLabel} required={required} />
+            : undefined
+        }
+        value={
+          muiValue === null || muiValue === undefined || Number.isNaN(muiValue)
+            ? ''
+            : muiValue
+        }
+        disabled={muiDisabled}
+        onChange={event => {
+          const changeEvent = event as ChangeEvent<HTMLInputElement>;
+          const { value: inputValue, validity } = changeEvent.target;
 
-                /**
-                 * type="number" reports value="" for ANY invalid input
-                 * (e.g. "2.3.4", "-23-", partial states). validity.badInput
-                 * is the only reliable way to tell "user typed something wrong"
-                 * apart from "user intentionally cleared the field" (MDN).
-                 * Returning early protects form state from being wiped to null
-                 * when the browser silently discards an invalid intermediate value.
-                 */
-                if (validity.badInput) {
-                  return;
-                }
+          /**
+           * type="number" reports value="" for ANY invalid input
+           * (e.g. "2.3.4", "-23-", partial states). validity.badInput
+           * is the only reliable way to tell "user typed something wrong"
+           * apart from "user intentionally cleared the field" (MDN).
+           * Returning early protects state from being wiped to null
+           * when the browser silently discards an invalid intermediate value.
+           */
+          if (validity.badInput) {
+            return;
+          }
 
-                const safeInputValue = inputValue === '' || decimalPattern.test(inputValue)
-                  ? inputValue
-                  : sanitizePastedNumber(
-                    inputValue,
-                    nonNegative,
-                    onlyIntegers,
-                    maxDecimalPlaces
-                  );
+          const safeInputValue = inputValue === '' || decimalPattern.test(inputValue)
+            ? inputValue
+            : sanitizePastedNumber(
+              inputValue,
+              nonNegative,
+              onlyIntegers,
+              maxDecimalPlaces
+            );
 
-                if (
-                  safeInputValue !== null
-                  && (safeInputValue === '' || decimalPattern.test(safeInputValue))
-                ) {
-                  const parsed = safeInputValue === ''
-                    ? null
-                    : (
-                      onlyIntegers ? parseInt(safeInputValue, 10) : Number(safeInputValue)
-                    );
-                  const safeValue = Number.isNaN(parsed) ? null : parsed;
-                  if (customOnChange) {
-                    customOnChange({ rhfOnChange, newValue: safeValue, event: changeEvent });
-                    return;
-                  }
-                  rhfOnChange(safeValue);
-                  onValueChange?.({ newValue: safeValue, event: changeEvent });
-                }
-              }}
-              onBlur={blurEvent => {
-                rhfOnBlur();
-                muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
-              }}
-              onKeyDown={handleKeyDown}
-              onMouseDown={handleMouseDown}
-              onPaste={handlePaste}
-              slotProps={{
-                ...muiSlotProps,
-                htmlInput: {
-                  ...muiSlotProps?.htmlInput,
-                  'aria-labelledby':
-                    !hideLabel && isLabelAboveFormField ? labelId : undefined,
-                  'aria-label': hideLabel ? accessibleFieldLabel : undefined,
-                  'aria-describedby': showHelperTextElement
-                    ? isError
-                      ? errorId
-                      : helperTextId
-                    : undefined,
-                  'aria-required': required,
-                  ...(nonNegative ? { min: 0 } : {}),
-                  step: resolvedStepAmount
-                }
-              }}
-              error={isError}
-              sx={{
-                ...muiSx,
-                ...(!showMarkers && {
-                  '& input[type=number]': {
-                    MozAppearance: 'textfield',
-                    '&::-webkit-outer-spin-button': { display: 'none' },
-                    '&::-webkit-inner-spin-button': { display: 'none' },
-                  },
-                }),
-              }}
-              multiline={false}
-            />
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </FormControl>
-        );
-      }}
-    />
+          if (
+            safeInputValue !== null
+            && (safeInputValue === '' || decimalPattern.test(safeInputValue))
+          ) {
+            const parsed = safeInputValue === ''
+              ? null
+              : (
+                onlyIntegers ? parseInt(safeInputValue, 10) : Number(safeInputValue)
+              );
+            const safeValue = Number.isNaN(parsed) ? null : parsed;
+            onValueChange({ newValue: safeValue, event: changeEvent });
+          }
+        }}
+        onBlur={blurEvent => {
+          muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
+        }}
+        onKeyDown={handleKeyDown}
+        onMouseDown={handleMouseDown}
+        onPaste={handlePaste}
+        slotProps={{
+          ...muiSlotProps,
+          htmlInput: {
+            ...muiSlotProps?.htmlInput,
+            'aria-labelledby':
+              !hideLabel && isLabelAboveFormField ? labelId : undefined,
+            'aria-label': hideLabel ? accessibleFieldLabel : undefined,
+            'aria-describedby': showHelperTextElement
+              ? isError
+                ? errorId
+                : helperTextId
+              : undefined,
+            'aria-required': required,
+            ...(nonNegative ? { min: 0 } : {}),
+            step: resolvedStepAmount
+          }
+        }}
+        error={isError}
+        sx={{
+          ...muiSx,
+          ...(!showMarkers && {
+            '& input[type=number]': {
+              MozAppearance: 'textfield',
+              '&::-webkit-outer-spin-button': { display: 'none' },
+              '&::-webkit-inner-spin-button': { display: 'none' },
+            },
+          }),
+        }}
+        multiline={false}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={fieldErrorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          ...formHelperTextProps,
+          id: isError ? errorId : helperTextId
+        }}
+      />
+    </FormControl>
   );
-});
+};
 
-const RHFNumberInput = RHFNumberInputInner as <T extends FieldValues>(
-  props: RHFNumberInputProps<T> & { ref?: Ref<HTMLInputElement> }
-) => JSX.Element;
-
-export default RHFNumberInput;
+export default MUINumberInput;

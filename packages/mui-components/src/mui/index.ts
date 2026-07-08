@@ -18,7 +18,7 @@ import RHFMultiAutocomplete, {
   type RHFMultiAutocompleteProps,
 } from './multi-autocomplete';
 import RHFNativeSelect, { type RHFNativeSelectProps } from './native-select';
-import RHFNumberInput, { type RHFNumberInputProps } from './number-input';
+import MUINumberInput, { type MUINumberInputProps } from './number-input';
 import MUIPasswordInput, { type MUIPasswordInputProps } from './password-input';
 import RHFRadioGroup, { type RHFRadioGroupProps } from './radio-group';
 import RHFRating, { type RHFRatingProps } from './rating';
@@ -38,7 +38,7 @@ export {
   RHFFileUploader,
   RHFMultiAutocomplete,
   RHFNativeSelect,
-  RHFNumberInput,
+  MUINumberInput,
   MUIPasswordInput,
   RHFRadioGroup,
   RHFRating,
@@ -63,7 +63,7 @@ export type {
   FileUploadErrorDetails,
   RHFMultiAutocompleteProps,
   RHFNativeSelectProps,
-  RHFNumberInputProps,
+  MUINumberInputProps,
   MUIPasswordInputProps,
   RHFRadioGroupProps,
   RHFRatingProps,

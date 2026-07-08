@@ -203,9 +203,10 @@ const MUIPasswordInput = ({
         name={fieldName}
         autoComplete={autoComplete}
         type={showPassword ? 'text' : 'password'}
-        label={!hideLabel && !isLabelAboveFormField
-          ? <FormLabelText label={fieldLabel} required={required} />
-          : undefined
+        label={
+          !hideLabel && !isLabelAboveFormField
+            ? <FormLabelText label={fieldLabel} required={required} />
+            : undefined
         }
         value={muiValue ?? ''}
         disabled={muiDisabled}

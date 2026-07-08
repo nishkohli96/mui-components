@@ -138,7 +138,9 @@ const MUITextField = ({
         type="text"
         autoComplete={autoComplete}
         label={
-          !hideLabel && !isLabelAboveFormField ? <FormLabelText label={fieldLabel} required={required} /> : undefined
+          !hideLabel && !isLabelAboveFormField
+            ? <FormLabelText label={fieldLabel} required={required} />
+            : undefined
         }
         value={muiValue ?? ''}
         disabled={muiDisabled}
