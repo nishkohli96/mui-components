@@ -8,8 +8,8 @@ import RHFCountrySelect, {
   type CountryISO,
   type CountryDetails
 } from './country-select';
-import RHFFileUploader, {
-  type RHFFileUploaderProps,
+import MUIFileUploader, {
+  type MUIFileUploaderProps,
   type FileUploadError,
   type ExistingUploadedFile,
   type FileUploadErrorDetails
@@ -25,7 +25,7 @@ import RHFRating, { type RHFRatingProps } from './rating';
 import RHFSelect, { type RHFSelectProps } from './select';
 import RHFSlider, { type RHFSliderProps } from './slider';
 import RHFSwitch, { type RHFSwitchProps } from './switch';
-import RHFTagsInput, { type RHFTagsInputProps } from './tags-input';
+import MUITagsInput, { type MUITagsInputProps } from './tags-input';
 import MUITextField, { type MUITextFieldProps } from './textfield';
 import { selectAllOptionValue } from '@/common/constants';
 
@@ -35,7 +35,7 @@ export {
   RHFCheckbox,
   RHFCheckboxGroup,
   RHFCountrySelect,
-  RHFFileUploader,
+  MUIFileUploader,
   RHFMultiAutocomplete,
   RHFNativeSelect,
   MUINumberInput,
@@ -46,7 +46,7 @@ export {
   RHFSlider,
   RHFSwitch,
   MUITextField,
-  RHFTagsInput,
+  MUITagsInput,
   countryList,
   selectAllOptionValue,
 };
@@ -57,7 +57,7 @@ export type {
   RHFCheckboxProps,
   RHFCheckboxGroupProps,
   RHFCountrySelectProps,
-  RHFFileUploaderProps,
+  MUIFileUploaderProps,
   FileUploadError,
   ExistingUploadedFile,
   FileUploadErrorDetails,
@@ -70,7 +70,7 @@ export type {
   RHFSelectProps,
   RHFSliderProps,
   RHFSwitchProps,
-  RHFTagsInputProps,
+  MUITagsInputProps,
   MUITextFieldProps,
   CountryISO,
   CountryDetails,

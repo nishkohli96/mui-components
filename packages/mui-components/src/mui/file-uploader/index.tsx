@@ -4,30 +4,20 @@ import {
   useContext,
   useState,
   Fragment,
-  forwardRef,
   type Ref,
   type ReactNode,
-  type JSX,
   type ChangeEvent,
   type DragEvent,
+  type FocusEvent,
   type MouseEvent
 } from 'react';
-import {
-  Controller,
-  type FieldError,
-  type FieldValues,
-  type Path,
-  type Control,
-  type RegisterOptions
-} from 'react-hook-form';
 import Box, { type BoxProps } from '@mui/material/Box';
 import {
   FormControl,
   FormLabel,
   FormHelperText,
   type FormLabelProps,
-  type FormHelperTextProps,
-  type CustomOnChangeProps
+  type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
@@ -35,7 +25,6 @@ import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   useFieldIds,
-  mergeRefs,
   validateFileList
 } from '@/utils';
 import { HiddenInput, UploadButton } from './components';
@@ -66,8 +55,8 @@ export type ExistingUploadedFile = {
   size?: number;
 };
 
-type RHFFileUploaderOnValueChangeProps = {
-  /** New form value after a successful upload, removal, or clear action. */
+type FileUploaderOnValueChangeProps = {
+  /** New field value after a successful upload, removal, or clear action. */
   newValue: File | File[] | null;
   /** Event that triggered the value change. */
   event:
@@ -79,7 +68,7 @@ type RHFFileUploaderOnValueChangeProps = {
 /**
  * State passed to `dropZoneProps` when it is provided as a callback.
  */
-type RHFFileUploaderDropZoneState = {
+type FileUploaderDropZoneState = {
   /** Whether a file is currently being dragged over the drop zone. */
   isDragging: boolean;
   /** Whether the uploader is disabled. */
@@ -88,10 +77,10 @@ type RHFFileUploaderDropZoneState = {
   error: boolean;
 };
 
-type RHFFileUploaderDropZoneProps
+type FileUploaderDropZoneProps
   = | Omit<BoxProps, 'children'>
     | ((
-      { isDragging, disabled, error }: RHFFileUploaderDropZoneState
+      { isDragging, disabled, error }: FileUploaderDropZoneState
     ) => Omit<BoxProps, 'children'>);
 
 type RenderExistingFileItemProps = {
@@ -104,23 +93,32 @@ type RenderFileItemProps = {
   file: File;
   /** Zero-based index of the newly selected file. */
   index: number;
-  /** Removes this newly selected file from the RHF field value. */
+  /** Removes this newly selected file from the field value. */
   removeFile: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-export type RHFFileUploaderProps<T extends FieldValues> = {
+export type MUIFileUploaderProps = {
   /**
-   * Name/path of the React Hook Form field this component controls.
+   * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
-  fieldName: Path<T>;
+  fieldName: string;
   /**
-   * React Hook Form control object returned by `useForm`.
+   * Current value of the field. This is a controlled component: `value` and `onValueChange`
+   * must be supplied together, typically backed by your own state or form library.
+   * `undefined`/`null` are treated as no files selected.
    */
-  control: Control<T>;
+  value?: File | File[] | null;
   /**
-   * Validation rules passed to React Hook Form for this field.
+   * Called with the accepted file value after every upload, removal, or clear action.
+   * Call your state setter (or form library's setter) with `newValue` to update `value`.
+   *
+   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
+   * @param event - Input, drop, or click event that changed the file value.
    */
-  registerOptions?: RegisterOptions<T, Path<T>>;
+  onValueChange: ({
+    newValue,
+    event
+  }: FileUploaderOnValueChangeProps) => void;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
@@ -168,7 +166,7 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    *
    * This prop is ignored when `disableDragAndDrop` is `true`.
    */
-  dropZoneProps?: RHFFileUploaderDropZoneProps;
+  dropZoneProps?: FileUploaderDropZoneProps;
   /**
    * Disable drag-and-drop functionality and only allow file selection via the upload button.
    * @default false
@@ -190,10 +188,10 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    * Custom renderer for each file passed through `existingFiles`.
    *
    * Use this to render server-side files that were uploaded before the
-   * current form session. The callback receives the file metadata and its
+   * current session. The callback receives the file metadata and its
    * zero-based index.
    *
-   * Existing files are not stored in the RHF field value and this component
+   * Existing files are not stored in the field value and this component
    * does not remove them automatically. Handle deletion in your own renderer
    * if server-side files need to be removed.
    *
@@ -209,12 +207,11 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    */
   uploadedFileListProps?: Omit<BoxProps, 'children'>;
   /**
-   * Custom renderer for each newly selected file stored in the RHF field value.
+   * Custom renderer for each newly selected file stored in the field value.
    *
    * The callback receives the `File`, its zero-based index, and a `removeFile`
    * helper. Call `removeFile(event)` from your remove/delete button to remove
-   * that file from the RHF value. Removal also triggers `onValueChange` unless
-   * `customOnChange` is provided.
+   * that file from the field value. Removal also triggers `onValueChange`.
    *
    * When omitted, newly selected files are not rendered.
    */
@@ -224,39 +221,17 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
     removeFile
   }: RenderFileItemProps) => ReactNode;
   /**
-   * Overrides the default file uploader change handling.
-   * Receives the accepted file value and the input/drop event that produced it.
-   * Call `rhfOnChange` with the `File`, `File[]`, or `null` value that should be stored; else the form value will not be updated.
-   *
-   * @param rhfOnChange - React Hook Form field change handler for the uploaded file value.
-   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
-   * @param event - Input or drop event that changed the file value.
-   */
-  customOnChange?: ({
-    rhfOnChange,
-    newValue,
-    event
-  }: CustomOnChangeProps<
-    RHFFileUploaderOnValueChangeProps,
-    File | File[] | null
-  >) => void;
-  /**
-   * Called after the default file uploader handler stores the accepted file value in React Hook Form.
-   *
-   * ⚠️ Important:
-   * This callback is not called when `customOnChange` is used.
-   *
-   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
-   * @param event - Input or drop event that changed the file value.
-   */
-  onValueChange?: ({
-    newValue,
-    event
-  }: RHFFileUploaderOnValueChangeProps) => void;
-  /**
    * Callback fired when uploaded files fail type, size, or count validation.
    */
   onUploadError?: (errors: FileUploadErrorDetails[]) => void;
+  /**
+   * Called when the hidden file input loses focus.
+   */
+  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+  /**
+   * Ref for the hidden file `<input>` element.
+   */
+  inputRef?: Ref<HTMLInputElement>;
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
@@ -274,12 +249,20 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * Custom renderer for the React Hook Form field error.
-   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   * Error message for the field. Any non-empty string puts the field into an error state
+   * (shown via `FormControl` and surfaced through `FormHelperText`).
+   * Pass `undefined` or `null` to clear the error state.
    *
-   * @param error - React Hook Form field error for this field.
+   * Use `renderError` to customize how this message is rendered.
    */
-  renderError?: (error: FieldError) => ReactNode;
+  errorMessage?: string | null;
+  /**
+   * Custom renderer for `errorMessage`. Receives the raw error string and must return
+   * renderable content, e.g. wrapping it with an icon or a styled element.
+   *
+   * @param error - Current `errorMessage` for this file uploader.
+   */
+  renderError?: (error: string) => ReactNode;
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
@@ -302,43 +285,39 @@ export type RHFFileUploaderProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 };
 
-const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
-  T extends FieldValues
->(
-  {
-    fieldName,
-    control,
-    registerOptions,
-    accept,
-    multiple,
-    maxFiles,
-    maxSize,
-    existingFiles = [],
-    renderExistingFileItem,
-    existingFileListProps,
-    uploadedFileListProps,
-    renderUploadButton,
-    renderFileItem,
-    customOnChange,
-    onValueChange,
-    disabled: muiDisabled,
-    onUploadError,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    hideLabel,
-    required,
-    renderError,
-    hideErrorMessage,
-    helperText,
-    formHelperTextProps,
-    fullWidth = false,
-    disableDragAndDrop = false,
-    dropZoneProps,
-    customIds
-  }: RHFFileUploaderProps<T>,
-  ref: Ref<HTMLInputElement>
-) {
+const MUIFileUploader = ({
+  fieldName,
+  value,
+  onValueChange,
+  accept,
+  multiple,
+  maxFiles,
+  maxSize,
+  existingFiles = [],
+  renderExistingFileItem,
+  existingFileListProps,
+  uploadedFileListProps,
+  renderUploadButton,
+  renderFileItem,
+  disabled: muiDisabled,
+  onUploadError,
+  onBlur,
+  inputRef,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  hideLabel,
+  required,
+  errorMessage,
+  renderError,
+  hideErrorMessage,
+  helperText,
+  formHelperTextProps,
+  fullWidth = false,
+  disableDragAndDrop = false,
+  dropZoneProps,
+  customIds
+}: MUIFileUploaderProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
@@ -356,378 +335,298 @@ const RHFFileUploaderInner = forwardRef(function RHFFileUploader<
   );
 
   const serverFileCount = existingFiles.length;
-  const {
-    required: registerRequired,
-    validate: registerValidate,
-    ...controllerRulesBase
-  } = registerOptions ?? {};
-  const isRegisterRequired = typeof registerRequired === 'object'
-    ? registerRequired.value
-    : !!registerRequired;
-  const isFieldRequired = required || isRegisterRequired;
-  const requiredMessage
-    = typeof registerRequired === 'string'
-      ? registerRequired
-      : typeof registerRequired === 'object'
-        ? registerRequired.message
-        : 'This field is required';
+  const fieldValue = value ?? null;
 
-  const validateRequiredFiles = (value: File | File[] | null) => {
-    if (!isFieldRequired || serverFileCount > 0) {
-      return true;
-    }
-    if (Array.isArray(value)) {
-      return value.length > 0 || requiredMessage;
-    }
-    return value instanceof File || requiredMessage;
+  const isError = !!errorMessage;
+  const fieldErrorMessage = isError
+    ? renderError?.(errorMessage) ?? errorMessage
+    : undefined;
+  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+
+  const updateFieldValue = (
+    newValue: File | File[] | null,
+    event:
+      | ChangeEvent<HTMLInputElement>
+      | DragEvent<HTMLDivElement>
+      | MouseEvent<HTMLButtonElement>
+  ) => {
+    onValueChange({ newValue, event });
   };
 
-  const controllerRules: RegisterOptions<T, Path<T>> = {
-    ...controllerRulesBase,
-    validate:
-      typeof registerValidate === 'function'
-        ? async (value, formValues) => {
-          const requiredValidation = validateRequiredFiles(
-            value
-          );
-          if (requiredValidation !== true) {
-            return requiredValidation;
-          }
-          return registerValidate(value, formValues);
-        }
-        : {
-          ...registerValidate,
-          requiredFiles: value => validateRequiredFiles(value)
-        }
+  const processFiles = (
+    files: FileList | File[] | null,
+    event: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>
+  ) => {
+    if (!files || files.length === 0) {
+      updateFieldValue(null, event);
+      return;
+    }
+
+    const incomingFiles = Array.from(files);
+    const previousFiles: File[] = multiple
+      ? Array.isArray(fieldValue)
+        ? fieldValue
+        : fieldValue instanceof File
+          ? [fieldValue]
+          : []
+      : [];
+
+    const remainingFileSlots
+      = maxFiles !== undefined
+        ? Math.max(0, maxFiles - serverFileCount - previousFiles.length)
+        : undefined;
+
+    const { acceptedFiles, rejectedFiles } = validateFileList(incomingFiles, {
+      accept,
+      maxSize
+    });
+    const fileErrors = [...rejectedFiles];
+    let acceptedIncomingFiles = acceptedFiles;
+
+    if (
+      remainingFileSlots !== undefined
+      && acceptedIncomingFiles.length > remainingFileSlots
+    ) {
+      const excessFiles = acceptedIncomingFiles.slice(remainingFileSlots);
+      acceptedIncomingFiles
+        = acceptedIncomingFiles.slice(0, remainingFileSlots);
+      fileErrors.push(
+        ...excessFiles.map(file => ({
+          file,
+          errors: [FileUploadError.limitExceeded]
+        }))
+      );
+    }
+    if (fileErrors.length > 0) {
+      onUploadError?.(fileErrors);
+    }
+
+    const finalAcceptedFiles = multiple
+      ? [...previousFiles, ...acceptedIncomingFiles]
+      : acceptedIncomingFiles;
+    const newValue = multiple
+      ? finalAcceptedFiles.length > 0
+        ? finalAcceptedFiles
+        : null
+      : (finalAcceptedFiles[0] ?? null);
+    updateFieldValue(newValue, event);
   };
 
-  return (
-    <Controller
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    processFiles(event.target.files, event);
+    /**
+     * Reset so the same file(s) can be selected again in
+     * a subsequent pick
+     */
+    event.target.value = '';
+  };
+
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+    if (muiDisabled) {
+      return;
+    }
+    if (event.dataTransfer.files.length === 0) {
+      return;
+    }
+    processFiles(event.dataTransfer.files, event);
+  };
+
+  const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    if (!muiDisabled) {
+      setIsDragging(true);
+    }
+  };
+
+  const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
+    if (event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      return;
+    }
+    setIsDragging(false);
+  };
+
+  const handleRemoveFile = (
+    index: number,
+    event: MouseEvent<HTMLButtonElement>
+  ) => {
+    let newValue: File | File[] | null;
+    if (multiple && Array.isArray(fieldValue)) {
+      const newFiles = fieldValue.filter(
+        (_: File, i: number) => i !== index
+      );
+      newValue = newFiles.length > 0 ? newFiles : null;
+    } else {
+      newValue = null;
+    }
+    updateFieldValue(newValue, event);
+  };
+
+  const InputComponent = (
+    <HiddenInput
+      id={fieldId}
       name={fieldName}
-      control={control}
-      rules={controllerRules}
-      render={({
-        field: {
-          name: rhfFieldName,
-          value: rhfValue,
-          onChange: rhfOnChange,
-          onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
-        },
-        fieldState: { error: fieldStateError }
-      }) => {
-        const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage
-          = fieldStateError
-            ? renderError?.(fieldStateError) ?? fieldStateError.message?.toString()
-            : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
-
-        const updateFieldValue = (
-          newValue: File | File[] | null,
-          event:
-            | ChangeEvent<HTMLInputElement>
-            | DragEvent<HTMLDivElement>
-            | MouseEvent<HTMLButtonElement>
-        ) => {
-          if (customOnChange) {
-            customOnChange({
-              rhfOnChange,
-              newValue,
-              event
-            });
-            return;
-          }
-          rhfOnChange(newValue);
-          onValueChange?.({ newValue, event });
-        };
-
-        const processFiles = (
-          files: FileList | File[] | null,
-          event: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>
-        ) => {
-          if (!files || files.length === 0) {
-            updateFieldValue(null, event);
-            return;
-          }
-
-          const incomingFiles = Array.from(files);
-          const previousFiles: File[] = multiple
-            ? Array.isArray(rhfValue)
-              ? rhfValue
-              : (rhfValue as unknown) instanceof File
-                ? [rhfValue]
-                : []
-            : [];
-
-          const remainingFileSlots
-            = maxFiles !== undefined
-              ? Math.max(0, maxFiles - serverFileCount - previousFiles.length)
-              : undefined;
-
-          const { acceptedFiles, rejectedFiles } = validateFileList(incomingFiles, {
-            accept,
-            maxSize
-          });
-          const fileErrors = [...rejectedFiles];
-          let acceptedIncomingFiles = acceptedFiles;
-
-          if (
-            remainingFileSlots !== undefined
-            && acceptedIncomingFiles.length > remainingFileSlots
-          ) {
-            const excessFiles = acceptedIncomingFiles.slice(remainingFileSlots);
-            acceptedIncomingFiles
-              = acceptedIncomingFiles.slice(0, remainingFileSlots);
-            fileErrors.push(
-              ...excessFiles.map(file => ({
-                file,
-                errors: [FileUploadError.limitExceeded]
-              }))
-            );
-          }
-          if (fileErrors.length > 0) {
-            onUploadError?.(fileErrors);
-          }
-
-          const finalAcceptedFiles = multiple
-            ? [...previousFiles, ...acceptedIncomingFiles]
-            : acceptedIncomingFiles;
-          const newValue = multiple
-            ? finalAcceptedFiles.length > 0
-              ? finalAcceptedFiles
-              : null
-            : (finalAcceptedFiles[0] ?? null);
-          updateFieldValue(newValue, event);
-        };
-
-        const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-          processFiles(event.target.files, event);
-          /**
-           * Reset so the same file(s) can be selected again in
-           * a subsequent pick
-           */
-          event.target.value = '';
-        };
-
-        const handleDrop = (event: DragEvent<HTMLDivElement>) => {
-          event.preventDefault();
-          setIsDragging(false);
-          if (isDisabled) {
-            return;
-          }
-          if (event.dataTransfer.files.length === 0) {
-            return;
-          }
-          processFiles(event.dataTransfer.files, event);
-        };
-
-        const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
-          event.preventDefault();
-          if (!isDisabled) {
-            setIsDragging(true);
-          }
-        };
-
-        const handleDragLeave = (event: DragEvent<HTMLDivElement>) => {
-          if (event.currentTarget.contains(event.relatedTarget as Node | null)) {
-            return;
-          }
-          setIsDragging(false);
-        };
-
-        const handleRemoveFile = (
-          index: number,
-          event: MouseEvent<HTMLButtonElement>
-        ) => {
-          let newValue: File | File[] | null;
-          if (multiple && Array.isArray(rhfValue)) {
-            const newFiles = rhfValue.filter(
-              (_: File, i: number) => i !== index
-            );
-            newValue = newFiles.length > 0 ? newFiles : null;
-          } else {
-            newValue = null;
-          }
-          updateFieldValue(newValue, event);
-        };
-
-        const InputComponent = (
-          <HiddenInput
-            id={fieldId}
-            name={rhfFieldName}
-            type="file"
-            ref={mergeRefs(rhfRef, ref)}
-            accept={accept}
-            multiple={multiple}
-            onChange={handleFileChange}
-            onBlur={rhfOnBlur}
-            disabled={isDisabled}
-            aria-labelledby={!hideLabel && isLabelAboveFormField ? labelId : undefined}
-            aria-label={hideLabel ? accessibleFieldLabel : undefined}
-            aria-describedby={
-              showHelperTextElement
-                ? isError
-                  ? errorId
-                  : helperTextId
-                : undefined
-            }
-            aria-invalid={isError}
-            aria-required={isFieldRequired}
-          />
-        );
-
-        const uploadAreaContent = renderUploadButton
-          ? (
-            renderUploadButton(InputComponent)
-          )
-          : (
-            <UploadButton
-              label={
-                typeof fieldLabel === 'string'
-                  ? fieldLabel
-                  : `Upload ${defaultFieldLabel}`
-              }
-              fieldName={fieldName}
-              disabled={isDisabled}
-            >
-              {InputComponent}
-            </UploadButton>
-          );
-
-        const resolvedDropZoneProps = typeof dropZoneProps === 'function'
-          ? dropZoneProps({
-            isDragging,
-            disabled: !!isDisabled,
-            error: isError
-          })
-          : (dropZoneProps ?? {});
-        const {
-          sx: dropZoneSx,
-          onDragEnter: dropZoneOnDragEnter,
-          onDragOver: dropZoneOnDragOver,
-          onDragLeave: dropZoneOnDragLeave,
-          onDrop: dropZoneOnDrop,
-          ...restDropZoneProps
-        } = resolvedDropZoneProps;
-
-        const dropZoneContent = !disableDragAndDrop
-          ? (
-            <Box
-              {...restDropZoneProps}
-              onDragEnter={event => {
-                handleDragOver(event);
-                dropZoneOnDragEnter?.(event);
-              }}
-              onDragOver={event => {
-                handleDragOver(event);
-                dropZoneOnDragOver?.(event);
-              }}
-              onDragLeave={event => {
-                handleDragLeave(event);
-                dropZoneOnDragLeave?.(event);
-              }}
-              onDrop={event => {
-                handleDrop(event);
-                dropZoneOnDrop?.(event);
-              }}
-              sx={[
-                {
-                  border: '2px dashed',
-                  borderColor: isDragging ? 'primary.main' : 'grey.400',
-                  borderRadius: 2,
-                  p: 2,
-                  textAlign: 'center',
-                  transition: 'border-color 0.2s ease-in-out',
-                  mb: 2,
-                  cursor: isDisabled ? 'not-allowed' : 'pointer'
-                },
-                ...(Array.isArray(dropZoneSx)
-                  ? dropZoneSx
-                  : dropZoneSx
-                    ? [dropZoneSx]
-                    : [])
-              ]}
-            >
-              {uploadAreaContent}
-            </Box>
-          )
-          : (
-            uploadAreaContent
-          );
-
-        return (
-          <FormControl
-            fullWidth={fullWidth}
-            error={isError}
-            disabled={isDisabled}
-          >
-            {!hideLabel && (
-              <FormLabel
-                label={fieldLabel}
-                isVisible={isLabelAboveFormField}
-                required={isFieldRequired}
-                error={isError}
-                disabled={isDisabled}
-                formLabelProps={{
-                  ...formLabelProps,
-                  id: labelId,
-                  htmlFor: fieldId
-                }}
-              />
-            )}
-            {dropZoneContent}
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-            {/* Pre-existing server files rendered above new uploads */}
-            {existingFiles.length > 0 && renderExistingFileItem && (
-              <Box {...existingFileListProps}>
-                {existingFiles.map((file, index) => (
-                  <Fragment key={`existing-${file.name}-${index}`}>
-                    {renderExistingFileItem({ file, index })}
-                  </Fragment>
-                ))}
-              </Box>
-            )}
-            {/* New uploads from the current session */}
-            {rhfValue && renderFileItem && (
-              <Box {...uploadedFileListProps}>
-                {(Array.isArray(rhfValue) ? rhfValue : [rhfValue]).map(
-                  (file: File, index: number) => (
-                    <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
-                      {renderFileItem({
-                        file,
-                        index,
-                        removeFile: event => handleRemoveFile(index, event)
-                      })}
-                    </Fragment>
-                  )
-                )}
-              </Box>
-            )}
-          </FormControl>
-        );
-      }}
+      type="file"
+      ref={inputRef}
+      accept={accept}
+      multiple={multiple}
+      onChange={handleFileChange}
+      onBlur={onBlur}
+      disabled={muiDisabled}
+      aria-labelledby={!hideLabel && isLabelAboveFormField ? labelId : undefined}
+      aria-label={hideLabel ? accessibleFieldLabel : undefined}
+      aria-describedby={
+        showHelperTextElement
+          ? isError
+            ? errorId
+            : helperTextId
+          : undefined
+      }
+      aria-invalid={isError}
+      aria-required={required}
     />
   );
-});
 
-const RHFFileUploader = RHFFileUploaderInner as <T extends FieldValues>(
-  props: RHFFileUploaderProps<T> & { ref?: Ref<HTMLInputElement> }
-) => JSX.Element;
+  const uploadAreaContent = renderUploadButton
+    ? (
+      renderUploadButton(InputComponent)
+    )
+    : (
+      <UploadButton
+        label={
+          typeof fieldLabel === 'string'
+            ? fieldLabel
+            : `Upload ${defaultFieldLabel}`
+        }
+        fieldName={fieldName}
+        disabled={muiDisabled}
+      >
+        {InputComponent}
+      </UploadButton>
+    );
 
-export default RHFFileUploader;
+  const resolvedDropZoneProps = typeof dropZoneProps === 'function'
+    ? dropZoneProps({
+      isDragging,
+      disabled: !!muiDisabled,
+      error: isError
+    })
+    : (dropZoneProps ?? {});
+  const {
+    sx: dropZoneSx,
+    onDragEnter: dropZoneOnDragEnter,
+    onDragOver: dropZoneOnDragOver,
+    onDragLeave: dropZoneOnDragLeave,
+    onDrop: dropZoneOnDrop,
+    ...restDropZoneProps
+  } = resolvedDropZoneProps;
+
+  const dropZoneContent = !disableDragAndDrop
+    ? (
+      <Box
+        {...restDropZoneProps}
+        onDragEnter={event => {
+          handleDragOver(event);
+          dropZoneOnDragEnter?.(event);
+        }}
+        onDragOver={event => {
+          handleDragOver(event);
+          dropZoneOnDragOver?.(event);
+        }}
+        onDragLeave={event => {
+          handleDragLeave(event);
+          dropZoneOnDragLeave?.(event);
+        }}
+        onDrop={event => {
+          handleDrop(event);
+          dropZoneOnDrop?.(event);
+        }}
+        sx={[
+          {
+            border: '2px dashed',
+            borderColor: isDragging ? 'primary.main' : 'grey.400',
+            borderRadius: 2,
+            p: 2,
+            textAlign: 'center',
+            transition: 'border-color 0.2s ease-in-out',
+            mb: 2,
+            cursor: muiDisabled ? 'not-allowed' : 'pointer'
+          },
+          ...(Array.isArray(dropZoneSx)
+            ? dropZoneSx
+            : dropZoneSx
+              ? [dropZoneSx]
+              : [])
+        ]}
+      >
+        {uploadAreaContent}
+      </Box>
+    )
+    : (
+      uploadAreaContent
+    );
+
+  return (
+    <FormControl
+      fullWidth={fullWidth}
+      error={isError}
+      disabled={muiDisabled}
+    >
+      {!hideLabel && (
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          disabled={muiDisabled}
+          formLabelProps={{
+            ...formLabelProps,
+            id: labelId,
+            htmlFor: fieldId
+          }}
+        />
+      )}
+      {dropZoneContent}
+      <FormHelperText
+        error={isError}
+        errorMessage={fieldErrorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          ...formHelperTextProps,
+          id: isError ? errorId : helperTextId
+        }}
+      />
+      {/* Pre-existing server files rendered above new uploads */}
+      {existingFiles.length > 0 && renderExistingFileItem && (
+        <Box {...existingFileListProps}>
+          {existingFiles.map((file, index) => (
+            <Fragment key={`existing-${file.name}-${index}`}>
+              {renderExistingFileItem({ file, index })}
+            </Fragment>
+          ))}
+        </Box>
+      )}
+      {/* New uploads from the current session */}
+      {fieldValue && renderFileItem && (
+        <Box {...uploadedFileListProps}>
+          {(Array.isArray(fieldValue) ? fieldValue : [fieldValue]).map(
+            (file: File, index: number) => (
+              <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
+                {renderFileItem({
+                  file,
+                  index,
+                  removeFile: event => handleRemoveFile(index, event)
+                })}
+              </Fragment>
+            )
+          )}
+        </Box>
+      )}
+    </FormControl>
+  );
+};
+
+export default MUIFileUploader;
