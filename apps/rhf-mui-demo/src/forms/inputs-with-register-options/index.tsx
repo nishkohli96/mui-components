@@ -41,9 +41,6 @@ import {
 } from '@/utils';
 
 type FormSchema = {
-  firstName: string;
-  lastName: string;
-  email: string;
   password: string;
   confirmPassword: string;
   age?: number;
@@ -57,9 +54,6 @@ type FormSchema = {
 };
 
 const initialValues: FormSchema = {
-  firstName: '',
-  lastName: 'Jr.',
-  email: '',
   password: '',
   confirmPassword: '',
   keywords: ['hello', 'world', 'foo', 'bar', 'lorem ipsum']
@@ -67,10 +61,15 @@ const initialValues: FormSchema = {
 
 const weightStepAmount = 2;
 const balanceStepAmount = 0.5;
+const emailPattern = /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
 
 const InputsWithRegisterForm = () => {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('J');
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState<string>();
   const {
     control,
     reset,
@@ -80,7 +79,12 @@ const InputsWithRegisterForm = () => {
     defaultValues: initialValues,
     disabled: disableAllFields
   });
-  const formValues = useWatch({ control });
+  const formValues = {
+    firstName,
+    lastName,
+    email,
+    ...useWatch({ control })
+  };
 
   async function onFormSubmit(formValues: FormSchema) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -108,6 +112,10 @@ const InputsWithRegisterForm = () => {
             <FieldVariantInfo title="Basic Input field with required validation and customOnChange" />
             <MUITextField
               fieldName="firstName"
+              value={firstName}
+              onValueChange={({ newValue }) => {
+                setFirstName(newValue);
+              }}
               required
             />
           </Grid>
@@ -115,28 +123,38 @@ const InputsWithRegisterForm = () => {
             <FieldVariantInfo title="Input with min & max length validation and renderError" />
             <MUITextField
               fieldName="lastName"
+              value={lastName}
+              onValueChange={({ newValue }) => {
+                setLastName(newValue.toUpperCase());
+              }}
               helperText="Enter min 4 and max 10 characters"
-              // renderError={error => (
-              //   <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
-              //     <ErrorOutlineIcon color="error" fontSize="small" />
-              //     <Typography component="span" variant="body2">
-              //       {error.message}
-              //     </Typography>
-              //   </Box>
-              // )}
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Input with pattern validation & label above form-field with custom ids" />
             <MUITextField
               fieldName="email"
-              // registerOptions={{
-              //   pattern: {
-              //     value:
-              //       /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/,
-              //     message: 'Enter a valid email address'
-              //   }
-              // }}
+              value={email}
+              onValueChange={({ newValue }) => {
+                setEmail(newValue);
+                setEmailError(undefined);
+              }}
+              onBlur={() => {
+                setEmailError(
+                  email && !emailPattern.test(email)
+                    ? 'Enter a valid email address'
+                    : undefined
+                );
+              }}
+              errorMessage={emailError}
+              renderError={error => (
+                <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
+                  <ErrorOutlineIcon color="error" fontSize="small" />
+                  <Typography component="span" variant="body2">
+                    {error}
+                  </Typography>
+                </Box>
+              )}
               customIds={{
                 field: 'userEmail',
                 label: 'userEmail-label',
@@ -470,7 +488,10 @@ const InputsWithRegisterForm = () => {
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={formValues} errors={errors} />
+            <FormState
+              formValues={formValues}
+              errors={errors}
+            />
           </Grid>
         </GridContainer>
       </form>

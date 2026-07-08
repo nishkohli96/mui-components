@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for your interest in contributing to **@nish1896/rhf-mui-components** 🎉  
+Thank you for your interest in contributing to **@nish1896/mui-components** 🎉  
 We welcome improvements, bug fixes, documentation updates, and new feature proposals.
 
 ---

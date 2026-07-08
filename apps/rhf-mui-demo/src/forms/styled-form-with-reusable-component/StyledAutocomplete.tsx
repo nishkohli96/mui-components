@@ -11,8 +11,8 @@
 import { type FieldValues } from 'react-hook-form';
 import RHFAutocomplete, {
   type RHFAutocompleteProps
-} from '@nish1896/rhf-mui-components/mui/autocomplete';
-import type { StrObjOption } from '@nish1896/rhf-mui-components/types';
+} from '@nish1896/mui-components/mui/autocomplete';
+import type { StrObjOption } from '@nish1896/mui-components/types';
 
 type StyledAutocompleteProps<
   T extends FieldValues,

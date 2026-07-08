@@ -4,15 +4,15 @@ import type { Config } from '@docusaurus/types';
 import type { ThemeConfig } from '@docusaurus/preset-classic';
 
 const examplesUrl = process.env.EXAMPLES_URL
-  ?? 'https://rhf-mui-components-examples.vercel.app';
+  ?? 'https://mui-components-examples.vercel.app';
 const playgroundUrl = process.env.PLAYGROUND_URL
-  ?? 'https://stackblitz.com/github/nishkohli96/rhf-mui-components/tree/v4-examples';
+  ?? 'https://stackblitz.com/github/nishkohli96/mui-components/tree/v4-examples';
 
 const config: Config = {
-  title: '@nish1896/rhf-mui-components',
-  url: 'https://rhf-mui-components.github.io',
+  title: '@nish1896/mui-components',
+  url: 'https://mui-components.github.io',
   baseUrl: '/',
-  projectName: '@nish1896/rhf-mui-components',
+  projectName: '@nish1896/mui-components',
   organizationName: 'nish1896',
   tagline: 'Create and Style forms effortlessly within minutes!',
   favicon: 'img/favicon.ico',
@@ -81,7 +81,7 @@ const config: Config = {
           position: 'right'
         },
         {
-          href: 'https://github.com/nishkohli96/rhf-mui-components',
+          href: 'https://github.com/nishkohli96/mui-components',
           label: 'GitHub',
           position: 'right'
         }

@@ -36,12 +36,12 @@ const FolderStructure = ({ v1, v3AndAbove, docsVersion }: VersionProps) => {
 
   return (
     <SimpleTreeView
-      aria-label="rhf-mui-components directory"
+      aria-label="mui-components directory"
       defaultExpandedItems={['1']}
     >
       <TreeItem
         itemId="1"
-        label="@nish1896/rhf-mui-components"
+        label="@nish1896/mui-components"
         slots={{ icon: FolderIcon }}
       >
         <FileView

@@ -22,6 +22,6 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
       - name: Build Components Package
-        run: pnpm -F @nish1896/rhf-mui-components run lib:build
+        run: pnpm -F @nish1896/mui-components run lib:build
       - name: Build Examples Website
         run: pnpm -F @nish1896/rhf-mui-demo run build

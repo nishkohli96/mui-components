@@ -11,11 +11,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import RHFCountrySelect, { countryList } from '@nish1896/rhf-mui-components/mui/country-select';
-import RHFAutocomplete from '@nish1896/rhf-mui-components/mui/autocomplete';
-import RHFAutocompleteObject from '@nish1896/rhf-mui-components/mui/autocomplete-object';
-import RHFMultiAutocomplete from '@nish1896/rhf-mui-components/mui/multi-autocomplete';
-import RHFMultiAutocompleteObject from '@nish1896/rhf-mui-components/mui/multi-autocomplete-object';
+import RHFCountrySelect, { countryList } from '@nish1896/mui-components/mui/country-select';
+import RHFAutocomplete from '@nish1896/mui-components/mui/autocomplete';
+import RHFAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
+import RHFMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
+import RHFMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
 import {
   FormContainer,
   FormState,

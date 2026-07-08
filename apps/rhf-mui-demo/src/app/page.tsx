@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <main>
       <ContentContainer>
-        <PageHeading title="@nish1896/rhf-mui-components" />
+        <PageHeading title="@nish1896/mui-components" />
         <Typography variant="h6" color="#D2AF26">
           &quot;A suite of 20+ Material-UI based form components to create and
           style forms effortlessly within minutes!&quot;
@@ -18,10 +18,10 @@ const HomePage = () => {
         <Typography variant="body1" sx={{ mt: '20px' }}>
           This website demonstrates examples from the
           <Link
-            href="https://www.npmjs.com/package/@nish1896/rhf-mui-components"
+            href="https://www.npmjs.com/package/@nish1896/mui-components"
             target="_blank"
           >
-            {' @nish1896/rhf-mui-components '}
+            {' @nish1896/mui-components '}
           </Link>
           package by embedding forms for each component, showcasing various
           variations and validation approaches using different form libraries.

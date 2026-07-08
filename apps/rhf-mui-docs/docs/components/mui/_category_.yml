@@ -3,4 +3,4 @@ label: MUI
 collapsible: true
 collapsed: true
 customProps:
-  description: Usage, Api and examples for the material-ui components included in @nish1896/rhf-mui-components/mui module.
+  description: Usage, Api and examples for the material-ui components included in @nish1896/mui-components/mui module.

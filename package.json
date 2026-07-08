@@ -4,9 +4,9 @@
   "description": "A suite of 25+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
-  "homepage": "https://github.com/nishkohli96/rhf-mui-components#readme",
+  "homepage": "https://github.com/nishkohli96/mui-components-components#readme",
   "repository": {
-    "url": "git+https://github.com/nishkohli96/rhf-mui-components.git"
+    "url": "git+https://github.com/nishkohli96/mui-components-components.git"
   },
   "engines": {
     "node": ">=24"
@@ -19,14 +19,14 @@
     "lib": "pnpm -F @nish1896/mui-components run lib:build",
     "lib:lint": "pnpm -F @nish1896/mui-components run lint",
     "lib:pack": "sh pack-pkg.sh",
-    "demo": "pnpm -F @nish1896/rhf-mui-demo run dev",
-    "demo:lint": "pnpm -F @nish1896/rhf-mui-demo run lint",
-    "demo:build": "pnpm lib && pnpm -F @nish1896/rhf-mui-demo run build",
-    "demo:start": "pnpm -F @nish1896/rhf-mui-demo run start",
-    "doc": "pnpm -F @nish1896/rhf-mui-docs run start",
-    "docs:lint": "pnpm -F @nish1896/rhf-mui-docs run lint",
-    "docs:build": "pnpm -F @nish1896/rhf-mui-docs run build",
-    "docs:prod": "pnpm -F @nish1896/rhf-mui-docs run prod"
+    "demo": "pnpm -F @nish1896/mui-components-demo run dev",
+    "demo:lint": "pnpm -F @nish1896/mui-components-demo run lint",
+    "demo:build": "pnpm lib && pnpm -F @nish1896/mui-components-demo run build",
+    "demo:start": "pnpm -F @nish1896/mui-components-demo run start",
+    "doc": "pnpm -F @nish1896/mui-components-docs run start",
+    "docs:lint": "pnpm -F @nish1896/mui-components-docs run lint",
+    "docs:build": "pnpm -F @nish1896/mui-components-docs run build",
+    "docs:prod": "pnpm -F @nish1896/mui-components-docs run prod"
   },
   "devDependencies": {
     "turbo": "2.10.0"

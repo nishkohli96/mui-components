@@ -1,7 +1,7 @@
 import { type MuiVersion } from '@site/src/types';
 
 const githubProfile = 'https://github.com/nishkohli96/';
-const pkgRepoLink = `${githubProfile}rhf-mui-components/blob/main/`;
+const pkgRepoLink = `${githubProfile}mui-components/blob/main/`;
 const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
 
 const ExternalLinks = Object.freeze({
@@ -59,8 +59,8 @@ const ExternalLinks = Object.freeze({
   },
   rhfResolvers: 'https://www.npmjs.com/package/@hookform/resolvers',
   githubRepo: {
-    countriesList: `${pkgRepoLink}packages/rhf-mui-components/src/mui/country-select/countries.ts`,
-    rteConfig: `${pkgRepoLink}packages/rhf-mui-components/src/misc/rich-text-editor/config.ts`
+    countriesList: `${pkgRepoLink}packages/mui-components/src/mui/country-select/countries.ts`,
+    rteConfig: `${pkgRepoLink}packages/mui-components/src/misc/rich-text-editor/config.ts`
   },
   githubExamples: {
     multerFileUpload: `${cslRepo}apps/express-server/src/routes/file/controller.ts`,

@@ -15,8 +15,8 @@ import { type FieldValues } from 'react-hook-form';
 import { Poppins } from 'next/font/google';
 import RHFSelect, {
   type RHFSelectProps
-} from '@nish1896/rhf-mui-components/mui/select';
-import type { StrNumObjOption } from '@nish1896/rhf-mui-components/types';
+} from '@nish1896/mui-components/mui/select';
+import type { StrNumObjOption } from '@nish1896/mui-components/types';
 
 const poppins = Poppins({
   subsets: ['latin'],

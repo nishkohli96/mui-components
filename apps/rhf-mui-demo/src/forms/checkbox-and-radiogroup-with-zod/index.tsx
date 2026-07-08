@@ -10,9 +10,9 @@ import Grid from '@mui/material/Grid';
 import { green, pink } from '@mui/material/colors';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
-import RHFCheckbox from '@nish1896/rhf-mui-components/mui/checkbox';
-import RHFCheckboxGroup from '@nish1896/rhf-mui-components/mui/checkbox-group';
-import RHFRadioGroup from '@nish1896/rhf-mui-components/mui/radio-group';
+import RHFCheckbox from '@nish1896/mui-components/mui/checkbox';
+import RHFCheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
+import RHFRadioGroup from '@nish1896/mui-components/mui/radio-group';
 import { toast } from 'react-toastify';
 import {
   FormContainer,

@@ -26,8 +26,8 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@nish1896/rhf-mui-components/*": [
-        "../../packages/rhf-mui-components/dist/*"
+      "@nish1896/mui-components/*": [
+        "../../packages/mui-components/dist/*"
       ]
     }
   },

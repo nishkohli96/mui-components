@@ -3,5 +3,5 @@ export function componentPageDescription(componentName: string) {
 }
 
 export function renderTabTitle(componentName: string) {
-  return `${componentName} | RHF-Mui-Components`;
+  return `${componentName} | mui-components`;
 }

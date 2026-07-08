@@ -17,7 +17,7 @@
 import { Fragment, type ReactNode } from 'react';
 import { type FieldValues } from 'react-hook-form';
 import Typography from '@mui/material/Typography';
-import RHFTextField, { type RHFTextFieldProps } from '@nish1896/rhf-mui-components/mui/textfield';
+import RHFTextField, { type RHFTextFieldProps } from '@nish1896/mui-components/mui/textfield';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 
 type StyledRHFTextFieldProps<T extends FieldValues> = Omit<

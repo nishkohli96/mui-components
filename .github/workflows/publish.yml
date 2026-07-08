@@ -30,7 +30,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
       - name: Build Components Package
-        run: pnpm -F @nish1896/rhf-mui-components run lib:build
+        run: pnpm -F @nish1896/mui-components run lib:build
       - name: Publish package on npm
         run: npm publish --tag latest
-        working-directory: packages/rhf-mui-components/dist
+        working-directory: packages/mui-components/dist

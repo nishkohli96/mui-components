@@ -38,7 +38,7 @@ function validateFileList(
 ## Usage
 
 ```js
-import { validateFileList } from '@nish1896/rhf-mui-components/form-helpers';
+import { validateFileList } from '@nish1896/mui-components/form-helpers';
 ```
 
 ### Parameters

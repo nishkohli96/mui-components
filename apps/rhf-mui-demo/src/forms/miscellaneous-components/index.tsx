@@ -12,11 +12,11 @@ import {
   parseCountry,
   type CountryIso2
 } from 'react-international-phone';
-import RHFColorPicker from '@nish1896/rhf-mui-components/misc/color-picker';
+import RHFColorPicker from '@nish1896/mui-components/misc/color-picker';
 import RHFPhoneInput, {
   type RHFPhoneInputValue
-} from '@nish1896/rhf-mui-components/misc/phone-input';
-import RHFRichTextEditor from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+} from '@nish1896/mui-components/misc/phone-input';
+import RHFRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
 import {
   FormContainer,
   FormState,

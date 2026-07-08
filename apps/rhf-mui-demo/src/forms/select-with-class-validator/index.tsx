@@ -10,8 +10,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { faker } from '@faker-js/faker';
 import { toast } from 'react-toastify';
-import RHFSelect from '@nish1896/rhf-mui-components/mui/select';
-import RHFNativeSelect from '@nish1896/rhf-mui-components/mui/native-select';
+import RHFSelect from '@nish1896/mui-components/mui/select';
+import RHFNativeSelect from '@nish1896/mui-components/mui/native-select';
 import {
   FormContainer,
   FormState,

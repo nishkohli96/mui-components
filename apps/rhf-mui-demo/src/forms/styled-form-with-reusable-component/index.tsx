@@ -9,8 +9,8 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
-import { RHFDatePicker } from '@nish1896/rhf-mui-components/mui-pickers/date';
+import { ConfigProvider } from '@nish1896/mui-components/config';
+import { RHFDatePicker } from '@nish1896/mui-components/mui-pickers/date';
 import {
   FormContainer,
   FieldVariantInfo,

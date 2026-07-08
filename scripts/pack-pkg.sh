@@ -1,10 +1,10 @@
-echo "📦 Packaging @nish1896/rhf-mui-components"
+echo "📦 Packaging @nish1896/mui-components"
 
 echo "🛠️ Building the package 📦"
 # Exit if build fails
 yarn lib || exit 1
 
-cd packages/rhf-mui-components/
+cd packages/mui-components/
 
 # Remove old tarball
 rm -f *.tgz

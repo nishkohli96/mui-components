@@ -9,8 +9,8 @@ export const defaultPageKeywords = [
   '@mui/material',
   'mui-rhf',
   'rhf-mui',
-  'rhf-mui-components',
-  '@nish1896/rhf-mui-components',
+  'mui-components',
+  '@nish1896/mui-components',
   '@nish1896',
   'react form components',
   'react forms'

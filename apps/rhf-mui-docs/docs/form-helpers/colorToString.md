@@ -16,7 +16,7 @@ function colorToString(color: ColorObject, excludeAlpha?: boolean): string;
 ## Usage
 
 ```js
-import { colorToString } from '@nish1896/rhf-mui-components/form-helpers';
+import { colorToString } from '@nish1896/mui-components/form-helpers';
 ```
 
 ### Parameters

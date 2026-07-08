@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, forwardRef, type ReactNode, type ChangeEvent, type Ref } from 'react';
+import { useContext, type ReactNode, type ChangeEvent } from 'react';
 import TextField from '@mui/material/TextField';
 import {
   FormControl,
@@ -80,7 +80,7 @@ export type MUITextFieldProps = {
   customIds?: CustomComponentIds;
 } & TextFieldProps;
 
-const MUITextField = forwardRef(function MUITextField({
+const MUITextField = ({
   fieldName,
   value,
   onValueChange,
@@ -100,7 +100,7 @@ const MUITextField = forwardRef(function MUITextField({
   slotProps: muiSlotProps,
   customIds,
   ...otherTextFieldProps
-}: MUITextFieldProps, ref: Ref<HTMLInputElement>) {
+}: MUITextFieldProps) => {
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
   const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(showLabelAboveFormField, allLabelsAboveFields);
@@ -135,7 +135,6 @@ const MUITextField = forwardRef(function MUITextField({
         {...otherTextFieldProps}
         id={fieldId}
         name={fieldName}
-        inputRef={ref}
         autoComplete={autoComplete}
         label={
           !hideLabel && !isLabelAboveFormField ? <FormLabelText label={fieldLabel} required={required} /> : undefined
@@ -174,6 +173,6 @@ const MUITextField = forwardRef(function MUITextField({
       />
     </FormControl>
   );
-});
+};
 
 export default MUITextField;

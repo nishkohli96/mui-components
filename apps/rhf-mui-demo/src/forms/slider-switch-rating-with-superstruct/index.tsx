@@ -10,9 +10,9 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import { orange } from '@mui/material/colors';
-import RHFRating from '@nish1896/rhf-mui-components/mui/rating';
-import RHFSlider from '@nish1896/rhf-mui-components/mui/slider';
-import RHFSwitch from '@nish1896/rhf-mui-components/mui/switch';
+import RHFRating from '@nish1896/mui-components/mui/rating';
+import RHFSlider from '@nish1896/mui-components/mui/slider';
+import RHFSwitch from '@nish1896/mui-components/mui/switch';
 import { type FormSchema, formSchema } from './validation';
 import {
   FormContainer,

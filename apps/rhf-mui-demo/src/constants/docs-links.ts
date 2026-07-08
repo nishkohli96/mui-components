@@ -92,5 +92,5 @@ export const componentsDocsLink: Record<string, PageInfo> = {
   }
 };
 
-export const githubRepoLink = 'https://github.com/nishkohli96/rhf-mui-components';
-export const docsLink = 'https://rhf-mui-components.vercel.app/';
+export const githubRepoLink = 'https://github.com/nishkohli96/mui-components';
+export const docsLink = 'https://mui-components.vercel.app/';

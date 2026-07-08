@@ -2,7 +2,7 @@
 
 import { type ReactNode } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
+import { ConfigProvider } from '@nish1896/mui-components/config';
 
 type ConfigProviderWrapperProps = {
   children: ReactNode;

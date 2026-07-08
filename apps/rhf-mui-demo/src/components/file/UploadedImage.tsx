@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { getFileSize } from '@nish1896/rhf-mui-components/form-helpers';
+import { getFileSize } from '@nish1896/mui-components/form-helpers';
 
 type UploadedImageProps = {
   file: File;

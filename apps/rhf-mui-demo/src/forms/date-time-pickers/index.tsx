@@ -8,13 +8,13 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { ConfigProvider } from '@nish1896/rhf-mui-components/config';
+import { ConfigProvider } from '@nish1896/mui-components/config';
 import {
   RHFDatePicker,
   RHFMobileDatePicker
-} from '@nish1896/rhf-mui-components/mui-pickers/date';
-import { RHFTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/time';
-import { RHFDateTimePicker } from '@nish1896/rhf-mui-components/mui-pickers/date-time';
+} from '@nish1896/mui-components/mui-pickers/date';
+import { RHFTimePicker } from '@nish1896/mui-components/mui-pickers/time';
+import { RHFDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
 import {
   FormContainer,
   FormState,
