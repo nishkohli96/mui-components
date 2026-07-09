@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { ConfigProvider } from '@nish1896/mui-components/config';
-import { RHFDatePicker } from '@nish1896/mui-components/mui-pickers/date';
+import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
 import {
   FormContainer,
   FieldVariantInfo,
@@ -144,11 +144,18 @@ export default function StyledReusableComponentForm() {
             </Grid>
             <Grid size={6}>
               <FieldVariantInfo title="Date Picker with Luxon adapter" />
-              <RHFDatePicker
-                control={control}
+              <MUIDatePicker
                 fieldName="dob"
+                value={formValues.dob}
+                onValueChange={({ newValue }) => {
+                  setValue('dob', newValue as FormSchema['dob'], {
+                    shouldValidate: true
+                  });
+                }}
                 label="Date of Birth"
                 disableFuture
+                disabled={disableAllFields}
+                errorMessage={errors.dob?.message?.toString()}
               />
             </Grid>
             <Grid size={6}>

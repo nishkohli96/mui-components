@@ -23,9 +23,9 @@ import RHFRadioGroup from '@nish1896/mui-components/mui/radio-group';
 import RHFRating from '@nish1896/mui-components/mui/rating';
 import RHFSlider from '@nish1896/mui-components/mui/slider';
 import RHFSwitch from '@nish1896/mui-components/mui/switch';
-import { RHFDatePicker } from '@nish1896/mui-components/mui-pickers/date';
-import { RHFDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
-import { RHFTimePicker } from '@nish1896/mui-components/mui-pickers/time';
+import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
+import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
+import { MUITimePicker } from '@nish1896/mui-components/mui-pickers/time';
 import RHFColorPicker from '@nish1896/mui-components/misc/color-picker';
 import RHFRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
 import RHFPhoneInput from '@nish1896/mui-components/misc/phone-input';
@@ -372,35 +372,53 @@ const CompleteFormWithJoi = () => {
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFDatePicker
+              <MUIDatePicker
                 fieldName="dob"
-                control={control}
+                value={formValues.dob}
+                onValueChange={({ newValue }) => {
+                  setValue('dob', newValue as FormSchema['dob'], {
+                    shouldValidate: true
+                  });
+                }}
                 label="Date of Birth"
                 format="DD MMM YYYY"
                 disableFuture
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
                 disabled={areAllFieldsDisabled}
+                errorMessage={errors.dob?.message?.toString()}
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFTimePicker
+              <MUITimePicker
                 fieldName="time"
-                control={control}
+                value={formValues.time}
+                onValueChange={({ newValue }) => {
+                  setValue('time', newValue as FormSchema['time'], {
+                    shouldValidate: true
+                  });
+                }}
                 label="Time"
                 ampm={false}
                 disabled={areAllFieldsDisabled}
+                errorMessage={errors.time?.message?.toString()}
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFDateTimePicker
+              <MUIDateTimePicker
                 fieldName="dateTime"
-                control={control}
+                value={formValues.dateTime}
+                onValueChange={({ newValue }) => {
+                  setValue('dateTime', newValue as FormSchema['dateTime'], {
+                    shouldValidate: true
+                  });
+                }}
                 showLabelAboveFormField
                 ampm={false}
                 disabled={areAllFieldsDisabled}
+                errorMessage={errors.dateTime?.message?.toString()}
                 required
               />
             </Grid>

@@ -1,16 +1,16 @@
 export {
-  default as RHFTimePicker,
-  type RHFTimePickerProps
-} from './RHFTimePicker';
+  default as MUITimePicker,
+  type MUITimePickerProps
+} from './MUITimePicker';
 export {
-  default as RHFDesktopTimePicker,
-  type RHFDesktopTimePickerProps
-} from './RHFDesktopTimePicker';
+  default as MUIDesktopTimePicker,
+  type MUIDesktopTimePickerProps
+} from './MUIDesktopTimePicker';
 export {
-  default as RHFMobileTimePicker,
-  type RHFMobileTimePickerProps
-} from './RHFMobileTimePicker';
+  default as MUIMobileTimePicker,
+  type MUIMobileTimePickerProps
+} from './MUIMobileTimePicker';
 export {
-  default as RHFStaticTimePicker,
-  type RHFStaticTimePickerProps
-} from './RHFStaticTimePicker';
+  default as MUIStaticTimePicker,
+  type MUIStaticTimePickerProps
+} from './MUIStaticTimePicker';

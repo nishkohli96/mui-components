@@ -1,16 +1,16 @@
 export {
-  default as RHFDatePicker,
-  type RHFDatePickerProps
-} from './RHFDatePicker';
+  default as MUIDatePicker,
+  type MUIDatePickerProps
+} from './MUIDatePicker';
 export {
-  default as RHFDesktopDatePicker,
-  type RHFDesktopDatePickerProps
-} from './RHFDesktopDatePicker';
+  default as MUIDesktopDatePicker,
+  type MUIDesktopDatePickerProps
+} from './MUIDesktopDatePicker';
 export {
-  default as RHFMobileDatePicker,
-  type RHFMobileDatePickerProps
-} from './RHFMobileDatePicker';
+  default as MUIMobileDatePicker,
+  type MUIMobileDatePickerProps
+} from './MUIMobileDatePicker';
 export {
-  default as RHFStaticDatePicker,
-  type RHFStaticDatePickerProps
-} from './RHFStaticDatePicker';
+  default as MUIStaticDatePicker,
+  type MUIStaticDatePickerProps
+} from './MUIStaticDatePicker';

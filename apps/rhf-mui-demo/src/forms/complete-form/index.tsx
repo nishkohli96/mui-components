@@ -26,9 +26,9 @@ import RHFRadioGroup from '@nish1896/mui-components/mui/radio-group';
 import RHFRating from '@nish1896/mui-components/mui/rating';
 import RHFSlider from '@nish1896/mui-components/mui/slider';
 import RHFSwitch from '@nish1896/mui-components/mui/switch';
-import { RHFDatePicker } from '@nish1896/mui-components/mui-pickers/date';
-import { RHFDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
-import { RHFTimePicker } from '@nish1896/mui-components/mui-pickers/time';
+import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
+import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
+import { MUITimePicker } from '@nish1896/mui-components/mui-pickers/time';
 import RHFColorPicker from '@nish1896/mui-components/misc/color-picker';
 import RHFRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
 import RHFPhoneInput from '@nish1896/mui-components/misc/phone-input';
@@ -491,64 +491,53 @@ const CompleteForm = () => {
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFDatePicker
+              <MUIDatePicker
                 fieldName="dob"
-                control={control}
-                registerOptions={{
-                  required: {
-                    value: true,
-                    message: reqdMessage('dob')
-                  },
-                  valueAsDate: true,
-                  validate: {
-                    validDate: value => {
-                      if (!value) {
-                        return 'Date is required';
-                      }
-                      /* Ensure value is at least 10 days from today */
-                      const tenDaysFromNow = new Date();
-                      tenDaysFromNow.setDate(tenDaysFromNow.getDate() - 10);
-                      return value <= tenDaysFromNow || 'Date must be at least 10 days before from today';
-                    },
-                  }
+                value={formValues.dob}
+                onValueChange={({ newValue }) => {
+                  setValue('dob', newValue as FormSchema['dob'], {
+                    shouldValidate: true
+                  });
                 }}
                 label="Date of Birth"
                 format="DD MMM YYYY"
                 disableFuture
                 showLabelAboveFormField
                 helperText="Cannot select future dates"
+                disabled={disableAllFields}
+                errorMessage={errors.dob?.message?.toString()}
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFTimePicker
+              <MUITimePicker
                 fieldName="time"
-                control={control}
-                registerOptions={{
-                  required: {
-                    value: true,
-                    message: reqdMessage('time')
-                  },
-                  valueAsDate: true,
+                value={formValues.time}
+                onValueChange={({ newValue }) => {
+                  setValue('time', newValue as FormSchema['time'], {
+                    shouldValidate: true
+                  });
                 }}
                 label="Time"
                 ampm={false}
+                disabled={disableAllFields}
+                errorMessage={errors.time?.message?.toString()}
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFDateTimePicker
+              <MUIDateTimePicker
                 fieldName="dateTime"
-                control={control}
-                registerOptions={{
-                  required: {
-                    value: true,
-                    message: reqdMessage('dateTime')
-                  },
-                  valueAsDate: true,
+                value={formValues.dateTime}
+                onValueChange={({ newValue }) => {
+                  setValue('dateTime', newValue as FormSchema['dateTime'], {
+                    shouldValidate: true
+                  });
                 }}
                 showLabelAboveFormField
                 ampm={false}
+                disabled={disableAllFields}
+                errorMessage={errors.dateTime?.message?.toString()}
                 required
               />
             </Grid>

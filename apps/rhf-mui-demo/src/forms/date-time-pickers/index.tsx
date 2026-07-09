@@ -10,11 +10,11 @@ import Grid from '@mui/material/Grid';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { ConfigProvider } from '@nish1896/mui-components/config';
 import {
-  RHFDatePicker,
-  RHFMobileDatePicker
+  MUIDatePicker,
+  MUIMobileDatePicker
 } from '@nish1896/mui-components/mui-pickers/date';
-import { RHFTimePicker } from '@nish1896/mui-components/mui-pickers/time';
-import { RHFDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
+import { MUITimePicker } from '@nish1896/mui-components/mui-pickers/time';
+import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
 import {
   FormContainer,
   FormState,
@@ -33,6 +33,7 @@ const DateTimePickersForm = () => {
   const {
     control,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
   } = useForm({
@@ -66,12 +67,17 @@ const DateTimePickersForm = () => {
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="DatePicker with disabled future and textField slotProps" />
-              <RHFDatePicker
+              <MUIDatePicker
                 fieldName="dob"
-                control={control}
+                value={formValues.dob}
+                onValueChange={({ newValue }) => {
+                  setValue('dob', newValue, { shouldValidate: true });
+                }}
                 disableFuture
                 label="Date of Birth"
                 showLabelAboveFormField
+                disabled={disableAllFields}
+                errorMessage={errors.dob?.message?.toString()}
                 slotProps={{
                   textField: {
                     variant: 'filled',
@@ -88,30 +94,45 @@ const DateTimePickersForm = () => {
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="MobileDatePicker" />
-              <RHFMobileDatePicker
+              <MUIMobileDatePicker
                 fieldName="dobFather"
-                control={control}
+                value={formValues.dobFather}
+                onValueChange={({ newValue }) => {
+                  setValue('dobFather', newValue, { shouldValidate: true });
+                }}
                 label="Father's Date of Birth"
+                disabled={disableAllFields}
+                errorMessage={errors.dobFather?.message?.toString()}
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="TimePicker with 24-Hour Format" />
-              <RHFTimePicker
+              <MUITimePicker
                 fieldName="time"
-                control={control}
+                value={formValues.time}
+                onValueChange={({ newValue }) => {
+                  setValue('time', newValue, { shouldValidate: true });
+                }}
                 label="Arrival Time"
                 ampm={false}
+                disabled={disableAllFields}
+                errorMessage={errors.time?.message?.toString()}
                 required
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <RHFDateTimePicker
+              <MUIDateTimePicker
                 fieldName="dateOfJourney"
-                control={control}
+                value={formValues.dateOfJourney}
+                onValueChange={({ newValue }) => {
+                  setValue('dateOfJourney', newValue, { shouldValidate: true });
+                }}
                 showLabelAboveFormField
                 label="Date-Time Picker"
                 ampm={false}
+                disabled={disableAllFields}
+                errorMessage={errors.dateOfJourney?.message?.toString()}
                 required
                 helperText="Select a future date"
               />
