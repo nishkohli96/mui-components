@@ -1,0 +1,38 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUISwitch',
+  description: 'Controlled Material UI Switch (on/off toggle) with label and helper-text handling.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUISwitch
+
+`MUISwitch` is a single [Switch](https://mui.com/material-ui/react-switch/) with a boolean value, an inline label, and optional helper text or error state.
+
+## Usage
+
+```tsx
+import MUISwitch from '@nish1896/mui-components/mui/switch';
+```
+
+```tsx
+const [enabled, setEnabled] = useState(false);
+
+<MUISwitch
+  fieldName="notifications"
+  value={enabled}
+  onValueChange={({ newValue }) => setEnabled(newValue)}
+  label="Email notifications"
+/>
+```
+
+## Props
+
+`MUISwitchProps` also accepts most [SwitchProps](https://mui.com/material-ui/api/switch/) (`color`, `size`, ...). Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUISwitch} />

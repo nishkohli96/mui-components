@@ -1,0 +1,37 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUIRating',
+  description: 'Controlled Material UI Rating (star) input with label and helper-text handling.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIRating
+
+`MUIRating` wraps the Material UI [Rating](https://mui.com/material-ui/react-rating/) star input. The value is a number (or `null` when cleared).
+
+## Usage
+
+```tsx
+import MUIRating from '@nish1896/mui-components/mui/rating';
+```
+
+```tsx
+const [score, setScore] = useState<number | null>(null);
+
+<MUIRating
+  fieldName="score"
+  value={score}
+  onValueChange={({ newValue }) => setScore(newValue)}
+/>
+```
+
+## Props
+
+`MUIRatingProps` also accepts most [RatingProps](https://mui.com/material-ui/api/rating/) (`precision`, `max`, `size`, ...). Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUIRating} />

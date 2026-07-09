@@ -1,0 +1,38 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUIAutocomplete',
+  description: 'Controlled Material UI Autocomplete storing primitive values, with single/multiple and freeSolo support.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIAutocomplete
+
+`MUIAutocomplete` wraps the Material UI [Autocomplete](https://mui.com/material-ui/react-autocomplete/) and stores **primitive** values (the option string, or the `valueKey` property for object options). It supports single or multiple selection, `disableClearable` and `freeSolo`.
+
+## Usage
+
+```tsx
+import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
+```
+
+```tsx
+const [color, setColor] = useState<string | null>(null);
+
+<MUIAutocomplete
+  fieldName="color"
+  value={color}
+  onValueChange={({ newValue }) => setColor(newValue)}
+  options={['Red', 'Green', 'Blue']}
+/>
+```
+
+## Props
+
+`MUIAutocompleteProps` also accepts most [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/). Use `MUIAutocompleteObject` when you need to store the full option object. Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUIAutocomplete} />

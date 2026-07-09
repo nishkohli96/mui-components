@@ -1,0 +1,180 @@
+import { DocsPage } from '@/components/docs';
+import { pageMetadata } from '@/constants';
+
+export const metadata = pageMetadata.home;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# @nish1896/mui-components
+
+**A suite of 25+ production-ready [Material UI](https://mui.com/material-ui/) form
+components — fully typed, tree-shakable, and independent of any form library.**
+
+Every component wires up the pieces you rebuild on every project — label placement,
+error state, helper text, accessibility attributes and stable element ids — while
+staying a plain controlled component: pass a `value`, receive changes through
+`onValueChange`, and keep validation wherever you like. Use it with `useState`,
+[React Hook Form](https://react-hook-form.com/), TanStack Form, Formik, or your
+own state management.
+
+## Why this package?
+
+- **No form-library lock-in** — components speak `value` / `onValueChange` / `errorMessage`.
+  Any code that can hold state can drive them.
+- **Consistent form UX** — one label, error and helper-text system across all fields,
+  including `showLabelAboveFormField` and hidden-label modes with accessible names preserved.
+- **Accessibility built in** — generated `id`s plus `aria-label`, `aria-labelledby`,
+  `aria-describedby`, `aria-invalid` and `aria-required` wired on every field.
+- **Thin on top of MUI** — nearly all underlying Material UI props pass straight through
+  (`variant`, `slotProps`, `sx`, ...), so nothing about MUI is hidden from you.
+- **Typed and tree-shakable** — strict TypeScript generics for option-based fields and
+  per-component subpath imports.
+
+## Installation
+
+```bash
+pnpm add @nish1896/mui-components
+```
+
+The package expects Material UI (v6 or v7) and its peers in your app:
+
+```bash
+pnpm add @mui/material @mui/icons-material @emotion/react @emotion/styled
+```
+
+Date & time pickers additionally use [MUI X](https://mui.com/x/react-date-pickers/)
+(v7 or v8) and a date adapter of your choice:
+
+```bash
+pnpm add @mui/x-date-pickers dayjs
+```
+
+## Quick start
+
+Import components from their subpath and control them like any other input:
+
+```tsx
+import { useState } from 'react';
+import MUITextField from '@nish1896/mui-components/mui/textfield';
+
+export default function SignupName() {
+  const [firstName, setFirstName] = useState('');
+  const [error, setError] = useState();
+
+  return (
+    <MUITextField
+      fieldName="firstName"
+      value={firstName}
+      onValueChange={({ newValue }) => setFirstName(newValue)}
+      onBlur={() => setError(firstName ? undefined : 'First name is required')}
+      errorMessage={error}
+      required
+    />
+  );
+}
+```
+
+There is no schema, resolver or registration step — derive `errorMessage` from your
+own validation (or your form library's) and the field renders in an error state.
+
+## Bring your own form library
+
+Because the components are controlled, adapting them to a form library is a few
+lines. With React Hook Form's `Controller`:
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+import MUITextField from '@nish1896/mui-components/mui/textfield';
+
+const { control } = useForm();
+
+<Controller
+  name="email"
+  control={control}
+  rules={{ required: 'Email is required' }}
+  render={({ field, fieldState }) => (
+    <MUITextField
+      fieldName="email"
+      value={field.value}
+      onValueChange={({ newValue }) => field.onChange(newValue)}
+      onBlur={field.onBlur}
+      errorMessage={fieldState.error?.message}
+    />
+  )}
+/>
+```
+
+## Components
+
+### Material UI
+
+- [MUITextField](/components/mui/textfield)
+- [MUIPasswordInput](/components/mui/password-input)
+- [MUINumberInput](/components/mui/number-input)
+- [MUITagsInput](/components/mui/tags-input)
+- [MUIFileUploader](/components/mui/file-uploader)
+- [MUISelect](/components/mui/select)
+- [MUINativeSelect](/components/mui/native-select)
+- [MUIAutocomplete](/components/mui/autocomplete)
+- [MUIAutocompleteObject](/components/mui/autocomplete-object)
+- [MUIMultiAutocomplete](/components/mui/multi-autocomplete)
+- [MUIMultiAutocompleteObject](/components/mui/multi-autocomplete-object)
+- [MUICountrySelect](/components/mui/country-select)
+- [MUICheckbox](/components/mui/checkbox)
+- [MUICheckboxGroup](/components/mui/checkbox-group)
+- [MUIRadioGroup](/components/mui/radio-group)
+- [MUISwitch](/components/mui/switch)
+- [MUISlider](/components/mui/slider)
+- [MUIRating](/components/mui/rating)
+
+### Date & time pickers
+
+Desktop, mobile and static variants are covered on each family page.
+
+- [Date pickers](/components/mui-pickers/date)
+- [Time pickers](/components/mui-pickers/time)
+- [Date-time pickers](/components/mui-pickers/date-time)
+
+### Miscellaneous
+
+- [MUIColorPicker](/components/misc/color-picker)
+- [MUIPhoneInput](/components/misc/phone-input)
+- [MUIRichTextEditor](/components/misc/rich-text-editor)
+
+## Theming & defaults
+
+Wrap your app in the `ConfigProvider` to set package-wide defaults — label
+placement, default `sx` for labels and helper texts, and the date adapter used
+by the pickers:
+
+```tsx
+import { ConfigProvider } from '@nish1896/mui-components/config';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+<ConfigProvider allLabelsAboveFields dateAdapter={AdapterDayjs}>
+  <App />
+</ConfigProvider>
+```
+
+See [Customization](/customization) for a working example.
+
+## Live demos
+
+Every page in the sidebar embeds a working form with visible form state — try
+[Inputs](/inputs), the full [Complete Form](/complete-form), or
+[Complete Form with Joi](/complete-form-joi) to see all components validated
+by an external schema library.
+
+## Versions & roadmap
+
+| Package | Status | Compatibility |
+| ------- | ------ | ------------- |
+| `@nish1896/mui-components` v1 | current | MUI v6 / v7, React 18+ |
+| `@nish1896/mui-components` v2 | planned | MUI v9 |
+| `@nish1896/rhf-mui-components` | maintained | React Hook Form bindings for these components |
+
+Coming from `@nish1896/rhf-mui-components`? The component surface is the same —
+`control` and `registerOptions` are replaced by the controlled `value` /
+`onValueChange` / `errorMessage` contract shown above.

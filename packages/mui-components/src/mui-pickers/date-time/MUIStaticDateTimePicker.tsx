@@ -10,7 +10,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   StaticDateTimePicker as MuiStaticDateTimePicker,
   type StaticDateTimePickerProps,
-  type PickerValidDate,
   type DateTimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
@@ -35,8 +34,12 @@ type StaticDateTimePickerInputProps = Omit<
   'ref' | 'onChange'
 >;
 
+type StaticDateTimePickerValue = Parameters<
+  NonNullable<StaticDateTimePickerProps['onChange']>
+>[0];
+
 type PickerOnValueChangeProps<ValidationError> = {
-  newValue: PickerValidDate | null;
+  newValue: StaticDateTimePickerValue;
   context: PickerChangeHandlerContext<ValidationError>;
 };
 
@@ -179,7 +182,6 @@ const MUIStaticDateTimePicker = forwardRef(function MUIStaticDateTimePicker(
                 : helperTextId
               : undefined
           }
-          aria-required={required || undefined}
         >
           <MuiStaticDateTimePicker
             {...otherPickerProps}

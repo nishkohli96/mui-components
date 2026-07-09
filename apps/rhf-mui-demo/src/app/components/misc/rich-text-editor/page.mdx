@@ -1,0 +1,37 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUIRichTextEditor',
+  description: 'Controlled CKEditor 5 rich text editor with label, error and helper-text handling.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIRichTextEditor
+
+`MUIRichTextEditor` wraps [CKEditor 5](https://ckeditor.com/docs/ckeditor5/latest/) (`ClassicEditor`) with the suite's label/error/helper-text handling. The value is an HTML string.
+
+## Usage
+
+```tsx
+import MUIRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
+```
+
+```tsx
+const [bio, setBio] = useState('');
+
+<MUIRichTextEditor
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+/>
+```
+
+## Props
+
+Pass a custom `editorConfig` to control the CKEditor toolbar and plugins. Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUIRichTextEditor} />

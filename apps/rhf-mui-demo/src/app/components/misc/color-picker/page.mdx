@@ -1,0 +1,37 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUIColorPicker',
+  description: 'Controlled color picker built on react-color-palette with label, error and helper-text handling.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIColorPicker
+
+`MUIColorPicker` wraps [react-color-palette](https://www.npmjs.com/package/react-color-palette) with the suite's label/error/helper-text handling. The emitted value format (`hex`, `rgb`, `hsv`, ...) is chosen with `valueKey`.
+
+## Usage
+
+```tsx
+import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
+```
+
+```tsx
+const [color, setColor] = useState('#1976d2');
+
+<MUIColorPicker
+  fieldName="brandColor"
+  value={color}
+  onValueChange={({ colorValue }) => setColor(colorValue)}
+/>
+```
+
+## Props
+
+Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUIColorPicker} />

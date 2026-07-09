@@ -63,7 +63,9 @@ const PageToc = () => {
               item.id === activeId ? 'doc-toc-active' : ''
             ].join(' ').trim()}
           >
-            <a href={`#${item.id}`}>{item.text}</a>
+            <a href={`#${item.id}`}>
+              {item.text}
+            </a>
           </li>
         ))}
       </ul>

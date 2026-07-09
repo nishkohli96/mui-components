@@ -1,0 +1,37 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUIPhoneInput',
+  description: 'Controlled international phone input with country dropdown, search and structured value output.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIPhoneInput
+
+`MUIPhoneInput` wraps [react-international-phone](https://www.npmjs.com/package/react-international-phone) inside a [TextField](https://mui.com/material-ui/react-text-field/), with a searchable country dropdown. It emits a structured `MUIPhoneInputValue` (`phone`, `country`, `dialCode`, `phoneNo`).
+
+## Usage
+
+```tsx
+import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
+```
+
+```tsx
+const [phone, setPhone] = useState<MUIPhoneInputValue | string>('');
+
+<MUIPhoneInput
+  fieldName="phone"
+  value={phone}
+  onValueChange={({ newValue }) => setPhone(newValue)}
+/>
+```
+
+## Props
+
+`MUIPhoneInputProps` also accepts most [TextFieldProps](https://mui.com/material-ui/api/text-field/) except `value`, `onChange` and `type`. Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUIPhoneInput} />

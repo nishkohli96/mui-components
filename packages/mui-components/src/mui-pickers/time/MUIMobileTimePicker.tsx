@@ -10,7 +10,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   MobileTimePicker as MuiMobileTimePicker,
   type MobileTimePickerProps,
-  type PickerValidDate,
   type TimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
@@ -36,8 +35,12 @@ type MobileTimePickerInputProps = Omit<
   'name' | 'defaultValue' | 'inputRef' | 'onChange'
 >;
 
+type MobileTimePickerValue = Parameters<
+  NonNullable<MobileTimePickerProps['onChange']>
+>[0];
+
 type PickerOnValueChangeProps<ValidationError> = {
-  newValue: PickerValidDate | null;
+  newValue: MobileTimePickerValue;
   context: PickerChangeHandlerContext<ValidationError>;
 };
 

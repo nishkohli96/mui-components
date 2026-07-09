@@ -14,7 +14,7 @@ const ReactJson = dynamic(
 
 type RenderFormStateProps<T extends FieldValues> = {
   formValues: T;
-  errors: FieldErrors<T> | Record<string, string | undefined | null> ;
+  errors: FieldErrors<T> | Record<string, string | undefined | null>;
 };
 
 const FormState = <T extends FieldValues>({

@@ -8,9 +8,9 @@
  */
 (function () {
   try {
-    var mode = localStorage.getItem('color-scheme') || 'system';
-    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var scheme = mode === 'system' ? (prefersDark ? 'dark' : 'light') : mode;
+    const mode = localStorage.getItem('color-scheme') || 'system';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const scheme = mode === 'system' ? (prefersDark ? 'dark' : 'light') : mode;
     document.documentElement.setAttribute('data-mui-color-scheme', scheme);
   } catch (e) {
     /* localStorage unavailable — leave the server-rendered default. */

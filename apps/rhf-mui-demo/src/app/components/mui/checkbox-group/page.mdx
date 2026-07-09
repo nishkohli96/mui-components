@@ -1,0 +1,38 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUICheckboxGroup',
+  description: 'Controlled group of Material UI checkboxes storing an array of selected option values.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUICheckboxGroup
+
+`MUICheckboxGroup` renders a group of [checkboxes](https://mui.com/material-ui/react-checkbox/) from `options` and stores an array of the selected values. Supports primitive or object options via `labelKey`/`valueKey`.
+
+## Usage
+
+```tsx
+import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
+```
+
+```tsx
+const [permissions, setPermissions] = useState<string[]>([]);
+
+<MUICheckboxGroup
+  fieldName="permissions"
+  value={permissions}
+  onValueChange={({ newValue }) => setPermissions(newValue)}
+  options={['Read', 'Write', 'Delete']}
+/>
+```
+
+## Props
+
+For object options, pass `labelKey` and `valueKey`. Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUICheckboxGroup} />

@@ -65,7 +65,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </Typography>
     ),
     a: ({ children, href, ...props }) => {
-      const isExternal = !!href && /^https?:\/\//.test(href);
+      const isExternal = !!href && (/^https?:\/\//).test(href);
       return (
         <MuiLink
           {...props}

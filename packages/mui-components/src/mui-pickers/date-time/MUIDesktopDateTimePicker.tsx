@@ -10,7 +10,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   DesktopDateTimePicker as MuiDesktopDateTimePicker,
   type DesktopDateTimePickerProps,
-  type PickerValidDate,
   type DateTimeValidationError,
   type PickerChangeHandlerContext
 } from '@mui/x-date-pickers';
@@ -36,8 +35,12 @@ type DesktopDateTimePickerInputProps = Omit<
   'name' | 'defaultValue' | 'inputRef' | 'onChange'
 >;
 
+type DesktopDateTimePickerValue = Parameters<
+  NonNullable<DesktopDateTimePickerProps['onChange']>
+>[0];
+
 type PickerOnValueChangeProps<ValidationError> = {
-  newValue: PickerValidDate | null;
+  newValue: DesktopDateTimePickerValue;
   context: PickerChangeHandlerContext<ValidationError>;
 };
 

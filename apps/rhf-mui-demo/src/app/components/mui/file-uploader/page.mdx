@@ -1,0 +1,40 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUIFileUploader',
+  description: 'Controlled Material UI file uploader with drag-and-drop, type/size/count validation and custom renderers.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIFileUploader
+
+`MUIFileUploader` is a controlled file input with optional drag-and-drop, type/size/count validation, pre-existing server files, and full control over how each file row and the upload button are rendered.
+
+## Usage
+
+```tsx
+import MUIFileUploader from '@nish1896/mui-components/mui/file-uploader';
+```
+
+```tsx
+const [files, setFiles] = useState<File[] | null>(null);
+
+<MUIFileUploader
+  fieldName="documents"
+  value={files}
+  onValueChange={({ newValue }) => setFiles(newValue as File[])}
+  accept=".pdf"
+  multiple
+  maxFiles={3}
+/>
+```
+
+## Props
+
+Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUIFileUploader} />

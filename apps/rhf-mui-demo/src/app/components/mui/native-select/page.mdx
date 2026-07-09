@@ -1,0 +1,43 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+import SelectForm from '@/forms/select-with-class-validator/Client';
+
+export const metadata = {
+  title: 'MUINativeSelect',
+  description: 'Controlled Material UI native <select> for lightweight dropdowns, especially on mobile.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUINativeSelect
+
+`MUINativeSelect` wraps the Material UI [Native Select](https://mui.com/material-ui/react-select/#native-select) — a real `<select>` element, ideal for mobile and lightweight dropdowns — with the same label/error/helper-text handling as the rest of the suite.
+
+## Usage
+
+```tsx
+import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
+```
+
+```tsx
+const [country, setCountry] = useState('');
+
+<MUINativeSelect
+  fieldName="country"
+  value={country}
+  onValueChange={({ newValue }) => setCountry(newValue)}
+  options={['India', 'United States', 'Germany']}
+/>
+```
+
+## Props
+
+For object options, pass `labelKey` and `valueKey`. Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUINativeSelect} />
+
+## Playground
+
+<SelectForm />

@@ -1,0 +1,40 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUIMultiAutocompleteObject',
+  description: 'Controlled multi-select Material UI Autocomplete storing an array of complete option objects.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIMultiAutocompleteObject
+
+`MUIMultiAutocompleteObject` is a multi-select [Autocomplete](https://mui.com/material-ui/react-autocomplete/) with checkboxes and an optional "Select All" row that stores an array of **complete option objects**.
+
+## Usage
+
+```tsx
+import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
+```
+
+```tsx
+const [members, setMembers] = useState<User[]>([]);
+
+<MUIMultiAutocompleteObject
+  fieldName="members"
+  value={members}
+  onValueChange={({ newValue }) => setMembers(newValue)}
+  options={users}
+  labelKey="name"
+  valueKey="id"
+/>
+```
+
+## Props
+
+`labelKey` and `valueKey` are required. Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUIMultiAutocompleteObject} />

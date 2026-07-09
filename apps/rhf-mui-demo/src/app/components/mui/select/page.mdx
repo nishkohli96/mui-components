@@ -1,0 +1,43 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+import SelectForm from '@/forms/select-with-class-validator/Client';
+
+export const metadata = {
+  title: 'MUISelect',
+  description: 'Controlled Material UI Select supporting single/multiple selection and primitive or object options.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUISelect
+
+`MUISelect` wraps the Material UI [Select](https://mui.com/material-ui/react-select/) with label, error and helper-text handling. It supports single or multiple selection and either primitive or object options via `labelKey`/`valueKey`.
+
+## Usage
+
+```tsx
+import MUISelect from '@nish1896/mui-components/mui/select';
+```
+
+```tsx
+const [role, setRole] = useState('');
+
+<MUISelect
+  fieldName="role"
+  value={role}
+  onValueChange={({ newValue }) => setRole(newValue)}
+  options={['Admin', 'Editor', 'Viewer']}
+/>
+```
+
+## Props
+
+`MUISelectProps` also accepts the remaining [SelectProps](https://mui.com/material-ui/api/select/) (`variant`, `MenuProps`, `sx`, ...). For object options, pass `labelKey` and `valueKey`. Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUISelect} />
+
+## Playground
+
+<SelectForm />

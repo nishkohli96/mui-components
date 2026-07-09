@@ -19,7 +19,8 @@ export const defaultPageKeywords = [
 export const pageMetadata: Record<string, Metadata> = {
   home: {
     title: 'Introduction',
-    description: 'Overview of the Examples Website for RHF-MUI Components'
+    description:
+      '20+ form-library-agnostic Material UI form components — installation, quick start, live demos and full component API reference.'
   },
   autocomplete: {
     title: 'Autocomplete',

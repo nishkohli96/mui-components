@@ -1,0 +1,40 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+
+export const metadata = {
+  title: 'MUIAutocompleteObject',
+  description: 'Controlled Material UI Autocomplete that stores the complete option object as its value.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIAutocompleteObject
+
+`MUIAutocompleteObject` is an [Autocomplete](https://mui.com/material-ui/react-autocomplete/) that stores the **complete option object** rather than a primitive. `freeSolo` is intentionally unsupported to keep the value type predictable — use `MUIAutocomplete` for that.
+
+## Usage
+
+```tsx
+import MUIAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
+```
+
+```tsx
+const [user, setUser] = useState<User | null>(null);
+
+<MUIAutocompleteObject
+  fieldName="user"
+  value={user}
+  onValueChange={({ newValue }) => setUser(newValue)}
+  options={users}
+  labelKey="name"
+  valueKey="id"
+/>
+```
+
+## Props
+
+`labelKey` and `valueKey` are required. `MUIAutocompleteObjectProps` also accepts most [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/). Props marked with * are required.
+
+<PropsTable rows={ComponentProps.MUIAutocompleteObject} />

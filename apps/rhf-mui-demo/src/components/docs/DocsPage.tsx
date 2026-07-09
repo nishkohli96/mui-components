@@ -13,7 +13,9 @@ type DocsPageProps = {
 const DocsPage = ({ children }: DocsPageProps) => {
   return (
     <div className="doc-page">
-      <article className="doc-article">{children}</article>
+      <article className="doc-article">
+        {children}
+      </article>
       <PageToc />
     </div>
   );

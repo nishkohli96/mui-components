@@ -1,0 +1,87 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { ComponentProps } from '@/constants/component-props';
+import PickersForm from '@/forms/date-time-pickers/Client';
+
+export const metadata = {
+  title: 'Date Pickers',
+  description: 'Controlled Material UI X date pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
+};
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# Date Pickers
+
+These components wrap the Material UI X [Date Picker](https://mui.com/x/react-date-pickers/date-picker/) with the
+suite's label, error and helper-text handling. Each comes in four flavors that share
+the same controlled contract — a `value` in your date library's format and an
+`onValueChange` callback:
+
+- `MUIDatePicker` — responsive (renders the desktop UI on pointer devices, the mobile UI on touch).
+- `MUIDesktopDatePicker` — always renders the desktop (keyboard-first) UI.
+- `MUIMobileDatePicker` — always renders the mobile (modal) UI.
+- `MUIStaticDatePicker` — an always-visible inline picker with no text field.
+
+## Setup
+
+All pickers read their date adapter from `ConfigProvider`. Wrap your app once and pass
+the adapter for your date library ([Day.js](https://day.js.org/), Luxon, date-fns or Moment):
+
+```tsx
+import { ConfigProvider } from '@nish1896/mui-components/config';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+<ConfigProvider dateAdapter={AdapterDayjs}>
+  <App />
+</ConfigProvider>
+```
+
+Without a `dateAdapter`, the pickers throw at render — this is the one required piece of setup.
+
+## Usage
+
+```tsx
+import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
+import { type Dayjs } from 'dayjs';
+```
+
+```tsx
+const [value, setValue] = useState<Dayjs | null>(null);
+
+<MUIDatePicker
+  fieldName="date"
+  value={value}
+  onValueChange={({ newValue }) => setValue(newValue)}
+/>
+```
+
+The default handler stores the value only when it is valid — inspect
+`context.validationError` in `onValueChange` if you need to react to invalid entries.
+
+## Props
+
+Responsive, desktop and mobile variants share the same props. Props marked with * are required.
+
+### MUIDatePicker
+
+<PropsTable rows={ComponentProps.MUIDatePicker} />
+
+### MUIDesktopDatePicker
+
+<PropsTable rows={ComponentProps.MUIDesktopDatePicker} />
+
+### MUIMobileDatePicker
+
+<PropsTable rows={ComponentProps.MUIMobileDatePicker} />
+
+### MUIStaticDatePicker
+
+The static variant renders inline (no text field), so it omits the input-specific
+props and adds a `label`.
+
+<PropsTable rows={ComponentProps.MUIStaticDatePicker} />
+
+## Playground
+
+<PickersForm />
