@@ -32,7 +32,7 @@ import {
 
 type StaticDateTimePickerInputProps = Omit<
   StaticDateTimePickerProps,
-  'value' | 'ref'
+  'ref' | 'onChange'
 >;
 
 type PickerOnValueChangeProps<ValidationError> = {
@@ -45,10 +45,6 @@ export type MUIStaticDateTimePickerProps = {
    * Name/path of the field. Used to derive generated ids and the default label.
    */
   fieldName: string;
-  /**
-   * Current picker value. Pass `null` or `undefined` to clear the picker.
-   */
-  value?: PickerValidDate | null;
   /**
    * Called after the default handler accepts a valid date-time value.
    */
@@ -108,7 +104,6 @@ const MUIStaticDateTimePicker = forwardRef(function MUIStaticDateTimePicker(
     value: muiValue,
     onValueChange,
     required,
-    onChange: muiOnChange,
     onAccept: muiOnAccept,
     disabled: muiDisabled,
     label,
@@ -192,10 +187,6 @@ const MUIStaticDateTimePicker = forwardRef(function MUIStaticDateTimePicker(
             value={muiValue ?? null}
             disabled={muiDisabled}
             onChange={(newValue, context) => {
-              muiOnChange?.(newValue, context);
-              if (context.validationError !== null) {
-                return;
-              }
               onValueChange({ newValue, context });
             }}
             onAccept={(newValue, context) => {

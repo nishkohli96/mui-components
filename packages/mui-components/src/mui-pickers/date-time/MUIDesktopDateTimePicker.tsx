@@ -33,7 +33,7 @@ import {
 
 type DesktopDateTimePickerInputProps = Omit<
   DesktopDateTimePickerProps,
-  'name' | 'value' | 'defaultValue' | 'inputRef'
+  'name' | 'defaultValue' | 'inputRef' | 'onChange'
 >;
 
 type PickerOnValueChangeProps<ValidationError> = {
@@ -47,12 +47,7 @@ export type MUIDesktopDateTimePickerProps = {
    */
   fieldName: string;
   /**
-   * Current picker value. Pass `null` or `undefined` to clear the picker.
-   */
-  value?: PickerValidDate | null;
-  /**
    * Called after the default handler accepts a valid date-time value.
-   * Invalid intermediate values still flow through the optional MUI `onChange` prop.
    *
    * @param newValue - New date-time value emitted by MUI X.
    * @param context - MUI X picker change context, including validation status.
@@ -109,7 +104,6 @@ const MUIDesktopDateTimePicker = forwardRef(function MUIDesktopDateTimePicker(
     value: muiValue,
     onValueChange,
     required,
-    onChange: muiOnChange,
     onAccept: muiOnAccept,
     disabled: muiDisabled,
     label,
@@ -181,10 +175,6 @@ const MUIDesktopDateTimePicker = forwardRef(function MUIDesktopDateTimePicker(
           disabled={muiDisabled}
           closeOnSelect={false}
           onChange={(newValue, context) => {
-            muiOnChange?.(newValue, context);
-            if (context.validationError !== null) {
-              return;
-            }
             onValueChange({ newValue, context });
           }}
           onAccept={(newValue, context) => {
