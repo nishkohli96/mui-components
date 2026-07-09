@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
-import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import Box from '@mui/material/Box';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from '@vercel/analytics/next';
@@ -18,10 +18,6 @@ import {
   Footer
 } from '@/components';
 import { AppThemeProvider } from '@/theme';
-import {
-  colorSchemeAttribute,
-  modeStorageKey
-} from '@/theme/constants';
 import './globals.css';
 
 type RootLayoutProps = {
@@ -44,15 +40,19 @@ const RootLayout = ({ children }: RootLayoutProps) => {
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         {/*
-          Runs as a blocking script BEFORE React hydrates.
-          Reads localStorage → applies data-color-scheme on <html>.
-          Falls back to system preference if no stored value.
-          Must come before the <main> element
+          Color-scheme bootstrap (public/color-scheme-init.js): runs before
+          hydration/first paint, reads localStorage and stamps
+          data-mui-color-scheme on <html> — no theme flash.
+
+          Replaces MUI's <InitColorSchemeScript>: any inline <script>
+          rendered through React logs a dev console error on every load
+          ("Encountered a script tag while rendering React component").
+          A src-based `beforeInteractive` script is hoisted by Next outside
+          the React tree, which avoids that entirely.
         */}
-        <InitColorSchemeScript
-          attribute={colorSchemeAttribute}
-          defaultMode="system"
-          modeStorageKey={modeStorageKey}
+        <Script
+          src="/color-scheme-init.js"
+          strategy="beforeInteractive"
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
