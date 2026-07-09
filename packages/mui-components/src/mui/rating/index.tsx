@@ -13,7 +13,7 @@ import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
@@ -129,7 +129,7 @@ const MUIRating = ({
   customIds,
   ...otherRatingProps
 }: MUIRatingProps) => {
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const {
     fieldId,
     labelId,

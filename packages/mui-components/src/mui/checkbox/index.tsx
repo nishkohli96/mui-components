@@ -14,7 +14,7 @@ import {
   type FormHelperTextProps,
   type CheckboxProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import { fieldNameToLabel, useFieldIds } from '@/utils';
 
@@ -106,7 +106,7 @@ const MUICheckbox = ({
 }: MUICheckboxProps) => {
   const { fieldId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
 
-  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormControlLabelSx } = useContext(MUIComponentsConfigContext);
   const defaultFieldLabel = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? defaultFieldLabel;
   const accessibleFieldLabel = typeof fieldLabel === 'string'

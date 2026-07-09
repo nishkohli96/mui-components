@@ -20,7 +20,7 @@ import {
   type SelectProps,
   type OptionValue
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
@@ -232,7 +232,7 @@ const MUISelect = <
   inputProps: muiSelectInputProps,
   ...otherSelectProps
 }: MUISelectProps<Option, LabelKey, ValueKey, Multiple>) => {
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
 
   if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
     console.warn(generateLargeOptionsErrMsg(componentName, options.length));

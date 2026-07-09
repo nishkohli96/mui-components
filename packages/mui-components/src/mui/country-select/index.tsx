@@ -26,7 +26,7 @@ import {
   type AutoCompleteTextFieldProps,
   type MuiChipProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CountryDetails, CountryISO, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
@@ -263,7 +263,7 @@ const MUICountrySelect = <
     errorId
   } = useFieldIds(fieldName, customIds);
 
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields

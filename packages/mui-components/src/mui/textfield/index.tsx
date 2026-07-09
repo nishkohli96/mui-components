@@ -12,7 +12,7 @@ import {
   type FormHelperTextProps,
   type TextFieldProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds } from '@/utils';
 
@@ -102,7 +102,7 @@ const MUITextField = ({
   ...otherTextFieldProps
 }: MUITextFieldProps) => {
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(showLabelAboveFormField, allLabelsAboveFields);
 
   const defaultFieldLabel = fieldNameToLabel(fieldName);

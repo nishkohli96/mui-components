@@ -19,7 +19,7 @@ import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
@@ -323,7 +323,7 @@ const MUIFileUploader = ({
     fieldName,
     customIds
   );
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const defaultFieldLabel = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? defaultFieldLabel;
   const accessibleFieldLabel = typeof fieldLabel === 'string'

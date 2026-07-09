@@ -1,2 +1,2 @@
-export { DefaultRHFMuiConfig } from './DefaultConfig';
+export { DefaultMUIComponentsConfig } from './DefaultConfig';
 export { ConfigProvider } from './ConfigProvider';

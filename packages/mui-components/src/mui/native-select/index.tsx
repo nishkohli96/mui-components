@@ -18,7 +18,7 @@ import {
   type FormLabelProps,
   type OptionValue
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds, StrNumObjOption } from '@/types';
 import {
   fieldNameToLabel,
@@ -197,7 +197,7 @@ const MUINativeSelect = <
   customIds,
   ...otherNativeSelectProps
 }: MUINativeSelectProps<Option, LabelKey, ValueKey>) => {
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
     console.warn(generateLargeOptionsErrMsg(componentName, options.length));
   }

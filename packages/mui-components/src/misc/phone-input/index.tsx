@@ -40,7 +40,7 @@ import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
@@ -232,7 +232,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     fieldName,
     customIds
   );
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
     showLabelAboveFormField,
     allLabelsAboveFields

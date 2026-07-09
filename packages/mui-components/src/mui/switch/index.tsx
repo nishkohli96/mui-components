@@ -13,7 +13,7 @@ import {
   type FormControlLabelProps,
   type FormHelperTextProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import { fieldNameToLabel, useFieldIds } from '@/utils';
 
@@ -114,7 +114,7 @@ const MUISwitch = ({
   const accessibleFieldLabel = typeof fieldLabel === 'string'
     ? fieldLabel
     : defaultFieldLabel;
-  const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormControlLabelSx } = useContext(MUIComponentsConfigContext);
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
     ...defaultFormControlLabelSx,

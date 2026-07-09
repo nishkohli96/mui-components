@@ -2,7 +2,7 @@ import type { SxProps } from '@mui/system';
 
 export type MuiPickersAdapter = new (...args: any) => any;
 
-export type RHFMuiConfig = {
+export type MUIComponentsConfig = {
   defaultFormLabelSx: SxProps;
   defaultFormControlLabelSx: SxProps;
   defaultFormHelperTextSx: SxProps;
@@ -10,4 +10,4 @@ export type RHFMuiConfig = {
   allLabelsAboveFields?: boolean;
 };
 
-export type RHFMuiConfigInput = Partial<RHFMuiConfig>;
+export type MUIComponentsConfigInput = Partial<MUIComponentsConfig>;

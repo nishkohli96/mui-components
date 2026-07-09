@@ -18,7 +18,7 @@ import {
   type CheckboxProps,
   type OptionValue
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
@@ -214,7 +214,7 @@ const MUICheckboxGroup = <
   const {
     defaultFormControlLabelSx,
     allLabelsAboveFields
-  } = useContext(RHFMuiConfigContext);
+  } = useContext(MUIComponentsConfigContext);
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,

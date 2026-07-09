@@ -1,4 +1,4 @@
-import type { RHFMuiConfig } from '@/types';
+import type { MUIComponentsConfig } from '@/types';
 
 const DefaultStyles = Object.freeze({
   margin: {
@@ -8,7 +8,7 @@ const DefaultStyles = Object.freeze({
   },
 });
 
-export const DefaultRHFMuiConfig: RHFMuiConfig = {
+export const DefaultMUIComponentsConfig: MUIComponentsConfig = {
   defaultFormLabelSx: { mb: DefaultStyles.margin.bottom },
   defaultFormControlLabelSx: {},
   defaultFormHelperTextSx: {

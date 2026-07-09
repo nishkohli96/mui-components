@@ -35,7 +35,7 @@ the default behavior.
 ### ConfigProvider
 
 To streamline customization, the library provides a `ConfigProvider` component
-and the default values in `DefaultRHFMuiConfig` object, allowing you to 
+and the default values in `DefaultMUIComponentsConfig` object, allowing you to 
 override or extend the default values for components globally.
 
 You can either apply these customizations across all forms by initializing 
@@ -45,7 +45,7 @@ specific form as a parent component.
 The type definition for `ConfigProvider` is listed below -
 
 ```ts
-type RHFMuiConfigInput = {
+type MUIComponentsConfigInput = {
   defaultFormLabelSx?: SxProps;
   defaultFormControlLabelSx?: SxProps;
   defaultFormHelperTextSx?: SxProps;
@@ -64,7 +64,7 @@ and [FormHelperText](https://v7.mui.com/material-ui/api/form-helper-text/) compo
 ### Usage
 
 ```js
-import { ConfigProvider, DefaultRHFMuiConfig } from '@nish1896/mui-components/config';
+import { ConfigProvider, DefaultMUIComponentsConfig } from '@nish1896/mui-components/config';
 ```
 
 Override the default `FormLabel` and `FormHelperText` values by providing

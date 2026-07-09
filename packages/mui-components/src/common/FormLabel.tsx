@@ -2,7 +2,7 @@ import type { FormLabelProps } from '@/common';
 import { Fragment, useContext, type ReactNode } from 'react';
 import MuiFormLabel from '@mui/material/FormLabel';
 import { styled } from '@mui/material/styles';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 
 type Props = {
   label: ReactNode;
@@ -31,7 +31,7 @@ const FormLabel = ({
   disabled,
   formLabelProps
 }: Props) => {
-  const { defaultFormLabelSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormLabelSx } = useContext(MUIComponentsConfigContext);
   const { sx, ...otherLabelProps } = formLabelProps ?? {};
   const appliedLabelSx = {
     ...defaultFormLabelSx,

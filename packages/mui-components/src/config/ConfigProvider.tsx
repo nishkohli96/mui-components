@@ -1,13 +1,13 @@
 import { createContext, useMemo, type ReactNode } from 'react';
-import type { RHFMuiConfig, RHFMuiConfigInput } from '@/types';
-import { DefaultRHFMuiConfig } from './DefaultConfig';
+import type { MUIComponentsConfig, MUIComponentsConfigInput } from '@/types';
+import { DefaultMUIComponentsConfig } from './DefaultConfig';
 
 type ConfigProviderProps = {
   children: ReactNode;
-} & RHFMuiConfigInput;
+} & MUIComponentsConfigInput;
 
-export const RHFMuiConfigContext
-  = createContext<RHFMuiConfig>(DefaultRHFMuiConfig);
+export const MUIComponentsConfigContext
+  = createContext<MUIComponentsConfig>(DefaultMUIComponentsConfig);
 
 export const ConfigProvider = ({
   children,
@@ -17,18 +17,18 @@ export const ConfigProvider = ({
   dateAdapter,
   allLabelsAboveFields
 }: ConfigProviderProps) => {
-  const defaultSetting: RHFMuiConfig = useMemo(
+  const defaultSetting: MUIComponentsConfig = useMemo(
     () => ({
       defaultFormLabelSx: {
-        ...DefaultRHFMuiConfig.defaultFormLabelSx,
+        ...DefaultMUIComponentsConfig.defaultFormLabelSx,
         ...defaultFormLabelSx
       },
       defaultFormControlLabelSx: {
-        ...DefaultRHFMuiConfig.defaultFormControlLabelSx,
+        ...DefaultMUIComponentsConfig.defaultFormControlLabelSx,
         ...defaultFormControlLabelSx
       },
       defaultFormHelperTextSx: {
-        ...DefaultRHFMuiConfig.defaultFormHelperTextSx,
+        ...DefaultMUIComponentsConfig.defaultFormHelperTextSx,
         ...defaultFormHelperTextSx
       },
       dateAdapter,
@@ -44,8 +44,8 @@ export const ConfigProvider = ({
   );
 
   return (
-    <RHFMuiConfigContext.Provider value={defaultSetting}>
+    <MUIComponentsConfigContext.Provider value={defaultSetting}>
       {children}
-    </RHFMuiConfigContext.Provider>
+    </MUIComponentsConfigContext.Provider>
   );
 };

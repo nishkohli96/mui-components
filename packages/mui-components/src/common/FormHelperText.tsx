@@ -1,7 +1,7 @@
 import type { FormHelperTextProps } from '@/common';
 import { useContext, Fragment, type ReactNode } from 'react';
 import MuiFormHelperText from '@mui/material/FormHelperText';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 
 type CommonHelperTextProps = {
   error: boolean;
@@ -21,7 +21,7 @@ const FormHelperText = ({
   showHelperTextElement
 }: CommonHelperTextProps) => {
 
-  const { defaultFormHelperTextSx } = useContext(RHFMuiConfigContext);
+  const { defaultFormHelperTextSx } = useContext(MUIComponentsConfigContext);
   const { sx, ...otherHelperTextProps } = formHelperTextProps ?? {};
   const appliedHelperTextSx = {
     ...defaultFormHelperTextSx,

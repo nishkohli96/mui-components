@@ -32,7 +32,7 @@ import {
   type AutoCompleteTextFieldProps,
   type MuiChipProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { StrObjOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
@@ -273,7 +273,7 @@ const MUIMultiAutocomplete = <
   const {
     allLabelsAboveFields,
     defaultFormControlLabelSx
-  } = useContext(RHFMuiConfigContext);
+  } = useContext(MUIComponentsConfigContext);
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,

@@ -26,7 +26,7 @@ import {
   type AutoCompleteTextFieldProps,
   type MuiChipProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { KeyValueOption, CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
@@ -245,7 +245,7 @@ const MUIAutocompleteObject = <
   Multiple,
   DisableClearable
 >) => {
-  const { allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,

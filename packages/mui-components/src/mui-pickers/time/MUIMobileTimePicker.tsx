@@ -22,7 +22,7 @@ import {
   type FormLabelProps,
   type FormHelperTextProps
 } from '@/common';
-import { RHFMuiConfigContext } from '@/config/ConfigProvider';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
 import {
   fieldNameToLabel,
@@ -121,7 +121,7 @@ const MUIMobileTimePicker = forwardRef(function MUIMobileTimePicker(
   }: MUIMobileTimePickerProps,
   ref: Ref<HTMLInputElement>
 ) {
-  const { dateAdapter, allLabelsAboveFields } = useContext(RHFMuiConfigContext);
+  const { dateAdapter, allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('MUIMobileTimePicker'));
   }
