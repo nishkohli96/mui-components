@@ -1,10 +1,10 @@
-import RHFAutocomplete, { type RHFAutocompleteProps } from './autocomplete';
-import RHFAutocompleteObject, { type RHFAutocompleteObjectProps } from './autocomplete-object';
-import RHFCheckbox, { type RHFCheckboxProps } from './checkbox';
-import RHFCheckboxGroup, { type RHFCheckboxGroupProps } from './checkbox-group';
-import RHFCountrySelect, {
+import MUIAutocomplete, { type MUIAutocompleteProps } from './autocomplete';
+import MUIAutocompleteObject, { type MUIAutocompleteObjectProps } from './autocomplete-object';
+import MUICheckbox, { type MUICheckboxProps } from './checkbox';
+import MUICheckboxGroup, { type MUICheckboxGroupProps } from './checkbox-group';
+import MUICountrySelect, {
   countryList,
-  type RHFCountrySelectProps,
+  type MUICountrySelectProps,
   type CountryISO,
   type CountryDetails
 } from './country-select';
@@ -14,37 +14,41 @@ import MUIFileUploader, {
   type ExistingUploadedFile,
   type FileUploadErrorDetails
 } from './file-uploader';
-import RHFMultiAutocomplete, {
-  type RHFMultiAutocompleteProps,
+import MUIMultiAutocomplete, {
+  type MUIMultiAutocompleteProps,
 } from './multi-autocomplete';
+import MUIMultiAutocompleteObject, {
+  type MUIMultiAutocompleteObjectProps,
+} from './multi-autocomplete-object';
 import MUINativeSelect, { type MUINativeSelectProps } from './native-select';
 import MUINumberInput, { type MUINumberInputProps } from './number-input';
 import MUIPasswordInput, { type MUIPasswordInputProps } from './password-input';
-import RHFRadioGroup, { type RHFRadioGroupProps } from './radio-group';
-import RHFRating, { type RHFRatingProps } from './rating';
+import MUIRadioGroup, { type MUIRadioGroupProps } from './radio-group';
+import MUIRating, { type MUIRatingProps } from './rating';
 import MUISelect, { type MUISelectProps } from './select';
-import RHFSlider, { type RHFSliderProps } from './slider';
-import RHFSwitch, { type RHFSwitchProps } from './switch';
+import MUISlider, { type MUISliderProps } from './slider';
+import MUISwitch, { type MUISwitchProps } from './switch';
 import MUITagsInput, { type MUITagsInputProps } from './tags-input';
 import MUITextField, { type MUITextFieldProps } from './textfield';
 import { selectAllOptionValue } from '@/common/constants';
 
 export {
-  RHFAutocomplete,
-  RHFAutocompleteObject,
-  RHFCheckbox,
-  RHFCheckboxGroup,
-  RHFCountrySelect,
+  MUIAutocomplete,
+  MUIAutocompleteObject,
+  MUICheckbox,
+  MUICheckboxGroup,
+  MUICountrySelect,
   MUIFileUploader,
-  RHFMultiAutocomplete,
+  MUIMultiAutocomplete,
+  MUIMultiAutocompleteObject,
   MUINativeSelect,
   MUINumberInput,
   MUIPasswordInput,
-  RHFRadioGroup,
-  RHFRating,
+  MUIRadioGroup,
+  MUIRating,
   MUISelect,
-  RHFSlider,
-  RHFSwitch,
+  MUISlider,
+  MUISwitch,
   MUITextField,
   MUITagsInput,
   countryList,
@@ -52,24 +56,25 @@ export {
 };
 
 export type {
-  RHFAutocompleteProps,
-  RHFAutocompleteObjectProps,
-  RHFCheckboxProps,
-  RHFCheckboxGroupProps,
-  RHFCountrySelectProps,
+  MUIAutocompleteProps,
+  MUIAutocompleteObjectProps,
+  MUICheckboxProps,
+  MUICheckboxGroupProps,
+  MUICountrySelectProps,
   MUIFileUploaderProps,
   FileUploadError,
   ExistingUploadedFile,
   FileUploadErrorDetails,
-  RHFMultiAutocompleteProps,
+  MUIMultiAutocompleteProps,
+  MUIMultiAutocompleteObjectProps,
   MUINativeSelectProps,
   MUINumberInputProps,
   MUIPasswordInputProps,
-  RHFRadioGroupProps,
-  RHFRatingProps,
+  MUIRadioGroupProps,
+  MUIRatingProps,
   MUISelectProps,
-  RHFSliderProps,
-  RHFSwitchProps,
+  MUISliderProps,
+  MUISwitchProps,
   MUITagsInputProps,
   MUITextFieldProps,
   CountryISO,

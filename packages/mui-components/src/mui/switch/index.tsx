@@ -2,77 +2,47 @@
 
 import {
   useContext,
-  forwardRef,
   Fragment,
-  type JSX,
   type ReactNode,
-  type Ref,
   type ChangeEvent,
 } from 'react';
-import {
-  Controller,
-  type FieldError,
-  type FieldValues,
-  type Path,
-  type Control,
-  type RegisterOptions
-} from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch, { type SwitchProps } from '@mui/material/Switch';
 import {
   FormHelperText,
   type FormControlLabelProps,
-  type FormHelperTextProps,
-  type CustomOnChangeProps
+  type FormHelperTextProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
+import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: boolean;
   event: ChangeEvent<HTMLInputElement>;
 };
 
-export type RHFSwitchProps<T extends FieldValues> = {
+export type MUISwitchProps = {
   /**
-   * Name/path of the React Hook Form field this component controls.
+   * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
-  fieldName: Path<T>;
+  fieldName: string;
   /**
-   * React Hook Form control object returned by `useForm`.
+   * Current checked state. This is a controlled component: `value` and `onValueChange`
+   * must be supplied together, typically backed by your own state or form library.
+   * `undefined`/`false` are treated as off.
    */
-  control: Control<T>;
+  value?: boolean;
   /**
-   * Validation rules passed to React Hook Form for this field.
-   */
-  registerOptions?: RegisterOptions<T, Path<T>>;
-  /**
-   * Overrides the default switch change handling.
-   * Receives the next checked state and the original switch change event.
-   * Call `rhfOnChange` with the boolean value that should be stored; else the form value will not be updated.
-   *
-   * @param rhfOnChange - React Hook Form field change handler for the checked value.
-   * @param newValue - Next checked state.
-   * @param event - Original switch change event.
-   */
-  customOnChange?: ({
-    rhfOnChange,
-    newValue,
-    event
-  }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
-  /**
-   * Called after the default switch handler stores the next checked state in React Hook Form.
-   *
-   * ⚠️ Important:
-   * This callback is not called when `customOnChange` is used.
+   * Called on every toggle with the next checked state and the original change event.
+   * Call your state setter (or form library's setter) with `newValue` to update `value`.
    *
    * @param newValue - Next checked state.
    * @param event - Original switch change event.
    */
-  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
+  onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   * Label content shown beside the switch. Defaults to a label generated from `fieldName`.
    */
   label?: ReactNode;
   /**
@@ -84,20 +54,19 @@ export type RHFSwitchProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   * Error message for the field. Any non-empty string puts the field into an error state
+   * (surfaced through `FormHelperText`). Pass `undefined` or `null` to clear the error state.
    *
-   * Use `renderError` to customize how the field error is rendered.
+   * Use `renderError` to customize how this message is rendered.
    */
-  errorMessage?: ReactNode;
+  errorMessage?: string | null;
   /**
-   * Custom renderer for the React Hook Form field error.
-   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   * Custom renderer for `errorMessage`. Receives the raw error string and must return
+   * renderable content, e.g. wrapping it with an icon or a styled element.
    *
-   * @param error - React Hook Form field error for this field.
+   * @param error - Current `errorMessage` for this switch.
    */
-  renderError?: (error: FieldError) => ReactNode;
+  renderError?: (error: string) => ReactNode;
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
@@ -116,11 +85,9 @@ export type RHFSwitchProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & Omit<SwitchProps, 'name' | 'value' | 'checked' | 'defaultChecked' | 'onChange'>;
 
-const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
+const MUISwitch = ({
   fieldName,
-  control,
-  registerOptions,
-  customOnChange,
+  value,
   onValueChange,
   disabled: muiDisabled,
   label,
@@ -131,11 +98,11 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur: muiOnBlur,
+  onBlur,
   slotProps: muiSlotProps,
   customIds,
   ...otherSwitchProps
-}: RHFSwitchProps<T>, ref: Ref<HTMLInputElement>) {
+}: MUISwitchProps) => {
   const {
     fieldId,
     helperTextId,
@@ -153,102 +120,60 @@ const RHFSwitchInner = forwardRef(function RHFSwitch<T extends FieldValues>({
     ...defaultFormControlLabelSx,
     ...sx,
   };
-  const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
+
+  const isError = !!errorMessage;
+  const fieldErrorMessage = isError
+    ? renderError?.(errorMessage) ?? errorMessage
+    : undefined;
+  const showHelperTextElement = !!(
+    helperText
+    || (isError && !hideErrorMessage)
+  );
 
   return (
-    <Controller
-      name={fieldName}
-      control={control}
-      rules={registerOptions}
-      render={({
-        field: {
-          name: rhfFieldName,
-          value: rhfValue,
-          onChange: rhfOnChange,
-          onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
-        },
-        fieldState: { error: fieldStateError }
-      }) => {
-        const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
-        return (
-          <Fragment>
-            <FormControlLabel
-              {...otherFormControlLabelProps}
-              control={
-                <Switch
-                  {...otherSwitchProps}
-                  id={fieldId}
-                  name={rhfFieldName}
-                  checked={Boolean(rhfValue)}
-                  disabled={isDisabled}
-                  onChange={(event, isChecked) => {
-                    if(customOnChange) {
-                      customOnChange({
-                        rhfOnChange,
-                        newValue: isChecked,
-                        event
-                      });
-                      return;
-                    }
-                    rhfOnChange(isChecked);
-                    onValueChange?.({ newValue: isChecked, event });
-                  }}
-                  onBlur={blurEvent => {
-                    rhfOnBlur();
-                    muiOnBlur?.(blurEvent);
-                  }}
-                  aria-label={hideLabel ? accessibleFieldLabel : undefined}
-                  aria-describedby={
-                    showHelperTextElement
-                      ? isError
-                        ? errorId
-                        : helperTextId
-                      : undefined
-                  }
-                  aria-invalid={isError || undefined}
-                  slotProps={{
-                    ...otherSlotProps,
-                    input: {
-                      ...slotPropsInput,
-                      ref: mergeRefs(rhfRef, ref)
-                    }
-                  }}
-                />
-              }
-              label={hideLabel ? undefined : fieldLabel}
-              sx={appliedFormControlLabelSx}
-              disabled={isDisabled}
-            />
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </Fragment>
-        );
-      }}
-    />
+    <Fragment>
+      <FormControlLabel
+        {...otherFormControlLabelProps}
+        control={
+          <Switch
+            {...otherSwitchProps}
+            id={fieldId}
+            name={fieldName}
+            checked={Boolean(value)}
+            disabled={muiDisabled}
+            onChange={(event, isChecked) => {
+              onValueChange({ newValue: isChecked, event });
+            }}
+            onBlur={onBlur}
+            aria-label={hideLabel ? accessibleFieldLabel : undefined}
+            aria-describedby={
+              showHelperTextElement
+                ? isError
+                  ? errorId
+                  : helperTextId
+                : undefined
+            }
+            aria-invalid={isError || undefined}
+            slotProps={muiSlotProps}
+          />
+        }
+        label={hideLabel ? undefined : fieldLabel}
+        sx={appliedFormControlLabelSx}
+        disabled={muiDisabled}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={fieldErrorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          ...formHelperTextProps,
+          id: isError ? errorId : helperTextId
+        }}
+      />
+    </Fragment>
   );
-});
+};
 
-const RHFSwitch = RHFSwitchInner as <T extends FieldValues>(
-  props: RHFSwitchProps<T> & { ref?: Ref<HTMLInputElement> }
-) => JSX.Element;
-
-export default RHFSwitch;
+export default MUISwitch;

@@ -2,78 +2,48 @@
 
 import {
   useContext,
-  forwardRef,
   Fragment,
-  type JSX,
-  type Ref,
   type ReactNode,
   type ChangeEvent
 } from 'react';
-import {
-  Controller,
-  type FieldError,
-  type FieldValues,
-  type Path,
-  type Control,
-  type RegisterOptions
-} from 'react-hook-form';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MuiCheckbox from '@mui/material/Checkbox';
 import {
   FormHelperText,
   type FormControlLabelProps,
   type FormHelperTextProps,
-  type CheckboxProps,
-  type CustomOnChangeProps
+  type CheckboxProps
 } from '@/common';
 import { RHFMuiConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
+import { fieldNameToLabel, useFieldIds } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: boolean;
   event: ChangeEvent<HTMLInputElement>;
 };
-import { fieldNameToLabel, mergeRefs, useFieldIds } from '@/utils';
 
-export type RHFCheckboxProps<T extends FieldValues> = {
+export type MUICheckboxProps = {
   /**
-   * Name/path of the React Hook Form field this component controls.
+   * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
-  fieldName: Path<T>;
+  fieldName: string;
   /**
-   * React Hook Form control object returned by `useForm`.
+   * Current checked state. This is a controlled component: `value` and `onValueChange`
+   * must be supplied together, typically backed by your own state or form library.
+   * `undefined`/`false` are treated as unchecked.
    */
-  control: Control<T>;
+  value?: boolean;
   /**
-   * Validation rules passed to React Hook Form for this field.
-   */
-  registerOptions?: RegisterOptions<T, Path<T>>;
-  /**
-   * Overrides the default checkbox change handling.
-   * Receives the next checked state and the original checkbox change event.
-   * Call `rhfOnChange` with the boolean value that should be stored; else the form value will not be updated.
-   *
-   * @param rhfOnChange - React Hook Form field change handler for the checked value.
-   * @param newValue - Next checked state.
-   * @param event - Original checkbox change event.
-   */
-  customOnChange?: ({
-    rhfOnChange,
-    newValue,
-    event
-  }: CustomOnChangeProps<OnValueChangeProps, boolean>) => void;
-  /**
-   * Called after the default checkbox handler stores the next checked state in React Hook Form.
-   *
-   * ⚠️ Important:
-   * This callback is not called when `customOnChange` is used.
+   * Called on every toggle with the next checked state and the original change event.
+   * Call your state setter (or form library's setter) with `newValue` to update `value`.
    *
    * @param newValue - Next checked state.
    * @param event - Original checkbox change event.
    */
-  onValueChange?: ({ newValue, event }: OnValueChangeProps) => void;
+  onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * Label content shown for the field. Defaults to a label generated from `fieldName`.
+   * Label content shown beside the checkbox. Defaults to a label generated from `fieldName`.
    */
   label?: ReactNode;
   /**
@@ -85,20 +55,19 @@ export type RHFCheckboxProps<T extends FieldValues> = {
    */
   hideLabel?: boolean;
   /**
-   * @deprecated
-   * Field error message is now automatically derived from form state.
-   * Passing this prop is no longer necessary and it will be removed in the next major version.
+   * Error message for the field. Any non-empty string puts the field into an error state
+   * (surfaced through `FormHelperText`). Pass `undefined` or `null` to clear the error state.
    *
-   * Use `renderError` to customize how the field error is rendered.
+   * Use `renderError` to customize how this message is rendered.
    */
-  errorMessage?: ReactNode;
+  errorMessage?: string | null;
   /**
-   * Custom renderer for the React Hook Form field error.
-   * Receives the current field error and must return renderable content, such as `error.message` or a custom element.
+   * Custom renderer for `errorMessage`. Receives the raw error string and must return
+   * renderable content, e.g. wrapping it with an icon or a styled element.
    *
-   * @param error - React Hook Form field error for this field.
+   * @param error - Current `errorMessage` for this checkbox.
    */
-  renderError?: (error: FieldError) => ReactNode;
+  renderError?: (error: string) => ReactNode;
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
@@ -117,29 +86,24 @@ export type RHFCheckboxProps<T extends FieldValues> = {
   customIds?: CustomComponentIds;
 } & CheckboxProps;
 
-const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
-  {
-    fieldName,
-    control,
-    registerOptions,
-    customOnChange,
-    onValueChange,
-    disabled: muiDisabled,
-    label,
-    formControlLabelProps,
-    hideLabel,
-    errorMessage,
-    renderError,
-    hideErrorMessage,
-    helperText,
-    formHelperTextProps,
-    onBlur,
-    slotProps: muiSlotProps,
-    customIds,
-    ...otherCheckboxProps
-  }: RHFCheckboxProps<T>,
-  ref: Ref<HTMLInputElement>
-) {
+const MUICheckbox = ({
+  fieldName,
+  value,
+  onValueChange,
+  disabled: muiDisabled,
+  label,
+  formControlLabelProps,
+  hideLabel,
+  errorMessage,
+  renderError,
+  hideErrorMessage,
+  helperText,
+  formHelperTextProps,
+  onBlur,
+  slotProps: muiSlotProps,
+  customIds,
+  ...otherCheckboxProps
+}: MUICheckboxProps) => {
   const { fieldId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
 
   const { defaultFormControlLabelSx } = useContext(RHFMuiConfigContext);
@@ -154,98 +118,60 @@ const RHFCheckboxInner = forwardRef(function RHFCheckbox<T extends FieldValues>(
     ...defaultFormControlLabelSx,
     ...sx
   };
-  const { input: slotPropsInput, ...otherSlotProps } = muiSlotProps ?? {};
+
+  const isError = !!errorMessage;
+  const fieldErrorMessage = isError
+    ? renderError?.(errorMessage) ?? errorMessage
+    : undefined;
+  const showHelperTextElement = !!(
+    helperText
+    || (isError && !hideErrorMessage)
+  );
 
   return (
-    <Controller
-      name={fieldName}
-      control={control}
-      rules={registerOptions}
-      render={({
-        field: {
-          name: rhfFieldName,
-          value: rhfValue,
-          onChange: rhfOnChange,
-          onBlur: rhfOnBlur,
-          ref: rhfRef,
-          disabled: rhfDisabled
-        },
-        fieldState: { error: fieldStateError }
-      }) => {
-        const isDisabled = muiDisabled || rhfDisabled;
-        const fieldErrorMessage = fieldStateError
-          ? (renderError?.(fieldStateError) ?? errorMessage ?? fieldStateError.message?.toString())
-          : undefined;
-        const isError = !!fieldErrorMessage;
-        const showHelperTextElement = !!(
-          helperText
-          || (isError && !hideErrorMessage)
-        );
-        return (
-          <Fragment>
-            <FormControlLabel
-              {...otherFormControlLabelProps}
-              control={
-                <MuiCheckbox
-                  {...otherCheckboxProps}
-                  id={fieldId}
-                  name={rhfFieldName}
-                  checked={Boolean(rhfValue)}
-                  disabled={isDisabled}
-                  onChange={(event, checked) => {
-                    if (customOnChange) {
-                      customOnChange({ rhfOnChange, newValue: checked, event });
-                      return;
-                    }
-                    rhfOnChange(checked);
-                    onValueChange?.({ newValue: checked, event });
-                  }}
-                  onBlur={blurEvent => {
-                    rhfOnBlur();
-                    onBlur?.(blurEvent);
-                  }}
-                  aria-label={hideLabel ? accessibleFieldLabel : undefined}
-                  aria-describedby={
-                    showHelperTextElement
-                      ? isError
-                        ? errorId
-                        : helperTextId
-                      : undefined
-                  }
-                  aria-invalid={isError || undefined}
-                  slotProps={{
-                    ...otherSlotProps,
-                    input: {
-                      ...slotPropsInput,
-                      ref: mergeRefs(rhfRef, ref)
-                    }
-                  }}
-                />
-              }
-              label={hideLabel ? undefined : fieldLabel}
-              sx={appliedFormControlLabelSx}
-              disabled={isDisabled}
-            />
-            <FormHelperText
-              error={isError}
-              errorMessage={fieldErrorMessage}
-              hideErrorMessage={hideErrorMessage}
-              helperText={helperText}
-              showHelperTextElement={showHelperTextElement}
-              formHelperTextProps={{
-                ...formHelperTextProps,
-                id: isError ? errorId : helperTextId
-              }}
-            />
-          </Fragment>
-        );
-      }}
-    />
+    <Fragment>
+      <FormControlLabel
+        {...otherFormControlLabelProps}
+        control={
+          <MuiCheckbox
+            {...otherCheckboxProps}
+            id={fieldId}
+            name={fieldName}
+            checked={Boolean(value)}
+            disabled={muiDisabled}
+            onChange={(event, checked) => {
+              onValueChange({ newValue: checked, event });
+            }}
+            onBlur={onBlur}
+            aria-label={hideLabel ? accessibleFieldLabel : undefined}
+            aria-describedby={
+              showHelperTextElement
+                ? isError
+                  ? errorId
+                  : helperTextId
+                : undefined
+            }
+            aria-invalid={isError || undefined}
+            slotProps={muiSlotProps}
+          />
+        }
+        label={hideLabel ? undefined : fieldLabel}
+        sx={appliedFormControlLabelSx}
+        disabled={muiDisabled}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={fieldErrorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          ...formHelperTextProps,
+          id: isError ? errorId : helperTextId
+        }}
+      />
+    </Fragment>
   );
-});
+};
 
-const RHFCheckbox = RHFCheckboxInner as <T extends FieldValues>(
-  props: RHFCheckboxProps<T> & { ref?: Ref<HTMLInputElement> }
-) => JSX.Element;
-
-export default RHFCheckbox;
+export default MUICheckbox;
