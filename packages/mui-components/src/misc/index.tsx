@@ -1,21 +1,20 @@
-import RHFColorPicker, { type RHFColorPickerProps } from './color-picker';
-import RHFPhoneInput, { type RHFPhoneInputProps, type RHFPhoneInputValue } from './phone-input';
-import RHFRichTextEditor, {
+import MUIColorPicker, { type MUIColorPickerProps } from './color-picker';
+import MUIPhoneInput, { type MUIPhoneInputProps, type MUIPhoneInputValue } from './phone-input';
+import MUIRichTextEditor, {
   DefaultEditorConfig,
-  type RHFRichTextEditorProps
+  type MUIRichTextEditorProps
 } from './rich-text-editor';
 
 export {
-  RHFColorPicker,
-  RHFPhoneInput,
-  RHFRichTextEditor,
+  MUIColorPicker,
+  MUIPhoneInput,
+  MUIRichTextEditor,
   DefaultEditorConfig
 };
 
 export type {
-  RHFColorPickerProps,
-  RHFPhoneInputProps,
-  RHFPhoneInputValue,
-  RHFRichTextEditorProps
+  MUIColorPickerProps,
+  MUIPhoneInputProps,
+  MUIPhoneInputValue,
+  MUIRichTextEditorProps
 };
-

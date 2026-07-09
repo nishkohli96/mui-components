@@ -1,5 +1,5 @@
 /**
- * Default Editor Config for CkEditor in the RHFRichTextEditor component.
+ * Default Editor Config for CkEditor in the MUIRichTextEditor component.
  *
  * To view the list of complete features, refer
  * https://ckeditor.com/docs/ckeditor5/latest/features/index.html
