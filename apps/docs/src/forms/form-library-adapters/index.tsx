@@ -11,7 +11,7 @@
  * `errorMessage` accepts the library's error as-is (string, `FieldError`-like
  * object, or array of either) — see the `errorMessage=` lines below, which
  * pass TanStack's `meta.errors` array and Formik's `touched && errors`
- * boolean/string directly. When a validator reports several failed rules at
+ * (`false` / string) directly. When a validator reports several failed rules at
  * once (the password field below), all resolved messages render together, and
  * `renderError={errors => ...}` can restyle them.
  */

@@ -84,8 +84,8 @@ export type MUIDateTimePickerProps = {
    * kept, so multiple failed rules can be shown together).
    *
    * Any non-empty input puts the field into an error state and the resolved
-   * message(s) are surfaced through `FormHelperText`. Pass `true` to force the
-   * error state without a message; `undefined`/`null`/`false`/`''`/`[]` clear it.
+   * message(s) are surfaced through `FormHelperText`;
+   * `undefined`/`null`/`false`/`''`/`[]` clear it.
    *
    * Use `renderError` to customize how the resolved messages are rendered.
    */

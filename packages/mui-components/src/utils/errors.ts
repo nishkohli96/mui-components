@@ -2,19 +2,18 @@
  * Accepted shape of the `errorMessage` prop on every form component — pass
  * whatever your form library reports:
  *
- * - `string` / `number` — used as the message (`''` clears the error state)
- * - `boolean` — `true` forces the error state without a message, `false` clears it
+ * - `string` — used as the message (`''` clears the error state)
  * - `Error` or any object with a `message` (RHF `FieldError`, Zod issues,
  *   Yup `ValidationError`, ...) — the message is resolved recursively; an
  *   error object with an empty message still sets the error state
  * - arrays of any of the above (e.g. TanStack `field.state.meta.errors`) —
  *   every resolvable message is kept, so multiple failed rules show together
- * - `null` / `undefined` / `[]` — no error
+ * - `false` / `null` / `undefined` / `[]` — no error; `false` is accepted so
+ *   the idiomatic `touched && errors` pattern can be passed as-is
  */
 export type FieldErrorInput =
   | string
-  | number
-  | boolean
+  | false
   | null
   | undefined
   | { message?: unknown }
@@ -41,17 +40,11 @@ export function parseErrorInput(error: unknown): ParsedErrorInput {
   ) {
     return { isError: false, errorMessages: [] };
   }
-  if (error === true) {
-    return { isError: true, errorMessages: [] };
-  }
   if (typeof error === 'string') {
     return {
       isError: true,
       errorMessages: error.trim() === '' ? [] : [error]
     };
-  }
-  if (typeof error === 'number') {
-    return { isError: true, errorMessages: [String(error)] };
   }
   if (Array.isArray(error)) {
     const parsedItems = error.map(item => parseErrorInput(item));
@@ -67,7 +60,9 @@ export function parseErrorInput(error: unknown): ParsedErrorInput {
     }
     return { isError: true, errorMessages: [] };
   }
-  return { isError: false, errorMessages: [] };
+  // Out-of-contract input from untyped callers (e.g. `true` or a number):
+  // truthy still flags the field, but no message text is fabricated from it.
+  return { isError: Boolean(error), errorMessages: [] };
 }
 
 /**

@@ -10,31 +10,19 @@ Coming from `@nish1896/rhf-mui-components`? The component surface is the same â€
 `control` and `registerOptions` are replaced by the controlled `value` /
 `onValueChange` / `errorMessage` contract shown above.
 
-## Versions & roadmap
-
-Currently this library has been ported over from the **version-4** of
-`@nish1896/rhf-mui-components`, which supports MUI `v6` and `v7`. The
-development to support `v9` of MUI and X-Date Pickers has already started,
-but will take some time to release for both the packages, since both projects
-right now are managed by a single developer.
-
-| Package | Status | Compatibility |
-| ------- | ------ | ------------- |
-| `@nish1896/mui-components` **v1** | current | MUI v6 / v7, React 18+ |
-| `@nish1896/mui-components` **v2** | planned | MUI v9 |
-| `@nish1896/rhf-mui-components` **v4** | maintained | MUI v6 / v7, React 18+ |
-| `@nish1896/rhf-mui-components` **v5** | planned | MUI v9 |
-
 ## Installation
+
+Depending on the MUI version in your project, add the last released `v6` or `v7` using
+the `latest-v6` or `latest-v7` tag respectively. 
 
 ```bash
 pnpm add @nish1896/mui-components
 ```
 
-The package expects Material UI (v6 or v7) and its peers in your app:
+The package expects Material UI (`v6` or `v7`) and its peers in your app:
 
 ```bash
-pnpm add @mui/material @mui/icons-material @emotion/react @emotion/styled
+pnpm add @mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled
 ```
 
 Date & time pickers additionally use [MUI X](https://mui.com/x/react-date-pickers/)

@@ -368,8 +368,8 @@ export const PropsDescription: Record<string, PropsInfo> = Object.freeze({
   errorMessage: {
     name: 'errorMessage',
     description:
-      'Validation error in whatever shape your form library provides — a message string, an `Error`/`FieldError`-like object with a `message`, or an array of either (every resolvable message is kept, so multiple failed rules show together). Any non-empty input puts the field in an error state; `true` forces the state without a message; `undefined`/`null`/`false`/`\'\'`/`[]` clear it.',
-    type: 'string / object / array / boolean'
+      'Validation error in whatever shape your form library provides — a message string, an `Error`/`FieldError`-like object with a `message`, or an array of either (every resolvable message is kept, so multiple failed rules show together). Any non-empty input puts the field in an error state; `undefined`/`null`/`false`/`\'\'`/`[]` clear it — `false` is accepted so the Formik-style `touched && errors` expression passes as-is.',
+    type: 'string / object / array'
   },
   renderError: {
     name: 'renderError',
