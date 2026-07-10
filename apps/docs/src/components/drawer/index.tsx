@@ -5,7 +5,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import { DemoPageLinks } from '@/constants';
+import { sidebarLinks } from '@/constants';
 
 type DrawerProps = {
   /** Called after a link is clicked, e.g. to close the mobile drawer. */
@@ -21,7 +21,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
 
   return (
     <List dense sx={{ px: 1 }}>
-      {DemoPageLinks.map(link => {
+      {sidebarLinks.map(link => {
         const isActive = pathname === (link.href || '/');
         return (
           <ListItem key={link.href.replace('/', '') || 'home'} disablePadding>

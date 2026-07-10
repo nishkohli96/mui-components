@@ -19,7 +19,7 @@
     "lib": "pnpm -F @nish1896/mui-components run lib:build",
     "lib:lint": "pnpm -F @nish1896/mui-components run lint",
     "lib:pack": "sh pack-pkg.sh",
-    "doc": "pnpm -F @nish1896/mui-components-docs run start",
+    "doc": "pnpm -F @nish1896/mui-components-docs run dev",
     "docs:lint": "pnpm -F @nish1896/mui-components-docs run lint",
     "docs:build": "pnpm -F @nish1896/mui-components-docs run build",
     "docs:prod": "pnpm -F @nish1896/mui-components-docs run prod"

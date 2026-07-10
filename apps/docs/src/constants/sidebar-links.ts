@@ -2,14 +2,14 @@ import { type Page } from '@/types';
 
 const pagePrefix = '';
 
-export const DemoPageLinks: Page[] = [
+export const sidebarLinks: Page[] = [
   {
     title: 'Introduction',
     href: '/'
   },
   {
-    title: 'Inputs',
-    href: `${pagePrefix}/inputs`
+    title: 'Getting Started',
+    href: `/getting-started`
   },
   {
     title: 'Select',

@@ -62,7 +62,7 @@ const AppBar = () => {
               letterSpacing: 0.2
             }}
           >
-            RHF-Mui Components
+            MUI Components
           </Typography>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
