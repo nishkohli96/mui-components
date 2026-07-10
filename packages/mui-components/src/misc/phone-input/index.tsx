@@ -151,6 +151,7 @@ export type MUIPhoneInputProps = {
   /**
    * Current phone value. You may initialize it with a phone string, but
    * `onValueChange` always emits the structured `MUIPhoneInputValue` shape.
+   * `undefined`/`null` start the input empty with the default country.
    */
   value?: MUIPhoneInputValue | string | null;
   /**
@@ -180,6 +181,12 @@ export type MUIPhoneInputProps = {
    * Error message for the field. Any non-empty string puts the field into an error state.
    */
   errorMessage?: string | null;
+  /**
+   * Forces the field's error state regardless of `errorMessage` — useful when a
+   * form library reports an error without a message string. When omitted, the
+   * error state is derived from `errorMessage`.
+   */
+  error?: boolean;
   /**
    * Custom renderer for `errorMessage`. Receives the raw error string.
    */
@@ -213,6 +220,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     hideLabel,
     required,
     errorMessage,
+    error,
     renderError,
     hideErrorMessage,
     helperText,
@@ -356,8 +364,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
       forceDialCode
     });
 
-  const isError = !!errorMessage;
-  const fieldErrorMessage = isError
+  const isError = error ?? !!errorMessage;
+  const fieldErrorMessage = errorMessage
     ? renderError?.(errorMessage) ?? errorMessage
     : undefined;
   const showHelperTextElement = !!(

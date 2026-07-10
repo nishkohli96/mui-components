@@ -49,7 +49,9 @@ export type MUIRichTextEditorProps = {
    */
   fieldName: string;
   /**
-   * Current editor HTML string.
+   * Current editor HTML string. This is a controlled component: `value` and
+   * `onValueChange` must be supplied together. `undefined`/`null` render an
+   * empty editor.
    */
   value?: string | null;
   /**
@@ -117,6 +119,12 @@ export type MUIRichTextEditorProps = {
    */
   errorMessage?: string | null;
   /**
+   * Forces the field's error state regardless of `errorMessage` — useful when a
+   * form library reports an error without a message string. When omitted, the
+   * error state is derived from `errorMessage`.
+   */
+  error?: boolean;
+  /**
    * Custom renderer for `errorMessage`. Receives the raw error string.
    */
   renderError?: (error: string) => ReactNode;
@@ -156,6 +164,7 @@ const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
     hideLabel,
     onError,
     errorMessage,
+    error,
     renderError,
     hideErrorMessage,
     helperText,
@@ -179,8 +188,8 @@ const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
     showLabelAboveFormField,
     allLabelsAboveFields
   );
-  const isError = !!errorMessage;
-  const fieldErrorMessage = isError
+  const isError = error ?? !!errorMessage;
+  const fieldErrorMessage = errorMessage
     ? renderError?.(errorMessage) ?? errorMessage
     : undefined;
   const showHelperTextElement = !!(

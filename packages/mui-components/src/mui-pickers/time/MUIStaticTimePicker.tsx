@@ -80,6 +80,12 @@ export type MUIStaticTimePickerProps = {
    */
   errorMessage?: string | null;
   /**
+   * Forces the field's error state regardless of `errorMessage` — useful when a
+   * form library reports an error without a message string. When omitted, the
+   * error state is derived from `errorMessage`.
+   */
+  error?: boolean;
+  /**
    * Custom renderer for `errorMessage`. Receives the raw error string.
    */
   renderError?: (error: string) => ReactNode;
@@ -114,6 +120,7 @@ const MUIStaticTimePicker = forwardRef(function MUIStaticTimePicker(
     formLabelProps,
     hideLabel,
     errorMessage,
+    error,
     renderError,
     hideErrorMessage,
     helperText,
@@ -142,8 +149,8 @@ const MUIStaticTimePicker = forwardRef(function MUIStaticTimePicker(
   const accessibleFieldLabel = typeof fieldLabel === 'string'
     ? fieldLabel
     : fieldNameToLabel(fieldName);
-  const isError = !!errorMessage;
-  const fieldErrorMessage = isError
+  const isError = error ?? !!errorMessage;
+  const fieldErrorMessage = errorMessage
     ? renderError?.(errorMessage) ?? errorMessage
     : undefined;
   const showHelperTextElement = !!(

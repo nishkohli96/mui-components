@@ -35,7 +35,7 @@ exclusively built for this form library.
 - **Accessibility built in** — generated `id`s plus `aria-label`, `aria-labelledby`,
   `aria-describedby`, `aria-invalid` and `aria-required` wired on every field.
 - **Thin on top of MUI** — nearly all underlying Material UI props pass straight through
-  (`variant`, `slotProps`, `sx`, ...), so nothing about MUI is hidden from you.
+  (`variant`, `slotProps`, `sx`), so nothing about MUI is hidden from you.
 - **Typed and tree-shakable** — strict TypeScript generics for option-based fields and
   per-component subpath imports.
 
@@ -174,14 +174,3 @@ Every page in the sidebar embeds a working form with visible form state — try
 [Complete Form with Joi](/complete-form-joi) to see all components validated
 by an external schema library.
 
-## Versions & roadmap
-
-| Package | Status | Compatibility |
-| ------- | ------ | ------------- |
-| `@nish1896/mui-components` v1 | current | MUI v6 / v7, React 18+ |
-| `@nish1896/mui-components` v2 | planned | MUI v9 |
-| `@nish1896/rhf-mui-components` | maintained | React Hook Form bindings for these components |
-
-Coming from `@nish1896/rhf-mui-components`? The component surface is the same —
-`control` and `registerOptions` are replaced by the controlled `value` /
-`onValueChange` / `errorMessage` contract shown above.

@@ -67,7 +67,9 @@ export type MUISelectProps<
    */
   fieldName: string;
   /**
-   * Current select value. For `multiple`, pass an array.
+   * Current select value, normalized with `valueKey` for object options.
+   * For `multiple`, pass an array. `undefined`/`null` are treated as no
+   * selection (an empty array when `multiple` is true).
    */
   value?: SelectValue<OptionValue<Option, ValueKey>, Multiple> | null;
   /**
@@ -158,6 +160,12 @@ export type MUISelectProps<
    */
   errorMessage?: string | null;
   /**
+   * Forces the field's error state regardless of `errorMessage` — useful when a
+   * form library reports an error without a message string. When omitted, the
+   * error state is derived from `errorMessage`.
+   */
+  error?: boolean;
+  /**
    * Custom renderer for `errorMessage`. Receives the raw error string and must return renderable content.
    *
    * @param error - Current `errorMessage` for this select.
@@ -220,6 +228,7 @@ const MUISelect = <
   hideLabel,
   required,
   errorMessage,
+  error,
   renderError,
   hideErrorMessage,
   helperText,
@@ -248,7 +257,6 @@ const MUISelect = <
     allLabelsAboveFields
   );
   const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabelText = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? defaultFieldLabel;
   const accessibleFieldLabel = typeof fieldLabel === 'string'
     ? fieldLabel
@@ -271,8 +279,8 @@ const MUISelect = <
   const selectLabelId = isLabelAboveFormField || hideLabel
     ? undefined
     : labelId;
-  const isError = !!errorMessage;
-  const fieldErrorMessage = isError
+  const isError = error ?? !!errorMessage;
+  const fieldErrorMessage = errorMessage
     ? renderError?.(errorMessage) ?? errorMessage
     : undefined;
   const showHelperTextElement = !!(
@@ -394,7 +402,7 @@ const MUISelect = <
       >
         {showDefaultOption && (
           <MenuItem value="" disabled={required}>
-            {defaultOptionText ?? `Select ${fieldLabelText}`}
+            {defaultOptionText ?? `Select ${defaultFieldLabel}`}
           </MenuItem>
         )}
         {options.map((option, index) => {

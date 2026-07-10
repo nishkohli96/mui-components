@@ -8,11 +8,12 @@
  *   1. TanStack Form  (@tanstack/react-form)
  *   2. Formik         (formik)
  *
- * The single integration detail worth noting: the components key their error
- * STATE off `!!errorMessage` and render it as text, so a library's error must
- * be reduced to a plain string before it is passed in. Both examples below do
- * that (see the `errorMessage=` lines). With a schema adapter (Zod/Yup/Valibot)
- * whose errors are objects, map them first, e.g. `errors[0]?.message`.
+ * The single integration detail worth noting: `errorMessage` expects a plain
+ * string, while form libraries report errors as arrays or objects. The package
+ * ships `toErrorMessage` (from `@nish1896/mui-components/form-helpers`) that
+ * normalizes any of those shapes to `string | undefined` — see the
+ * `errorMessage=` lines below. For an error state without a message
+ * (e.g. RHF `required: true`), pass the boolean `error` prop instead.
  */
 
 import { useForm } from '@tanstack/react-form';
@@ -23,6 +24,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
+import { toErrorMessage } from '@nish1896/mui-components/form-helpers';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 import MUINumberInput from '@nish1896/mui-components/mui/number-input';
 import MUISelect from '@nish1896/mui-components/mui/select';
@@ -88,8 +90,9 @@ function TanStackExample() {
               value={field.state.value}
               onValueChange={({ newValue }) => field.handleChange(newValue)}
               onBlur={field.handleBlur}
-              /* reduce the library's error[] to a plain string */
-              errorMessage={field.state.meta.errors[0] as string | undefined}
+              /* toErrorMessage normalizes errors of any shape (arrays,
+                 objects with .message, strings) to string | undefined */
+              errorMessage={toErrorMessage(field.state.meta.errors)}
             />
           )}
         </form.Field>
@@ -108,7 +111,7 @@ function TanStackExample() {
               value={field.state.value}
               onValueChange={({ newValue }) => field.handleChange(newValue)}
               onBlur={field.handleBlur}
-              errorMessage={field.state.meta.errors[0] as string | undefined}
+              errorMessage={toErrorMessage(field.state.meta.errors)}
               showDefaultOption
             />
           )}
@@ -127,7 +130,7 @@ function TanStackExample() {
               label="I accept the terms and conditions"
               value={field.state.value}
               onValueChange={({ newValue }) => field.handleChange(newValue)}
-              errorMessage={field.state.meta.errors[0] as string | undefined}
+              errorMessage={toErrorMessage(field.state.meta.errors)}
             />
           )}
         </form.Field>
@@ -245,7 +248,7 @@ export default function FormLibraryAdapters() {
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Driven by <code>field.state.value</code> /{' '}
           <code>field.handleChange</code>, with{' '}
-          <code>field.state.meta.errors[0]</code> as the error string.
+          <code>toErrorMessage(field.state.meta.errors)</code> normalizing the error array.
         </Typography>
         <TanStackExample />
       </Box>

@@ -29,6 +29,7 @@ export type MUITextFieldProps = {
   /**
    * Current value of the field. This is a controlled component: `value` and `onValueChange`
    * must be supplied together, typically backed by your own state or form library.
+   * `undefined`/`null` are treated as an empty string.
    */
   value?: string | null;
   /**
@@ -59,6 +60,12 @@ export type MUITextFieldProps = {
    * Use `renderError` to customize how this message is rendered.
    */
   errorMessage?: string | null;
+  /**
+   * Forces the field's error state regardless of `errorMessage` — useful when a
+   * form library reports an error without a message string. When omitted, the
+   * error state is derived from `errorMessage`.
+   */
+  error?: boolean;
   /**
    * Custom renderer for `errorMessage`. Receives the raw error string and must return
    * renderable content, e.g. wrapping it with an icon or a styled element.
@@ -91,6 +98,7 @@ const MUITextField = ({
   hideLabel,
   required,
   errorMessage,
+  error,
   renderError,
   hideErrorMessage,
   helperText,
@@ -109,8 +117,8 @@ const MUITextField = ({
   const fieldLabel = label ?? defaultFieldLabel;
   const accessibleFieldLabel = typeof fieldLabel === 'string' ? fieldLabel : defaultFieldLabel;
 
-  const isError = !!errorMessage;
-  const fieldErrorMessage = isError
+  const isError = error ?? !!errorMessage;
+  const fieldErrorMessage = errorMessage
     ? renderError?.(errorMessage) ?? errorMessage
     : undefined;
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
@@ -135,7 +143,6 @@ const MUITextField = ({
         {...otherTextFieldProps}
         id={fieldId}
         name={fieldName}
-        type="text"
         autoComplete={autoComplete}
         label={
           !hideLabel && !isLabelAboveFormField

@@ -152,6 +152,12 @@ export type MUIRadioGroupProps<
    */
   errorMessage?: string | null;
   /**
+   * Forces the field's error state regardless of `errorMessage` — useful when a
+   * form library reports an error without a message string. When omitted, the
+   * error state is derived from `errorMessage`.
+   */
+  error?: boolean;
+  /**
    * Custom renderer for `errorMessage`. Receives the raw error string and must return
    * renderable content, e.g. wrapping it with an icon or a styled element.
    *
@@ -201,6 +207,7 @@ const MUIRadioGroup = <
   formControlLabelProps,
   required,
   errorMessage,
+  error,
   renderError,
   hideErrorMessage,
   helperText,
@@ -234,8 +241,8 @@ const MUIRadioGroup = <
     ...sx
   };
 
-  const isError = !!errorMessage;
-  const fieldErrorMessage = isError
+  const isError = error ?? !!errorMessage;
+  const fieldErrorMessage = errorMessage
     ? renderError?.(errorMessage) ?? errorMessage
     : undefined;
   const showHelperTextElement = !!(

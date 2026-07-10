@@ -86,6 +86,12 @@ export type MUIRatingProps = {
    */
   errorMessage?: string | null;
   /**
+   * Forces the field's error state regardless of `errorMessage` — useful when a
+   * form library reports an error without a message string. When omitted, the
+   * error state is derived from `errorMessage`.
+   */
+  error?: boolean;
+  /**
    * Custom renderer for `errorMessage`. Receives the raw error string and must return
    * renderable content, e.g. wrapping it with an icon or a styled element.
    *
@@ -121,6 +127,7 @@ const MUIRating = ({
   formLabelProps,
   hideLabel,
   errorMessage,
+  error,
   renderError,
   hideErrorMessage,
   helperText,
@@ -147,8 +154,8 @@ const MUIRating = ({
     allLabelsAboveFields
   );
 
-  const isError = !!errorMessage;
-  const fieldErrorMessage = isError
+  const isError = error ?? !!errorMessage;
+  const fieldErrorMessage = errorMessage
     ? renderError?.(errorMessage) ?? errorMessage
     : undefined;
   const showHelperTextElement = !!(
@@ -177,6 +184,7 @@ const MUIRating = ({
         />
       )}
       <MuiRating
+        {...otherRatingProps}
         id={fieldId}
         name={fieldName}
         value={value ?? null}
@@ -195,7 +203,6 @@ const MUIRating = ({
             : undefined
         }
         aria-invalid={isError || undefined}
-        {...otherRatingProps}
       />
       <FormHelperText
         error={isError}

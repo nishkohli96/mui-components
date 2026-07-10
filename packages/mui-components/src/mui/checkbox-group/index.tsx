@@ -151,6 +151,12 @@ export type MUICheckboxGroupProps<
    */
   errorMessage?: string | null;
   /**
+   * Forces the field's error state regardless of `errorMessage` — useful when a
+   * form library reports an error without a message string. When omitted, the
+   * error state is derived from `errorMessage`.
+   */
+  error?: boolean;
+  /**
    * Custom renderer for `errorMessage`. Receives the raw error string and must return
    * renderable content, e.g. wrapping it with an icon or a styled element.
    *
@@ -204,6 +210,7 @@ const MUICheckboxGroup = <
   formControlLabelProps,
   required,
   errorMessage,
+  error,
   renderError,
   hideErrorMessage,
   helperText,
@@ -238,8 +245,8 @@ const MUICheckboxGroup = <
   };
 
   const checkedValues = value ?? [];
-  const isError = !!errorMessage;
-  const fieldErrorMessage = isError
+  const isError = error ?? !!errorMessage;
+  const fieldErrorMessage = errorMessage
     ? renderError?.(errorMessage) ?? errorMessage
     : undefined;
   const showHelperTextElement = !!(
@@ -271,6 +278,14 @@ const MUICheckboxGroup = <
       component="fieldset"
       aria-labelledby={!hideLabel ? labelId : undefined}
       aria-label={hideLabel ? accessibleFieldLabel : undefined}
+      aria-describedby={
+        showHelperTextElement
+          ? isError
+            ? errorId
+            : helperTextId
+          : undefined
+      }
+      aria-required={required || undefined}
       error={isError}
       disabled={muiDisabled}
       /**

@@ -59,7 +59,9 @@ export type MUINativeSelectProps<
    */
   fieldName: string;
   /**
-   * Current select value.
+   * Current select value, normalized with `valueKey` for object options.
+   * This is a controlled component: `value` and `onValueChange` must be
+   * supplied together. `undefined`/`null` are treated as no selection.
    */
   value?: OptionValue<Option, ValueKey> | null;
   /**
@@ -118,7 +120,11 @@ export type MUINativeSelectProps<
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * Whether the field label renders above the native select. The control has no
+   * built-in inline label, so this defaults to `true`; pass `false` to hide the
+   * visible label (the accessible name is still applied).
+   *
+   * @default true
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -136,6 +142,12 @@ export type MUINativeSelectProps<
    * Use `renderError` to customize how this message is rendered.
    */
   errorMessage?: string | null;
+  /**
+   * Forces the field's error state regardless of `errorMessage` — useful when a
+   * form library reports an error without a message string. When omitted, the
+   * error state is derived from `errorMessage`.
+   */
+  error?: boolean;
   /**
    * Custom renderer for `errorMessage`. Receives the raw error string and must return renderable content.
    *
@@ -186,6 +198,7 @@ const MUINativeSelect = <
   hideLabel,
   required,
   errorMessage,
+  error,
   renderError,
   hideErrorMessage,
   helperText,
@@ -218,8 +231,8 @@ const MUINativeSelect = <
     allLabelsAboveFields
   );
   const defaultOptionLabel = defaultOptionText ?? placeholder ?? '';
-  const isError = !!errorMessage;
-  const fieldErrorMessage = isError
+  const isError = error ?? !!errorMessage;
+  const fieldErrorMessage = errorMessage
     ? renderError?.(errorMessage) ?? errorMessage
     : undefined;
   const showHelperTextElement = !!(
@@ -255,7 +268,7 @@ const MUINativeSelect = <
         aria-required={required}
         aria-invalid={isError}
         aria-labelledby={
-          !hideLabel && !isLabelAboveControl ? labelId : undefined
+          !hideLabel && isLabelAboveControl ? labelId : undefined
         }
         aria-label={hideLabel ? accessibleFieldLabel : undefined}
         aria-describedby={
