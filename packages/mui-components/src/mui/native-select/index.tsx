@@ -27,7 +27,9 @@ import {
   normalizeSelectValue,
   useFieldIds,
   generateLargeOptionsErrMsg,
-  resolveLabelAboveControl
+  resolveLabelAboveControl,
+  parseErrorInput,
+  type FieldErrorInput
 } from '@/utils';
 
 type InputNativeSelectProps = Omit<
@@ -136,24 +138,30 @@ export type MUINativeSelectProps<
    */
   hideLabel?: boolean;
   /**
-   * Error message for the field. Any non-empty string puts the field into an error state.
-   * Pass `undefined` or `null` to clear the error state.
+   * Validation error for the field, accepted in whatever shape your form
+   * library provides — a message string, an `Error`/`FieldError`-like object
+   * with a `message`, or an array of either (every resolvable message is
+   * kept, so multiple failed rules can be shown together).
    *
-   * Use `renderError` to customize how this message is rendered.
-   */
-  errorMessage?: string | null;
-  /**
-   * Forces the field's error state regardless of `errorMessage` — useful when a
-   * form library reports an error without a message string. When omitted, the
-   * error state is derived from `errorMessage`.
-   */
-  error?: boolean;
-  /**
-   * Custom renderer for `errorMessage`. Receives the raw error string and must return renderable content.
+   * Any non-empty input puts the field into an error state and the resolved
+   * message(s) are surfaced through `FormHelperText`. Pass `true` to force the
+   * error state without a message; `undefined`/`null`/`false`/`''`/`[]` clear it.
    *
-   * @param error - Current `errorMessage` for this native select.
+   * Use `renderError` to customize how the resolved messages are rendered.
    */
-  renderError?: (error: string) => ReactNode;
+  errorMessage?: FieldErrorInput;
+  /**
+   * Custom renderer for the resolved error message(s). Receives every message
+   * parsed from `errorMessage` (called only when at least one resolves) and
+   * must return renderable content — e.g. `errors[0]`, or a list when a field
+   * can fail multiple rules at once.
+   *
+   * When omitted, a single message renders as plain text and multiple
+   * messages render on separate lines.
+   *
+   * @param errors - Resolved error messages for this field.
+   */
+  renderError?: (errors: string[]) => ReactNode;
   /**
    * If true, hides the error message text while keeping the field in an error state.
    */
@@ -198,7 +206,6 @@ const MUINativeSelect = <
   hideLabel,
   required,
   errorMessage,
-  error,
   renderError,
   hideErrorMessage,
   helperText,
@@ -231,9 +238,15 @@ const MUINativeSelect = <
     allLabelsAboveFields
   );
   const defaultOptionLabel = defaultOptionText ?? placeholder ?? '';
-  const isError = error ?? !!errorMessage;
-  const fieldErrorMessage = errorMessage
-    ? renderError?.(errorMessage) ?? errorMessage
+  const { isError, errorMessages } = parseErrorInput(errorMessage);
+  const fieldErrorMessage = errorMessages.length > 0
+    ? renderError?.(errorMessages) ?? (
+      errorMessages.length === 1
+        ? errorMessages[0]
+        : errorMessages.map((message, index) => (
+          <div key={index}>{message}</div>
+        ))
+    )
     : undefined;
   const showHelperTextElement = !!(
     helperText

@@ -7,6 +7,9 @@ export {
   fieldNameToLabel,
   colorToString,
   getFileSize,
+  parseErrorInput,
   toErrorMessage,
-  validateFileList
+  validateFileList,
+  type FieldErrorInput,
+  type ParsedErrorInput
 } from '@/utils';
