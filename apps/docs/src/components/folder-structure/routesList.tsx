@@ -43,22 +43,6 @@ const miscComponents = [
   MiscComponents.PhoneInput
 ];
 
-/** Components added in v2 and before v3.3 */
-export const newlyAddedComponents_v2 = [
-  MuiComponents.Autocomplete,
-  MuiComponents.MultiAutocomplete,
-  MuiComponents.CountrySelect,
-  MuiComponents.TagsInput,
-  MiscComponents.PhoneInput,
-  MuiComponents.NumberInput,
-  MuiComponents.FileUploader
-];
-
-export const newlyAddedComponents_v3_3 = [
-  MuiComponents.AutocompleteObject,
-  MuiComponents.MultiAutocompleteObject
-];
-
 export function getMuiFoldersList(docsVersion?: DocsVersion) {
   return muiComponents.map(component => ({
     name: component,

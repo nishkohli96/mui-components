@@ -1,23 +1,19 @@
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import Link from '@mui/material/Link';
+import { VersionProps } from '@/types';
 import FileView from './FileView';
 import { FolderIcon, FileIcon } from './Icons';
 import {
   getMuiFoldersList,
   getMuiPickersFoldersList,
-  getMiscFoldersList,
-  newlyAddedComponents_v2,
-  newlyAddedComponents_v3_3,
+  getMiscFoldersList
 } from './routesList';
 
-export default function FolderStructure() {
-  const muiFolders = getMuiFoldersList(docsVersion);
-  const miscList = v1
-    ? getMiscFoldersList(docsVersion).filter(
-      folder => !newlyAddedComponents_v2.includes(folder.name)
-    )
-    : getMiscFoldersList(docsVersion);
+export default function FolderStructure({ docsVersion }: VersionProps) {
+  const muiList = getMuiFoldersList(docsVersion);
+  const muiPickersList = getMuiPickersFoldersList(docsVersion)
+  const miscList = getMiscFoldersList(docsVersion);
 
   return (
     <SimpleTreeView
@@ -37,7 +33,7 @@ export default function FolderStructure() {
         <FileView
           itemId="3"
           folderName="mui-pickers"
-          fileList={getMuiPickersFoldersList(docsVersion)}
+          fileList={muiPickersList}
         />
         <FileView
           itemId="4"
@@ -53,19 +49,16 @@ export default function FolderStructure() {
           )}
           slots={{ icon: FileIcon }}
         />
-        {!v1 && (
-          <TreeItem
-            itemId="6"
-            label={(
-              <Link href="form-helpers">
-                form-helpers
-              </Link>
-            )}
-            slots={{ icon: FileIcon }}
-          />
-        )}
+        <TreeItem
+          itemId="6"
+          label={(
+            <Link href="form-helpers">
+              form-helpers
+            </Link>
+          )}
+          slots={{ icon: FileIcon }}
+        />
       </TreeItem>
     </SimpleTreeView>
   );
 };
-;
