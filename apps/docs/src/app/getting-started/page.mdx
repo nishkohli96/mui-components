@@ -1,25 +1,39 @@
+import { DocsPage } from '@/components/docs';
+import { pageMetadata } from '@/constants';
+import FolderStructure from '@/components/folder-structure';
+
+export const metadata = pageMetadata.gettingStarted;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
 # Getting Started
 
-Owing to the strong utility of `@nish1896/rhf-mui-components`, the need to make
-a standalone package for material-ui components, which could be used either
-individually or for any form library was quite evident. This would save developers,
-both junior and senior a significant amount of time and effort to get develop
-form UI in the best possible way.
- 
-Coming from `@nish1896/rhf-mui-components`? The component surface is the same —
-`control` and `registerOptions` are replaced by the controlled `value` /
-`onValueChange` / `errorMessage` contract shown above.
+`@nish1896/mui-components` grew out of
+[`@nish1896/rhf-mui-components`](https://rhf-mui-components.vercel.app/): its
+components proved useful enough that a standalone Material UI package — usable
+on its own or with any form library — was the natural next step. It saves
+developers, junior and senior alike, significant time and effort in building
+consistent form UIs.
+
+<Callout severity="info">
+  Coming from `@nish1896/rhf-mui-components`? The component surface is the
+  same — `control` and `registerOptions` are replaced by the controlled
+  `value` / `onValueChange` / `errorMessage` contract shown below.
+</Callout>
 
 ## Installation
 
-Depending on the MUI version in your project, add the last released `v6` or `v7` using
-the `latest-v6` or `latest-v7` tag respectively. 
+Install the package:
 
 ```bash
 pnpm add @nish1896/mui-components
 ```
 
-The package expects Material UI (`v6` or `v7`) and its peers in your app:
+The package expects Material UI (`v6` or `v7`) and its peers in your app.
+Match your project's MUI version by installing with the `latest-v6` or
+`latest-v7` tag:
 
 ```bash
 pnpm add @mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled
@@ -32,6 +46,13 @@ Date & time pickers additionally use [MUI X](https://mui.com/x/react-date-picker
 pnpm add @mui/x-date-pickers dayjs
 ```
 
+## Package structure
+
+Components are available through focused subpath exports, so applications only
+import the modules they use:
+
+<FolderStructure />
+
 ## Quick start
 
 Import components from their subpath and control them like any other input:
@@ -42,7 +63,7 @@ import MUITextField from '@nish1896/mui-components/mui/textfield';
 
 export default function SignupName() {
   const [firstName, setFirstName] = useState('');
-  const [error, setError] = useState();
+  const [error, setError] = useState<string>();
 
   return (
     <MUITextField
@@ -57,13 +78,14 @@ export default function SignupName() {
 }
 ```
 
-There is no schema, resolver or registration step — derive `errorMessage` from your
-own validation (or your form library's) and the field renders in an error state.
+There is no schema, resolver or registration step — derive `errorMessage` from
+your own validation (or your form library's) and the field renders in an error
+state.
 
 ## Bring your own form library
 
-Because the components are controlled, adapting them to a form library is a few
-lines. With React Hook Form's `Controller`:
+Because the components are controlled, adapting them to a form library takes
+only a few lines. With React Hook Form's `Controller`:
 
 ```tsx
 import { Controller, useForm } from 'react-hook-form';

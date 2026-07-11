@@ -13,12 +13,15 @@ export default function Layout({ children }) {
 components — fully typed, tree-shakable, and independent of any form library.**
 
 Every component wires up the pieces you rebuild on every project — label placement,
-error state, helper text, accessibility attributes and stable element ids — while
+error state, helper text, accessibility attributes and stable element IDs — while
 staying a plain controlled component: pass a `value`, receive changes through
 `onValueChange`, and keep validation wherever you like. Use it with `useState`,
 [React Hook Form](https://react-hook-form.com/),
 [TanStack Form](https://tanstack.com/form/latest),
 [Formik](https://formik.org/), or your own state management.
+
+Head over to [Getting Started](/getting-started) for installation, the package
+structure and a quick start.
 
 <Callout severity="info">
   For building forms with **React Hook Form**, we recommend using
@@ -36,17 +39,16 @@ staying a plain controlled component: pass a `value`, receive changes through
 - **Accessibility built in** — generated `id`s plus `aria-label`, `aria-labelledby`,
   `aria-describedby`, `aria-invalid` and `aria-required` wired on every field.
 - **Thin on top of MUI** — nearly all underlying Material UI props pass straight through
-  (`variant`, `slotProps`, `sx` etc.), so nothing about MUI is hidden from you.
+  (`variant`, `slotProps`, `sx`, etc.), so nothing about MUI is hidden from you.
 - **Typed and tree-shakable** — strict TypeScript generics for option-based fields and
   per-component subpath imports.
 
-## Versions & Roadmap
+## Versions & roadmap
 
-Currently this library has been ported over from the **version-4** of
-`@nish1896/rhf-mui-components`, which supports MUI `v6` and `v7`. The
-development to support `v9` of MUI and X-Date Pickers has already started,
-but will take some time to release for both the packages, since both projects
-right now are managed by a single developer.
+This library is a port of `@nish1896/rhf-mui-components` **v4** and supports
+MUI `v6` and `v7`. Development for MUI `v9` and the matching MUI X Date
+Pickers release is already underway, but it will take some time to ship for
+both packages, as both projects are maintained by a single developer.
 
 | Package | Version | Status | Compatibility |
 | ------- | ------- | ------ |-------------- |
@@ -54,8 +56,6 @@ right now are managed by a single developer.
 | `@nish1896/mui-components` | **v2** | planned | MUI v9 |
 | `@nish1896/rhf-mui-components` | **v4** | maintained | MUI v6 / v7, React 18+ |
 | `@nish1896/rhf-mui-components` | **v5** | planned | MUI v9 |
-
-
 
 ## Components
 
@@ -97,7 +97,7 @@ Desktop, mobile and static variants are covered on each family page.
 ## Theming & defaults
 
 Wrap your app in the `ConfigProvider` to set package-wide defaults — label
-placement, default `sx` for labels and helper texts, and the date adapter used
+placement, default `sx` for labels and helper text, and the date adapter used
 by the pickers:
 
 ```tsx
@@ -113,7 +113,7 @@ See [Customization](/customization) for a working example.
 
 ## Live demos
 
-Every page in the sidebar embeds a working form with visible form state — try
-[Inputs](/inputs), the full [Complete Form](/complete-form), or
-[Complete Form with Joi](/complete-form-joi) to see all components validated
-by an external schema library.
+The demo pages in the sidebar each embed a working form with live form state —
+try [Inputs](/inputs) or the full [Complete Form](/complete-form), and see
+[Complete Form with Joi](/complete-form-joi) for every component validated by
+an external schema library.

@@ -1,9 +1,13 @@
 import type { Metadata } from 'next';
 
-export const defaultPageTitle = 'RHF-Mui Components';
-export const defaultPageDescription = 'Examples for RHF-Mui Components';
-export const defaultPageKeywords = [
+export const defaultPageTitle = 'MUI Components';
+export const defaultPageDescription
+  = '25+ form-library-independent Material UI form components — docs, live demos and full props reference.';
+
+  export const defaultPageKeywords = [
   'react-hook-form',
+  'tanstack form',
+  'formik',
   'material-ui',
   'mui',
   '@mui/material',
@@ -20,17 +24,22 @@ export const pageMetadata: Record<string, Metadata> = {
   home: {
     title: 'Introduction',
     description:
-      '20+ form-library-agnostic Material UI form components — installation, quick start, live demos and full component API reference.'
+      '25+ form-library-agnostic Material UI form components — installation, quick start, live demos and full component API reference.'
+  },
+  gettingStarted: {
+    title: 'Getting Started',
+    description:
+      'Install @nish1896/mui-components, explore the package structure and build your first controlled Material UI form field.'
   },
   autocomplete: {
     title: 'Autocomplete',
     description:
-      'Showcase of Autocomplete components - RHFAutocomplete, RHFMultiAutocomplete and RHFCountrySelect designed for selecting single or multiple values in form.'
+      'Showcase of Autocomplete components — MUIAutocomplete, MUIMultiAutocomplete and MUICountrySelect, designed for selecting single or multiple values in a form.'
   },
   checkboxAndRadio: {
     title: 'CheckboxGroup & RadioGroup with Zod Validation',
     description:
-      'Form utilizing RHFCheckbox, RHFCheckboxGroup & RHFRadioGroup components with validation managed by Zod.'
+      'Form utilizing MUICheckbox, MUICheckboxGroup & MUIRadioGroup components with validation managed by Zod.'
   },
   completeForm: {
     title: 'Complete Form with Register Options',
@@ -45,7 +54,7 @@ export const pageMetadata: Record<string, Metadata> = {
   customization: {
     title: 'Styled form with a reusable component',
     description:
-      'A reusable component made from RHFTextField and use of ConfigProvider to provide default styles and date adapter'
+      'A reusable component built on MUITextField, with ConfigProvider supplying default styles and the date adapter.'
   },
   dateTimePickers: {
     title: 'Date & Time Pickers',
@@ -55,12 +64,12 @@ export const pageMetadata: Record<string, Metadata> = {
   inputs: {
     title: 'Inputs',
     description:
-      'Form utilizing RHFTextField, RHFPasswordInput, RHFNumberInput, RHFTagsInput and RHFFileUploader with validation managed via react-hook-form\'s register options.'
+      'Form utilizing MUITextField, MUIPasswordInput, MUINumberInput, MUITagsInput and MUIFileUploader, controlled with plain React state.'
   },
   miscComponents: {
     title: 'Miscellaneous Components',
     description:
-      'Form demonstrating usage of external components like ColorPicker & RichTextEditor with react-hook-form.'
+      'Form demonstrating usage of external components like MUIColorPicker, MUIPhoneInput & MUIRichTextEditor.'
   },
   select: {
     title: 'Select with Class-Validator',
@@ -70,7 +79,7 @@ export const pageMetadata: Record<string, Metadata> = {
   switchSliderRating: {
     title: 'Switch, Slider & Rating with Superstruct validation',
     description:
-      'Form utilizing RHFSwitch, RHFSlider & RHFRating components with validation managed by Superstruct.'
+      'Form utilizing MUISwitch, MUISlider & MUIRating components with validation managed by Superstruct.'
   },
   textfield: {
     title: 'TextField',

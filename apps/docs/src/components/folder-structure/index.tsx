@@ -1,3 +1,5 @@
+'use client';
+
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import Link from '@mui/material/Link';
@@ -12,17 +14,17 @@ import {
 
 export default function FolderStructure({ docsVersion }: VersionProps) {
   const muiList = getMuiFoldersList(docsVersion);
-  const muiPickersList = getMuiPickersFoldersList(docsVersion)
+  const muiPickersList = getMuiPickersFoldersList(docsVersion);
   const miscList = getMiscFoldersList(docsVersion);
 
   return (
     <SimpleTreeView
-      aria-label="rhf-mui-components directory"
+      aria-label="mui-components directory"
       defaultExpandedItems={['1']}
     >
       <TreeItem
         itemId="1"
-        label="@nish1896/rhf-mui-components"
+        label="@nish1896/mui-components"
         slots={{ icon: FolderIcon }}
       >
         <FileView
@@ -43,7 +45,7 @@ export default function FolderStructure({ docsVersion }: VersionProps) {
         <TreeItem
           itemId="5"
           label={(
-            <Link href="customization">
+            <Link href="/customization">
               config
             </Link>
           )}
@@ -51,11 +53,7 @@ export default function FolderStructure({ docsVersion }: VersionProps) {
         />
         <TreeItem
           itemId="6"
-          label={(
-            <Link href="form-helpers">
-              form-helpers
-            </Link>
-          )}
+          label="form-helpers"
           slots={{ icon: FileIcon }}
         />
       </TreeItem>
