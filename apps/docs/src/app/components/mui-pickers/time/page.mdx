@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { ComponentProps } from '@/constants/component-props';
+import { ComponentProps } from '@/constants/props-table';
 import PickersForm from '@/forms/date-time-pickers/Client';
 
 export const metadata = {
@@ -61,19 +61,10 @@ The default handler stores the value only when it is valid — inspect
 
 ## Props
 
-Responsive, desktop and mobile variants share the same props. Props marked with * are required.
-
-### MUITimePicker
+Responsive, desktop and mobile variants (`MUITimePicker`, `MUIDesktopTimePicker`,
+`MUIMobileTimePicker`) share the props below. Props marked with * are required.
 
 <PropsTable rows={ComponentProps.MUITimePicker} />
-
-### MUIDesktopTimePicker
-
-<PropsTable rows={ComponentProps.MUIDesktopTimePicker} />
-
-### MUIMobileTimePicker
-
-<PropsTable rows={ComponentProps.MUIMobileTimePicker} />
 
 ### MUIStaticTimePicker
 

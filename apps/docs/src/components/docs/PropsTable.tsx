@@ -3,7 +3,7 @@ import type { PropsInfo } from '@/types';
 
 /**
  * Matches the inline markdown constructs used by prop descriptions in
- * `constants/component-props.ts`: [label](url), `code`, **bold**, _italic_.
+ * `constants/props-table`: [label](url), `code`, **bold**, _italic_.
  */
 const inlineMdPattern
   = /(\[[^\]]+\]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|_[^_]+_)/g;
@@ -55,7 +55,7 @@ const renderInlineMd = (text: string): ReactNode => (
 type PropsTableProps = {
   /**
    * Table rows, one per component prop — compose them from
-   * `ComponentProps` / `PropsDescription` in `constants/component-props.ts`.
+   * `ComponentProps` / `PropsDescription` in `constants/props-table`.
    */
   rows: PropsInfo[];
 };
