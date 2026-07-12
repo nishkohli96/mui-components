@@ -22,20 +22,20 @@ export const LightThemePalette = {
 };
 
 export const DarkThemePalette = {
-  primary: { main: '#1976d2' },
+  primary: { main: '#66b2ff' },
   secondary: { main: '#25c2a0' },
   success: { main: '#4ad953' },
   warning: { main: '#ffa726' },
   error: { main: '#c62828' },
   info: { main: '#80d8ff' },
-  divider: '#4c4c4c',
+  divider: 'rgba(255, 255, 255, 0.12)',
   background: {
-    default: '#1a1919',
-    paper: '#2b2b2b'
+    default: '#0b0e14',
+    paper: '#12161d'
   },
   text: {
     primary: '#f8f7ff',
-    secondary: '#f6e4df'
+    secondary: '#b0b8c2'
   }
 };
 

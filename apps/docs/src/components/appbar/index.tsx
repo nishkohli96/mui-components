@@ -24,7 +24,11 @@ const AppBar = () => {
         borderBottom: '1px solid',
         borderColor: 'primary.main',
         '[data-mui-color-scheme="dark"] &': {
-          bgcolor: 'background.paper',
+          /* Blend with the canvas (background.default at 85%) instead of
+             sitting on it as a paper slab; the blur keeps scrolled content
+             legible underneath, like mui.com. */
+          bgcolor: 'rgba(11, 14, 20, 0.85)',
+          backdropFilter: 'blur(8px)',
           color: 'text.primary',
           borderColor: 'divider'
         }

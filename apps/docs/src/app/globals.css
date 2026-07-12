@@ -7,11 +7,25 @@
   --text-color: #000000;
 }
 
+/* No-JS fallback only — the attribute selectors below are the source of
+   truth once color-scheme-init.js stamps data-mui-color-scheme pre-paint. */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #1a1919;
+    --bg-color: #0b0e14;
     --text-color: #ffffff;
   }
+}
+
+/* Follow the app's toggle, not the OS: keep in sync with
+   DarkThemePalette.background.default in src/theme/palette.ts. */
+:root[data-mui-color-scheme='light'] {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+}
+
+:root[data-mui-color-scheme='dark'] {
+  --bg-color: #0b0e14;
+  --text-color: #ffffff;
 }
 
 body {
