@@ -55,7 +55,7 @@ const renderInlineMd = (text: string): ReactNode => (
 type PropsTableProps = {
   /**
    * Table rows, one per component prop — compose them from
-   * `ComponentProps` / `PropsDescription` in `constants/props-table`.
+   * `componentProps` / `PropsDescription` in `constants/props-table`.
    */
   rows: PropsInfo[];
 };

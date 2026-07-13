@@ -1,6 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata } from '@/constants';
-import { ComponentProps } from '@/constants/props-table';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.MUINumberInput;
 
@@ -15,7 +14,7 @@ export default function Layout({ children }) {
 ## Usage
 
 ```tsx
-import MUINumberInput from '@nish1896/mui-components/mui/number-input';
+import MUINumberInput, { MUINumberInputProps } from '@nish1896/mui-components/mui/number-input';
 ```
 
 ```tsx
@@ -32,7 +31,8 @@ const [age, setAge] = useState<number | null>(null);
 
 ## Props
 
-`MUINumberInputProps` also accepts the remaining [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/).
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`MUINumberInputProps` also accepts the remaining [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/),
+except `type`, `multiline` and `rows`. Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={ComponentProps.MUINumberInput} />
+<PropsTable rows={componentProps.MUINumberInput} />

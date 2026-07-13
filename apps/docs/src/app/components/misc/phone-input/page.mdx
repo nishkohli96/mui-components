@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata } from '@/constants';
-import { ComponentProps } from '@/constants/props-table';
+import { componentProps } from '@/constants/props-table';
 
 export const metadata = componentMetadata.MUIPhoneInput;
 
@@ -32,4 +32,4 @@ const [phone, setPhone] = useState<MUIPhoneInputValue | string>('');
 
 `MUIPhoneInputProps` also accepts most [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) except `value`, `onChange` and `type`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={ComponentProps.MUIPhoneInput} />
+<PropsTable rows={componentProps.MUIPhoneInput} />

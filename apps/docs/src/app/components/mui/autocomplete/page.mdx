@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata } from '@/constants';
-import { ComponentProps } from '@/constants/props-table';
+import { componentProps } from '@/constants/props-table';
 
 export const metadata = componentMetadata.MUIAutocomplete;
 
@@ -36,4 +36,4 @@ const [color, setColor] = useState<string | null>(null);
 `MUIAutocompleteProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/).
 Use [MUIAutocompleteObject](autocomplete-object) when you need to store the full option object. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={ComponentProps.MUIAutocomplete} />
+<PropsTable rows={componentProps.MUIAutocomplete} />

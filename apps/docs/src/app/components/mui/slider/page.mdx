@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata } from '@/constants';
-import { ComponentProps } from '@/constants/props-table';
+import { componentProps } from '@/constants/props-table';
 
 export const metadata = componentMetadata.MUISlider;
 
@@ -36,4 +36,4 @@ const [volume, setVolume] = useState(30);
 `MUISliderProps` also accepts most [SliderProps](https://v7.mui.com/material-ui/api/slider/).
 Pass a number array as `value` for a range slider. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={ComponentProps.MUISlider} />
+<PropsTable rows={componentProps.MUISlider} />

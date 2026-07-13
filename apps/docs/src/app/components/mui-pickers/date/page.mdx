@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata } from '@/constants';
-import { ComponentProps } from '@/constants/props-table';
+import { componentProps } from '@/constants/props-table';
 import PickersForm from '@/forms/date-time-pickers/Client';
 
 export const metadata = componentMetadata.MUIDatePicker;
@@ -62,14 +62,14 @@ Inspect `context.validationError` in `onValueChange` if you need to react to inv
 Responsive, desktop and mobile variants (`MUIDatePicker`, `MUIDesktopDatePicker`,
 `MUIMobileDatePicker`) share the props below. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={ComponentProps.MUIDatePicker} />
+<PropsTable rows={componentProps.MUIDatePicker} />
 
 ### MUIStaticDatePicker
 
 The static variant renders inline (no text field), so it omits the input-specific
 props and adds a `label`.
 
-<PropsTable rows={ComponentProps.MUIStaticDatePicker} />
+<PropsTable rows={componentProps.MUIStaticDatePicker} />
 
 ## Playground
 

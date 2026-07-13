@@ -1,6 +1,6 @@
 import { DocsPage, Callout, PropsTable } from '@/components/docs';
 import { componentMetadata } from '@/constants';
-import { ComponentProps } from '@/constants/props-table';
+import { componentProps } from '@/constants/props-table';
 
 export const metadata = componentMetadata.MUIAutocompleteObject;
 
@@ -39,4 +39,4 @@ const [user, setUser] = useState<User | null>(null);
 
 `labelKey` and `valueKey` are required. `MUIAutocompleteObjectProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/). Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={ComponentProps.MUIAutocompleteObject} />
+<PropsTable rows={componentProps.MUIAutocompleteObject} />

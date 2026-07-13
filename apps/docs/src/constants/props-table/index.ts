@@ -1,7 +1,7 @@
 /**
  * Props reference rows for every component, defined per component in files
  * mirroring the package structure (`mui` / `mui-pickers` / `misc`). Shared
- * descriptions live in `descriptions.ts`; the `ComponentProps` record below
+ * descriptions live in `descriptions.ts`; the `componentProps` record below
  * is what doc pages feed into `PropsTable`.
  *
  * Each row-builder is a function of `PropsDescriptionArgs` — props that link
@@ -45,7 +45,7 @@ export const currentVersionArgs: PropsDescriptionArgs = {
   muiPickersVersion: 8
 };
 
-export const ComponentProps: Record<string, PropsInfo[]> = Object.freeze({
+export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
   MUITextField: textFieldRows(currentVersionArgs),
   MUIPasswordInput: passwordInputRows(currentVersionArgs),
   MUINumberInput: numberInputRows(currentVersionArgs),

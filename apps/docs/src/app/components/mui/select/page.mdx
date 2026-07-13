@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata } from '@/constants';
-import { ComponentProps } from '@/constants/props-table';
+import { componentProps } from '@/constants/props-table';
 import SelectForm from '@/forms/select-with-class-validator/Client';
 
 export const metadata = componentMetadata.MUISelect;
@@ -35,7 +35,7 @@ const [role, setRole] = useState('');
 `MUISelectProps` also accepts the remaining [SelectProps](https://v7.mui.com/material-ui/api/select/).
 For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={ComponentProps.MUISelect} />
+<PropsTable rows={componentProps.MUISelect} />
 
 ## Playground
 
