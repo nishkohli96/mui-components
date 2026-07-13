@@ -15,13 +15,15 @@ const selectRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.showDefaultOption,
   P.defaultOptionText,
   P.placeholder_Select,
+  P.label,
+  resolveProp(P.showLabelAboveFormField, args),
+  resolveProp(P.formLabelProps, args),
+  P.hideLabel,
+  P.required,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
   resolveProp(P.helperText, args),
-  resolveProp(P.showLabelAboveFormField, args),
-  P.hideLabel,
-  resolveProp(P.formLabelProps, args),
   resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];

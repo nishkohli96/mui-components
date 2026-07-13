@@ -21,7 +21,7 @@ const AnchoredHeading = (
       variant={variant}
       component={component}
       className="doc-heading"
-      sx={{ mt: 5, mb: 2, fontWeight: 600, scrollMarginTop: '90px' }}
+      sx={{ mt: 4, mb: 2, fontWeight: 600, scrollMarginTop: '90px' }}
     >
       {children}
       {id && (

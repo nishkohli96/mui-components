@@ -13,13 +13,14 @@ export default function Layout({ children }) {
 `MUIAutocompleteObject` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) that stores the **complete option object** rather than a primitive.
 
 <Callout type="note">
-  `freeSolo` is intentionally unsupported to keep the value type predictable — use `MUIAutocomplete` for that.
+  `freeSolo` is intentionally unsupported to keep the value type predictable — use [MUIAutocomplete](autocomplete)
+  or [MUIMultiAutocomplete](multi-autocomplete) instead.
 </Callout>
 
 ## Usage
 
 ```tsx
-import MUIAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
+import MUIAutocompleteObject, { MUIAutocompleteObjectProps } from '@nish1896/mui-components/mui/autocomplete-object';
 ```
 
 ```tsx
@@ -37,6 +38,7 @@ const [user, setUser] = useState<User | null>(null);
 
 ## Props
 
-`labelKey` and `valueKey` are required. `MUIAutocompleteObjectProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/). Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`MUIAutocompleteObjectProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/).
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIAutocompleteObject} />

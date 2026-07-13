@@ -16,14 +16,15 @@ const autocompleteRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.getLimitTagsText,
   resolveProp(P.textFieldProps, args),
   resolveProp(P.ChipProps, args),
+  P.label,
+  resolveProp(P.showLabelAboveFormField, args),
+  P.hideLabel,
+  resolveProp(P.formLabelProps, args),
   P.required,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
   resolveProp(P.helperText, args),
-  resolveProp(P.showLabelAboveFormField, args),
-  P.hideLabel,
-  resolveProp(P.formLabelProps, args),
   resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
