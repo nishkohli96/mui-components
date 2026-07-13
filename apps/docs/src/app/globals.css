@@ -231,6 +231,73 @@ body {
   background-color: rgba(255, 255, 255, 0.14) !important;
 }
 
+/*
+ * Package-manager (npm/yarn/pnpm) install tabs: CSS-only, driven by the
+ * `.pm-tab-input` radios. Selectors match by sibling *position*
+ * (nth-of-type), not by id, so any number of `PackageManagerTabs`
+ * instances on a page work off one shared rule set.
+ */
+
+.pm-tabs {
+  position: relative;
+  margin: 16px 0 24px;
+}
+
+.pm-tab-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pm-tab-list {
+  display: flex;
+  gap: 4px;
+}
+
+.pm-tab-list label {
+  cursor: pointer;
+  padding: 7px 16px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  color: rgba(128, 128, 128, 0.9);
+  background-color: rgba(128, 128, 128, 0.08);
+  border: 1px solid rgba(128, 128, 128, 0.35);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  user-select: none;
+}
+
+.pm-tab-panel {
+  display: none;
+}
+
+.pm-tab-panel .doc-code-block {
+  margin: 0;
+  border-radius: 0 10px 10px 10px;
+}
+
+.pm-tab-input:nth-of-type(1):checked ~ .pm-tab-list label:nth-of-type(1),
+.pm-tab-input:nth-of-type(2):checked ~ .pm-tab-list label:nth-of-type(2),
+.pm-tab-input:nth-of-type(3):checked ~ .pm-tab-list label:nth-of-type(3) {
+  color: var(--mui-palette-info-main, #007aba);
+  background-color: var(--shiki-light-bg, #ffffff);
+  border-bottom: 1px solid var(--shiki-light-bg, #ffffff);
+}
+
+[data-mui-color-scheme='dark'] .pm-tab-input:nth-of-type(1):checked ~ .pm-tab-list label:nth-of-type(1),
+[data-mui-color-scheme='dark'] .pm-tab-input:nth-of-type(2):checked ~ .pm-tab-list label:nth-of-type(2),
+[data-mui-color-scheme='dark'] .pm-tab-input:nth-of-type(3):checked ~ .pm-tab-list label:nth-of-type(3) {
+  background-color: var(--shiki-dark-bg, #1e1e1e);
+  border-bottom: 1px solid var(--shiki-dark-bg, #1e1e1e);
+}
+
+.pm-tab-input:nth-of-type(1):checked ~ .pm-tab-panels .pm-tab-panel:nth-of-type(1),
+.pm-tab-input:nth-of-type(2):checked ~ .pm-tab-panels .pm-tab-panel:nth-of-type(2),
+.pm-tab-input:nth-of-type(3):checked ~ .pm-tab-panels .pm-tab-panel:nth-of-type(3) {
+  display: block;
+}
+
 /* --- Inline code --- */
 
 .doc-article :not(pre) > code {

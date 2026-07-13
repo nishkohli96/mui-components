@@ -2,7 +2,7 @@ import type { MDXComponents } from 'mdx/types';
 import type { ComponentPropsWithoutRef } from 'react';
 import Typography from '@mui/material/Typography';
 import MuiLink from '@mui/material/Link';
-import { Callout, MdxPre } from '@/components/docs';
+import { Callout, MdxPre, PackageManagerTabs } from '@/components/docs';
 
 type HeadingProps = ComponentPropsWithoutRef<'h2'>;
 
@@ -79,6 +79,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     },
     pre: MdxPre,
     Callout,
+    PackageManagerTabs,
     ...components
   };
 }

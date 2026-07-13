@@ -17,35 +17,30 @@ on its own or with any form library — was the natural next step. It saves
 developers, junior and senior alike, significant time and effort in building
 consistent form UIs.
 
-<Callout type="info">
-  Coming from `@nish1896/rhf-mui-components`? The component surface is the
-  same — `control` and `registerOptions` are replaced by the controlled
-  `value` / `onValueChange` / `errorMessage` contract shown below.
+<Callout type="info" title="Migrating from rhf-mui-components">
+  Coming from `@nish1896/rhf-mui-components`?
+  
+  The component surface is the same — `control` and `registerOptions` are
+  replaced by the controlled `value` / `onValueChange` / `errorMessage` props.
 </Callout>
 
 ## Installation
 
 Install the package:
 
-```bash
-pnpm add @nish1896/mui-components
-```
+<PackageManagerTabs id="install-core" command="@nish1896/mui-components" />
 
 The package expects Material UI (`v6` or `v7`) and its peers in your app.
 Match your project's MUI version by installing with the `latest-v6` or
 `latest-v7` tag:
 
-```bash
-pnpm add @mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled
-```
+<PackageManagerTabs id="install-mui-peers" command="@mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled" />
 
 Date & time pickers additionally use [MUI X](https://mui.com/x/react-date-pickers/)
 (`v7` or `v8`) and a date adapter of your choice, with `AdapterDayjs` being
 [recommended by Material UI](https://v8.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
-```bash
-pnpm add @mui/x-date-pickers dayjs
-```
+<PackageManagerTabs id="install-pickers" command="@mui/x-date-pickers dayjs" />
 
 To minimize the bundle size during the build process, this package includes both
 named and default exports within each module. Similar to Material-UI, developers 
