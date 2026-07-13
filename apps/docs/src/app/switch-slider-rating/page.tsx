@@ -7,7 +7,7 @@ import {
 import {
   pageMetadata,
   componentsDocsLink,
-  ValidationLibLinks
+  validationLibLinks
 } from '@/constants';
 import SliderSwitchRatingFormWithSuperstruct from '@/forms/slider-switch-rating-with-superstruct/Client';
 
@@ -18,7 +18,7 @@ const SwitchSliderRatingFormPage = () => {
     componentsDocsLink.rhfSwitch,
     componentsDocsLink.rhfSlider,
     componentsDocsLink.rhfRating,
-    ValidationLibLinks.superstruct
+    validationLibLinks.superstruct
   ];
 
   return (

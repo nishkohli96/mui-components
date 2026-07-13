@@ -13,7 +13,7 @@ export default function Layout({ children }) {
 
 # Date Pickers
 
-These components wrap the Material UI X [Date Picker](https://v7.mui.com/x/react-date-pickers/date-picker/) with the
+These components wrap the Material UI X [Date Picker](https://v8.mui.com/x/react-date-pickers/date-picker/) with the
 suite's label, error and helper-text handling. Each comes in four flavors that share
 the same controlled contract — a `value` in your date library's format and an
 `onValueChange` callback:
@@ -26,7 +26,8 @@ the same controlled contract — a `value` in your date library's format and an
 ## Setup
 
 All pickers read their date adapter from `ConfigProvider`. Wrap your app once and pass
-the adapter for your date library ([Day.js](https://day.js.org/), Luxon, date-fns or Moment):
+the adapter for your date library ([Day.js](https://day.js.org/), [Luxon](https://moment.github.io/luxon/#/),
+[date-fns](https://date-fns.org/) or [Moment](https://momentjs.com/)):
 
 ```tsx
 import { ConfigProvider } from '@nish1896/mui-components/config';
@@ -37,7 +38,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 </ConfigProvider>
 ```
 
-Without a `dateAdapter`, the pickers throw at render — this is the one required piece of setup.
+Without a `dateAdapter`, the pickers throw an error at render — this is the one required piece of setup.
 
 ## Usage
 
@@ -52,12 +53,11 @@ const [value, setValue] = useState<Dayjs | null>(null);
 <MUIDatePicker
   fieldName="date"
   value={value}
-  onValueChange={({ newValue }) => setValue(newValue)}
+  onValueChange={({ newValue, context }) => setValue(newValue)}
 />
 ```
 
-The default handler stores the value only when it is valid — inspect
-`context.validationError` in `onValueChange` if you need to react to invalid entries.
+Inspect `context.validationError` in `onValueChange` if you need to react to invalid entries.
 
 ## Props
 

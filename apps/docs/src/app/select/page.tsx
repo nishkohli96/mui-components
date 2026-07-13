@@ -7,7 +7,7 @@ import {
 import {
   pageMetadata,
   componentsDocsLink,
-  ValidationLibLinks
+  validationLibLinks
 } from '@/constants';
 import SelectFormWithClassValidator from '@/forms/select-with-class-validator/Client';
 
@@ -17,7 +17,7 @@ const SelectWithClassValidatorPage = () => {
   const docsLinks = [
     componentsDocsLink.rhfSelect,
     componentsDocsLink.rhfNativeSelect,
-    ValidationLibLinks.classValidator
+    validationLibLinks.classValidator
   ];
 
   return (

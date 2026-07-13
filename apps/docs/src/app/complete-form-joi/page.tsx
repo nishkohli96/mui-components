@@ -7,7 +7,7 @@ import {
 import {
   pageMetadata,
   componentsDocsLink,
-  ValidationLibLinks
+  validationLibLinks
 } from '@/constants';
 import CompleteFormWithJoi from '@/forms/complete-form-with-joi/Client';
 
@@ -22,7 +22,7 @@ const CompleteFormWithJoiPage = () => {
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
       <CompleteFormWithJoi />
-      <LinksList links={[...docsLinks, ValidationLibLinks.joi]} />
+      <LinksList links={[...docsLinks, validationLibLinks.joi]} />
     </ContentContainer>
   );
 };

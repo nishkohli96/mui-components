@@ -12,7 +12,9 @@ export default function Layout({ children }) {
 
 # MUIAutocomplete
 
-`MUIAutocomplete` wraps the Material UI [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) and stores **primitive** values (the option string, or the `valueKey` property for object options). It supports single or multiple selection, `disableClearable` and `freeSolo`.
+`MUIAutocomplete` wraps the Material UI [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) and stores **primitive** values
+(the option string, or the `valueKey` property for object options). It supports single or multiple
+selection, `disableClearable` and `freeSolo`.
 
 ## Usage
 
@@ -33,6 +35,7 @@ const [color, setColor] = useState<string | null>(null);
 
 ## Props
 
-`MUIAutocompleteProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/). Use `MUIAutocompleteObject` when you need to store the full option object. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`MUIAutocompleteProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/).
+Use [MUIAutocompleteObject](autocomplete-object) when you need to store the full option object. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={ComponentProps.MUIAutocomplete} />

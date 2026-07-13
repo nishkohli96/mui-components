@@ -13,7 +13,7 @@ export default function Layout({ children }) {
 
 # Time Pickers
 
-These components wrap the Material UI X [Time Picker](https://v7.mui.com/x/react-date-pickers/time-picker/) with the
+These components wrap the Material UI X [Time Picker](https://v8.mui.com/x/react-date-pickers/time-picker/) with the
 suite's label, error and helper-text handling. Each comes in four flavors that share
 the same controlled contract — a `value` in your date library's format and an
 `onValueChange` callback:
@@ -26,7 +26,8 @@ the same controlled contract — a `value` in your date library's format and an
 ## Setup
 
 All pickers read their date adapter from `ConfigProvider`. Wrap your app once and pass
-the adapter for your date library ([Day.js](https://day.js.org/), Luxon, date-fns or Moment):
+the adapter for your date library ([Day.js](https://day.js.org/), [Luxon](https://moment.github.io/luxon/#/),
+[date-fns](https://date-fns.org/) or [Moment](https://momentjs.com/)):
 
 ```tsx
 import { ConfigProvider } from '@nish1896/mui-components/config';

@@ -2,7 +2,7 @@ import { ContentContainer, LinksList, PageHeading, SubHeading } from '@/componen
 import {
   pageMetadata,
   componentsDocsLink,
-  ValidationLibLinks
+  validationLibLinks
 } from '@/constants';
 import CheckboxRadioClient from '@/forms/checkbox-and-radiogroup-with-zod/Client';
 
@@ -13,7 +13,7 @@ const CheckboxRadioZodFormPage = () => {
     componentsDocsLink.rhfCheckbox,
     componentsDocsLink.rhfCheckboxGroup,
     componentsDocsLink.rhfRadioGroup,
-    ValidationLibLinks.zod
+    validationLibLinks.zod
   ];
 
   return (

@@ -7,7 +7,7 @@ import {
 import {
   pageMetadata,
   componentsDocsLink,
-  ValidationLibLinks
+  validationLibLinks
 } from '@/constants';
 import StyledReusableComponentForm from '@/forms/styled-form-with-reusable-component/Client';
 
@@ -17,7 +17,7 @@ const CustomizationPage = () => {
   const docsLinks = [
     componentsDocsLink.rhfTextField,
     componentsDocsLink.rhfDatePicker,
-    ValidationLibLinks.luxon
+    validationLibLinks.luxon
   ];
 
   return (
