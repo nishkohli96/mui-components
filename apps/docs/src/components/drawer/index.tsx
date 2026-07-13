@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -12,8 +12,12 @@ import ListItemText from '@mui/material/ListItemText';
 import { sidebarLinks } from '@/constants';
 import { type Page } from '@/types';
 
-const containsPath = (page: Page, pathname: string): boolean =>
-  page.href === pathname || page.pages?.some(child => containsPath(child, pathname)) === true;
+const containsPath = (page: Page, pathname: string): boolean => {
+  return (
+    page.href === pathname
+    || page.pages?.some(child => containsPath(child, pathname)) === true
+  )
+};
 
 type SidebarItemProps = DrawerProps & {
   page: Page;
@@ -88,15 +92,60 @@ type DrawerProps = {
 
 /**
  * Side-navigation list shared by the desktop rail and the mobile drawer.
- * Highlights the current route.
+ * Highlights the current route and, on navigation, scrolls the active item
+ * into view within the rail's own scroll area — otherwise landing on a deep
+ * item (e.g. Rating) leaves the rail scrolled to the top with the highlight
+ * off-screen.
  */
 const Drawer = ({ onNavigate }: DrawerProps) => {
   const pathname = usePathname();
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    const active = list?.querySelector<HTMLElement>('.Mui-selected');
+    if (!list || !active) {
+      return;
+    }
+
+    /* Nearest scrollable ancestor — the desktop rail's overflow box or the
+       mobile drawer paper. Scroll only this element, never the window. */
+    let container: HTMLElement | null = list.parentElement;
+    while (container) {
+      const { overflowY } = getComputedStyle(container);
+      if (overflowY === 'auto' || overflowY === 'scroll') {
+        break;
+      }
+      container = container.parentElement;
+    }
+    if (!container) {
+      return;
+    }
+
+    const containerRect = container.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+    const fullyVisible
+      = activeRect.top >= containerRect.top
+        && activeRect.bottom <= containerRect.bottom;
+    if (fullyVisible) {
+      return;
+    }
+
+    /* Center the active item in the rail's viewport. */
+    container.scrollTop
+      += (activeRect.top - containerRect.top)
+        - (container.clientHeight - activeRect.height) / 2;
+  }, [pathname]);
 
   return (
-    <List dense sx={{ px: 1 }}>
+    <List dense sx={{ px: 1 }} ref={listRef}>
       {sidebarLinks.map(link => (
-        <SidebarItem key={link.href ?? link.title} page={link} pathname={pathname} onNavigate={onNavigate} />
+        <SidebarItem
+          key={link.href ?? link.title}
+          page={link}
+          pathname={pathname}
+          onNavigate={onNavigate}
+        />
       ))}
     </List>
   );
