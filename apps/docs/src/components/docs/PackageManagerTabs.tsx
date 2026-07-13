@@ -31,7 +31,7 @@ const PackageManagerTabs = ({ id, command }: PackageManagerTabsProps) => (
         name={id}
         id={`${id}-${key}`}
         className="pm-tab-input"
-        defaultChecked={key === 'pnpm'}
+        defaultChecked={key === 'npm'}
       />
     ))}
     <div className="pm-tab-list" role="tablist" aria-label="Package manager">

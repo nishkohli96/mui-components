@@ -107,28 +107,31 @@ state.
 ## Bring your own form library
 
 Because the components are controlled, adapting them to a form library takes
-only a few lines. With React Hook Form's `Controller`:
+only a few lines. With [TanStack Form](https://tanstack.com/form/latest)'s `Field`:
 
 ```tsx
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from '@tanstack/react-form';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 
-const { control } = useForm();
+const form = useForm({ defaultValues: { email: '' } });
 
-<Controller
+<form.Field
   name="email"
-  control={control}
-  rules={{ required: 'Email is required' }}
-  render={({ field, fieldState }) => (
+  validators={{
+    onChange: ({ value }) => (!value ? 'Email is required' : undefined)
+  }}
+>
+  {field => (
     <MUITextField
       fieldName="email"
-      value={field.value}
-      onValueChange={({ newValue }) => field.onChange(newValue)}
-      onBlur={field.onBlur}
-      errorMessage={fieldState.error?.message}
+      value={field.state.value}
+      onValueChange={({ newValue }) => field.handleChange(newValue)}
+      onBlur={field.handleBlur}
+      // TanStack reports errors as an array; errorMessage resolves it internally
+      errorMessage={field.state.meta.errors}
     />
   )}
-/>
+</form.Field>
 ```
 
 ## Theming & defaults
