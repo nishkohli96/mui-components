@@ -15,12 +15,14 @@ const tagsInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.getLimitTagsText,
   P.renderTagLabel,
   resolveProp(P.ChipProps, args),
-  P.errorMessage,
-  P.renderError,
-  P.hideErrorMessage,
+  P.label,
   resolveProp(P.showLabelAboveFormField, args),
   P.hideLabel,
   resolveProp(P.formLabelProps, args),
+  P.required,
+  P.errorMessage,
+  P.renderError,
+  P.hideErrorMessage,
   resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];

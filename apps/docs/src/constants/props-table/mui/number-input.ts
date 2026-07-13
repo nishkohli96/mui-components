@@ -11,12 +11,14 @@ const numberInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.maxDecimalPlaces,
   P.stepAmount,
   P.showMarkers,
+  P.label,
+  resolveProp(P.showLabelAboveFormField, args),
+  resolveProp(P.formLabelProps, args),
+  P.hideLabel,
+  P.required,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  resolveProp(P.showLabelAboveFormField, args),
-  P.hideLabel,
-  resolveProp(P.formLabelProps, args),
   resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];

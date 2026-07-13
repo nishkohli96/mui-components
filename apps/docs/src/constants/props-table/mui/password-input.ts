@@ -8,12 +8,15 @@ const passwordInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.onValueChange_Inputs,
   P.showPasswordIcon,
   P.hidePasswordIcon,
+  P.label,
+  resolveProp(P.showLabelAboveFormField, args),
+  resolveProp(P.formLabelProps, args),
+  P.hideLabel,
+  P.required,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  resolveProp(P.showLabelAboveFormField, args),
-  P.hideLabel,
-  resolveProp(P.formLabelProps, args),
+  resolveProp(P.helperText, args),
   resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
