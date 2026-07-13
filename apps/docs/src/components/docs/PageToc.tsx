@@ -31,6 +31,13 @@ const PageToc = () => {
         '.doc-article h2[id], .doc-article h3[id]'
       )
     );
+
+    /**
+     * One-time read from an external system (the rendered article DOM) — the
+     * heading list can't be known during render, so this synchronous setState
+     * on mount is the sanctioned use of an effect, not a cascading-render bug.
+     */
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setItems(
       headings.map(heading => ({
         id: heading.id,

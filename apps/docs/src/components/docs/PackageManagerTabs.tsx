@@ -24,13 +24,14 @@ const managers = [
  */
 const PackageManagerTabs = ({ id, command }: PackageManagerTabsProps) => (
   <div className="pm-tabs">
-    {managers.map(({ key }) => (
+    {managers.map(({ key, label }) => (
       <input
         key={key}
         type="radio"
         name={id}
         id={`${id}-${key}`}
         className="pm-tab-input"
+        aria-label={label}
         defaultChecked={key === 'npm'}
       />
     ))}

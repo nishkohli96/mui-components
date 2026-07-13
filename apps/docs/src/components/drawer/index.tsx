@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -16,7 +16,7 @@ const containsPath = (page: Page, pathname: string): boolean => {
   return (
     page.href === pathname
     || page.pages?.some(child => containsPath(child, pathname)) === true
-  )
+  );
 };
 
 type SidebarItemProps = DrawerProps & {
@@ -31,11 +31,17 @@ const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps
   const isActive = page.href === pathname;
   const [open, setOpen] = useState(containsActivePage);
 
-  useEffect(() => {
+  /* Auto-expand when this branch newly contains the active page (e.g.
+     client-side nav into a collapsed section). Adjusting state during
+     render — tracking the previous value — is React's recommended
+     alternative to a setState-in-effect and avoids an extra paint. */
+  const [wasActive, setWasActive] = useState(containsActivePage);
+  if (containsActivePage !== wasActive) {
+    setWasActive(containsActivePage);
     if (containsActivePage) {
       setOpen(true);
     }
-  }, [containsActivePage]);
+  }
 
   return (
     <>

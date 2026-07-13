@@ -3,13 +3,12 @@ import type { Page, PageInfo } from '@/types';
 
 /** Depth-first flatten of the sidebar tree into linkable leaf pages, in reading order — category headers (no `href`) are skipped. */
 function flattenPages(pages: Page[]): PageInfo[] {
-  return pages.flatMap(page => (
-    page.pages?.length
-      ? flattenPages(page.pages)
-      : page.href
-        ? [{ title: page.title, href: page.href }]
-        : []
-  ));
+  return pages.flatMap(page => {
+    if (page.pages?.length) {
+      return flattenPages(page.pages);
+    }
+    return page.href ? [{ title: page.title, href: page.href }] : [];
+  });
 }
 
 const orderedPages = flattenPages(sidebarLinks);
