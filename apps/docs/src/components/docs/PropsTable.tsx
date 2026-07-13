@@ -73,7 +73,6 @@ const PropsTable = ({ rows }: PropsTableProps) => {
         <tr>
           <th>Name</th>
           <th>Type</th>
-          <th>Default</th>
           <th>Description</th>
         </tr>
       </thead>
@@ -96,10 +95,11 @@ const PropsTable = ({ rows }: PropsTableProps) => {
                 )}
             </td>
             <td>
-              {row.defaultValue ? renderInlineMd(row.defaultValue) : '-'}
-            </td>
-            <td>
-              {renderInlineMd(row.description)}
+              {row.description.split('\n\n').map((paragraph, index) => (
+                <div key={index} style={index > 0 ? { marginTop: 6 } : undefined}>
+                  {renderInlineMd(paragraph)}
+                </div>
+              ))}
             </td>
           </tr>
         ))}

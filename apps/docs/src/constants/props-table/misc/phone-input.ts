@@ -1,8 +1,8 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUIPhoneInput`. */
-const phoneInputRows: PropsInfo[] = [
+const phoneInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_PhoneInput,
   P.onValueChange_PhoneInput,
@@ -22,11 +22,11 @@ const phoneInputRows: PropsInfo[] = [
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.showLabelAboveFormField,
+  resolveProp(P.helperText, args),
+  resolveProp(P.showLabelAboveFormField, args),
   P.hideLabel,
-  P.formLabelProps,
-  P.formHelperTextProps,
+  resolveProp(P.formLabelProps, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 

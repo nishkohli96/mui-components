@@ -1,5 +1,5 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /**
  * Every picker family ships four variants. The responsive, desktop and
@@ -7,37 +7,37 @@ import { PropsDescription as P } from '../descriptions';
  * static variant renders inline without a text field (`staticPickerRows`).
  * Only the `onValueChange` description differs between families.
  */
-export const pickerRows = (onValueChange: PropsInfo): PropsInfo[] => [
+export const pickerRows = (onValueChange: PropsInfo) => (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_Picker,
   onValueChange,
   P.required,
-  P.showLabelAboveFormField,
-  P.formLabelProps,
+  resolveProp(P.showLabelAboveFormField, args),
+  resolveProp(P.formLabelProps, args),
   P.hideLabel,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.formHelperTextProps,
-  P.pickerSlotProps,
+  resolveProp(P.helperText, args),
+  resolveProp(P.formHelperTextProps, args),
+  resolveProp(P.pickerSlotProps, args),
   P.customIds
 ];
 
-export const staticPickerRows = (onValueChange: PropsInfo): PropsInfo[] => [
+export const staticPickerRows = (onValueChange: PropsInfo) => (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName_NoName,
   P.value_Picker,
   onValueChange,
   P.required,
   P.label,
   P.showLabelAboveFormField_Static,
-  P.formLabelProps,
+  resolveProp(P.formLabelProps, args),
   P.hideLabel,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.formHelperTextProps,
-  P.pickerSlotProps,
+  resolveProp(P.helperText, args),
+  resolveProp(P.formHelperTextProps, args),
+  resolveProp(P.pickerSlotProps, args),
   P.customIds
 ];

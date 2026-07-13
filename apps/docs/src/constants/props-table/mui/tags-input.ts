@@ -1,8 +1,8 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUITagsInput`. */
-const tagsInputRows: PropsInfo[] = [
+const tagsInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_TagsInput,
   P.onValueChange_TagsInput,
@@ -27,9 +27,8 @@ const tagsInputRows: PropsInfo[] = [
   {
     name: 'delimiter',
     description:
-      'Character used to separate tags when typing or pasting. Pressing this key commits the current input as one or more tags.',
-    type: 'string',
-    defaultValue: '\',\''
+      'Character used to separate tags when typing or pasting. Pressing this key commits the current input as one or more tags.\n\n**Default:** `\',\'`',
+    type: 'string'
   },
   {
     name: 'maxTags',
@@ -40,9 +39,8 @@ const tagsInputRows: PropsInfo[] = [
   {
     name: 'limitTags',
     description:
-      'Maximum number of tags shown when the input is not focused. Set to `-1` to always show all tags.',
-    type: 'number',
-    defaultValue: '2'
+      'Maximum number of tags shown when the input is not focused. Set to `-1` to always show all tags.\n\n**Default:** `2`',
+    type: 'number'
   },
   P.getLimitTagsText,
   {
@@ -51,14 +49,14 @@ const tagsInputRows: PropsInfo[] = [
       'Custom renderer for each visible tag label. Receives the tag value and returns the content displayed inside the chip.',
     type: '(tag: string) => ReactNode'
   },
-  P.ChipProps,
+  resolveProp(P.ChipProps, args),
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.showLabelAboveFormField,
+  resolveProp(P.showLabelAboveFormField, args),
   P.hideLabel,
-  P.formLabelProps,
-  P.formHelperTextProps,
+  resolveProp(P.formLabelProps, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 

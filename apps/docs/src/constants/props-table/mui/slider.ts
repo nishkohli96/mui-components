@@ -1,8 +1,8 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUISlider`. */
-const sliderRows: PropsInfo[] = [
+const sliderRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_Slider,
   P.onValueChange_Slider,
@@ -10,12 +10,12 @@ const sliderRows: PropsInfo[] = [
   P.label,
   P.showLabelAboveFormField_Default,
   P.hideLabel,
-  P.formLabelProps,
+  resolveProp(P.formLabelProps, args),
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.formHelperTextProps,
+  resolveProp(P.helperText, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 

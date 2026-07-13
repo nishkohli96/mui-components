@@ -7,3 +7,14 @@ export type VersionProps = {
   muiVersion?: MuiVersion;
   muiXVersion?: MuiXVersion;
 };
+
+/**
+ * Version args threaded through `constants/props-table` when a prop's
+ * description/type links to versioned MUI (or MUI X) docs — pin these once
+ * per release (e.g. `{ muiVersion: 7, muiPickersVersion: 8 }`) so a future
+ * version bump (v2 / MUI 9) only means updating the values passed in.
+ */
+export type PropsDescriptionArgs = {
+  muiVersion?: MuiVersion;
+  muiPickersVersion?: MuiXVersion;
+};

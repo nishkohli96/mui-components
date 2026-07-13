@@ -1,8 +1,8 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUIAutocomplete`. */
-const autocompleteRows: PropsInfo[] = [
+const autocompleteRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_Autocomplete,
   P.onValueChange_Autocomplete,
@@ -14,17 +14,17 @@ const autocompleteRows: PropsInfo[] = [
   P.freeSolo,
   P.limitTags,
   P.getLimitTagsText,
-  P.textFieldProps,
-  P.ChipProps,
+  resolveProp(P.textFieldProps, args),
+  resolveProp(P.ChipProps, args),
   P.required,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.showLabelAboveFormField,
+  resolveProp(P.helperText, args),
+  resolveProp(P.showLabelAboveFormField, args),
   P.hideLabel,
-  P.formLabelProps,
-  P.formHelperTextProps,
+  resolveProp(P.formLabelProps, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 

@@ -1,8 +1,8 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUIMultiAutocomplete`. */
-const multiAutocompleteRows: PropsInfo[] = [
+const multiAutocompleteRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_MultiAutocomplete,
   P.onValueChange_MultiAutocomplete,
@@ -17,19 +17,19 @@ const multiAutocompleteRows: PropsInfo[] = [
   P.getOptionDisabled,
   P.limitTags,
   P.getLimitTagsText,
-  P.checkboxProps,
-  P.formControlLabelProps,
-  P.textFieldProps,
-  P.ChipProps,
+  resolveProp(P.checkboxProps, args),
+  resolveProp(P.formControlLabelProps, args),
+  resolveProp(P.textFieldProps, args),
+  resolveProp(P.ChipProps, args),
   P.required,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.showLabelAboveFormField,
+  resolveProp(P.helperText, args),
+  resolveProp(P.showLabelAboveFormField, args),
   P.hideLabel,
-  P.formLabelProps,
-  P.formHelperTextProps,
+  resolveProp(P.formLabelProps, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 

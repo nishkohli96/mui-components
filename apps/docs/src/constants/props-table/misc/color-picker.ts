@@ -1,17 +1,16 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUIColorPicker`. */
-const colorPickerRows: PropsInfo[] = [
+const colorPickerRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName_NoName,
   P.value_ColorPicker,
   P.onValueChange_ColorPicker,
   P.valueKey_ColorPicker,
   {
     name: 'defaultColor',
-    description: 'Initial color used by the picker when `value` is empty.',
-    type: 'string',
-    defaultValue: '\'#000000\''
+    description: 'Initial color used by the picker when `value` is empty.\n\n**Default:** `\'#000000\'`',
+    type: 'string'
   },
   {
     name: 'excludeAlpha',
@@ -20,9 +19,8 @@ const colorPickerRows: PropsInfo[] = [
   },
   {
     name: 'height',
-    description: 'Height, in pixels, of the color picker control.',
-    type: 'number',
-    defaultValue: '200'
+    description: 'Height, in pixels, of the color picker control.\n\n**Default:** `200`',
+    type: 'number'
   },
   {
     name: 'hideAlpha',
@@ -39,12 +37,12 @@ const colorPickerRows: PropsInfo[] = [
   P.label,
   P.showLabelAboveFormField_Default,
   P.hideLabel,
-  P.formLabelProps,
+  resolveProp(P.formLabelProps, args),
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.formHelperTextProps,
+  resolveProp(P.helperText, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 

@@ -3,9 +3,15 @@
  * mirroring the package structure (`mui` / `mui-pickers` / `misc`). Shared
  * descriptions live in `descriptions.ts`; the `ComponentProps` record below
  * is what doc pages feed into `PropsTable`.
+ *
+ * Each row-builder is a function of `PropsDescriptionArgs` — props that link
+ * to MUI/MUI X docs resolve their URL from `muiVersion`/`muiPickersVersion`
+ * (see `descriptions.ts`). `currentVersionArgs` below pins the version this
+ * release actually documents; bumping it is the only change a future v2
+ * (MUI 9) needs here.
  */
 
-import type { PropsInfo } from '@/types';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
 import textFieldRows from './mui/textfield';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
@@ -31,37 +37,43 @@ import colorPickerRows from './misc/color-picker';
 import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
 
-export { PropsDescription } from './descriptions';
+export { PropsDescription, resolveProp } from './descriptions';
+
+/** The MUI / MUI X Date Pickers version this release's docs actually target. */
+export const currentVersionArgs: PropsDescriptionArgs = {
+  muiVersion: 7,
+  muiPickersVersion: 8
+};
 
 export const ComponentProps: Record<string, PropsInfo[]> = Object.freeze({
-  MUITextField: textFieldRows,
-  MUIPasswordInput: passwordInputRows,
-  MUINumberInput: numberInputRows,
-  MUITagsInput: tagsInputRows,
-  MUIFileUploader: fileUploaderRows,
-  MUISelect: selectRows,
-  MUINativeSelect: nativeSelectRows,
-  MUIAutocomplete: autocompleteRows,
-  MUIAutocompleteObject: autocompleteObjectRows,
-  MUIMultiAutocomplete: multiAutocompleteRows,
-  MUIMultiAutocompleteObject: multiAutocompleteObjectRows,
-  MUICountrySelect: countrySelectRows,
-  MUICheckbox: checkboxRows,
-  MUICheckboxGroup: checkboxGroupRows,
-  MUIRadioGroup: radioGroupRows,
-  MUISwitch: switchRows,
-  MUISlider: sliderRows,
-  MUIRating: ratingRows,
+  MUITextField: textFieldRows(currentVersionArgs),
+  MUIPasswordInput: passwordInputRows(currentVersionArgs),
+  MUINumberInput: numberInputRows(currentVersionArgs),
+  MUITagsInput: tagsInputRows(currentVersionArgs),
+  MUIFileUploader: fileUploaderRows(currentVersionArgs),
+  MUISelect: selectRows(currentVersionArgs),
+  MUINativeSelect: nativeSelectRows(currentVersionArgs),
+  MUIAutocomplete: autocompleteRows(currentVersionArgs),
+  MUIAutocompleteObject: autocompleteObjectRows(currentVersionArgs),
+  MUIMultiAutocomplete: multiAutocompleteRows(currentVersionArgs),
+  MUIMultiAutocompleteObject: multiAutocompleteObjectRows(currentVersionArgs),
+  MUICountrySelect: countrySelectRows(currentVersionArgs),
+  MUICheckbox: checkboxRows(currentVersionArgs),
+  MUICheckboxGroup: checkboxGroupRows(currentVersionArgs),
+  MUIRadioGroup: radioGroupRows(currentVersionArgs),
+  MUISwitch: switchRows(currentVersionArgs),
+  MUISlider: sliderRows(currentVersionArgs),
+  MUIRating: ratingRows(currentVersionArgs),
 
   /* Picker variations share their family's rows — no per-variation entries. */
-  MUIDatePicker: datePickerRows,
-  MUIStaticDatePicker: staticDatePickerRows,
-  MUITimePicker: timePickerRows,
-  MUIStaticTimePicker: staticTimePickerRows,
-  MUIDateTimePicker: dateTimePickerRows,
-  MUIStaticDateTimePicker: staticDateTimePickerRows,
+  MUIDatePicker: datePickerRows(currentVersionArgs),
+  MUIStaticDatePicker: staticDatePickerRows(currentVersionArgs),
+  MUITimePicker: timePickerRows(currentVersionArgs),
+  MUIStaticTimePicker: staticTimePickerRows(currentVersionArgs),
+  MUIDateTimePicker: dateTimePickerRows(currentVersionArgs),
+  MUIStaticDateTimePicker: staticDateTimePickerRows(currentVersionArgs),
 
-  MUIColorPicker: colorPickerRows,
-  MUIPhoneInput: phoneInputRows,
-  MUIRichTextEditor: richTextEditorRows
+  MUIColorPicker: colorPickerRows(currentVersionArgs),
+  MUIPhoneInput: phoneInputRows(currentVersionArgs),
+  MUIRichTextEditor: richTextEditorRows(currentVersionArgs)
 });

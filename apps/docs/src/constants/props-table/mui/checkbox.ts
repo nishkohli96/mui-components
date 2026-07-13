@@ -1,19 +1,19 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUICheckbox`. */
-const checkboxRows: PropsInfo[] = [
+const checkboxRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_Cbx_Switch,
   P.onValueChange_Cbx_Switch,
   P.label,
   P.hideLabel,
-  P.formControlLabelProps,
+  resolveProp(P.formControlLabelProps, args),
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.formHelperTextProps,
+  resolveProp(P.helperText, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 

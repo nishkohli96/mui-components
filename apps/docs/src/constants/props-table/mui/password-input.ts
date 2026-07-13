@@ -1,32 +1,30 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUIPasswordInput`. */
-const passwordInputRows: PropsInfo[] = [
+const passwordInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_Input,
   P.onValueChange_Inputs,
   {
     name: 'showPasswordIcon',
     description:
-      'Custom icon displayed when the password is currently hidden. Clicking it reveals the password value.',
-    type: 'ReactNode',
-    defaultValue: '`<VisibilityIcon />`'
+      'Custom icon displayed when the password is currently hidden. Clicking it reveals the password value.\n\n**Default:** `<VisibilityIcon />`',
+    type: 'ReactNode'
   },
   {
     name: 'hidePasswordIcon',
     description:
-      'Custom icon displayed when the password is currently visible. Clicking it hides the password value.',
-    type: 'ReactNode',
-    defaultValue: '`<VisibilityOffIcon />`'
+      'Custom icon displayed when the password is currently visible. Clicking it hides the password value.\n\n**Default:** `<VisibilityOffIcon />`',
+    type: 'ReactNode'
   },
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.showLabelAboveFormField,
+  resolveProp(P.showLabelAboveFormField, args),
   P.hideLabel,
-  P.formLabelProps,
-  P.formHelperTextProps,
+  resolveProp(P.formLabelProps, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 

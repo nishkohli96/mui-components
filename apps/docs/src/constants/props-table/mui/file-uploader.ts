@@ -1,8 +1,8 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUIFileUploader`. */
-const fileUploaderRows: PropsInfo[] = [
+const fileUploaderRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_FileUploader,
   P.onValueChange_FileUploader,
@@ -44,9 +44,8 @@ const fileUploaderRows: PropsInfo[] = [
   {
     name: 'disableDragAndDrop',
     description:
-      'Disable drag-and-drop and only allow file selection via the upload button.',
-    type: 'boolean',
-    defaultValue: 'false'
+      'Disable drag-and-drop and only allow file selection via the upload button.\n\n**Default:** `false`',
+    type: 'boolean'
   },
   {
     name: 'renderUploadButton',
@@ -89,19 +88,18 @@ const fileUploaderRows: PropsInfo[] = [
   },
   {
     name: 'fullWidth',
-    description: 'When true, the component expands to fill its container width.',
-    type: 'boolean',
-    defaultValue: 'false'
+    description: 'When true, the component expands to fill its container width.\n\n**Default:** `false`',
+    type: 'boolean'
   },
   P.required,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.showLabelAboveFormField,
+  resolveProp(P.helperText, args),
+  resolveProp(P.showLabelAboveFormField, args),
   P.hideLabel,
-  P.formLabelProps,
-  P.formHelperTextProps,
+  resolveProp(P.formLabelProps, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 

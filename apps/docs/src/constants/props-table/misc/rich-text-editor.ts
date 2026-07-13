@@ -1,8 +1,8 @@
-import type { PropsInfo } from '@/types';
-import { PropsDescription as P } from '../descriptions';
+import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import { PropsDescription as P, resolveProp } from '../descriptions';
 
 /** Props reference rows for `MUIRichTextEditor`. */
-const richTextEditorRows: PropsInfo[] = [
+const richTextEditorRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName_NoName,
   P.value_RichTextEditor,
   P.onValueChange_RichTextEditor,
@@ -37,12 +37,12 @@ const richTextEditorRows: PropsInfo[] = [
   P.label,
   P.showLabelAboveFormField_Default,
   P.hideLabel,
-  P.formLabelProps,
+  resolveProp(P.formLabelProps, args),
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
-  P.helperText,
-  P.formHelperTextProps,
+  resolveProp(P.helperText, args),
+  resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
 
