@@ -837,6 +837,33 @@ export const PropsDescription = Object.freeze({
       'Hides picker input fields rendered by `react-color-palette`.',
     type: '(hex \| rgb \| hsv)[] | boolean'
   },
+  editorConfig: {
+    name: 'editorConfig',
+    description:
+      'CKEditor configuration passed to `ClassicEditor`. Defaults to this package\'s `DefaultEditorConfig`.',
+    type: 'EditorConfig'
+  },
+  onReady_RichTextEditor: {
+    name: 'onReady',
+    description: 'Callback fired when the CKEditor instance is ready.',
+    type: '(editor: ClassicEditor) => void'
+  },
+  onFocus_RichTextEditor: {
+    name: 'onFocus',
+    description: 'Callback fired when the CKEditor instance receives focus.',
+    type: '(event, editor) => void'
+  },
+  onBlur_RichTextEditor: {
+    name: 'onBlur',
+    description: 'Callback fired when the CKEditor instance loses focus.',
+    type: '(event, editor) => void'
+  },
+  onError_RichTextEditor: {
+    name: 'onError',
+    description:
+      'Callback fired when CKEditor reports an initialization or runtime error.',
+    type: '(error: Error, details) => void'
+  },
   phoneInputProps: {
     name: 'phoneInputProps',
     description:
