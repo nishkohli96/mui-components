@@ -11,7 +11,7 @@ export default function Layout({ children }) {
 
 # MUITextField
 
-`MUITextField` extends the Material UI [TextField](https://mui.com/material-ui/react-text-field/)
+`MUITextField` extends the Material UI [TextField](https://v7.mui.com/material-ui/react-text-field/)
 component, accepting almost all of its props while wiring up the label, error state and
 helper text for you. It is a controlled component that works with plain `useState` or any
 form library able to provide a value and receive changes.
@@ -25,7 +25,7 @@ import MUITextField from '@nish1896/mui-components/mui/textfield';
 Provide `fieldName`, `value` and `onValueChange` to render a fully functional text field:
 
 ```tsx
-const [firstName, setFirstName] = useState('');
+const [firstName, setFirstName] = useState();
 
 <MUITextField
   fieldName="firstName"
@@ -50,8 +50,8 @@ library and the field renders in an error state:
 ## Props
 
 `MUITextFieldProps` also accepts the remaining
-[TextFieldProps](https://mui.com/material-ui/api/text-field/)
-(`variant`, `placeholder`, `slotProps`, `sx`, ...) in addition to the props below.
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/)
+in addition to the props below.
 Props marked with * are required.
 
 <PropsTable rows={ComponentProps.MUITextField} />

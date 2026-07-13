@@ -44,7 +44,7 @@ export function resolveProp(
  */
 export const PropsDescription = Object.freeze({
   /* ------------------------------------------------------------------ */
-  /* Identity & value contract                                           */
+  /* Identity & value contract                                          */
   /* ------------------------------------------------------------------ */
   fieldName: {
     name: 'fieldName',
@@ -181,7 +181,7 @@ export const PropsDescription = Object.freeze({
   },
 
   /* ------------------------------------------------------------------ */
-  /* onValueChange variants                                              */
+  /* onValueChange variants                                             */
   /* ------------------------------------------------------------------ */
   onValueChange_Inputs: {
     name: 'onValueChange',
@@ -339,7 +339,7 @@ export const PropsDescription = Object.freeze({
   },
 
   /* ------------------------------------------------------------------ */
-  /* Labels                                                              */
+  /* Labels                                                             */
   /* ------------------------------------------------------------------ */
   label: {
     name: 'label',
@@ -384,7 +384,7 @@ export const PropsDescription = Object.freeze({
   }),
 
   /* ------------------------------------------------------------------ */
-  /* Errors & helper text                                                */
+  /* Errors & helper text                                               */
   /* ------------------------------------------------------------------ */
   errorMessage: {
     name: 'errorMessage',
@@ -417,7 +417,23 @@ export const PropsDescription = Object.freeze({
   }),
 
   /* ------------------------------------------------------------------ */
-  /* Options-based fields                                                */
+  /* Password & Number Input fields                                     */
+  /* ------------------------------------------------------------------ */
+  showPasswordIcon: {
+    name: 'showPasswordIcon',
+    description:
+      'Custom icon displayed when the password is currently hidden. Clicking it reveals the password value.\n\n**Default:** `<VisibilityIcon />`',
+    type: 'ReactNode'
+  },
+  hidePasswordIcon: {
+    name: 'hidePasswordIcon',
+    description:
+      'Custom icon displayed when the password is currently visible. Clicking it hides the password value.\n\n**Default:** `<VisibilityOffIcon />`',
+    type: 'ReactNode'
+  },
+
+  /* ------------------------------------------------------------------ */
+  /* Options-based fields                                               */
   /* ------------------------------------------------------------------ */
   options: {
     name: 'options',
@@ -503,7 +519,7 @@ export const PropsDescription = Object.freeze({
   },
 
   /* ------------------------------------------------------------------ */
-  /* Autocomplete family                                                 */
+  /* Autocomplete family                                                */
   /* ------------------------------------------------------------------ */
   multiple: {
     name: 'multiple',
@@ -576,7 +592,7 @@ export const PropsDescription = Object.freeze({
   }),
 
   /* ------------------------------------------------------------------ */
-  /* Misc shared                                                         */
+  /* Misc shared                                                        */
   /* ------------------------------------------------------------------ */
   required: {
     name: 'required',
@@ -615,7 +631,7 @@ export const PropsDescription = Object.freeze({
   },
 
   /* ------------------------------------------------------------------ */
-  /* Pickers                                                             */
+  /* Pickers                                                            */
   /* ------------------------------------------------------------------ */
   pickerSlotProps: (args: PropsDescriptionArgs) => ({
     name: 'slotProps',

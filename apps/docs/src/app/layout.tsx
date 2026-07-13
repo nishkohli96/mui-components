@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Script from 'next/script';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import Box from '@mui/material/Box';
 import { ToastContainer } from 'react-toastify';
@@ -18,6 +17,7 @@ import {
   Footer
 } from '@/components';
 import { AppThemeProvider } from '@/theme';
+import { colorSchemeAttribute, modeStorageKey } from '@/theme/constants';
 import './globals.css';
 
 type RootLayoutProps = {
@@ -25,6 +25,22 @@ type RootLayoutProps = {
 };
 
 const inter = Inter({ subsets: ['latin'] });
+
+/*
+ * Synchronous, no-flash color-scheme bootstrap. Runs as the first child of
+ * <body>, so it executes during HTML parsing — before the browser paints
+ * any body content — and stamps data-mui-color-scheme on <html> to match
+ * the palette CSS already inlined in <head>.
+ *
+ * Why not `next/script strategy="beforeInteractive"`: that pushes the file
+ * onto Next's async `__next_s` queue, which the runtime loads only AFTER the
+ * first paint — so the page paints once in the default (light) scheme, then
+ * repaints in the stored scheme. That one-frame repaint is the theme flash.
+ * An inline <script dangerouslySetInnerHTML> has no such queue; it blocks and
+ * runs in document order, guaranteeing the attribute is set before paint.
+ * (Keep this logic in sync with src/theme/constants.ts.)
+ */
+const colorSchemeInit = `(function(){try{var m=localStorage.getItem('${modeStorageKey}')||'system';var s=m==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('${colorSchemeAttribute}',s);}catch(e){}})();`;
 
 export const metadata: Metadata = {
   title: {
@@ -39,20 +55,10 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        {/*
-          Color-scheme bootstrap (public/color-scheme-init.js): runs before
-          hydration/first paint, reads localStorage and stamps
-          data-mui-color-scheme on <html> — no theme flash.
-
-          Replaces MUI's <InitColorSchemeScript>: any inline <script>
-          rendered through React logs a dev console error on every load
-          ("Encountered a script tag while rendering React component").
-          A src-based `beforeInteractive` script is hoisted by Next outside
-          the React tree, which avoids that entirely.
-        */}
-        <Script
-          src="/color-scheme-init.js"
-          strategy="beforeInteractive"
+        {/* Must be the first body child — see colorSchemeInit above. */}
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: colorSchemeInit }}
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>

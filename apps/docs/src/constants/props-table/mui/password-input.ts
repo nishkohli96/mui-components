@@ -6,18 +6,8 @@ const passwordInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_Input,
   P.onValueChange_Inputs,
-  {
-    name: 'showPasswordIcon',
-    description:
-      'Custom icon displayed when the password is currently hidden. Clicking it reveals the password value.\n\n**Default:** `<VisibilityIcon />`',
-    type: 'ReactNode'
-  },
-  {
-    name: 'hidePasswordIcon',
-    description:
-      'Custom icon displayed when the password is currently visible. Clicking it hides the password value.\n\n**Default:** `<VisibilityOffIcon />`',
-    type: 'ReactNode'
-  },
+  P.showPasswordIcon,
+  P.hidePasswordIcon,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,

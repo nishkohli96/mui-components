@@ -8,7 +8,8 @@
 }
 
 /* No-JS fallback only — the attribute selectors below are the source of
-   truth once color-scheme-init.js stamps data-mui-color-scheme pre-paint. */
+   truth once the inline bootstrap in layout.tsx stamps
+   data-mui-color-scheme on <html> pre-paint. */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #0b0e14;

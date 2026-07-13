@@ -17,13 +17,6 @@ on its own or with any form library — was the natural next step. It saves
 developers, junior and senior alike, significant time and effort in building
 consistent form UIs.
 
-<Callout type="info" title="Migrating from rhf-mui-components">
-  Coming from `@nish1896/rhf-mui-components`?
-  
-  The component surface is the same — `control` and `registerOptions` are
-  replaced by the controlled `value` / `onValueChange` / `errorMessage` props.
-</Callout>
-
 ## Installation
 
 Install the package:
@@ -34,13 +27,19 @@ The package expects Material UI (`v6` or `v7`) and its peers in your app.
 Match your project's MUI version by installing with the `latest-v6` or
 `latest-v7` tag:
 
-<PackageManagerTabs id="install-mui-peers" command="@mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled" />
+<PackageManagerTabs
+  id="install-mui-peers"
+  command="@mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled"
+/>
 
-Date & time pickers additionally use [MUI X](https://mui.com/x/react-date-pickers/)
+Date & time pickers additionally use [MUI X](https://v8.mui.com/x/react-date-pickers/)
 (`v7` or `v8`) and a date adapter of your choice, with `AdapterDayjs` being
 [recommended by Material UI](https://v8.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
-<PackageManagerTabs id="install-pickers" command="@mui/x-date-pickers dayjs" />
+<PackageManagerTabs
+  id="install-pickers"
+  command="@mui/x-date-pickers dayjs"
+/>
 
 To minimize the bundle size during the build process, this package includes both
 named and default exports within each module. Similar to Material-UI, developers 
@@ -56,7 +55,17 @@ import the modules they use:
 
 <FolderStructure />
 
-Desktop, mobile and static variants are covered on each family page.
+- **mui** - Includes core Material-UI components such as TextField, 
+Select, and others.
+- **mui-pickers** - Contains Material-UI date and 
+time picker components, along with their variations - `Desktop`, `Mobile` and `Static`.
+- **misc** -  Features external form components, such as the rich text editor, that are not
+part of Material-UI.
+- **config** - Provides a Context Provider to set default styles 
+for all components and configure the `dateAdapter` for date and time pickers.
+- **form-helpers** - Utility functions used internally by the components,
+which can also be leveraged by developers for processing and validating form data.
+
 
 ## Quick start
 
@@ -82,6 +91,14 @@ export default function SignupName() {
   );
 }
 ```
+
+<Callout type="info" title="Using rhf-mui-components ?">
+  Is this package similar to `@nish1896/rhf-mui-components`?
+  
+  Yes. The component API is largely the same. The main difference is that
+  `control` and `registerOptions` have been replaced with the controlled
+  `value` / `onValueChange` / `errorMessage` props.
+</Callout>
 
 There is no schema, resolver or registration step — derive `errorMessage` from
 your own validation (or your form library's) and the field renders in an error
