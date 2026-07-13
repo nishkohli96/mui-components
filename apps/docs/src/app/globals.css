@@ -343,6 +343,17 @@ body {
   color: #79b8ff;
 }
 
+/* Links inside props-table cells (Type/Description) follow the theme's
+   primary color, like the MDX prose links, instead of the browser default. */
+.doc-article td a {
+  color: var(--mui-palette-primary-main);
+  text-decoration: none;
+}
+
+.doc-article td a:hover {
+  text-decoration: underline;
+}
+
 /* --- Lists --- */
 
 .doc-article ul,
@@ -351,3 +362,4 @@ body {
   padding-left: 24px;
   line-height: 1.8;
 }
+

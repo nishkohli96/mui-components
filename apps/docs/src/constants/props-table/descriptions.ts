@@ -129,8 +129,8 @@ export const PropsDescription = Object.freeze({
   value_Cbx_Switch: {
     name: 'value',
     description:
-      'Current checked state. `undefined`/`null` are treated as unchecked.',
-    type: 'boolean | null'
+      'Current checked state. `undefined`/`false` are treated as unchecked.',
+    type: 'boolean'
   },
   value_CheckboxGroup: {
     name: 'value',
@@ -343,8 +343,7 @@ export const PropsDescription = Object.freeze({
   /* ------------------------------------------------------------------ */
   label: {
     name: 'label',
-    description:
-      'Label content shown for the field. By default, the value of `fieldName` (e.g. _firstName_) is transformed to "**First Name**".',
+    description: 'Label displayed for the field. Defaults to a human-readable label derived from `fieldName`, e.g. `firstName` becomes `First Name`',
     type: 'ReactNode'
   },
   hideLabel: {
@@ -390,7 +389,7 @@ export const PropsDescription = Object.freeze({
     name: 'errorMessage',
     description:
       'Validation error in whatever shape your form library provides — a message string, an `Error`/`FieldError`-like object with a `message`, or an array of either (every resolvable message is kept, so multiple failed rules show together). Any non-empty input puts the field in an error state; `undefined`/`null`/`false`/`\'\'`/`[]` clear it — `false` is accepted so the Formik-style `touched && errors` expression passes as-is.',
-    type: 'string / object / array'
+    type: 'string \| object \| array'
   },
   renderError: {
     name: 'renderError',
@@ -510,14 +509,14 @@ export const PropsDescription = Object.freeze({
     name: 'options',
     description:
       'An array with string, numeric or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
-    type: 'string[] / number[] / object[]',
+    type: 'string[] \| number[] \| object[]',
     required: true
   },
   options_StrOrObj: {
     name: 'options',
     description:
       'An array with string or object values. Make sure to pass `labelKey` and `valueKey` when options is an array of objects.',
-    type: 'string[] / object[]',
+    type: 'string[] \| object[]',
     required: true
   },
   options_Obj: {
@@ -556,7 +555,7 @@ export const PropsDescription = Object.freeze({
     name: 'valueKey',
     description:
       'When provided, selected value(s) are exposed using the specified country property; when omitted, complete country objects are used.',
-    type: 'keyof Omit<CountryDetails, \'emoji\'>'
+    type: '`name` \| `iso` \| `iso3`'
   },
   valueKey_ColorPicker: {
     name: 'valueKey',
@@ -612,12 +611,24 @@ export const PropsDescription = Object.freeze({
   freeSolo_MultiAutocomplete: {
     name: 'freeSolo',
     description:
-      'When true, the user may type any value not present in `options`. Not compatible with `selectAllText` — enabling it hides the "Select All" option.',
+      'When true, the user may type any value not present in `options`. Not compatible with `selectAllText` — enabling it hides the "**Select All**" option.',
     type: 'boolean'
+  },
+  countries: {
+    name: 'countries',
+    description:
+      'List of countries to display in the country selector. Defaults to all countries from `countryList`.',
+    type: 'CountryDetails[]'
+  },
+  preferredCountries: {
+    name: 'preferredCountries',
+    description:
+      'Country ISO codes pinned at the top of the dropdown, in the provided order.',
+    type: 'CountryISO[]'
   },
   selectAllText: {
     name: 'selectAllText',
-    description: 'Text to display for the "Select All" option.\n\n**Default:** `\'Select All\'`',
+    description: 'Text to display for the "**Select All**" option.\n\n**Default:** `\'Select All\'`',
     type: 'string'
   },
   hideSelectAllOption: {
@@ -628,7 +639,7 @@ export const PropsDescription = Object.freeze({
   limitTags: {
     name: 'limitTags',
     description:
-      'Maximum number of selected values shown as chips when the input is not focused.\n\n**Default:** `2`',
+      'Maximum number of selected values shown as chips when the input is not focused. Set `-1` to disable the limit.\n\n**Default:** `2`',
     type: 'number'
   },
   getLimitTagsText: {

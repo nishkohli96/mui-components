@@ -6,18 +6,8 @@ const countrySelectRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_CountrySelect,
   P.onValueChange_CountrySelect,
-  {
-    name: 'countries',
-    description:
-      'List of countries to display in the country selector. Defaults to all countries from `countryList`.',
-    type: 'CountryDetails[]'
-  },
-  {
-    name: 'preferredCountries',
-    description:
-      'Country ISO codes pinned at the top of the dropdown, in the provided order.',
-    type: 'CountryISO[]'
-  },
+  P.countries,
+  P.preferredCountries,
   P.valueKey_CountrySelect,
   P.multiple,
   P.disableClearable,

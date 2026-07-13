@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, Callout, PropsTable } from '@/components/docs';
 import { ComponentProps } from '@/constants/props-table';
 
 export const metadata = {
@@ -12,7 +12,11 @@ export default function Layout({ children }) {
 
 # MUIAutocompleteObject
 
-`MUIAutocompleteObject` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) that stores the **complete option object** rather than a primitive. `freeSolo` is intentionally unsupported to keep the value type predictable — use `MUIAutocomplete` for that.
+`MUIAutocompleteObject` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) that stores the **complete option object** rather than a primitive.
+
+<Callout type="note">
+  `freeSolo` is intentionally unsupported to keep the value type predictable — use `MUIAutocomplete` for that.
+</Callout>
 
 ## Usage
 

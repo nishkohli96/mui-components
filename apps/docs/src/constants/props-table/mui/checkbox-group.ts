@@ -20,6 +20,7 @@ const checkboxGroupRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   resolveProp(P.helperText, args),
   P.showLabelAboveFormField_Default,
   P.hideLabel,
+  P.label,
   resolveProp(P.formLabelProps, args),
   resolveProp(P.formHelperTextProps, args),
   P.customIds
