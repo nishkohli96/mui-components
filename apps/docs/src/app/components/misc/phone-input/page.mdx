@@ -1,10 +1,8 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata } from '@/constants';
 import { ComponentProps } from '@/constants/props-table';
 
-export const metadata = {
-  title: 'MUIPhoneInput',
-  description: 'Controlled international phone input with country dropdown, search and structured value output.'
-};
+export const metadata = componentMetadata.MUIPhoneInput;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

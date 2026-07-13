@@ -1,11 +1,9 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata } from '@/constants';
 import { ComponentProps } from '@/constants/props-table';
 import PickersForm from '@/forms/date-time-pickers/Client';
 
-export const metadata = {
-  title: 'Date Pickers',
-  description: 'Controlled Material UI X date pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
-};
+export const metadata = componentMetadata.MUIDatePicker;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

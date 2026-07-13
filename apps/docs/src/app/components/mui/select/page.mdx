@@ -1,11 +1,9 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata } from '@/constants';
 import { ComponentProps } from '@/constants/props-table';
 import SelectForm from '@/forms/select-with-class-validator/Client';
 
-export const metadata = {
-  title: 'MUISelect',
-  description: 'Controlled Material UI Select supporting single/multiple selection and primitive or object options.'
-};
+export const metadata = componentMetadata.MUISelect;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

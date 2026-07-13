@@ -1,10 +1,8 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata } from '@/constants';
 import { ComponentProps } from '@/constants/props-table';
 
-export const metadata = {
-  title: 'MUIFileUploader',
-  description: 'Controlled Material UI file uploader with drag-and-drop, type/size/count validation and custom renderers.'
-};
+export const metadata = componentMetadata.MUIFileUploader;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

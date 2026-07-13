@@ -1,10 +1,8 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata } from '@/constants';
 import { ComponentProps } from '@/constants/props-table';
 
-export const metadata = {
-  title: 'MUISwitch',
-  description: 'Controlled Material UI Switch (on/off toggle) with label and helper-text handling.'
-};
+export const metadata = componentMetadata.MUISwitch;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

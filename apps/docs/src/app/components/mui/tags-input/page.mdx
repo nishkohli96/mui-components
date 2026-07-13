@@ -1,10 +1,8 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata } from '@/constants';
 import { ComponentProps } from '@/constants/props-table';
 
-export const metadata = {
-  title: 'MUITagsInput',
-  description: 'Controlled Material UI tags input — type or paste to add chips, with add/delete/paste interception.'
-};
+export const metadata = componentMetadata.MUITagsInput;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

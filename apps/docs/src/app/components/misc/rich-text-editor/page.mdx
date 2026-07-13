@@ -1,11 +1,8 @@
 import MuiLink from '@mui/material/Link';
 import { DocsPage, PropsTable } from '@/components/docs';
-import { ComponentProps, externalLinks } from '@/constants';
+import { ComponentProps, componentMetadata, externalLinks } from '@/constants';
 
-export const metadata = {
-  title: 'MUIRichTextEditor',
-  description: 'Controlled CKEditor 5 rich text editor with label, error and helper-text handling.'
-};
+export const metadata = componentMetadata.MUIRichTextEditor;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
