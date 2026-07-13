@@ -1,6 +1,5 @@
 import { DocsPage, Callout, PropsTable } from '@/components/docs';
-import { componentMetadata } from '@/constants';
-import { componentProps } from '@/constants/props-table';
+import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.MUIAutocompleteObject;
 
@@ -42,3 +41,6 @@ const [user, setUser] = useState<User | null>(null);
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIAutocompleteObject} />
+
+## Reference
+- [Autocomplete With Options as Object Array](https://v7.mui.com/material-ui/react-autocomplete/#options-structure)

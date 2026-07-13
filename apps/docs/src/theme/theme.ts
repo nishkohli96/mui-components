@@ -49,4 +49,16 @@ export const theme: Theme = createTheme({
   typography: {
     fontFamily: roboto.style.fontFamily,
   },
+  components: {
+    /**
+     * Links show no underline at rest, only on hover — MUI's default is
+     * `underline="always"`. Set app-wide so every MuiLink (folder tree,
+     * links list, future ones) is consistent without a per-usage prop.
+     */
+    MuiLink: {
+      defaultProps: {
+        underline: 'hover',
+      },
+    },
+  },
 });

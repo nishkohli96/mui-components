@@ -1,6 +1,5 @@
 import { DocsPage, PropsTable, Callout } from '@/components/docs';
-import { componentMetadata } from '@/constants';
-import { componentProps } from '@/constants/props-table';
+import { componentMetadata, componentProps  } from '@/constants';
 
 export const metadata = componentMetadata.MUIMultiAutocomplete;
 
@@ -11,8 +10,15 @@ export default function Layout({ children }) {
 # MUIMultiAutocomplete
 
 `MUIMultiAutocomplete` is a multi-select [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
-rendering each option with a checkbox and an optional "**Select All**" row. It stores an array of **string**
-values. Use `MUIMultiAutocompleteObject` when you need to store full option objects.
+rendering each option with a checkbox and an optional "**Select All**" row.
+It stores an array of **string** values. 
+
+This feature is particularly useful for scenarios where users need to handle bulk selections,
+such as assigning multiple tags, selecting categories, or choosing items in batch operations.
+The implementation stays flexible while preserving the same validation, customization, and
+styling options as `MUIAutocomplete`.
+
+Use [MUIMultiAutocompleteObject](multi-autocomplete-object) when you need to store full option objects.
 
 <Callout type="note">
   Even though `freeSolo` prop is supported, but is not compatible with `selectAllText`
