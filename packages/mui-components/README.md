@@ -5,7 +5,7 @@
 <h1>@nish1896/mui-components</h1>
 
 <p>
-  <b>A suite of 25+ production-ready <a href="https://mui.com/">Material UI</a> components — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
+  <b>A suite of 25+ production-ready <a href="https://v7.mui.com/">Material UI</a> components — fully typed, tree-shakable, and built to cut form boilerplate down to a handful of props.</b>
 </p>
 
 <p>

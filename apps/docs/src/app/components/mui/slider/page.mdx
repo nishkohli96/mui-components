@@ -12,7 +12,7 @@ export default function Layout({ children }) {
 
 # MUISlider
 
-`MUISlider` wraps the Material UI [Slider](https://mui.com/material-ui/react-slider/) for a single number or a range (number array), with label, error and helper-text handling.
+`MUISlider` wraps the Material UI [Slider](https://v7.mui.com/material-ui/react-slider/) for a single number or a range (number array), with label, error and helper-text handling.
 
 ## Usage
 
@@ -34,6 +34,6 @@ const [volume, setVolume] = useState(30);
 
 ## Props
 
-`MUISliderProps` also accepts most [SliderProps](https://mui.com/material-ui/api/slider/) (`min`, `max`, `step`, `marks`, ...). Pass a number array as `value` for a range slider. Props marked with * are required.
+`MUISliderProps` also accepts most [SliderProps](https://v7.mui.com/material-ui/api/slider/) (`min`, `max`, `step`, `marks`, ...). Pass a number array as `value` for a range slider. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={ComponentProps.MUISlider} />

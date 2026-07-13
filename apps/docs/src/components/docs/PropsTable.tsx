@@ -83,7 +83,18 @@ const PropsTable = ({ rows }: PropsTableProps) => {
               <code>
                 {row.name}
               </code>
-              {row.required && <span aria-label="required">*</span>}
+              {row.required && (
+                <span
+                  aria-label="required"
+                  style={{
+                    color: 'var(--mui-palette-error-main)',
+                    marginLeft: 2,
+                    fontWeight: 700
+                  }}
+                >
+                  *
+                </span>
+              )}
             </td>
             <td>
               {row.hasLinkInType

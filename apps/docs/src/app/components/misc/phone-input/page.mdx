@@ -12,7 +12,7 @@ export default function Layout({ children }) {
 
 # MUIPhoneInput
 
-`MUIPhoneInput` wraps [react-international-phone](https://www.npmjs.com/package/react-international-phone) inside a [TextField](https://mui.com/material-ui/react-text-field/), with a searchable country dropdown. It emits a structured `MUIPhoneInputValue` (`phone`, `country`, `dialCode`, `phoneNo`).
+`MUIPhoneInput` wraps [react-international-phone](https://www.npmjs.com/package/react-international-phone) inside a [TextField](https://v7.mui.com/material-ui/react-text-field/), with a searchable country dropdown. It emits a structured `MUIPhoneInputValue` (`phone`, `country`, `dialCode`, `phoneNo`).
 
 ## Usage
 
@@ -32,6 +32,6 @@ const [phone, setPhone] = useState<MUIPhoneInputValue | string>('');
 
 ## Props
 
-`MUIPhoneInputProps` also accepts most [TextFieldProps](https://mui.com/material-ui/api/text-field/) except `value`, `onChange` and `type`. Props marked with * are required.
+`MUIPhoneInputProps` also accepts most [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) except `value`, `onChange` and `type`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={ComponentProps.MUIPhoneInput} />

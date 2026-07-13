@@ -1,6 +1,6 @@
 /**
  *	Dark mode with MUI.
- *  https://mui.com/material-ui/customization/dark-mode/
+ *  https://v7.mui.com/material-ui/customization/dark-mode/
  */
 
 export const LightThemePalette = {

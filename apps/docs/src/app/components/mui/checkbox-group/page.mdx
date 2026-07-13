@@ -12,7 +12,7 @@ export default function Layout({ children }) {
 
 # MUICheckboxGroup
 
-`MUICheckboxGroup` renders a group of [checkboxes](https://mui.com/material-ui/react-checkbox/) from `options` and stores an array of the selected values. Supports primitive or object options via `labelKey`/`valueKey`.
+`MUICheckboxGroup` renders a group of [checkboxes](https://v7.mui.com/material-ui/react-checkbox/) from `options` and stores an array of the selected values. Supports primitive or object options via `labelKey`/`valueKey`.
 
 ## Usage
 
@@ -33,6 +33,6 @@ const [permissions, setPermissions] = useState<string[]>([]);
 
 ## Props
 
-For object options, pass `labelKey` and `valueKey`. Props marked with * are required.
+For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={ComponentProps.MUICheckboxGroup} />

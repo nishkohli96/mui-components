@@ -12,7 +12,7 @@ export default function Layout({ children }) {
 
 # MUICountrySelect
 
-`MUICountrySelect` is an [Autocomplete](https://mui.com/material-ui/react-autocomplete/) pre-loaded with a full country list (flag, name, dial code, ISO). Store the complete `CountryDetails` object, or a single property via `valueKey`. Pin common choices with `preferredCountries`.
+`MUICountrySelect` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) pre-loaded with a full country list (flag, name, dial code, ISO). Store the complete `CountryDetails` object, or a single property via `valueKey`. Pin common choices with `preferredCountries`.
 
 ## Usage
 
@@ -33,6 +33,6 @@ const [country, setCountry] = useState<CountryDetails | null>(null);
 
 ## Props
 
-Pass `valueKey` (e.g. `iso` or `name`) to store a single country property instead of the full object. Props marked with * are required.
+Pass `valueKey` (e.g. `iso` or `name`) to store a single country property instead of the full object. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={ComponentProps.MUICountrySelect} />

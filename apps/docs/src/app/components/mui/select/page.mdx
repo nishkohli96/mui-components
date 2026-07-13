@@ -13,7 +13,7 @@ export default function Layout({ children }) {
 
 # MUISelect
 
-`MUISelect` wraps the Material UI [Select](https://mui.com/material-ui/react-select/) with label, error and helper-text handling. It supports single or multiple selection and either primitive or object options via `labelKey`/`valueKey`.
+`MUISelect` wraps the Material UI [Select](https://v7.mui.com/material-ui/react-select/) with label, error and helper-text handling. It supports single or multiple selection and either primitive or object options via `labelKey`/`valueKey`.
 
 ## Usage
 
@@ -34,7 +34,7 @@ const [role, setRole] = useState('');
 
 ## Props
 
-`MUISelectProps` also accepts the remaining [SelectProps](https://mui.com/material-ui/api/select/) (`variant`, `MenuProps`, `sx`, ...). For object options, pass `labelKey` and `valueKey`. Props marked with * are required.
+`MUISelectProps` also accepts the remaining [SelectProps](https://v7.mui.com/material-ui/api/select/) (`variant`, `MenuProps`, `sx`, ...). For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={ComponentProps.MUISelect} />
 

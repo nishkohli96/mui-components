@@ -12,7 +12,7 @@ export default function Layout({ children }) {
 
 # MUIRadioGroup
 
-`MUIRadioGroup` wraps the Material UI [RadioGroup](https://mui.com/material-ui/react-radio-button/) for a single choice among `options`, storing the selected value. Supports primitive or object options via `labelKey`/`valueKey`.
+`MUIRadioGroup` wraps the Material UI [RadioGroup](https://v7.mui.com/material-ui/react-radio-button/) for a single choice among `options`, storing the selected value. Supports primitive or object options via `labelKey`/`valueKey`.
 
 ## Usage
 
@@ -33,6 +33,6 @@ const [plan, setPlan] = useState('');
 
 ## Props
 
-For object options, pass `labelKey` and `valueKey`. Props marked with * are required.
+For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={ComponentProps.MUIRadioGroup} />

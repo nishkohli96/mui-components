@@ -417,7 +417,7 @@ export const PropsDescription = Object.freeze({
   }),
 
   /* ------------------------------------------------------------------ */
-  /* Password & Number Input fields                                     */
+  /* Password, Number & Tag Input fields                                */
   /* ------------------------------------------------------------------ */
   showPasswordIcon: {
     name: 'showPasswordIcon',
@@ -430,6 +430,77 @@ export const PropsDescription = Object.freeze({
     description:
       'Custom icon displayed when the password is currently visible. Clicking it hides the password value.\n\n**Default:** `<VisibilityOffIcon />`',
     type: 'ReactNode'
+  },
+  nonNegative: {
+    name: 'nonNegative',
+    description: 'When true, negative values cannot be entered.',
+    type: 'boolean'
+  },
+  onlyIntegers: {
+    name: 'onlyIntegers',
+    description:
+      'When true, decimal input is not allowed. Cannot be combined with `maxDecimalPlaces`.',
+    type: 'boolean'
+  },
+  maxDecimalPlaces: {
+    name: 'maxDecimalPlaces',
+    description:
+      'Maximum number of decimal places accepted while typing.',
+    type: 'number'
+  },
+  stepAmount: {
+    name: 'stepAmount',
+    description:
+      'Amount the value changes on Arrow Up/Down key presses.',
+    type: 'number'
+  },
+  showMarkers: {
+    name: 'showMarkers',
+    description:
+      'When true, shows increment/decrement markers on the input.',
+    type: 'boolean'
+  },
+  onTagAdd: {
+    name: 'onTagAdd',
+    description:
+      'Called before a tag is added. Return `false` to block the tag, a replacement string to transform it, or nothing to allow it unchanged.',
+    type: '({ currentValue, newTag }) => boolean | string | void'
+  },
+  onTagDelete: {
+    name: 'onTagDelete',
+    description:
+      'Called before a tag is removed. Return `false` to prevent deletion.',
+    type: '({ currentValue, deletedTag }) => boolean | void'
+  },
+  onTagPaste: {
+    name: 'onTagPaste',
+    description:
+      'Called when tags are pasted. Return `false` to reject all, a `string[]` to replace the parsed tags, or nothing to use them unchanged. Tags are split by `delimiter`, trimmed, and deduplicated before this callback.',
+    type: '({ currentValue, pastedTags }) => string[] | boolean | void'
+  },
+  delimiter: {
+    name: 'delimiter',
+    description:
+      'Character used to separate tags when typing or pasting. Pressing this key commits the current input as one or more tags.\n\n**Default:** `\',\'`',
+    type: 'string'
+  },
+  maxTags_TagsInput: {
+    name: 'maxTags',
+    description:
+      'Maximum number of tags that can be added. Keyboard entries beyond the limit are ignored; pasted tags are truncated to fit.',
+    type: 'number'
+  },
+  limitTags_TagsInput: {
+    name: 'limitTags',
+    description:
+      'Maximum number of tags shown when the input is not focused. Set to `-1` to always show all tags.\n\n**Default:** `2`',
+    type: 'number'
+  },
+  renderTagLabel: {
+    name: 'renderTagLabel',
+    description:
+      'Custom renderer for each visible tag label. Receives the tag value and returns the content displayed inside the chip.',
+    type: '(tag: string) => ReactNode'
   },
 
   /* ------------------------------------------------------------------ */
