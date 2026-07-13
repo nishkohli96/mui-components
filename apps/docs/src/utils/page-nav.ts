@@ -25,7 +25,9 @@ export type AdjacentPages = {
  */
 export function getAdjacentPages(pathname: string): AdjacentPages {
   const index = orderedPages.findIndex(page => page.href === pathname);
-  if (index === -1) return {};
+  if (index === -1) {
+    return {};
+  }
   return {
     prev: orderedPages[index - 1],
     next: orderedPages[index + 1]

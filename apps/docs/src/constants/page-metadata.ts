@@ -4,7 +4,7 @@ export const defaultPageTitle = 'MUI Components';
 export const defaultPageDescription
   = '25+ form-library-independent Material UI form components — docs, live demos and full props reference.';
 
-  export const defaultPageKeywords = [
+export const defaultPageKeywords = [
   'react-hook-form',
   'tanstack form',
   'formik',

@@ -1,3 +1,5 @@
+/* eslint-disable no-useless-escape */
+
 /**
  * Shared prop descriptions for every component's props table, ensuring
  * consistency and easier maintenance across releases (v1 → v2 / MUI 9).
@@ -416,7 +418,7 @@ export const PropsDescription = Object.freeze({
   }),
 
   /* ------------------------------------------------------------------ */
-  /* Password, Number & Tag Input fields                                */
+  /* Password, Number, Tags & File Input fields                         */
   /* ------------------------------------------------------------------ */
   showPasswordIcon: {
     name: 'showPasswordIcon',
@@ -501,6 +503,91 @@ export const PropsDescription = Object.freeze({
       'Custom renderer for each visible tag label. Receives the tag value and returns the content displayed inside the chip.',
     type: '(tag: string) => ReactNode'
   },
+  accept: {
+    name: 'accept',
+    description:
+      'Comma-separated list of accepted file types, e.g. `image/*` or `.pdf,.doc,.docx`.',
+    type: 'string'
+  },
+  multiple_FileUploader: {
+    name: 'multiple',
+    description: 'When true, allows selecting multiple files.',
+    type: 'boolean'
+  },
+  maxSize: {
+    name: 'maxSize',
+    description:
+      'Maximum file size (in bytes) eligible for upload. Larger files are rejected and reported through `onUploadError`.',
+    type: 'number'
+  },
+  maxFiles: {
+    name: 'maxFiles',
+    description:
+      'Maximum number of files that can be uploaded. Excess files are rejected and reported through `onUploadError`. Files in `existingFiles` count against the limit.',
+    type: 'number'
+  },
+  onUploadError: {
+    name: 'onUploadError',
+    description:
+      'Callback fired when uploaded files fail type, size, or count validation.',
+    type: '(errors: FileUploadErrorDetails[]) => void'
+  },
+  dropZoneProps: {
+    name: 'dropZoneProps',
+    description:
+      'Props applied to the drag-and-drop wrapper `Box`. Pass an object, or a callback receiving `{ isDragging, disabled, error }`. Ignored when `disableDragAndDrop` is true.',
+    type: 'BoxProps | (state) => BoxProps'
+  },
+  disableDragAndDrop: {
+    name: 'disableDragAndDrop',
+    description:
+      'Disable drag-and-drop and only allow file selection via the upload button.\n\n**Default:** `false`',
+    type: 'boolean'
+  },
+  renderUploadButton: {
+    name: 'renderUploadButton',
+    description:
+      'Custom upload button renderer. Receives the hidden file input as children/content.',
+    type: '(fileInput: ReactNode) => ReactNode'
+  },
+  existingFiles: {
+    name: 'existingFiles',
+    description:
+      'Pre-existing server-side files, displayed separately from new uploads via `renderExistingFileItem`.',
+    type: 'ExistingUploadedFile[]'
+  },
+  renderExistingFileIte: {
+    name: 'renderExistingFileItem',
+    description:
+      'Custom renderer for each file passed through `existingFiles`. These files are not part of `value` and are not removed automatically.',
+    type: '({ file, index }) => ReactNode'
+  },
+  renderFileItem: {
+    name: 'renderFileItem',
+    description:
+      'Custom renderer for each newly selected file. Call the provided `removeFile(event)` from your remove button to delete the file from the value.',
+    type: '({ file, index, removeFile }) => ReactNode'
+  },
+  existingFileListProps: {
+    name: 'existingFileListProps',
+    description: 'Props applied to the wrapper Box containing existing files.',
+    type: 'BoxProps'
+  },
+  uploadedFileListProps: {
+    name: 'uploadedFileListProps',
+    description: 'Props applied to the wrapper Box containing new uploads.',
+    type: 'BoxProps'
+  },
+  inputRef_FileUploader: {
+    name: 'inputRef',
+    description: 'Ref for the hidden file `<input>` element.',
+    type: 'Ref<HTMLInputElement>'
+  },
+  fullWidth_FileUploader: {
+    name: 'fullWidth',
+    description: 'When true, the component expands to fill its container width.\n\n**Default:** `false`',
+    type: 'boolean'
+  },
 
   /* ------------------------------------------------------------------ */
   /* Options-based fields                                               */
@@ -561,7 +648,7 @@ export const PropsDescription = Object.freeze({
     name: 'valueKey',
     description:
       'Color format emitted through `onValueChange`. `hex` emits the color hex string; other formats are converted to a CSS color string.\n\n**Default:** `\'hex\'`',
-    type: 'keyof IColor'
+    type: 'hex \| rgb \| hsv'
   },
   renderOptionLabel: {
     name: 'renderOptionLabel',
@@ -719,5 +806,47 @@ export const PropsDescription = Object.freeze({
     name: 'slotProps',
     description: `MUI X picker [slotProps](${muiPickersDocsUrl(args.muiPickersVersion)}/date-picker/). The \`textField\` slot is merged with the component's own id, error state, and aria attributes.`,
     type: 'object'
-  })
+  }),
+
+  /* ------------------------------------------------------------------ */
+  /* Misc Components                                                    */
+  /* ------------------------------------------------------------------ */
+  defaultColor: {
+    name: 'defaultColor',
+    description: 'Initial color used by the picker when `value` is empty.\n\n**Default:** `\'#000000\'`',
+    type: 'string'
+  },
+  excludeAlpha: {
+    name: 'excludeAlpha',
+    description: 'When true, omits alpha from emitted color values.',
+    type: 'boolean'
+  },
+  height_ColorPicker: {
+    name: 'height',
+    description: 'Height, in pixels, of the color picker control.\n\n**Default:** `200`',
+    type: 'number'
+  },
+  hideAlpha: {
+    name: 'hideAlpha',
+    description: 'When true, hides alpha controls in the color picker.',
+    type: 'boolean'
+  },
+  hideInput_ColorPicker: {
+    name: 'hideInput',
+    description:
+      'Hides picker input fields rendered by `react-color-palette`.',
+    type: '(hex \| rgb \| hsv)[] | boolean'
+  },
+  phoneInputProps: {
+    name: 'phoneInputProps',
+    description:
+      'Configuration passed to `react-international-phone`\'s `usePhoneInput` hook — `defaultCountry`, `countries`, `preferredCountries`, `forceDialCode`, etc.',
+    type: 'UsePhoneInputConfig'
+  },
+  searchCountryProps: {
+    name: 'searchCountryProps',
+    description:
+        'Options for the inline country search field in the country dropdown — `allowCountrySearch`, `textFieldProps`, `renderCountryMenuItem`, `noCountryFoundText`.',
+    type: 'SearchCountryProps'
+  },
 }) satisfies Record<string, PropsInfo | ((args: PropsDescriptionArgs) => PropsInfo)>;

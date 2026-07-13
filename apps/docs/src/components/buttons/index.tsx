@@ -7,7 +7,6 @@ import Tooltip from '@mui/material/Tooltip';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { githubRepoLink } from '@/constants';
 import { useThemeContext } from '@/theme';
 

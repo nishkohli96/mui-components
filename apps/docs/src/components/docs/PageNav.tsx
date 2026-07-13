@@ -9,35 +9,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { getAdjacentPages } from '@/utils';
 
-/**
- * Docusaurus-style footer nav — links to the previous/next page in the
- * sidebar's reading order. Rendered by `DocsPage` on every doc page; renders
- * nothing on pages outside `sidebarLinks` (e.g. a 404).
- */
-const PageNav = () => {
-  const pathname = usePathname();
-  const { prev, next } = getAdjacentPages(pathname);
-
-  if (!prev && !next) return null;
-
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: 2,
-        mt: 6,
-        pt: 3,
-        borderTop: '1px solid',
-        borderColor: 'divider'
-      }}
-    >
-      {prev ? <NavCard href={prev.href} title={prev.title} direction="prev" /> : <Box />}
-      {next ? <NavCard href={next.href} title={next.title} direction="next" /> : <Box />}
-    </Box>
-  );
-};
-
 type NavCardProps = {
   href: string;
   title: string;
@@ -103,6 +74,37 @@ const NavCard = ({ href, title, direction }: NavCardProps) => {
         {title}
       </Typography>
     </Paper>
+  );
+};
+
+/**
+ * Docusaurus-style footer nav — links to the previous/next page in the
+ * sidebar's reading order. Rendered by `DocsPage` on every doc page; renders
+ * nothing on pages outside `sidebarLinks` (e.g. a 404).
+ */
+const PageNav = () => {
+  const pathname = usePathname();
+  const { prev, next } = getAdjacentPages(pathname);
+
+  if (!prev && !next) {
+    return null;
+  }
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        gap: 2,
+        mt: 6,
+        pt: 3,
+        borderTop: '1px solid',
+        borderColor: 'divider'
+      }}
+    >
+      {prev ? <NavCard href={prev.href} title={prev.title} direction="prev" /> : <Box />}
+      {next ? <NavCard href={next.href} title={next.title} direction="next" /> : <Box />}
+    </Box>
   );
 };
 

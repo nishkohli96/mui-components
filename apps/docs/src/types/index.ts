@@ -4,4 +4,4 @@ export * from './component-names';
 export type * from './docs';
 export * from './enums';
 export type * from './options';
-export * from './version-props';
+export type * from './version-props';

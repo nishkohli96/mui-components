@@ -36,13 +36,21 @@ const PackageManagerTabs = ({ id, command }: PackageManagerTabsProps) => (
     ))}
     <div className="pm-tab-list" role="tablist" aria-label="Package manager">
       {managers.map(({ key, label }) => (
-        <label key={key} htmlFor={`${id}-${key}`}>{label}</label>
+        <label key={key} htmlFor={`${id}-${key}`}>
+          {label}
+        </label>
       ))}
     </div>
     <div className="pm-tab-panels">
       {managers.map(({ key, prefix }) => (
         <div key={key} className="pm-tab-panel">
-          <MdxPre><code>{prefix} {command}</code></MdxPre>
+          <MdxPre>
+            <code>
+              {prefix}
+              {' '}
+              {command}
+            </code>
+          </MdxPre>
         </div>
       ))}
     </div>

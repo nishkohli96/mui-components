@@ -42,8 +42,8 @@ const requiredMsg = (label: string) => `${label} is required`;
 const passwordRuleFailures = (value: string): string[] | undefined => {
   const failures = [
     value.length < 8 && 'Use at least 8 characters',
-    !/[A-Z]/.test(value) && 'Add an uppercase letter',
-    !/[^A-Za-z0-9]/.test(value) && 'Add a special character'
+    !(/[A-Z]/).test(value) && 'Add an uppercase letter',
+    !(/[^A-Za-z0-9]/).test(value) && 'Add a special character'
   ].filter((rule): rule is string => typeof rule === 'string');
   return failures.length > 0 ? failures : undefined;
 };
@@ -127,7 +127,9 @@ function TanStackExample() {
               renderError={errors => (
                 <ul style={{ margin: 0, paddingLeft: 18 }}>
                   {errors.map(error => (
-                    <li key={error}>{error}</li>
+                    <li key={error}>
+                      {error}
+                    </li>
                   ))}
                 </ul>
               )}
@@ -283,11 +285,22 @@ export default function FormLibraryAdapters() {
           TanStack Form
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Driven by <code>field.state.value</code> /{' '}
-          <code>field.handleChange</code>, with{' '}
-          <code>errorMessage=&#123;field.state.meta.errors&#125;</code> passed
-          as-is — the password field shows several failed rules at once via{' '}
-          <code>renderError</code>.
+          Driven by
+          {' '}
+          <code>field.state.value</code>
+          {' '}
+          /
+          {' '}
+          <code>field.handleChange</code>
+          , with
+          {' '}
+          <code>errorMessage=&#123;field.state.meta.errors&#125;</code>
+          {' '}
+          passed
+          as-is — the password field shows several failed rules at once via
+          {' '}
+          <code>renderError</code>
+          .
         </Typography>
         <TanStackExample />
       </Box>
@@ -299,10 +312,22 @@ export default function FormLibraryAdapters() {
           Formik
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Driven by <code>formik.values</code> /{' '}
-          <code>setFieldValue</code>, with{' '}
-          <code>errorMessage=&#123;touched &amp;&amp; errors&#125;</code> —{' '}
-          <code>false</code> simply clears the error state.
+          Driven by
+          {' '}
+          <code>formik.values</code>
+          {' '}
+          /
+          {' '}
+          <code>setFieldValue</code>
+          , with
+          {' '}
+          <code>errorMessage=&#123;touched &amp;&amp; errors&#125;</code>
+          {' '}
+          —
+          {' '}
+          <code>false</code>
+          {' '}
+          simply clears the error state.
         </Typography>
         <FormikExample />
       </Box>

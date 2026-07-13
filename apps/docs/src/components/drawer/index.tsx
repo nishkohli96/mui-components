@@ -12,35 +12,14 @@ import ListItemText from '@mui/material/ListItemText';
 import { sidebarLinks } from '@/constants';
 import { type Page } from '@/types';
 
-type DrawerProps = {
-  /** Called after a link is clicked, e.g. to close the mobile drawer. */
-  onNavigate?: () => void;
-};
-
-/**
- * Side-navigation list shared by the desktop rail and the mobile drawer.
- * Highlights the current route.
- */
-const Drawer = ({ onNavigate }: DrawerProps) => {
-  const pathname = usePathname();
-
-  return (
-    <List dense sx={{ px: 1 }}>
-      {sidebarLinks.map(link => (
-        <SidebarItem key={link.href ?? link.title} page={link} pathname={pathname} onNavigate={onNavigate} />
-      ))}
-    </List>
-  );
-};
+const containsPath = (page: Page, pathname: string): boolean =>
+  page.href === pathname || page.pages?.some(child => containsPath(child, pathname)) === true;
 
 type SidebarItemProps = DrawerProps & {
   page: Page;
   pathname: string;
   depth?: number;
 };
-
-const containsPath = (page: Page, pathname: string): boolean =>
-  page.href === pathname || page.pages?.some(child => containsPath(child, pathname)) === true;
 
 const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps) => {
   const hasChildren = Boolean(page.pages?.length);
@@ -49,7 +28,9 @@ const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps
   const [open, setOpen] = useState(containsActivePage);
 
   useEffect(() => {
-    if (containsActivePage) setOpen(true);
+    if (containsActivePage) {
+      setOpen(true);
+    }
   }, [containsActivePage]);
 
   return (
@@ -97,6 +78,27 @@ const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps
         </Collapse>
       )}
     </>
+  );
+};
+
+type DrawerProps = {
+  /** Called after a link is clicked, e.g. to close the mobile drawer. */
+  onNavigate?: () => void;
+};
+
+/**
+ * Side-navigation list shared by the desktop rail and the mobile drawer.
+ * Highlights the current route.
+ */
+const Drawer = ({ onNavigate }: DrawerProps) => {
+  const pathname = usePathname();
+
+  return (
+    <List dense sx={{ px: 1 }}>
+      {sidebarLinks.map(link => (
+        <SidebarItem key={link.href ?? link.title} page={link} pathname={pathname} onNavigate={onNavigate} />
+      ))}
+    </List>
   );
 };
 
