@@ -1,5 +1,6 @@
 'use client';
 
+import NextLink from 'next/link';
 import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 import Link from '@mui/material/Link';
@@ -45,7 +46,7 @@ export default function FolderStructure({ docsVersion }: VersionProps) {
         <TreeItem
           itemId="5"
           label={(
-            <Link href="/customization">
+            <Link component={NextLink} href="/customization">
               config
             </Link>
           )}

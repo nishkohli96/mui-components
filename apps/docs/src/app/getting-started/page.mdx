@@ -40,11 +40,19 @@ pnpm add @mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @e
 ```
 
 Date & time pickers additionally use [MUI X](https://mui.com/x/react-date-pickers/)
-(v7 or v8) and a date adapter of your choice:
+(`v7` or `v8`) and a date adapter of your choice, with `AdapterDayjs` being
+[recommended by Material UI](https://v8.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
 ```bash
 pnpm add @mui/x-date-pickers dayjs
 ```
+
+To minimize the bundle size during the build process, this package includes both
+named and default exports within each module. Similar to Material-UI, developers 
+are encouraged to use default import syntax to [reduce bundle size](https://v7.mui.com/material-ui/guides/minimizing-bundle-size/).
+
+The type for each component can also be imported to modify or customize an 
+existing component.
 
 ## Package structure
 
@@ -52,6 +60,8 @@ Components are available through focused subpath exports, so applications only
 import the modules they use:
 
 <FolderStructure />
+
+Desktop, mobile and static variants are covered on each family page.
 
 ## Quick start
 
@@ -108,3 +118,27 @@ const { control } = useForm();
   )}
 />
 ```
+
+## Theming & defaults
+
+Wrap your app in the `ConfigProvider` to set package-wide defaults — label
+placement, default `sx` for labels and helper text, and the date adapter used
+by the pickers:
+
+```tsx
+import { ConfigProvider } from '@nish1896/mui-components/config';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+<ConfigProvider allLabelsAboveFields dateAdapter={AdapterDayjs}>
+  <App />
+</ConfigProvider>
+```
+
+See [Customization](/customization) for a working example.
+
+## Live demos
+
+The demo pages in the sidebar each embed a working form with live form state —
+try [Inputs](/inputs) or the full [Complete Form](/complete-form), and see
+[Complete Form with Joi](/complete-form-joi) for every component validated by
+an external schema library.
