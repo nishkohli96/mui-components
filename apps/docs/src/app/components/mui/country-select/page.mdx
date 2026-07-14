@@ -1,4 +1,5 @@
 import MuiLink from '@mui/material/Link';
+import CountrySelectForm from '@/forms/country-select/Client';
 import { DocsPage, PropsTable } from '@/components/docs';
 import {
   componentMetadata,
@@ -114,6 +115,13 @@ const filteredCountries = countryList.filter(
 Pass `valueKey` (e.g. `iso` or `name`) to store a single country property instead of the full object. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUICountrySelect} />
+
+## Example
+
+Driven by plain React state — a single select with `preferredCountries` and a
+flag `renderOptionLabel`, and a multi-select with `limitTags` and `ChipProps`.
+
+<CountrySelectForm />
 
 ## Reference
 - [Country select](https://v7.mui.com/material-ui/react-autocomplete/#country-select)

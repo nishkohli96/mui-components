@@ -1,4 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import RadioGroupForm from '@/forms/radio-group/Client';
 import { componentMetadata } from '@/constants';
 import { componentProps } from '@/constants/props-table';
 
@@ -15,7 +16,7 @@ export default function Layout({ children }) {
 ## Usage
 
 ```tsx
-import MUIRadioGroup from '@nish1896/mui-components/mui/radio-group';
+import MUIRadioGroup, { MUIRadioGroupProps } from '@nish1896/mui-components/mui/radio-group';
 ```
 
 ```tsx
@@ -29,8 +30,35 @@ const [plan, setPlan] = useState('');
 />
 ```
 
+Example with an array of objects:
+
+```jsx
+<MUIRadioGroup
+  fieldName="nationality"
+  value={nationality}
+  options={[
+    { code: 'AUS', country: 'Australia' },
+    { code: 'IN', country: 'India' },
+    { code: 'USA', country: 'United States of America' }
+    { code: 'UAE', country: 'United Arab Emirates' }
+  ]}
+  labelKey="country"
+  valueKey="code"
+/>
+```
+
 ## Props
 
 For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIRadioGroup} />
+
+## Example
+
+Driven by plain React state — string and object options (`labelKey` / `valueKey`),
+`getOptionDisabled`, `radioProps`, a custom `renderOptionLabel`, and required validation.
+
+<RadioGroupForm />
+
+# Reference
+- [MUI Radio Group](https://v7.mui.com/material-ui/react-radio-button/)

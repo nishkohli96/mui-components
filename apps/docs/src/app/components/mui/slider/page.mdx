@@ -1,4 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import SliderForm from '@/forms/slider/Client';
 import { componentMetadata } from '@/constants';
 import { componentProps } from '@/constants/props-table';
 
@@ -16,7 +17,7 @@ for a single number or a range (number array), with label, error and helper-text
 ## Usage
 
 ```tsx
-import MUISlider from '@nish1896/mui-components/mui/slider';
+import MUISlider, { MUISliderProps } from '@nish1896/mui-components/mui/slider';
 ```
 
 ```tsx
@@ -37,3 +38,13 @@ const [volume, setVolume] = useState(30);
 Pass a number array as `value` for a range slider. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUISlider} />
+
+## Example
+
+Driven by plain React state — a single-value slider, a range slider (number
+array), and `SliderProps` (`min`, `max`, `step`, `marks`, `valueLabelDisplay`).
+
+<SliderForm />
+
+## Reference
+- [MUI Slider](https://v7.mui.com/material-ui/react-slider/)

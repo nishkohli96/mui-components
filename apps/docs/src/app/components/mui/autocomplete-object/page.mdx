@@ -1,4 +1,5 @@
 import { DocsPage, Callout, PropsTable } from '@/components/docs';
+import AutocompleteObjectForm from '@/forms/autocomplete-object/Client';
 import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.MUIAutocompleteObject;
@@ -41,6 +42,13 @@ const [user, setUser] = useState<User | null>(null);
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIAutocompleteObject} />
+
+## Example
+
+Driven by plain React state — stores the whole selected object; a single
+select (`labelKey` / `valueKey`) and a multi-select with `limitTags` and `ChipProps`.
+
+<AutocompleteObjectForm />
 
 ## Reference
 - [Autocomplete Variations](https://v7.mui.com/material-ui/react-autocomplete/#playground)

@@ -1,4 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import MultiAutocompleteObjectForm from '@/forms/multi-autocomplete-object/Client';
 import { componentMetadata } from '@/constants';
 import { componentProps } from '@/constants/props-table';
 
@@ -39,3 +40,10 @@ const [members, setMembers] = useState<User[]>([]);
 `labelKey` and `valueKey` are required. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIMultiAutocompleteObject} />
+
+## Example
+
+Driven by plain React state — a checkbox multi-select storing whole objects,
+with a Select-All option, `limitTags`, `ChipProps` and a custom `renderOptionLabel`.
+
+<MultiAutocompleteObjectForm />

@@ -1,4 +1,5 @@
 import MuiLink from '@mui/material/Link';
+import FileUploaderForm from '@/forms/file-uploader/Client';
 import { DocsPage, PropsTable } from '@/components/docs';
 import {
   componentProps,
@@ -279,3 +280,11 @@ The renderer receives:
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIFileUploader} />
+
+## Example
+
+Driven by plain React state — a single-image uploader with `accept` / `maxSize`
+and an `onUploadError` handler, plus a multi-file uploader with `maxFiles`,
+`fullWidth` and drag-and-drop.
+
+<FileUploaderForm />

@@ -13,14 +13,15 @@ const radioGroupRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.getOptionDisabled,
   resolveProp(P.radioProps, args),
   resolveProp(P.formControlLabelProps, args),
+  P.label,
+  P.showLabelAboveFormField_Default,
+  resolveProp(P.formLabelProps, args),
+  P.hideLabel,
   P.required,
   P.errorMessage,
   P.renderError,
   P.hideErrorMessage,
   resolveProp(P.helperText, args),
-  P.showLabelAboveFormField_Default,
-  P.hideLabel,
-  resolveProp(P.formLabelProps, args),
   resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];

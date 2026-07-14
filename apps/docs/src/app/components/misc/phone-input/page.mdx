@@ -1,4 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import PhoneInputForm from '@/forms/phone-input/Client';
 import { componentMetadata } from '@/constants';
 import { componentProps } from '@/constants/props-table';
 
@@ -33,3 +34,11 @@ const [phone, setPhone] = useState<MUIPhoneInputValue | string>('');
 `MUIPhoneInputProps` also accepts most [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) except `value`, `onChange` and `type`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIPhoneInput} />
+
+## Example
+
+Integrated with [Formik](https://formik.org/) — the structured
+`MUIPhoneInputValue` with validation on `phoneNo`, plus `preferredCountries`,
+`forceDialCode` and a hidden country search.
+
+<PhoneInputForm />

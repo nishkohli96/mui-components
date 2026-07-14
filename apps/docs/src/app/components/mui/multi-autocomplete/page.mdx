@@ -1,4 +1,5 @@
 import { DocsPage, PropsTable, Callout } from '@/components/docs';
+import MultiAutocompleteForm from '@/forms/multi-autocomplete/Client';
 import { componentMetadata, componentProps  } from '@/constants';
 
 export const metadata = componentMetadata.MUIMultiAutocomplete;
@@ -58,6 +59,14 @@ const [skills, setSkills] = useState<string[]>([]);
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIMultiAutocomplete} />
+
+## Example
+
+Integrated with [Formik](https://formik.org/) — a checkbox multi-select
+storing a `string[]` with `selectAllText`, `limitTags` and `checkboxProps`,
+plus object options with `getOptionDisabled`.
+
+<MultiAutocompleteForm />
 
 ## Reference
 - [Autocomplete with Checkboxes](https://v7.mui.com/material-ui/react-autocomplete/#selection-indicators)

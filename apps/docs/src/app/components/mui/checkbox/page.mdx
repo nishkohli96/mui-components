@@ -1,4 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import CheckboxForm from '@/forms/checkbox/Client';
 import { componentMetadata } from '@/constants';
 import { componentProps } from '@/constants/props-table';
 
@@ -36,3 +37,13 @@ const [accepted, setAccepted] = useState(false);
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUICheckbox} />
+
+## Example
+
+Driven by plain React state — a custom `label`, pass-through `CheckboxProps`
+(`color` / `size`), `helperText`, and a required checkbox with a custom `renderError`.
+
+<CheckboxForm />
+
+# Reference
+- [MUI Checkbox](https://v7.mui.com/material-ui/react-checkbox/)

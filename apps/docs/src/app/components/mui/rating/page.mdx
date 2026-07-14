@@ -1,4 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import RatingForm from '@/forms/rating/Client';
 import { componentMetadata } from '@/constants';
 import { componentProps } from '@/constants/props-table';
 
@@ -10,12 +11,13 @@ export default function Layout({ children }) {
 
 # MUIRating
 
-`MUIRating` wraps the Material UI [Rating](https://v7.mui.com/material-ui/react-rating/) star input. The value is a number (or `null` when cleared).
+`MUIRating` wraps the Material UI [Rating](https://v7.mui.com/material-ui/react-rating/) star input.
+The value is a number (or `null` when cleared).
 
 ## Usage
 
 ```tsx
-import MUIRating from '@nish1896/mui-components/mui/rating';
+import MUIRating, { MUIRatingProps } from '@nish1896/mui-components/mui/rating';
 ```
 
 ```tsx
@@ -34,3 +36,13 @@ const [score, setScore] = useState<number | null>(null);
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIRating} />
+
+## Example
+
+Driven by plain React state — pass-through `RatingProps` (`precision`, `max`,
+`size`), a label above the control, and required validation via `errorMessage`.
+
+<RatingForm />
+
+## Reference
+- [MUI Rating](https://v7.mui.com/material-ui/react-rating/)

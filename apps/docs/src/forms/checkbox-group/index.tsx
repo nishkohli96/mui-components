@@ -1,0 +1,117 @@
+'use client';
+
+/**
+ * MUICheckboxGroup example — integrated with Formik. Stores an array of
+ * selected values. Shows string options with a "minimum selected" rule,
+ * object options (`labelKey` / `valueKey`) with `getOptionDisabled` and
+ * pass-through `checkboxProps`, plus a label above the group.
+ */
+
+import { useFormik } from 'formik';
+import { usePathname } from 'next/navigation';
+import Grid from '@mui/material/Grid';
+import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
+import {
+  FormContainer,
+  GridContainer,
+  FieldVariantInfo,
+  FormState,
+  SubmitButton,
+  ResetButton
+} from '@/components';
+import { formSubmitEventName } from '@/constants';
+import { showToastMessage, logFirebaseEvent } from '@/utils';
+
+const hobbyOptions = ['Reading', 'Gaming', 'Cooking', 'Travel', 'Music'];
+
+type PermissionOption = { id: string; label: string; locked?: boolean };
+
+const permissionOptions: PermissionOption[] = [
+  { id: 'read', label: 'Read', locked: true },
+  { id: 'write', label: 'Write' },
+  { id: 'delete', label: 'Delete' },
+  { id: 'admin', label: 'Admin' }
+];
+
+type CheckboxFormValues = {
+  hobbies: string[];
+  permissions: string[];
+};
+
+const initialValues: CheckboxFormValues = {
+  hobbies: ['Reading'],
+  permissions: ['read']
+};
+
+export default function CheckboxGroupForm() {
+  const pathName = usePathname();
+
+  const formik = useFormik<CheckboxFormValues>({
+    initialValues,
+    validate: values => {
+      const errors: Partial<Record<keyof CheckboxFormValues, string>> = {};
+      if (values.hobbies.length < 2) {
+        errors.hobbies = 'Select at least two hobbies';
+      }
+      return errors;
+    },
+    onSubmit: async values => {
+      await logFirebaseEvent(formSubmitEventName, { pathName });
+      showToastMessage(values);
+    }
+  });
+
+  return (
+    <FormContainer title="MUICheckboxGroup">
+      <form onSubmit={formik.handleSubmit}>
+        <GridContainer>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="String options — minimum two required" />
+            <MUICheckboxGroup
+              fieldName="hobbies"
+              label="Hobbies"
+              options={hobbyOptions}
+              value={formik.values.hobbies}
+              onValueChange={({ newValue }) => formik.setFieldValue('hobbies', newValue)}
+              required
+              errorMessage={formik.submitCount > 0 && formik.errors.hobbies}
+              helperText="Pick at least two"
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Object options, a locked item & custom colour" />
+            <MUICheckboxGroup<PermissionOption, 'label', 'id'>
+              fieldName="permissions"
+              label="Permissions"
+              options={permissionOptions}
+              labelKey="label"
+              valueKey="id"
+              value={formik.values.permissions}
+              onValueChange={({ newValue }) => formik.setFieldValue('permissions', newValue)}
+              getOptionDisabled={option => Boolean(option.locked)}
+              checkboxProps={{ color: 'secondary' }}
+              showLabelAboveFormField
+              helperText="'Read' is always granted"
+            />
+          </Grid>
+
+          <Grid size={12}>
+            <SubmitButton />
+            <ResetButton onClick={() => formik.resetForm()} />
+          </Grid>
+          <Grid size={12}>
+            <FormState
+              formValues={formik.values}
+              errors={{
+                hobbies: formik.submitCount > 0 && typeof formik.errors.hobbies === 'string'
+                  ? formik.errors.hobbies
+                  : undefined
+              }}
+            />
+          </Grid>
+        </GridContainer>
+      </form>
+    </FormContainer>
+  );
+}

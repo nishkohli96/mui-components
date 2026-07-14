@@ -30,8 +30,8 @@ export const sidebarLinks: Page[] = [
           { title: 'Checkbox', href: '/components/mui/checkbox' },
           { title: 'Checkbox Group', href: '/components/mui/checkbox-group' },
           { title: 'Radio Group', href: '/components/mui/radio-group' },
-          { title: 'Switch', href: '/components/mui/switch' },
           { title: 'Slider', href: '/components/mui/slider' },
+          { title: 'Switch', href: '/components/mui/switch' },
           { title: 'Rating', href: '/components/mui/rating' }
         ]
       },

@@ -1,4 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
+import CheckboxGroupForm from '@/forms/checkbox-group/Client';
 import { componentMetadata } from '@/constants';
 import { componentProps } from '@/constants/props-table';
 
@@ -31,6 +32,18 @@ const [permissions, setPermissions] = useState<string[]>([]);
 
 ## Props
 
-For object options, pass `labelKey` and `valueKey`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+For object options, pass `labelKey` and `valueKey`.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUICheckboxGroup} />
+
+## Example
+
+Integrated with [Formik](https://formik.org/) — string options with a
+minimum-selected rule, and object options (`labelKey` / `valueKey`) with
+`getOptionDisabled` and pass-through `checkboxProps`.
+
+<CheckboxGroupForm />
+
+# Reference
+- [Checkbox Group](https://v7.mui.com/material-ui/react-checkbox/#formgroup)
