@@ -1,5 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
+import TagsInputForm from '@/forms/tags-input/Client';
 
 export const metadata = componentMetadata.MUITagsInput;
 
@@ -75,3 +76,11 @@ argument with the current field value available as `currentValue`.
 `MUITagsInputProps` also accepts the remaining [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) except `value`, `defaultValue`, `multiline` and `rows`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUITagsInput} />
+
+## Example
+
+Integrated with [Formik](https://formik.org/) — covers `onTagAdd` /
+`onTagDelete` / `onTagPaste`, `delimiter`, `maxTags`, `limitTags` +
+`getLimitTagsText`, `renderTagLabel` and `ChipProps`.
+
+<TagsInputForm />

@@ -23,12 +23,23 @@ Use [MUIMultiAutocompleteObject](multi-autocomplete-object) when you need to sto
 <Callout type="note">
   Even though `freeSolo` prop is supported, but is not compatible with `selectAllText`
   and will hide the "**Select All**" option.
+
+  When using `freeSolo` with object-based options, custom renderers such as `renderValue`,
+  `renderTags`, or `renderOptionLabel` should handle both option objects and user-entered
+  string values. A common approach is:
+
+  ```ts
+  typeof value === 'string'
+  ```
+  to distinguish free-form input from predefined option objects.
 </Callout>
 
 ## Usage
 
 ```tsx
-import MUIMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
+import MUIMultiAutocomplete, {
+  MUIMultiAutocompleteProps
+} from '@nish1896/mui-components/mui/multi-autocomplete';
 ```
 
 ```tsx
@@ -47,3 +58,6 @@ const [skills, setSkills] = useState<string[]>([]);
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIMultiAutocomplete} />
+
+## Reference
+- [Autocomplete with Checkboxes](https://v7.mui.com/material-ui/react-autocomplete/#selection-indicators)

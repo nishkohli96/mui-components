@@ -1,6 +1,7 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata } from '@/constants';
 import { componentProps } from '@/constants/props-table';
+import SwitchForm from '@/forms/switch/Client';
 
 export const metadata = componentMetadata.MUISwitch;
 
@@ -35,3 +36,11 @@ const [enabled, setEnabled] = useState(false);
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUISwitch} />
+
+## Example
+
+Driven by plain React state — exercises a custom `label`, `formControlLabelProps`
+(label placement), pass-through `SwitchProps` (`color` / `size`), `helperText`,
+and a required toggle with a custom `renderError` and `customIds`.
+
+<SwitchForm />
