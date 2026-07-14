@@ -51,6 +51,21 @@ export const pageMetadata: Record<string, Metadata> = {
     description:
       'A complete form showcasing all components from this package, with validation handled by Joi.'
   },
+  completeFormState: {
+    title: 'Complete Form — React state',
+    description:
+      'Every component in one form, controlled with plain React state and manual validation, with a live values-and-errors readout.'
+  },
+  completeFormFormik: {
+    title: 'Complete Form — Formik',
+    description:
+      'Every component in one form, integrated with Formik using a direct validate function, with a live values-and-errors readout.'
+  },
+  completeFormTanStack: {
+    title: 'Complete Form — TanStack + Joi',
+    description:
+      'Every component in one form, integrated with TanStack Form and validated by a Joi schema, with a live values-and-errors readout.'
+  },
   customization: {
     title: 'Styled form with a reusable component',
     description:
