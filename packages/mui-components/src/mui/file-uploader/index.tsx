@@ -57,14 +57,24 @@ export type ExistingUploadedFile = {
   size?: number;
 };
 
-type FileUploaderOnValueChangeProps = {
+/**
+ * Field value shape derived from `multiple`: an array of files when `multiple`
+ * is `true`, otherwise a single file.
+ */
+type FileUploaderValue<Multiple extends boolean> = Multiple extends true
+  ? File[]
+  : File;
+
+type FileUploaderChangeEvent =
+  | ChangeEvent<HTMLInputElement>
+  | DragEvent<HTMLDivElement>
+  | MouseEvent<HTMLButtonElement>;
+
+type FileUploaderOnValueChangeProps<Multiple extends boolean> = {
   /** New field value after a successful upload, removal, or clear action. */
-  newValue: File | File[] | null;
+  newValue: FileUploaderValue<Multiple> | null;
   /** Event that triggered the value change. */
-  event:
-    | ChangeEvent<HTMLInputElement>
-    | DragEvent<HTMLDivElement>
-    | MouseEvent<HTMLButtonElement>;
+  event: FileUploaderChangeEvent;
 };
 
 /**
@@ -99,28 +109,31 @@ type RenderFileItemProps = {
   removeFile: (event: MouseEvent<HTMLButtonElement>) => void;
 };
 
-export type MUIFileUploaderProps = {
+export type MUIFileUploaderProps<Multiple extends boolean = false> = {
   /**
    * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
   fieldName: string;
   /**
-   * Current value of the field. This is a controlled component: `value` and `onValueChange`
-   * must be supplied together, typically backed by your own state or form library.
-   * `undefined`/`null` are treated as no files selected.
+   * Current value of the field. When `multiple` is `true` this is `File[] | null`,
+   * otherwise `File | null`. This is a controlled component: `value` and
+   * `onValueChange` must be supplied together, typically backed by your own state
+   * or form library. `undefined`/`null` are treated as no files selected.
    */
-  value?: File | File[] | null;
+  value?: FileUploaderValue<Multiple> | null;
   /**
-   * Called with the accepted file value after every upload, removal, or clear action.
-   * Call your state setter (or form library's setter) with `newValue` to update `value`.
+   * Called with the accepted file value after every upload, removal, or clear
+   * action. `newValue` is `File[] | null` when `multiple` is `true`, otherwise
+   * `File | null`. Call your state setter (or form library's setter) with
+   * `newValue` to update `value`.
    *
-   * @param newValue - Accepted file, accepted file array, or `null` when cleared.
+   * @param newValue - Accepted file(s), or `null` when cleared.
    * @param event - Input, drop, or click event that changed the file value.
    */
   onValueChange: ({
     newValue,
     event
-  }: FileUploaderOnValueChangeProps) => void;
+  }: FileUploaderOnValueChangeProps<Multiple>) => void;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
@@ -135,9 +148,10 @@ export type MUIFileUploaderProps = {
    */
   accept?: string;
   /**
-   * When true, allows selecting multiple files.
+   * When true, allows selecting multiple files, and `value` / `onValueChange`
+   * operate on `File[]` instead of a single `File`.
    */
-  multiple?: boolean;
+  multiple?: Multiple;
   /**
    * Maximum file size (in bytes) eligible for upload.
    * Files exceeding this size will be rejected and trigger an error callback.
@@ -297,10 +311,10 @@ export type MUIFileUploaderProps = {
   customIds?: CustomComponentIds;
 };
 
-const MUIFileUploader = ({
+const MUIFileUploader = <Multiple extends boolean = false>({
   fieldName,
-  value,
-  onValueChange,
+  value: valueProp,
+  onValueChange: onValueChangeProp,
   accept,
   multiple,
   maxFiles,
@@ -329,7 +343,17 @@ const MUIFileUploader = ({
   disableDragAndDrop = false,
   dropZoneProps,
   customIds
-}: MUIFileUploaderProps) => {
+}: MUIFileUploaderProps<Multiple>) => {
+  /*
+   * The public `value` / `onValueChange` are typed on `Multiple`; internally
+   * the component works with the broad `File | File[] | null` shape and narrows
+   * at runtime via `multiple`.
+   */
+  const value = valueProp as File | File[] | null | undefined;
+  const onValueChange = onValueChangeProp as (
+    props: { newValue: File | File[] | null; event: FileUploaderChangeEvent }
+  ) => void;
+
   const [isDragging, setIsDragging] = useState(false);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,

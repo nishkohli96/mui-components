@@ -38,7 +38,7 @@ Date & time pickers additionally use [MUI X](https://v8.mui.com/x/react-date-pic
 
 <PackageManagerTabs
   id="install-pickers"
-  command="@mui/x-date-pickers dayjs"
+  command="@mui/x-date-pickers@latest-v8 dayjs"
 />
 
 To minimize the bundle size during the build process, this package includes both
@@ -144,7 +144,11 @@ by the pickers:
 import { ConfigProvider } from '@nish1896/mui-components/config';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-<ConfigProvider allLabelsAboveFields dateAdapter={AdapterDayjs}>
+<ConfigProvider
+  allLabelsAboveFields
+  dateAdapter={AdapterDayjs}
+  defaultFormLabelSx={{ color: '#1976D2' }}
+>
   <App />
 </ConfigProvider>
 ```
