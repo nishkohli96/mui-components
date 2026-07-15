@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import Button, { type ButtonProps } from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { githubRepoLink } from '@/constants';
 import { useThemeContext } from '@/theme';
@@ -69,7 +69,13 @@ export const GithubButton = () => {
            ellipsizing on narrow screens. */
         sx={{ pl: { xs: 0, md: '12px' } }}
       >
-        <GitHubIcon />
+        {/* <GitHubIcon /> */}
+        <Image
+                        src="https://img.icons8.com/fluency/30/github.png"
+                        alt="Github"
+                        width={26}
+                        height={26}
+                      />
       </IconButton>
     </Tooltip>
   );

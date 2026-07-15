@@ -3,10 +3,10 @@ import Image from 'next/image';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import DrawerMenu from './DrawerMenu';
 import { GithubButton, ThemeChangeButton } from '../buttons';
-import RHFMuiLogo from '../../../public/rhf-mui.png';
+import RHFMuiLogo from '../../../public/mui.svg';
+import Wordmark from '../../../public/wordmark.svg';
 
 /**
  * Sticky, flat docs-style header: brand on the left, actions on the right.
@@ -19,14 +19,16 @@ const AppBar = () => {
       elevation={0}
       color="inherit"
       sx={{
-        bgcolor: 'primary.main',
+        bgcolor: 'background.default',
         color: 'primary.contrastText',
         borderBottom: '1px solid',
-        borderColor: 'primary.main',
+        borderColor: 'divider',
         '[data-mui-color-scheme="dark"] &': {
-          /* Blend with the canvas (background.default at 85%) instead of
-             sitting on it as a paper slab; the blur keeps scrolled content
-             legible underneath, like mui.com. */
+          /**
+           * Blend with the canvas (background.default at 85%) instead
+           * of sitting on it as a paper slab; the blur keeps scrolled
+           * content legible underneath, like mui.com.
+           */
           bgcolor: 'rgba(11, 14, 20, 0.85)',
           backdropFilter: 'blur(8px)',
           color: 'text.primary',
@@ -49,7 +51,7 @@ const AppBar = () => {
         >
           <Image
             src={RHFMuiLogo}
-            alt="RHF-Mui Components logo"
+            alt=""
             width={36}
             height={36}
             style={{
@@ -57,17 +59,24 @@ const AppBar = () => {
               objectFit: 'cover'
             }}
           />
-          <Typography
-            variant="h6"
-            noWrap
+          <Box
             sx={{
-              fontWeight: 600,
-              fontSize: '1.05rem',
-              letterSpacing: 0.2
+              display: 'flex',
+              alignItems: 'center',
+              '& img': {
+                height: { xs: 22, md: 28 },
+                width: 'auto'
+              }
             }}
           >
-            MUI Components
-          </Typography>
+            <Image
+              src={Wordmark}
+              alt="MUI Components"
+              priority
+              width={191}
+              height={28}
+            />
+          </Box>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
         <GithubButton />

@@ -10,7 +10,7 @@ export const LightThemePalette = {
   warning: { main: '#ffb74d' },
   error: { main: '#ef5350' },
   info: { main: '#03a9f4' },
-  divider: '#9e9e9e',
+  divider: '#d0d0d0',
   background: {
     default: '#ffffff',
     paper: '#e0dfdc'
