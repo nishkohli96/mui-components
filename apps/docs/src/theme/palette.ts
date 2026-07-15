@@ -13,7 +13,7 @@ export const LightThemePalette = {
   divider: '#d0d0d0',
   background: {
     default: '#ffffff',
-    paper: '#e0dfdc'
+    paper: '#f5f6f8'
   },
   text: {
     primary: '#121212',

@@ -3,10 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
-import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import Inventory2RoundedIcon from '@mui/icons-material/Inventory2Rounded';
-import LockOpenRoundedIcon from '@mui/icons-material/LockOpenRounded';
-import RouteRoundedIcon from '@mui/icons-material/RouteRounded';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -14,31 +10,30 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { AppBar, Footer } from '@/components';
 import CopyInstallCommand from './CopyInstallCommand';
-import Wordmark from '../../../public/wordmark.svg';
 
 const installCommand = 'npm install @nish1896/mui-components';
 
 const features = [
   {
-    icon: LockOpenRoundedIcon,
+    icon: '/icons/no-lockin.svg',
     title: 'No form-library lock-in',
     description:
       'Components speak value, onValueChange and errorMessage. Any state holder can drive them.'
   },
   {
-    icon: CheckCircleRoundedIcon,
+    icon: '/icons/typed.svg',
     title: 'Fully typed',
     description:
       'Written in TypeScript from the ground up, with precise prop types for every component.'
   },
   {
-    icon: Inventory2RoundedIcon,
+    icon: '/icons/tree-shakable.svg',
     title: 'Tree-shakable',
     description:
       'Import only what you use, with subpath exports for MUI, pickers and misc components.'
   },
   {
-    icon: RouteRoundedIcon,
+    icon: '/icons/form-ux.svg',
     title: 'Consistent form UX',
     description:
       'One label, error and helper-text system across all fields, with accessible names preserved.'
@@ -86,7 +81,7 @@ const HomeLanding = () => {
             }}
           >
             <Image
-              src={Wordmark}
+              src="/wordmark.svg"
               alt="MUI Components Wordmark"
               width={465}
               height={75}
@@ -182,7 +177,6 @@ const HomeLanding = () => {
           }}
         >
           {features.map(feature => {
-            const Icon = feature.icon;
             return (
               <Paper
                 key={feature.title}
@@ -194,7 +188,12 @@ const HomeLanding = () => {
                   bgcolor: 'background.paper'
                 }}
               >
-                <Icon color="primary" fontSize="small" />
+                <Image
+                  src={feature.icon}
+                  alt={feature.title}
+                  width={40}
+                  height={40}
+                />
                 <Typography sx={{ mt: 2, fontWeight: 800 }}>
                   {feature.title}
                 </Typography>
