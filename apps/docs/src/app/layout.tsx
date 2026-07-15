@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
-import Box from '@mui/material/Box';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from '@vercel/analytics/next';
 import {
@@ -9,13 +8,7 @@ import {
   defaultPageDescription,
   defaultPageKeywords
 } from '@/constants';
-import {
-  AppBar,
-  ConfigProviderWrapper,
-  Drawer,
-  FirebaseAnalytics,
-  Footer
-} from '@/components';
+import AppShell from '@/components/app-shell';
 import { AppThemeProvider } from '@/theme';
 import { colorSchemeAttribute, modeStorageKey } from '@/theme/constants';
 import './globals.css';
@@ -62,42 +55,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
-            <AppBar />
-            <Box className="content" sx={{ display: 'flex' }}>
-              <Box
-                component="nav"
-                aria-label="Component pages"
-                sx={{
-                  width: 260,
-                  flexShrink: 0,
-                  display: { xs: 'none', md: 'block' },
-                  position: 'sticky',
-                  top: 64,
-                  alignSelf: 'flex-start',
-                  height: 'calc(100vh - 64px)',
-                  overflowY: 'auto',
-                  borderRight: '1px solid',
-                  borderColor: 'divider',
-                  py: 1.5
-                }}
-              >
-                <Drawer />
-              </Box>
-              <Box
-                component="main"
-                sx={{
-                  flex: 1,
-                  minWidth: 0,
-                  p: { xs: '20px 16px 36px', md: '28px 28px 48px' }
-                }}
-              >
-                <ConfigProviderWrapper>
-                  {children}
-                </ConfigProviderWrapper>
-              </Box>
-            </Box>
-            <Footer />
-            <FirebaseAnalytics />
+            <AppShell>{children}</AppShell>
             <Analytics />
             <ToastContainer
               autoClose={3000}

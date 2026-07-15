@@ -3,7 +3,7 @@ import { type Page } from '@/types';
 export const sidebarLinks: Page[] = [
   {
     title: 'Introduction',
-    href: '/'
+    href: '/introduction'
   },
   {
     title: 'Getting Started',

@@ -22,6 +22,11 @@ export const defaultPageKeywords = [
 
 export const pageMetadata: Record<string, Metadata> = {
   home: {
+    title: 'MUI Components',
+    description:
+      'Production-ready, form-library-independent Material UI components with consistent labels, helper text and validation UI.'
+  },
+  introduction: {
     title: 'Introduction',
     description:
       '25+ form-library-agnostic Material UI form components — installation, quick start, live demos and full component API reference.'
