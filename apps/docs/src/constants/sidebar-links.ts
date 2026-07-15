@@ -6,8 +6,8 @@ export const sidebarLinks: Page[] = [
     href: '/introduction'
   },
   {
-    title: 'Getting Started',
-    href: '/getting-started'
+    title: 'Installation',
+    href: '/installation'
   },
   {
     title: 'Components',

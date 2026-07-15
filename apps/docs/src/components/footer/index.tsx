@@ -1,22 +1,6 @@
-'use client';
-
-import Link from 'next/link';
-import Image from 'next/image';
 import Box from '@mui/material/Box';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import { MySocials } from '@/constants';
 
-/**
- * Slim, quiet footer: social links and a one-line credit above a top border.
- *
- * Must stay a client component: MUI Tooltip clones its child on the server
- * but wraps it in an own <span> on the client when the child arrives through
- * an RSC boundary — a guaranteed hydration mismatch that regenerates the
- * whole tree (and triggers the "script tag while rendering" console error).
- * With 'use client', Tooltip and its child share one module graph and render
- * identically on both sides.
- */
 const Footer = () => {
   return (
     <Box
@@ -32,26 +16,6 @@ const Footer = () => {
         gap: 1.25
       }}
     >
-      <Box sx={{ display: 'flex', gap: 1.5 }}>
-        {MySocials.map(social => (
-          <Link
-            key={social.name}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: 'inline-flex' }}
-          >
-            <Tooltip title={social.name}>
-              <Image
-                src={social.imgSrc}
-                alt={social.name}
-                width={26}
-                height={26}
-              />
-            </Tooltip>
-          </Link>
-        ))}
-      </Box>
       <Typography variant="body2" color="text.secondary">
         Made with ❤️ by Nish
       </Typography>

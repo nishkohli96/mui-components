@@ -1,14 +1,5 @@
 'use client';
 
-/*
- * Landing page content. This must be a Client Component: it passes
- * `component={Link}` (a function) into MUI's Button/Link, which is not
- * serializable across the server -> client boundary — rendering it from a
- * Server Component 500s with "Functions cannot be passed directly to
- * Client Components". The route file (app/page.tsx) stays a Server
- * Component so it can export `metadata`.
- */
-
 import Image from 'next/image';
 import Link from 'next/link';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
@@ -19,14 +10,11 @@ import RouteRoundedIcon from '@mui/icons-material/RouteRounded';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import LinkText from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { ThemeChangeButton } from '@/components/buttons';
+import { AppBar, Footer } from '@/components';
 import CopyInstallCommand from './CopyInstallCommand';
-import { githubRepoLink } from '@/constants';
-import LogoSquare from '../../../public/logo-square.png';
+import Wordmark from '../../../public/wordmark.svg';
 
 const installCommand = 'npm install @nish1896/mui-components';
 
@@ -68,73 +56,7 @@ const HomeLanding = () => {
         flexDirection: 'column'
       }}
     >
-      <Box
-        component="header"
-        sx={{
-          borderBottom: '1px solid',
-          borderColor: 'divider'
-        }}
-      >
-        <Container
-          maxWidth="lg"
-          sx={{
-            height: 64,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 2
-          }}
-        >
-          <Link
-            href="/"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 10,
-              color: 'inherit',
-              textDecoration: 'none'
-            }}
-          >
-            <Image
-              src={LogoSquare}
-              alt=""
-              width={30}
-              height={30}
-              priority
-              style={{ borderRadius: 8 }}
-            />
-            <Typography
-              component="span"
-              sx={{ fontWeight: 800, fontSize: 17 }}
-            >
-              MUI-Components
-            </Typography>
-          </Link>
-          <Box sx={{ flexGrow: 1 }} />
-          <Stack direction="row" spacing={{ xs: 1, sm: 2 }} alignItems="center">
-            <LinkText
-              component={Link}
-              href="/introduction"
-              underline="none"
-              color="text.secondary"
-              sx={{ fontWeight: 700, fontSize: 13 }}
-            >
-              Docs
-            </LinkText>
-            <LinkText
-              href={githubRepoLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              underline="none"
-              color="text.secondary"
-              sx={{ fontWeight: 700, fontSize: 13 }}
-            >
-              GitHub
-            </LinkText>
-            <ThemeChangeButton />
-          </Stack>
-        </Container>
-      </Box>
-
+      <AppBar />
       <Container
         component="main"
         maxWidth="lg"
@@ -153,21 +75,31 @@ const HomeLanding = () => {
             textAlign: 'center'
           }}
         >
-          <Image
-            src={LogoSquare}
-            alt="MUI Components"
-            width={68}
-            height={68}
-            priority
-            style={{ borderRadius: 18 }}
-          />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              '& img': {
+                height: { xs: 44, sm: 56, md: 64, lg: 75 },
+                width: 'auto'
+              }
+            }}
+          >
+            <Image
+              src={Wordmark}
+              alt="MUI Components Wordmark"
+              width={465}
+              height={75}
+              priority
+            />
+          </Box>
           <Typography
             variant="h1"
             sx={{
               mt: 3,
-              fontSize: { xs: 38, md: 52 },
-              lineHeight: 1.08,
-              fontWeight: 900,
+              fontSize: { xs: 30, sm: 34, md: 42, lg: 46 },
+              lineHeight: 1.15,
+              fontWeight: 800,
               letterSpacing: 0
             }}
           >
@@ -188,7 +120,6 @@ const HomeLanding = () => {
             form library. Wire label placement, error state, and helper text
             once, then use it everywhere.
           </Typography>
-
           <Paper
             variant="outlined"
             sx={{
@@ -219,10 +150,9 @@ const HomeLanding = () => {
             </Box>
             <CopyInstallCommand command={installCommand} />
           </Paper>
-
           <Button
             component={Link}
-            href="/getting-started"
+            href="/introduction"
             variant="contained"
             endIcon={<ArrowForwardRoundedIcon />}
             sx={{
@@ -239,7 +169,6 @@ const HomeLanding = () => {
             Get Started
           </Button>
         </Box>
-
         <Box
           sx={{
             mt: { xs: 7, md: 9 },
@@ -284,76 +213,7 @@ const HomeLanding = () => {
           })}
         </Box>
       </Container>
-
-      <Box
-        component="footer"
-        sx={{
-          borderTop: '1px solid',
-          borderColor: 'divider'
-        }}
-      >
-        <Container
-          maxWidth="lg"
-          sx={{
-            minHeight: 76,
-            py: 2,
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            alignItems: { xs: 'flex-start', sm: 'center' },
-            gap: 1.5
-          }}
-        >
-          <Typography color="text.secondary" sx={{ fontSize: 13, fontWeight: 600 }}>
-            © 2026 MUI-Components
-          </Typography>
-          <Typography color="text.secondary" sx={{ fontSize: 13 }}>
-            Using React Hook Form?{' '}
-            <LinkText
-              href="https://rhf-mui-components.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              underline="hover"
-              color="inherit"
-              sx={{ fontWeight: 700 }}
-            >
-              Check out rhf-mui-components
-            </LinkText>
-            .
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Stack direction="row" spacing={2}>
-            <LinkText
-              component={Link}
-              href="/introduction"
-              underline="none"
-              color="text.secondary"
-              sx={{ fontSize: 13, fontWeight: 700 }}
-            >
-              Docs
-            </LinkText>
-            <LinkText
-              href={githubRepoLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              underline="none"
-              color="text.secondary"
-              sx={{ fontSize: 13, fontWeight: 700 }}
-            >
-              GitHub
-            </LinkText>
-            <LinkText
-              href="https://www.npmjs.com/package/@nish1896/mui-components"
-              target="_blank"
-              rel="noopener noreferrer"
-              underline="none"
-              color="text.secondary"
-              sx={{ fontSize: 13, fontWeight: 700 }}
-            >
-              npm
-            </LinkText>
-          </Stack>
-        </Container>
-      </Box>
+      <Footer />
     </Box>
   );
 };

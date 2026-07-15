@@ -6,5 +6,4 @@ export * from './options';
 export * from './page-metadata';
 export * from './props-table';
 export * from './sidebar-links';
-export * from './socials';
 export * from './source-code-links';

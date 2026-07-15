@@ -7,7 +7,6 @@ import {
   ConfigProviderWrapper,
   Drawer,
   FirebaseAnalytics,
-  Footer
 } from '@/components';
 
 type AppShellProps = {
@@ -63,7 +62,6 @@ const AppShell = ({ children }: AppShellProps) => {
           </ConfigProviderWrapper>
         </Box>
       </Box>
-      <Footer />
       <FirebaseAnalytics />
     </>
   );
