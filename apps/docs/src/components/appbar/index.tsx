@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import DrawerMenu from './DrawerMenu';
 import { GithubButton, ThemeChangeButton } from '../buttons';
-import RHFMuiLogo from '../../../public/mui.svg';
+import MuiLogo from '../../../public/icon.svg';
 import Wordmark from '../../../public/wordmark.svg';
 
 /**
@@ -50,7 +50,7 @@ const AppBar = () => {
           }}
         >
           <Image
-            src={RHFMuiLogo}
+            src={MuiLogo}
             alt=""
             width={36}
             height={36}
