@@ -28,6 +28,10 @@ import {
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 
+function maskPassword(value: string): string {
+  return '•'.repeat(value.length);
+}
+
 function passwordRuleFailures(value: string): string[] | undefined {
   const failures = [
     value.length < 8 && 'Use at least 8 characters',
@@ -52,7 +56,11 @@ export default function PasswordInputForm() {
     defaultValues: initialValues,
     onSubmit: async ({ value }) => {
       await logFirebaseEvent(formSubmitEventName, { pathName });
-      showToastMessage({ ...value, password: '••••••', confirmPassword: '••••••' });
+      showToastMessage({
+        ...value,
+        password: maskPassword(value.password),
+        confirmPassword: maskPassword(value.confirmPassword)
+      });
     }
   });
 
@@ -185,8 +193,8 @@ export default function PasswordInputForm() {
                   <Grid size={12}>
                     <FormState
                       formValues={{
-                        password: values.password ? '••••••' : '',
-                        confirmPassword: values.confirmPassword ? '••••••' : '',
+                        password: maskPassword(values.password),
+                        confirmPassword: maskPassword(values.confirmPassword),
                         pin: values.pin
                       }}
                       errors={errors}

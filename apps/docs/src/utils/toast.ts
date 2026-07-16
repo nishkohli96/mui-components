@@ -12,6 +12,7 @@ export function showToastMessage(
     data: {
       content: msgContent
     },
-    type
+    type,
+    icon: typeof msg === 'string' ? undefined : false
   });
 }

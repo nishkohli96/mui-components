@@ -24,10 +24,16 @@ const ToastDialog = ({
       <Typography variant="h6" component="h6" color="success">
         {data.title ?? 'Form Submitted with values:'}
       </Typography>
-      <Typography component="div">
-        <pre>
-          {data.content}
-        </pre>
+      <Typography
+        component="pre"
+        sx={{
+          m: 0,
+          whiteSpace: 'pre-wrap',
+          overflowWrap: 'break-word',
+          wordBreak: 'break-word'
+        }}
+      >
+        {data.content}
       </Typography>
     </div>
   );

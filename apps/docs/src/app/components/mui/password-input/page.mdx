@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import PasswordInputForm from '@/forms/password-input/Client';
 import { componentMetadata, componentProps } from '@/constants';
+import PasswordInputForm from '@/forms/password-input/Client';
 
 export const metadata = componentMetadata.MUIPasswordInput;
 
@@ -21,7 +21,7 @@ import MUIPasswordInput, { MUIPasswordInputProps } from '@nish1896/mui-component
 ```
 
 ```tsx
-const [password, setPassword] = useState('');
+const [password, setPassword] = useState();
 
 <MUIPasswordInput
   fieldName="password"
