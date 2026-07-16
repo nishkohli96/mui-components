@@ -10,11 +10,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import { githubRepoLink, npmLink } from '@/constants';
 import { useThemeContext } from '@/theme';
 
-type SubmitButtonProps = {
-  disabled?: boolean;
-};
-
-export const SubmitButton = ({ disabled }: SubmitButtonProps) => {
+export const SubmitButton = ({ disabled, ...otherBtnProps }: ButtonProps) => {
   return (
     <Button
       variant="contained"
@@ -22,6 +18,7 @@ export const SubmitButton = ({ disabled }: SubmitButtonProps) => {
       type="submit"
       sx={{ mr: '20px' }}
       disabled={disabled}
+      {...otherBtnProps}
     >
       Submit
     </Button>

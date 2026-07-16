@@ -107,96 +107,94 @@ export default function TextFieldForm() {
 
   return (
     <FormContainer title="MUITextField">
-      <form onSubmit={onFormSubmit}>
-        <GridContainer>
-          <Grid size={12}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={disableAllFields}
-                  onChange={event => {
-                    setDisableAllFields(event.target.checked);
-                  }}
-                />
-              )}
-              label="Disable all fields"
-            />
-          </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Basic Input field with required, min & max length validation" />
-            <MUITextField
-              fieldName="firstName"
-              value={firstName}
-              autoComplete="firstName"
-              onValueChange={({ newValue }) => {
-                setFirstName(newValue);
-                setFirstNameError(undefined);
-              }}
-              onBlur={() => {
-                setFirstNameError(validateFirstName(firstName));
-              }}
-              errorMessage={firstNameError}
-              disabled={disableAllFields}
-              required
-              helperText="Enter min 4 and max 10 characters"
-            />
-          </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Input with MUI props" />
-            <MUITextField
-              fieldName="lastName"
-              value={lastName}
-              onValueChange={({ newValue }) => {
-                setLastName(newValue.toUpperCase());
-              }}
-              variant="filled"
-              disabled={disableAllFields}
-            />
-          </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Input with pattern validation & label above form-field with custom ids" />
-            <MUITextField
-              fieldName="email"
-              value={email}
-              type="email"
-              onValueChange={({ newValue }) => {
-                setEmail(newValue);
-                setEmailError(undefined);
-              }}
-              onBlur={() => {
-                setEmailError(validateEmail(email));
-              }}
-              errorMessage={emailError}
-              renderError={error => (
-                <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
-                  <ErrorOutlineIcon color="error" fontSize="small" />
-                  <Typography component="span" variant="body2">
-                    {error}
-                  </Typography>
-                </Box>
-              )}
-              customIds={{
-                field: 'userEmail',
-                label: 'userEmail-label',
-                error: 'userEmail-error'
-              }}
-              variant="standard"
-              showLabelAboveFormField
-              formLabelProps={{ sx: { color: 'blue', fontWeight: 600 } }}
-            />
-          </Grid>
-          <Grid size={12}>
-            <SubmitButton />
-            <ResetButton onClick={resetForm} />
-          </Grid>
-          <Grid size={12}>
-            <FormState
-              formValues={formValues}
-              errors={errors}
-            />
-          </Grid>
-        </GridContainer>
-      </form>
+      <GridContainer>
+        <Grid size={12}>
+          <FormControlLabel
+            control={(
+              <Checkbox
+                checked={disableAllFields}
+                onChange={event => {
+                  setDisableAllFields(event.target.checked);
+                }}
+              />
+            )}
+            label="Disable all fields"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <FieldVariantInfo title="Basic Input field with required, min & max length validation" />
+          <MUITextField
+            fieldName="firstName"
+            value={firstName}
+            autoComplete="firstName"
+            onValueChange={({ newValue }) => {
+              setFirstName(newValue);
+              setFirstNameError(undefined);
+            }}
+            onBlur={() => {
+              setFirstNameError(validateFirstName(firstName));
+            }}
+            errorMessage={firstNameError}
+            disabled={disableAllFields}
+            required
+            helperText="Enter min 4 and max 10 characters"
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <FieldVariantInfo title="Input with MUI props" />
+          <MUITextField
+            fieldName="lastName"
+            value={lastName}
+            onValueChange={({ newValue }) => {
+              setLastName(newValue.toUpperCase());
+            }}
+            variant="filled"
+            disabled={disableAllFields}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <FieldVariantInfo title="Input with pattern validation & label above form-field with custom ids" />
+          <MUITextField
+            fieldName="email"
+            value={email}
+            type="email"
+            onValueChange={({ newValue }) => {
+              setEmail(newValue);
+              setEmailError(undefined);
+            }}
+            onBlur={() => {
+              setEmailError(validateEmail(email));
+            }}
+            errorMessage={emailError}
+            renderError={error => (
+              <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
+                <ErrorOutlineIcon color="error" fontSize="small" />
+                <Typography component="span" variant="body2">
+                  {error}
+                </Typography>
+              </Box>
+            )}
+            customIds={{
+              field: 'userEmail',
+              label: 'userEmail-label',
+              error: 'userEmail-error'
+            }}
+            variant="standard"
+            showLabelAboveFormField
+            formLabelProps={{ sx: { color: 'blue', fontWeight: 600 } }}
+          />
+        </Grid>
+        <Grid size={12}>
+          <SubmitButton onClick={onFormSubmit} />
+          <ResetButton onClick={resetForm} />
+        </Grid>
+        <Grid size={12}>
+          <FormState
+            formValues={formValues}
+            errors={errors}
+          />
+        </Grid>
+      </GridContainer>
     </FormContainer>
   );
 }
