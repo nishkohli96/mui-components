@@ -75,28 +75,29 @@ export default function TagsInputForm() {
                 return tag;
               }}
               delimiter=","
+              limitTags={3}
               maxTags={5}
               required
               errorMessage={formik.submitCount > 0 && formik.errors.skills}
-              helperText="Type a skill and press Enter or comma (max 5)"
+              helperText="Type a skill and press Enter or comma (max 5); maximum of 3 tags visible at once"
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="limitTags, custom chip render & a locked tag" />
+            <FieldVariantInfo title="limitTags, custom delimiter, custom chip render & a locked tag" />
             <MUITagsInput
               fieldName="keywords"
               label="Keywords"
               value={formik.values.keywords}
+              delimiter="|"
               onValueChange={({ newValue }) => formik.setFieldValue('keywords', newValue)}
               onTagDelete={({ deletedTag }) => deletedTag !== 'react'}
               onTagPaste={({ pastedTags }) => pastedTags.map(tag => tag.toLowerCase())}
               renderTagLabel={tag => `#${tag}`}
               ChipProps={{ color: 'primary', size: 'small', variant: 'outlined' }}
-              limitTags={2}
               getLimitTagsText={more => `+${more} more`}
               showLabelAboveFormField
-              helperText="Paste is lowercased; the 'react' tag can't be removed"
+              helperText="Paste is lowercased; '|' delimiter; the 'react' tag can't be removed"
             />
           </Grid>
 

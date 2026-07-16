@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
-import TagsInputForm from '@/forms/tags-input/Client';
+import TagsInputForm from '@/forms/mui/tags-input/Client';
 
 export const metadata = componentMetadata.MUITagsInput;
 
@@ -40,7 +40,7 @@ const [tags, setTags] = useState<string[]>([]);
   fieldName="tags"
   value={tags}
   onValueChange={({ newValue }) => setTags(newValue)}
-  delimiter=","
+  delimiter="|"
 />
 ```
 
@@ -49,6 +49,19 @@ const [tags, setTags] = useState<string[]>([]);
 Use `onTagAdd`, `onTagDelete`, and `onTagPaste` to validate, transform, or prevent
 tag changes before the form value is updated. Each callback receives a single object
 argument with the current field value available as `currentValue`.
+
+- **`onTagAdd`** — called before a tag is added, with `currentValue` (the field
+value before the addition) and `newTag` (the tag the user is attempting to add).
+Return `false` to block the tag, a replacement `string` to add a different value
+instead of `newTag`, or `true`/`void` to add `newTag` unchanged.
+- **`onTagDelete`** — called before a tag is removed, with `currentValue` (the
+field value before the removal) and `deletedTag` (the tag being removed). Return
+`false` to prevent the deletion, or `true`/`void` to allow it.
+- **`onTagPaste`** — called when one or more tags are pasted, with `currentValue`
+and `pastedTags` (the tags parsed from the pasted text — already split on the
+configured `delimiter`, trimmed, and deduplicated). Return `false` to discard all
+pasted tags, a `string[]` to replace them with a custom set, or `void` to add
+`pastedTags` unchanged.
 
 ```jsx
 <MUITagsInput
