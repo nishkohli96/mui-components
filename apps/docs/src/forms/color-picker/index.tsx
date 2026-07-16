@@ -88,7 +88,9 @@ export default function ColorPickerForm() {
               showLabelAboveFormField
               helperText={(
                 <Typography component="span" sx={{ color: brandColor }}>
-                  This text uses the selected colour ({brandColor})
+                  This text uses the selected colour (
+                  {brandColor}
+                  )
                 </Typography>
               )}
               disabled={disableAllFields}

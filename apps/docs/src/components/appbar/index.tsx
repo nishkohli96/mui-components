@@ -4,7 +4,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import DrawerMenu from './DrawerMenu';
-import { GithubButton, ThemeChangeButton } from '../buttons';
+import { GithubButton, NpmButton, ThemeChangeButton } from '../buttons';
 import MuiLogo from '../../../public/icon.svg';
 import Wordmark from '../../../public/wordmark.svg';
 
@@ -79,6 +79,7 @@ const AppBar = () => {
           </Box>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
+        <NpmButton />
         <GithubButton />
         <ThemeChangeButton />
       </Toolbar>

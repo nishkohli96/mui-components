@@ -56,6 +56,11 @@ export const pageMetadata: Record<string, Metadata> = {
     description:
       'A complete form showcasing all components from this package, with validation handled by Joi.'
   },
+  completeFormZod: {
+    title: 'Complete Form with Zod',
+    description:
+      'A complete form showcasing all components from this package, with validation handled by Zod and a checkbox to disable all fields.'
+  },
   completeFormState: {
     title: 'Complete Form — React state',
     description:

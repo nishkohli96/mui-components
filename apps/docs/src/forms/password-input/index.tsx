@@ -93,7 +93,9 @@ export default function PasswordInputForm() {
                   renderError={errorList => (
                     <ul style={{ margin: 0, paddingLeft: 18 }}>
                       {errorList.map(error => (
-                        <li key={error}>{error}</li>
+                        <li key={error}>
+                          {error}
+                        </li>
                       ))}
                     </ul>
                   )}

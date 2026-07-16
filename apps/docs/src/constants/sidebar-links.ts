@@ -68,6 +68,7 @@ export const sidebarLinks: Page[] = [
       { title: 'Miscellaneous Components', href: '/miscellaneous-components' },
       { title: 'Complete Form', href: '/complete-form' },
       { title: 'Complete Form with Joi', href: '/complete-form-joi' },
+      { title: 'Complete Form with Zod', href: '/complete-form-zod' },
       { title: 'Complete Form — State', href: '/complete-form-state' },
       { title: 'Complete Form — Formik', href: '/complete-form-formik' },
       { title: 'Complete Form — TanStack + Joi', href: '/complete-form-tanstack' }

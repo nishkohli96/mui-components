@@ -104,7 +104,7 @@ There is no schema, resolver or registration step — derive `errorMessage` from
 your own validation (or your form library's) and the field renders in an error
 state.
 
-## Bring your own form library
+## Using Form Libraries
 
 Because the components are controlled, adapting them to a form library takes
 only a few lines. With [TanStack Form](https://tanstack.com/form/latest)'s `Field`:
@@ -113,7 +113,9 @@ only a few lines. With [TanStack Form](https://tanstack.com/form/latest)'s `Fiel
 import { useForm } from '@tanstack/react-form';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 
-const form = useForm({ defaultValues: { email: '' } });
+const form = useForm({
+  defaultValues: { email: '' }
+});
 
 <form.Field
   name="email"

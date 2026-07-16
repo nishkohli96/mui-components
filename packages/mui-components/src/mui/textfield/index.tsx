@@ -14,7 +14,13 @@ import {
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds, parseErrorInput, type FieldErrorInput } from '@/utils';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  useFieldIds,
+  parseErrorInput,
+  type FieldErrorInput
+} from '@/utils';
 
 type OnValueChangeProps = {
   newValue: string;

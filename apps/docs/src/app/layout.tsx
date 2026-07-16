@@ -55,7 +55,9 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
-            <AppShell>{children}</AppShell>
+            <AppShell>
+              {children}
+            </AppShell>
             <Analytics />
             <ToastContainer
               autoClose={3000}

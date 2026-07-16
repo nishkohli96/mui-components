@@ -7,7 +7,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { githubRepoLink } from '@/constants';
+import { githubRepoLink, npmLink } from '@/constants';
 import { useThemeContext } from '@/theme';
 
 type SubmitButtonProps = {
@@ -65,17 +65,38 @@ export const GithubButton = () => {
         aria-label="Github"
         size="large"
         color="inherit"
-        /* Zero left padding below md keeps the brand text from
-           ellipsizing on narrow screens. */
-        sx={{ pl: { xs: 0, md: '12px' } }}
+        sx={{ padding: { xs: '6px', md: '12px' } }}
       >
-        {/* <GitHubIcon /> */}
         <Image
-                        src="https://img.icons8.com/fluency/30/github.png"
-                        alt="Github"
-                        width={26}
-                        height={26}
-                      />
+          src="https://img.icons8.com/fluency/30/github.png"
+          alt="Github"
+          width={26}
+          height={26}
+        />
+      </IconButton>
+    </Tooltip>
+  );
+};
+
+export const NpmButton = () => {
+  return (
+    <Tooltip title="NPM">
+      <IconButton
+        component={Link}
+        href={npmLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Npm"
+        size="large"
+        color="inherit"
+        sx={{ padding: { xs: '6px', md: '12px' } }}
+      >
+        <Image
+          src="https://img.icons8.com/color/30/npm.png"
+          alt="NPM"
+          width={30}
+          height={30}
+        />
       </IconButton>
     </Tooltip>
   );

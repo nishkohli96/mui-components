@@ -132,7 +132,9 @@ export default function RadioGroupForm() {
               }}
               renderOptionLabel={option => (
                 <Typography component="span" sx={{ fontWeight: 500 }}>
-                  {option} me
+                  {option}
+                  {' '}
+                  me
                 </Typography>
               )}
               showLabelAboveFormField
