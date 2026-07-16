@@ -84,7 +84,7 @@ export default function TagsInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="limitTags, custom delimiter, custom chip render & a locked tag" />
+            <FieldVariantInfo title="custom delimiter, custom chip render & a locked tag" />
             <MUITagsInput
               fieldName="keywords"
               label="Keywords"
