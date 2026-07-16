@@ -98,6 +98,7 @@ export default function NumberInputForm() {
                   fieldName="age"
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
+                  onFocus={e => e.target.select()}
                   onBlur={field.handleBlur}
                   errorMessage={field.state.meta.errors}
                   onlyIntegers
@@ -113,7 +114,7 @@ export default function NumberInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Decimal (2 dp), label above field" />
+            <FieldVariantInfo title="Decimal (2 places), label above field" />
             <form.Field
               name="price"
               validators={{

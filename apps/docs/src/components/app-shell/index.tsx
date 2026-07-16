@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import Box from '@mui/material/Box';
 import {
   AppBar,
-  ConfigProviderWrapper,
   Drawer,
   FirebaseAnalytics,
 } from '@/components';
@@ -57,9 +56,7 @@ const AppShell = ({ children }: AppShellProps) => {
             p: { xs: '20px 16px 36px', md: '28px 28px 48px' }
           }}
         >
-          <ConfigProviderWrapper>
-            {children}
-          </ConfigProviderWrapper>
+          {children}
         </Box>
       </Box>
       <FirebaseAnalytics />
