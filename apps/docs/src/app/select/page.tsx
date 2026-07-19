@@ -9,7 +9,7 @@ import {
   componentsDocsLink,
   validationLibLinks
 } from '@/constants';
-import SelectFormWithClassValidator from '@/forms/select-with-class-validator/Client';
+import SelectForm from '@/forms/mui/select/Client';
 
 export const metadata = pageMetadata.select;
 
@@ -24,7 +24,7 @@ const SelectWithClassValidatorPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
-      <SelectFormWithClassValidator />
+      <SelectForm />
       <LinksList links={docsLinks} />
     </ContentContainer>
   );

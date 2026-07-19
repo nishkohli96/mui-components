@@ -38,9 +38,6 @@ export class FormSchema {
   @IsString({ each: true })
   languages!: string[];
 
-  @IsString({ message: 'Select currency' })
-  currency!: string;
-
   @IsNumber(undefined, { message: 'Select a number' })
   randomNum!: number;
 
@@ -50,7 +47,4 @@ export class FormSchema {
   @IsString({ each: true })
   @Validate(IsValidIPLTeam, { message: 'Each option must be from IPLTeams array' })
   iplTeams!: string[];
-
-  @IsNumber()
-  ageGroup!: number;
 }

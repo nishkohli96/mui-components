@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
-import SelectForm from '@/forms/select-with-class-validator/Client';
+import SelectForm from '@/forms/mui/select/Client';
 
 export const metadata = componentMetadata.MUISelect;
 
@@ -25,7 +25,7 @@ import MUISelect, { MUISelectProps } from '@nish1896/mui-components/mui/select';
 ```
 
 ```tsx
-const [role, setRole] = useState('');
+const [role, setRole] = useState();
 
 <MUISelect
   fieldName="role"

@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import { faker } from '@faker-js/faker';
 import { toast } from 'react-toastify';
 import MUISelect from '@nish1896/mui-components/mui/select';
-import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
 import {
   FormContainer,
   FormState,
@@ -20,7 +19,7 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { IPLTeams, Currencies, formSubmitEventName } from '@/constants';
+import { IPLTeams, formSubmitEventName } from '@/constants';
 import { Colors } from '@/types';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
 import { FormSchema } from './validation';
@@ -37,7 +36,7 @@ const getLanguagesList = (count: number) => {
 
 const initialValues = { favouriteColor: Colors.Orange };
 
-const SelectFormWithClassValidator = () => {
+const SelectForm = () => {
   const pathName = usePathname();
   const languagesList = useMemo(() => getLanguagesList(10), []);
   const [disableAllFields, setDisableAllFields] = useState(false);
@@ -129,7 +128,7 @@ const SelectFormWithClassValidator = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render function, customOnChange and disabled options" />
-            <MUISelect
+            <MUISelect<(typeof IPLTeams)[number], 'name', 'abbr', true>
               fieldName="iplTeams"
               value={formValues.iplTeams}
               onValueChange={({ newValue, event }) => {
@@ -188,56 +187,17 @@ const SelectFormWithClassValidator = () => {
               required
             />
           </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Native select" />
-            <MUINativeSelect
-              fieldName="currency"
-              value={formValues.currency}
-              onValueChange={({ newValue }) => {
-                setValue('currency', newValue as string, {
-                  shouldValidate: true
-                });
-              }}
-              options={Currencies}
-              disabled={disableAllFields}
-              labelKey="name"
-              valueKey="code"
-              label="Choose a currency"
-              getOptionDisabled={opn => opn.code === 'INR'}
-              renderOptionLabel={opn => (
-                <>
-                  {`${opn.code} - ${opn.name} `}
-                </>
-              )}
-              errorMessage={errors.currency?.message?.toString()}
-              defaultOptionText="Select currency"
-              required
-            />
-          </Grid>
-          <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Native select with number options" />
-            <MUINativeSelect
-              fieldName="ageGroup"
-              value={formValues.ageGroup}
-              onValueChange={({ newValue }) => {
-                setValue('ageGroup', newValue as number, {
-                  shouldValidate: true
-                });
-              }}
-              options={[10, 20, 30, 40, 50]}
-              disabled={disableAllFields}
-              label="Choose an age group"
-              placeholder="Select age group"
-              errorMessage={errors.ageGroup?.message?.toString()}
-              required
-            />
-          </Grid>
           <Grid size={12}>
             <SubmitButton />
             <ResetButton onClick={() => reset(initialValues)} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={formValues} errors={errors} />
+            <FormState
+              formValues={formValues}
+              errors={Object.fromEntries(
+                Object.entries(errors).map(([key, error]) => [key, error?.message?.toString()])
+              )}
+            />
           </Grid>
         </GridContainer>
       </form>
@@ -245,4 +205,4 @@ const SelectFormWithClassValidator = () => {
   );
 };
 
-export default SelectFormWithClassValidator;
+export default SelectForm;
