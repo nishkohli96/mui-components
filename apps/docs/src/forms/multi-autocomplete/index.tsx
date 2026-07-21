@@ -20,7 +20,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage, logFirebaseEvent, formikError } from '@/utils';
 
 const skills = ['React', 'Node', 'GraphQL', 'Docker', 'AWS', 'Kubernetes'];
 
@@ -76,7 +76,7 @@ export default function MultiAutocompleteForm() {
               limitTags={3}
               checkboxProps={{ color: 'secondary' }}
               required
-              errorMessage={formik.submitCount > 0 && formik.errors.skills}
+              errorMessage={formikError(formik.submitCount > 0 && formik.errors.skills)}
               helperText="Pick your tech skills"
             />
           </Grid>

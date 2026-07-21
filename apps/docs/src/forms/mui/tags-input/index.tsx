@@ -24,7 +24,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage, logFirebaseEvent, formikError } from '@/utils';
 
 type TagsFormValues = {
   skills: string[];
@@ -78,7 +78,7 @@ export default function TagsInputForm() {
               limitTags={3}
               maxTags={5}
               required
-              errorMessage={formik.submitCount > 0 && formik.errors.skills}
+              errorMessage={formikError(formik.submitCount > 0 && formik.errors.skills)}
               helperText="Type a skill and press Enter or comma (max 5); maximum of 3 tags visible at once"
             />
           </Grid>

@@ -24,7 +24,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage, logFirebaseEvent, formikError } from '@/utils';
 
 const preferredCountries: CountryIso2[] = ['us', 'gb', 'in', 'de'];
 
@@ -71,7 +71,7 @@ export default function PhoneInputForm() {
               onValueChange={({ newValue }) => formik.setFieldValue('contactNumber', newValue)}
               phoneInputProps={{ defaultCountry: 'us' }}
               required
-              errorMessage={formik.submitCount > 0 && formik.errors.contactNumber}
+              errorMessage={formikError(formik.submitCount > 0 && formik.errors.contactNumber)}
               helperText="Include your area code"
             />
           </Grid>

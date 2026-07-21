@@ -20,7 +20,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage, logFirebaseEvent, formikError } from '@/utils';
 
 const hobbyOptions = ['Reading', 'Gaming', 'Cooking', 'Travel', 'Music'];
 
@@ -74,7 +74,7 @@ export default function CheckboxGroupForm() {
               value={formik.values.hobbies}
               onValueChange={({ newValue }) => formik.setFieldValue('hobbies', newValue)}
               required
-              errorMessage={formik.submitCount > 0 && formik.errors.hobbies}
+              errorMessage={formikError(formik.submitCount > 0 && formik.errors.hobbies)}
               helperText="Pick at least two"
             />
           </Grid>

@@ -26,7 +26,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage, logFirebaseEvent, tanstackErrors } from '@/utils';
 
 function maskPassword(value: string): string {
   return '•'.repeat(value.length);
@@ -97,7 +97,7 @@ export default function PasswordInputForm() {
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
                   onBlur={field.handleBlur}
-                  errorMessage={field.state.meta.errors}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                   renderError={errorList => (
                     <ul style={{ margin: 0, paddingLeft: 18 }}>
                       {errorList.map(error => (
@@ -138,7 +138,7 @@ export default function PasswordInputForm() {
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
                   onBlur={field.handleBlur}
-                  errorMessage={field.state.meta.errors}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                   required
                   disabled={disableAllFields}
                 />
@@ -162,7 +162,7 @@ export default function PasswordInputForm() {
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
                   onBlur={field.handleBlur}
-                  errorMessage={field.state.meta.errors}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                   showPasswordIcon={<KeyIcon />}
                   hidePasswordIcon={<KeyOffIcon />}
                   showLabelAboveFormField

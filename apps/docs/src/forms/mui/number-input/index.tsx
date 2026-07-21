@@ -27,7 +27,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage, logFirebaseEvent, tanstackErrors } from '@/utils';
 
 type NumberFormValues = {
   age: number | null;
@@ -100,7 +100,7 @@ export default function NumberInputForm() {
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
                   onFocus={e => e.target.select()}
                   onBlur={field.handleBlur}
-                  errorMessage={field.state.meta.errors}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                   onlyIntegers
                   nonNegative
                   showMarkers
@@ -129,7 +129,7 @@ export default function NumberInputForm() {
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
                   onBlur={field.handleBlur}
-                  errorMessage={field.state.meta.errors}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                   maxDecimalPlaces={2}
                   nonNegative
                   showLabelAboveFormField

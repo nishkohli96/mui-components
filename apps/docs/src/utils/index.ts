@@ -1,3 +1,4 @@
+export * from './errors';
 export * from './firebase';
 export * from './form';
 export * from './messages';

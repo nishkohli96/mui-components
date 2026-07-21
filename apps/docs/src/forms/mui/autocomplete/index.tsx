@@ -27,7 +27,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage, logFirebaseEvent, tanstackErrors } from '@/utils';
 import { fetchPokemons, type Pokemon } from './pokeApi';
 
 const frameworks = ['React', 'Vue', 'Angular', 'Svelte', 'Solid', 'Qwik'];
@@ -136,7 +136,7 @@ export default function AutocompleteExampleForm() {
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange((newValue as string) ?? '')}
                   onBlur={field.handleBlur}
-                  errorMessage={field.state.meta.errors}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                   freeSolo
                   required
                   textFieldProps={{ placeholder: 'Type or pick a framework' }}
@@ -166,7 +166,7 @@ export default function AutocompleteExampleForm() {
                   getLimitTagsText={more => `+${more} more`}
                   ChipProps={{ color: 'primary', size: 'small' }}
                   required
-                  errorMessage={field.state.meta.errors}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                   disabled={disableAllFields}
                 />
               )}

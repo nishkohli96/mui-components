@@ -32,8 +32,7 @@ import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   useFieldIds,
-  parseErrorInput,
-  type FieldErrorInput
+  getErrorList
 } from '@/utils';
 import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
@@ -183,28 +182,27 @@ export type MUICountrySelectProps<
    */
   required?: boolean;
   /**
-   * Validation error for the field, accepted in whatever shape your form
-   * library provides — a message string, an `Error`/`FieldError`-like object
-   * with a `message`, or an array of either (every resolvable message is
-   * kept, so multiple failed rules can be shown together).
+   * Validation error for the field — pass a single message `string`, or a
+   * `string[]` when the field can fail multiple rules at once (every message
+   * is shown together).
    *
-   * Any non-empty input puts the field into an error state and the resolved
-   * message(s) are surfaced through `FormHelperText`;
-   * `undefined`/`null`/`false`/`''`/`[]` clear it.
+   * A non-empty string or a non-empty array puts the field into an error state
+   * and surfaces the message(s) through `FormHelperText`; `undefined`, `''` or
+   * `[]` clear it.
    *
-   * Use `renderError` to customize how the resolved messages are rendered.
+   * Use `renderError` to customize how the message(s) are rendered.
    */
-  errorMessage?: FieldErrorInput;
+  errorMessage?: string | string[];
   /**
-   * Custom renderer for the resolved error message(s). Receives every message
-   * parsed from `errorMessage` (called only when at least one resolves) and
-   * must return renderable content — e.g. `errors[0]`, or a list when a field
-   * can fail multiple rules at once.
+   * Custom renderer for the resolved error message(s), called only when the
+   * field is in an error state. Always receives a `string[]` — use `errors[0]`
+   * for the common single-message case, or map over `errors` when a field fails
+   * several rules.
    *
    * When omitted, a single message renders as plain text and multiple
    * messages render on separate lines.
    *
-   * @param errors - Resolved error messages for this field.
+   * @param errors - Resolved error messages for this field (never empty).
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
@@ -321,12 +319,13 @@ const MUICountrySelect = <
     return map;
   }, [countrySelectOptions, valueKey]);
 
-  const { isError, errorMessages } = parseErrorInput(errorMessage);
-  const fieldErrorMessage = errorMessages.length > 0
-    ? renderError?.(errorMessages) ?? (
-      errorMessages.length === 1
-        ? errorMessages[0]
-        : errorMessages.map((message, index) => (
+  const errorList = getErrorList(errorMessage);
+  const isError = errorList.length > 0;
+  const fieldErrorMessage = isError
+    ? renderError?.(errorList) ?? (
+      errorList.length === 1
+        ? errorList[0]
+        : errorList.map((message, index) => (
           <div key={index}>{message}</div>
         ))
     )

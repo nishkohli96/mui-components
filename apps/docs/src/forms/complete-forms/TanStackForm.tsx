@@ -52,7 +52,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import { showToastMessage, logFirebaseEvent } from '@/utils';
+import { showToastMessage, logFirebaseEvent, tanstackErrors } from '@/utils';
 import {
   type CityOption,
   roleOptions,
@@ -115,9 +115,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     onBlur={field.handleBlur}
-                    errorMessage={field.state.meta.errors.filter(
-                      (error): error is string => typeof error === 'string'
-                    )}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -134,7 +132,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     onBlur={field.handleBlur}
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -153,7 +151,7 @@ export default function CompleteTanStackForm() {
                     onBlur={field.handleBlur}
                     onlyIntegers
                     nonNegative
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -201,7 +199,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue as string)}
                     showDefaultOption
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -234,7 +232,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange((newValue as string) ?? '')}
                     onBlur={field.handleBlur}
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -253,7 +251,7 @@ export default function CompleteTanStackForm() {
                     valueKey="id"
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -304,7 +302,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue as CountryDetails | null)}
                     preferredCountries={preferredCountries}
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -321,7 +319,7 @@ export default function CompleteTanStackForm() {
                     options={contactOptions}
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue as string)}
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -364,7 +362,7 @@ export default function CompleteTanStackForm() {
                     fieldName="rating"
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -408,7 +406,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue as Dayjs | null)}
                     disableFuture
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -474,7 +472,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     phoneInputProps={{ defaultCountry: 'us' }}
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
                   />
@@ -491,7 +489,7 @@ export default function CompleteTanStackForm() {
                     label="Short bio"
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                   />
                 )}
