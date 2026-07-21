@@ -77,8 +77,10 @@ export default function CompleteFormikForm() {
     }
   });
 
-  const showError = <K extends keyof CompleteFormValues>(name: K) =>
-    (formik.submitCount > 0 && formik.errors[name]);
+  const showError = <K extends keyof CompleteFormValues>(name: K): string | undefined => {
+    const error = formik.errors[name];
+    return formik.submitCount > 0 && typeof error === 'string' ? error : undefined;
+  };
 
   const displayErrors = formik.submitCount > 0
     ? Object.fromEntries(

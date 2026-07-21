@@ -18,7 +18,7 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
-import type { OptionalString, NullishOptionalString } from '@/types';
+import type { OptionalString } from '@/types';
 import {
   reqdMsg,
   minCharMsg,
@@ -39,10 +39,10 @@ export default function TextFieldForm() {
   const pathName = usePathname();
 
   const [firstName, setFirstName] = useState<OptionalString>(initialValues.firstName);
-  const [firstNameError, setFirstNameError] = useState<NullishOptionalString>();
+  const [firstNameError, setFirstNameError] = useState<OptionalString>();
   const [lastName, setLastName] = useState<OptionalString>(initialValues.lastName);
   const [email, setEmail] = useState<OptionalString>(initialValues.email);
-  const [emailError, setEmailError] = useState<NullishOptionalString>();
+  const [emailError, setEmailError] = useState<OptionalString>();
   const [disableAllFields, setDisableAllFields] = useState(false);
 
   const formValues = {
@@ -166,11 +166,11 @@ export default function TextFieldForm() {
               setEmailError(validateEmail(email));
             }}
             errorMessage={emailError}
-            renderError={error => (
+            renderError={errors => (
               <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
                 <ErrorOutlineIcon color="error" fontSize="small" />
                 <Typography component="span" variant="body2">
-                  {error}
+                  {errors[0]}
                 </Typography>
               </Box>
             )}

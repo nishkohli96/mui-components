@@ -65,6 +65,12 @@ export function parseErrorInput(error: unknown): ParsedErrorInput {
   return { isError: Boolean(error), errorMessages: [] };
 }
 
+export function getErrorList(errorMessage?: string | string[]) {
+  return (typeof errorMessage === 'string' ? [errorMessage] : (errorMessage ?? [])).filter(
+    message => message.trim() !== ''
+  );
+}
+
 /**
  * Convenience wrapper over `parseErrorInput` returning only the first
  * resolved message — handy outside the components, e.g. for toasts.

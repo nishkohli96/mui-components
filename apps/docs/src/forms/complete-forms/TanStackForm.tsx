@@ -115,7 +115,9 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     onBlur={field.handleBlur}
-                    errorMessage={field.state.meta.errors}
+                    errorMessage={field.state.meta.errors.filter(
+                      (error): error is string => typeof error === 'string'
+                    )}
                     required
                     disabled={disableAllFields}
                   />

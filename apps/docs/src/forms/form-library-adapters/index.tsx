@@ -8,11 +8,12 @@
  *   1. TanStack Form  (@tanstack/react-form)
  *   2. Formik         (formik)
  *
- * `errorMessage` accepts the library's error as-is (string, `FieldError`-like
- * object, or array of either) — see the `errorMessage=` lines below, which
- * pass TanStack's `meta.errors` array and Formik's `touched && errors`
- * (`false` / string) directly. When a validator reports several failed rules at
- * once (the password field below), all resolved messages render together, and
+ * Every field takes `errorMessage` as `string | string[]`. Each library
+ * reports errors in its own shape — TanStack's `meta.errors` is an array that
+ * may nest, Formik's `touched && errors` is `string | false` — so a one-line
+ * adapter per library (`tanstackErrors` / `formikError` below) normalizes them
+ * to that at the boundary. When a validator reports several failed rules at
+ * once (the password field below), every message renders together, and
  * `renderError={errors => ...}` can restyle them.
  */
 
@@ -36,6 +37,16 @@ const emailPattern
   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const requiredMsg = (label: string) => `${label} is required`;
+
+/* Adapters that normalize each library's native error shape to the
+   `string | string[]` every mui-components field accepts. `tanstackErrors`
+   flattens one level so a field reporting several rules at once — where
+   `meta.errors` is `[[ruleA, ruleB]]` — surfaces every message. */
+const tanstackErrors = (errors: unknown[]): string[] =>
+  errors.flat().filter((error): error is string => typeof error === 'string');
+
+const formikError = (error: string | false | undefined): string | undefined =>
+  error || undefined;
 
 /* Collects every failed password rule — returned as a string[] so all
    failures surface in `errorMessage` together. */
@@ -102,9 +113,7 @@ function TanStackExample() {
               value={field.state.value}
               onValueChange={({ newValue }) => field.handleChange(newValue)}
               onBlur={field.handleBlur}
-              /* meta.errors passes straight through — the component
-                 resolves arrays/objects/strings internally */
-              errorMessage={field.state.meta.errors}
+              errorMessage={tanstackErrors(field.state.meta.errors)}
             />
           )}
         </form.Field>
@@ -122,8 +131,8 @@ function TanStackExample() {
               onValueChange={({ newValue }) => field.handleChange(newValue)}
               onBlur={field.handleBlur}
               /* several failed rules at once: meta.errors is [ [ruleA, ruleB] ]
-                 — nested arrays flatten and every message is kept */
-              errorMessage={field.state.meta.errors}
+                 — tanstackErrors flattens it so every message is kept */
+              errorMessage={tanstackErrors(field.state.meta.errors)}
               renderError={errors => (
                 <ul style={{ margin: 0, paddingLeft: 18 }}>
                   {errors.map(error => (
@@ -151,7 +160,7 @@ function TanStackExample() {
               value={field.state.value}
               onValueChange={({ newValue }) => field.handleChange(newValue)}
               onBlur={field.handleBlur}
-              errorMessage={field.state.meta.errors}
+              errorMessage={tanstackErrors(field.state.meta.errors)}
               showDefaultOption
             />
           )}
@@ -170,7 +179,7 @@ function TanStackExample() {
               label="I accept the terms and conditions"
               value={field.state.value}
               onValueChange={({ newValue }) => field.handleChange(newValue)}
-              errorMessage={field.state.meta.errors}
+              errorMessage={tanstackErrors(field.state.meta.errors)}
             />
           )}
         </form.Field>
@@ -239,8 +248,7 @@ function FormikExample() {
           onValueChange={({ newValue }) =>
             formik.setFieldValue('fullName', newValue)}
           onBlur={() => formik.setFieldTouched('fullName', true)}
-          /* false clears the error state — `touched && errors` passes as-is */
-          errorMessage={formik.touched.fullName && formik.errors.fullName}
+          errorMessage={formikError(formik.touched.fullName && formik.errors.fullName)}
         />
 
         <MUINumberInput
@@ -249,7 +257,7 @@ function FormikExample() {
           onValueChange={({ newValue }) =>
             formik.setFieldValue('age', newValue)}
           onBlur={() => formik.setFieldTouched('age', true)}
-          errorMessage={formik.touched.age && formik.errors.age}
+          errorMessage={formikError(formik.touched.age && formik.errors.age)}
           onlyIntegers
           nonNegative
         />
@@ -294,10 +302,16 @@ export default function FormLibraryAdapters() {
           <code>field.handleChange</code>
           , with
           {' '}
-          <code>errorMessage=&#123;field.state.meta.errors&#125;</code>
+          <code>errorMessage=&#123;tanstackErrors(field.state.meta.errors)&#125;</code>
           {' '}
-          passed
-          as-is — the password field shows several failed rules at once via
+          — a one-line adapter that flattens
+          {' '}
+          <code>meta.errors</code>
+          {' '}
+          to
+          {' '}
+          <code>string[]</code>
+          , so the password field surfaces several failed rules at once via
           {' '}
           <code>renderError</code>
           .
@@ -321,13 +335,16 @@ export default function FormLibraryAdapters() {
           <code>setFieldValue</code>
           , with
           {' '}
-          <code>errorMessage=&#123;touched &amp;&amp; errors&#125;</code>
+          <code>errorMessage=&#123;formikError(touched &amp;&amp; errors)&#125;</code>
           {' '}
-          —
+          — a one-line adapter that maps Formik&apos;s
           {' '}
-          <code>false</code>
+          <code>string | false</code>
           {' '}
-          simply clears the error state.
+          to
+          {' '}
+          <code>string | undefined</code>
+          .
         </Typography>
         <FormikExample />
       </Box>
