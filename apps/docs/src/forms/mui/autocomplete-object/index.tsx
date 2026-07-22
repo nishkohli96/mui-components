@@ -27,11 +27,11 @@ import { showToastMessage, logFirebaseEvent } from '@/utils';
 type CityOption = { id: string; name: string; country: string };
 
 const cities: CityOption[] = [
-  { id: 'ldn', name: 'London', country: 'UK' },
-  { id: 'nyc', name: 'New York', country: 'USA' },
-  { id: 'tyo', name: 'Tokyo', country: 'Japan' },
-  { id: 'ber', name: 'Berlin', country: 'Germany' },
-  { id: 'syd', name: 'Sydney', country: 'Australia' }
+  { id: 'LDN', name: 'London', country: 'UK' },
+  { id: 'NYC', name: 'New York', country: 'USA' },
+  { id: 'TOK', name: 'Tokyo', country: 'Japan' },
+  { id: 'BER', name: 'Berlin', country: 'Germany' },
+  { id: 'SYD', name: 'Sydney', country: 'Australia' }
 ];
 
 export default function AutocompleteObjectForm() {
@@ -84,7 +84,7 @@ export default function AutocompleteObjectForm() {
 
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Single select — stores the whole option object" />
-            <MUIAutocompleteObject<CityOption>
+            <MUIAutocompleteObject
               fieldName="homeCity"
               options={cities}
               labelKey="name"
@@ -101,8 +101,8 @@ export default function AutocompleteObjectForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Multi-select with limitTags & chip props" />
-            <MUIAutocompleteObject<CityOption, 'name', 'id', true>
+            <FieldVariantInfo title="Multi-select with limitTags, getLimitTagsText & chip props" />
+            <MUIAutocompleteObject
               fieldName="visited"
               options={cities}
               labelKey="name"
@@ -110,7 +110,8 @@ export default function AutocompleteObjectForm() {
               multiple
               value={visited}
               onValueChange={({ newValue }) => setVisited(newValue)}
-              limitTags={2}
+              limitTags={1}
+              getLimitTagsText={more => `+${more} ${more > 1 ? 'Cities': 'City'}`}
               ChipProps={{ color: 'success', size: 'small' }}
               helperText="Cities you have visited"
               disabled={disableAllFields}

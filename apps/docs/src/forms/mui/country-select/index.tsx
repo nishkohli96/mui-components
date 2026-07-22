@@ -32,25 +32,25 @@ const preferred: CountryISO[] = ['US', 'GB', 'IN', 'DE'];
 export default function CountrySelectForm() {
   const pathName = usePathname();
 
-  const [country, setCountry] = useState<CountryDetails | null>(null);
+  const [nationality, setNationality] = useState<CountryDetails | null>(null);
   const [countryError, setCountryError] = useState<string>();
-  const [nationalities, setNationalities] = useState<CountryDetails[]>([]);
+  const [countriesVisited, setCountriesVisited] = useState<string[]>([]);
   const [disableAllFields, setDisableAllFields] = useState(false);
 
   const formValues = {
-    country: country?.name ?? null,
-    nationalities: nationalities.map(item => item.name)
+    nationality,
+    countriesVisited
   };
-  const errors = { country: countryError };
+  const errors = { nationality: countryError };
 
   function resetForm() {
-    setCountry(null);
+    setNationality(null);
     setCountryError(undefined);
-    setNationalities([]);
+    setCountriesVisited([]);
   }
 
   async function onFormSubmit() {
-    if (!country) {
+    if (!nationality) {
       setCountryError('Select your country');
       return;
     }
@@ -83,11 +83,11 @@ export default function CountrySelectForm() {
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Single select with preferred countries & flags" />
             <MUICountrySelect
-              fieldName="country"
-              value={country}
+              fieldName="nationality"
+              value={nationality}
               onValueChange={({ newValue }) => {
                 /* No `valueKey` → the value is a full CountryDetails object. */
-                setCountry(newValue as CountryDetails | null);
+                setNationality(newValue as CountryDetails | null);
                 setCountryError(undefined);
               }}
               preferredCountries={preferred}
@@ -100,13 +100,14 @@ export default function CountrySelectForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Multi-select with limitTags & chip props" />
-            <MUICountrySelect<true>
-              fieldName="nationalities"
+            <FieldVariantInfo title="Multi-select with valueKey, limitTags & chip props" />
+            <MUICountrySelect
+              fieldName="countriesVisited"
               label="Nationalities"
               multiple
-              value={nationalities}
-              onValueChange={({ newValue }) => setNationalities(newValue as CountryDetails[])}
+              value={countriesVisited}
+              valueKey="name"
+              onValueChange={({ newValue }) => setCountriesVisited(newValue)}
               limitTags={2}
               ChipProps={{ color: 'info', size: 'small' }}
               helperText="Select all that apply"

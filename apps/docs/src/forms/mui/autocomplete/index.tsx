@@ -40,8 +40,10 @@ type AutocompleteValues = {
   pokemons: string[];
 };
 
-const initialValues: Partial<AutocompleteValues> = {
-  languages: ['TypeScript']
+const initialValues: AutocompleteValues = {
+  framework: '',
+  languages: ['TypeScript'],
+  pokemons: []
 };
 
 export default function AutocompleteExampleForm() {
