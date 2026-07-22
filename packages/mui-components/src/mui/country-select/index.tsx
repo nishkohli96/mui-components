@@ -37,26 +37,36 @@ import {
 import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
 
-type CountrySelectStoredPrimitive = CountryDetails[
-  keyof Omit<CountryDetails, 'emoji'>
-];
+type CountrySelectValueKey = keyof Omit<CountryDetails, 'emoji'>;
 
-type CountrySelectStoredItem = CountryDetails | CountrySelectStoredPrimitive;
+type CountrySelectStoredPrimitive = CountryDetails[CountrySelectValueKey];
+
+/**
+ * The stored value of a single selection: the property named by `valueKey`
+ * when one is provided, otherwise the complete `CountryDetails` object.
+ */
+type CountrySelectStoredItem<
+  ValueKey extends CountrySelectValueKey | undefined
+> = ValueKey extends CountrySelectValueKey
+  ? CountryDetails[ValueKey]
+  : CountryDetails;
 
 type CountrySelectStoredValue<
   Multiple extends boolean,
-  DisableClearable extends boolean
+  DisableClearable extends boolean,
+  ValueKey extends CountrySelectValueKey | undefined
 > = [Multiple] extends [true]
-  ? CountrySelectStoredItem[]
+  ? CountrySelectStoredItem<ValueKey>[]
   : [DisableClearable] extends [true]
-    ? CountrySelectStoredItem
-    : CountrySelectStoredItem | null;
+    ? CountrySelectStoredItem<ValueKey>
+    : CountrySelectStoredItem<ValueKey> | null;
 
 type OnValueChangeProps<
   Multiple extends boolean,
-  DisableClearable extends boolean
+  DisableClearable extends boolean,
+  ValueKey extends CountrySelectValueKey | undefined
 > = {
-  newValue: CountrySelectStoredValue<Multiple, DisableClearable>;
+  newValue: CountrySelectStoredValue<Multiple, DisableClearable, ValueKey>;
   event: SyntheticEvent;
   reason: AutocompleteChangeReason;
   details?: AutocompleteChangeDetails<CountryDetails>;
@@ -93,26 +103,33 @@ type AutoCompleteProps<
 
 export type MUICountrySelectProps<
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false
+  DisableClearable extends boolean = false,
+  ValueKey extends CountrySelectValueKey | undefined = undefined
 > = {
   /**
    * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
   fieldName: string;
   /**
-   * Currently selected country value(s): complete `CountryDetails` object(s), or
-   * the property named by `valueKey` when it is provided. Pass an array when
-   * `multiple` is true.
+   * Currently selected country value(s): the property named by `valueKey` when
+   * it is provided, otherwise the complete `CountryDetails` object(s). An array
+   * when `multiple` is true; `null` is allowed for a single selection unless
+   * `disableClearable` is set.
    *
    * This is a controlled component: `value` and `onValueChange`
    * must be supplied together, typically backed by your own state or form library.
    * `undefined`/`null`/`[]` are treated as no selection.
    */
-  value?: CountrySelectStoredValue<Multiple, DisableClearable> | null;
+  value?: CountrySelectStoredValue<Multiple, DisableClearable, ValueKey> | null;
   /**
    * Called on every selection change with the normalized country value and the
    * raw MUI Autocomplete change metadata. Call your state setter (or form
    * library's setter) with `newValue` to update `value`.
+   *
+   * `newValue` mirrors `value`: the `valueKey` property (e.g. a `string`) when
+   * `valueKey` is set, otherwise the full `CountryDetails` object — arrayed when
+   * `multiple` is true, and `null` for a cleared single selection unless
+   * `disableClearable` is set.
    *
    * @param newValue - Normalized country value, or country value array when `multiple` is true.
    * @param event - Original MUI Autocomplete change event.
@@ -124,7 +141,7 @@ export type MUICountrySelectProps<
     event,
     reason,
     details
-  }: OnValueChangeProps<Multiple, DisableClearable>) => void;
+  }: OnValueChangeProps<Multiple, DisableClearable, ValueKey>) => void;
   /**
    * List of countries to display in the country selector.
    *
@@ -151,7 +168,7 @@ export type MUICountrySelectProps<
    * - When `valueKey` is omitted, selected value(s) are exposed as complete
    *   country objects.
    */
-  valueKey?: keyof Omit<CountryDetails, 'emoji'>;
+  valueKey?: ValueKey;
   /**
    * When true, the selected value cannot be cleared from the input.
    * @default false
@@ -233,7 +250,8 @@ export type MUICountrySelectProps<
 
 const MUICountrySelect = <
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false
+  DisableClearable extends boolean = false,
+  ValueKey extends CountrySelectValueKey | undefined = undefined
 >({
   fieldName,
   value,
@@ -265,7 +283,7 @@ const MUICountrySelect = <
   getLimitTagsText,
   getOptionKey,
   ...otherCountrySelectProps
-}: MUICountrySelectProps<Multiple, DisableClearable>) => {
+}: MUICountrySelectProps<Multiple, DisableClearable, ValueKey>) => {
   const {
     fieldId,
     labelId,
@@ -339,7 +357,8 @@ const MUICountrySelect = <
 
   const fieldValue = value as CountrySelectStoredValue<
     Multiple,
-    DisableClearable
+    DisableClearable,
+    ValueKey
   >;
   const selectedCountries = multiple
     ? Array.isArray(fieldValue)
@@ -395,7 +414,7 @@ const MUICountrySelect = <
                   ? newValue[valueKey]
                   : newValue
                 : null
-          ) as CountrySelectStoredValue<Multiple, DisableClearable>;
+          ) as CountrySelectStoredValue<Multiple, DisableClearable, ValueKey>;
           onValueChange({
             newValue: storedValue,
             event,

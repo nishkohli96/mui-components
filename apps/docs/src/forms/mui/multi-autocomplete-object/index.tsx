@@ -81,7 +81,7 @@ export default function MultiAutocompleteObjectForm() {
 
           <Grid size={{ xs: 12, md: 8 }}>
             <FieldVariantInfo title="Multi-select storing whole objects, with Select All" />
-            <MUIMultiAutocompleteObject<ProjectOption>
+            <MUIMultiAutocompleteObject
               fieldName="watched"
               label="Watched projects"
               options={projects}

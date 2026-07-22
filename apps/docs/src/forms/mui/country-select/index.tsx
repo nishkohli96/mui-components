@@ -86,8 +86,7 @@ export default function CountrySelectForm() {
               fieldName="nationality"
               value={nationality}
               onValueChange={({ newValue }) => {
-                /* No `valueKey` → the value is a full CountryDetails object. */
-                setNationality(newValue as CountryDetails | null);
+                setNationality(newValue);
                 setCountryError(undefined);
               }}
               preferredCountries={preferred}

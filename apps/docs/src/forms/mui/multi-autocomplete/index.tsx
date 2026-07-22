@@ -83,7 +83,7 @@ export default function MultiAutocompleteForm() {
 
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Object options with a disabled item" />
-            <MUIMultiAutocomplete<TeamOption>
+            <MUIMultiAutocomplete
               fieldName="teams"
               label="Teams"
               options={teams}
