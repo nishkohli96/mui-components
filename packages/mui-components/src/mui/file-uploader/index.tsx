@@ -64,10 +64,10 @@ type FileUploaderValue<Multiple extends boolean> = Multiple extends true
   ? File[]
   : File;
 
-type FileUploaderChangeEvent =
-  | ChangeEvent<HTMLInputElement>
-  | DragEvent<HTMLDivElement>
-  | MouseEvent<HTMLButtonElement>;
+type FileUploaderChangeEvent
+  = | ChangeEvent<HTMLInputElement>
+    | DragEvent<HTMLDivElement>
+    | MouseEvent<HTMLButtonElement>;
 
 type FileUploaderOnValueChangeProps<Multiple extends boolean> = {
   /** New field value after a successful upload, removal, or clear action. */
@@ -347,7 +347,7 @@ const MUIFileUploader = <Multiple extends boolean = false>({
    * the component works with the broad `File | File[] | null` shape and narrows
    * at runtime via `multiple`.
    */
-  const value = valueProp as File | File[] | null | undefined;
+  const value = valueProp;
   const onValueChange = onValueChangeProp as (
     props: { newValue: File | File[] | null; event: FileUploaderChangeEvent }
   ) => void;
@@ -378,7 +378,9 @@ const MUIFileUploader = <Multiple extends boolean = false>({
       errorList.length === 1
         ? errorList[0]
         : errorList.map((message, index) => (
-          <div key={index}>{message}</div>
+          <div key={index}>
+            {message}
+          </div>
         ))
     )
     : undefined;

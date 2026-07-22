@@ -165,7 +165,9 @@ const MUIRating = ({
       errorList.length === 1
         ? errorList[0]
         : errorList.map((message, index) => (
-          <div key={index}>{message}</div>
+          <div key={index}>
+            {message}
+          </div>
         ))
     )
     : undefined;

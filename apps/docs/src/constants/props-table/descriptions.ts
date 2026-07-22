@@ -390,13 +390,13 @@ export const PropsDescription = Object.freeze({
   errorMessage: {
     name: 'errorMessage',
     description:
-      'Validation error in whatever shape your form library provides — a message string, an `Error`/`FieldError`-like object with a `message`, or an array of either (every resolvable message is kept, so multiple failed rules show together). Any non-empty input puts the field in an error state; `undefined`/`null`/`false`/`\'\'`/`[]` clear it — `false` is accepted so the Formik-style `touched && errors` expression passes as-is.',
-    type: 'string \| object \| array'
+      'Validation error for the field — pass a single message `string`, or a `string[]` when the field can fail multiple rules at once (every message is shown together). A non-empty string or array puts the field in an error state; `undefined`/`\'\'`/`[]` clear it. Normalize your form library\'s error shape to this at the call site (e.g. an RHF `FieldError` via its `.message`). Use `renderError` to customize how the message(s) are rendered.',
+    type: 'string \| string[]'
   },
   renderError: {
     name: 'renderError',
     description:
-      'Custom renderer for the resolved error message(s). Receives every message parsed from `errorMessage` and returns renderable content — e.g. `errors[0]`, or a list when a field fails multiple rules. By default a single message renders as text and multiple messages render on separate lines.',
+      'Custom renderer for the resolved error message(s), called only when the field is in an error state. Always receives a `string[]` — use `errors[0]` for the common single-message case, or map over `errors` when a field fails several rules. By default a single message renders as text and multiple messages render on separate lines.',
     type: '(errors: string[]) => ReactNode'
   },
   hideErrorMessage: {
