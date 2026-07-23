@@ -111,7 +111,7 @@ export default function AutocompleteObjectForm() {
               value={visited}
               onValueChange={({ newValue }) => setVisited(newValue)}
               limitTags={1}
-              getLimitTagsText={more => `+${more} ${more > 1 ? 'Cities': 'City'}`}
+              getLimitTagsText={more => `+${more} ${more > 1 ? 'Cities' : 'City'}`}
               ChipProps={{ color: 'success', size: 'small' }}
               helperText="Cities you have visited"
               disabled={disableAllFields}

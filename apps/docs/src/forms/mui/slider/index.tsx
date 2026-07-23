@@ -30,10 +30,12 @@ const temperatureMarks = [
   { value: 28, label: '28°' }
 ];
 
+const minTemp = 20;
+
 const initialValues = {
   volume: 30,
   priceRange: [200, 800] as number[],
-  temperature: 20
+  temperature: minTemp
 };
 
 export default function SliderForm() {
@@ -56,11 +58,6 @@ export default function SliderForm() {
   }
 
   async function onFormSubmit() {
-    if (temperature < 18) {
-      setTemperatureError('Set the temperature to at least 18°');
-      return;
-    }
-    setTemperatureError(undefined);
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
@@ -125,6 +122,10 @@ export default function SliderForm() {
               value={temperature}
               onValueChange={({ newValue }) => {
                 setTemperature(newValue as number);
+                if (temperature < minTemp) {
+                  setTemperatureError(`Set the temperature to at least ${minTemp}`);
+                  return;
+                }
                 setTemperatureError(undefined);
               }}
               min={16}
@@ -133,7 +134,7 @@ export default function SliderForm() {
               marks={temperatureMarks}
               valueLabelDisplay="auto"
               errorMessage={temperatureError}
-              helperText="Must be at least 18° to submit"
+              helperText={`Must be at least ${minTemp}° to submit`}
               disabled={disableAllFields}
             />
           </Grid>

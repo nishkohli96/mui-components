@@ -52,9 +52,9 @@ export default function AutocompleteExampleForm() {
   const [loading, setLoading] = useState(false);
   const [disableAllFields, setDisableAllFields] = useState(false);
 
-    const pokemonOffsetRef = useRef(0);
-    const hasMorePokemonsRef = useRef(true);
-    const isPokemonFetchInFlightRef = useRef(false);
+  const pokemonOffsetRef = useRef(0);
+  const hasMorePokemonsRef = useRef(true);
+  const isPokemonFetchInFlightRef = useRef(false);
 
   const loadPokemons = useCallback(async () => {
     if (isPokemonFetchInFlightRef.current || !hasMorePokemonsRef.current) {
@@ -185,81 +185,81 @@ export default function AutocompleteExampleForm() {
               }}
             >
               {field => (
-            <MUIAutocomplete
-              fieldName="pokemons"
-              value={field.state.value}
-              onValueChange={({ newValue }) => field.handleChange(newValue ?? [])}
-              options={pokemonList}
-              labelKey="name"
-              valueKey="name"
-              multiple
-              required
-              showLabelAboveFormField
-              loading={loading}
-              renderOption={({ key, ...props }, option) => {
-                return (
-                  <Box
-                    key={key}
-                    component="li"
-                    {...props}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1.5,
-                      py: 1
-                    }}
-                  >
-                    <Image
-                      src={option.image}
-                      alt={option.name}
-                      width={40}
-                      height={40}
-                      style={{ objectFit: 'contain' }}
-                    />
-                    <Typography>
-                      {option.name}
-                    </Typography>
-                  </Box>
-                );
-              }}
-              slotProps={{
-                listbox: {
-                  onScroll: event => {
-                    const listboxNode = event.currentTarget;
-                    const scrollBottom
-                      = listboxNode.scrollTop + listboxNode.clientHeight
-                        >= listboxNode.scrollHeight - 5;
-                    if (scrollBottom && !loading) {
-                      loadPokemons();
-                    }
-                  }
-                }
-              }}
-              renderValue={value => {
-                return (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {value.map(item => {
-                      return (
-                        <Chip
-                          key={item.id}
-                          label={item.name}
-                          avatar={
-                            <Image
-                              src={item.image}
-                              alt={item.name}
-                              width={30}
-                              height={30}
-                              style={{ objectFit: 'contain' }}
-                            />
-                          }
+                <MUIAutocomplete
+                  fieldName="pokemons"
+                  value={field.state.value}
+                  onValueChange={({ newValue }) => field.handleChange(newValue ?? [])}
+                  options={pokemonList}
+                  labelKey="name"
+                  valueKey="name"
+                  multiple
+                  required
+                  showLabelAboveFormField
+                  loading={loading}
+                  renderOption={({ key, ...props }, option) => {
+                    return (
+                      <Box
+                        key={key}
+                        component="li"
+                        {...props}
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1.5,
+                          py: 1
+                        }}
+                      >
+                        <Image
+                          src={option.image}
+                          alt={option.name}
+                          width={40}
+                          height={40}
+                          style={{ objectFit: 'contain' }}
                         />
-                      );
-                    })}
-                  </Box>
-                );
-              }}
-              textFieldProps={{ variant: 'standard' }}
-            />
+                        <Typography>
+                          {option.name}
+                        </Typography>
+                      </Box>
+                    );
+                  }}
+                  slotProps={{
+                    listbox: {
+                      onScroll: event => {
+                        const listboxNode = event.currentTarget;
+                        const scrollBottom
+                          = listboxNode.scrollTop + listboxNode.clientHeight
+                            >= listboxNode.scrollHeight - 5;
+                        if (scrollBottom && !loading) {
+                          loadPokemons();
+                        }
+                      }
+                    }
+                  }}
+                  renderValue={value => {
+                    return (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {value.map(item => {
+                          return (
+                            <Chip
+                              key={item.id}
+                              label={item.name}
+                              avatar={
+                                <Image
+                                  src={item.image}
+                                  alt={item.name}
+                                  width={30}
+                                  height={30}
+                                  style={{ objectFit: 'contain' }}
+                                />
+                              }
+                            />
+                          );
+                        })}
+                      </Box>
+                    );
+                  }}
+                  textFieldProps={{ variant: 'standard' }}
+                />
               )}
             </form.Field>
           </Grid>
