@@ -155,7 +155,10 @@ export default function ColorPickerForm() {
             <ResetButton onClick={resetForm} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={formValues} errors={{}} />
+            <FormState
+              formValues={formValues}
+              errors={{}}
+            />
           </Grid>
         </GridContainer>
       </form>

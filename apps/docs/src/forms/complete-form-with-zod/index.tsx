@@ -403,7 +403,10 @@ export default function CompleteFormWithZod() {
               <ResetButton onClick={() => reset(initialValues)} disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={toDisplayValues(formValues as CompleteFormValues)} errors={errors} />
+              <FormState
+                formValues={toDisplayValues(formValues as CompleteFormValues)}
+                errors={errors}
+              />
             </Grid>
           </GridContainer>
         </form>

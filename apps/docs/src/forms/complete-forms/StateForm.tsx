@@ -411,7 +411,10 @@ export default function CompleteStateForm() {
               <ResetButton onClick={resetForm} disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={toDisplayValues(values)} errors={errors} />
+              <FormState
+                formValues={toDisplayValues(values)}
+                errors={errors}
+              />
             </Grid>
           </GridContainer>
         </form>

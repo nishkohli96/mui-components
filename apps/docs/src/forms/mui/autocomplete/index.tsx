@@ -282,7 +282,10 @@ export default function AutocompleteExampleForm() {
                     <ResetButton onClick={() => form.reset(initialValues)} />
                   </Grid>
                   <Grid size={12}>
-                    <FormState formValues={values} errors={errors} />
+                    <FormState
+                      formValues={values}
+                      errors={errors}
+                    />
                   </Grid>
                 </>
               );

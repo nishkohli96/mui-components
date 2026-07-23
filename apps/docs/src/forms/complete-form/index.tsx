@@ -600,7 +600,10 @@ const CompleteForm = () => {
               <SubmitButton disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={formValues} errors={errors} />
+              <FormState
+                formValues={formValues}
+                errors={errors}
+              />
               <ResetButton onClick={() => reset(initialValues)} />
             </Grid>
           </GridContainer>

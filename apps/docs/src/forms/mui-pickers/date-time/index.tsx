@@ -1,9 +1,9 @@
 'use client';
 
 /**
- * Date-Time Pickers example — plain React `useState`. Demonstrates all four
- * variants sharing the same controlled `value` / `onValueChange` contract:
- * responsive, desktop, mobile and static.
+ * Date-Time Pickers example — plain React `useState`, using Moment as the
+ * date library. Demonstrates all four variants sharing the same controlled
+ * `value` / `onValueChange` contract: responsive, desktop, mobile and static.
  */
 
 import { useState } from 'react';
@@ -11,8 +11,8 @@ import { usePathname } from 'next/navigation';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { type Dayjs } from 'dayjs';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import { type Moment } from 'moment';
 import { ConfigProvider } from '@nish1896/mui-components/config';
 import {
   MUIDateTimePicker,
@@ -32,10 +32,10 @@ import { formSubmitEventName } from '@/constants';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
 
 type DateTimePickerValues = {
-  appointment: Dayjs | null;
-  desktopDateTime: Dayjs | null;
-  mobileDateTime: Dayjs | null;
-  staticDateTime: Dayjs | null;
+  appointment: Moment | null;
+  desktopDateTime: Moment | null;
+  mobileDateTime: Moment | null;
+  staticDateTime: Moment | null;
 };
 
 const initialValues: DateTimePickerValues = {
@@ -51,13 +51,8 @@ export default function DateTimePickersForm() {
   const [appointmentError, setAppointmentError] = useState<string>();
   const [disableAllFields, setDisableAllFields] = useState(false);
 
-  /*
-   * MUI X types onValueChange's value as its adapter-agnostic `PickerValue`,
-   * which doesn't structurally narrow to `Dayjs` even though `AdapterDayjs`
-   * is configured below — cast once at this boundary.
-   */
-  function setField<K extends keyof DateTimePickerValues>(name: K, value: unknown) {
-    setValues(prev => ({ ...prev, [name]: value as DateTimePickerValues[K] }));
+  function setField<K extends keyof DateTimePickerValues>(name: K, value: DateTimePickerValues[K]) {
+    setValues(prev => ({ ...prev, [name]: value }));
   }
 
   function resetForm() {
@@ -65,7 +60,7 @@ export default function DateTimePickersForm() {
     setAppointmentError(undefined);
   }
 
-  /** Converts Dayjs values to JSON-friendly strings for the toast/state readout. */
+  /** Converts Moment values to JSON-friendly strings for the toast/state readout. */
   function toDisplayValues(formValues: DateTimePickerValues) {
     return {
       appointment: formValues.appointment?.format('YYYY-MM-DD HH:mm') ?? null,
@@ -87,7 +82,7 @@ export default function DateTimePickersForm() {
 
   return (
     <FormContainer title="Date-Time Pickers">
-      <ConfigProvider dateAdapter={AdapterDayjs}>
+      <ConfigProvider dateAdapter={AdapterMoment}>
         <form
           onSubmit={event => {
             event.preventDefault();
@@ -166,7 +161,10 @@ export default function DateTimePickersForm() {
               <ResetButton onClick={resetForm} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={toDisplayValues(values)} errors={{ appointment: appointmentError }} />
+              <FormState
+                formValues={toDisplayValues(values)}
+                errors={{ appointment: appointmentError }}
+              />
             </Grid>
           </GridContainer>
         </form>

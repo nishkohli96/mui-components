@@ -181,7 +181,10 @@ export default function NumberInputForm() {
                     <ResetButton onClick={() => form.reset()} />
                   </Grid>
                   <Grid size={12}>
-                    <FormState formValues={values} errors={errors} />
+                    <FormState
+                      formValues={values}
+                      errors={errors}
+                    />
                   </Grid>
                 </>
               );

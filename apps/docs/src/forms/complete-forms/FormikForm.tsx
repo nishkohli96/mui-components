@@ -403,7 +403,10 @@ export default function CompleteFormikForm() {
               <ResetButton onClick={() => formik.resetForm()} disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={toDisplayValues(formik.values)} errors={displayErrors} />
+              <FormState
+                formValues={toDisplayValues(formik.values)}
+                errors={displayErrors}
+              />
             </Grid>
           </GridContainer>
         </form>

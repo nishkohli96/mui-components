@@ -1,9 +1,10 @@
 'use client';
 
 /**
- * Time Pickers example — plain React `useState`. Demonstrates all four
- * variants sharing the same controlled `value` / `onValueChange` contract:
- * responsive, desktop, mobile and static.
+ * Time Pickers example — plain React `useState`, using date-fns (native
+ * `Date` values) as the date library. Demonstrates all four variants sharing
+ * the same controlled `value` / `onValueChange` contract: responsive,
+ * desktop, mobile and static.
  */
 
 import { useState } from 'react';
@@ -11,8 +12,8 @@ import { usePathname } from 'next/navigation';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { type Dayjs } from 'dayjs';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { format } from 'date-fns';
 import { ConfigProvider } from '@nish1896/mui-components/config';
 import {
   MUITimePicker,
@@ -32,10 +33,10 @@ import { formSubmitEventName } from '@/constants';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
 
 type TimePickerValues = {
-  arrivalTime: Dayjs | null;
-  desktopTime: Dayjs | null;
-  mobileTime: Dayjs | null;
-  staticTime: Dayjs | null;
+  arrivalTime: Date | null;
+  desktopTime: Date | null;
+  mobileTime: Date | null;
+  staticTime: Date | null;
 };
 
 const initialValues: TimePickerValues = {
@@ -51,13 +52,8 @@ export default function TimePickersForm() {
   const [arrivalTimeError, setArrivalTimeError] = useState<string>();
   const [disableAllFields, setDisableAllFields] = useState(false);
 
-  /*
-   * MUI X types onValueChange's value as its adapter-agnostic `PickerValue`,
-   * which doesn't structurally narrow to `Dayjs` even though `AdapterDayjs`
-   * is configured below — cast once at this boundary.
-   */
-  function setField<K extends keyof TimePickerValues>(name: K, value: unknown) {
-    setValues(prev => ({ ...prev, [name]: value as TimePickerValues[K] }));
+  function setField<K extends keyof TimePickerValues>(name: K, value: TimePickerValues[K]) {
+    setValues(prev => ({ ...prev, [name]: value }));
   }
 
   function resetForm() {
@@ -65,13 +61,13 @@ export default function TimePickersForm() {
     setArrivalTimeError(undefined);
   }
 
-  /** Converts Dayjs values to JSON-friendly strings for the toast/state readout. */
+  /** Converts Date values to JSON-friendly strings for the toast/state readout. */
   function toDisplayValues(formValues: TimePickerValues) {
     return {
-      arrivalTime: formValues.arrivalTime?.format('HH:mm') ?? null,
-      desktopTime: formValues.desktopTime?.format('HH:mm') ?? null,
-      mobileTime: formValues.mobileTime?.format('HH:mm') ?? null,
-      staticTime: formValues.staticTime?.format('HH:mm') ?? null
+      arrivalTime: formValues.arrivalTime ? format(formValues.arrivalTime, 'HH:mm') : null,
+      desktopTime: formValues.desktopTime ? format(formValues.desktopTime, 'HH:mm') : null,
+      mobileTime: formValues.mobileTime ? format(formValues.mobileTime, 'HH:mm') : null,
+      staticTime: formValues.staticTime ? format(formValues.staticTime, 'HH:mm') : null
     };
   }
 
@@ -87,7 +83,7 @@ export default function TimePickersForm() {
 
   return (
     <FormContainer title="Time Pickers">
-      <ConfigProvider dateAdapter={AdapterDayjs}>
+      <ConfigProvider dateAdapter={AdapterDateFns}>
         <form
           onSubmit={event => {
             event.preventDefault();
@@ -165,7 +161,10 @@ export default function TimePickersForm() {
               <ResetButton onClick={resetForm} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={toDisplayValues(values)} errors={{ arrivalTime: arrivalTimeError }} />
+              <FormState
+                formValues={toDisplayValues(values)}
+                errors={{ arrivalTime: arrivalTimeError }}
+              />
             </Grid>
           </GridContainer>
         </form>

@@ -135,7 +135,10 @@ export default function CheckboxForm() {
             <ResetButton onClick={resetForm} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={formValues} errors={errors} />
+            <FormState
+              formValues={formValues}
+              errors={errors}
+            />
           </Grid>
         </GridContainer>
       </form>

@@ -92,7 +92,9 @@ export default function SliderForm() {
               value={volume}
               onValueChange={({ newValue }) => {
                 /* value is a number → newValue is inferred as number */
-                if (newValue < minVolume) return;
+                if (newValue < minVolume) {
+                  return;
+                }
                 setVolume(newValue);
               }}
               min={0}
@@ -149,7 +151,10 @@ export default function SliderForm() {
             <ResetButton onClick={resetForm} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={formValues} errors={errors} />
+            <FormState
+              formValues={formValues}
+              errors={errors}
+            />
           </Grid>
         </GridContainer>
       </form>

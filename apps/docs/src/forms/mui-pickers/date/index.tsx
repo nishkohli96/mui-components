@@ -109,7 +109,7 @@ export default function DatePickersForm() {
                 fieldName="dob1"
                 value={d}
                 onValueChange={({ newValue }) => {
-                  setD(newValue)
+                  setD(newValue);
                 }}
                 label="Date of Birth"
                 disableFuture
@@ -179,7 +179,10 @@ export default function DatePickersForm() {
               <ResetButton onClick={resetForm} />
             </Grid>
             <Grid size={12}>
-              <FormState formValues={toDisplayValues(values)} errors={{ dob: dobError }} />
+              <FormState
+                formValues={toDisplayValues(values)}
+                errors={{ dob: dobError }}
+              />
             </Grid>
           </GridContainer>
         </form>

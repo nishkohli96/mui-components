@@ -516,7 +516,10 @@ export default function CompleteTanStackForm() {
                       />
                     </Grid>
                     <Grid size={12}>
-                      <FormState formValues={toDisplayValues(values)} errors={errors} />
+                      <FormState
+                        formValues={toDisplayValues(values)}
+                        errors={errors}
+                      />
                     </Grid>
                   </>
                 );
