@@ -48,16 +48,12 @@ const initialValues: DatePickerValues = {
 export default function DatePickersForm() {
   const pathName = usePathname();
   const [values, setValues] = useState<DatePickerValues>(initialValues);
+  const [d, setD] = useState<Dayjs | null>(null);
   const [dobError, setDobError] = useState<string>();
   const [disableAllFields, setDisableAllFields] = useState(false);
 
-  /*
-   * MUI X types onValueChange's value as its adapter-agnostic `PickerValue`,
-   * which doesn't structurally narrow to `Dayjs` even though `AdapterDayjs`
-   * is configured below — cast once at this boundary.
-   */
-  function setField<K extends keyof DatePickerValues>(name: K, value: unknown) {
-    setValues(prev => ({ ...prev, [name]: value as DatePickerValues[K] }));
+  function setField<K extends keyof DatePickerValues>(name: K, value: DatePickerValues[K]) {
+    setValues(prev => ({ ...prev, [name]: value }));
   }
 
   function resetForm() {
@@ -104,6 +100,23 @@ export default function DatePickersForm() {
                   />
                 )}
                 label="Disable all fields"
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="MUIDatePicker — responsive, disableFuture" />
+              <MUIDatePicker
+                fieldName="dob1"
+                value={d}
+                onValueChange={({ newValue }) => {
+                  setD(newValue)
+                }}
+                label="Date of Birth"
+                disableFuture
+                showLabelAboveFormField
+                required
+                errorMessage={dobError}
+                disabled={disableAllFields}
               />
             </Grid>
 

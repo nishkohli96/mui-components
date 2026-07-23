@@ -1,17 +1,13 @@
 'use client';
 
-import {
-  useContext,
-  forwardRef,
-  type Ref,
-  type ReactNode
-} from 'react';
+import { useContext, type ReactNode } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   StaticTimePicker as MuiStaticTimePicker,
   type StaticTimePickerProps,
   type TimeValidationError,
-  type PickerChangeHandlerContext
+  type PickerChangeHandlerContext,
+  type PickerValidDate
 } from '@mui/x-date-pickers';
 import {
   FormControl,
@@ -32,30 +28,37 @@ import {
 
 type StaticTimePickerInputProps = Omit<
   StaticTimePickerProps,
-  'ref' | 'onChange'
+  'ref' | 'onChange' | 'value'
 >;
 
-type StaticTimePickerValue = Parameters<
-  NonNullable<StaticTimePickerProps['onChange']>
->[0];
-
-type PickerOnValueChangeProps<ValidationError> = {
-  newValue: StaticTimePickerValue;
+type PickerOnValueChangeProps<TDate extends PickerValidDate, ValidationError> = {
+  newValue: TDate | null;
   context: PickerChangeHandlerContext<ValidationError>;
 };
 
-export type MUIStaticTimePickerProps = {
+export type MUIStaticTimePickerProps<TDate extends PickerValidDate = PickerValidDate> = {
   /**
    * Name/path of the field. Used to derive generated ids and the default label.
    */
   fieldName: string;
+  /**
+   * Current picker value, in the date type of your configured `dateAdapter`
+   * (e.g. `Dayjs`, `Moment`, `DateTime`, native `Date`). This is a controlled
+   * component: `value` and `onValueChange` must be supplied together.
+   * Pass `null` or `undefined` to clear the picker.
+   *
+   * `TDate` is inferred from the `value` you pass, so `newValue` on
+   * `onValueChange` comes back precisely typed instead of MUI X's
+   * adapter-agnostic `PickerValidDate`.
+   */
+  value?: TDate | null;
   /**
    * Called after the default handler accepts a valid time value.
    */
   onValueChange: ({
     newValue,
     context
-  }: PickerOnValueChangeProps<TimeValidationError>) => void;
+  }: PickerOnValueChangeProps<TDate, TimeValidationError>) => void;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
@@ -118,29 +121,26 @@ export type MUIStaticTimePickerProps = {
   customIds?: CustomComponentIds;
 } & StaticTimePickerInputProps;
 
-const MUIStaticTimePicker = forwardRef(function MUIStaticTimePicker(
-  {
-    fieldName,
-    value: muiValue,
-    onValueChange,
-    required,
-    onAccept: muiOnAccept,
-    disabled: muiDisabled,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    hideLabel,
-    errorMessage,
-    renderError,
-    hideErrorMessage,
-    helperText,
-    formHelperTextProps,
-    slotProps: muiSlotProps,
-    customIds,
-    ...otherPickerProps
-  }: MUIStaticTimePickerProps,
-  ref: Ref<HTMLDivElement>
-) {
+const MUIStaticTimePicker = <TDate extends PickerValidDate = PickerValidDate>({
+  fieldName,
+  value: muiValue,
+  onValueChange,
+  required,
+  onAccept: muiOnAccept,
+  disabled: muiDisabled,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  hideLabel,
+  errorMessage,
+  renderError,
+  hideErrorMessage,
+  helperText,
+  formHelperTextProps,
+  slotProps: muiSlotProps,
+  customIds,
+  ...otherPickerProps
+}: MUIStaticTimePickerProps<TDate>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('MUIStaticTimePicker'));
@@ -211,11 +211,15 @@ const MUIStaticTimePicker = forwardRef(function MUIStaticTimePicker(
         >
           <MuiStaticTimePicker
             {...otherPickerProps}
-            ref={ref}
             value={muiValue ?? null}
             disabled={muiDisabled}
             onChange={(newValue, context) => {
-              onValueChange({ newValue, context });
+              /*
+               * MUI X reports newValue as its adapter-agnostic `PickerValidDate`;
+               * narrow it back to `TDate` (the type `value` was given as) here,
+               * once, so `onValueChange` receives a precisely-typed value.
+               */
+              onValueChange({ newValue: newValue as TDate | null, context });
             }}
             onAccept={(newValue, context) => {
               muiOnAccept?.(newValue, context);
@@ -237,6 +241,6 @@ const MUIStaticTimePicker = forwardRef(function MUIStaticTimePicker(
       </FormControl>
     </LocalizationProvider>
   );
-});
+};
 
 export default MUIStaticTimePicker;

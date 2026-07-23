@@ -1,17 +1,13 @@
 'use client';
 
-import {
-  useContext,
-  forwardRef,
-  type Ref,
-  type ReactNode
-} from 'react';
+import { useContext, type ReactNode } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   DesktopTimePicker as MuiDesktopTimePicker,
   type DesktopTimePickerProps,
   type TimeValidationError,
-  type PickerChangeHandlerContext
+  type PickerChangeHandlerContext,
+  type PickerValidDate
 } from '@mui/x-date-pickers';
 import {
   FormControl,
@@ -33,33 +29,40 @@ import {
 
 type DesktopTimePickerInputProps = Omit<
   DesktopTimePickerProps,
-  'name' | 'defaultValue' | 'inputRef' | 'onChange'
+  'name' | 'defaultValue' | 'onChange' | 'value'
 >;
 
-type DesktopTimePickerValue = Parameters<
-  NonNullable<DesktopTimePickerProps['onChange']>
->[0];
-
-type PickerOnValueChangeProps<ValidationError> = {
-  newValue: DesktopTimePickerValue;
+type PickerOnValueChangeProps<TDate extends PickerValidDate, ValidationError> = {
+  newValue: TDate | null;
   context: PickerChangeHandlerContext<ValidationError>;
 };
 
-export type MUIDesktopTimePickerProps = {
+export type MUIDesktopTimePickerProps<TDate extends PickerValidDate = PickerValidDate> = {
   /**
    * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
   fieldName: string;
   /**
+   * Current picker value, in the date type of your configured `dateAdapter`
+   * (e.g. `Dayjs`, `Moment`, `DateTime`, native `Date`). This is a controlled
+   * component: `value` and `onValueChange` must be supplied together.
+   * Pass `null` or `undefined` to clear the picker.
+   *
+   * `TDate` is inferred from the `value` you pass, so `newValue` on
+   * `onValueChange` comes back precisely typed instead of MUI X's
+   * adapter-agnostic `PickerValidDate`.
+   */
+  value?: TDate | null;
+  /**
    * Called after the default handler accepts a valid time value.
    *
-   * @param newValue - New time value emitted by MUI X.
+   * @param newValue - New time value emitted by MUI X, typed as `TDate | null`.
    * @param context - MUI X picker change context, including validation status.
    */
   onValueChange: ({
     newValue,
     context
-  }: PickerOnValueChangeProps<TimeValidationError>) => void;
+  }: PickerOnValueChangeProps<TDate, TimeValidationError>) => void;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
@@ -118,29 +121,26 @@ export type MUIDesktopTimePickerProps = {
   customIds?: CustomComponentIds;
 } & DesktopTimePickerInputProps;
 
-const MUIDesktopTimePicker = forwardRef(function MUIDesktopTimePicker(
-  {
-    fieldName,
-    value: muiValue,
-    onValueChange,
-    required,
-    onAccept: muiOnAccept,
-    disabled: muiDisabled,
-    label,
-    showLabelAboveFormField,
-    formLabelProps,
-    hideLabel,
-    errorMessage,
-    renderError,
-    hideErrorMessage,
-    helperText,
-    formHelperTextProps,
-    slotProps: muiSlotProps,
-    customIds,
-    ...otherPickerProps
-  }: MUIDesktopTimePickerProps,
-  ref: Ref<HTMLInputElement>
-) {
+const MUIDesktopTimePicker = <TDate extends PickerValidDate = PickerValidDate>({
+  fieldName,
+  value: muiValue,
+  onValueChange,
+  required,
+  onAccept: muiOnAccept,
+  disabled: muiDisabled,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  hideLabel,
+  errorMessage,
+  renderError,
+  hideErrorMessage,
+  helperText,
+  formHelperTextProps,
+  slotProps: muiSlotProps,
+  customIds,
+  ...otherPickerProps
+}: MUIDesktopTimePickerProps<TDate>) => {
   const { dateAdapter, allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('MUIDesktopTimePicker'));
@@ -199,11 +199,15 @@ const MUIDesktopTimePicker = forwardRef(function MUIDesktopTimePicker(
         <MuiDesktopTimePicker
           {...otherPickerProps}
           name={fieldName}
-          inputRef={ref}
           value={muiValue ?? null}
           disabled={muiDisabled}
           onChange={(newValue, context) => {
-            onValueChange({ newValue, context });
+            /*
+             * MUI X reports newValue as its adapter-agnostic `PickerValidDate`;
+             * narrow it back to `TDate` (the type `value` was given as) here,
+             * once, so `onValueChange` receives a precisely-typed value.
+             */
+            onValueChange({ newValue: newValue as TDate | null, context });
           }}
           onAccept={(newValue, context) => {
             muiOnAccept?.(newValue, context);
@@ -259,6 +263,6 @@ const MUIDesktopTimePicker = forwardRef(function MUIDesktopTimePicker(
       </FormControl>
     </LocalizationProvider>
   );
-});
+};
 
 export default MUIDesktopTimePicker;
