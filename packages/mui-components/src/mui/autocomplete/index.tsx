@@ -112,7 +112,7 @@ export type MUIAutocompleteProps<
    *
    * `undefined`/`null`/`[]` are treated as no selection.
    */
-  value?: AutocompleteNewValue<Multiple, DisableClearable> | null;
+  value?: AutocompleteNewValue<Multiple, DisableClearable>;
   /**
    * Called on every selection change with the normalized value and the raw MUI
    * selection. Call your state setter (or form library's setter) with `newValue`

@@ -87,7 +87,7 @@ export type MUIAutocompleteObjectProps<
    *
    * `undefined`/`null`/`[]` are treated as no selection.
    */
-  value?: AutocompleteValue<Option, Multiple, DisableClearable, false> | null;
+  value?: AutocompleteValue<Option, Multiple, DisableClearable, false>;
   /**
    * Called on every selection change with the selected object value(s) from MUI,
    * without reducing them to `valueKey`. Call your state setter (or form library's

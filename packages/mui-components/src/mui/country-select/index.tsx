@@ -120,7 +120,7 @@ export type MUICountrySelectProps<
    * must be supplied together, typically backed by your own state or form library.
    * `undefined`/`null`/`[]` are treated as no selection.
    */
-  value?: CountrySelectStoredValue<Multiple, DisableClearable, ValueKey> | null;
+  value?: CountrySelectStoredValue<Multiple, DisableClearable, ValueKey>;
   /**
    * Called on every selection change with the normalized country value and the
    * raw MUI Autocomplete change metadata. Call your state setter (or form

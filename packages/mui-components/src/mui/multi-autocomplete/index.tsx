@@ -95,7 +95,7 @@ export type MUIMultiAutocompleteProps<
    * together, typically backed by your own state or form library.
    * `undefined`/`null`/`[]` are treated as an empty selection.
    */
-  value?: string[] | null;
+  value?: string[];
   /**
    * Called on every selection change with the next string array and the option
    * value that triggered the change. Call your state setter (or form library's
