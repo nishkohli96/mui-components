@@ -10,6 +10,8 @@
 import { useFormik } from 'formik';
 import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
 import {
   FormContainer,
@@ -80,7 +82,7 @@ export default function CheckboxGroupForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Object options, a locked item & custom colour" />
+            <FieldVariantInfo title="Object options, a locked item & custom checkbox icons and colour" />
             <MUICheckboxGroup<PermissionOption, 'label', 'id'>
               fieldName="permissions"
               label="Permissions"
@@ -90,7 +92,11 @@ export default function CheckboxGroupForm() {
               value={formik.values.permissions}
               onValueChange={({ newValue }) => formik.setFieldValue('permissions', newValue)}
               getOptionDisabled={option => Boolean(option.locked)}
-              checkboxProps={{ color: 'secondary' }}
+              checkboxProps={{
+                color: 'success',
+                icon: <CancelOutlinedIcon color="error" />,
+                checkedIcon: <CheckCircleOutlineIcon />
+              }}
               showLabelAboveFormField
               helperText="'Read' is always granted"
             />

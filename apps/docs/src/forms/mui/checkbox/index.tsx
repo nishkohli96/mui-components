@@ -125,7 +125,7 @@ export default function CheckboxForm() {
                   </Typography>
                 </Box>
               )}
-              customIds={{ field: 'acceptTerms', error: 'acceptTerms-error' }}
+              customIds={{ field: 'accept-terms', error: 'accept-terms-error' }}
               disabled={disableAllFields}
             />
           </Grid>
