@@ -26,6 +26,8 @@ import { showToastMessage, logFirebaseEvent, formikError } from '@/utils';
 
 const hobbyOptions = ['Reading', 'Gaming', 'Cooking', 'Travel', 'Music'];
 
+const scoreOptions = [10, 20, 30, 40, 50];
+
 type PermissionOption = { id: string; label: string; locked?: boolean };
 
 const permissionOptions: PermissionOption[] = [
@@ -38,11 +40,13 @@ const permissionOptions: PermissionOption[] = [
 type CheckboxFormValues = {
   hobbies: string[];
   permissions: string[];
+  scores: number[];
 };
 
 const initialValues: CheckboxFormValues = {
   hobbies: ['Reading'],
-  permissions: ['read']
+  permissions: ['read'],
+  scores: [20]
 };
 
 export default function CheckboxGroupForm() {
@@ -82,8 +86,8 @@ export default function CheckboxGroupForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Object options, a locked item & custom checkbox icons and colour" />
-            <MUICheckboxGroup<PermissionOption, 'label', 'id'>
+            <FieldVariantInfo title="Object options, getOptionDisabled & custom checkbox colour and icons" />
+            <MUICheckboxGroup
               fieldName="permissions"
               label="Permissions"
               options={permissionOptions}
@@ -99,6 +103,19 @@ export default function CheckboxGroupForm() {
               }}
               showLabelAboveFormField
               helperText="'Read' is always granted"
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Numeric options — value stored as number[]" />
+            <MUICheckboxGroup
+              fieldName="scores"
+              label="Scores"
+              options={scoreOptions}
+              value={formik.values.scores}
+              onValueChange={({ newValue }) => formik.setFieldValue('scores', newValue)}
+              renderOptionLabel={score => `${score} pts`}
+              helperText="Each checked value is stored as a number"
             />
           </Grid>
 

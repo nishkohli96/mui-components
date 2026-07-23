@@ -128,7 +128,7 @@ const SelectForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render function, customOnChange and disabled options" />
-            <MUISelect<(typeof IPLTeams)[number], 'name', 'abbr', true>
+            <MUISelect
               fieldName="iplTeams"
               value={formValues.iplTeams}
               onValueChange={({ newValue, event }) => {
