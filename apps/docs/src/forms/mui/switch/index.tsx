@@ -25,19 +25,20 @@ import {
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
+import { useThemeContext } from '@/theme';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 const initialValues = {
   notifications: true,
-  darkMode: false,
   acceptTerms: false
 };
 
 export default function SwitchForm() {
   const pathName = usePathname();
+  const { currentTheme, toggleTheme } = useThemeContext();
 
   const [notifications, setNotifications] = useState(initialValues.notifications);
-  const [darkMode, setDarkMode] = useState(initialValues.darkMode);
+  const [darkMode, setDarkMode] = useState(currentTheme === 'dark');
   const [acceptTerms, setAcceptTerms] = useState(initialValues.acceptTerms);
   const [acceptTermsError, setAcceptTermsError] = useState<string>();
   const [disableAllFields, setDisableAllFields] = useState(false);
@@ -47,7 +48,7 @@ export default function SwitchForm() {
 
   function resetForm() {
     setNotifications(initialValues.notifications);
-    setDarkMode(initialValues.darkMode);
+    setDarkMode(currentTheme === 'dark');
     setAcceptTerms(initialValues.acceptTerms);
     setAcceptTermsError(undefined);
   }
@@ -100,7 +101,10 @@ export default function SwitchForm() {
               fieldName="darkMode"
               label="Enable dark mode"
               value={darkMode}
-              onValueChange={({ newValue }) => setDarkMode(newValue)}
+              onValueChange={({ newValue }) => {
+                toggleTheme();
+                setDarkMode(newValue);
+              }}
               color="secondary"
               size="medium"
               formControlLabelProps={{ labelPlacement: 'start' }}

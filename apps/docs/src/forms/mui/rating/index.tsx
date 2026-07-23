@@ -11,6 +11,8 @@ import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import MUIRating from '@nish1896/mui-components/mui/rating';
 import {
   FormContainer,
@@ -25,9 +27,12 @@ import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 const initialValues = {
   overall: 3 as number | null,
-  quality: 2.5 as number | null,
+  quality: 2.75 as number | null,
   support: null as number | null
 };
+
+const minSupportRating = 7;
+const minSupportError = `Please give us a rating of atleast ${minSupportRating}`;
 
 export default function RatingForm() {
   const pathName = usePathname();
@@ -49,8 +54,8 @@ export default function RatingForm() {
   }
 
   async function onFormSubmit() {
-    if (!support) {
-      setSupportError('Please rate our support');
+    if (!support || support < minSupportRating) {
+      setSupportError(minSupportError);
       return;
     }
     setSupportError(undefined);
@@ -91,32 +96,38 @@ export default function RatingForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Half-star precision, custom max & size" />
+            <FieldVariantInfo title="Half-star precision & size" />
             <MUIRating
               fieldName="quality"
               label="Product quality"
               value={quality}
               onValueChange={({ newValue }) => setQuality(newValue)}
-              precision={0.5}
-              max={5}
+              precision={0.25}
               size="large"
               disabled={disableAllFields}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Required rating with validation" />
+            <FieldVariantInfo title="Required rating with custom icons, max value and validation" />
             <MUIRating
               fieldName="support"
               label="Support experience"
               value={support}
               onValueChange={({ newValue }) => {
                 setSupport(newValue);
-                setSupportError(undefined);
+                if(!newValue || newValue < minSupportRating) {
+                  setSupportError(minSupportError);
+                } else {
+                  setSupportError(undefined);
+                }
               }}
+              icon={<FavoriteIcon color="error" fontSize="inherit" />}
+              emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+              max={10}
               required
               errorMessage={supportError}
-              helperText="A rating is required to submit"
+              helperText={`A rating of atleast ${minSupportRating} is required to submit`}
               disabled={disableAllFields}
             />
           </Grid>

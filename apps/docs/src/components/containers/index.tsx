@@ -19,7 +19,7 @@ export const ContentContainer = ({ children }: Pick<FormContainerProps, 'childre
 
 export const FormContainer = ({ title, children }: FormContainerProps) => {
   return (
-    <Box sx={{ padding: '10px', border: '1px solid gray' }}>
+    <Box sx={{ padding: { xs: '15px', md: '15px 20px' }, border: '1px solid gray' }}>
       <Typography variant="h6" sx={{ mb: '20px' }}>
         {title}
       </Typography>
