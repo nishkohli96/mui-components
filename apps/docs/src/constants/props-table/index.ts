@@ -30,9 +30,9 @@ import radioGroupRows from './mui/radio-group';
 import switchRows from './mui/switch';
 import sliderRows from './mui/slider';
 import ratingRows from './mui/rating';
-import { datePickerRows, staticDatePickerRows } from './mui-pickers/date';
-import { timePickerRows, staticTimePickerRows } from './mui-pickers/time';
-import { dateTimePickerRows, staticDateTimePickerRows } from './mui-pickers/date-time';
+import { datePickerRows } from './mui-pickers/date';
+import { timePickerRows } from './mui-pickers/time';
+import { dateTimePickerRows } from './mui-pickers/date-time';
 import colorPickerRows from './misc/color-picker';
 import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
@@ -65,13 +65,10 @@ export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
   MUISlider: sliderRows(currentVersionArgs),
   MUIRating: ratingRows(currentVersionArgs),
 
-  /* Picker variations share their family's rows — no per-variation entries. */
+  /* All four variants per family (responsive/desktop/mobile/static) share one row set. */
   MUIDatePicker: datePickerRows(currentVersionArgs),
-  MUIStaticDatePicker: staticDatePickerRows(currentVersionArgs),
   MUITimePicker: timePickerRows(currentVersionArgs),
-  MUIStaticTimePicker: staticTimePickerRows(currentVersionArgs),
   MUIDateTimePicker: dateTimePickerRows(currentVersionArgs),
-  MUIStaticDateTimePicker: staticDateTimePickerRows(currentVersionArgs),
 
   MUIColorPicker: colorPickerRows(currentVersionArgs),
   MUIPhoneInput: phoneInputRows(currentVersionArgs),

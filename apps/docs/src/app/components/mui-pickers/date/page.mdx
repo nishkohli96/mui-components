@@ -59,17 +59,18 @@ Inspect `context.validationError` in `onValueChange` if you need to react to inv
 
 ## Props
 
-Responsive, desktop and mobile variants (`MUIDatePicker`, `MUIDesktopDatePicker`,
-`MUIMobileDatePicker`) share the props below. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+All four variants (`MUIDatePicker`, `MUIDesktopDatePicker`, `MUIMobileDatePicker`,
+`MUIStaticDatePicker`) share the props below. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIDatePicker} />
 
-### MUIStaticDatePicker
-
-The static variant renders inline (no text field), so it omits the input-specific
-props and adds a `label`.
-
-<PropsTable rows={componentProps.MUIStaticDatePicker} />
+<Callout type="info">
+  `MUIStaticDatePicker` renders inline with no text field, so two props behave
+  slightly differently: `fieldName` only derives the generated ids and default
+  label (no `name` attribute, since there's no input), and
+  `showLabelAboveFormField` defaults to `false` — with no built-in inline label,
+  that means no visible label renders at all (the accessible name is still applied).
+</Callout>
 
 ## Playground
 

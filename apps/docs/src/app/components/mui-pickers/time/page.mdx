@@ -60,17 +60,18 @@ The default handler stores the value only when it is valid — inspect
 
 ## Props
 
-Responsive, desktop and mobile variants (`MUITimePicker`, `MUIDesktopTimePicker`,
-`MUIMobileTimePicker`) share the props below. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+All four variants (`MUITimePicker`, `MUIDesktopTimePicker`, `MUIMobileTimePicker`,
+`MUIStaticTimePicker`) share the props below. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUITimePicker} />
 
-### MUIStaticTimePicker
-
-The static variant renders inline (no text field), so it omits the input-specific
-props and adds a `label`.
-
-<PropsTable rows={componentProps.MUIStaticTimePicker} />
+<Callout type="info">
+  `MUIStaticTimePicker` renders inline with no text field, so two props behave
+  slightly differently: `fieldName` only derives the generated ids and default
+  label (no `name` attribute, since there's no input), and
+  `showLabelAboveFormField` defaults to `false` — with no built-in inline label,
+  that means no visible label renders at all (the accessible name is still applied).
+</Callout>
 
 ## Playground
 
