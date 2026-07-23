@@ -28,29 +28,41 @@ type SliderInputProps = Omit<
   | 'onChange'
 >;
 
-type OnValueChangeProps = {
-  newValue: number | number[];
+type SliderValue = number | number[];
+
+/*
+ * MUI types onChange's value as the wide `number | number[]` union;
+ * narrow it back to `Value` (a single-thumb slider always emits a
+ * number, a range slider an array, matching the `value` shape).
+ */
+type OnValueChangeProps<Value extends SliderValue> = {
+  newValue: Value;
   activeThumb: number;
   event: Event;
 };
 
-export type MUISliderProps = {
+export type MUISliderProps<Value extends SliderValue = SliderValue> = {
   /**
    * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
   fieldName: string;
   /**
-   * Current slider value. Pass a number array for range sliders. This is a controlled
-   * component: `value` and `onValueChange` must be supplied together, typically backed
-   * by your own state or form library.
+   * Current slider value: a `number` for a single-thumb slider, or a `number[]`
+   * for a range slider. This is a controlled component: `value` and
+   * `onValueChange` must be supplied together, typically backed by your own state
+   * or form library.
    *
    * `undefined`/`null`/`[]` are treated as `0`.
    */
-  value?: number | number[] | null;
+  value?: Value | null;
   /**
    * Called on every slide with the next value, the active thumb index, and the
    * original change event. Call your state setter (or form library's setter)
    * with `newValue` to update `value`.
+   *
+   * `newValue` mirrors `value`: a `number` when `value` is a number, or a
+   * `number[]` when `value` is an array — so a single-value slider gives `number`
+   * and a range slider gives `number[]`, no cast needed.
    *
    * @param newValue - Next slider value, or value array for range sliders.
    * @param activeThumb - Index of the thumb that changed for range sliders.
@@ -60,7 +72,7 @@ export type MUISliderProps = {
     newValue,
     activeThumb,
     event
-  }: OnValueChangeProps) => void;
+  }: OnValueChangeProps<Value>) => void;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
@@ -127,7 +139,7 @@ export type MUISliderProps = {
   customIds?: CustomComponentIds;
 } & SliderInputProps;
 
-const MUISlider = ({
+const MUISlider = <Value extends SliderValue = SliderValue>({
   fieldName,
   value,
   onValueChange,
@@ -145,7 +157,7 @@ const MUISlider = ({
   onBlur,
   customIds,
   ...otherSliderProps
-}: MUISliderProps) => {
+}: MUISliderProps<Value>) => {
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const {
     fieldId,
@@ -205,7 +217,11 @@ const MUISlider = ({
         value={sliderValue}
         disabled={muiDisabled}
         onChange={(event, newValue, activeThumb) => {
-          onValueChange({ newValue, activeThumb, event });
+          onValueChange({
+            newValue: newValue as Value,
+            activeThumb,
+            event
+          });
         }}
         onBlur={onBlur}
         aria-required={required || undefined}

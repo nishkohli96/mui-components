@@ -31,6 +31,7 @@ const temperatureMarks = [
 ];
 
 const minTemp = 20;
+const minVolume = 10;
 
 const initialValues = {
   volume: 30,
@@ -89,12 +90,16 @@ export default function SliderForm() {
               fieldName="volume"
               label="Volume"
               value={volume}
-              onValueChange={({ newValue }) => setVolume(newValue as number)}
+              onValueChange={({ newValue }) => {
+                /* value is a number → newValue is inferred as number */
+                if (newValue < minVolume) return;
+                setVolume(newValue);
+              }}
               min={0}
               max={100}
               step={5}
               valueLabelDisplay="auto"
-              helperText="Drag to set the output volume"
+              helperText={`Drag to set the output volume; volume won't go below ${minVolume}`}
               disabled={disableAllFields}
             />
           </Grid>
@@ -105,7 +110,7 @@ export default function SliderForm() {
               fieldName="priceRange"
               label="Price range ($)"
               value={priceRange}
-              onValueChange={({ newValue }) => setPriceRange(newValue as number[])}
+              onValueChange={({ newValue }) => setPriceRange(newValue)}
               min={0}
               max={1000}
               step={50}
@@ -121,7 +126,7 @@ export default function SliderForm() {
               label="Thermostat (°C)"
               value={temperature}
               onValueChange={({ newValue }) => {
-                setTemperature(newValue as number);
+                setTemperature(newValue);
                 if (temperature < minTemp) {
                   setTemperatureError(`Set the temperature to at least ${minTemp}`);
                   return;
