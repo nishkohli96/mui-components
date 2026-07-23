@@ -1,7 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import RadioGroupForm from '@/forms/radio-group/Client';
-import { componentMetadata } from '@/constants';
-import { componentProps } from '@/constants/props-table';
+import { componentMetadata, componentProps } from '@/constants';
+import RadioGroupForm from '@/forms/mui/radio-group/Client';
 
 export const metadata = componentMetadata.MUIRadioGroup;
 
@@ -20,7 +19,7 @@ import MUIRadioGroup, { MUIRadioGroupProps } from '@nish1896/mui-components/mui/
 ```
 
 ```tsx
-const [plan, setPlan] = useState('');
+const [plan, setPlan] = useState();
 
 <MUIRadioGroup
   fieldName="plan"
