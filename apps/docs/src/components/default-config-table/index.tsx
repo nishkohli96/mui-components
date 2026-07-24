@@ -18,18 +18,26 @@ const DefaultConfigTable = () => {
     <table>
       <thead>
         <tr>
-          <th>{defaultLibConfig.header.propName}</th>
-          <th>{defaultLibConfig.header.defaultValue}</th>
+          <th>
+            {defaultLibConfig.header.propName}
+          </th>
+          <th>
+            {defaultLibConfig.header.defaultValue}
+          </th>
         </tr>
       </thead>
       <tbody>
         {defaultLibConfig.options.map(option => (
           <tr key={option.key}>
             <td>
-              <code>{option.key}</code>
+              <code>
+                {option.key}
+              </code>
             </td>
             <td>
-              <code>{formatSxValue(option.value)}</code>
+              <code>
+                {formatSxValue(option.value)}
+              </code>
             </td>
           </tr>
         ))}

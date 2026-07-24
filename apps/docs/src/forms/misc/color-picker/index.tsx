@@ -137,6 +137,9 @@ export default function ColorPickerForm() {
 
           <Grid size={12}>
             <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+              <Typography>
+                Selected Colors :
+              </Typography>
               {[brandColor, accentColor, chartColor].map((swatch, index) => (
                 <Box
                   key={index}

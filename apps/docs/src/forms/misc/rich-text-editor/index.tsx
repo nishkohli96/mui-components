@@ -71,7 +71,11 @@ export default function RichTextEditorForm() {
             <FieldVariantInfo title="Required editor with a custom label & validation" />
             <MUIRichTextEditor
               fieldName="bio"
-              label={<Typography color="primary">Briefly describe yourself</Typography>}
+              label={(
+                <Typography color="#primary">
+                  Briefly describe yourself
+                </Typography>
+              )}
               value={bio}
               onValueChange={({ newValue }) => {
                 setBio(newValue);
@@ -83,7 +87,7 @@ export default function RichTextEditorForm() {
           </Grid>
 
           <Grid size={12}>
-            <FieldVariantInfo title="Editor with the label above the field" />
+            <FieldVariantInfo title="Editor with the helperText" />
             <MUIRichTextEditor
               fieldName="notes"
               label="Additional notes"
