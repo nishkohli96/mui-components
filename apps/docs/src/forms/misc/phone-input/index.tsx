@@ -25,16 +25,19 @@ import {
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent, formikError } from '@/utils';
+import CountryMenuItem from './CountryMenuItem';
 
-const preferredCountries: CountryIso2[] = ['us', 'gb', 'in', 'de'];
+const preferredCountries: CountryIso2[] = ['in', 'us', 'uk', 'au'];
 
 type PhoneFormValues = {
   contactNumber: MUIPhoneInputValue | null;
+  alternateNumber: MUIPhoneInputValue | null;
   workNumber: MUIPhoneInputValue | null;
 };
 
 const initialValues: PhoneFormValues = {
   contactNumber: null,
+  alternateNumber: null,
   workNumber: null
 };
 
@@ -64,7 +67,7 @@ export default function PhoneInputForm() {
       <form onSubmit={formik.handleSubmit}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Default country (US) with validation" />
+            <FieldVariantInfo title="Default country (US) with helpertext and validation" />
             <MUIPhoneInput
               fieldName="contactNumber"
               value={formik.values.contactNumber}
@@ -77,7 +80,40 @@ export default function PhoneInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Preferred countries, forced dial code, no search" />
+            <FieldVariantInfo title="Preferred countries and searchCountryProps" />
+            <MUIPhoneInput
+              fieldName="alternateNumber"
+              value={formik.values.alternateNumber}
+              onValueChange={({ newValue }) => {
+                formik.setFieldValue('alternateNumber', newValue);
+              }}
+              showLabelAboveFormField
+              formLabelProps={{
+                sx: { color: theme => theme.palette.warning.main }
+              }}
+              phoneInputProps={{
+                defaultCountry: 'in',
+                preferredCountries
+              }}
+              searchCountryProps={{
+                textFieldProps: {
+                  variant: 'filled',
+                  sx: {
+                    '& .MuiInputBase-input': {
+                      color: theme => theme.palette.primary.main
+                    }
+                  }
+                },
+                renderCountryMenuItem: country => (
+                  <CountryMenuItem country={country} />
+                )
+              }}
+              errorMessage={formikError(formik.submitCount > 0 && formik.errors.contactNumber)}
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Forced dial code, no search" />
             <MUIPhoneInput
               fieldName="workNumber"
               label="Work number"
@@ -85,7 +121,6 @@ export default function PhoneInputForm() {
               onValueChange={({ newValue }) => formik.setFieldValue('workNumber', newValue)}
               phoneInputProps={{
                 defaultCountry: 'gb',
-                preferredCountries,
                 forceDialCode: true
               }}
               searchCountryProps={{ allowCountrySearch: false }}
