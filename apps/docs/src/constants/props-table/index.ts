@@ -37,6 +37,7 @@ import colorPickerRows from './misc/color-picker';
 import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
 
+export { default as DefaultConfigTable } from './DefaultConfigTable';
 export { PropsDescription, resolveProp } from './descriptions';
 
 /** The MUI / MUI X Date Pickers version this release's docs actually target. */

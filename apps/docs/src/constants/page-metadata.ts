@@ -77,6 +77,11 @@ export const pageMetadata: Record<string, Metadata> = {
       'Every component in one form, integrated with TanStack Form and validated by a Joi schema, with a live values-and-errors readout.'
   },
   customization: {
+    title: 'Customization',
+    description:
+      'Configure ConfigProvider once to apply global default styles for FormLabel, FormControlLabel and FormHelperText, set a shared dateAdapter, and enable allLabelsAboveFields — no per-component overrides needed.'
+  },
+  customizationExample: {
     title: 'Styled form with a reusable component',
     description:
       'A reusable component built on MUITextField, with ConfigProvider supplying default styles and the date adapter.'
