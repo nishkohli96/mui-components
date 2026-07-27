@@ -58,6 +58,27 @@ export const sidebarLinks: Page[] = [
     href: '/customization'
   },
   {
+    title: 'Form Helpers',
+    pages: [
+      {
+        title: 'fieldNameToLabel',
+        href: '/form-helpers/fieldNameToLabel',
+      },
+      {
+        title: 'getFileSize',
+        href: '/form-helpers/getFileSize'
+      },
+      {
+        title: 'validateFileList',
+        href: '/form-helpers/validateFileList'
+      },
+      {
+        title: 'colorToString',
+        href: '/form-helpers/colorToString'
+      },
+    ]
+  },
+  {
     title: 'Examples',
     pages: [
       { title: 'Select', href: '/select' },

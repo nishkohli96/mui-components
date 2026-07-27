@@ -28,6 +28,7 @@ const DefaultConfigTable = () => {
       </thead>
       <tbody>
         {defaultLibConfig.options.map(option => (
+          // eslint-disable-next-line jsx-a11y/control-has-associated-label -- false positive: row cells are plain visible text (`<code>{...}</code>`), just nested one level deeper than the rule's default depth-2 check reaches
           <tr key={option.key}>
             <td>
               <code>

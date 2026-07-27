@@ -239,7 +239,23 @@ export const componentMetadata: Record<string, Metadata> = {
     title: 'MUIRichTextEditor',
     description:
       'Controlled CKEditor 5 rich text editor with label, error and helper-text handling.'
-  }
+  },
+  fieldNameToLabel: {
+    title: 'fieldNameToLabel',
+    description: 'Generates a human-readable field label from a camelCase or snake_case fieldName, so you don\'t have to hand-write a label for every field.'
+  },
+  getFileSize: {
+    title: 'getFileSize',
+    description: 'Formats a byte count into a human-readable file size — bytes, KB, MB or GB — rounded to a whole number or a given precision.'
+  },
+  validateFileList: {
+    title: 'validateFileList',
+    description: 'Validates a FileList against a max size, accepted file types and a file-count limit, splitting it into accepted and rejected files with per-file error reasons.'
+  },
+  colorToString: {
+    title: 'colorToString',
+    description: 'Converts an RGB or HSV color object into a valid CSS color string, with an option to omit a fully-opaque alpha channel.'
+  },
 };
 
 export const formSubmitEventName = 'form_submit';
