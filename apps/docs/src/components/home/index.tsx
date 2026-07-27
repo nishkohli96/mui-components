@@ -4,11 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { AppBar, Footer } from '@/components';
+import { AppBar, Footer, GradientButton } from '@/components';
 import CopyInstallCommand from './CopyInstallCommand';
 
 const installCommand = 'npm install @nish1896/mui-components';
@@ -145,24 +144,14 @@ const HomeLanding = () => {
             </Box>
             <CopyInstallCommand command={installCommand} />
           </Paper>
-          <Button
+          <GradientButton
             component={Link}
             href="/introduction"
-            variant="contained"
             endIcon={<ArrowForwardRoundedIcon />}
-            sx={{
-              mt: 3,
-              px: 3,
-              minWidth: 132,
-              height: 42,
-              borderRadius: 2,
-              fontWeight: 800,
-              textTransform: 'none',
-              background: 'linear-gradient(90deg, #2196f3 0%, #0bd1a8 100%)'
-            }}
+            sx={{ mt: 3 }}
           >
             Get Started
-          </Button>
+          </GradientButton>
         </Box>
         <Box
           sx={{

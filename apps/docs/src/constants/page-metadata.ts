@@ -26,6 +26,10 @@ export const pageMetadata: Record<string, Metadata> = {
     description:
       'Production-ready, form-library-independent Material UI components with consistent labels, helper text and validation UI.'
   },
+  notFound: {
+    title: 'Page Not Found',
+    description: 'The page you\'re looking for doesn\'t exist or may have moved.'
+  },
   introduction: {
     title: 'Introduction',
     description:

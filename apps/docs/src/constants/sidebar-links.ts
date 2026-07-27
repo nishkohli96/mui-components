@@ -81,18 +81,10 @@ export const sidebarLinks: Page[] = [
   {
     title: 'Examples',
     pages: [
-      { title: 'Select', href: '/select' },
-      { title: 'Autocomplete', href: '/autocomplete' },
-      { title: 'Checkbox & RadioGroup', href: '/checkbox-and-radiogroup' },
-      { title: 'Switch, Slider & Rating', href: '/switch-slider-rating' },
-      { title: 'Date & Time Pickers', href: '/date-time-pickers' },
-      { title: 'Miscellaneous Components', href: '/miscellaneous-components' },
-      { title: 'Complete Form', href: '/complete-form' },
-      { title: 'Complete Form with Joi', href: '/complete-form-joi' },
-      { title: 'Complete Form with Zod', href: '/complete-form-zod' },
-      { title: 'Complete Form — State', href: '/complete-form-state' },
-      { title: 'Complete Form — Formik', href: '/complete-form-formik' },
-      { title: 'Complete Form — TanStack + Joi', href: '/complete-form-tanstack' }
+      { title: 'Complete Form with Zod', href: '/examples/complete-form-zod' },
+      { title: 'Complete Form — State', href: '/examples/complete-form-state' },
+      { title: 'Complete Form — Formik', href: '/examples/complete-form-formik' },
+      { title: 'Complete Form — TanStack + Joi', href: '/examples/complete-form-tanstack' }
     ]
   }
 ];

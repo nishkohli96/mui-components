@@ -33,6 +33,31 @@ export const ResetButton = (btnProps: ButtonProps) => {
   );
 };
 
+/**
+ * Brand-gradient action button (blue → teal), used for the site's primary
+ * calls to action — e.g. "Get Started" on the homepage, "Go Back" on the
+ * 404 page. Accepts the full `ButtonProps` surface, including `component`
+ * and `href` for use as a link.
+ */
+export const GradientButton = ({ sx, ...otherBtnProps }: ButtonProps) => {
+  return (
+    <Button
+      variant="contained"
+      sx={{
+        px: 3,
+        minWidth: 132,
+        height: 42,
+        borderRadius: 2,
+        fontWeight: 800,
+        textTransform: 'none',
+        background: 'linear-gradient(90deg, #2196f3 0%, #0bd1a8 100%)',
+        ...sx
+      }}
+      {...otherBtnProps}
+    />
+  );
+};
+
 export const ThemeChangeButton = () => {
   const { currentTheme, toggleTheme } = useThemeContext();
   const isDarkTheme = currentTheme === 'dark';
