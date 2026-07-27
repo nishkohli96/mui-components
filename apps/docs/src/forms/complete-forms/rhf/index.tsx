@@ -1,19 +1,22 @@
 'use client';
 
 /**
- * Complete form covering every component, driven by plain React `useState`
- * (one `values` object + one `errors` object) with manual validation. Includes
- * a "disable all fields" toggle, submit and reset buttons, and a live
+ * Complete form covering every component, driven by React Hook Form
+ * (`useForm` + `useWatch` + `setValue`) with Zod validation via
+ * `zodResolver`. Every component here is a controlled `value`/`onValueChange`
+ * component (none accept an RHF `control` prop directly), so RHF state is
+ * wired in manually per field, same as the plain-state example. Includes a
+ * "disable all fields" toggle, submit and reset buttons, and a live
  * form-state readout.
  */
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { type Dayjs } from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Grid from '@mui/material/Grid';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import { ConfigProvider } from '@nish1896/mui-components/config';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 import MUIPasswordInput from '@nish1896/mui-components/mui/password-input';
@@ -39,7 +42,9 @@ import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
 import { MUITimePicker } from '@nish1896/mui-components/mui-pickers/time';
 import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
 import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
-import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
+import MUIPhoneInput, {
+  type MUIPhoneInputValue
+} from '@nish1896/mui-components/misc/phone-input';
 import MUIRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
 import {
   FormContainer,
@@ -54,7 +59,6 @@ import { showToastMessage, logFirebaseEvent } from '@/utils';
 import {
   type CityOption,
   type CompleteFormValues,
-  type CompleteFormErrors,
   roleOptions,
   priorityOptions,
   frameworkOptions,
@@ -64,55 +68,43 @@ import {
   cityOptions,
   preferredCountries,
   initialValues,
-  validateCompleteForm,
   toDisplayValues
-} from './data';
+} from '../data';
+import { zodFormSchema } from './validation';
 
-export default function CompleteStateForm() {
+
+export default function CompleteRHFForm() {
   const pathName = usePathname();
-  const [values, setValues] = useState<CompleteFormValues>(initialValues);
-  const [errors, setErrors] = useState<CompleteFormErrors>({});
   const [disableAllFields, setDisableAllFields] = useState(false);
 
-  function setField<K extends keyof CompleteFormValues>(name: K, value: CompleteFormValues[K]) {
-    setValues(prev => ({ ...prev, [name]: value }));
-    setErrors(prev => ({ ...prev, [name]: undefined }));
-  }
+  const {
+    control,
+    setValue,
+    reset,
+    formState: { errors },
+    handleSubmit
+  } = useForm<CompleteFormValues>({
+    defaultValues: initialValues,
+    resolver: zodResolver(zodFormSchema)
+  });
+  const formValues = useWatch({ control });
 
-  function resetForm() {
-    setValues(initialValues);
-    setErrors({});
-  }
-
-  async function onFormSubmit() {
-    const nextErrors = validateCompleteForm(values);
-    setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
-      return;
-    }
+  async function onFormSubmit(values: CompleteFormValues) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(toDisplayValues(values));
   }
 
   return (
-    <FormContainer title="Complete Form — React state">
+    <FormContainer title="Complete Form with Zod">
       <ConfigProvider dateAdapter={AdapterDayjs} allLabelsAboveFields>
-        <form
-          onSubmit={event => {
-            event.preventDefault();
-            onFormSubmit();
-          }}
-        >
+        <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
             <Grid size={12}>
-              <FormControlLabel
-                control={(
-                  <Checkbox
-                    checked={disableAllFields}
-                    onChange={event => setDisableAllFields(event.target.checked)}
-                  />
-                )}
+              <MUICheckbox
+                fieldName="disableAllFields"
                 label="Disable all fields"
+                value={disableAllFields}
+                onValueChange={({ newValue }) => setDisableAllFields(newValue)}
               />
             </Grid>
 
@@ -120,9 +112,9 @@ export default function CompleteStateForm() {
               <FieldVariantInfo title="TextField" />
               <MUITextField
                 fieldName="firstName"
-                value={values.firstName}
-                onValueChange={({ newValue }) => setField('firstName', newValue)}
-                errorMessage={errors.firstName}
+                value={formValues.firstName}
+                onValueChange={({ newValue }) => setValue('firstName', newValue, { shouldValidate: true })}
+                errorMessage={errors.firstName?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -132,9 +124,9 @@ export default function CompleteStateForm() {
               <FieldVariantInfo title="PasswordInput" />
               <MUIPasswordInput
                 fieldName="password"
-                value={values.password}
-                onValueChange={({ newValue }) => setField('password', newValue)}
-                errorMessage={errors.password}
+                value={formValues.password}
+                onValueChange={({ newValue }) => setValue('password', newValue, { shouldValidate: true })}
+                errorMessage={errors.password?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -144,11 +136,11 @@ export default function CompleteStateForm() {
               <FieldVariantInfo title="NumberInput" />
               <MUINumberInput
                 fieldName="age"
-                value={values.age}
-                onValueChange={({ newValue }) => setField('age', newValue)}
+                value={formValues.age}
+                onValueChange={({ newValue }) => setValue('age', newValue, { shouldValidate: true })}
                 onlyIntegers
                 nonNegative
-                errorMessage={errors.age}
+                errorMessage={errors.age?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -158,8 +150,8 @@ export default function CompleteStateForm() {
               <FieldVariantInfo title="TagsInput" />
               <MUITagsInput
                 fieldName="tags"
-                value={values.tags}
-                onValueChange={({ newValue }) => setField('tags', newValue)}
+                value={formValues.tags}
+                onValueChange={({ newValue }) => setValue('tags', newValue as string[])}
                 maxTags={5}
                 disabled={disableAllFields}
               />
@@ -169,8 +161,8 @@ export default function CompleteStateForm() {
               <FieldVariantInfo title="FileUploader" />
               <MUIFileUploader
                 fieldName="avatar"
-                value={values.avatar}
-                onValueChange={({ newValue }) => setField('avatar', (newValue as File | null))}
+                value={formValues.avatar}
+                onValueChange={({ newValue }) => setValue('avatar', newValue as File | null, { shouldValidate: true })}
                 accept="image/*"
                 disabled={disableAllFields}
               />
@@ -181,10 +173,10 @@ export default function CompleteStateForm() {
               <MUISelect
                 fieldName="role"
                 options={roleOptions}
-                value={values.role}
-                onValueChange={({ newValue }) => setField('role', newValue as string)}
+                value={formValues.role}
+                onValueChange={({ newValue }) => setValue('role', newValue as string, { shouldValidate: true })}
                 showDefaultOption
-                errorMessage={errors.role}
+                errorMessage={errors.role?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -195,8 +187,8 @@ export default function CompleteStateForm() {
               <MUINativeSelect
                 fieldName="priority"
                 options={priorityOptions}
-                value={values.priority}
-                onValueChange={({ newValue }) => setField('priority', newValue as string)}
+                value={formValues.priority}
+                onValueChange={({ newValue }) => setValue('priority', newValue as string)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -206,9 +198,9 @@ export default function CompleteStateForm() {
               <MUIAutocomplete
                 fieldName="framework"
                 options={frameworkOptions}
-                value={values.framework}
-                onValueChange={({ newValue }) => setField('framework', (newValue as string) ?? '')}
-                errorMessage={errors.framework}
+                value={formValues.framework}
+                onValueChange={({ newValue }) => setValue('framework', (newValue as string) ?? '', { shouldValidate: true })}
+                errorMessage={errors.framework?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -221,9 +213,9 @@ export default function CompleteStateForm() {
                 options={cityOptions}
                 labelKey="name"
                 valueKey="id"
-                value={values.city}
-                onValueChange={({ newValue }) => setField('city', newValue)}
-                errorMessage={errors.city}
+                value={formValues.city as CityOption | null}
+                onValueChange={({ newValue }) => setValue('city', newValue, { shouldValidate: true })}
+                errorMessage={errors.city?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -234,8 +226,8 @@ export default function CompleteStateForm() {
               <MUIMultiAutocomplete
                 fieldName="skills"
                 options={skillOptions}
-                value={values.skills}
-                onValueChange={({ newValue }) => setField('skills', newValue)}
+                value={formValues.skills}
+                onValueChange={({ newValue }) => setValue('skills', newValue as string[])}
                 limitTags={2}
                 disabled={disableAllFields}
               />
@@ -248,8 +240,8 @@ export default function CompleteStateForm() {
                 options={cityOptions}
                 labelKey="name"
                 valueKey="id"
-                value={values.visitedCities}
-                onValueChange={({ newValue }) => setField('visitedCities', newValue)}
+                value={formValues.visitedCities as CityOption[]}
+                onValueChange={({ newValue }) => setValue('visitedCities', newValue as CityOption[])}
                 limitTags={2}
                 disabled={disableAllFields}
               />
@@ -259,10 +251,10 @@ export default function CompleteStateForm() {
               <FieldVariantInfo title="CountrySelect" />
               <MUICountrySelect
                 fieldName="country"
-                value={values.country}
-                onValueChange={({ newValue }) => setField('country', newValue as CountryDetails | null)}
+                value={formValues.country as CountryDetails | null}
+                onValueChange={({ newValue }) => setValue('country', newValue as CountryDetails | null, { shouldValidate: true })}
                 preferredCountries={preferredCountries}
-                errorMessage={errors.country}
+                errorMessage={errors.country?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -273,9 +265,9 @@ export default function CompleteStateForm() {
               <MUIRadioGroup
                 fieldName="contact"
                 options={contactOptions}
-                value={values.contact}
-                onValueChange={({ newValue }) => setField('contact', newValue as string)}
-                errorMessage={errors.contact}
+                value={formValues.contact}
+                onValueChange={({ newValue }) => setValue('contact', newValue as string, { shouldValidate: true })}
+                errorMessage={errors.contact?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -286,8 +278,8 @@ export default function CompleteStateForm() {
               <MUICheckboxGroup
                 fieldName="hobbies"
                 options={hobbyOptions}
-                value={values.hobbies}
-                onValueChange={({ newValue }) => setField('hobbies', newValue as string[])}
+                value={formValues.hobbies}
+                onValueChange={({ newValue }) => setValue('hobbies', newValue as string[])}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -297,16 +289,16 @@ export default function CompleteStateForm() {
               <MUISlider
                 fieldName="volume"
                 label="Volume"
-                value={values.volume}
-                onValueChange={({ newValue }) => setField('volume', newValue as number)}
+                value={formValues.volume}
+                onValueChange={({ newValue }) => setValue('volume', newValue as number)}
                 valueLabelDisplay="auto"
                 disabled={disableAllFields}
               />
               <MUIRating
                 fieldName="rating"
-                value={values.rating}
-                onValueChange={({ newValue }) => setField('rating', newValue)}
-                errorMessage={errors.rating}
+                value={formValues.rating}
+                onValueChange={({ newValue }) => setValue('rating', newValue, { shouldValidate: true })}
+                errorMessage={errors.rating?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -317,15 +309,15 @@ export default function CompleteStateForm() {
               <MUICheckbox
                 fieldName="subscribe"
                 label="Subscribe to the newsletter"
-                value={values.subscribe}
-                onValueChange={({ newValue }) => setField('subscribe', newValue)}
+                value={formValues.subscribe}
+                onValueChange={({ newValue }) => setValue('subscribe', newValue)}
                 disabled={disableAllFields}
               />
               <MUISwitch
                 fieldName="notifications"
                 label="Enable notifications"
-                value={values.notifications}
-                onValueChange={({ newValue }) => setField('notifications', newValue)}
+                value={formValues.notifications}
+                onValueChange={({ newValue }) => setValue('notifications', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -335,10 +327,10 @@ export default function CompleteStateForm() {
               <MUIDatePicker
                 fieldName="dob"
                 label="Date of birth"
-                value={values.dob}
-                onValueChange={({ newValue }) => setField('dob', newValue as Dayjs | null)}
+                value={formValues.dob as Dayjs | null}
+                onValueChange={({ newValue }) => setValue('dob', newValue as Dayjs | null, { shouldValidate: true })}
                 disableFuture
-                errorMessage={errors.dob}
+                errorMessage={errors.dob?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -349,8 +341,8 @@ export default function CompleteStateForm() {
               <MUITimePicker
                 fieldName="meetingTime"
                 label="Meeting time"
-                value={values.meetingTime}
-                onValueChange={({ newValue }) => setField('meetingTime', newValue as Dayjs | null)}
+                value={formValues.meetingTime as Dayjs | null}
+                onValueChange={({ newValue }) => setValue('meetingTime', newValue as Dayjs | null)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -360,8 +352,8 @@ export default function CompleteStateForm() {
               <MUIDateTimePicker
                 fieldName="appointment"
                 label="Appointment"
-                value={values.appointment}
-                onValueChange={({ newValue }) => setField('appointment', newValue as Dayjs | null)}
+                value={formValues.appointment as Dayjs | null}
+                onValueChange={({ newValue }) => setValue('appointment', newValue as Dayjs | null)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -371,10 +363,10 @@ export default function CompleteStateForm() {
               <MUIColorPicker
                 fieldName="brandColor"
                 label="Brand colour"
-                value={values.brandColor}
+                value={formValues.brandColor}
                 onValueChange={({ colorValue, color, setColor }) => {
                   setColor(color);
-                  setField('brandColor', colorValue);
+                  setValue('brandColor', colorValue);
                 }}
                 disabled={disableAllFields}
               />
@@ -385,10 +377,10 @@ export default function CompleteStateForm() {
               <MUIPhoneInput
                 fieldName="phone"
                 label="Phone"
-                value={values.phone}
-                onValueChange={({ newValue }) => setField('phone', newValue)}
+                value={formValues.phone as MUIPhoneInputValue | null}
+                onValueChange={({ newValue }) => setValue('phone', newValue, { shouldValidate: true })}
                 phoneInputProps={{ defaultCountry: 'us' }}
-                errorMessage={errors.phone}
+                errorMessage={errors.phone?.message}
                 required
                 disabled={disableAllFields}
               />
@@ -399,21 +391,21 @@ export default function CompleteStateForm() {
               <MUIRichTextEditor
                 fieldName="bio"
                 label="Short bio"
-                value={values.bio}
-                onValueChange={({ newValue }) => setField('bio', newValue)}
-                errorMessage={errors.bio}
+                value={formValues.bio}
+                onValueChange={({ newValue }) => setValue('bio', newValue, { shouldValidate: true })}
+                errorMessage={errors.bio?.message}
                 required
               />
             </Grid>
 
             <Grid size={12}>
               <SubmitButton disabled={disableAllFields} />
-              <ResetButton onClick={resetForm} disabled={disableAllFields} />
+              <ResetButton onClick={() => reset(initialValues)} disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
               <FormState
-                formValues={toDisplayValues(values)}
-                errors={errors}
+                formValues={toDisplayValues(formValues as CompleteFormValues)}
+                errors={errors as Record<string, string | undefined>}
               />
             </Grid>
           </GridContainer>

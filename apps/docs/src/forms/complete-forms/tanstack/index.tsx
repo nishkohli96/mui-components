@@ -65,8 +65,8 @@ import {
   preferredCountries,
   initialValues,
   toDisplayValues
-} from './data';
-import { validateWithJoi } from './schema';
+} from '../data';
+import { validateWithJoi } from '../schema';
 
 export default function CompleteTanStackForm() {
   const pathName = usePathname();

@@ -8,11 +8,11 @@ import {
   pageMetadata,
   componentsDocsLink
 } from '@/constants';
-import CompleteFormikForm from '@/forms/complete-forms/FormikFormClient';
+import CompleteFormikForm from '@/forms/complete-forms/formik/Client';
 
 export const metadata = pageMetadata.completeFormFormik;
 
-const CompleteFormFormikPage = () => {
+export default function CompleteFormikFormPage() {
   const docsLinks = Object.keys(componentsDocsLink).map(
     k => componentsDocsLink[k]
   );
@@ -26,5 +26,3 @@ const CompleteFormFormikPage = () => {
     </ContentContainer>
   );
 };
-
-export default CompleteFormFormikPage;

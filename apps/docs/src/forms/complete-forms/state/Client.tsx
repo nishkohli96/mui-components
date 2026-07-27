@@ -2,6 +2,6 @@
 
 import dynamic from 'next/dynamic';
 
-export default dynamic(() => import('./TanStackForm'), {
+export default dynamic(() => import('.'), {
   ssr: false,
 });

@@ -1,22 +1,19 @@
 'use client';
 
 /**
- * Complete form covering every component, driven by React Hook Form
- * (`useForm` + `useWatch` + `setValue`) with Zod validation via
- * `zodResolver`. Every component here is a controlled `value`/`onValueChange`
- * component (none accept an RHF `control` prop directly), so RHF state is
- * wired in manually per field, same as the plain-state example. Includes a
- * "disable all fields" toggle, submit and reset buttons, and a live
+ * Complete form covering every component, driven by plain React `useState`
+ * (one `values` object + one `errors` object) with manual validation. Includes
+ * a "disable all fields" toggle, submit and reset buttons, and a live
  * form-state readout.
  */
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useForm, useWatch } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { type Dayjs } from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { type Dayjs } from 'dayjs';
 import Grid from '@mui/material/Grid';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import { ConfigProvider } from '@nish1896/mui-components/config';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 import MUIPasswordInput from '@nish1896/mui-components/mui/password-input';
@@ -42,9 +39,7 @@ import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
 import { MUITimePicker } from '@nish1896/mui-components/mui-pickers/time';
 import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
 import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
-import MUIPhoneInput, {
-  type MUIPhoneInputValue
-} from '@nish1896/mui-components/misc/phone-input';
+import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
 import MUIRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
 import {
   FormContainer,
@@ -59,6 +54,7 @@ import { showToastMessage, logFirebaseEvent } from '@/utils';
 import {
   type CityOption,
   type CompleteFormValues,
+  type CompleteFormErrors,
   roleOptions,
   priorityOptions,
   frameworkOptions,
@@ -68,43 +64,55 @@ import {
   cityOptions,
   preferredCountries,
   initialValues,
+  validateCompleteForm,
   toDisplayValues
-} from '../complete-forms/data';
-import { zodFormSchema } from './validation';
+} from '../data';
 
-
-export default function CompleteFormWithZod() {
+export default function CompleteStateForm() {
   const pathName = usePathname();
+  const [values, setValues] = useState<CompleteFormValues>(initialValues);
+  const [errors, setErrors] = useState<CompleteFormErrors>({});
   const [disableAllFields, setDisableAllFields] = useState(false);
 
-  const {
-    control,
-    setValue,
-    reset,
-    formState: { errors },
-    handleSubmit
-  } = useForm<CompleteFormValues>({
-    defaultValues: initialValues,
-    resolver: zodResolver(zodFormSchema)
-  });
-  const formValues = useWatch({ control });
+  function setField<K extends keyof CompleteFormValues>(name: K, value: CompleteFormValues[K]) {
+    setValues(prev => ({ ...prev, [name]: value }));
+    setErrors(prev => ({ ...prev, [name]: undefined }));
+  }
 
-  async function onFormSubmit(values: CompleteFormValues) {
+  function resetForm() {
+    setValues(initialValues);
+    setErrors({});
+  }
+
+  async function onFormSubmit() {
+    const nextErrors = validateCompleteForm(values);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(toDisplayValues(values));
   }
 
   return (
-    <FormContainer title="Complete Form with Zod">
+    <FormContainer title="Complete Form — React state">
       <ConfigProvider dateAdapter={AdapterDayjs} allLabelsAboveFields>
-        <form onSubmit={handleSubmit(onFormSubmit)}>
+        <form
+          onSubmit={event => {
+            event.preventDefault();
+            onFormSubmit();
+          }}
+        >
           <GridContainer>
             <Grid size={12}>
-              <MUICheckbox
-                fieldName="disableAllFields"
+              <FormControlLabel
+                control={(
+                  <Checkbox
+                    checked={disableAllFields}
+                    onChange={event => setDisableAllFields(event.target.checked)}
+                  />
+                )}
                 label="Disable all fields"
-                value={disableAllFields}
-                onValueChange={({ newValue }) => setDisableAllFields(newValue)}
               />
             </Grid>
 
@@ -112,9 +120,9 @@ export default function CompleteFormWithZod() {
               <FieldVariantInfo title="TextField" />
               <MUITextField
                 fieldName="firstName"
-                value={formValues.firstName}
-                onValueChange={({ newValue }) => setValue('firstName', newValue, { shouldValidate: true })}
-                errorMessage={errors.firstName?.message}
+                value={values.firstName}
+                onValueChange={({ newValue }) => setField('firstName', newValue)}
+                errorMessage={errors.firstName}
                 required
                 disabled={disableAllFields}
               />
@@ -124,9 +132,9 @@ export default function CompleteFormWithZod() {
               <FieldVariantInfo title="PasswordInput" />
               <MUIPasswordInput
                 fieldName="password"
-                value={formValues.password}
-                onValueChange={({ newValue }) => setValue('password', newValue, { shouldValidate: true })}
-                errorMessage={errors.password?.message}
+                value={values.password}
+                onValueChange={({ newValue }) => setField('password', newValue)}
+                errorMessage={errors.password}
                 required
                 disabled={disableAllFields}
               />
@@ -136,11 +144,11 @@ export default function CompleteFormWithZod() {
               <FieldVariantInfo title="NumberInput" />
               <MUINumberInput
                 fieldName="age"
-                value={formValues.age}
-                onValueChange={({ newValue }) => setValue('age', newValue, { shouldValidate: true })}
+                value={values.age}
+                onValueChange={({ newValue }) => setField('age', newValue)}
                 onlyIntegers
                 nonNegative
-                errorMessage={errors.age?.message}
+                errorMessage={errors.age}
                 required
                 disabled={disableAllFields}
               />
@@ -150,8 +158,8 @@ export default function CompleteFormWithZod() {
               <FieldVariantInfo title="TagsInput" />
               <MUITagsInput
                 fieldName="tags"
-                value={formValues.tags}
-                onValueChange={({ newValue }) => setValue('tags', newValue as string[])}
+                value={values.tags}
+                onValueChange={({ newValue }) => setField('tags', newValue)}
                 maxTags={5}
                 disabled={disableAllFields}
               />
@@ -161,8 +169,8 @@ export default function CompleteFormWithZod() {
               <FieldVariantInfo title="FileUploader" />
               <MUIFileUploader
                 fieldName="avatar"
-                value={formValues.avatar}
-                onValueChange={({ newValue }) => setValue('avatar', newValue as File | null, { shouldValidate: true })}
+                value={values.avatar}
+                onValueChange={({ newValue }) => setField('avatar', (newValue as File | null))}
                 accept="image/*"
                 disabled={disableAllFields}
               />
@@ -173,10 +181,10 @@ export default function CompleteFormWithZod() {
               <MUISelect
                 fieldName="role"
                 options={roleOptions}
-                value={formValues.role}
-                onValueChange={({ newValue }) => setValue('role', newValue as string, { shouldValidate: true })}
+                value={values.role}
+                onValueChange={({ newValue }) => setField('role', newValue as string)}
                 showDefaultOption
-                errorMessage={errors.role?.message}
+                errorMessage={errors.role}
                 required
                 disabled={disableAllFields}
               />
@@ -187,8 +195,8 @@ export default function CompleteFormWithZod() {
               <MUINativeSelect
                 fieldName="priority"
                 options={priorityOptions}
-                value={formValues.priority}
-                onValueChange={({ newValue }) => setValue('priority', newValue as string)}
+                value={values.priority}
+                onValueChange={({ newValue }) => setField('priority', newValue as string)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -198,9 +206,9 @@ export default function CompleteFormWithZod() {
               <MUIAutocomplete
                 fieldName="framework"
                 options={frameworkOptions}
-                value={formValues.framework}
-                onValueChange={({ newValue }) => setValue('framework', (newValue as string) ?? '', { shouldValidate: true })}
-                errorMessage={errors.framework?.message}
+                value={values.framework}
+                onValueChange={({ newValue }) => setField('framework', (newValue as string) ?? '')}
+                errorMessage={errors.framework}
                 required
                 disabled={disableAllFields}
               />
@@ -213,9 +221,9 @@ export default function CompleteFormWithZod() {
                 options={cityOptions}
                 labelKey="name"
                 valueKey="id"
-                value={formValues.city as CityOption | null}
-                onValueChange={({ newValue }) => setValue('city', newValue, { shouldValidate: true })}
-                errorMessage={errors.city?.message}
+                value={values.city}
+                onValueChange={({ newValue }) => setField('city', newValue)}
+                errorMessage={errors.city}
                 required
                 disabled={disableAllFields}
               />
@@ -226,8 +234,8 @@ export default function CompleteFormWithZod() {
               <MUIMultiAutocomplete
                 fieldName="skills"
                 options={skillOptions}
-                value={formValues.skills}
-                onValueChange={({ newValue }) => setValue('skills', newValue as string[])}
+                value={values.skills}
+                onValueChange={({ newValue }) => setField('skills', newValue)}
                 limitTags={2}
                 disabled={disableAllFields}
               />
@@ -240,8 +248,8 @@ export default function CompleteFormWithZod() {
                 options={cityOptions}
                 labelKey="name"
                 valueKey="id"
-                value={formValues.visitedCities as CityOption[]}
-                onValueChange={({ newValue }) => setValue('visitedCities', newValue as CityOption[])}
+                value={values.visitedCities}
+                onValueChange={({ newValue }) => setField('visitedCities', newValue)}
                 limitTags={2}
                 disabled={disableAllFields}
               />
@@ -251,10 +259,10 @@ export default function CompleteFormWithZod() {
               <FieldVariantInfo title="CountrySelect" />
               <MUICountrySelect
                 fieldName="country"
-                value={formValues.country as CountryDetails | null}
-                onValueChange={({ newValue }) => setValue('country', newValue as CountryDetails | null, { shouldValidate: true })}
+                value={values.country}
+                onValueChange={({ newValue }) => setField('country', newValue as CountryDetails | null)}
                 preferredCountries={preferredCountries}
-                errorMessage={errors.country?.message}
+                errorMessage={errors.country}
                 required
                 disabled={disableAllFields}
               />
@@ -265,9 +273,9 @@ export default function CompleteFormWithZod() {
               <MUIRadioGroup
                 fieldName="contact"
                 options={contactOptions}
-                value={formValues.contact}
-                onValueChange={({ newValue }) => setValue('contact', newValue as string, { shouldValidate: true })}
-                errorMessage={errors.contact?.message}
+                value={values.contact}
+                onValueChange={({ newValue }) => setField('contact', newValue as string)}
+                errorMessage={errors.contact}
                 required
                 disabled={disableAllFields}
               />
@@ -278,8 +286,8 @@ export default function CompleteFormWithZod() {
               <MUICheckboxGroup
                 fieldName="hobbies"
                 options={hobbyOptions}
-                value={formValues.hobbies}
-                onValueChange={({ newValue }) => setValue('hobbies', newValue as string[])}
+                value={values.hobbies}
+                onValueChange={({ newValue }) => setField('hobbies', newValue as string[])}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -289,16 +297,16 @@ export default function CompleteFormWithZod() {
               <MUISlider
                 fieldName="volume"
                 label="Volume"
-                value={formValues.volume}
-                onValueChange={({ newValue }) => setValue('volume', newValue as number)}
+                value={values.volume}
+                onValueChange={({ newValue }) => setField('volume', newValue as number)}
                 valueLabelDisplay="auto"
                 disabled={disableAllFields}
               />
               <MUIRating
                 fieldName="rating"
-                value={formValues.rating}
-                onValueChange={({ newValue }) => setValue('rating', newValue, { shouldValidate: true })}
-                errorMessage={errors.rating?.message}
+                value={values.rating}
+                onValueChange={({ newValue }) => setField('rating', newValue)}
+                errorMessage={errors.rating}
                 required
                 disabled={disableAllFields}
               />
@@ -309,15 +317,15 @@ export default function CompleteFormWithZod() {
               <MUICheckbox
                 fieldName="subscribe"
                 label="Subscribe to the newsletter"
-                value={formValues.subscribe}
-                onValueChange={({ newValue }) => setValue('subscribe', newValue)}
+                value={values.subscribe}
+                onValueChange={({ newValue }) => setField('subscribe', newValue)}
                 disabled={disableAllFields}
               />
               <MUISwitch
                 fieldName="notifications"
                 label="Enable notifications"
-                value={formValues.notifications}
-                onValueChange={({ newValue }) => setValue('notifications', newValue)}
+                value={values.notifications}
+                onValueChange={({ newValue }) => setField('notifications', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -327,10 +335,10 @@ export default function CompleteFormWithZod() {
               <MUIDatePicker
                 fieldName="dob"
                 label="Date of birth"
-                value={formValues.dob as Dayjs | null}
-                onValueChange={({ newValue }) => setValue('dob', newValue as Dayjs | null, { shouldValidate: true })}
+                value={values.dob}
+                onValueChange={({ newValue }) => setField('dob', newValue as Dayjs | null)}
                 disableFuture
-                errorMessage={errors.dob?.message}
+                errorMessage={errors.dob}
                 required
                 disabled={disableAllFields}
               />
@@ -341,8 +349,8 @@ export default function CompleteFormWithZod() {
               <MUITimePicker
                 fieldName="meetingTime"
                 label="Meeting time"
-                value={formValues.meetingTime as Dayjs | null}
-                onValueChange={({ newValue }) => setValue('meetingTime', newValue as Dayjs | null)}
+                value={values.meetingTime}
+                onValueChange={({ newValue }) => setField('meetingTime', newValue as Dayjs | null)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -352,8 +360,8 @@ export default function CompleteFormWithZod() {
               <MUIDateTimePicker
                 fieldName="appointment"
                 label="Appointment"
-                value={formValues.appointment as Dayjs | null}
-                onValueChange={({ newValue }) => setValue('appointment', newValue as Dayjs | null)}
+                value={values.appointment}
+                onValueChange={({ newValue }) => setField('appointment', newValue as Dayjs | null)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -363,10 +371,10 @@ export default function CompleteFormWithZod() {
               <MUIColorPicker
                 fieldName="brandColor"
                 label="Brand colour"
-                value={formValues.brandColor}
+                value={values.brandColor}
                 onValueChange={({ colorValue, color, setColor }) => {
                   setColor(color);
-                  setValue('brandColor', colorValue);
+                  setField('brandColor', colorValue);
                 }}
                 disabled={disableAllFields}
               />
@@ -377,10 +385,10 @@ export default function CompleteFormWithZod() {
               <MUIPhoneInput
                 fieldName="phone"
                 label="Phone"
-                value={formValues.phone as MUIPhoneInputValue | null}
-                onValueChange={({ newValue }) => setValue('phone', newValue, { shouldValidate: true })}
+                value={values.phone}
+                onValueChange={({ newValue }) => setField('phone', newValue)}
                 phoneInputProps={{ defaultCountry: 'us' }}
-                errorMessage={errors.phone?.message}
+                errorMessage={errors.phone}
                 required
                 disabled={disableAllFields}
               />
@@ -391,20 +399,20 @@ export default function CompleteFormWithZod() {
               <MUIRichTextEditor
                 fieldName="bio"
                 label="Short bio"
-                value={formValues.bio}
-                onValueChange={({ newValue }) => setValue('bio', newValue, { shouldValidate: true })}
-                errorMessage={errors.bio?.message}
+                value={values.bio}
+                onValueChange={({ newValue }) => setField('bio', newValue)}
+                errorMessage={errors.bio}
                 required
               />
             </Grid>
 
             <Grid size={12}>
               <SubmitButton disabled={disableAllFields} />
-              <ResetButton onClick={() => reset(initialValues)} disabled={disableAllFields} />
+              <ResetButton onClick={resetForm} disabled={disableAllFields} />
             </Grid>
             <Grid size={12}>
               <FormState
-                formValues={toDisplayValues(formValues as CompleteFormValues)}
+                formValues={toDisplayValues(values)}
                 errors={errors}
               />
             </Grid>

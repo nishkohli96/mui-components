@@ -62,7 +62,7 @@ import {
   initialValues,
   validateCompleteForm,
   toDisplayValues
-} from './data';
+} from '../data';
 
 export default function CompleteFormikForm() {
   const pathName = usePathname();

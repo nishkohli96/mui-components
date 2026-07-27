@@ -8,11 +8,11 @@ import {
   pageMetadata,
   componentsDocsLink
 } from '@/constants';
-import CompleteTanStackForm from '@/forms/complete-forms/TanStackFormClient';
+import CompleteTanStackForm from '@/forms/complete-forms/tanstack/Client';
 
 export const metadata = pageMetadata.completeFormTanStack;
 
-const CompleteFormTanStackPage = () => {
+export default function CompleteTanStackFormPage() {
   const docsLinks = Object.keys(componentsDocsLink).map(
     k => componentsDocsLink[k]
   );
@@ -26,5 +26,3 @@ const CompleteFormTanStackPage = () => {
     </ContentContainer>
   );
 };
-
-export default CompleteFormTanStackPage;

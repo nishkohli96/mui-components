@@ -9,7 +9,7 @@ import * as z from 'zod';
 import { isDayjs, type Dayjs } from 'dayjs';
 import { type CountryDetails } from '@nish1896/mui-components/mui/country-select';
 import { type MUIPhoneInputValue } from '@nish1896/mui-components/misc/phone-input';
-import { type CityOption, isBlankHtml } from '../complete-forms/data';
+import { type CityOption, isBlankHtml } from '../data';
 
 export const zodFormSchema = z.object({
   firstName: z

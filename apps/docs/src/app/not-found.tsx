@@ -27,8 +27,7 @@ const NotFound = () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          textAlign: 'center',
-          py: 8
+          textAlign: 'center'
         }}
       >
         <Image

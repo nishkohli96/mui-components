@@ -8,11 +8,11 @@ import {
   pageMetadata,
   componentsDocsLink
 } from '@/constants';
-import CompleteStateForm from '@/forms/complete-forms/StateFormClient';
+import CompleteStateForm from '@/forms/complete-forms/state/Client';
 
 export const metadata = pageMetadata.completeFormState;
 
-const CompleteFormStatePage = () => {
+export default function CompleteStateFormPage () {
   const docsLinks = Object.keys(componentsDocsLink).map(
     k => componentsDocsLink[k]
   );
@@ -26,5 +26,3 @@ const CompleteFormStatePage = () => {
     </ContentContainer>
   );
 };
-
-export default CompleteFormStatePage;

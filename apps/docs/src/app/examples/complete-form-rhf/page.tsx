@@ -9,11 +9,11 @@ import {
   componentsDocsLink,
   validationLibLinks
 } from '@/constants';
-import CompleteFormWithZod from '@/forms/complete-form-with-zod/Client';
+import CompleteRHFForm from '@/forms/complete-forms/rhf/Client';
 
 export const metadata = pageMetadata.completeFormZod;
 
-const CompleteFormWithZodPage = () => {
+export default function CompleteRHFFormPage() {
   const docsLinks = Object.keys(componentsDocsLink).map(
     k => componentsDocsLink[k]
   );
@@ -21,10 +21,8 @@ const CompleteFormWithZodPage = () => {
     <ContentContainer>
       <PageHeading title={metadata.title as string} />
       <SubHeading title={metadata.description as string} />
-      <CompleteFormWithZod />
+      <CompleteRHFForm />
       <LinksList links={[...docsLinks, validationLibLinks.zod]} />
     </ContentContainer>
   );
 };
-
-export default CompleteFormWithZodPage;
