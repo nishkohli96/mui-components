@@ -32,13 +32,13 @@ import { showToastMessage, logFirebaseEvent, tanstackErrors } from '@/utils';
 type NumberFormValues = {
   age: number | null;
   price: number | null;
-  quantity: number | null;
+  randomInt: number | null;
 };
 
 const initialValues: NumberFormValues = {
   age: null,
   price: null,
-  quantity: 1
+  randomInt: 1
 };
 
 export default function NumberInputForm() {
@@ -142,17 +142,18 @@ export default function NumberInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Custom step amount (±5)" />
-            <form.Field name="quantity">
+            <FieldVariantInfo title="Label and placeholder with custom step amount (±5)" />
+            <form.Field name="randomInt">
               {field => (
                 <MUINumberInput
-                  fieldName="quantity"
+                  fieldName="randomInt"
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
                   onlyIntegers
-                  nonNegative
                   showMarkers
                   stepAmount={5}
+                  label="Random Integer"
+                  placeholder="Enter an integer"
                   helperText="Arrow keys / steppers change by 5"
                   disabled={disableAllFields}
                 />

@@ -101,31 +101,31 @@ export const PropsDescription = Object.freeze({
   value_Autocomplete: {
     name: 'value',
     description:
-      'Currently selected value(s): `string[]` when `multiple` is true, otherwise a `string` (normalized with `valueKey` for object options). `undefined`/`null`/`[]` are treated as no selection.',
+      'Currently selected value(s): `string[]` when `multiple` is true, otherwise a `string` (normalized with `valueKey` for object options). A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
     type: 'string | string[] | null'
   },
   value_AutocompleteObject: {
     name: 'value',
     description:
-      'Currently selected option object(s): `Option[]` when `multiple` is true, otherwise a single `Option`. `undefined`/`null` are treated as no selection.',
+      'Currently selected option object(s): `Option[]` when `multiple` is true, otherwise a single `Option`. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
     type: 'Option | Option[] | null'
   },
   value_MultiAutocomplete: {
     name: 'value',
     description:
-      'Currently selected string values (normalized with `valueKey` for object options). `undefined`/`null`/`[]` are treated as an empty selection.',
-    type: 'string[] | null'
+      'Currently selected string values (normalized with `valueKey` for object options). Always an array — `undefined` or `[]` is an empty selection, and clearing emits `[]` rather than `null`.',
+    type: 'string[]'
   },
   value_MultiAutocompleteObject: {
     name: 'value',
     description:
-      'Currently selected option objects. `undefined`/`null`/`[]` are treated as an empty selection.',
-    type: 'Option[] | null'
+      'Currently selected option objects. Always an array — `undefined` or `[]` is an empty selection, and clearing emits `[]` rather than `null`.',
+    type: 'Option[]'
   },
   value_CountrySelect: {
     name: 'value',
     description:
-      'Currently selected country value(s): complete `CountryDetails` object(s), or the property named by `valueKey` when provided. Pass an array when `multiple` is true.',
+      'Currently selected country value(s): complete `CountryDetails` object(s), or the property named by `valueKey` when provided. Pass an array when `multiple` is true. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
     type: 'CountryDetails | CountryDetails[keyof CountryDetails] | array | null'
   },
   value_Cbx_Switch: {

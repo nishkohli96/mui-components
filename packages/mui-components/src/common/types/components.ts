@@ -17,17 +17,19 @@ export type OptionValue<
       : never;
 
 /**
- * RHF field value for Autocomplete components mirrors
- * MUI `AutocompleteValue<string, Multiple, DisableClearable, false>` for primitives.
+ * Field value for Autocomplete components, mirroring MUI's
+ * `AutocompleteValue<string, Multiple, DisableClearable, false>` for primitives.
  * Tuple checks avoid distributive `boolean` breaking the conditional.
+ *
+ * `null` appears only for a clearable single selection — that is the one case
+ * MUI emits it (the clear button). Multi-select always yields an array (`[]`
+ * when cleared), so `DisableClearable` is irrelevant on that branch.
  */
 export type AutocompleteNewValue<
   Multiple extends boolean,
   DisableClearable extends boolean
 > = [Multiple] extends [true]
-  ? [DisableClearable] extends [true]
-    ? string[]
-    : string[] | null
+  ? string[]
   : [DisableClearable] extends [true]
     ? string
     : string | null;

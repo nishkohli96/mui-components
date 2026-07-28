@@ -61,7 +61,8 @@ const RootLayout = ({ children }: RootLayoutProps) => {
             <Analytics />
             <ToastContainer
               autoClose={3000}
-              limit={3}
+              limit={2}
+              stacked
               closeButton
               style={{ fontSize: '1rem' }}
             />
