@@ -30,6 +30,8 @@ import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 const planOptions = ['Free', 'Pro', 'Enterprise'];
 
+const contactOptions = ['Email', 'Phone', 'SMS'];
+
 type BillingOption = { id: string; title: string; disabled?: boolean };
 
 const billingOptions: BillingOption[] = [
@@ -145,7 +147,7 @@ export default function RadioGroupForm() {
             <MUIRadioGroup
               fieldName="contact"
               label="Preferred contact"
-              options={['Email', 'Phone', 'SMS']}
+              options={contactOptions}
               value={contact}
               onValueChange={({ newValue }) => {
                 setContact(newValue);

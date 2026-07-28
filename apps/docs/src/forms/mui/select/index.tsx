@@ -84,13 +84,13 @@ const SelectForm = () => {
             <FieldVariantInfo title="Single select field with helpertext and renderOptionLabel" />
             <MUISelect
               fieldName="favouriteColor"
+              options={Object.values(Colors)}
               value={formValues.favouriteColor}
               onValueChange={({ newValue }) => {
-                setValue('favouriteColor', newValue as Colors, {
+                setValue('favouriteColor', newValue, {
                   shouldValidate: true
                 });
               }}
-              options={Object.values(Colors)}
               disabled={disableAllFields}
               renderOptionLabel={opn => (
                 <span style={{ color: opn }}>
@@ -112,13 +112,13 @@ const SelectForm = () => {
             <FieldVariantInfo title="Single select with multiple options as an array of strings and customIds" />
             <MUISelect
               fieldName="languages"
+              options={languagesList}
               value={formValues.languages}
               onValueChange={({ newValue }) => {
                 setValue('languages', newValue as string[], {
                   shouldValidate: true
                 });
               }}
-              options={languagesList}
               disabled={disableAllFields}
               errorMessage={errors.languages?.message?.toString()}
               multiple
@@ -130,6 +130,9 @@ const SelectForm = () => {
             <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render function, customOnChange and disabled options" />
             <MUISelect
               fieldName="iplTeams"
+              options={IPLTeams}
+              labelKey="name"
+              valueKey="abbr"
               value={formValues.iplTeams}
               onValueChange={({ newValue, event }) => {
                 if (newValue.length > 4) {
@@ -140,10 +143,7 @@ const SelectForm = () => {
                   shouldValidate: true
                 });
               }}
-              options={IPLTeams}
               disabled={disableAllFields}
-              labelKey="name"
-              valueKey="abbr"
               showLabelAboveFormField
               placeholder="Choose IPL teams"
               showDefaultOption
@@ -170,15 +170,15 @@ const SelectForm = () => {
             <FieldVariantInfo title="Select with number options" />
             <MUISelect
               fieldName="randomNum"
-              value={formValues.randomNum}
               options={randomNumbers}
-              disabled={disableAllFields}
+              value={formValues.randomNum}
               onValueChange={({ newValue }) => {
-                setValue('randomNum', newValue as number, {
+                setValue('randomNum', newValue, {
                   shouldValidate: true
                 });
                 toast.info(JSON.stringify(newValue, null, 2));
               }}
+              disabled={disableAllFields}
               errorMessage={errors.randomNum?.message?.toString()}
               showDefaultOption
               showLabelAboveFormField

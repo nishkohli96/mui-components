@@ -141,7 +141,7 @@ export default function TextFieldForm() {
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <FieldVariantInfo title="Input with MUI props" />
+          <FieldVariantInfo title="Input with variant prop, and value transformation" />
           <MUITextField
             fieldName="lastName"
             value={lastName}
@@ -150,10 +150,11 @@ export default function TextFieldForm() {
             }}
             variant="filled"
             disabled={disableAllFields}
+            helperText="The final value would be capitalized!"
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <FieldVariantInfo title="Input with pattern validation & label above form-field with custom ids" />
+          <FieldVariantInfo title="Input with pattern validation, label above form-field, custom ids and renderError" />
           <MUITextField
             fieldName="email"
             value={email}
@@ -165,6 +166,7 @@ export default function TextFieldForm() {
             onBlur={() => {
               setEmailError(validateEmail(email));
             }}
+            disabled={disableAllFields}
             errorMessage={emailError}
             renderError={errors => (
               <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>

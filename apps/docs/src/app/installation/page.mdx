@@ -51,7 +51,9 @@ existing component.
 ## Package structure
 
 Components are available through focused subpath exports, so applications only
-import the modules they use:
+import the modules they use.
+
+Click a folder to expand its contents and view the form components available for that module.
 
 <FolderStructure />
 
@@ -85,8 +87,8 @@ export default function SignupName() {
       value={firstName}
       onValueChange={({ newValue }) => setFirstName(newValue)}
       onBlur={() => setError(firstName ? undefined : 'First name is required')}
-      errorMessage={error}
       required
+      errorMessage={error}
     />
   );
 }
@@ -98,6 +100,10 @@ export default function SignupName() {
   Yes. The component API is largely the same. The main difference is that
   `control` and `registerOptions` have been replaced with the controlled
   `value` / `onValueChange` / `errorMessage` props.
+
+  The developer only has to provide the `fieldName`, `control` and manage
+  the validation on his end, updating field value and handling errors is
+  managed within the component itself.
 </Callout>
 
 There is no schema, resolver or registration step — derive `errorMessage` from
@@ -107,11 +113,22 @@ state.
 ## Using Form Libraries
 
 Because the components are controlled, adapting them to a form library takes
-only a few lines. With [TanStack Form](https://tanstack.com/form/latest)'s `Field`:
+only a few lines. `errorMessage` accepts a single message `string`, or a
+`string[]` when a field can fail several rules at once — so each library only
+needs a small adapter to map its own error shape onto that.
+
+With [TanStack Form](https://tanstack.com/form/latest)'s `Field`, whose
+`meta.errors` is an array that may nest, a one-line helper flattens it to a
+`string[]`:
 
 ```tsx
 import { useForm } from '@tanstack/react-form';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
+
+/* Flatten one level so a field failing several rules — where `meta.errors`
+   is `[[ruleA, ruleB]]` — surfaces every message. */
+const tanstackErrors = (errors: unknown[]): string[] =>
+  errors.flat().filter((error): error is string => typeof error === 'string');
 
 const form = useForm({
   defaultValues: { email: '' }
@@ -129,8 +146,7 @@ const form = useForm({
       value={field.state.value}
       onValueChange={({ newValue }) => field.handleChange(newValue)}
       onBlur={field.handleBlur}
-      // TanStack reports errors as an array; errorMessage resolves it internally
-      errorMessage={field.state.meta.errors}
+      errorMessage={tanstackErrors(field.state.meta.errors)}
     />
   )}
 </form.Field>
@@ -155,11 +171,4 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 </ConfigProvider>
 ```
 
-See [Customization](/customization) for a working example.
-
-## Live demos
-
-The demo pages in the sidebar each embed a working form with live form state —
-try [Inputs](/inputs) or the full [Complete Form](/complete-form), and see
-[Complete Form with Joi](/complete-form-joi) for every component validated by
-an external schema library.
+Refer the [Customization](/customization) section for a working example.
