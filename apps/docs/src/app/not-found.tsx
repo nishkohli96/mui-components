@@ -7,10 +7,6 @@ import { pageMetadata } from '@/constants';
 
 export const metadata = pageMetadata.notFound;
 
-/**
- * `AppShell` (root layout) already renders the site `AppBar` for every
- * non-home route, including this one — no need to render it again here.
- */
 const NotFound = () => {
   return (
     <Box
@@ -33,16 +29,16 @@ const NotFound = () => {
         <Image
           src="/icons/mui-404.svg"
           alt="404"
-          width={320}
-          height={200}
+          width={240}
+          height={150}
           priority
-          style={{ width: '100%', maxWidth: 320, height: 'auto' }}
+          style={{ width: '100%', maxWidth: 240, height: 'auto' }}
         />
         <Typography
           variant="h4"
           sx={{ mt: { md: 2 }, fontWeight: 800 }}
         >
-          Component not found
+          Page not found
         </Typography>
         <Typography
           sx={{

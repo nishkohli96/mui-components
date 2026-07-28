@@ -82,7 +82,7 @@ export const sidebarLinks: Page[] = [
     title: 'Examples',
     pages: [
       { title: 'Complete Form — State', href: '/examples/complete-form-state' },
-      { title: 'Complete Form - RHF', href: '/examples/complete-form-zod' },
+      { title: 'Complete Form - RHF', href: '/examples/complete-form-rhf' },
       { title: 'Complete Form — Formik', href: '/examples/complete-form-formik' },
       { title: 'Complete Form — TanStack', href: '/examples/complete-form-tanstack' }
     ]
