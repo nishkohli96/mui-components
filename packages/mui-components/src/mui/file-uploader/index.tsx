@@ -59,10 +59,14 @@ export type ExistingUploadedFile = {
 /**
  * Field value shape derived from `multiple`: an array of files when `multiple`
  * is `true`, otherwise a single file.
+ *
+ * `null` belongs only to the single-file branch — a multi-file field clears to
+ * `[]`, matching `MUIMultiAutocomplete` and `MUITagsInput`. Tuple checks avoid
+ * distributive `boolean` breaking the conditional.
  */
-type FileUploaderValue<Multiple extends boolean> = Multiple extends true
+type FileUploaderValue<Multiple extends boolean> = [Multiple] extends [true]
   ? File[]
-  : File;
+  : File | null;
 
 type FileUploaderChangeEvent
   = | ChangeEvent<HTMLInputElement>
@@ -71,7 +75,7 @@ type FileUploaderChangeEvent
 
 type FileUploaderOnValueChangeProps<Multiple extends boolean> = {
   /** New field value after a successful upload, removal, or clear action. */
-  newValue: FileUploaderValue<Multiple> | null;
+  newValue: FileUploaderValue<Multiple>;
   /** Event that triggered the value change. */
   event: FileUploaderChangeEvent;
 };
@@ -114,19 +118,20 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
    */
   fieldName: string;
   /**
-   * Current value of the field. When `multiple` is `true` this is `File[] | null`,
+   * Current value of the field. When `multiple` is `true` this is `File[]`,
    * otherwise `File | null`. This is a controlled component: `value` and
    * `onValueChange` must be supplied together, typically backed by your own state
-   * or form library. `undefined`/`null` are treated as no files selected.
+   * or form library. `undefined` is treated as no files selected.
    */
-  value?: FileUploaderValue<Multiple> | null;
+  value?: FileUploaderValue<Multiple>;
   /**
    * Called with the accepted file value after every upload, removal, or clear
-   * action. `newValue` is `File[] | null` when `multiple` is `true`, otherwise
+   * action. `newValue` is `File[]` when `multiple` is `true`, otherwise
    * `File | null`. Call your state setter (or form library's setter) with
    * `newValue` to update `value`.
    *
-   * @param newValue - Accepted file(s), or `null` when cleared.
+   * @param newValue - Accepted file(s). Clearing yields `[]` for a multi-file
+   *   field and `null` for a single-file field.
    * @param event - Input, drop, or click event that changed the file value.
    */
   onValueChange: ({
@@ -371,6 +376,19 @@ const MUIFileUploader = <Multiple extends boolean = false>({
   const serverFileCount = existingFiles.length;
   const fieldValue = value ?? null;
 
+  /**
+   * Files uploaded in this session, always as a list.
+   *
+   * `Array.isArray` can't narrow `FileUploaderValue<Multiple>` while `Multiple`
+   * is still generic, so pair it with an `instanceof File` check and annotate
+   * the target — the same approach used when merging previous files below.
+   */
+  const uploadedFiles: File[] = Array.isArray(fieldValue)
+    ? fieldValue
+    : fieldValue instanceof File
+      ? [fieldValue]
+      : [];
+
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
   const fieldErrorMessage = isError
@@ -386,6 +404,12 @@ const MUIFileUploader = <Multiple extends boolean = false>({
     : undefined;
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
+  /**
+   * Internal setter. The parameter stays loose because `FileUploaderValue<Multiple>`
+   * is a deferred conditional while `Multiple` is generic, so TS can't prove a
+   * computed value matches it. Callers must uphold the contract: pass `File[]`
+   * (`[]` when empty) whenever `multiple` is set, and `File`/`null` otherwise.
+   */
   const updateFieldValue = (
     newValue: File | File[] | null,
     event:
@@ -401,7 +425,7 @@ const MUIFileUploader = <Multiple extends boolean = false>({
     event: ChangeEvent<HTMLInputElement> | DragEvent<HTMLDivElement>
   ) => {
     if (!files || files.length === 0) {
-      updateFieldValue(null, event);
+      updateFieldValue(multiple ? [] : null, event);
       return;
     }
 
@@ -496,12 +520,10 @@ const MUIFileUploader = <Multiple extends boolean = false>({
   ) => {
     let newValue: File | File[] | null;
     if (multiple && Array.isArray(fieldValue)) {
-      const newFiles = fieldValue.filter(
-        (_: File, i: number) => i !== index
-      );
-      newValue = newFiles.length > 0 ? newFiles : null;
+      /* Removing the last file leaves an empty list, not `null`. */
+      newValue = fieldValue.filter((_: File, i: number) => i !== index);
     } else {
-      newValue = null;
+      newValue = multiple ? [] : null;
     }
     updateFieldValue(newValue, event);
   };
@@ -652,19 +674,17 @@ const MUIFileUploader = <Multiple extends boolean = false>({
         </Box>
       )}
       {/* New uploads from the current session */}
-      {fieldValue && renderFileItem && (
+      {uploadedFiles.length > 0 && renderFileItem && (
         <Box {...uploadedFileListProps}>
-          {(Array.isArray(fieldValue) ? fieldValue : [fieldValue]).map(
-            (file: File, index: number) => (
-              <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
-                {renderFileItem({
-                  file,
-                  index,
-                  removeFile: event => handleRemoveFile(index, event)
-                })}
-              </Fragment>
-            )
-          )}
+          {uploadedFiles.map((file, index) => (
+            <Fragment key={`${file.name}-${file.lastModified}-${index}`}>
+              {renderFileItem({
+                file,
+                index,
+                removeFile: event => handleRemoveFile(index, event)
+              })}
+            </Fragment>
+          ))}
         </Box>
       )}
     </FormControl>

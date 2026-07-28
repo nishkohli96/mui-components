@@ -77,9 +77,12 @@ export type MUITagsInputProps = {
   /**
    * Current tags of the field. This is a controlled component: `value` and `onValueChange`
    * must be supplied together, typically backed by your own state or form library.
-   * `undefined`/`null` are treated as an empty tag list.
+   *
+   * Always an array — `undefined` or `[]` is an empty tag list. Removing the
+   * last tag emits `[]`, never `null`, so `newValue` can be fed straight back
+   * into `value`.
    */
-  value?: string[] | null;
+  value?: string[];
   /**
    * Called with the next tag array after tags are added or removed.
    * Call your state setter (or form library's setter) with `newValue` to update `value`.
