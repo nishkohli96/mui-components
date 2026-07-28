@@ -65,7 +65,7 @@ export type MUIRadioGroupProps<
    *
    * `undefined`/`null` are treated as no selection.
    */
-  value?: OptionValue<Option, ValueKey> | null;
+  value?: NoInfer<OptionValue<Option, ValueKey>> | null;
   /**
    * Called on every selection with the normalized option value and the original
    * change event. Call your state setter (or form library's setter) with

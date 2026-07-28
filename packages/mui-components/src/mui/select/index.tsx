@@ -61,7 +61,7 @@ export type MUISelectProps<
     keyof Option,
     string
   >,
-  Multiple extends boolean = false,
+  Multiple extends boolean = false
 > = {
   /**
    * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
@@ -72,7 +72,7 @@ export type MUISelectProps<
    * For `multiple`, pass an array. `undefined`/`null` are treated as no
    * selection (an empty array when `multiple` is true).
    */
-  value?: SelectValue<OptionValue<Option, ValueKey>, Multiple> | null;
+  value?: NoInfer<SelectValue<OptionValue<Option, ValueKey>, Multiple>> | null;
   /**
    * Called after the selected value is normalized using `valueKey` for object options.
    *

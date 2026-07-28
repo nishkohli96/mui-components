@@ -139,7 +139,7 @@ const SelectForm = () => {
                   event.preventDefault();
                   return;
                 }
-                setValue('iplTeams', newValue as string[], {
+                setValue('iplTeams', newValue, {
                   shouldValidate: true
                 });
               }}
