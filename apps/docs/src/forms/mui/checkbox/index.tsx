@@ -62,7 +62,7 @@ export default function CheckboxForm() {
   }
 
   return (
-    <FormContainer title="MUICheckbox">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();

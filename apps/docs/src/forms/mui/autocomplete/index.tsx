@@ -103,7 +103,7 @@ export default function AutocompleteExampleForm() {
   });
 
   return (
-    <FormContainer title="MUIAutocomplete">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -164,7 +164,7 @@ export default function AutocompleteExampleForm() {
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange((newValue as string[]) ?? [])}
                   multiple
-                  limitTags={2}
+                  limitTags={3}
                   getLimitTagsText={more => `+${more} more`}
                   ChipProps={{ color: 'primary', size: 'small' }}
                   required
@@ -196,6 +196,7 @@ export default function AutocompleteExampleForm() {
                   required
                   showLabelAboveFormField
                   loading={loading}
+                  disabled={disableAllFields}
                   renderOption={({ key, ...props }, option) => {
                     return (
                       <Box

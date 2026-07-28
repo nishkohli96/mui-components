@@ -68,7 +68,7 @@ export default function CheckboxGroupForm() {
   });
 
   return (
-    <FormContainer title="MUICheckboxGroup">
+    <FormContainer>
       <form onSubmit={formik.handleSubmit}>
         <GridContainer>
           <Grid size={{ xs: 12, md: 6 }}>

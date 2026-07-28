@@ -37,21 +37,14 @@ If `valueKey` is omitted, the complete country object is returned instead.
 ```tsx
 const [country, setCountry] = useState<CountryDetails | null>(null);
 
+/* Returns "IN", "AU" */
 <MUICountrySelect
   fieldName="country"
   value={country}
   onValueChange={({ newValue }) => setCountry(newValue)}
   preferredCountries={['US', 'GB', 'IN']}
 />
-/* Returns "IN", "AU" */
 
-<MUICountrySelect
-  fieldName="nationality"
-  value={nationality}
-  valueKey="iso3"
-  onValueChange={({ newValue }) => setNationality(newValue)}
-  preferredCountries={['IN', 'US', 'AU']}
-/>
 /**
  * Returns
  * {
@@ -61,6 +54,13 @@ const [country, setCountry] = useState<CountryDetails | null>(null);
  *   emoji: '🇮🇳'
  * }
  */
+<MUICountrySelect
+  fieldName="nationality"
+  value={nationality}
+  valueKey="iso3"
+  onValueChange={({ newValue }) => setNationality(newValue)}
+  preferredCountries={['IN', 'US', 'AU']}
+/>
 ```
 
 Each option in the list of 250 countries is represented as an object

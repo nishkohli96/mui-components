@@ -62,7 +62,7 @@ export default function AutocompleteObjectForm() {
   }
 
   return (
-    <FormContainer title="MUIAutocompleteObject">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();

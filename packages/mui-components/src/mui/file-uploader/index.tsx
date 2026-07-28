@@ -471,10 +471,9 @@ const MUIFileUploader = <Multiple extends boolean = false>({
     const finalAcceptedFiles = multiple
       ? [...previousFiles, ...acceptedIncomingFiles]
       : acceptedIncomingFiles;
+    /* A multi-file field always holds an array — `[]` when nothing was accepted. */
     const newValue = multiple
-      ? finalAcceptedFiles.length > 0
-        ? finalAcceptedFiles
-        : null
+      ? finalAcceptedFiles
       : (finalAcceptedFiles[0] ?? null);
     updateFieldValue(newValue, event);
   };

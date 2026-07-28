@@ -60,7 +60,7 @@ export default function CountrySelectForm() {
   }
 
   return (
-    <FormContainer title="MUICountrySelect">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -102,7 +102,7 @@ export default function CountrySelectForm() {
             <FieldVariantInfo title="Multi-select with valueKey, limitTags & chip props" />
             <MUICountrySelect
               fieldName="countriesVisited"
-              label="Nationalities"
+              label="Countries that you have visited"
               multiple
               value={countriesVisited}
               valueKey="name"

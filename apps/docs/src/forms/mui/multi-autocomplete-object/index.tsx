@@ -28,9 +28,9 @@ type ProjectOption = { id: string; title: string; owner: string };
 
 const projects: ProjectOption[] = [
   { id: 'p1', title: 'Website revamp', owner: 'Ana' },
-  { id: 'p2', title: 'Mobile app', owner: 'Bo' },
-  { id: 'p3', title: 'Data pipeline', owner: 'Cy' },
-  { id: 'p4', title: 'Design system', owner: 'Di' }
+  { id: 'p2', title: 'Mobile app', owner: 'Boris' },
+  { id: 'p3', title: 'Data pipeline', owner: 'Clyde' },
+  { id: 'p4', title: 'Design system', owner: 'Diana' }
 ];
 
 export default function MultiAutocompleteObjectForm() {
@@ -59,7 +59,7 @@ export default function MultiAutocompleteObjectForm() {
   }
 
   return (
-    <FormContainer title="MUIMultiAutocompleteObject">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();

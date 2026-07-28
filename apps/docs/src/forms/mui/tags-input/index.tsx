@@ -113,7 +113,7 @@ export default function TagsInputForm() {
               ChipProps={{ color: 'primary', size: 'small', variant: 'outlined' }}
               getLimitTagsText={more => `+${more} more`}
               showLabelAboveFormField
-                            disabled={disableAllFields}
+              disabled={disableAllFields}
               helperText="Paste is lowercased; '|' delimiter; the 'react' tag can't be removed"
             />
           </Grid>

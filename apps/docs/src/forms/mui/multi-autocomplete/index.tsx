@@ -7,9 +7,12 @@
  * and object options (`labelKey` / `valueKey`) with `getOptionDisabled`.
  */
 
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import MUIMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
 import {
   FormContainer,
@@ -45,6 +48,7 @@ const initialValues: MultiFormValues = {
 
 export default function MultiAutocompleteForm() {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
 
   const formik = useFormik<MultiFormValues>({
     initialValues,
@@ -62,9 +66,20 @@ export default function MultiAutocompleteForm() {
   });
 
   return (
-    <FormContainer title="MUIMultiAutocomplete">
+    <FormContainer>
       <form onSubmit={formik.handleSubmit}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => setDisableAllFields(event.target.checked)}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="String options with Select All & limitTags" />
             <MUIMultiAutocomplete
@@ -75,6 +90,7 @@ export default function MultiAutocompleteForm() {
               selectAllText="Select all skills"
               limitTags={3}
               checkboxProps={{ color: 'secondary' }}
+              disabled={disableAllFields}
               required
               errorMessage={formikError(formik.submitCount > 0 && formik.errors.skills)}
               helperText="Pick your tech skills"
@@ -92,6 +108,7 @@ export default function MultiAutocompleteForm() {
               value={formik.values.teams}
               onValueChange={({ newValue }) => formik.setFieldValue('teams', newValue)}
               getOptionDisabled={option => Boolean(option.archived)}
+              disabled={disableAllFields}
               hideSelectAllOption
               showLabelAboveFormField
               helperText="Archived teams can't be selected"
