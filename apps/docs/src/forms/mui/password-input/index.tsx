@@ -173,6 +173,19 @@ export default function PasswordInputForm() {
             </form.Field>
           </Grid>
 
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Read-only — value can still be revealed, unlike disabled" />
+            <MUIPasswordInput
+              fieldName="recoveryKey"
+              label="Recovery key"
+              value="s3cr3t-recovery-key"
+              onValueChange={() => {}}
+              readOnly
+              helperText="Read-only: not editable, but the show/hide toggle still works"
+              disabled={disableAllFields}
+            />
+          </Grid>
+
           <form.Subscribe
             selector={state => ({
               values: state.values,

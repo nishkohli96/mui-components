@@ -94,6 +94,15 @@ export type MUIPasswordInputProps = {
    */
   hidePasswordIcon?: ReactNode;
   /**
+   * When true, the value is displayed but cannot be edited.
+   *
+   * Unlike `disabled`, the field stays focusable, is still submitted with the
+   * form, and the show/hide toggle remains usable — a read-only value is
+   * meaningful, so the user can still reveal it to verify it. `disabled`
+   * instead makes the whole field inert, including the toggle.
+   */
+  readOnly?: boolean;
+  /**
    * Validation error for the field — pass a single message `string`, or a
    * `string[]` when the field can fail multiple rules at once (every message
    * is shown together).
@@ -142,6 +151,7 @@ const MUIPasswordInput = ({
   hideLabel,
   showPasswordIcon,
   hidePasswordIcon,
+  readOnly,
   required,
   errorMessage,
   renderError,
@@ -190,6 +200,7 @@ const MUIPasswordInput = ({
     <InputAdornment position="end">
       <IconButton
         type="button"
+        disabled={muiDisabled}
         aria-label={showPassword ? 'Hide password' : 'Show password'}
         onClick={handleClickShowPassword}
         onMouseDown={handleMouseDownPassword}
@@ -245,10 +256,12 @@ const MUIPasswordInput = ({
             'aria-labelledby': !hideLabel && isLabelAboveFormField ? labelId : undefined,
             'aria-label': hideLabel ? accessibleFieldLabel : undefined,
             'aria-describedby': showHelperTextElement ? (isError ? errorId : helperTextId) : undefined,
-            'aria-required': required
+            'aria-required': required,
+            'aria-readonly': readOnly || undefined
           },
           input: {
             ...muiSlotProps?.input,
+            readOnly,
             endAdornment: (
               <>
                 {(muiSlotProps?.input as { endAdornment?: ReactNode })?.endAdornment}
