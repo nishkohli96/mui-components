@@ -593,7 +593,6 @@ const MUIFileUploader = <Multiple extends boolean = false>({
             p: 2,
             textAlign: 'center',
             transition: 'border-color 0.2s ease-in-out',
-            mb: 2,
             cursor: muiDisabled ? 'not-allowed' : 'pointer'
           },
           ...(Array.isArray(dropZoneSx)

@@ -5,8 +5,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import DrawerMenu from './DrawerMenu';
 import { GithubButton, NpmButton, ThemeChangeButton } from '../buttons';
-import MuiLogo from '../../../public/icon.svg';
-import Wordmark from '../../../public/wordmark.svg';
 
 /**
  * Sticky, flat docs-style header: brand on the left, actions on the right.
@@ -50,7 +48,7 @@ const AppBar = () => {
           }}
         >
           <Image
-            src={MuiLogo}
+            src="/logo.svg"
             alt=""
             width={36}
             height={36}
@@ -70,7 +68,7 @@ const AppBar = () => {
             }}
           >
             <Image
-              src={Wordmark}
+              src={'/wordmark.svg'}
               alt="MUI Components"
               priority
               width={191}

@@ -12,4 +12,4 @@ export default function CompleteRHFFormPage() {
       <CompleteRHFForm />
     </ContentContainer>
   );
-};
+}

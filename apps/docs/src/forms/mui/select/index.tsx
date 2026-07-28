@@ -64,7 +64,7 @@ const SelectForm = () => {
   }
 
   return (
-    <FormContainer title="Select Component with Class-Validator">
+    <FormContainer>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={12}>
@@ -109,7 +109,7 @@ const SelectForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Single select with multiple options as an array of strings and customIds" />
+            <FieldVariantInfo title="Multi-select with customIds" />
             <MUISelect
               fieldName="languages"
               options={languagesList}

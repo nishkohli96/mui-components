@@ -42,7 +42,7 @@ const NativeSelectForm = () => {
   }
 
   return (
-    <FormContainer title="Select Component with Class-Validator">
+    <FormContainer>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <GridContainer>
           <Grid size={12}>
@@ -75,7 +75,7 @@ const NativeSelectForm = () => {
               label="Choose a currency"
               renderOptionLabel={opn => (
                 <>
-                  {`${opn.code} - ${opn.name} `}
+                  {`${opn.code} - ${opn.name}`}
                 </>
               )}
               errorMessage={errors.currency?.message?.toString()}

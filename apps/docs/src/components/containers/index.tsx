@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 type FormContainerProps = {
-  title: string;
+  title?: string;
   children: ReactElement | ReactElement[];
 };
 
@@ -20,9 +20,11 @@ export const ContentContainer = ({ children }: Pick<FormContainerProps, 'childre
 export const FormContainer = ({ title, children }: FormContainerProps) => {
   return (
     <Box sx={{ padding: { xs: '15px', md: '15px 20px' }, border: '1px solid gray' }}>
-      <Typography variant="h6" sx={{ mb: '20px' }}>
-        {title}
-      </Typography>
+      {title && (
+        <Typography variant="h6" sx={{ mb: '20px' }}>
+          {title}
+        </Typography>
+      )}
       {children}
     </Box>
   );

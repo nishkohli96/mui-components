@@ -11,9 +11,12 @@
  * as-is — `false` simply clears the error state.
  */
 
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import MUITagsInput from '@nish1896/mui-components/mui/tags-input';
 import {
   FormContainer,
@@ -38,6 +41,7 @@ const initialValues: TagsFormValues = {
 
 export default function TagsInputForm() {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
 
   const formik = useFormik<TagsFormValues>({
     initialValues,
@@ -55,9 +59,20 @@ export default function TagsInputForm() {
   });
 
   return (
-    <FormContainer title="MUITagsInput">
+    <FormContainer>
       <form onSubmit={formik.handleSubmit}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => setDisableAllFields(event.target.checked)}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Max 5 tags, lowercased & de-duplicated on add" />
             <MUITagsInput
@@ -77,6 +92,7 @@ export default function TagsInputForm() {
               delimiter=","
               limitTags={3}
               maxTags={5}
+              disabled={disableAllFields}
               required
               errorMessage={formikError(formik.submitCount > 0 && formik.errors.skills)}
               helperText="Type a skill and press Enter or comma (max 5); maximum of 3 tags visible at once"
@@ -84,7 +100,7 @@ export default function TagsInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="custom delimiter, custom chip render & a locked tag" />
+            <FieldVariantInfo title="Custom delimiter, custom chip render & a locked tag" />
             <MUITagsInput
               fieldName="keywords"
               label="Keywords"
@@ -97,6 +113,7 @@ export default function TagsInputForm() {
               ChipProps={{ color: 'primary', size: 'small', variant: 'outlined' }}
               getLimitTagsText={more => `+${more} more`}
               showLabelAboveFormField
+                            disabled={disableAllFields}
               helperText="Paste is lowercased; '|' delimiter; the 'react' tag can't be removed"
             />
           </Grid>

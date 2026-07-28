@@ -54,7 +54,7 @@ export default function NumberInputForm() {
   });
 
   return (
-    <FormContainer title="MUINumberInput">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();

@@ -48,7 +48,7 @@ export default function UploadedFile({
           textDecorationColor: 'primary.main',
           cursor: 'pointer',
           textAlign: 'left',
-          font: 'inherit'
+          font: 'inherit',
         }}
       >
         {file.name}

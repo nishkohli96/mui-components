@@ -21,8 +21,10 @@ import {
   GridContainer,
   FieldVariantInfo,
   FormState,
+  UploadedFile,
+  UploadedImage,
   SubmitButton,
-  ResetButton
+  ResetButton,
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
@@ -71,7 +73,7 @@ export default function FileUploaderForm() {
   }
 
   return (
-    <FormContainer title="MUIFileUploader">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -97,15 +99,18 @@ export default function FileUploaderForm() {
               fieldName="avatar"
               value={avatar}
               onValueChange={({ newValue }) => {
-                setAvatar(newValue as File | null);
+                setAvatar(newValue);
                 setAvatarError(undefined);
               }}
               accept="image/*"
               maxSize={MAX_AVATAR_SIZE}
               onUploadError={handleAvatarError}
+              renderFileItem={({ file, removeFile }) => (
+                <UploadedImage file={file} onRemove={removeFile} />
+              )}
               required
               errorMessage={avatarError}
-              helperText="PNG or JPG, up to 2 MB"
+              helperText="An Image file up to 2 MB"
               disabled={disableAllFields}
             />
           </Grid>
@@ -120,6 +125,9 @@ export default function FileUploaderForm() {
               multiple
               maxFiles={3}
               fullWidth
+              renderFileItem={({ file, removeFile }) => (
+                <UploadedFile file={file} onRemove={removeFile} />
+              )}
               helperText="Up to 3 PDF or Word documents"
               disabled={disableAllFields}
             />

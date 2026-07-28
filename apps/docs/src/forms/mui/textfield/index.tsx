@@ -106,7 +106,7 @@ export default function TextFieldForm() {
   }
 
   return (
-    <FormContainer title="MUITextField">
+    <FormContainer>
       <GridContainer>
         <Grid size={12}>
           <FormControlLabel

@@ -65,7 +65,7 @@ export default function PasswordInputForm() {
   });
 
   return (
-    <FormContainer title="MUIPasswordInput">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -179,7 +179,7 @@ export default function PasswordInputForm() {
               fieldName="recoveryKey"
               label="Recovery key"
               value="s3cr3t-recovery-key"
-              onValueChange={() => {}}
+              onValueChange={() => { /* no-op */ }}
               readOnly
               helperText="Read-only: not editable, but the show/hide toggle still works"
               disabled={disableAllFields}
