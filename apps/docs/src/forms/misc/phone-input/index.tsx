@@ -8,10 +8,13 @@
  * above the field.
  */
 
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import { usePathname } from 'next/navigation';
 import { type CountryIso2 } from 'react-international-phone';
 import Grid from '@mui/material/Grid';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import MUIPhoneInput, {
   type MUIPhoneInputValue
 } from '@nish1896/mui-components/misc/phone-input';
@@ -43,6 +46,7 @@ const initialValues: PhoneFormValues = {
 
 export default function PhoneInputForm() {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
 
   const formik = useFormik<PhoneFormValues>({
     initialValues,
@@ -66,6 +70,17 @@ export default function PhoneInputForm() {
     <FormContainer title="MUIPhoneInput">
       <form onSubmit={formik.handleSubmit}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => setDisableAllFields(event.target.checked)}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Default country (US) with helpertext and validation" />
             <MUIPhoneInput
@@ -73,6 +88,7 @@ export default function PhoneInputForm() {
               value={formik.values.contactNumber}
               onValueChange={({ newValue }) => formik.setFieldValue('contactNumber', newValue)}
               phoneInputProps={{ defaultCountry: 'us' }}
+              disabled={disableAllFields}
               required
               errorMessage={formikError(formik.submitCount > 0 && formik.errors.contactNumber)}
               helperText="Include your area code"
@@ -108,6 +124,7 @@ export default function PhoneInputForm() {
                   <CountryMenuItem country={country} />
                 )
               }}
+              disabled={disableAllFields}
               errorMessage={formikError(formik.submitCount > 0 && formik.errors.contactNumber)}
             />
           </Grid>
@@ -126,6 +143,7 @@ export default function PhoneInputForm() {
               searchCountryProps={{ allowCountrySearch: false }}
               showLabelAboveFormField
               variant="standard"
+              disabled={disableAllFields}
               helperText="Dial code can't be edited by hand"
             />
           </Grid>
