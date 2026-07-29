@@ -10,7 +10,6 @@
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { type Dayjs } from 'dayjs';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -26,9 +25,7 @@ import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
 import MUIAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
 import MUIMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
 import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
-import MUICountrySelect, {
-  type CountryDetails
-} from '@nish1896/mui-components/mui/country-select';
+import MUICountrySelect from '@nish1896/mui-components/mui/country-select';
 import MUICheckbox from '@nish1896/mui-components/mui/checkbox';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
 import MUIRadioGroup from '@nish1896/mui-components/mui/radio-group';
@@ -45,6 +42,7 @@ import {
   FormContainer,
   GridContainer,
   FieldVariantInfo,
+  UploadedImage,
   FormState,
   SubmitButton,
   ResetButton
@@ -52,7 +50,6 @@ import {
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 import {
-  type CityOption,
   type CompleteFormValues,
   type CompleteFormErrors,
   roleOptions,
@@ -170,8 +167,11 @@ export default function CompleteStateForm() {
               <MUIFileUploader
                 fieldName="avatar"
                 value={values.avatar}
-                onValueChange={({ newValue }) => setField('avatar', (newValue as File | null))}
+                onValueChange={({ newValue }) => setField('avatar', newValue)}
                 accept="image/*"
+                renderFileItem={({ file, removeFile }) => (
+                  <UploadedImage file={file} onRemove={removeFile} />
+                )}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -182,7 +182,7 @@ export default function CompleteStateForm() {
                 fieldName="role"
                 options={roleOptions}
                 value={values.role}
-                onValueChange={({ newValue }) => setField('role', newValue as string)}
+                onValueChange={({ newValue }) => setField('role', newValue)}
                 showDefaultOption
                 errorMessage={errors.role}
                 required
@@ -196,7 +196,7 @@ export default function CompleteStateForm() {
                 fieldName="priority"
                 options={priorityOptions}
                 value={values.priority}
-                onValueChange={({ newValue }) => setField('priority', newValue as string)}
+                onValueChange={({ newValue }) => setField('priority', newValue )}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -207,7 +207,7 @@ export default function CompleteStateForm() {
                 fieldName="framework"
                 options={frameworkOptions}
                 value={values.framework}
-                onValueChange={({ newValue }) => setField('framework', (newValue as string) ?? '')}
+                onValueChange={({ newValue }) => setField('framework', newValue ?? '')}
                 errorMessage={errors.framework}
                 required
                 disabled={disableAllFields}
@@ -216,7 +216,7 @@ export default function CompleteStateForm() {
 
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="AutocompleteObject" />
-              <MUIAutocompleteObject<CityOption>
+              <MUIAutocompleteObject
                 fieldName="city"
                 options={cityOptions}
                 labelKey="name"
@@ -234,7 +234,7 @@ export default function CompleteStateForm() {
               <MUICountrySelect
                 fieldName="country"
                 value={values.country}
-                onValueChange={({ newValue }) => setField('country', newValue as CountryDetails | null)}
+                onValueChange={({ newValue }) => setField('country', newValue)}
                 preferredCountries={preferredCountries}
                 errorMessage={errors.country}
                 required
@@ -256,7 +256,7 @@ export default function CompleteStateForm() {
 
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="MultiAutocompleteObject" />
-              <MUIMultiAutocompleteObject<CityOption>
+              <MUIMultiAutocompleteObject
                 fieldName="visitedCities"
                 options={cityOptions}
                 labelKey="name"
@@ -274,7 +274,7 @@ export default function CompleteStateForm() {
                 fieldName="contact"
                 options={contactOptions}
                 value={values.contact}
-                onValueChange={({ newValue }) => setField('contact', newValue as string)}
+                onValueChange={({ newValue }) => setField('contact', newValue)}
                 errorMessage={errors.contact}
                 required
                 disabled={disableAllFields}
@@ -287,7 +287,7 @@ export default function CompleteStateForm() {
                 fieldName="hobbies"
                 options={hobbyOptions}
                 value={values.hobbies}
-                onValueChange={({ newValue }) => setField('hobbies', newValue as string[])}
+                onValueChange={({ newValue }) => setField('hobbies', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -298,7 +298,7 @@ export default function CompleteStateForm() {
                 fieldName="volume"
                 label="Volume"
                 value={values.volume}
-                onValueChange={({ newValue }) => setField('volume', newValue as number)}
+                onValueChange={({ newValue }) => setField('volume', newValue)}
                 valueLabelDisplay="auto"
                 disabled={disableAllFields}
               />
@@ -336,7 +336,7 @@ export default function CompleteStateForm() {
                 fieldName="dob"
                 label="Date of birth"
                 value={values.dob}
-                onValueChange={({ newValue }) => setField('dob', newValue as Dayjs | null)}
+                onValueChange={({ newValue }) => setField('dob', newValue)}
                 disableFuture
                 errorMessage={errors.dob}
                 required
@@ -350,7 +350,7 @@ export default function CompleteStateForm() {
                 fieldName="meetingTime"
                 label="Meeting time"
                 value={values.meetingTime}
-                onValueChange={({ newValue }) => setField('meetingTime', newValue as Dayjs | null)}
+                onValueChange={({ newValue }) => setField('meetingTime', newValue )}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -361,7 +361,7 @@ export default function CompleteStateForm() {
                 fieldName="appointment"
                 label="Appointment"
                 value={values.appointment}
-                onValueChange={({ newValue }) => setField('appointment', newValue as Dayjs | null)}
+                onValueChange={({ newValue }) => setField('appointment', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>

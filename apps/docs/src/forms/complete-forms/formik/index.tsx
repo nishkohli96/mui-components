@@ -42,6 +42,7 @@ import {
   FormContainer,
   GridContainer,
   FieldVariantInfo,
+  UploadedImage,
   FormState,
   SubmitButton,
   ResetButton
@@ -49,7 +50,6 @@ import {
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 import {
-  type CityOption,
   type CompleteFormValues,
   roleOptions,
   priorityOptions,
@@ -164,6 +164,9 @@ export default function CompleteFormikForm() {
                 value={formik.values.avatar}
                 onValueChange={({ newValue }) => formik.setFieldValue('avatar', newValue)}
                 accept="image/*"
+                renderFileItem={({ file, removeFile }) => (
+                  <UploadedImage file={file} onRemove={removeFile} />
+                )}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -208,7 +211,7 @@ export default function CompleteFormikForm() {
 
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="AutocompleteObject" />
-              <MUIAutocompleteObject<CityOption>
+              <MUIAutocompleteObject
                 fieldName="city"
                 options={cityOptions}
                 labelKey="name"
@@ -248,7 +251,7 @@ export default function CompleteFormikForm() {
 
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="MultiAutocompleteObject" />
-              <MUIMultiAutocompleteObject<CityOption>
+              <MUIMultiAutocompleteObject
                 fieldName="visitedCities"
                 options={cityOptions}
                 labelKey="name"

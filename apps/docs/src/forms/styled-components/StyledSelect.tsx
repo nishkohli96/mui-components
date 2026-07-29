@@ -4,8 +4,8 @@
  *
  * A similar approach can be taken to create reusable styled components for:
  * - MUINativeSelect
- * - RHFCheckboxGroup
- * - RHFRadioGroup
+ * - MUICheckboxGroup
+ * - MUIRadioGroup
  *
  * The only difference being that for all the above components, "multiple" generic
  * prop would not be included in the type definition of the styled component.

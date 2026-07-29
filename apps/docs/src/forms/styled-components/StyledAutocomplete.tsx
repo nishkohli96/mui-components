@@ -1,30 +1,27 @@
 /**
  * The below code snippet illustrates how to create a reusable styled Autocomplete
- * component using RHFAutocomplete, which can be used throughout the application.
+ * component using MUIAutocomplete, which can be used throughout the application.
  *
  * A similar approach can be taken to create reusable styled components for:
- * - RHFAutocompleteObject
- * - RHFMultiAutocomplete
- * - RHFMultiAutocompleteObject
+ * - MUIAutocompleteObject
+ * - MUIMultiAutocomplete
+ * - MUIMultiAutocompleteObject
  */
 
-import { type FieldValues } from 'react-hook-form';
-import RHFAutocomplete, {
-  type RHFAutocompleteProps
+import MUIAutocomplete, {
+  type MUIAutocompleteProps
 } from '@nish1896/mui-components/mui/autocomplete';
 import type { StrObjOption } from '@nish1896/mui-components/types';
 
 type StyledAutocompleteProps<
-  T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   DisableClearable extends boolean = false,
   FreeSolo extends boolean = false
-> = Omit<RHFAutocompleteProps<T, Option, LabelKey, ValueKey, true, DisableClearable, FreeSolo>, 'multiple'>;
+> = Omit<MUIAutocompleteProps<Option, LabelKey, ValueKey, true, DisableClearable, FreeSolo>, 'multiple'>;
 
 const StyledAutocomplete = <
-  T extends FieldValues,
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
@@ -32,9 +29,9 @@ const StyledAutocomplete = <
   FreeSolo extends boolean = false
 >({
   ...rest
-}: StyledAutocompleteProps<T, Option, LabelKey, ValueKey, DisableClearable, FreeSolo>) => {
+}: StyledAutocompleteProps<Option, LabelKey, ValueKey, DisableClearable, FreeSolo>) => {
   return (
-    <RHFAutocomplete
+    <MUIAutocomplete
       formHelperTextProps={{
         sx: { fontColor: theme => theme.palette.info.main }
       }}

@@ -1,27 +1,26 @@
 /**
  * The below code snippet illustrates how to create a reusable styled Textfield
- * component using RHFTextField, which can be used throughout the application.
+ * component using MUITextField, which can be used throughout the application.
  *
- * In this example, the component accepts all the props of RHFTextField except
+ * In this example, the component accepts all the props of MUITextField except
  * 'renderError', 'variant' and 'showLabelAboveFormField', which have already
  * been configured to maintain consistent styling across the application.
  * Additionally, it includes a custom error message component that displays an
  * error icon alongside the error message when there is an error.
  *
  * A similar approach can be taken to create reusable styled components for:
- * - RHFNumberInput
- * - RHFTagsInput
- * - RHFPasswordInput
+ * - MUINumberInput
+ * - MUITagsInput
+ * - MUIPasswordInput
  */
 
 import { Fragment, type ReactNode } from 'react';
-import { type FieldValues } from 'react-hook-form';
 import Typography from '@mui/material/Typography';
-import RHFTextField, { type RHFTextFieldProps } from '@nish1896/mui-components/mui/textfield';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import MUITextField, { type MUITextFieldProps } from '@nish1896/mui-components/mui/textfield';
 
-type StyledRHFTextFieldProps<T extends FieldValues> = Omit<
-  RHFTextFieldProps<T>,
+type StyledTextFieldProps = Omit<
+  MUITextFieldProps,
   'renderError' | 'showLabelAboveFormField' | 'variant'
 >;
 
@@ -49,8 +48,8 @@ const StyledErrorMsg = ({ errorMessage }: StyledErrorMsgProps) => {
   );
 };
 
-const StyledRHFTextField = <T extends FieldValues>(
-  props: StyledRHFTextFieldProps<T>
+const StyledTextField = (
+  props: StyledTextFieldProps
 ) => {
   const { formHelperTextProps, ...rest } = props;
   const {
@@ -66,7 +65,7 @@ const StyledRHFTextField = <T extends FieldValues>(
   }
 
   return (
-    <RHFTextField
+    <MUITextField
       {...rest}
       variant="standard"
       showLabelAboveFormField
@@ -78,10 +77,10 @@ const StyledRHFTextField = <T extends FieldValues>(
         ]
       }}
       renderError={error => (
-        <StyledErrorMsg errorMessage={error?.message} />
+        <StyledErrorMsg errorMessage={error} />
       )}
     />
   );
 };
 
-export default StyledRHFTextField;
+export default StyledTextField;

@@ -53,6 +53,7 @@ import {
   FormContainer,
   GridContainer,
   FieldVariantInfo,
+  UploadedImage,
   FormState,
   SubmitButton,
   ResetButton
@@ -154,7 +155,7 @@ export default function CompleteRHFForm() {
               <MUITagsInput
                 fieldName="tags"
                 value={formValues.tags}
-                onValueChange={({ newValue }) => setValue('tags', newValue as string[])}
+                onValueChange={({ newValue }) => setValue('tags', newValue)}
                 maxTags={5}
                 disabled={disableAllFields}
               />
@@ -165,8 +166,11 @@ export default function CompleteRHFForm() {
               <MUIFileUploader
                 fieldName="avatar"
                 value={formValues.avatar}
-                onValueChange={({ newValue }) => setValue('avatar', newValue as File | null, { shouldValidate: true })}
+                onValueChange={({ newValue }) => setValue('avatar', newValue, { shouldValidate: true })}
                 accept="image/*"
+                renderFileItem={({ file, removeFile }) => (
+                  <UploadedImage file={file} onRemove={removeFile} />
+                )}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -177,7 +181,7 @@ export default function CompleteRHFForm() {
                 fieldName="role"
                 options={roleOptions}
                 value={formValues.role}
-                onValueChange={({ newValue }) => setValue('role', newValue as string, { shouldValidate: true })}
+                onValueChange={({ newValue }) => setValue('role', newValue, { shouldValidate: true })}
                 showDefaultOption
                 errorMessage={errors.role?.message}
                 required
@@ -191,7 +195,7 @@ export default function CompleteRHFForm() {
                 fieldName="priority"
                 options={priorityOptions}
                 value={formValues.priority}
-                onValueChange={({ newValue }) => setValue('priority', newValue as string)}
+                onValueChange={({ newValue }) => setValue('priority', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -202,7 +206,7 @@ export default function CompleteRHFForm() {
                 fieldName="framework"
                 options={frameworkOptions}
                 value={formValues.framework}
-                onValueChange={({ newValue }) => setValue('framework', (newValue as string) ?? '', { shouldValidate: true })}
+                onValueChange={({ newValue }) => setValue('framework', newValue ?? '', { shouldValidate: true })}
                 errorMessage={errors.framework?.message}
                 required
                 disabled={disableAllFields}
@@ -211,7 +215,7 @@ export default function CompleteRHFForm() {
 
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="AutocompleteObject" />
-              <MUIAutocompleteObject<CityOption>
+              <MUIAutocompleteObject
                 fieldName="city"
                 options={cityOptions}
                 labelKey="name"
@@ -251,7 +255,7 @@ export default function CompleteRHFForm() {
 
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="MultiAutocompleteObject" />
-              <MUIMultiAutocompleteObject<CityOption>
+              <MUIMultiAutocompleteObject
                 fieldName="visitedCities"
                 options={cityOptions}
                 labelKey="name"
@@ -269,7 +273,7 @@ export default function CompleteRHFForm() {
                 fieldName="contact"
                 options={contactOptions}
                 value={formValues.contact}
-                onValueChange={({ newValue }) => setValue('contact', newValue as string, { shouldValidate: true })}
+                onValueChange={({ newValue }) => setValue('contact', newValue, { shouldValidate: true })}
                 errorMessage={errors.contact?.message}
                 required
                 disabled={disableAllFields}
@@ -282,7 +286,7 @@ export default function CompleteRHFForm() {
                 fieldName="hobbies"
                 options={hobbyOptions}
                 value={formValues.hobbies}
-                onValueChange={({ newValue }) => setValue('hobbies', newValue as string[])}
+                onValueChange={({ newValue }) => setValue('hobbies', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -293,7 +297,7 @@ export default function CompleteRHFForm() {
                 fieldName="volume"
                 label="Volume"
                 value={formValues.volume}
-                onValueChange={({ newValue }) => setValue('volume', newValue as number)}
+                onValueChange={({ newValue }) => setValue('volume', newValue)}
                 valueLabelDisplay="auto"
                 disabled={disableAllFields}
               />
@@ -331,7 +335,7 @@ export default function CompleteRHFForm() {
                 fieldName="dob"
                 label="Date of birth"
                 value={formValues.dob as Dayjs | null}
-                onValueChange={({ newValue }) => setValue('dob', newValue as Dayjs | null, { shouldValidate: true })}
+                onValueChange={({ newValue }) => setValue('dob', newValue, { shouldValidate: true })}
                 disableFuture
                 errorMessage={errors.dob?.message}
                 required
@@ -345,7 +349,7 @@ export default function CompleteRHFForm() {
                 fieldName="meetingTime"
                 label="Meeting time"
                 value={formValues.meetingTime as Dayjs | null}
-                onValueChange={({ newValue }) => setValue('meetingTime', newValue as Dayjs | null)}
+                onValueChange={({ newValue }) => setValue('meetingTime', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -356,7 +360,7 @@ export default function CompleteRHFForm() {
                 fieldName="appointment"
                 label="Appointment"
                 value={formValues.appointment as Dayjs | null}
-                onValueChange={({ newValue }) => setValue('appointment', newValue as Dayjs | null)}
+                onValueChange={({ newValue }) => setValue('appointment', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>

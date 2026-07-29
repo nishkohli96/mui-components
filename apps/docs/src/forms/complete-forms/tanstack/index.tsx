@@ -12,7 +12,6 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm } from '@tanstack/react-form';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { type Dayjs } from 'dayjs';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -28,9 +27,7 @@ import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
 import MUIAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
 import MUIMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
 import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
-import MUICountrySelect, {
-  type CountryDetails
-} from '@nish1896/mui-components/mui/country-select';
+import MUICountrySelect from '@nish1896/mui-components/mui/country-select';
 import MUICheckbox from '@nish1896/mui-components/mui/checkbox';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
 import MUIRadioGroup from '@nish1896/mui-components/mui/radio-group';
@@ -47,6 +44,7 @@ import {
   FormContainer,
   GridContainer,
   FieldVariantInfo,
+  UploadedImage,
   FormState,
   SubmitButton,
   ResetButton
@@ -54,7 +52,6 @@ import {
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent, tanstackErrors } from '@/utils';
 import {
-  type CityOption,
   roleOptions,
   priorityOptions,
   frameworkOptions,
@@ -181,8 +178,11 @@ export default function CompleteTanStackForm() {
                   <MUIFileUploader
                     fieldName="avatar"
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as File | null)}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     accept="image/*"
+                    renderFileItem={({ file, removeFile }) => (
+                      <UploadedImage file={file} onRemove={removeFile} />
+                    )}
                     disabled={disableAllFields}
                   />
                 )}
@@ -197,7 +197,7 @@ export default function CompleteTanStackForm() {
                     fieldName="role"
                     options={roleOptions}
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as string)}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     showDefaultOption
                     errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
@@ -215,7 +215,7 @@ export default function CompleteTanStackForm() {
                     fieldName="priority"
                     options={priorityOptions}
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as string)}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     disabled={disableAllFields}
                   />
                 )}
@@ -230,7 +230,7 @@ export default function CompleteTanStackForm() {
                     fieldName="framework"
                     options={frameworkOptions}
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange((newValue as string) ?? '')}
+                    onValueChange={({ newValue }) => field.handleChange(newValue ?? '')}
                     onBlur={field.handleBlur}
                     errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
@@ -244,7 +244,7 @@ export default function CompleteTanStackForm() {
               <FieldVariantInfo title="AutocompleteObject" />
               <form.Field name="city">
                 {field => (
-                  <MUIAutocompleteObject<CityOption>
+                  <MUIAutocompleteObject
                     fieldName="city"
                     options={cityOptions}
                     labelKey="name"
@@ -266,7 +266,7 @@ export default function CompleteTanStackForm() {
                   <MUICountrySelect
                     fieldName="country"
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as CountryDetails | null)}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     preferredCountries={preferredCountries}
                     errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
@@ -296,7 +296,7 @@ export default function CompleteTanStackForm() {
               <FieldVariantInfo title="MultiAutocompleteObject" />
               <form.Field name="visitedCities">
                 {field => (
-                  <MUIMultiAutocompleteObject<CityOption>
+                  <MUIMultiAutocompleteObject
                     fieldName="visitedCities"
                     options={cityOptions}
                     labelKey="name"
@@ -318,7 +318,7 @@ export default function CompleteTanStackForm() {
                     fieldName="contact"
                     options={contactOptions}
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as string)}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
                     disabled={disableAllFields}
@@ -335,7 +335,7 @@ export default function CompleteTanStackForm() {
                     fieldName="hobbies"
                     options={hobbyOptions}
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as string[])}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     disabled={disableAllFields}
                   />
                 )}
@@ -350,7 +350,7 @@ export default function CompleteTanStackForm() {
                     fieldName="volume"
                     label="Volume"
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as number)}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     valueLabelDisplay="auto"
                     disabled={disableAllFields}
                   />
@@ -404,7 +404,7 @@ export default function CompleteTanStackForm() {
                     fieldName="dob"
                     label="Date of birth"
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as Dayjs | null)}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     disableFuture
                     errorMessage={tanstackErrors(field.state.meta.errors)}
                     required
@@ -422,7 +422,7 @@ export default function CompleteTanStackForm() {
                     fieldName="meetingTime"
                     label="Meeting time"
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as Dayjs | null)}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     disabled={disableAllFields}
                   />
                 )}
@@ -437,7 +437,7 @@ export default function CompleteTanStackForm() {
                     fieldName="appointment"
                     label="Appointment"
                     value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as Dayjs | null)}
+                    onValueChange={({ newValue }) => field.handleChange(newValue)}
                     disabled={disableAllFields}
                   />
                 )}
