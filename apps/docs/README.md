@@ -8,7 +8,7 @@ It hosts the setup guides, full props reference, and interactive demos for every
 
 Setup guides, API references, and multiple live variations for every component:
 
-👉 [Documentation Site](https://mui-components.vercel.app)
+👉 [Documentation Site](https://mui-components-docs.vercel.app)
 
 ### Local Development
 
