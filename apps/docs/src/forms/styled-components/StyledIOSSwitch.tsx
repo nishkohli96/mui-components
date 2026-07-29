@@ -92,8 +92,12 @@ const StyledIOSSwitch = ({
       {...rest}
       formControlLabelProps={{
         ...formControlLabelProps,
-        /* 12px gap between the switch and its label. */
-        sx: { gap: '12px', ...formControlLabelProps?.sx }
+        /*
+         * `gap` puts 12px between the switch and its label. `ml: 0` clears
+         * MUI's default `FormControlLabel` `-11px` left margin (meant to align a
+         * checkbox/switch ripple) so the switch lines up with the other fields.
+         */
+        sx: { gap: '12px', ml: 0, ...formControlLabelProps?.sx }
       }}
       sx={[iosSwitchSx, ...callerSx]}
     />

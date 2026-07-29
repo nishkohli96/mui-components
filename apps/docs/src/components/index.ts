@@ -3,6 +3,7 @@ export * from './buttons';
 export * from './containers';
 export { default as Drawer } from './drawer';
 export { default as DefaultConfigTable } from './default-config-table';
+export * from './docs';
 export * from './file';
 export { default as FirebaseAnalytics } from './firebase-analytics';
 export { default as Footer } from './footer';
