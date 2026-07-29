@@ -28,28 +28,23 @@
 ## 📦 Installation
 
 ```bash
-npm install @nish1896/mui-components react-hook-form @mui/material @mui/x-date-pickers
+npm install @nish1896/mui-components @mui/material@latest-v7 @mui/x-date-pickers@latest-v8
 ```
 
-`react-hook-form`, `@mui/material` and `@mui/x-date-pickers` are peer dependencies — `v4` supports MUI `v6` and `v7`.
-
-Need MUI `v5`? Stick with the latest `v3` release instead.
+`@mui/material` and `@mui/x-date-pickers` are peer dependencies.
 
 ```tsx
-import { useForm } from 'react-hook-form';
-import RHFTextField from '@nish1896/mui-components/mui/textfield';
+import { useState } from 'react';
+import MUITextField from '@nish1896/mui-components/mui/textfield';
 
 function ProfileForm() {
-  const { control, handleSubmit } = useForm({ defaultValues: { name: '' } });
-
+  const [name, setName] = useState<string>();
   return (
-    <form onSubmit={handleSubmit(console.log)}>
-      <RHFTextField
-        name="name"
-        control={control}
-        variant="standard"
-      />
-    </form>
+    <MUITextField
+      fieldName="name"
+      value={name}
+      onValueChange={({ newValue }) => setName(newValue)}
+    />
   );
 }
 ```
@@ -61,21 +56,9 @@ Full setup instructions, API references, and examples for every component:
 
 👉 [Documentation Website](https://mui-components.vercel.app/)
 
-### 🎮 Interactive Demos
-Try out the form components live, no install required:
-
-👉 [Live Demo Examples](https://mui-components-examples.vercel.app/)
-
-### 🧪 Playgrounds
-
-Spin up an editable sandbox in your browser — fork it and experiment freely:
-
-[![StackBlitz: v4 Playground](https://img.shields.io/badge/StackBlitz-v4%20Playground-1269D3?logo=stackblitz&logoColor=white)](https://stackblitz.com/github/nishkohli96/mui-components/tree/v4-examples)
-[![StackBlitz: v3 Playground](https://img.shields.io/badge/StackBlitz-v3%20Playground-1269D3?logo=stackblitz&logoColor=white)](https://stackblitz.com/github/nishkohli96/mui-components/tree/v3-examples)
-
 ## 🛠️ Local Development
 
-This is a `pnpm` monorepo — the published package lives in `packages/mui-components`, with a demo app and docs site in `apps/`.
+This is a `pnpm` monorepo — the published package lives in `packages/mui-components`, and documentation website in `apps/docs`.
 
 Run the setup script:
 
@@ -87,7 +70,7 @@ This will:
 
 - Install `node_modules` in the workspace root.
 - Build the `@nish1896/mui-components` package.
-- Add this package as a dependency in `@nish1896/mui-demo` to test new and existing components.
+- Add this package as a dependency in `@nish1896/mui-components-docs` to test new and existing components.
 
 After making changes to the package, rebuild it with:
 

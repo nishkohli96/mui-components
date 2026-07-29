@@ -43,35 +43,15 @@ export const pageMetadata: Record<string, Metadata> = {
     description:
       'Install @nish1896/mui-components, explore the package structure and build your first controlled Material UI form field.'
   },
-  autocomplete: {
-    title: 'Autocomplete',
-    description:
-      'Showcase of Autocomplete components — MUIAutocomplete, MUIMultiAutocomplete and MUICountrySelect, designed for selecting single or multiple values in a form.'
-  },
-  checkboxAndRadio: {
-    title: 'CheckboxGroup & RadioGroup with Zod Validation',
-    description:
-      'Form utilizing MUICheckbox, MUICheckboxGroup & MUIRadioGroup components with validation managed by Zod.'
-  },
-  completeForm: {
-    title: 'Complete Form with Register Options',
-    description:
-      'A complete form showcasing all components from this package with appropriate validations.'
-  },
-  completeFormJoi: {
-    title: 'Complete Form with Joi',
-    description:
-      'A complete form showcasing all components from this package, with validation handled by Joi.'
-  },
-  completeFormZod: {
-    title: 'Complete Form with Zod',
-    description:
-      'A complete form showcasing all components from this package, with validation handled by Zod and a checkbox to disable all fields.'
-  },
   completeFormState: {
     title: 'Complete Form — React state',
     description:
       'Every component in one form, controlled with plain React state and manual validation, with a live values-and-errors readout.'
+  },
+  completeFormRHF: {
+    title: 'Complete Form with React Hook Form + Zod',
+    description:
+      'A complete form showcasing all components from this package, with validation handled by Zod and a checkbox to disable all fields.'
   },
   completeFormFormik: {
     title: 'Complete Form — Formik',
@@ -113,11 +93,6 @@ export const pageMetadata: Record<string, Metadata> = {
     description:
       'Form utilizing MUISelect and MUINativeSelect with validation managed using class-validator.'
   },
-  switchSliderRating: {
-    title: 'Switch, Slider & Rating with Superstruct validation',
-    description:
-      'Form utilizing MUISwitch, MUISlider & MUIRating components with validation managed by Superstruct.'
-  }
 };
 
 /**
@@ -173,6 +148,11 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'Controlled Material UI Autocomplete that stores the complete option object as its value.'
   },
+  MUICountrySelect: {
+    title: 'MUICountrySelect',
+    description:
+      'Controlled country picker built on Material UI Autocomplete with flags and preferred countries.'
+  },
   MUIMultiAutocomplete: {
     title: 'MUIMultiAutocomplete',
     description:
@@ -182,11 +162,6 @@ export const componentMetadata: Record<string, Metadata> = {
     title: 'MUIMultiAutocompleteObject',
     description:
       'Controlled multi-select Material UI Autocomplete storing an array of complete option objects.'
-  },
-  MUICountrySelect: {
-    title: 'MUICountrySelect',
-    description:
-      'Controlled country picker built on Material UI Autocomplete with flags and preferred countries.'
   },
   MUICheckbox: {
     title: 'MUICheckbox',

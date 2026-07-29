@@ -11,7 +11,8 @@
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm } from '@tanstack/react-form';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { type DateTime } from 'luxon';
+import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -61,16 +62,35 @@ import {
   cityOptions,
   preferredCountries,
   initialValues,
-  toDisplayValues
+  toDisplayValues,
+  type CompleteFormValues
 } from '../data';
 import { validateWithJoi } from '../schema';
+
+/**
+ * This form configures the Luxon adapter, so its picker values are Luxon
+ * `DateTime`s. The shared `CompleteFormValues` types the date fields with the
+ * adapter-agnostic `PickerValidDate` union (Dayjs | Moment | DateTime | Date);
+ * feeding that union to TanStack Form's deep `DeepKeys`/`fieldMeta` type
+ * machinery trips TS's instantiation-depth limit (TS2589). Narrowing the date
+ * fields to this form's single concrete type keeps the readout honest and the
+ * type instantiation shallow.
+ */
+type TanStackFormValues = Omit<
+  CompleteFormValues,
+  'dob' | 'meetingTime' | 'appointment'
+> & {
+  dob: DateTime | null;
+  meetingTime: DateTime | null;
+  appointment: DateTime | null;
+};
 
 export default function CompleteTanStackForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
 
   const form = useForm({
-    defaultValues: initialValues,
+    defaultValues: initialValues as TanStackFormValues,
     validators: {
       onChange: ({ value }) => validateWithJoi(value),
       onSubmit: ({ value }) => validateWithJoi(value)
@@ -83,7 +103,7 @@ export default function CompleteTanStackForm() {
 
   return (
     <FormContainer title="Complete Form — TanStack + Joi">
-      <ConfigProvider dateAdapter={AdapterDayjs} allLabelsAboveFields>
+      <ConfigProvider dateAdapter={AdapterLuxon} allLabelsAboveFields>
         <form
           onSubmit={event => {
             event.preventDefault();

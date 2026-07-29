@@ -6,7 +6,8 @@
  */
 
 import * as z from 'zod';
-import { isDayjs, type Dayjs } from 'dayjs';
+import moment from 'moment';
+import { type PickerValidDate } from '@mui/x-date-pickers/models';
 import { type CountryDetails } from '@nish1896/mui-components/mui/country-select';
 import { type MUIPhoneInputValue } from '@nish1896/mui-components/misc/phone-input';
 import { type CityOption, isBlankHtml } from '../data';
@@ -47,12 +48,12 @@ export const zodFormSchema = z.object({
     val => typeof val === 'number' && val >= 1,
     { message: 'A rating is required' }
   ),
-  dob: z.custom<Dayjs | null>(
-    val => isDayjs(val),
+  dob: z.custom<PickerValidDate | null>(
+    val => moment.isMoment(val),
     { message: 'Date of birth is required' }
   ),
-  meetingTime: z.custom<Dayjs | null>(() => true),
-  appointment: z.custom<Dayjs | null>(() => true),
+  meetingTime: z.custom<PickerValidDate | null>(() => true),
+  appointment: z.custom<PickerValidDate | null>(() => true),
   brandColor: z.string(),
   phone: z.custom<MUIPhoneInputValue | null>(
     val => Boolean((val as MUIPhoneInputValue | null)?.phoneNo),

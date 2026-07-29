@@ -6,7 +6,8 @@
  * `validate` below; State and Formik share `validate`.
  */
 
-import { type Dayjs } from 'dayjs';
+import { format as formatJsDate } from 'date-fns';
+import { type PickerValidDate } from '@mui/x-date-pickers/models';
 import {
   type CountryDetails,
   type CountryISO
@@ -50,9 +51,9 @@ export type CompleteFormValues = {
   notifications: boolean;
   volume: number;
   rating: number | null;
-  dob: Dayjs | null;
-  meetingTime: Dayjs | null;
-  appointment: Dayjs | null;
+  dob: PickerValidDate | null;
+  meetingTime: PickerValidDate | null;
+  appointment: PickerValidDate | null;
   brandColor: string;
   phone: MUIPhoneInputValue | null;
   bio: string;
@@ -138,14 +139,45 @@ export function validateCompleteForm(values: CompleteFormValues): CompleteFormEr
   return errors;
 }
 
-/** Converts File/Dayjs/objects to JSON-friendly values for the state readout. */
+/**
+ * Normalizes any picker date value to a native `Date`, regardless of the
+ * configured adapter. Each complete-form example uses a different date library
+ * (Dayjs/Moment expose `toDate`, Luxon exposes `toJSDate`, date-fns already
+ * uses native `Date`), so `PickerValidDate` has no single shared format method.
+ */
+function toJsDate(value: PickerValidDate | null): Date | null {
+  if (!value) {
+    return null;
+  }
+  if (value instanceof Date) {
+    return value;
+  }
+  const candidate = value as { toDate?: () => Date; toJSDate?: () => Date };
+  if (typeof candidate.toDate === 'function') {
+    return candidate.toDate();
+  }
+  if (typeof candidate.toJSDate === 'function') {
+    return candidate.toJSDate();
+  }
+  return null;
+}
+
+function formatPickerValue(
+  value: PickerValidDate | null,
+  pattern: string
+): string | null {
+  const jsDate = toJsDate(value);
+  return jsDate ? formatJsDate(jsDate, pattern) : null;
+}
+
+/** Converts File/date/objects to JSON-friendly values for the state readout. */
 export function toDisplayValues(values: CompleteFormValues) {
   return {
     ...values,
     avatar: values.avatar?.name ?? null,
     country: values.country?.name ?? null,
-    dob: values.dob?.format('YYYY-MM-DD') ?? null,
-    meetingTime: values.meetingTime?.format('HH:mm') ?? null,
-    appointment: values.appointment?.format('YYYY-MM-DD HH:mm') ?? null
+    dob: formatPickerValue(values.dob, 'yyyy-MM-dd'),
+    meetingTime: formatPickerValue(values.meetingTime, 'HH:mm'),
+    appointment: formatPickerValue(values.appointment, 'yyyy-MM-dd HH:mm')
   };
 }

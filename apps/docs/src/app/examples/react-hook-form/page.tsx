@@ -2,7 +2,7 @@ import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { pageMetadata } from '@/constants';
 import CompleteRHFForm from '@/forms/complete-forms/react-hook-form/Client';
 
-export const metadata = pageMetadata.completeFormZod;
+export const metadata = pageMetadata.completeFormRHF;
 
 export default function CompleteRHFFormPage() {
   return (

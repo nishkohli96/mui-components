@@ -9,7 +9,7 @@
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -93,7 +93,7 @@ export default function CompleteStateForm() {
 
   return (
     <FormContainer title="Complete Form — React state">
-      <ConfigProvider dateAdapter={AdapterDayjs} allLabelsAboveFields>
+      <ConfigProvider dateAdapter={AdapterDateFns} allLabelsAboveFields>
         <form
           onSubmit={event => {
             event.preventDefault();

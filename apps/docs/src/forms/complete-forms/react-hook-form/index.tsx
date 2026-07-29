@@ -17,8 +17,8 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type Dayjs } from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { type PickerValidDate } from '@mui/x-date-pickers/models';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import Grid from '@mui/material/Grid';
 import { ConfigProvider } from '@nish1896/mui-components/config';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
@@ -99,8 +99,8 @@ export default function CompleteRHFForm() {
   }
 
   return (
-    <FormContainer title="Complete Form with Zod">
-      <ConfigProvider dateAdapter={AdapterDayjs} allLabelsAboveFields>
+    <FormContainer title="Complete Form - React Hook Form with Zod">
+      <ConfigProvider dateAdapter={AdapterMoment} allLabelsAboveFields>
         <form onSubmit={handleSubmit(onFormSubmit)}>
           <GridContainer>
             <Grid size={12}>
@@ -334,7 +334,7 @@ export default function CompleteRHFForm() {
               <MUIDatePicker
                 fieldName="dob"
                 label="Date of birth"
-                value={formValues.dob as Dayjs | null}
+                value={formValues.dob as PickerValidDate | null}
                 onValueChange={({ newValue }) => setValue('dob', newValue, { shouldValidate: true })}
                 disableFuture
                 errorMessage={errors.dob?.message}
@@ -348,7 +348,7 @@ export default function CompleteRHFForm() {
               <MUITimePicker
                 fieldName="meetingTime"
                 label="Meeting time"
-                value={formValues.meetingTime as Dayjs | null}
+                value={formValues.meetingTime as PickerValidDate | null}
                 onValueChange={({ newValue }) => setValue('meetingTime', newValue)}
                 disabled={disableAllFields}
               />
@@ -359,7 +359,7 @@ export default function CompleteRHFForm() {
               <MUIDateTimePicker
                 fieldName="appointment"
                 label="Appointment"
-                value={formValues.appointment as Dayjs | null}
+                value={formValues.appointment as PickerValidDate | null}
                 onValueChange={({ newValue }) => setValue('appointment', newValue)}
                 disabled={disableAllFields}
               />
