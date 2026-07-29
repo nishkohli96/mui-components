@@ -27,6 +27,7 @@ import {
 import { formSubmitEventName } from '@/constants';
 import { useThemeContext } from '@/theme';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
+import ThemeSwitch from './ThemeSwitch';
 
 const initialValues = {
   notifications: true,
@@ -35,20 +36,20 @@ const initialValues = {
 
 export default function SwitchForm() {
   const pathName = usePathname();
-  const { currentTheme, toggleTheme } = useThemeContext();
+  const { currentTheme } = useThemeContext();
 
   const [notifications, setNotifications] = useState(initialValues.notifications);
-  const [darkMode, setDarkMode] = useState(currentTheme === 'dark');
   const [acceptTerms, setAcceptTerms] = useState(initialValues.acceptTerms);
   const [acceptTermsError, setAcceptTermsError] = useState<string>();
   const [disableAllFields, setDisableAllFields] = useState(false);
 
+  /* `ThemeSwitch` owns the toggle via the theme context; derive it for display. */
+  const darkMode = currentTheme === 'dark';
   const formValues = { notifications, darkMode, acceptTerms };
   const errors = { acceptTerms: acceptTermsError };
 
   function resetForm() {
     setNotifications(initialValues.notifications);
-    setDarkMode(currentTheme === 'dark');
     setAcceptTerms(initialValues.acceptTerms);
     setAcceptTermsError(undefined);
   }
@@ -96,20 +97,8 @@ export default function SwitchForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Custom label, colour/size & label placement" />
-            <MUISwitch
-              fieldName="darkMode"
-              label="Enable dark mode"
-              value={darkMode}
-              onValueChange={({ newValue }) => {
-                toggleTheme();
-                setDarkMode(newValue);
-              }}
-              color="secondary"
-              size="medium"
-              formControlLabelProps={{ labelPlacement: 'start' }}
-              disabled={disableAllFields}
-            />
+            <FieldVariantInfo title="Theme toggle styled with MUI's MaterialUISwitch design" />
+            <ThemeSwitch disabled={disableAllFields} />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>

@@ -9,6 +9,8 @@
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import MUIRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
 import {
@@ -38,6 +40,7 @@ export default function RichTextEditorForm() {
   const [bio, setBio] = useState(initialValues.bio);
   const [bioError, setBioError] = useState<string>();
   const [notes, setNotes] = useState(initialValues.notes);
+  const [disableAllFields, setDisableAllFields] = useState(false);
 
   const formValues = { bio, notes };
   const errors = { bio: bioError };
@@ -59,7 +62,7 @@ export default function RichTextEditorForm() {
   }
 
   return (
-    <FormContainer title="MUIRichTextEditor">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -67,6 +70,17 @@ export default function RichTextEditorForm() {
         }}
       >
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => setDisableAllFields(event.target.checked)}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={12}>
             <FieldVariantInfo title="Required editor with a custom label & validation" />
             <MUIRichTextEditor
@@ -82,6 +96,7 @@ export default function RichTextEditorForm() {
                 setBioError(undefined);
               }}
               required
+              disabled={disableAllFields}
               errorMessage={bioError}
             />
           </Grid>
@@ -95,6 +110,7 @@ export default function RichTextEditorForm() {
               onValueChange={({ newValue }) => setNotes(newValue)}
               showLabelAboveFormField
               helperText="Optional — anything else we should know?"
+              disabled={disableAllFields}
             />
           </Grid>
 

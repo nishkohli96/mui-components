@@ -55,7 +55,7 @@ export default function ColorPickerForm() {
   }
 
   return (
-    <FormContainer title="MUIColorPicker">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -73,6 +73,27 @@ export default function ColorPickerForm() {
               )}
               label="Disable all fields"
             />
+          </Grid>
+
+          <Grid size={12}>
+            <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+              <Typography>
+                Selected Colors :
+              </Typography>
+              {[brandColor, accentColor, chartColor].map((swatch, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    width: 40,
+                    height: 24,
+                    borderRadius: 1,
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    backgroundColor: swatch
+                  }}
+                />
+              ))}
+            </Box>
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
@@ -113,6 +134,7 @@ export default function ColorPickerForm() {
                 setAccentColor(colorValue);
               }}
               helperText="The colour won't change when red exceeds 200"
+              excludeAlpha
               disabled={disableAllFields}
             />
           </Grid>
@@ -136,24 +158,6 @@ export default function ColorPickerForm() {
           </Grid>
 
           <Grid size={12}>
-            <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-              <Typography>
-                Selected Colors :
-              </Typography>
-              {[brandColor, accentColor, chartColor].map((swatch, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    width: 40,
-                    height: 24,
-                    borderRadius: 1,
-                    border: '1px solid',
-                    borderColor: 'divider',
-                    backgroundColor: swatch
-                  }}
-                />
-              ))}
-            </Box>
             <SubmitButton />
             <ResetButton onClick={resetForm} />
           </Grid>

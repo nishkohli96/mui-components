@@ -1,12 +1,12 @@
 {
   "name": "@nish1896/mui-components-root",
   "version": "1.0.0",
-  "description": "A suite of 25+ production-ready react-hook-form components built with material-ui. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
+  "description": "A suite of 25+ production-ready, form-library-agnostic Material UI components — build forms with any form library, or drop in each one standalone. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
-  "homepage": "https://github.com/nishkohli96/mui-components-components#readme",
+  "homepage": "https://github.com/nishkohli96/mui-components#readme",
   "repository": {
-    "url": "git+https://github.com/nishkohli96/mui-components-components.git"
+    "url": "git+https://github.com/nishkohli96/mui-components.git"
   },
   "engines": {
     "node": ">=24"
@@ -28,22 +28,29 @@
     "turbo": "2.10.0"
   },
   "keywords": [
-    "react-hook-form",
-    "mui",
     "material-ui",
+    "mui",
     "mui-v7",
     "mui-v6",
-    "mui-v5",
-    "react forms",
-    "form validation",
-    "form components",
+    "@mui/material",
+    "react",
     "typescript",
-    "component library",
-    "react ui",
-    "mui components",
-    "react form library",
-    "rhf",
-    "react hook form material ui"
+    "component-library",
+    "form-components",
+    "form-library-agnostic",
+    "controlled-components",
+    "react-hook-form",
+    "tanstack-form",
+    "formik",
+    "form-validation",
+    "react-forms",
+    "mui-components",
+    "autocomplete",
+    "date-picker",
+    "file-upload",
+    "tags-input",
+    "tree-shakable",
+    "react-file-uploader"
   ],
   "packageManager": "pnpm@11.10.0",
   "license": "MIT"
