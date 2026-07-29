@@ -169,6 +169,7 @@ export default function RadioGroupForm() {
                   component="span"
                   sx={{
                     fontWeight: selected ? 700 : 500,
+                    /* eslint-disable no-nested-ternary */
                     color: disabled
                       ? 'text.disabled'
                       : selected

@@ -1,6 +1,6 @@
 import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { pageMetadata } from '@/constants';
-import StyledReusableComponentForm from '@/forms/styled-form-with-reusable-component/Client';
+import StyledReusableComponentForm from '@/forms/styled-components/Client';
 
 export const metadata = pageMetadata.customization;
 

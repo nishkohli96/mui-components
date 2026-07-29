@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-export const defaultPageTitle = 'MUI Components';
+export const defaultPageTitle = 'MUI-Components';
 export const defaultPageDescription
   = '25+ form-library-independent Material UI form components — docs, live demos and full props reference.';
 
