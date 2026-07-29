@@ -85,9 +85,33 @@ type TanStackFormValues = Omit<
   appointment: DateTime | null;
 };
 
+/**
+ * The form-level Joi validator validates every field at once, so `meta.errors`
+ * is populated for all invalid (e.g. empty required) fields as soon as any field
+ * changes — including `MUIPhoneInput`, which fires an `onValueChange` on mount to
+ * normalize the empty value to its default dial code. Surfacing errors
+ * unconditionally therefore shows a message under every field on initial load.
+ *
+ * Gate the message on `isBlurred || submitted` (mirroring the Formik example's
+ * touched-based gating): a programmatic mount change sets `isTouched` but never
+ * `isBlurred`, so errors appear once the user leaves a field or attempts a
+ * submit, never before the form is interacted with.
+ */
+function fieldErrorMessage(
+  meta: { isBlurred: boolean; errors: unknown[] },
+  submitted: boolean
+): string[] | undefined {
+  return meta.isBlurred || submitted ? tanstackErrors(meta.errors) : undefined;
+}
+
 export default function CompleteTanStackForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
+  /**
+   * Reveal every field's error only once a submit has been attempted (fields
+   * also reveal their own error on blur). See `fieldErrorMessage`.
+   */
+  const [submitted, setSubmitted] = useState(false);
 
   const form = useForm({
     defaultValues: initialValues as TanStackFormValues,
@@ -107,6 +131,7 @@ export default function CompleteTanStackForm() {
         <form
           onSubmit={event => {
             event.preventDefault();
+            setSubmitted(true);
             form.handleSubmit();
           }}
         >
@@ -132,7 +157,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     onBlur={field.handleBlur}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -149,7 +174,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     onBlur={field.handleBlur}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -168,7 +193,7 @@ export default function CompleteTanStackForm() {
                     onBlur={field.handleBlur}
                     onlyIntegers
                     nonNegative
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -219,7 +244,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     showDefaultOption
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -252,7 +277,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue ?? '')}
                     onBlur={field.handleBlur}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -271,7 +296,7 @@ export default function CompleteTanStackForm() {
                     valueKey="id"
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -288,7 +313,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     preferredCountries={preferredCountries}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -339,7 +364,7 @@ export default function CompleteTanStackForm() {
                     options={contactOptions}
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -382,7 +407,7 @@ export default function CompleteTanStackForm() {
                     fieldName="rating"
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -426,7 +451,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     disableFuture
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -492,7 +517,7 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     phoneInputProps={{ defaultCountry: 'us' }}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                     disabled={disableAllFields}
                   />
@@ -509,7 +534,7 @@ export default function CompleteTanStackForm() {
                     label="Short bio"
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    errorMessage={fieldErrorMessage(field.state.meta, submitted)}
                     required
                   />
                 )}
@@ -531,7 +556,10 @@ export default function CompleteTanStackForm() {
                     <Grid size={12}>
                       <SubmitButton disabled={disableAllFields} />
                       <ResetButton
-                        onClick={() => form.reset()}
+                        onClick={() => {
+                          form.reset();
+                          setSubmitted(false);
+                        }}
                         disabled={disableAllFields}
                       />
                     </Grid>

@@ -31,10 +31,12 @@ const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps
   const isActive = page.href === pathname;
   const [open, setOpen] = useState(containsActivePage);
 
-  /* Auto-expand when this branch newly contains the active page (e.g.
-     client-side nav into a collapsed section). Adjusting state during
-     render — tracking the previous value — is React's recommended
-     alternative to a setState-in-effect and avoids an extra paint. */
+  /**
+   * Auto-expand when this branch newly contains the active page (e.g.
+   * client-side nav into a collapsed section). Adjusting state during
+   * render — tracking the previous value — is React's recommended
+   * alternative to a setState-in-effect and avoids an extra paint.
+   */
   const [wasActive, setWasActive] = useState(containsActivePage);
   if (containsActivePage !== wasActive) {
     setWasActive(containsActivePage);
@@ -114,8 +116,10 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
       return;
     }
 
-    /* Nearest scrollable ancestor — the desktop rail's overflow box or the
-       mobile drawer paper. Scroll only this element, never the window. */
+    /**
+     * Nearest scrollable ancestor — the desktop rail's overflow box or the
+     * mobile drawer paper. Scroll only this element, never the window.
+     */
     let container: HTMLElement | null = list.parentElement;
     while (container) {
       const { overflowY } = getComputedStyle(container);

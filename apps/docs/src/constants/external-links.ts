@@ -1,31 +1,9 @@
-import { type PageInfo } from '@/types';
-
 const githubProfile = 'https://github.com/nishkohli96/';
 const pkgRepoLink = `${githubProfile}mui-components/blob/main/`;
 const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
 
-export const validationLibLinks: Record<string, PageInfo> = {
-  classValidator: {
-    title: 'Class Validator',
-    href: 'https://www.npmjs.com/package/class-validator'
-  },
-  joi: {
-    title: 'Joi',
-    href: 'https://www.npmjs.com/package/joi'
-  },
-  superstruct: {
-    title: 'Superstruct',
-    href: 'https://www.npmjs.com/package/superstruct'
-  },
-  zod: {
-    title: 'Zod',
-    href: 'https://www.npmjs.com/package/zod'
-  },
-  luxon: {
-    title: 'Luxon',
-    href: 'https://www.npmjs.com/package/luxon'
-  }
-};
+export const githubRepoLink = 'https://github.com/nishkohli96/mui-components';
+export const npmLink = 'https://www.npmjs.com/package/@nish1896/mui-components';
 
 export const externalLinks = Object.freeze({
   githubRepo: {
