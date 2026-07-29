@@ -8,6 +8,9 @@
  * wired in manually per field, same as the plain-state example. Includes a
  * "disable all fields" toggle, submit and reset buttons, and a live
  * form-state readout.
+ *
+ * NOTE: Prefer using @nish1896/rhf-mui-components package, which has been
+ * built mainly for react-hook-form.
  */
 
 import { useState } from 'react';
@@ -222,6 +225,19 @@ export default function CompleteRHFForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="CountrySelect" />
+              <MUICountrySelect
+                fieldName="country"
+                value={formValues.country as CountryDetails | null}
+                onValueChange={({ newValue }) => setValue('country', newValue as CountryDetails | null, { shouldValidate: true })}
+                preferredCountries={preferredCountries}
+                errorMessage={errors.country?.message}
+                required
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="MultiAutocomplete" />
               <MUIMultiAutocomplete
                 fieldName="skills"
@@ -243,19 +259,6 @@ export default function CompleteRHFForm() {
                 value={formValues.visitedCities as CityOption[]}
                 onValueChange={({ newValue }) => setValue('visitedCities', newValue as CityOption[])}
                 limitTags={2}
-                disabled={disableAllFields}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="CountrySelect" />
-              <MUICountrySelect
-                fieldName="country"
-                value={formValues.country as CountryDetails | null}
-                onValueChange={({ newValue }) => setValue('country', newValue as CountryDetails | null, { shouldValidate: true })}
-                preferredCountries={preferredCountries}
-                errorMessage={errors.country?.message}
-                required
                 disabled={disableAllFields}
               />
             </Grid>

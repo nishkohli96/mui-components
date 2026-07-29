@@ -97,7 +97,7 @@ const ThemeSwitch = ({
   ...rest
 }: ThemeSwitchProps) => {
   const { currentTheme, toggleTheme } = useThemeContext();
-  /* eslint-disable no-nested-ternary */
+  /* eslint-disable-next-line no-nested-ternary */
   const callerSx = Array.isArray(sx) ? sx : sx ? [sx] : [];
   return (
     <MUISwitch

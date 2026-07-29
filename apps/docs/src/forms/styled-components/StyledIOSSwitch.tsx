@@ -79,6 +79,7 @@ const iosSwitchSx = (theme: Theme) => ({
 });
 
 const StyledIOSSwitch = ({ sx, ...rest }: MUISwitchProps) => {
+  /* eslint-disable-next-line no-nested-ternary */
   const callerSx = Array.isArray(sx) ? sx : sx ? [sx] : [];
   return (
     <MUISwitch

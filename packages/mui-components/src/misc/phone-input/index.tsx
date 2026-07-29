@@ -264,6 +264,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
   const currentPhoneValue = getPhoneValue(value);
   const [countrySearch, setCountrySearch] = useState('');
   const [countryMenuLeft, setCountryMenuLeft] = useState(0);
+  const [countryMenuWidthPx, setCountryMenuWidthPx] = useState(countryMenuWidth);
   const phoneInputRootRef = useRef<HTMLDivElement | null>(null);
 
   const {
@@ -292,7 +293,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     ...otherSearchCountryTextFieldProps
   } = searchCountryTextFieldProps ?? {};
 
-  const updateCountryMenuLeft = () => {
+  const updateCountryMenuLayout = () => {
     const inputWidth = phoneInputRootRef.current?.offsetWidth ?? 0;
     const hasViewportRoom
       = window.innerWidth
@@ -300,18 +301,32 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
         + Math.abs(countryMenuLeftOffset)
         + countryMenuViewportGutter;
 
-    setCountryMenuLeft(
-      inputWidth > countryMenuWidth && hasViewportRoom
-        ? countryMenuLeftOffset
-        : 0
+    /*
+     * The country `Select` sits inside the start adornment, so the menu's
+     * anchor is inset ~|countryMenuLeftOffset|px from the field's left edge.
+     * Shift the menu back by that offset so its left edge aligns with the
+     * field (and, once width is capped below, its right edge too). Applied
+     * whenever the viewport has room — independent of field width, so a narrow
+     * `md={6}` field aligns just like a full-width one. On very small viewports
+     * the shift is skipped to avoid pushing the menu off the left edge.
+     */
+    setCountryMenuLeft(hasViewportRoom ? countryMenuLeftOffset : 0);
+
+    /*
+     * Cap the menu at the field width so a narrow field (e.g. `md={6}`) doesn't
+     * let the fixed 350px menu spill into the adjacent grid column. When the
+     * field is wider than the menu, keep the full `countryMenuWidth`.
+     */
+    setCountryMenuWidthPx(
+      inputWidth > 0 ? Math.min(countryMenuWidth, inputWidth) : countryMenuWidth
     );
   };
 
   useEffect(() => {
-    updateCountryMenuLeft();
-    window.addEventListener('resize', updateCountryMenuLeft);
+    updateCountryMenuLayout();
+    window.addEventListener('resize', updateCountryMenuLayout);
     return () => {
-      window.removeEventListener('resize', updateCountryMenuLeft);
+      window.removeEventListener('resize', updateCountryMenuLayout);
     };
   }, []);
 
@@ -402,8 +417,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
           autoFocus: false,
           PaperProps: {
             sx: {
-              width: `min(${countryMenuWidth}px, calc(100vw - 32px))`,
-              maxWidth: 'calc(100vw - 32px)',
+              width: `min(${countryMenuWidthPx}px, calc(100vw - ${countryMenuViewportGutter}px))`,
+              maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`,
               maxHeight: 300
             }
           },
@@ -441,7 +456,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
         }}
         value={country.iso2}
         disabled={muiDisabled || forceDialCode}
-        onOpen={updateCountryMenuLeft}
+        onOpen={updateCountryMenuLayout}
         onClose={() => {
           setCountrySearch('');
         }}

@@ -439,7 +439,7 @@ const MUISelect = <
            */
           const currentValues = (
             Array.isArray(resolvedValue) ? resolvedValue : [resolvedValue]
-          ) as Array<OptionValue<Option, ValueKey>>;
+          ) as OptionValue<Option, ValueKey>[];
           const isSelected = currentValues.includes(opnValue);
           return (
             <MenuItem

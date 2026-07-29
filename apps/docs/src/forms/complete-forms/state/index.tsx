@@ -230,6 +230,19 @@ export default function CompleteStateForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="CountrySelect" />
+              <MUICountrySelect
+                fieldName="country"
+                value={values.country}
+                onValueChange={({ newValue }) => setField('country', newValue as CountryDetails | null)}
+                preferredCountries={preferredCountries}
+                errorMessage={errors.country}
+                required
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="MultiAutocomplete" />
               <MUIMultiAutocomplete
                 fieldName="skills"
@@ -251,19 +264,6 @@ export default function CompleteStateForm() {
                 value={values.visitedCities}
                 onValueChange={({ newValue }) => setField('visitedCities', newValue)}
                 limitTags={2}
-                disabled={disableAllFields}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="CountrySelect" />
-              <MUICountrySelect
-                fieldName="country"
-                value={values.country}
-                onValueChange={({ newValue }) => setField('country', newValue as CountryDetails | null)}
-                preferredCountries={preferredCountries}
-                errorMessage={errors.country}
-                required
                 disabled={disableAllFields}
               />
             </Grid>

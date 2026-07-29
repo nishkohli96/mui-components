@@ -260,6 +260,23 @@ export default function CompleteTanStackForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="CountrySelect" />
+              <form.Field name="country">
+                {field => (
+                  <MUICountrySelect
+                    fieldName="country"
+                    value={field.state.value}
+                    onValueChange={({ newValue }) => field.handleChange(newValue as CountryDetails | null)}
+                    preferredCountries={preferredCountries}
+                    errorMessage={tanstackErrors(field.state.meta.errors)}
+                    required
+                    disabled={disableAllFields}
+                  />
+                )}
+              </form.Field>
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="MultiAutocomplete" />
               <form.Field name="skills">
                 {field => (
@@ -287,23 +304,6 @@ export default function CompleteTanStackForm() {
                     value={field.state.value}
                     onValueChange={({ newValue }) => field.handleChange(newValue)}
                     limitTags={2}
-                    disabled={disableAllFields}
-                  />
-                )}
-              </form.Field>
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="CountrySelect" />
-              <form.Field name="country">
-                {field => (
-                  <MUICountrySelect
-                    fieldName="country"
-                    value={field.state.value}
-                    onValueChange={({ newValue }) => field.handleChange(newValue as CountryDetails | null)}
-                    preferredCountries={preferredCountries}
-                    errorMessage={tanstackErrors(field.state.meta.errors)}
-                    required
                     disabled={disableAllFields}
                   />
                 )}

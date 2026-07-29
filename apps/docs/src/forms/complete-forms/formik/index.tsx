@@ -23,9 +23,9 @@ import MUISelect from '@nish1896/mui-components/mui/select';
 import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
 import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
 import MUIAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
+import MUICountrySelect from '@nish1896/mui-components/mui/country-select';
 import MUIMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
 import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
-import MUICountrySelect from '@nish1896/mui-components/mui/country-select';
 import MUICheckbox from '@nish1896/mui-components/mui/checkbox';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
 import MUIRadioGroup from '@nish1896/mui-components/mui/radio-group';
@@ -222,6 +222,19 @@ export default function CompleteFormikForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="CountrySelect" />
+              <MUICountrySelect
+                fieldName="country"
+                value={formik.values.country}
+                onValueChange={({ newValue }) => formik.setFieldValue('country', newValue)}
+                preferredCountries={preferredCountries}
+                errorMessage={showError('country')}
+                required
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="MultiAutocomplete" />
               <MUIMultiAutocomplete
                 fieldName="skills"
@@ -243,19 +256,6 @@ export default function CompleteFormikForm() {
                 value={formik.values.visitedCities}
                 onValueChange={({ newValue }) => formik.setFieldValue('visitedCities', newValue)}
                 limitTags={2}
-                disabled={disableAllFields}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="CountrySelect" />
-              <MUICountrySelect
-                fieldName="country"
-                value={formik.values.country}
-                onValueChange={({ newValue }) => formik.setFieldValue('country', newValue)}
-                preferredCountries={preferredCountries}
-                errorMessage={showError('country')}
-                required
                 disabled={disableAllFields}
               />
             </Grid>
