@@ -1,14 +1,14 @@
-export const CountriesList = [
+export const countriesList = [
   { country: 'India', code: 'IN' },
   { country: 'Australia', code: 'AUS' },
-  { country: 'Bangladesh', code: 'BAN' },
+  { country: 'Spain', code: 'SPA' },
   { country: 'Ireland', code: 'IRE' },
   { country: 'South Africa', code: 'SA' },
   { country: 'Brazil', code: 'BRA' },
   { country: 'United Arab Emirates', code: 'UAE' },
 ];
 
-export const Currencies = [
+export const currencies = [
   { code: 'USD', name: 'United States Dollar' },
   { code: 'INR', name: 'Indian Rupee' },
   { code: 'GBP', name: 'British Pound' },
@@ -18,7 +18,7 @@ export const Currencies = [
   { code: 'SGD', name: 'Singapore Dollar' },
 ];
 
-export const IPLTeams = [
+export const iplTeams = [
   { name: 'Chennai Super Kings', abbr: 'CSK' },
   { name: 'Delhi Capitals', abbr: 'DC' },
   { name: 'Gujarat Titans', abbr: 'GT' },
@@ -31,7 +31,7 @@ export const IPLTeams = [
   { name: 'Sunrisers Hyderabad', abbr: 'SRH' },
 ];
 
-export const GroceryList = [
+export const groceryList = [
   'Bread',
   'Biscuits',
   'Butter',
@@ -42,7 +42,7 @@ export const GroceryList = [
   'Vegetables'
 ];
 
-export const HobbiesList = [
+export const hobbiesList = [
   'Singing',
   'Dancing',
   'Movies',

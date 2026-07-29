@@ -69,9 +69,9 @@ export const pageMetadata: Record<string, Metadata> = {
       'Configure ConfigProvider once to apply global default styles for FormLabel, FormControlLabel and FormHelperText, set a shared dateAdapter, and enable allLabelsAboveFields — no per-component overrides needed.'
   },
   customizationExample: {
-    title: 'Styled form with a reusable component',
+    title: 'Styled form with reusable components',
     description:
-      'A reusable component built on MUITextField, with ConfigProvider supplying default styles and the date adapter.'
+      'A form built from reusable Styled* wrappers — TextField, Select, Autocomplete, a customized DatePicker and an iOS-style Switch — controlled with plain React state, each with required validation, and a ConfigProvider supplying shared label/helper styles and the date adapter.'
   },
   dateTimePickers: {
     title: 'Date & Time Pickers',

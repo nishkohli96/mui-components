@@ -16,9 +16,11 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { Currencies, formSubmitEventName } from '@/constants';
+import { currencies, formSubmitEventName } from '@/constants';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
 import { FormSchema } from './validation';
+
+const ageGroups: number[] = [10, 20, 30, 40, 50, 60, 70, 80];
 
 const NativeSelectForm = () => {
   const pathName = usePathname();
@@ -60,7 +62,7 @@ const NativeSelectForm = () => {
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Native select with renderOptionLabel & defaultOptionText" />
-            <MUINativeSelect<(typeof Currencies)[number]>
+            <MUINativeSelect
               fieldName="currency"
               value={formValues.currency}
               onValueChange={({ newValue }) => {
@@ -68,7 +70,7 @@ const NativeSelectForm = () => {
                   shouldValidate: true
                 });
               }}
-              options={Currencies}
+              options={currencies}
               disabled={disableAllFields}
               labelKey="name"
               valueKey="code"
@@ -89,11 +91,11 @@ const NativeSelectForm = () => {
               fieldName="ageGroup"
               value={formValues.ageGroup}
               onValueChange={({ newValue }) => {
-                setValue('ageGroup', newValue as number, {
+                setValue('ageGroup', newValue, {
                   shouldValidate: true
                 });
               }}
-              options={[10, 20, 30, 40, 50, 60, 70, 80]}
+              options={ageGroups}
               disabled={disableAllFields}
               getOptionDisabled={opn => opn === 50}
               label="Choose an age group"

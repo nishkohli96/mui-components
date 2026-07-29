@@ -78,7 +78,11 @@ const iosSwitchSx = (theme: Theme) => ({
   }
 });
 
-const StyledIOSSwitch = ({ sx, ...rest }: MUISwitchProps) => {
+const StyledIOSSwitch = ({
+  sx,
+  formControlLabelProps,
+  ...rest
+}: MUISwitchProps) => {
   /* eslint-disable-next-line no-nested-ternary */
   const callerSx = Array.isArray(sx) ? sx : sx ? [sx] : [];
   return (
@@ -86,6 +90,11 @@ const StyledIOSSwitch = ({ sx, ...rest }: MUISwitchProps) => {
       disableRipple
       focusVisibleClassName=".Mui-focusVisible"
       {...rest}
+      formControlLabelProps={{
+        ...formControlLabelProps,
+        /* 12px gap between the switch and its label. */
+        sx: { gap: '12px', ...formControlLabelProps?.sx }
+      }}
       sx={[iosSwitchSx, ...callerSx]}
     />
   );

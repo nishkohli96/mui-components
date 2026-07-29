@@ -11,7 +11,7 @@ import {
   Validate,
 } from 'class-validator';
 import { Colors } from '@/types';
-import { IPLTeams } from '@/constants';
+import { iplTeams } from '@/constants';
 
 @ValidatorConstraint({ name: 'isValidIPLTeam', async: false })
 export class IsValidIPLTeam implements ValidatorConstraintInterface {
@@ -20,7 +20,7 @@ export class IsValidIPLTeam implements ValidatorConstraintInterface {
       return true;
     }
     return (value ?? []).every(team =>
-      IPLTeams.some(iplTeam => iplTeam.abbr === team));
+      iplTeams.some(iplTeam => iplTeam.abbr === team));
   }
 
   defaultMessage(args: ValidationArguments) {
@@ -45,6 +45,6 @@ export class FormSchema {
   @ArrayMinSize(1, { message: 'Select atleast one option' })
   @ArrayUnique()
   @IsString({ each: true })
-  @Validate(IsValidIPLTeam, { message: 'Each option must be from IPLTeams array' })
+  @Validate(IsValidIPLTeam, { message: 'Each option must be from iplTeams array' })
   iplTeams!: string[];
 }

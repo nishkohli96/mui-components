@@ -81,6 +81,7 @@ export const sidebarLinks: Page[] = [
   {
     title: 'Examples',
     pages: [
+      { title: 'Customization', href: '/examples/customization' },
       { title: 'Complete Form — State', href: '/examples/state' },
       { title: 'Complete Form - RHF', href: '/examples/react-hook-form' },
       { title: 'Complete Form — Formik', href: '/examples/formik' },

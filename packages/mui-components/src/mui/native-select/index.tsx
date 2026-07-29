@@ -64,7 +64,7 @@ export type MUINativeSelectProps<
    * This is a controlled component: `value` and `onValueChange` must be
    * supplied together. `undefined`/`null` are treated as no selection.
    */
-  value?: OptionValue<Option, ValueKey> | null;
+  value?: NoInfer<OptionValue<Option, ValueKey>> | null;
   /**
    * Called after the selected value is normalized using `valueKey` for object options.
    *

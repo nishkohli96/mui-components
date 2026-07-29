@@ -1,8 +1,15 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+/**
+ * Reusable styled-component form driven by plain React `useState`. Every field
+ * is one of the local `Styled*` wrappers (a preset, restyled `MUI*` component),
+ * and each has `required` + manual per-field error handling — validated on
+ * submit and cleared as the user edits.
+ */
+
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { useForm, useWatch } from 'react-hook-form';
+import { type DateTime } from 'luxon';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
@@ -10,80 +17,142 @@ import Typography from '@mui/material/Typography';
 import InfoIcon from '@mui/icons-material/Info';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { ConfigProvider } from '@nish1896/mui-components/config';
-import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
 import {
   FormContainer,
   FieldVariantInfo,
   GridContainer,
   FormState,
   SubmitButton,
-  ResetButton,
+  ResetButton
 } from '@/components';
-import { formSubmitEventName } from '@/constants';
-import { Colors } from '@/types';
+import { formSubmitEventName, hobbiesList, countriesList } from '@/constants';
 import {
   reqdMsg,
   minCharMsg,
-  maxCharMsg,
   showToastMessage,
-  logFirebaseEvent,
-  generateAirportNames,
+  logFirebaseEvent
 } from '@/utils';
-import StyledRHFTextField from './StyledTextField';
+import StyledTextField from './StyledTextField';
 import StyledSelect from './StyledSelect';
 import StyledAutocomplete from './StyledAutocomplete';
+import StyledDatePicker from './StyledDatePicker';
+import StyledIOSSwitch from './StyledIOSSwitch';
 
-type FormSchema = {
-  firstName: string;
-  lastName: string;
-  dob: Date | null;
-  favouriteColor?: Colors;
-  airports?: string[];
-};
+function validateName(value?: string) {
+  if (!value) {
+    return reqdMsg('your full name');
+  }
+  if (value.length < 4) {
+    return minCharMsg(4);
+  }
+  return undefined;
+}
 
-const initialValues: FormSchema = {
-  firstName: '',
-  lastName: '',
-  dob: null
-};
+function validateHobbies(value?: string[]) {
+  if (!value || !value.length) {
+    return 'Select atleast one hobby.';
+  }
+  return undefined;
+}
 
-const colorOptions = Object.values(Colors).map(color => ({
-  value: color,
-  label: color.charAt(0).toUpperCase() + color.slice(1)
-}));
+function validateCountries(value?: string[]) {
+  if (!value || !value.length) {
+    return 'Select atleast one country.';
+  }
+  return undefined;
+}
+
+function validateDob(value: DateTime | null) {
+  return value ? undefined : reqdMsg('your date of birth');
+}
+
+function validateNotification(value?: boolean) {
+  return value ? undefined : 'Please enable notifications to continue.';
+}
 
 export default function StyledReusableComponentForm() {
   const pathName = usePathname();
-  const [disableAllFields, setDisableAllFields] = useState(false);
-  const {
-    control,
-    setValue,
-    reset,
-    formState: { errors },
-    handleSubmit
-  } = useForm<FormSchema>({
-    defaultValues: initialValues,
-    disabled: disableAllFields
-  });
-  const formValues = useWatch({ control });
-  const airportList = useMemo(() => generateAirportNames(100), []);
 
-  async function onFormSubmit(formValues: FormSchema) {
+  const [name, setName] = useState<string>();
+  const [nameError, setNameError] = useState<string>();
+  const [hobbies, setHobbies] = useState<string[]>();
+  const [hobbiesError, setHobbiesError] = useState<string>();
+  const [countries, setCountries] = useState<string[]>();
+  const [countriesError, setCountriesError] = useState<string>();
+  const [dob, setDob] = useState<DateTime | null>(null);
+  const [dobError, setDobError] = useState<string>();
+  const [enableNotification, setEnableNotification] = useState<boolean>();
+  const [notificationError, setNotificationError] = useState<string>();
+
+  const [disableAllFields, setDisableAllFields] = useState(false);
+
+  const formValues = {
+    name,
+    hobbies,
+    countries,
+    dob: dob?.toISODate() ?? null,
+    enableNotification
+  };
+
+  const errors = {
+    name: nameError,
+    hobbies: hobbiesError,
+    countries: countriesError,
+    dob: dobError,
+    enableNotification: notificationError
+  };
+
+  function resetForm() {
+    setName(undefined);
+    setHobbies(undefined);
+    setCountries(undefined);
+    setDob(null);
+    setEnableNotification(undefined);
+    setNameError(undefined);
+    setHobbiesError(undefined);
+    setCountriesError(undefined);
+    setDobError(undefined);
+    setNotificationError(undefined);
+  }
+
+  async function onFormSubmit() {
+    const nextNameError = validateName(name);
+    const nextHobbiesError = validateHobbies(hobbies);
+    const nextCountriesError = validateCountries(countries);
+    const nextDobError = validateDob(dob);
+    const nextNotificationError = validateNotification(enableNotification);
+
+    setNameError(nextNameError);
+    setHobbiesError(nextHobbiesError);
+    setCountriesError(nextCountriesError);
+    setDobError(nextDobError);
+    setNotificationError(nextNotificationError);
+
+    if (
+      nextNameError
+      || nextHobbiesError
+      || nextCountriesError
+      || nextDobError
+      || nextNotificationError
+    ) {
+      return;
+    }
+
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
+
   return (
-    <FormContainer title="TextField & PasswordInput">
+    <FormContainer title="Styled reusable components">
       <ConfigProvider
-        defaultFormLabelSx={{
-          color: '#007bff'
-        }}
-        defaultFormHelperTextSx={{
-          ml: '12px'
-        }}
         dateAdapter={AdapterLuxon}
       >
-        <form onSubmit={handleSubmit(onFormSubmit)}>
+        <form
+          onSubmit={event => {
+            event.preventDefault();
+            onFormSubmit();
+          }}
+        >
           <GridContainer>
             <Grid size={12}>
               <FormControlLabel
@@ -99,19 +168,23 @@ export default function StyledReusableComponentForm() {
               />
             </Grid>
             <Grid size={12}>
-              <FieldVariantInfo title='Custom FormLabel for both text inputs; custom helperText for "firstName" field'/>
+              <FieldVariantInfo title='Custom FormLabel for all fields; custom helperText for the "name" field' />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <StyledRHFTextField
-                fieldName="firstName"
-                control={control}
-                registerOptions={{
-                  required: {
-                    value: true,
-                    message: reqdMsg('First Name'),
-                  },
+              <StyledTextField
+                fieldName="name"
+                value={name}
+                onValueChange={({ newValue }) => {
+                  setName(newValue);
+                  setNameError(undefined);
                 }}
-                helperText={
+                onBlur={() => {
+                  setNameError(validateName(name));
+                }}
+                disabled={disableAllFields}
+                required
+                errorMessage={nameError}
+                helperText={(
                   <Typography
                     variant="body2"
                     sx={{
@@ -123,77 +196,79 @@ export default function StyledReusableComponentForm() {
                     <InfoIcon color="info" />
                     The name that matches on your passport
                   </Typography>
-                }
+                )}
               />
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
-              <StyledRHFTextField
-                fieldName="lastName"
-                control={control}
-                registerOptions={{
-                  minLength: {
-                    value: 4,
-                    message: minCharMsg(4),
-                  },
-                  maxLength: {
-                    value: 10,
-                    message: maxCharMsg(10),
-                  },
+              <FieldVariantInfo title="Customized multi MUISelect with a custom font family on the label" />
+              <StyledSelect
+                fieldName="hobbies"
+                value={hobbies}
+                options={hobbiesList}
+                onValueChange={({ newValue }) => {
+                  setHobbies(newValue);
+                  setHobbiesError(undefined);
+                }}
+                required
+                multiple
+                disabled={disableAllFields}
+                errorMessage={hobbiesError}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="Customized multi Autocomplete with styled helperText" />
+              <StyledAutocomplete
+                fieldName="countries"
+                options={countriesList}
+                labelKey="country"
+                valueKey="code"
+                value={countries}
+                onValueChange={({ newValue }) => {
+                  setCountries(newValue);
+                  setCountriesError(undefined);
+                }}
+                disabled={disableAllFields}
+                required
+                errorMessage={countriesError}
+                helperText="You can select multiple countries"
+                textFieldProps={{
+                  placeholder: 'Select the countries you\'ve travelled to'
                 }}
               />
             </Grid>
-            <Grid size={6}>
-              <FieldVariantInfo title="Date Picker with Luxon adapter" />
-              <MUIDatePicker
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="Customized DatePicker with Luxon adapter" />
+              <StyledDatePicker
                 fieldName="dob"
-                value={formValues.dob}
+                value={dob}
                 onValueChange={({ newValue }) => {
-                  setValue('dob', newValue as FormSchema['dob'], {
-                    shouldValidate: true
-                  });
+                  setDob(newValue);
+                  setDobError(undefined);
                 }}
                 label="Date of Birth"
+                required
                 disableFuture
                 disabled={disableAllFields}
-                errorMessage={errors.dob?.message?.toString()}
+                errorMessage={dobError}
               />
             </Grid>
-            <Grid size={6}>
-              <FieldVariantInfo title="Customized MUISelect with a custom font family applied on form label text" />
-              <StyledSelect
-                fieldName="favouriteColor"
-                value={formValues.favouriteColor}
+            <Grid size={12}>
+              <FieldVariantInfo title="Styled Switch, iOS style" />
+              <StyledIOSSwitch
+                fieldName="enableNotification"
+                value={enableNotification}
                 onValueChange={({ newValue }) => {
-                  setValue('favouriteColor', newValue as Colors, {
-                    shouldValidate: true
-                  });
+                  setEnableNotification(newValue);
+                  setNotificationError(undefined);
                 }}
-                label="Favourite Color"
-                options={colorOptions}
-                labelKey="label"
-                valueKey="value"
+                label="Enable notifications?"
                 disabled={disableAllFields}
-                errorMessage={errors.favouriteColor?.message?.toString()}
-              />
-            </Grid>
-            <Grid size={6}>
-              <FieldVariantInfo title="Customized RHFAutocomplete with styled helpertext" />
-              <StyledAutocomplete
-                control={control}
-                fieldName="airports"
-                label="Airports"
-                options={airportList}
-                labelKey="name"
-                valueKey="iataCode"
-                helperText="You can select multiple airports"
-                textFieldProps={{
-                  placeholder: 'Select Airport(s) You\'ve travelled to'
-                }}
+                errorMessage={notificationError}
               />
             </Grid>
             <Grid size={12}>
               <SubmitButton />
-              <ResetButton onClick={() => reset(initialValues)} />
+              <ResetButton onClick={resetForm} />
             </Grid>
             <Grid size={12}>
               <FormState

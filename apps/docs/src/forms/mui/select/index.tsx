@@ -19,7 +19,7 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { IPLTeams, formSubmitEventName } from '@/constants';
+import { iplTeams, formSubmitEventName } from '@/constants';
 import { Colors } from '@/types';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
 import { FormSchema } from './validation';
@@ -130,7 +130,7 @@ const SelectForm = () => {
             <FieldVariantInfo title="Multiple Select with options as an array of objects, with custom render function, customOnChange and disabled options" />
             <MUISelect
               fieldName="iplTeams"
-              options={IPLTeams}
+              options={iplTeams}
               labelKey="name"
               valueKey="abbr"
               value={formValues.iplTeams}
