@@ -1,13 +1,21 @@
-# @nish1896/rhf-mui-demo
+# @nish1896/mui-components-docs
 
-**A playground repository to explore and experiment with the form components in this package during development. 🛠️**
+**The documentation and live-examples site for [`@nish1896/mui-components`](https://www.npmjs.com/package/@nish1896/mui-components) — built with Next.js.** 📖
 
-### Live Examples
-Explore live examples for all the components included in the package:
-
-👉 [Examples Demo](https://mui-components-examples.vercel.app/)
+It hosts the setup guides, full props reference, and interactive demos for every component, including complete-form examples wired up with React Hook Form, TanStack Form, Formik and plain React state.
 
 ### Documentation
-Browse comprehensive documentation, setup guides, and API references for @nish1896/mui-components:
+
+Setup guides, API references, and multiple live variations for every component:
 
 👉 [Documentation Site](https://mui-components.vercel.app)
+
+### Local Development
+
+From the monorepo root:
+
+```bash
+pnpm doc
+```
+
+This starts the docs app on [http://localhost:3000](http://localhost:3000). It consumes the built `@nish1896/mui-components` package, so after changing the library, rebuild it with `pnpm lib`.

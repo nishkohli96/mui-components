@@ -22,7 +22,10 @@ export const zodFormSchema = z.object({
     .min(8, { message: 'Password must be at least 8 characters' }),
   age: z.custom<number | null>(
     val => typeof val === 'number' && val >= 18,
-    { message: 'Age is required' }
+    {
+      error: issue =>
+        (issue.input == null ? 'Age is required' : 'Must be 18 or older')
+    }
   ),
   tags: z.array(z.string()),
   avatar: z.custom<File | null>(() => true),
