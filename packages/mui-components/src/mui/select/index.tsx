@@ -18,7 +18,8 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type SelectProps,
-  type OptionValue
+  type OptionValue,
+  type OptionRenderState
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
@@ -109,9 +110,11 @@ export type MUISelectProps<
    * option value itself for primitive options) is rendered.
    *
    * @param option - The option being rendered.
+   * @param state - Current status of the option (`disabled`, `selected`), so the
+   *   label can react to it — e.g. dim a disabled option.
    * @returns Custom React content to display for the option.
    */
-  renderOptionLabel?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -429,13 +432,25 @@ const MUISelect = <
             ? String(option[labelKey!])
             : String(option);
           const isOptionDisabled = getOptionDisabled?.(option) ?? false;
+          /**
+           * `Array.isArray` can't narrow the generic `SelectValue` union, so
+           * normalize to a concrete array (single value or the multi list) and
+           * annotate before comparing — the same idiom used in the file uploader.
+           */
+          const currentValues = (
+            Array.isArray(resolvedValue) ? resolvedValue : [resolvedValue]
+          ) as Array<OptionValue<Option, ValueKey>>;
+          const isSelected = currentValues.includes(opnValue);
           return (
             <MenuItem
               key={`${opnValue}-${index}`}
               value={opnValue}
               disabled={isOptionDisabled}
             >
-              {renderOptionLabel?.(option) ?? opnLabel}
+              {renderOptionLabel?.(option, {
+                disabled: isOptionDisabled || !!muiDisabled,
+                selected: isSelected
+              }) ?? opnLabel}
             </MenuItem>
           );
         })}

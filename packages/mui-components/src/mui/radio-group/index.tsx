@@ -16,7 +16,8 @@ import {
   type FormControlLabelProps,
   type FormHelperTextProps,
   type RadioProps,
-  type OptionValue
+  type OptionValue,
+  type OptionRenderState
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
@@ -97,9 +98,11 @@ export type MUIRadioGroupProps<
    * option value itself for primitive options) is rendered.
    *
    * @param option - The option being rendered.
+   * @param state - Current status of the option (`disabled`, `selected`), so the
+   *   label can react to it — e.g. dim a disabled option.
    * @returns Custom React content to display for the option.
    */
-  renderOptionLabel?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -332,7 +335,12 @@ const MUIRadioGroup = <
                 />
               }
               value={opnValue}
-              label={renderOptionLabel?.(option) ?? opnLabel}
+              label={
+                renderOptionLabel?.(option, {
+                  disabled: isOptionDisabled,
+                  selected: value === opnValue
+                }) ?? opnLabel
+              }
               disabled={isOptionDisabled}
               sx={appliedFormControlLabelSx}
             />

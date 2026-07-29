@@ -6,6 +6,8 @@ import type { RadioProps as MuiRadioProps } from '@mui/material/Radio';
 import type { SelectProps as MuiSelectProps } from '@mui/material/Select';
 import type { TextFieldProps as MuiTextFieldProps } from '@mui/material/TextField';
 import type { ChipProps } from '@mui/material/Chip';
+import type { AutocompleteRenderOptionState } from '@mui/material/Autocomplete';
+import type { OptionRenderState } from './components';
 
 export type FormLabelProps = Omit<
   MuiFormLabelProps,
@@ -107,3 +109,13 @@ export type MuiChipProps = Omit<
   | 'onDelete'
   | 'disabled'
 >;
+
+/**
+ * Per-option state for `renderOptionLabel` in the Autocomplete family
+ * (country select, multi autocomplete). Extends MUI's option state — which
+ * already carries `selected`, `index` and `inputValue` for the filtered
+ * dropdown — with the shared `disabled` flag, so the `{ disabled, selected }`
+ * core matches the form-control components' `OptionRenderState`.
+ */
+export type AutocompleteOptionRenderState
+  = AutocompleteRenderOptionState & Pick<OptionRenderState, 'disabled'>;

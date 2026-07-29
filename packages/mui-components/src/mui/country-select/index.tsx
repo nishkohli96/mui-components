@@ -24,7 +24,8 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
-  type MuiChipProps
+  type MuiChipProps,
+  type AutocompleteOptionRenderState
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CountryDetails, CountryISO, CustomComponentIds } from '@/types';
@@ -192,8 +193,13 @@ export type MUICountrySelectProps<
   hideLabel?: boolean;
   /**
    * Customize how each country option is displayed in the dropdown menu.
+   * `state` carries MUI's option state (`selected`, `index`, `inputValue`) plus
+   * a `disabled` flag, so the label can react to the option's status.
    */
-  renderOptionLabel?: (option: CountryDetails) => ReactNode;
+  renderOptionLabel?: (
+    option: CountryDetails,
+    state: AutocompleteOptionRenderState
+  ) => ReactNode;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
@@ -489,14 +495,14 @@ const MUICountrySelect = <
             />
           );
         }}
-        renderOption={({ key, ...optionProps }, option) => (
+        renderOption={({ key, ...optionProps }, option, state) => (
           <Box
             component="li"
             key={key}
             sx={{ display: 'flex', alignItems: 'center' }}
             {...optionProps}
           >
-            {renderOptionLabel?.(option) ?? (
+            {renderOptionLabel?.(option, { ...state, disabled: !!muiDisabled }) ?? (
               <CountryMenuItem countryInfo={option} />
             )}
           </Box>

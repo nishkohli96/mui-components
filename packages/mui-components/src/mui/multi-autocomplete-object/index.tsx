@@ -9,7 +9,6 @@ import {
 import Box from '@mui/material/Box';
 import Autocomplete,
 {
-  type AutocompleteRenderOptionState,
   type AutocompleteProps
 } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -29,7 +28,8 @@ import {
   type CheckboxProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
-  type MuiChipProps
+  type MuiChipProps,
+  type AutocompleteOptionRenderState
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { KeyValueOption, CustomComponentIds } from '@/types';
@@ -152,11 +152,13 @@ export type MUIMultiAutocompleteObjectProps<
    */
   checkboxProps?: CheckboxProps;
   /**
-   * Custom renderer for an option label.
+   * Custom renderer for an option label. `state` carries MUI's option state
+   * (`selected`, `index`, `inputValue`) plus a `disabled` flag, so the label
+   * can react to the option's status — e.g. dim a disabled option.
    */
   renderOptionLabel?: (
     option: Option,
-    state: AutocompleteRenderOptionState
+    state: AutocompleteOptionRenderState
   ) => ReactNode;
   /**
    * Props forwarded to each internal MUI `FormControlLabel`.
@@ -583,7 +585,10 @@ const MUIMultiAutocompleteObject = <
               <FormControlLabel
                 {...otherFormControlLabelProps}
                 label={
-                  renderOptionLabel?.(option, state)
+                  renderOptionLabel?.(option, {
+                    ...state,
+                    disabled: !!isOptionDisabled
+                  })
                   ?? optionLabel
                 }
                 disabled={isOptionDisabled}

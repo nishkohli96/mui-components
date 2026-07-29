@@ -9,7 +9,6 @@ import {
 import Box from '@mui/material/Box';
 import Autocomplete,
 {
-  type AutocompleteRenderOptionState,
   type AutocompleteProps,
   type AutocompleteValue
 } from '@mui/material/Autocomplete';
@@ -30,7 +29,8 @@ import {
   type CheckboxProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
-  type MuiChipProps
+  type MuiChipProps,
+  type AutocompleteOptionRenderState
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { StrObjOption, CustomComponentIds } from '@/types';
@@ -144,11 +144,13 @@ export type MUIMultiAutocompleteProps<
    */
   label?: ReactNode;
   /**
-   * Custom renderer for an option label.
+   * Custom renderer for an option label. `state` carries MUI's option state
+   * (`selected`, `index`, `inputValue`) plus a `disabled` flag, so the label
+   * can react to the option's status — e.g. dim a disabled option.
    */
   renderOptionLabel?: (
     option: Option,
-    state: AutocompleteRenderOptionState
+    state: AutocompleteOptionRenderState
   ) => ReactNode;
   /**
    * When true, renders the field label above the form field instead of inside or beside it.
@@ -600,7 +602,10 @@ const MUIMultiAutocomplete = <
               <FormControlLabel
                 {...otherFormControlLabelProps}
                 label={
-                  renderOptionLabel?.(option, state)
+                  renderOptionLabel?.(option, {
+                    ...state,
+                    disabled: !!isOptionDisabled
+                  })
                   ?? optionLabel
                 }
                 disabled={isOptionDisabled}
