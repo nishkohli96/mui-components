@@ -7,9 +7,12 @@
  * pass-through `checkboxProps`, plus a label above the group.
  */
 
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
@@ -51,6 +54,7 @@ const initialValues: CheckboxFormValues = {
 
 export default function CheckboxGroupForm() {
   const pathName = usePathname();
+  const [disableAllFields, setDisableAllFields] = useState(false);
 
   const formik = useFormik<CheckboxFormValues>({
     initialValues,
@@ -71,6 +75,17 @@ export default function CheckboxGroupForm() {
     <FormContainer>
       <form onSubmit={formik.handleSubmit}>
         <GridContainer>
+          <Grid size={12}>
+            <FormControlLabel
+              control={(
+                <Checkbox
+                  checked={disableAllFields}
+                  onChange={event => setDisableAllFields(event.target.checked)}
+                />
+              )}
+              label="Disable all fields"
+            />
+          </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="String options — minimum two required" />
             <MUICheckboxGroup
@@ -79,9 +94,10 @@ export default function CheckboxGroupForm() {
               options={hobbyOptions}
               value={formik.values.hobbies}
               onValueChange={({ newValue }) => formik.setFieldValue('hobbies', newValue)}
+              helperText="Pick at least two"
+              disabled={disableAllFields}
               required
               errorMessage={formikError(formik.submitCount > 0 && formik.errors.hobbies)}
-              helperText="Pick at least two"
             />
           </Grid>
 
@@ -103,6 +119,7 @@ export default function CheckboxGroupForm() {
               }}
               showLabelAboveFormField
               helperText="'Read' is always granted"
+              disabled={disableAllFields}
             />
           </Grid>
 
@@ -116,6 +133,7 @@ export default function CheckboxGroupForm() {
               onValueChange={({ newValue }) => formik.setFieldValue('scores', newValue)}
               renderOptionLabel={score => `${score} pts`}
               helperText="Each checked value is stored as a number"
+              disabled={disableAllFields}
             />
           </Grid>
 
