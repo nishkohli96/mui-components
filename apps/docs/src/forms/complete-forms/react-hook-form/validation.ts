@@ -24,7 +24,7 @@ export const zodFormSchema = z.object({
     val => typeof val === 'number' && val >= 18,
     {
       error: issue =>
-        (issue.input == null ? 'Age is required' : 'Must be 18 or older')
+        (issue.input === null ? 'Age is required' : 'Must be 18 or older')
     }
   ),
   tags: z.array(z.string()),
