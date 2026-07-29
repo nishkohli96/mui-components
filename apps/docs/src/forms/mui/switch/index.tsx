@@ -64,7 +64,7 @@ export default function SwitchForm() {
   }
 
   return (
-    <FormContainer title="MUISwitch">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();

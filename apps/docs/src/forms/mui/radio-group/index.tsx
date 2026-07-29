@@ -81,20 +81,31 @@ export default function RadioGroupForm() {
     setBilling(initialValues.billing);
     setContact(initialValues.contact);
     setContactError(undefined);
+    setAgeGroupError(undefined);
+    setGenderError(undefined);
   }
 
   async function onFormSubmit() {
-    if (!contact) {
-      setContactError('Select a preferred contact method');
+    const contactError = !contact
+      ? 'Select a preferred contact method'
+      : undefined;
+
+    const genderError = !gender
+      ? 'Select your gender'
+      : undefined;
+
+    setContactError(contactError);
+    setGenderError(genderError);
+
+    if (contactError || genderError) {
       return;
     }
-    setContactError(undefined);
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 
   return (
-    <FormContainer title="MUIRadioGroup">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -153,11 +164,19 @@ export default function RadioGroupForm() {
                 setContact(newValue);
                 setContactError(undefined);
               }}
-              renderOptionLabel={option => (
-                <Typography component="span" sx={{ fontWeight: 500 }}>
-                  {option}
-                  {' '}
-                  me
+              renderOptionLabel={(option, { disabled, selected }) => (
+                <Typography
+                  component="span"
+                  sx={{
+                    fontWeight: selected ? 700 : 500,
+                    color: disabled
+                      ? 'text.disabled'
+                      : selected
+                        ? 'primary.main'
+                        : 'text.primary'
+                  }}
+                >
+                  {`${option} me`}
                 </Typography>
               )}
               showLabelAboveFormField
@@ -190,6 +209,7 @@ export default function RadioGroupForm() {
                 }
               }}
               required
+              disabled={disableAllFields}
               getOptionDisabled={opn => opn.maxAge === 120 || opn.maxAge === 10}
             />
           </Grid>
@@ -232,7 +252,9 @@ export default function RadioGroupForm() {
                     return option;
                 }
               }}
+              disabled={disableAllFields}
               required
+              errorMessage={genderError}
             />
           </Grid>
 

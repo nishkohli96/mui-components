@@ -59,12 +59,15 @@ export default function SliderForm() {
   }
 
   async function onFormSubmit() {
+    if(temperatureError) {
+      return;
+    }
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
 
   return (
-    <FormContainer title="MUISlider">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -129,7 +132,7 @@ export default function SliderForm() {
               value={temperature}
               onValueChange={({ newValue }) => {
                 setTemperature(newValue);
-                if (temperature < minTemp) {
+                if (newValue < minTemp) {
                   setTemperatureError(`Set the temperature to at least ${minTemp}`);
                   return;
                 }

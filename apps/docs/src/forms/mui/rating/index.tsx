@@ -25,10 +25,10 @@ import {
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 
-const initialValues = {
-  overall: 3 as number | null,
-  quality: 2.75 as number | null,
-  support: null as number | null
+const initialValues: Record<string, number | null> = {
+  overall: 4,
+  quality: 2.75,
+  support: null
 };
 
 const minSupportRating = 7;
@@ -64,7 +64,7 @@ export default function RatingForm() {
   }
 
   return (
-    <FormContainer title="MUIRating">
+    <FormContainer>
       <form
         onSubmit={event => {
           event.preventDefault();
