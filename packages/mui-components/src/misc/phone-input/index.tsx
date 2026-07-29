@@ -1,0 +1,604 @@
+/**
+ * Code Reference -
+ * https://react-international-phone.vercel.app/docs/Advanced%20Usage/useWithUiLibs
+ */
+
+'use client';
+
+import {
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  forwardRef,
+  type ReactNode,
+  type Ref
+} from 'react';
+import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import Divider from '@mui/material/Divider';
+import Select from '@mui/material/Select';
+import ListSubheader from '@mui/material/ListSubheader';
+import MenuItem from '@mui/material/MenuItem';
+import {
+  defaultCountries,
+  FlagImage,
+  parseCountry,
+  usePhoneInput,
+  type CountryData,
+  type CountryIso2,
+  type ParsedCountry,
+  type UsePhoneInputConfig
+} from 'react-international-phone';
+import {
+  FormControl,
+  FormLabel,
+  FormLabelText,
+  FormHelperText,
+  defaultAutocompleteValue,
+  type FormLabelProps,
+  type FormHelperTextProps
+} from '@/common';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
+import type { CustomComponentIds } from '@/types';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  mergeRefs,
+  useFieldIds,
+  getErrorList
+} from '@/utils';
+import CountryMenuItem from './CountryMenuItem';
+import 'react-international-phone/style.css';
+
+type PhoneInputChangeReturnValue = {
+  phone: string;
+  inputValue: string;
+  country: ParsedCountry;
+};
+
+const countryMenuWidth = 350;
+const countryMenuLeftOffset = -34;
+const countryMenuViewportGutter = 32;
+
+export type MUIPhoneInputValue = {
+  /** Full E.164-style phone value with dial code, e.g. "+15551234567". */
+  phone: string;
+  /** Selected ISO 3166-1 alpha-2 country code, e.g. "us" or "ca". */
+  country: CountryIso2;
+  /** Country calling code without the "+" prefix, e.g. "1". */
+  dialCode: string;
+  /** National significant number with the dial code stripped. */
+  phoneNo: string;
+};
+
+type MUIPhoneInputOnValueChangeProps = {
+  /** Structured value emitted by the phone input. */
+  newValue: MUIPhoneInputValue;
+  /** Raw change payload returned by `react-international-phone`. */
+  phoneData: PhoneInputChangeReturnValue;
+};
+
+type InputTextFieldProps = Omit<
+  TextFieldProps,
+  | 'name'
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'error'
+  | 'inputRef'
+  | 'type'
+  | 'FormHelperTextProps'
+  | 'ref'
+>;
+
+type SearchCountryProps = {
+  /**
+   * Whether to show the inline country search field inside the country dropdown.
+   * @default true
+   */
+  allowCountrySearch?: boolean;
+  /**
+   * Props forwarded to the internal MUI `TextField`.
+   */
+  textFieldProps?: Omit<TextFieldProps, 'value' | 'label'>;
+  /**
+   * Customize the content of each `MenuItem` in the country search dropdown.
+   */
+  renderCountryMenuItem?: (country: ParsedCountry) => ReactNode;
+  /**
+   * Text shown when the country search does not match any available country.
+   * @default 'No countries found'
+   */
+  noCountryFoundText?: string;
+};
+
+type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'>;
+
+function toStructuredValue(
+  phoneData: PhoneInputChangeReturnValue
+): MUIPhoneInputValue {
+  const { phone, country } = phoneData;
+  const phoneNo = phone.startsWith(`+${country.dialCode}`)
+    ? phone.slice(country.dialCode.length + 1)
+    : phone;
+
+  return {
+    phone,
+    country: country.iso2,
+    dialCode: country.dialCode,
+    phoneNo
+  };
+}
+
+function getPhoneValue(value: unknown): string | undefined {
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  if (value && typeof value === 'object' && 'phone' in value) {
+    return String(value.phone ?? '');
+  }
+
+  return undefined;
+}
+
+export type MUIPhoneInputProps = {
+  /**
+   * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
+   */
+  fieldName: string;
+  /**
+   * Current phone value. You may initialize it with a phone string, but
+   * `onValueChange` always emits the structured `MUIPhoneInputValue` shape.
+   * `undefined`/`null` start the input empty with the default country.
+   */
+  value?: MUIPhoneInputValue | string | null;
+  /**
+   * Called after the phone value is normalized.
+   */
+  onValueChange: ({
+    newValue,
+    phoneData
+  }: MUIPhoneInputOnValueChangeProps) => void;
+  /**
+   * Options for the inline country search field in the country dropdown.
+   */
+  searchCountryProps?: SearchCountryProps;
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
+  showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
+  hideLabel?: boolean;
+  /**
+   * Validation error for the field — pass a single message `string`, or a
+   * `string[]` when the field can fail multiple rules at once (every message
+   * is shown together).
+   *
+   * A non-empty string or a non-empty array puts the field into an error state
+   * and surfaces the message(s) through `FormHelperText`; `undefined`, `''` or
+   * `[]` clear it.
+   *
+   * Use `renderError` to customize how the message(s) are rendered.
+   */
+  errorMessage?: string | string[];
+  /**
+   * Custom renderer for the resolved error message(s), called only when the
+   * field is in an error state. Always receives a `string[]` — use `errors[0]`
+   * for the common single-message case, or map over `errors` when a field fails
+   * several rules.
+   *
+   * When omitted, a single message renders as plain text and multiple
+   * messages render on separate lines.
+   *
+   * @param errors - Resolved error messages for this field (never empty).
+   */
+  renderError?: (errors: string[]) => ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
+  hideErrorMessage?: boolean;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
+  /**
+   * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
+   */
+  phoneInputProps?: PhoneInputProps;
+  /**
+   * Custom ids for generated field, label, helper text, and error elements.
+   */
+  customIds?: CustomComponentIds;
+} & InputTextFieldProps;
+
+const MUIPhoneInput = forwardRef(function MUIPhoneInput(
+  {
+    fieldName,
+    value,
+    onValueChange,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    required,
+    errorMessage,
+    renderError,
+    hideErrorMessage,
+    helperText,
+    formHelperTextProps,
+    disabled: muiDisabled,
+    phoneInputProps,
+    slotProps,
+    onBlur,
+    autoComplete = defaultAutocompleteValue,
+    customIds,
+    searchCountryProps,
+    ...otherPhoneInputPropsForTextField
+  }: MUIPhoneInputProps,
+  ref: Ref<HTMLInputElement>
+) {
+  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
+    fieldName,
+    customIds
+  );
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
+  const defaultFieldLabel = fieldNameToLabel(fieldName);
+  const fieldLabel = label ?? defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
+
+  const currentPhoneValue = getPhoneValue(value);
+  const [countrySearch, setCountrySearch] = useState('');
+  const [countryMenuLeft, setCountryMenuLeft] = useState(0);
+  const [countryMenuWidthPx, setCountryMenuWidthPx] = useState(countryMenuWidth);
+  const phoneInputRootRef = useRef<HTMLDivElement | null>(null);
+
+  const {
+    countries,
+    preferredCountries,
+    forceDialCode,
+    ...otherPhoneInputProps
+  } = phoneInputProps ?? {};
+  const countryOptions = countries ?? defaultCountries;
+
+  const {
+    textFieldProps: searchCountryTextFieldProps,
+    allowCountrySearch = true,
+    renderCountryMenuItem,
+    noCountryFoundText = 'No countries found'
+  } = searchCountryProps ?? {};
+
+  const {
+    id: searchCountryTextFieldId = `${fieldName}_search-country`,
+    fullWidth: searchCountryFullWidth = true,
+    size: searchCountrySize = 'small',
+    placeholder: searchCountryPlaceholder = 'Search by country or dial code',
+    onChange: searchCountryOnChange,
+    onClick: searchCountryOnClick,
+    onKeyDown: searchCountryOnKeyDown,
+    ...otherSearchCountryTextFieldProps
+  } = searchCountryTextFieldProps ?? {};
+
+  const updateCountryMenuLayout = () => {
+    const inputWidth = phoneInputRootRef.current?.offsetWidth ?? 0;
+    const hasViewportRoom
+      = window.innerWidth
+        > countryMenuWidth
+        + Math.abs(countryMenuLeftOffset)
+        + countryMenuViewportGutter;
+
+    /*
+     * The country `Select` sits inside the start adornment, so the menu's
+     * anchor is inset ~|countryMenuLeftOffset|px from the field's left edge.
+     * Shift the menu back by that offset so its left edge aligns with the
+     * field (and, once width is capped below, its right edge too). Applied
+     * whenever the viewport has room — independent of field width, so a narrow
+     * `md={6}` field aligns just like a full-width one. On very small viewports
+     * the shift is skipped to avoid pushing the menu off the left edge.
+     */
+    setCountryMenuLeft(hasViewportRoom ? countryMenuLeftOffset : 0);
+
+    /*
+     * Cap the menu at the field width so a narrow field (e.g. `md={6}`) doesn't
+     * let the fixed 350px menu spill into the adjacent grid column. When the
+     * field is wider than the menu, keep the full `countryMenuWidth`.
+     */
+    setCountryMenuWidthPx(
+      inputWidth > 0 ? Math.min(countryMenuWidth, inputWidth) : countryMenuWidth
+    );
+  };
+
+  useEffect(() => {
+    updateCountryMenuLayout();
+    window.addEventListener('resize', updateCountryMenuLayout);
+    return () => {
+      window.removeEventListener('resize', updateCountryMenuLayout);
+    };
+  }, []);
+
+  const { countriesToList, countriesToListAtTop } = useMemo(() => {
+    if (!preferredCountries?.length) {
+      return {
+        countriesToList: countryOptions,
+        countriesToListAtTop: [] as CountryData[]
+      };
+    }
+
+    const countriesToListAtTop = countryOptions
+      .filter(country =>
+        preferredCountries.includes(parseCountry(country).iso2))
+      .sort(
+        (a, b) =>
+          preferredCountries.indexOf(parseCountry(a).iso2)
+          - preferredCountries.indexOf(parseCountry(b).iso2)
+      );
+
+    const countriesToList = countryOptions.filter(
+      country => !preferredCountries.includes(parseCountry(country).iso2)
+    );
+
+    return { countriesToList, countriesToListAtTop };
+  }, [countryOptions, preferredCountries]);
+
+  const filterCountry = (countryData: CountryData) => {
+    const search = countrySearch.trim().toLowerCase();
+    if (!search) {
+      return true;
+    }
+
+    const countryInfo = parseCountry(countryData);
+    const dialCodeSearch = search.replace('+', '');
+
+    return (
+      countryInfo.name.toLowerCase().includes(search)
+      || countryInfo.iso2.toLowerCase().includes(search)
+      || countryInfo.dialCode.includes(dialCodeSearch)
+    );
+  };
+
+  const filteredCountriesToListAtTop
+    = countriesToListAtTop.filter(filterCountry);
+  const filteredCountriesToList = countriesToList.filter(filterCountry);
+
+  const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
+    = usePhoneInput({
+      ...otherPhoneInputProps,
+      value: currentPhoneValue,
+      onChange: (phoneData: PhoneInputChangeReturnValue) => {
+        onValueChange({
+          newValue: toStructuredValue(phoneData),
+          phoneData
+        });
+      },
+      countries: countryOptions,
+      preferredCountries,
+      forceDialCode
+    });
+
+  const errorList = getErrorList(errorMessage);
+  const isError = errorList.length > 0;
+  const fieldErrorMessage = isError
+    ? renderError?.(errorList) ?? (
+      errorList.length === 1
+        ? errorList[0]
+        : errorList.map((message, index) => (
+          <div key={index}>
+            {message}
+          </div>
+        ))
+    )
+    : undefined;
+  const showHelperTextElement = !!(
+    helperText
+    || (isError && !hideErrorMessage)
+  );
+
+  const startAdornment = (
+    <InputAdornment
+      position="start"
+      style={{ marginRight: '2px', marginLeft: '-8px' }}
+    >
+      <Select
+        MenuProps={{
+          autoFocus: false,
+          PaperProps: {
+            sx: {
+              width: `min(${countryMenuWidthPx}px, calc(100vw - ${countryMenuViewportGutter}px))`,
+              maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`,
+              maxHeight: 300
+            }
+          },
+          MenuListProps: {
+            sx: {
+              pt: allowCountrySearch ? 0 : '8px'
+            }
+          },
+          style: {
+            top: '10px',
+            left: countryMenuLeft
+          },
+          transformOrigin: {
+            vertical: 'top',
+            horizontal: 'left'
+          }
+        }}
+        sx={{
+          width: 'max-content',
+          fieldset: {
+            display: 'none'
+          },
+          '&.Mui-focused:has(div[aria-expanded="false"])': {
+            fieldset: {
+              display: 'block'
+            }
+          },
+          '.MuiSelect-select': {
+            padding: '8px',
+            paddingRight: '24px !important'
+          },
+          svg: {
+            right: 0
+          }
+        }}
+        value={country.iso2}
+        disabled={muiDisabled || forceDialCode}
+        onOpen={updateCountryMenuLayout}
+        onClose={() => {
+          setCountrySearch('');
+        }}
+        onChange={e => {
+          setCountry(e.target.value, { focusOnInput: true });
+        }}
+        renderValue={selectedValue => (
+          <FlagImage iso2={selectedValue} style={{ display: 'flex' }} />
+        )}
+      >
+        {allowCountrySearch && (
+          <ListSubheader
+            sx={{
+              position: 'sticky',
+              top: 0,
+              zIndex: 1,
+              bgcolor: 'background.paper',
+              lineHeight: 'normal',
+              padding: '8px',
+            }}
+          >
+            <MuiTextField
+              {...otherSearchCountryTextFieldProps}
+              label={null}
+              id={searchCountryTextFieldId}
+              fullWidth={searchCountryFullWidth}
+              placeholder={searchCountryPlaceholder}
+              size={searchCountrySize}
+              value={countrySearch}
+              onChange={event => {
+                setCountrySearch(event.target.value);
+                searchCountryOnChange?.(event);
+              }}
+              onClick={event => {
+                event.stopPropagation();
+                searchCountryOnClick?.(event);
+              }}
+              onKeyDown={event => {
+                event.stopPropagation();
+                searchCountryOnKeyDown?.(event);
+              }}
+            />
+          </ListSubheader>
+        )}
+        {filteredCountriesToListAtTop.map(c => {
+          const countryInfo = parseCountry(c);
+          return (
+            <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+              {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
+            </MenuItem>
+          );
+        })}
+        {filteredCountriesToListAtTop.length > 0
+          && filteredCountriesToList.length > 0
+          && <Divider />}
+        {filteredCountriesToList.map(c => {
+          const countryInfo = parseCountry(c);
+          return (
+            <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+              {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
+            </MenuItem>
+          );
+        })}
+        {filteredCountriesToListAtTop.length === 0
+          && filteredCountriesToList.length === 0 && (
+          <MenuItem disabled>
+            {noCountryFoundText}
+          </MenuItem>
+        )}
+      </Select>
+    </InputAdornment>
+  );
+
+  return (
+    <FormControl error={isError} disabled={muiDisabled}>
+      {!hideLabel && (
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          disabled={muiDisabled}
+          formLabelProps={{
+            ...formLabelProps,
+            id: labelId,
+            htmlFor: fieldId
+          }}
+        />
+      )}
+      <MuiTextField
+        {...otherPhoneInputPropsForTextField}
+        ref={phoneInputRootRef}
+        id={fieldId}
+        name={fieldName}
+        inputRef={mergeRefs(inputRef, ref)}
+        value={inputValue}
+        autoComplete={autoComplete}
+        type="tel"
+        onChange={handlePhoneValueChange}
+        onBlur={onBlur}
+        label={
+          !hideLabel && !isLabelAboveFormField
+            ? (
+              <FormLabelText label={fieldLabel} required={required} />
+            )
+            : undefined
+        }
+        aria-labelledby={
+          !hideLabel && isLabelAboveFormField ? labelId : undefined
+        }
+        aria-label={hideLabel ? accessibleFieldLabel : undefined}
+        aria-describedby={
+          showHelperTextElement
+            ? isError
+              ? errorId
+              : helperTextId
+            : undefined
+        }
+        aria-required={required}
+        error={isError}
+        disabled={muiDisabled}
+        slotProps={{
+          ...slotProps,
+          input: {
+            ...slotProps?.input,
+            startAdornment
+          }
+        }}
+      />
+      <FormHelperText
+        error={isError}
+        errorMessage={fieldErrorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          ...formHelperTextProps,
+          id: isError ? errorId : helperTextId
+        }}
+      />
+    </FormControl>
+  );
+});
+
+export default MUIPhoneInput;

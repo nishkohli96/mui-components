@@ -5,7 +5,7 @@ set -euo pipefail
 
 REQUIRED_PNPM_VERSION="11.10.0"
 REQUIRED_TURBO_VERSION="2.10.0"
-PKG_NAME="@nish1896/rhf-mui-components"
+PKG_NAME="@nish1896/mui-components"
 
 echo "🏁 Initiating Setup..."
 echo "🔍 Checking for global dependencies..."

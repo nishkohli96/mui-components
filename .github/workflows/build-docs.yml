@@ -17,11 +17,13 @@ jobs:
         with:
           run_install: false
       - name: Configure Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+      - name: Build lib
+        run: pnpm lib
       - name: Build Docs Website
         run: pnpm docs:build
