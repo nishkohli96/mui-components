@@ -109,7 +109,6 @@ export default function MultiAutocompleteForm() {
               onValueChange={({ newValue }) => formik.setFieldValue('teams', newValue)}
               getOptionDisabled={option => Boolean(option.archived)}
               disabled={disableAllFields}
-              hideSelectAllOption
               showLabelAboveFormField
               helperText="Archived teams can't be selected"
             />

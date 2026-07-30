@@ -299,8 +299,16 @@ const MUIMultiAutocompleteObject = <
     ? fieldLabel
     : defaultFieldLabel;
 
+  /*
+   * Options the user can actually toggle. "Select All" operates on these, so
+   * disabled options are never bulk-selected, and the control hides when there
+   * is nothing (or only one selectable option) to select.
+   */
+  const selectableOptions = getOptionDisabled
+    ? options.filter(option => !getOptionDisabled(option))
+    : options;
   const shouldHideSelectAllOptions
-    = hideSelectAllOption || options.length === 0 || options.length === 1;
+    = hideSelectAllOption || selectableOptions.length <= 1;
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
   const appliedFormControlLabelSx = {
@@ -379,13 +387,27 @@ const MUIMultiAutocompleteObject = <
   const selectionContainsOption = (selected: Option[], opt: Option) =>
     selected.some(sel => optionsEqual(sel, opt));
 
+  /*
+   * Disabled options can't be toggled, so their current selection is frozen:
+   * "Select All" keeps them and adds every selectable option, "Deselect All"
+   * keeps only them.
+   */
+  const selectedDisabledOptions = getOptionDisabled
+    ? selectedOptions.filter(opt => getOptionDisabled(opt))
+    : [];
+  const selectAllValue = [...selectedDisabledOptions, ...selectableOptions];
+  const someSelectableSelected = selectableOptions.some(opt =>
+    selectionContainsOption(selectedOptions, opt));
   const areAllSelected
-    = options.length > 0
-      && selectedOptions.length === options.length
-      && options.every(opt =>
+    = selectableOptions.length > 0
+      && selectableOptions.every(opt =>
         selectionContainsOption(selectedOptions, opt));
-  const isIndeterminate
-    = selectedOptions.length > 0 && !areAllSelected;
+  /*
+   * Tri-state reflects only the selectable options — a frozen disabled selection
+   * doesn't count, so "Select All" reads unchecked (not indeterminate) when just
+   * disabled options remain selected.
+   */
+  const isIndeterminate = someSelectableSelected && !areAllSelected;
 
   const changeFieldState = (
     newValues: Option[],
@@ -404,7 +426,7 @@ const MUIMultiAutocompleteObject = <
   ): Option[] => {
     /* When "Select All" checkbox is toggled. */
     if (isSelectAllOption(rowOption)) {
-      return checked ? [...options] : [];
+      return checked ? selectAllValue : selectedDisabledOptions;
     }
     /* When one of the options is selected */
     return checked
@@ -445,7 +467,9 @@ const MUIMultiAutocompleteObject = <
           const isSelectAllSelected
             = newSelectedOptions.some(isSelectAllOption);
           if (isSelectAllSelected) {
-            const finalValue = areAllSelected ? [] : [...options];
+            const finalValue = areAllSelected
+              ? selectedDisabledOptions
+              : selectAllValue;
             onValueChange({
               newValue: finalValue,
               selectedOption: selectAllOptionValue
