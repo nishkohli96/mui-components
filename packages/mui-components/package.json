@@ -5,8 +5,7 @@
   "author": "Nishant Kohli",
   "homepage": "https://mui-components-docs.vercel.app/",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/nishkohli96/mui-components"
+    "url": "git+https://github.com/nishkohli96/mui-components.git"
   },
   "license": "MIT",
   "scripts": {
