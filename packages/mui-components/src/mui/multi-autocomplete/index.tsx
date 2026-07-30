@@ -39,7 +39,8 @@ import {
   isKeyValueOption,
   useFieldIds,
   keepLabelAboveFormField,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 
 type MultiAutoCompleteProps<
@@ -313,10 +314,7 @@ const MUIMultiAutocomplete = <
     = freeSolo || hideSelectAllOption || selectableOptions.length <= 1;
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx
-  };
+  const appliedFormControlLabelSx = mergeSx(defaultFormControlLabelSx, sx);
 
   const autoCompleteOptions: Option[] = useMemo(() => {
     if (shouldHideSelectAllOptions) {

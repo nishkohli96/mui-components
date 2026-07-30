@@ -38,7 +38,8 @@ import {
   isKeyValueOption,
   useFieldIds,
   keepLabelAboveFormField,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 
 type AutocompleteOption<Option extends KeyValueOption = KeyValueOption>
@@ -311,10 +312,7 @@ const MUIMultiAutocompleteObject = <
     = hideSelectAllOption || selectableOptions.length <= 1;
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx
-  };
+  const appliedFormControlLabelSx = mergeSx(defaultFormControlLabelSx, sx);
 
   const autoCompleteOptions: AutocompleteOption<Option>[] = useMemo(() => {
     if (shouldHideSelectAllOptions) {
@@ -391,9 +389,16 @@ const MUIMultiAutocompleteObject = <
    * Disabled options can't be toggled, so their current selection is frozen:
    * "Select All" keeps them and adds every selectable option, "Deselect All"
    * keeps only them.
+   *
+   * Frozen selections are found by matching against the current `selectableOptions`
+   * (via `optionsEqual`) rather than calling `getOptionDisabled` on selected
+   * values — those may be stale or differently shaped after an options refresh,
+   * and the consumer's predicate can assume an option from the current list.
    */
   const selectedDisabledOptions = getOptionDisabled
-    ? selectedOptions.filter(opt => getOptionDisabled(opt))
+    ? selectedOptions.filter(
+      sel => !selectableOptions.some(opt => optionsEqual(sel, opt))
+    )
     : [];
   const selectAllValue = [...selectedDisabledOptions, ...selectableOptions];
   const someSelectableSelected = selectableOptions.some(opt =>
