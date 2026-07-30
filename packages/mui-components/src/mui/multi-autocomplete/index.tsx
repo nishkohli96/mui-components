@@ -347,11 +347,20 @@ const MUIMultiAutocomplete = <
       if (typeof option === 'string') {
         return option;
       }
-      return key && isKeyValueOption(option, labelKey, valueKey)
-        ? String(option[key])
+      /*
+       * Read the requested key directly rather than gating on the full
+       * `isKeyValueOption` (which requires *both* labelKey and valueKey). Reading
+       * only the key being normalized keeps the value correct when the other key
+       * is absent, instead of collapsing to `String(option)` (`[object Object]`).
+       */
+      const raw = key
+        ? (option as Record<string, unknown>)[key]
+        : undefined;
+      return typeof raw === 'string' || typeof raw === 'number'
+        ? String(raw)
         : String(option);
     },
-    [labelKey, valueKey]
+    []
   );
 
   const displayOptionLabel = useCallback(

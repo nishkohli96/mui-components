@@ -20,6 +20,9 @@ This repository contains production-grade React component libraries.
 - Suggest simpler implementations when possible.
 - Ensure public APIs remain consistent.
 
+If any further commits are pushed after raising a pull request, review them
+as well to ensure that any new sideeffects or bugs don't get introduced.
+
 ## Branch Naming
 
 Feature branches must start with:

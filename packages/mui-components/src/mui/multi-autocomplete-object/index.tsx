@@ -328,15 +328,18 @@ const MUIMultiAutocompleteObject = <
   );
 
   const getOptionLabelOrValue = useCallback(
-    (option: AutocompleteOption<Option>, key?: LabelKey | ValueKey): string => {
+    (option: Option | string, key?: LabelKey | ValueKey) => {
       if (typeof option === 'string') {
         return option;
       }
-      return key && isKeyValueOption(option, labelKey, valueKey)
-        ? String(option[key])
+      const raw = key
+        ? (option as Record<string, unknown>)[key]
+        : undefined;
+      return typeof raw === 'string' || typeof raw === 'number'
+        ? String(raw)
         : String(option);
     },
-    [labelKey, valueKey]
+    []
   );
 
   const displayOptionLabel = useCallback(
