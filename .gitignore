@@ -10,6 +10,7 @@ logs
 .turbo
 .next
 .vercel
+.pnpm-store
 
 # production
 build
