@@ -54,6 +54,3 @@ export type OptionRenderState = {
   selected: boolean;
 };
 
-export type CustomOnChangeProps<T, V> = T & {
-  rhfOnChange: (value: V) => void;
-};

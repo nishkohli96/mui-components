@@ -4,7 +4,7 @@
  * Shared prop descriptions for every component's props table, ensuring
  * consistency and easier maintenance across releases (v1 → v2 / MUI 9).
  *
- * Conventions (carried over from the legacy rhf-mui-docs `props.ts`):
+ * Conventions:
  * - Base keys hold descriptions shared verbatim across components.
  * - `_Suffix` variants (e.g. `onValueChange_Select`) hold per-component
  *   implementations when the signature or behavior differs.

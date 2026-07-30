@@ -69,6 +69,22 @@ export type MUISelectProps<
    */
   fieldName: string;
   /**
+   * List of options to display in the dropdown.
+   * Note:
+   * - Works best for small to moderate datasets.
+   * - If options exceed ~20 items, `MUIAutocomplete` or `MUIMultiAutocomplete` is
+   *   recommended for improved searchability, keyboard navigation, and performance.
+   */
+  options: Option[];
+  /**
+   * Object key used to read the display label from each option.
+   */
+  labelKey?: LabelKey;
+  /**
+   * Object key used to derive the selected value when options are an array of objects.
+   */
+  valueKey?: ValueKey;
+  /**
    * Current select value, normalized with `valueKey` for object options.
    * For `multiple`, pass an array. `undefined`/`null` are treated as no
    * selection (an empty array when `multiple` is true).
@@ -86,22 +102,6 @@ export type MUISelectProps<
     event,
     child
   }: OnValueChangeProps<Option, ValueKey, Multiple>) => void;
-  /**
-   * List of options to display in the dropdown.
-   * Note:
-   * - Works best for small to moderate datasets.
-   * - If options exceed ~20 items, `MUIAutocomplete` or `MUIMultiAutocomplete` is
-   *   recommended for improved searchability, keyboard navigation, and performance.
-   */
-  options: Option[];
-  /**
-   * Object key used to read the display label from each option.
-   */
-  labelKey?: LabelKey;
-  /**
-   * Object key used to derive the selected value when options are an array of objects.
-   */
-  valueKey?: ValueKey;
   /**
    * Custom renderer for dropdown options.
    *
@@ -220,11 +220,11 @@ const MUISelect = <
   Multiple extends boolean = false
 >({
   fieldName,
-  value: muiValue,
-  onValueChange,
   options,
   labelKey,
   valueKey,
+  value: muiValue,
+  onValueChange,
   renderOptionLabel,
   getOptionDisabled,
   multiple,

@@ -82,11 +82,12 @@ as follows:​
 2.  **Update Your CKEditor 5 Configuration**: Incorporate the licenseKey into your editor configuration:
 
     ```jsx
-    import RHFRichTextEditor, { DefaultEditorConfig } from '@nish1896/rhf-mui-components/misc/rich-text-editor';
+    import MUIRichTextEditor, { DefaultEditorConfig } from '@nish1896/mui-components/misc/rich-text-editor';
 
-    <RHFRichTextEditor
+    <MUIRichTextEditor
       fieldName="bio"
-      control={control}
+      value={bio}
+      onValueChange={({ newValue }) => setBio(bio)}
       editorConfig={{
         licenseKey: 'YOUR_LICENSE_KEY',
         ...DefaultEditorConfig,
