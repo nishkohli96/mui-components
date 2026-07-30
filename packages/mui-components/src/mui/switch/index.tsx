@@ -15,7 +15,12 @@ import {
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { fieldNameToLabel, useFieldIds, getErrorList } from '@/utils';
+import {
+  fieldNameToLabel,
+  useFieldIds,
+  getErrorList,
+  mergeSx
+} from '@/utils';
 
 type OnValueChangeProps = {
   newValue: boolean;
@@ -126,10 +131,7 @@ const MUISwitch = ({
     : defaultFieldLabel;
   const { defaultFormControlLabelSx } = useContext(MUIComponentsConfigContext);
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx,
-  };
+  const appliedFormControlLabelSx = mergeSx(defaultFormControlLabelSx, sx);
 
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;

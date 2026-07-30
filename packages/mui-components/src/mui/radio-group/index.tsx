@@ -28,7 +28,8 @@ import {
   getOptionValue,
   useFieldIds,
   resolveLabelAboveControl,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 
 type OnValueChangeProps<
@@ -243,10 +244,7 @@ const MUIRadioGroup = <
     allLabelsAboveFields
   );
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx
-  };
+  const appliedFormControlLabelSx = mergeSx(defaultFormControlLabelSx, sx);
 
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;

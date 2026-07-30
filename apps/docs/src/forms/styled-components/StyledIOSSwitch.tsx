@@ -78,24 +78,32 @@ const iosSwitchSx = (theme: Theme) => ({
   }
 });
 
+const toSxArray = (sx: MUISwitchProps['sx']) =>
+  /* eslint-disable-next-line no-nested-ternary */
+  (Array.isArray(sx) ? sx : sx ? [sx] : []);
+
 const StyledIOSSwitch = ({
   sx,
   formControlLabelProps,
   ...rest
 }: MUISwitchProps) => {
-  /* eslint-disable-next-line no-nested-ternary */
-  const callerSx = Array.isArray(sx) ? sx : sx ? [sx] : [];
+  const { sx: labelSx, ...otherLabelProps } = formControlLabelProps ?? {};
   return (
     <MUISwitch
       disableRipple
       focusVisibleClassName=".Mui-focusVisible"
       {...rest}
       formControlLabelProps={{
-        ...formControlLabelProps,
-        /* 12px gap between the switch and its label. */
-        sx: { gap: '12px', ...formControlLabelProps?.sx }
+        ...otherLabelProps,
+        /*
+         * `gap` puts 12px between the switch and its label. `ml: 0` clears
+         * MUI's default `FormControlLabel` `-11px` left margin (meant to align a
+         * checkbox/switch ripple) so the switch lines up with the other fields.
+         * Composed as an `sx` array so array/callback `labelSx` values survive.
+         */
+        sx: [{ gap: '12px', ml: 0 }, ...toSxArray(labelSx)]
       }}
-      sx={[iosSwitchSx, ...callerSx]}
+      sx={[iosSwitchSx, ...toSxArray(sx)]}
     />
   );
 };

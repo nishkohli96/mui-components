@@ -28,7 +28,8 @@ import {
   getOptionValue,
   useFieldIds,
   resolveLabelAboveControl,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 
 type OnValueChangeProps<
@@ -254,10 +255,7 @@ const MUICheckboxGroup = <
   );
 
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx
-  };
+  const appliedFormControlLabelSx = mergeSx(defaultFormControlLabelSx, sx);
 
   const checkedValues: OptionValue<Option, ValueKey>[] = value ?? [];
   const errorList = getErrorList(errorMessage);

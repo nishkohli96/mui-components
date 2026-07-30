@@ -1,6 +1,5 @@
 /**
- * Shape of a single row in a component props table.
- * Mirrors `PropsInfo` from the legacy rhf-mui-docs app so prop descriptions
+ * Shape of a single row in a component props table, so that they
  * can be maintained centrally and reused across doc pages and versions.
  *
  * `description` and `type` support inline markdown: `` `code` `` spans and

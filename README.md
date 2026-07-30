@@ -5,7 +5,7 @@
 <h1>@nish1896/mui-components</h1>
 
 <p>
-  <b>A suite of 25+ production-ready, form-library-agnostic <a href="https://v7.mui.com/">Material UI</a> components — fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state…) or drop in each component standalone.</b>
+  <b>A suite of 25+ production-ready, form-library-agnostic <a href="https://v7.mui.com/">Material UI</a> components — fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state) or drop in each component standalone.</b>
 </p>
 
 <p>
@@ -19,12 +19,15 @@
 
 ## ✨ Features
 
-- Each component is fully functional out of the box, with minimal configuration required and core logic handled internally.
+- Every component is designed to work out of the box with minimal configuration, allowing you to focus on building features instead of implementing core logic..
 - **Form-library-agnostic**: every component is controlled through `value` / `onValueChange`, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required.
-- Style individual components or apply global styles via [ConfigProvider](https://mui-components.vercel.app/customization#configprovider).
-- Includes well-configured unique components like [Rich Text Editor](https://mui-components.vercel.app/components/misc/rich-text-editor), [Country Select](https://mui-components.vercel.app/components/mui/country-select), [File Uploader](https://mui-components.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components.vercel.app/components/mui/tags-input), saving development time.
+- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider).
+- Includes well-configured unique components like [Rich Text Editor](https://mui-components-docs.vercel.app/components/misc/rich-text-editor), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
 - Provides full control over value validation and transformation before updates are committed to the state.
 - Comprehensive docs showcasing multiple variations for each component.
+
+> ⚡ **All-in on [React Hook Form](https://react-hook-form.com/)?** Skip the wiring and grab the purpose-built sibling: **[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components)** — the same Material UI components, with first-class RHF bindings baked in.
+
 
 ## 📦 Installation
 
@@ -55,7 +58,7 @@ function ProfileForm() {
 ### 📖 Documentation
 Full setup instructions, API references, and examples for every component:
 
-👉 [Documentation Website](https://mui-components.vercel.app/)
+👉 [Documentation Website](https://mui-components-docs.vercel.app/)
 
 ## 🛠️ Local Development
 

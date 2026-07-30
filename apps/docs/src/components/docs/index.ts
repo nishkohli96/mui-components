@@ -10,6 +10,7 @@
  * - PropsTable: props reference table fed by `constants/props-table`.
  */
 export { default as Callout } from './Callout';
+export { default as CodeSnippets, type ComponentSnippet } from './CodeSnippets';
 export { default as DocsPage } from './DocsPage';
 export { default as MdxPre } from './MdxPre';
 export { default as PackageManagerTabs } from './PackageManagerTabs';

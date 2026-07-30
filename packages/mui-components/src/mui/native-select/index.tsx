@@ -60,22 +60,6 @@ export type MUINativeSelectProps<
    */
   fieldName: string;
   /**
-   * Current select value, normalized with `valueKey` for object options.
-   * This is a controlled component: `value` and `onValueChange` must be
-   * supplied together. `undefined`/`null` are treated as no selection.
-   */
-  value?: NoInfer<OptionValue<Option, ValueKey>> | null;
-  /**
-   * Called after the selected value is normalized using `valueKey` for object options.
-   *
-   * @param newValue - Normalized selected value.
-   * @param event - Original native select change event.
-   */
-  onValueChange: ({
-    newValue,
-    event
-  }: OnValueChangeProps<Option, ValueKey>) => void;
-  /**
    * List of options to display in the dropdown.
    * Note:
    * - Works best for small to moderate datasets.
@@ -101,6 +85,22 @@ export type MUINativeSelectProps<
    * @param option - The option being rendered.
    * @returns Custom React content to display for the option.
    */
+  /**
+   * Current select value, normalized with `valueKey` for object options.
+   * This is a controlled component: `value` and `onValueChange` must be
+   * supplied together. `undefined`/`null` are treated as no selection.
+   */
+  value?: NoInfer<OptionValue<Option, ValueKey>> | null;
+  /**
+   * Called after the selected value is normalized using `valueKey` for object options.
+   *
+   * @param newValue - Normalized selected value.
+   * @param event - Original native select change event.
+   */
+  onValueChange: ({
+    newValue,
+    event
+  }: OnValueChangeProps<Option, ValueKey>) => void;
   renderOptionLabel?: (option: Option) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
@@ -189,13 +189,13 @@ const MUINativeSelect = <
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
   fieldName,
-  value: muiValue,
-  onValueChange,
   options,
-  renderOptionLabel,
-  getOptionDisabled,
   labelKey,
   valueKey,
+  value: muiValue,
+  onValueChange,
+  renderOptionLabel,
+  getOptionDisabled,
   disabled: muiDisabled,
   defaultOptionText,
   label,

@@ -7,15 +7,16 @@
 export const defaultAutocompleteValue = 'off';
 
 /**
- * Default value for the select all option in RHFMultiAutocomplete
- * and RHFMultiAutocompleteObject components.
+ * Default value for the select all option in MUIMultiAutocomplete
+ * and MUIMultiAutocompleteObject components.
  */
 export const selectAllOptionValue = '__ALL__';
 export const defaultSelectAllOptionLabel = 'Select All';
 
 /**
- * Threshold for the maximum umber of options to use MUI Select for.
+ * Threshold for the maximum number of options to use MUISelect and
+ * MUINativeSelect for.
  * If the number of options exceeds this threshold, advise the developer
- * to use `RHFAutocomplete` or `RHFMuiAutocomplete` instead.
+ * to use `MUIAutocomplete` or `MUIMuiAutocomplete` instead.
  */
-export const MUISELECT_OPTIONS_THRESHOLD = 40;
+export const MUISELECT_OPTIONS_THRESHOLD = 20;
