@@ -1,0 +1,42 @@
+import MuiLink from '@mui/material/Link';
+import { DocsPage, PropsTable } from '@/components/docs';
+import {
+  componentProps,
+  componentMetadata,
+  externalLinks
+} from '@/constants';
+import FileUploaderForm from '@/forms/mui/file-uploader/Client';
+
+export const metadata = componentMetadata.MUIFileUploader;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIFileUploader
+
+**MUIFileUploader** is a flexible file upload component which supports:
+- Single and multiple file uploads
+- Drag-and-drop uploads
+- Existing server-side files
+- File type validation
+- File size validation
+- Upload count limits
+- Custom upload button rendering
+- Custom file item rendering
+- Custom drop zone styling and behavior
+
+## Playground
+
+Driven by plain React state — a single-image uploader with `accept` / `maxSize`
+and an `onUploadError` handler, plus a multi-file uploader with `maxFiles`,
+`fullWidth` and drag-and-drop.
+
+<FileUploaderForm />
+
+## Props
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIFileUploader} />
+

@@ -1,0 +1,40 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import PickersForm from '@/forms/mui-pickers/time/Client';
+
+export const metadata = componentMetadata.MUITimePicker;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# Time Pickers
+
+These components wrap the Material UI X [Time Picker](https://v8.mui.com/x/react-date-pickers/time-picker/) with the
+suite's label, error and helper-text handling. Each comes in four flavors that share
+the same controlled contract — a `value` in your date library's format and an
+`onValueChange` callback:
+
+- `MUITimePicker` — responsive (renders the desktop UI on pointer devices, the mobile UI on touch).
+- `MUIDesktopTimePicker` — always renders the desktop (keyboard-first) UI.
+- `MUIMobileTimePicker` — always renders the mobile (modal) UI.
+- `MUIStaticTimePicker` — an always-visible inline picker with no text field.
+
+## Playground
+
+<PickersForm />
+
+## Props
+
+All four variants (`MUITimePicker`, `MUIDesktopTimePicker`, `MUIMobileTimePicker`,
+`MUIStaticTimePicker`) share the props below. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUITimePicker} />
+
+<Callout type="info">
+  `MUIStaticTimePicker` renders inline with no text field, so two props behave
+  slightly differently: `fieldName` only derives the generated ids and default
+  label (no `name` attribute, since there's no input), and
+  `showLabelAboveFormField` defaults to `false` — with no built-in inline label,
+  that means no visible label renders at all (the accessible name is still applied).
+</Callout>

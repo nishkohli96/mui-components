@@ -1,0 +1,32 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import TextFieldsForm from '@/forms/mui/textfield/Client';
+
+export const metadata = componentMetadata.MUITextField;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUITextField
+
+`MUITextField` extends the Material UI [TextField](https://v7.mui.com/material-ui/react-text-field/)
+component, accepting almost all of its props while wiring up the label, error state and
+helper text for you. It is a controlled component that works with plain `useState` or any
+form library able to provide a value and receive changes.
+
+## Playground
+
+<TextFieldsForm />
+
+## Props
+
+`MUITextFieldProps` also accepts the remaining
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/)
+in addition to the props below.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUITextField} />
+
+## Reference
+- [MUI TextField](https://v7.mui.com/material-ui/react-text-field/)

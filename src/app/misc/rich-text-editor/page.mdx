@@ -1,0 +1,31 @@
+import MuiLink from '@mui/material/Link';
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentProps, componentMetadata, externalLinks } from '@/constants';
+import RichTextEditorForm from '@/forms/misc/rich-text-editor/Client';
+
+export const metadata = componentMetadata.MUIRichTextEditor;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIRichTextEditor
+
+`MUIRichTextEditor` wraps [CKEditor 5](https://ckeditor.com/docs/ckeditor5/latest/) (`ClassicEditor`)
+which allows users to format text with features such as _**bold**_, _**italics**_, _**lists**_,
+_**links**_, _**images**_, and more, making it suitable for blog posts, comments, or any content 
+requiring rich formatting. `CKEditor 5` is a highly customizable editor that supports advanced features
+such as `codeBlocks`, `findAndReplace`, `tables`, and more.
+
+## Playground
+
+Driven by plain React state — the value is an HTML string; a required editor
+with a custom `label` and validation, plus one with the label above the field.
+
+<RichTextEditorForm />
+
+## Props
+
+Pass a custom `editorConfig` to control the CKEditor toolbar and plugins. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIRichTextEditor} />

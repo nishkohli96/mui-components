@@ -1,12 +1,9 @@
-packages:
-  - packages/*
-  - apps/*
 # Explicitly allows or blocks install/postinstall scripts.
 #
 # Equivalent to approving packages through:
 # pnpm approve-builds
 allowBuilds:
-  '@firebase/util': true
+  '@firebase/util': set this to true or false
   core-js: true
   protobufjs: true
   sharp: true
@@ -19,9 +16,9 @@ ignoredBuiltDependencies:
 # regardless of age restrictions.
 minimumReleaseAgeExclude:
   - axios
+  - '@nish1896/mui-components@1.0.0'
 # Only these packages are allowed to execute install/build scripts.
 onlyBuiltDependencies:
-  - '@firebase/util'
   - core-js
   - protobufjs
   - sharp

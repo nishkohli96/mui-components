@@ -1,0 +1,27 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import ColorPickerForm from '@/forms/misc/color-picker/Client';
+
+export const metadata = componentMetadata.MUIColorPicker;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIColorPicker
+
+`MUIColorPicker` wraps [react-color-palette](https://www.npmjs.com/package/react-color-palette) with the suite's
+label/error/helper-text handling. The emitted value format (`hex`, `rgb`, `hsv`) is chosen with `valueKey`.
+
+## Playground
+
+Driven by plain React state — `valueKey` (hex / rgb / hsv), `defaultColor`,
+`excludeAlpha`, a custom `height`, and using `setColor` to reject a value.
+
+<ColorPickerForm />
+
+## Props
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIColorPicker} />
