@@ -16,5 +16,5 @@ export function generateLargeOptionsErrMsg(
   formElement: string,
   optionsLength: number
 ) {
-  return `[${formElement}]: options length (${optionsLength}) is relatively large. For better performance, searchability, and user experience, consider using MUIAutocomplete or MUIMuiAutocomplete instead.`;
+  return `[${formElement}]: options length (${optionsLength}) is relatively large. For better performance, searchability, and user experience, consider using MUIAutocomplete or MUIMultiAutocomplete instead.`;
 }

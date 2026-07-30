@@ -126,10 +126,17 @@ const MUISwitch = ({
     : defaultFieldLabel;
   const { defaultFormControlLabelSx } = useContext(MUIComponentsConfigContext);
   const { sx, ...otherFormControlLabelProps } = formControlLabelProps ?? {};
-  const appliedFormControlLabelSx = {
-    ...defaultFormControlLabelSx,
-    ...sx,
-  };
+  /*
+   * Compose as an `sx` array (not an object spread) so array- or callback-based
+   * styles from either the config default or the caller are preserved instead of
+   * being flattened into numeric keys / dropped.
+   */
+  const appliedFormControlLabelSx = [
+    ...(Array.isArray(defaultFormControlLabelSx)
+      ? defaultFormControlLabelSx
+      : defaultFormControlLabelSx ? [defaultFormControlLabelSx] : []),
+    ...(Array.isArray(sx) ? sx : sx ? [sx] : [])
+  ];
 
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
