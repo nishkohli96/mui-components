@@ -70,7 +70,7 @@ export const ThemeChangeButton = () => {
         onClick={toggleTheme}
         aria-label={toolTip}
         color="inherit"
-        sx={{ padding: { xs: '6px 0px 6px 6px', md: '12px' }}}
+        sx={{ padding: { xs: '6px 0px 6px 6px', md: '12px' } }}
       >
         {isDarkTheme ? <BedtimeIcon /> : <LightModeIcon color="warning" />}
       </IconButton>
