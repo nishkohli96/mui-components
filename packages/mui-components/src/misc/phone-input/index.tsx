@@ -548,9 +548,9 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
       )}
       <MuiTextField
         {...otherPhoneInputPropsForTextField}
-        ref={phoneInputRootRef}
         id={fieldId}
         name={fieldName}
+        ref={phoneInputRootRef}
         inputRef={mergeRefs(inputRef, ref)}
         value={inputValue}
         autoComplete={autoComplete}

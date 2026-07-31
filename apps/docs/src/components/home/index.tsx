@@ -26,7 +26,7 @@ const features = [
       'Written in TypeScript from the ground up, with precise prop types for every component.'
   },
   {
-    icon: '/icons/tree-shakable.svg',
+    icon: '/icons/tree.svg',
     title: 'Tree-shakable',
     description:
       'Import only what you use, with subpath exports for MUI, pickers and misc components.'
@@ -180,10 +180,10 @@ const HomeLanding = () => {
                 <Image
                   src={feature.icon}
                   alt={feature.title}
-                  width={40}
-                  height={40}
+                  width={60}
+                  height={60}
                 />
-                <Typography sx={{ mt: 2, fontWeight: 800 }}>
+                <Typography sx={{ mt: 1, fontWeight: 800 }}>
                   {feature.title}
                 </Typography>
                 <Typography
