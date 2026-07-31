@@ -16,7 +16,7 @@ const Footer = () => {
         gap: 1.25
       }}
     >
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body1" color="text.secondary">
         Made with ❤️ by Nish
       </Typography>
     </Box>

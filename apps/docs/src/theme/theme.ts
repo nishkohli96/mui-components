@@ -5,19 +5,13 @@
 'use client';
 
 import { createTheme, type Theme } from '@mui/material/styles';
-import { Roboto } from 'next/font/google';
 import {
   LightThemePalette,
   DarkThemePalette,
   CommonColorPalette
 } from './palette';
 import { colorSchemeAttribute } from './constants';
-
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  display: 'swap',
-});
+import { roboto } from './fonts';
 
 export const theme: Theme = createTheme({
   cssVariables: {
@@ -40,10 +34,10 @@ export const theme: Theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 350,
+      sm: 480,
       md: 768,
       lg: 1024,
-      xl: 1400,
+      xl: 1440,
     },
   },
   typography: {

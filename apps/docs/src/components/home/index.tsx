@@ -110,9 +110,9 @@ const HomeLanding = () => {
               fontWeight: 500
             }}
           >
-            25+ fully-typed, tree-shakable components, independent of any
-            form library. Wire label placement, error state, and helper text
-            once, then use it everywhere.
+            A suite of 25+ fully-typed, tree-shakable components, independent of any
+            form library. Production-ready with built-in state management, validation,
+            and a consistent API designed to minimize boilerplate.
           </Typography>
           <Paper
             variant="outlined"
@@ -180,10 +180,10 @@ const HomeLanding = () => {
                 <Image
                   src={feature.icon}
                   alt={feature.title}
-                  width={40}
-                  height={40}
+                  width={60}
+                  height={60}
                 />
-                <Typography sx={{ mt: 2, fontWeight: 800 }}>
+                <Typography sx={{ mt: 1, fontWeight: 800 }}>
                   {feature.title}
                 </Typography>
                 <Typography

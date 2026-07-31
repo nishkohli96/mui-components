@@ -17,6 +17,10 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
+> 📋 **Using [react-hook-form](https://react-hook-form.com/) in your application?**
+>
+> Skip writing the form UI logic and grab the purpose-built sibling: **[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components)** — the same Material UI components, with first-class RHF bindings baked in.
+
 ## ✨ Features
 
 - Every component is designed to work out of the box with minimal configuration, allowing you to focus on building features instead of implementing core logic..
@@ -25,9 +29,6 @@
 - Includes well-configured unique components like [Rich Text Editor](https://mui-components-docs.vercel.app/components/misc/rich-text-editor), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
 - Provides full control over value validation and transformation before updates are committed to the state.
 - Comprehensive docs showcasing multiple variations for each component.
-
-> ⚡ **All-in on [React Hook Form](https://react-hook-form.com/)?** Skip the wiring and grab the purpose-built sibling: **[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components)** — the same Material UI components, with first-class RHF bindings baked in.
-
 
 ## 📦 Installation
 
@@ -59,6 +60,12 @@ function ProfileForm() {
 Full setup instructions, API references, and examples for every component:
 
 👉 [Documentation Website](https://mui-components-docs.vercel.app/)
+
+### 🧪 Playground
+
+Spin up an editable sandbox in your browser — fork it and experiment freely:
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/nishkohli96/mui-components/tree/v1-playground)
 
 ## 🛠️ Local Development
 

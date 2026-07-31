@@ -564,7 +564,7 @@ const MUIMultiAutocomplete = <
                 selectedOptions.length > 0 ? undefined : placeholder
               }
               label={
-                !isLabelAboveFormField
+                !hideLabel && !isLabelAboveFormField
                   ? (
                     <FormLabelText label={fieldLabel} required={required} />
                   )
