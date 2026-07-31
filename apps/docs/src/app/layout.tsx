@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from '@vercel/analytics/next';
@@ -11,13 +10,12 @@ import {
 import AppShell from '@/components/app-shell';
 import { AppThemeProvider } from '@/theme';
 import { colorSchemeAttribute, modeStorageKey } from '@/theme/constants';
+import { roboto } from '@/theme/fonts';
 import './globals.css';
 
 type RootLayoutProps = {
   children: React.ReactNode;
 };
-
-const inter = Inter({ subsets: ['latin'] });
 
 /*
  * Synchronous, no-flash color-scheme bootstrap. Runs as the first child of
@@ -47,7 +45,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={roboto.className}>
         {/* Must be the first body child — see colorSchemeInit above. */}
         <script
           suppressHydrationWarning

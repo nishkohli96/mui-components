@@ -52,15 +52,15 @@ import {
 import CountryMenuItem from './CountryMenuItem';
 import 'react-international-phone/style.css';
 
+const countryMenuWidth = 350;
+const countryMenuLeftOffset = -34;
+const countryMenuViewportGutter = 32;
+
 type PhoneInputChangeReturnValue = {
   phone: string;
   inputValue: string;
   country: ParsedCountry;
 };
-
-const countryMenuWidth = 350;
-const countryMenuLeftOffset = -34;
-const countryMenuViewportGutter = 32;
 
 export type MUIPhoneInputValue = {
   /** Full E.164-style phone value with dial code, e.g. "+15551234567". */
