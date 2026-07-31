@@ -510,7 +510,7 @@ const MUIAutocomplete = <
               {...otherTextFieldProps}
               {...otherInputParams}
               label={
-                !isLabelAboveFormField
+                !hideLabel && !isLabelAboveFormField
                   ? (
                     <FormLabelText
                       label={fieldLabel}
