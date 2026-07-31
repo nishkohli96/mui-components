@@ -4,6 +4,7 @@ const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
 
 export const githubRepoLink = 'https://github.com/nishkohli96/mui-components';
 export const npmLink = 'https://www.npmjs.com/package/@nish1896/mui-components';
+export const stackblitzLink = 'https://stackblitz.com/github/nishkohli96/mui-components/tree/v1-playground' 
 
 export const externalLinks = Object.freeze({
   githubRepo: {

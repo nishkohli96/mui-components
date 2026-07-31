@@ -10,6 +10,12 @@ Setup guides, API references, and multiple live variations for every component:
 
 👉 [Documentation Site](https://mui-components-docs.vercel.app)
 
+### 🧪 Playground
+
+Spin up an editable sandbox in your browser — fork it and experiment freely:
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/nishkohli96/mui-components/tree/v1-playground)
+
 ### Local Development
 
 From the monorepo root:

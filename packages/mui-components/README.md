@@ -36,6 +36,12 @@ Full setup instructions, API references, and examples for every component:
 
 👉 [Documentation Website](https://mui-components-docs.vercel.app/)
 
+### 🧪 Playground
+
+Spin up an editable sandbox in your browser — fork it and experiment freely:
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/nishkohli96/mui-components/tree/v1-playground)
+
 ## Components List
 
 Below is a comprehensive list of all components included in this package, categorized by module. Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfield`) for optimal tree-shaking.

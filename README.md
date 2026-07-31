@@ -61,6 +61,12 @@ Full setup instructions, API references, and examples for every component:
 
 👉 [Documentation Website](https://mui-components-docs.vercel.app/)
 
+### 🧪 Playground
+
+Spin up an editable sandbox in your browser — fork it and experiment freely:
+
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/nishkohli96/mui-components/tree/v1-playground)
+
 ## 🛠️ Local Development
 
 This is a `pnpm` monorepo — the published package lives in `packages/mui-components`, and documentation website in `apps/docs`.

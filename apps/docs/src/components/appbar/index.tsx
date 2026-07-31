@@ -4,7 +4,12 @@ import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import DrawerMenu from './DrawerMenu';
-import { GithubButton, NpmButton, ThemeChangeButton } from '../buttons';
+import {
+  GithubButton,
+  NpmButton,
+  ThemeChangeButton,
+  PlaygroundButton
+} from '../buttons';
 
 /**
  * Sticky, flat docs-style header: brand on the left, actions on the right.
@@ -77,6 +82,7 @@ const AppBar = () => {
           </Box>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
+        <PlaygroundButton />
         <NpmButton />
         <GithubButton />
         <ThemeChangeButton />

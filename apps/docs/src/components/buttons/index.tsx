@@ -7,7 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import BedtimeIcon from '@mui/icons-material/Bedtime';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { githubRepoLink, npmLink } from '@/constants';
+import TerminalIcon from '@mui/icons-material/Terminal';
+import { githubRepoLink, npmLink, stackblitzLink } from '@/constants';
 import { useThemeContext } from '@/theme';
 
 export const SubmitButton = ({ disabled, ...otherBtnProps }: ButtonProps) => {
@@ -69,6 +70,7 @@ export const ThemeChangeButton = () => {
         onClick={toggleTheme}
         aria-label={toolTip}
         color="inherit"
+        sx={{ padding: { xs: '6px 0px 6px 6px', md: '12px' }}}
       >
         {isDarkTheme ? <BedtimeIcon /> : <LightModeIcon color="warning" />}
       </IconButton>
@@ -76,15 +78,17 @@ export const ThemeChangeButton = () => {
   );
 };
 
+const githubBtnTooltip = 'Github';
+
 export const GithubButton = () => {
   return (
-    <Tooltip title="Github">
+    <Tooltip title={githubBtnTooltip}>
       <IconButton
         component={Link}
         href={githubRepoLink}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Github"
+        aria-label={githubBtnTooltip}
         size="large"
         color="inherit"
         sx={{ padding: { xs: '6px', md: '12px' } }}
@@ -100,15 +104,17 @@ export const GithubButton = () => {
   );
 };
 
+const npmBtnTooltip = 'View package on NPM';
+
 export const NpmButton = () => {
   return (
-    <Tooltip title="NPM">
+    <Tooltip title={npmBtnTooltip}>
       <IconButton
         component={Link}
         href={npmLink}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Npm"
+        aria-label={npmBtnTooltip}
         size="large"
         color="inherit"
         sx={{ padding: { xs: '6px', md: '12px' } }}
@@ -119,6 +125,29 @@ export const NpmButton = () => {
           width={30}
           height={30}
         />
+      </IconButton>
+    </Tooltip>
+  );
+};
+
+const playgroundTooltip = 'Open Stackblitz Playground';
+
+export const PlaygroundButton = () => {
+  return (
+    <Tooltip title={playgroundTooltip}>
+      <IconButton
+        component={Link}
+        href={stackblitzLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={playgroundTooltip}
+        size="large"
+        color="inherit"
+        sx={{
+          padding: { xs: '6px 0px 6px 6px', md: '12px' }
+        }}
+      >
+        <TerminalIcon />
       </IconButton>
     </Tooltip>
   );
