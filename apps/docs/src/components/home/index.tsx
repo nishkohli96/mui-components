@@ -26,7 +26,7 @@ const features = [
       'Written in TypeScript from the ground up, with precise prop types for every component.'
   },
   {
-    icon: '/icons/tree.svg',
+    icon: '/icons/tree-shakable.svg',
     title: 'Tree-shakable',
     description:
       'Import only what you use, with subpath exports for MUI, pickers and misc components.'
@@ -110,9 +110,9 @@ const HomeLanding = () => {
               fontWeight: 500
             }}
           >
-            25+ fully-typed, tree-shakable components, independent of any
-            form library. Wire label placement, error state, and helper text
-            once, then use it everywhere.
+            A suite of 25+ fully-typed, tree-shakable components, independent of any
+            form library. Production-ready with built-in state management, validation,
+            and a consistent API designed to minimize boilerplate.
           </Typography>
           <Paper
             variant="outlined"

@@ -26,8 +26,9 @@
 - Provides full control over value validation and transformation before updates are committed to the state.
 - Comprehensive docs showcasing multiple variations for each component.
 
-> ⚡ **All-in on [React Hook Form](https://react-hook-form.com/)?**  
-> Skip the wiring and grab the purpose-built sibling: **[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components)** — the same Material UI components, with first-class RHF bindings baked in.
+> ⚡ **Using [React Hook Form](https://react-hook-form.com/) in your application?**
+>
+> Skip writing the form UI logic and grab the purpose-built sibling: **[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components)** — the same Material UI components, with first-class RHF bindings baked in.
 
 
 ## 📦 Installation
