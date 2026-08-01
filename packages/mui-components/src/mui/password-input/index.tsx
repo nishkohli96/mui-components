@@ -66,17 +66,14 @@ export type MUIPasswordInputProps = {
    */
   onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When true, the value is displayed but cannot be edited.
+   *
+   * Unlike `disabled`, the field stays focusable, is still submitted with the
+   * form, and the show/hide toggle remains usable — a read-only value is
+   * meaningful, so the user can still reveal it to verify it. `disabled`
+   * instead makes the whole field inert, including the toggle.
    */
-  showLabelAboveFormField?: boolean;
-  /**
-   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
-   */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
-  /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
-   */
-  hideLabel?: boolean;
+  readOnly?: boolean;
   /**
    * Custom icon displayed when the password is currently hidden.
    *
@@ -94,14 +91,17 @@ export type MUIPasswordInputProps = {
    */
   hidePasswordIcon?: ReactNode;
   /**
-   * When true, the value is displayed but cannot be edited.
-   *
-   * Unlike `disabled`, the field stays focusable, is still submitted with the
-   * form, and the show/hide toggle remains usable — a read-only value is
-   * meaningful, so the user can still reveal it to verify it. `disabled`
-   * instead makes the whole field inert, including the toggle.
+   * When true, renders the field label above the form field instead of inside or beside it.
    */
-  readOnly?: boolean;
+  showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
+  hideLabel?: boolean;
   /**
    * Validation error for the field — pass a single message `string`, or a
    * `string[]` when the field can fail multiple rules at once (every message
@@ -142,24 +142,24 @@ export type MUIPasswordInputProps = {
 
 const MUIPasswordInput = ({
   fieldName,
+  required,
   value: muiValue,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
+  readOnly,
+  showPasswordIcon,
+  hidePasswordIcon,
   label,
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
-  showPasswordIcon,
-  hidePasswordIcon,
-  readOnly,
-  required,
   errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
   formHelperTextProps,
   slotProps: muiSlotProps,
-  onBlur: muiOnBlur,
   autoComplete = defaultAutocompleteValue,
   customIds,
   ...otherPasswordInputProps
@@ -232,14 +232,13 @@ const MUIPasswordInput = ({
         id={fieldId}
         name={fieldName}
         autoComplete={autoComplete}
-        type={showPassword ? 'text' : 'password'}
         label={
           !hideLabel && !isLabelAboveFormField
             ? <FormLabelText label={fieldLabel} required={required} />
             : undefined
         }
+        type={showPassword ? 'text' : 'password'}
         value={muiValue ?? ''}
-        disabled={muiDisabled}
         onChange={event => {
           const changeEvent = event as ChangeEvent<HTMLInputElement>;
           const newValue = changeEvent.target.value;
@@ -249,6 +248,8 @@ const MUIPasswordInput = ({
           muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
         }}
         error={isError}
+        disabled={muiDisabled}
+        multiline={false}
         slotProps={{
           ...muiSlotProps,
           htmlInput: {
@@ -270,7 +271,6 @@ const MUIPasswordInput = ({
             )
           }
         }}
-        multiline={false}
       />
       <FormHelperText
         error={isError}

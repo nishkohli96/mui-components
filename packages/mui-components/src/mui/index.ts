@@ -5,6 +5,7 @@ import MUICheckboxGroup, { type MUICheckboxGroupProps } from './checkbox-group';
 import MUICountrySelect, {
   countryList,
   type MUICountrySelectProps,
+  type CountrySelectValueKey,
   type CountryISO,
   type CountryDetails
 } from './country-select';
@@ -77,6 +78,7 @@ export type {
   MUISwitchProps,
   MUITagsInputProps,
   MUITextFieldProps,
+  CountrySelectValueKey,
   CountryISO,
   CountryDetails,
 };

@@ -38,7 +38,7 @@ import {
 import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
 
-type CountrySelectValueKey = keyof Omit<CountryDetails, 'emoji'>;
+export type CountrySelectValueKey = keyof Omit<CountryDetails, 'emoji'>;
 
 type CountrySelectStoredPrimitive = CountryDetails[CountrySelectValueKey];
 
@@ -255,9 +255,9 @@ export type MUICountrySelectProps<
 } & AutoCompleteProps<Multiple, DisableClearable>;
 
 const MUICountrySelect = <
+  ValueKey extends CountrySelectValueKey | undefined = undefined,
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false,
-  ValueKey extends CountrySelectValueKey | undefined = undefined
+  DisableClearable extends boolean = false
 >({
   fieldName,
   countries,

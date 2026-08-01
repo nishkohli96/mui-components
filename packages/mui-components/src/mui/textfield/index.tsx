@@ -97,20 +97,20 @@ export type MUITextFieldProps = {
 
 const MUITextField = ({
   fieldName,
+  required,
   value: muiValue,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
-  required,
   errorMessage,
   renderError,
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur: muiOnBlur,
   autoComplete = defaultAutocompleteValue,
   slotProps: muiSlotProps,
   customIds,
@@ -166,7 +166,6 @@ const MUITextField = ({
             : undefined
         }
         value={muiValue ?? ''}
-        disabled={muiDisabled}
         onChange={event => {
           const newValue = event.target.value;
           onValueChange({ newValue, event });
@@ -175,6 +174,7 @@ const MUITextField = ({
           muiOnBlur?.(blurEvent);
         }}
         error={isError}
+        disabled={muiDisabled}
         slotProps={{
           ...muiSlotProps,
           htmlInput: {
