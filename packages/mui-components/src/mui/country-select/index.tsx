@@ -103,14 +103,46 @@ type AutoCompleteProps<
 >;
 
 export type MUICountrySelectProps<
+  ValueKey extends CountrySelectValueKey | undefined = undefined,
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false,
-  ValueKey extends CountrySelectValueKey | undefined = undefined
+  DisableClearable extends boolean = false
 > = {
   /**
    * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
   fieldName: string;
+  /**
+   * List of countries to display in the country selector.
+   *
+   * Defaults to all countries from `countryList`.
+   */
+  countries?: CountryDetails[];
+  /**
+   * List of country ISO codes to pin at the top of the dropdown.
+   *
+   * Countries are displayed in the same order as provided in this array,
+   * followed by the remaining countries sorted in their default order.
+   *
+   * @example
+   * preferredCountries={['US', 'CA', 'IN']}
+   */
+  preferredCountries?: CountryISO[];
+  /**
+   * - When `valueKey` is provided, selected value(s) are exposed using the
+   *   specified country property.
+   * - When `valueKey` is omitted, selected value(s) are exposed as complete
+   *   country objects.
+   */
+  valueKey?: ValueKey;
+  /**
+   * When true, allows selecting multiple countries.
+   */
+  multiple?: Multiple;
+  /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
   /**
    * Currently selected country value(s): the property named by `valueKey` when
    * it is provided, otherwise the complete `CountryDetails` object(s). An array
@@ -143,38 +175,6 @@ export type MUICountrySelectProps<
     reason,
     details
   }: OnValueChangeProps<Multiple, DisableClearable, ValueKey>) => void;
-  /**
-   * List of countries to display in the country selector.
-   *
-   * Defaults to all countries from `countryList`.
-   */
-  countries?: CountryDetails[];
-  /**
-   * When true, allows selecting multiple countries.
-   */
-  multiple?: Multiple;
-  /**
-   * List of country ISO codes to pin at the top of the dropdown.
-   *
-   * Countries are displayed in the same order as provided in this array,
-   * followed by the remaining countries sorted in their default order.
-   *
-   * @example
-   * preferredCountries={['US', 'CA', 'IN']}
-   */
-  preferredCountries?: CountryISO[];
-  /**
-   * - When `valueKey` is provided, selected value(s) are exposed using the
-   *   specified country property.
-   * - When `valueKey` is omitted, selected value(s) are exposed as complete
-   *   country objects.
-   */
-  valueKey?: ValueKey;
-  /**
-   * When true, the selected value cannot be cleared from the input.
-   * @default false
-   */
-  disableClearable?: DisableClearable;
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
@@ -260,11 +260,14 @@ const MUICountrySelect = <
   ValueKey extends CountrySelectValueKey | undefined = undefined
 >({
   fieldName,
-  value,
-  onValueChange,
   countries,
   preferredCountries,
   valueKey,
+  multiple,
+  disableClearable,
+  value,
+  onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
   autoHighlight = true,
   label,
@@ -278,18 +281,15 @@ const MUICountrySelect = <
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  multiple,
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur,
-  disableClearable,
   customIds,
   limitTags = 2,
   getLimitTagsText,
   getOptionKey,
   ...otherCountrySelectProps
-}: MUICountrySelectProps<Multiple, DisableClearable, ValueKey>) => {
+}: MUICountrySelectProps<ValueKey, Multiple, DisableClearable>) => {
   const {
     fieldId,
     labelId,
@@ -399,6 +399,7 @@ const MUICountrySelect = <
         id={fieldId}
         options={countrySelectOptions}
         multiple={multiple}
+        disableClearable={disableClearable}
         freeSolo={false}
         value={
           selectedCountries as CountrySelectFieldValue<
@@ -406,7 +407,6 @@ const MUICountrySelect = <
             DisableClearable
           >
         }
-        disabled={muiDisabled}
         onChange={(event, newValue, reason, details) => {
           const storedValue = (
             multiple
@@ -428,11 +428,11 @@ const MUICountrySelect = <
             details
           });
         }}
-        onBlur={onBlur}
+        onBlur={muiOnBlur}
+        disabled={muiDisabled}
         autoHighlight={autoHighlight}
         blurOnSelect={!multiple}
         disableCloseOnSelect={multiple}
-        disableClearable={disableClearable}
         fullWidth
         limitTags={limitTags}
         getLimitTagsText={more => getLimitTagsText?.(more) ?? ( more === 1 ? '+1 Country' : `+${more} Countries`)}

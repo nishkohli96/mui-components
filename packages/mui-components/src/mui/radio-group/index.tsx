@@ -61,6 +61,19 @@ export type MUIRadioGroupProps<
    */
   fieldName: string;
   /**
+   * List of options to render as radio buttons. Best suited for smaller datasets, with
+   * upto 10 options. For larger datasets, consider using `MUIAutocomplete`.
+   */
+  options: Option[];
+  /**
+   * Object key used to read the display label from each option.
+   */
+  labelKey?: LabelKey;
+  /**
+   * Object key used to derive the stored field value when options are an array of objects.
+   */
+  valueKey?: ValueKey;
+  /**
    * Currently selected option value. This is a controlled component: `value` and
    * `onValueChange` must be supplied together, typically backed by your own state
    * or form library.
@@ -80,19 +93,6 @@ export type MUIRadioGroupProps<
     newValue,
     event
   }: OnValueChangeProps<Option, ValueKey>) => void;
-  /**
-   * List of options to render as radio buttons. Best suited for smaller datasets, with
-   * upto 10 options. For larger datasets, consider using `MUIAutocomplete`.
-   */
-  options: Option[];
-  /**
-   * Object key used to read the display label from each option.
-   */
-  labelKey?: LabelKey;
-  /**
-   * Object key used to derive the stored field value when options are an array of objects.
-   */
-  valueKey?: ValueKey;
   /**
    * Function to customize the label for each radio button.
    * When not provided, the option label derived from `labelKey` (or the
@@ -200,14 +200,15 @@ const MUIRadioGroup = <
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
   fieldName,
-  value,
-  onValueChange,
   options,
-  renderOptionLabel,
-  getOptionDisabled,
   labelKey,
   valueKey,
+  value,
+  onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
+  renderOptionLabel,
+  getOptionDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -220,7 +221,6 @@ const MUIRadioGroup = <
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur,
   customIds,
   ...otherRadioGroupProps
 }: MUIRadioGroupProps<Option, LabelKey, ValueKey>) => {
@@ -298,7 +298,7 @@ const MUIRadioGroup = <
           ) as OptionValue<Option, ValueKey>;
           onValueChange({ newValue: normalizedValue, event });
         }}
-        onBlur={onBlur}
+        onBlur={muiOnBlur}
         aria-required={required || undefined}
         aria-labelledby={!hideLabel ? labelId : undefined}
         aria-label={hideLabel ? accessibleFieldLabel : undefined}

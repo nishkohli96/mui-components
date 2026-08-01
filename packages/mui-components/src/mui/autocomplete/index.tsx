@@ -269,8 +269,8 @@ const MUIAutocomplete = <
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur,
   onFocus,
+  onBlur,
   loading,
   limitTags = 2,
   customIds,
@@ -417,10 +417,10 @@ const MUIAutocomplete = <
         id={fieldId}
         options={options}
         multiple={multiple}
+        disableClearable={disableClearable}
         freeSolo={freeSolo}
         autoSelect={freeSolo ? autoSelect ?? true : autoSelect}
         value={selectedOptions}
-        disabled={muiDisabled}
         onChange={(
           event,
           newValue,
@@ -456,6 +456,7 @@ const MUIAutocomplete = <
             details
           });
         }}
+        disabled={muiDisabled}
         onFocus={onFocus}
         onBlur={onBlur}
         getOptionLabel={renderOptionLabel}
@@ -542,7 +543,6 @@ const MUIAutocomplete = <
         autoHighlight={autoHighlight}
         blurOnSelect={!multiple}
         disableCloseOnSelect={multiple}
-        disableClearable={disableClearable}
         fullWidth
         loading={loading}
         limitTags={limitTags}

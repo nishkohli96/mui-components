@@ -21,7 +21,7 @@
 >
 > Skip writing the form UI logic and grab the purpose-built sibling: **[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components)** — the same Material UI components, with first-class RHF bindings baked in.
 
-## Features ✨
+## ✨ Features
 
 - Every component is designed to work out of the box with minimal configuration, allowing you to focus on building features instead of implementing core logic..
 - **Form-library-agnostic**: every component is controlled through `value` / `onValueChange`, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required.

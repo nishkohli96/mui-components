@@ -53,4 +53,3 @@ export type OptionRenderState = {
   /** Whether the option is part of the current selection. */
   selected: boolean;
 };
-

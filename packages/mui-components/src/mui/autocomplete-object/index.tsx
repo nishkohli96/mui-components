@@ -110,10 +110,6 @@ export type MUIAutocompleteObjectProps<
    */
   options: Option[];
   /**
-   * When true, allows selecting multiple values.
-   */
-  multiple?: Multiple;
-  /**
    * Object key used to read the display label from each option.
    */
   labelKey: LabelKey;
@@ -121,6 +117,10 @@ export type MUIAutocompleteObjectProps<
    * Object key used to compare options with the current value.
    */
   valueKey: ValueKey;
+  /**
+   * When true, allows selecting multiple values.
+   */
+  multiple?: Multiple;
   /**
    * When true, the selected value cannot be cleared from the input.
    * @default false
@@ -222,9 +222,9 @@ const MUIAutocompleteObject = <
   value,
   onValueChange,
   options,
-  multiple,
   labelKey,
   valueKey,
+  multiple,
   disableClearable,
   autoHighlight = true,
   disabled: muiDisabled,
@@ -241,8 +241,8 @@ const MUIAutocompleteObject = <
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur,
   onFocus,
+  onBlur,
   loading,
   limitTags = 2,
   getLimitTagsText,
@@ -316,6 +316,7 @@ const MUIAutocompleteObject = <
         id={fieldId}
         options={options}
         multiple={multiple}
+        disableClearable={disableClearable}
         value={
           (value ?? (multiple ? [] : null)) as AutocompleteValue<
             Option,
@@ -324,7 +325,6 @@ const MUIAutocompleteObject = <
             false
           >
         }
-        disabled={muiDisabled}
         onChange={(
           event,
           newValue,
@@ -338,6 +338,7 @@ const MUIAutocompleteObject = <
             details
           });
         }}
+        disabled={muiDisabled}
         onFocus={onFocus}
         onBlur={onBlur}
         getOptionLabel={option => renderOptionLabel(option)}
@@ -405,7 +406,6 @@ const MUIAutocompleteObject = <
         autoHighlight={autoHighlight}
         blurOnSelect={!multiple}
         disableCloseOnSelect={multiple}
-        disableClearable={disableClearable}
         fullWidth
         loading={loading}
         limitTags={limitTags}

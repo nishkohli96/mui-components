@@ -119,6 +119,11 @@ export type MUIMultiAutocompleteProps<
    */
   valueKey?: ValueKey;
   /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
+  /**
    * When true, the user may type any value not present in `options`.
    *
    * The typed string is passed to `onValueChange` as-is.
@@ -127,11 +132,6 @@ export type MUIMultiAutocompleteProps<
    * `selectAllText` and will hide the "Select All" option.
    */
   freeSolo?: FreeSolo;
-  /**
-   * When true, the selected value cannot be cleared from the input.
-   * @default false
-   */
-  disableClearable?: DisableClearable;
   /**
    * Text to display for the "Select All" option.
    */
@@ -246,8 +246,8 @@ const MUIMultiAutocomplete = <
   options,
   labelKey,
   valueKey,
-  freeSolo,
   disableClearable,
+  freeSolo,
   autoHighlight = true,
   selectAllText = defaultSelectAllOptionLabel,
   hideSelectAllOption,
@@ -471,11 +471,11 @@ const MUIMultiAutocomplete = <
         {...otherMultiAutoCompleteProps}
         id={fieldId}
         options={autoCompleteOptions}
+        multiple
         freeSolo={freeSolo}
+        disableClearable={disableClearable}
         autoSelect={freeSolo ? autoSelect ?? true : autoSelect}
         value={selectedOptions}
-        loading={loading}
-        disabled={muiDisabled}
         onChange={(_, newSelectedOptions, reason, details) => {
           if (reason === 'clear') {
             onValueChange({
@@ -508,6 +508,7 @@ const MUIMultiAutocomplete = <
               : undefined
           });
         }}
+        disabled={muiDisabled}
         onBlur={onBlur}
         getOptionLabel={option => displayOptionLabel(option, true)}
         isOptionEqualToValue={(option, value) => {
@@ -678,10 +679,9 @@ const MUIMultiAutocomplete = <
         getLimitTagsText={more => getLimitTagsText?.(more) ?? `+${more} More`}
         autoHighlight={autoHighlight}
         disableCloseOnSelect
-        disableClearable={disableClearable}
         blurOnSelect={false}
+        loading={loading}
         fullWidth
-        multiple
         slotProps={{
           ...slotProps,
           chip: ChipProps,

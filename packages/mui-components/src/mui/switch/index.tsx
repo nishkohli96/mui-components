@@ -104,6 +104,7 @@ const MUISwitch = ({
   fieldName,
   value,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
   formControlLabelProps,
@@ -113,7 +114,6 @@ const MUISwitch = ({
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur,
   slotProps: muiSlotProps,
   customIds,
   ...otherSwitchProps
@@ -165,7 +165,7 @@ const MUISwitch = ({
             onChange={(event, isChecked) => {
               onValueChange({ newValue: isChecked, event });
             }}
-            onBlur={onBlur}
+            onBlur={muiOnBlur}
             aria-label={hideLabel ? accessibleFieldLabel : undefined}
             aria-describedby={
               showHelperTextElement

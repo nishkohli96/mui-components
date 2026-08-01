@@ -120,6 +120,11 @@ export type MUIMultiAutocompleteObjectProps<
    */
   valueKey?: ValueKey;
   /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
+  /**
    * Text to display for the "Select All" option.
    */
   selectAllText?: string;
@@ -127,11 +132,6 @@ export type MUIMultiAutocompleteObjectProps<
    * When true, hides the select-all option.
    */
   hideSelectAllOption?: boolean;
-  /**
-   * When true, the selected value cannot be cleared from the input.
-   * @default false
-   */
-  disableClearable?: DisableClearable;
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
@@ -248,6 +248,7 @@ const MUIMultiAutocompleteObject = <
   valueKey,
   disableClearable,
   autoHighlight = true,
+  onBlur: muiOnBlur,
   selectAllText = defaultSelectAllOptionLabel,
   hideSelectAllOption,
   disabled: muiDisabled,
@@ -267,7 +268,6 @@ const MUIMultiAutocompleteObject = <
   textFieldProps,
   slotProps,
   ChipProps,
-  onBlur,
   loading,
   customIds,
   getOptionDisabled,
@@ -464,9 +464,10 @@ const MUIMultiAutocompleteObject = <
         {...otherMultiAutocompleteObjectProps}
         id={fieldId}
         options={autoCompleteOptions as Option[]}
+        multiple
+        freeSolo={false}
+        disableClearable={disableClearable}
         value={selectedOptions}
-        loading={loading}
-        disabled={muiDisabled}
         onChange={(_, newSelectedOptions, reason, details) => {
           if (reason === 'clear') {
             onValueChange({ newValue: [] });
@@ -497,7 +498,8 @@ const MUIMultiAutocompleteObject = <
             selectedOption
           });
         }}
-        onBlur={onBlur}
+        onBlur={muiOnBlur}
+        disabled={muiDisabled}
         getOptionLabel={option => displayOptionLabel(option, true)}
         isOptionEqualToValue={(option, value) => {
           if (isSelectAllOption(option)) {
@@ -663,11 +665,9 @@ const MUIMultiAutocompleteObject = <
         getLimitTagsText={more => getLimitTagsText?.(more) ?? `+${more} More`}
         autoHighlight={autoHighlight}
         disableCloseOnSelect
-        disableClearable={disableClearable}
         blurOnSelect={false}
+        loading={loading}
         fullWidth
-        multiple
-        freeSolo={false}
         slotProps={{
           ...slotProps,
           chip: ChipProps,
