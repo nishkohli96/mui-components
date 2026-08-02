@@ -4,6 +4,9 @@ import {
   useContext,
   useCallback,
   useMemo,
+  forwardRef,
+  type JSX,
+  type Ref,
   type ReactNode
 } from 'react';
 import Box from '@mui/material/Box';
@@ -227,7 +230,7 @@ export type MUIMultiAutocompleteProps<
   customIds?: CustomComponentIds;
 } & MultiAutoCompleteProps<Option, DisableClearable, FreeSolo>;
 
-const MUIMultiAutocomplete = <
+const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
     keyof Option,
@@ -239,50 +242,53 @@ const MUIMultiAutocomplete = <
   >,
   DisableClearable extends boolean = false,
   FreeSolo extends boolean = false
->({
-  fieldName,
-  value,
-  onValueChange,
-  options,
-  labelKey,
-  valueKey,
-  disableClearable,
-  freeSolo,
-  autoHighlight = true,
-  selectAllText = defaultSelectAllOptionLabel,
-  hideSelectAllOption,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  checkboxProps,
-  renderOptionLabel,
-  formControlLabelProps,
-  required,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  textFieldProps,
-  slotProps,
-  ChipProps,
-  onBlur,
-  loading,
-  customIds,
-  getOptionDisabled,
-  limitTags = 2,
-  getLimitTagsText,
-  autoSelect,
-  ...otherMultiAutoCompleteProps
-}: MUIMultiAutocompleteProps<
-  Option,
-  LabelKey,
-  ValueKey,
-  DisableClearable,
-  FreeSolo
->) => {
+>(
+  {
+    fieldName,
+    value,
+    onValueChange,
+    options,
+    labelKey,
+    valueKey,
+    disableClearable,
+    freeSolo,
+    autoHighlight = true,
+    selectAllText = defaultSelectAllOptionLabel,
+    hideSelectAllOption,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    checkboxProps,
+    renderOptionLabel,
+    formControlLabelProps,
+    required,
+    errorMessage,
+    renderError,
+    hideErrorMessage,
+    helperText,
+    formHelperTextProps,
+    textFieldProps,
+    slotProps,
+    ChipProps,
+    onBlur,
+    loading,
+    customIds,
+    getOptionDisabled,
+    limitTags = 2,
+    getLimitTagsText,
+    autoSelect,
+    ...otherMultiAutoCompleteProps
+  }: MUIMultiAutocompleteProps<
+    Option,
+    LabelKey,
+    ValueKey,
+    DisableClearable,
+    FreeSolo
+  >,
+  ref: Ref<HTMLInputElement>
+) {
   const {
     allLabelsAboveFields,
     defaultFormControlLabelSx
@@ -560,6 +566,7 @@ const MUIMultiAutocomplete = <
               {...otherTextFieldProps}
               {...otherInputParams}
               name={fieldName}
+              inputRef={ref}
               disabled={paramsDisabled}
               placeholder={
                 selectedOptions.length > 0 ? undefined : placeholder
@@ -703,6 +710,30 @@ const MUIMultiAutocomplete = <
       />
     </FormControl>
   );
-};
+});
+
+const MUIMultiAutocomplete = MUIMultiAutocompleteInner as <
+  Option extends StrObjOption = StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  DisableClearable extends boolean = false,
+  FreeSolo extends boolean = false
+>(
+  props: MUIMultiAutocompleteProps<
+    Option,
+    LabelKey,
+    ValueKey,
+    DisableClearable,
+    FreeSolo
+  > & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
 
 export default MUIMultiAutocomplete;

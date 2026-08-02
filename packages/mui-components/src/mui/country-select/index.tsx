@@ -3,6 +3,9 @@
 import {
   useContext,
   useMemo,
+  forwardRef,
+  type JSX,
+  type Ref,
   type ReactNode,
   type SyntheticEvent
 } from 'react';
@@ -254,42 +257,45 @@ export type MUICountrySelectProps<
   customIds?: CustomComponentIds;
 } & AutoCompleteProps<Multiple, DisableClearable>;
 
-const MUICountrySelect = <
+const MUICountrySelectInner = forwardRef(function MUICountrySelect<
   ValueKey extends CountrySelectValueKey | undefined = undefined,
   Multiple extends boolean = false,
   DisableClearable extends boolean = false
->({
-  fieldName,
-  countries,
-  preferredCountries,
-  valueKey,
-  multiple,
-  disableClearable,
-  value,
-  onValueChange,
-  onBlur: muiOnBlur,
-  disabled: muiDisabled,
-  autoHighlight = true,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  renderOptionLabel,
-  required,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  textFieldProps,
-  slotProps,
-  ChipProps,
-  customIds,
-  limitTags = 2,
-  getLimitTagsText,
-  getOptionKey,
-  ...otherCountrySelectProps
-}: MUICountrySelectProps<ValueKey, Multiple, DisableClearable>) => {
+>(
+  {
+    fieldName,
+    countries,
+    preferredCountries,
+    valueKey,
+    multiple,
+    disableClearable,
+    value,
+    onValueChange,
+    onBlur: muiOnBlur,
+    disabled: muiDisabled,
+    autoHighlight = true,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    renderOptionLabel,
+    required,
+    errorMessage,
+    renderError,
+    hideErrorMessage,
+    helperText,
+    formHelperTextProps,
+    textFieldProps,
+    slotProps,
+    ChipProps,
+    customIds,
+    limitTags = 2,
+    getLimitTagsText,
+    getOptionKey,
+    ...otherCountrySelectProps
+  }: MUICountrySelectProps<ValueKey, Multiple, DisableClearable>,
+  ref: Ref<HTMLInputElement>
+) {
   const {
     fieldId,
     labelId,
@@ -473,6 +479,7 @@ const MUICountrySelect = <
           return (
             <TextField
               name={fieldName}
+              inputRef={ref}
               disabled={paramsDisabled}
               {...otherTextFieldProps}
               {...otherInputParams}
@@ -525,7 +532,17 @@ const MUICountrySelect = <
       />
     </FormControl>
   );
-};
+});
+
+const MUICountrySelect = MUICountrySelectInner as <
+  ValueKey extends CountrySelectValueKey | undefined = undefined,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false
+>(
+  props: MUICountrySelectProps<ValueKey, Multiple, DisableClearable> & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
 
 export type { CountryISO, CountryDetails };
 export { countryList };

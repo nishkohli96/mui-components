@@ -429,7 +429,7 @@ export const PropsDescription = Object.freeze({
   readOnly_PasswordInput: {
     name: 'readOnly',
     description:
-      'When true, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, is still submitted with the form, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it. `disabled` instead makes the whole field inert, including the toggle.',
+      'When true, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it.',
     type: 'boolean'
   },
   nonNegative: {
