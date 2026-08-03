@@ -144,7 +144,10 @@ export const PlaygroundButton = () => {
         size="large"
         color="inherit"
         sx={{
-          padding: { xs: '6px 0px 6px 6px', md: '12px' }
+          padding: { xs: '6px 0px 6px 6px', md: '12px' },
+          '@media (max-width: 374.95px)': {
+            display: 'none'
+          }
         }}
       >
         <TerminalIcon />
