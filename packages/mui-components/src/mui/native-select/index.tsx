@@ -13,7 +13,6 @@ import {
   FormLabel,
   FormHelperText,
   defaultAutocompleteValue,
-  MUISELECT_OPTIONS_THRESHOLD,
   type FormHelperTextProps,
   type FormLabelProps,
   type OptionValue,
@@ -27,7 +26,6 @@ import {
   isKeyValueOption,
   normalizeSelectValue,
   useFieldIds,
-  generateLargeOptionsErrMsg,
   resolveLabelAboveControl,
   getErrorList
 } from '@/utils';
@@ -179,8 +177,6 @@ export type MUINativeSelectProps<
   customIds?: CustomComponentIds;
 } & InputNativeSelectProps;
 
-const componentName = 'MUINativeSelect';
-
 const MUINativeSelect = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
@@ -217,10 +213,6 @@ const MUINativeSelect = <
   ...otherNativeSelectProps
 }: MUINativeSelectProps<Option, LabelKey, ValueKey>) => {
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
-  if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
-    console.warn(generateLargeOptionsErrMsg(componentName, options.length));
-  }
-
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds

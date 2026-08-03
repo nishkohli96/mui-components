@@ -246,12 +246,6 @@ const MUINumberInput = ({
     [nonNegative, onMouseDown, resolvedStepAmount, showMarkers]
   );
 
-  if (onlyIntegers && maxDecimalPlaces !== undefined) {
-    console.warn(
-      'MUINumberInput: "onlyIntegers" and "maxDecimalPlaces" props cannot be used together'
-    );
-  }
-
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {
       if (
