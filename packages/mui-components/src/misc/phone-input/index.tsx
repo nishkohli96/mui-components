@@ -53,6 +53,12 @@ import CountryMenuItem from './CountryMenuItem';
 import 'react-international-phone/style.css';
 
 const countryMenuWidth = 350;
+/*
+ * Defensive-only: the menu is anchored to the field itself and capped at the
+ * field's own width, so it can never overflow the field's box. This gutter
+ * only guards the (rare) case where the field's own layout already pushes it
+ * flush against the viewport edge, e.g. a full-width field with no side margin.
+ */
 const countryMenuViewportGutter = 32;
 
 type PhoneInputChangeReturnValue = {
@@ -263,6 +269,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
   const currentPhoneValue = getPhoneValue(value);
   const [countrySearch, setCountrySearch] = useState('');
   const [countryMenuWidthPx, setCountryMenuWidthPx] = useState(countryMenuWidth);
+  const [countryMenuAnchorEl, setCountryMenuAnchorEl] = useState<HTMLDivElement | null>(null);
   const phoneInputRootRef = useRef<HTMLDivElement | null>(null);
 
   const {
@@ -307,6 +314,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
   };
 
   useEffect(() => {
+    setCountryMenuAnchorEl(phoneInputRootRef.current);
     updateCountryMenuLayout();
     window.addEventListener('resize', updateCountryMenuLayout);
     return () => {
@@ -403,10 +411,13 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
            * Anchor the menu to the whole field (not the small flag trigger
            * it sits inside) so its left edge lines up with the field's left
            * edge on every viewport width, with no manual offset math needed.
+           * Read from state (set once the ref mounts) rather than the ref
+           * directly — a ref populating doesn't trigger a re-render on its
+           * own, so `MenuProps` built during the initial render would
+           * otherwise permanently omit `anchorEl` whenever nothing else
+           * happens to force a re-render first.
            */
-          ...(phoneInputRootRef.current
-            ? { anchorEl: phoneInputRootRef.current }
-            : {}),
+          ...(countryMenuAnchorEl ? { anchorEl: countryMenuAnchorEl } : {}),
           anchorOrigin: {
             vertical: 'bottom',
             horizontal: 'left'

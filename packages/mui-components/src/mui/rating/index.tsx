@@ -206,6 +206,7 @@ const MUIRating = ({
           onValueChange({ newValue, event });
         }}
         onBlur={muiOnBlur}
+        aria-required={required || undefined}
         aria-labelledby={!hideLabel ? labelId : undefined}
         aria-label={hideLabel ? accessibleFieldLabel : undefined}
         aria-describedby={
