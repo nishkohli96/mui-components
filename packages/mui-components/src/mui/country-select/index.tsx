@@ -3,6 +3,9 @@
 import {
   useContext,
   useMemo,
+  forwardRef,
+  type JSX,
+  type Ref,
   type ReactNode,
   type SyntheticEvent
 } from 'react';
@@ -38,7 +41,7 @@ import {
 import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
 
-type CountrySelectValueKey = keyof Omit<CountryDetails, 'emoji'>;
+export type CountrySelectValueKey = keyof Omit<CountryDetails, 'emoji'>;
 
 type CountrySelectStoredPrimitive = CountryDetails[CountrySelectValueKey];
 
@@ -103,14 +106,46 @@ type AutoCompleteProps<
 >;
 
 export type MUICountrySelectProps<
+  ValueKey extends CountrySelectValueKey | undefined = undefined,
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false,
-  ValueKey extends CountrySelectValueKey | undefined = undefined
+  DisableClearable extends boolean = false
 > = {
   /**
    * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
   fieldName: string;
+  /**
+   * List of countries to display in the country selector.
+   *
+   * Defaults to all countries from `countryList`.
+   */
+  countries?: CountryDetails[];
+  /**
+   * List of country ISO codes to pin at the top of the dropdown.
+   *
+   * Countries are displayed in the same order as provided in this array,
+   * followed by the remaining countries sorted in their default order.
+   *
+   * @example
+   * preferredCountries={['US', 'CA', 'IN']}
+   */
+  preferredCountries?: CountryISO[];
+  /**
+   * - When `valueKey` is provided, selected value(s) are exposed using the
+   *   specified country property.
+   * - When `valueKey` is omitted, selected value(s) are exposed as complete
+   *   country objects.
+   */
+  valueKey?: ValueKey;
+  /**
+   * When true, allows selecting multiple countries.
+   */
+  multiple?: Multiple;
+  /**
+   * When true, the selected value cannot be cleared from the input.
+   * @default false
+   */
+  disableClearable?: DisableClearable;
   /**
    * Currently selected country value(s): the property named by `valueKey` when
    * it is provided, otherwise the complete `CountryDetails` object(s). An array
@@ -143,38 +178,6 @@ export type MUICountrySelectProps<
     reason,
     details
   }: OnValueChangeProps<Multiple, DisableClearable, ValueKey>) => void;
-  /**
-   * List of countries to display in the country selector.
-   *
-   * Defaults to all countries from `countryList`.
-   */
-  countries?: CountryDetails[];
-  /**
-   * When true, allows selecting multiple countries.
-   */
-  multiple?: Multiple;
-  /**
-   * List of country ISO codes to pin at the top of the dropdown.
-   *
-   * Countries are displayed in the same order as provided in this array,
-   * followed by the remaining countries sorted in their default order.
-   *
-   * @example
-   * preferredCountries={['US', 'CA', 'IN']}
-   */
-  preferredCountries?: CountryISO[];
-  /**
-   * - When `valueKey` is provided, selected value(s) are exposed using the
-   *   specified country property.
-   * - When `valueKey` is omitted, selected value(s) are exposed as complete
-   *   country objects.
-   */
-  valueKey?: ValueKey;
-  /**
-   * When true, the selected value cannot be cleared from the input.
-   * @default false
-   */
-  disableClearable?: DisableClearable;
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
@@ -254,42 +257,45 @@ export type MUICountrySelectProps<
   customIds?: CustomComponentIds;
 } & AutoCompleteProps<Multiple, DisableClearable>;
 
-const MUICountrySelect = <
+const MUICountrySelectInner = forwardRef(function MUICountrySelect<
+  ValueKey extends CountrySelectValueKey | undefined = undefined,
   Multiple extends boolean = false,
-  DisableClearable extends boolean = false,
-  ValueKey extends CountrySelectValueKey | undefined = undefined
->({
-  fieldName,
-  value,
-  onValueChange,
-  countries,
-  preferredCountries,
-  valueKey,
-  disabled: muiDisabled,
-  autoHighlight = true,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  renderOptionLabel,
-  required,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  multiple,
-  textFieldProps,
-  slotProps,
-  ChipProps,
-  onBlur,
-  disableClearable,
-  customIds,
-  limitTags = 2,
-  getLimitTagsText,
-  getOptionKey,
-  ...otherCountrySelectProps
-}: MUICountrySelectProps<Multiple, DisableClearable, ValueKey>) => {
+  DisableClearable extends boolean = false
+>(
+  {
+    fieldName,
+    countries,
+    preferredCountries,
+    valueKey,
+    multiple,
+    disableClearable,
+    value,
+    onValueChange,
+    onBlur: muiOnBlur,
+    disabled: muiDisabled,
+    autoHighlight = true,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    renderOptionLabel,
+    required,
+    errorMessage,
+    renderError,
+    hideErrorMessage,
+    helperText,
+    formHelperTextProps,
+    textFieldProps,
+    slotProps,
+    ChipProps,
+    customIds,
+    limitTags = 2,
+    getLimitTagsText,
+    getOptionKey,
+    ...otherCountrySelectProps
+  }: MUICountrySelectProps<ValueKey, Multiple, DisableClearable>,
+  ref: Ref<HTMLInputElement>
+) {
   const {
     fieldId,
     labelId,
@@ -399,6 +405,7 @@ const MUICountrySelect = <
         id={fieldId}
         options={countrySelectOptions}
         multiple={multiple}
+        disableClearable={disableClearable}
         freeSolo={false}
         value={
           selectedCountries as CountrySelectFieldValue<
@@ -406,7 +413,6 @@ const MUICountrySelect = <
             DisableClearable
           >
         }
-        disabled={muiDisabled}
         onChange={(event, newValue, reason, details) => {
           const storedValue = (
             multiple
@@ -428,11 +434,11 @@ const MUICountrySelect = <
             details
           });
         }}
-        onBlur={onBlur}
+        onBlur={muiOnBlur}
+        disabled={muiDisabled}
         autoHighlight={autoHighlight}
         blurOnSelect={!multiple}
         disableCloseOnSelect={multiple}
-        disableClearable={disableClearable}
         fullWidth
         limitTags={limitTags}
         getLimitTagsText={more => getLimitTagsText?.(more) ?? ( more === 1 ? '+1 Country' : `+${more} Countries`)}
@@ -473,6 +479,7 @@ const MUICountrySelect = <
           return (
             <TextField
               name={fieldName}
+              inputRef={ref}
               disabled={paramsDisabled}
               {...otherTextFieldProps}
               {...otherInputParams}
@@ -525,7 +532,17 @@ const MUICountrySelect = <
       />
     </FormControl>
   );
-};
+});
+
+const MUICountrySelect = MUICountrySelectInner as <
+  ValueKey extends CountrySelectValueKey | undefined = undefined,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false
+>(
+  props: MUICountrySelectProps<ValueKey, Multiple, DisableClearable> & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
 
 export type { CountryISO, CountryDetails };
 export { countryList };

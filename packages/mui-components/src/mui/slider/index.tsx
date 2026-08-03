@@ -143,8 +143,9 @@ const MUISlider = <Value extends SliderValue = SliderValue>({
   fieldName,
   value,
   onValueChange,
-  required,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
+  required,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -154,7 +155,6 @@ const MUISlider = <Value extends SliderValue = SliderValue>({
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur,
   customIds,
   ...otherSliderProps
 }: MUISliderProps<Value>) => {
@@ -223,7 +223,7 @@ const MUISlider = <Value extends SliderValue = SliderValue>({
             event
           });
         }}
-        onBlur={onBlur}
+        onBlur={muiOnBlur}
         aria-required={required || undefined}
         aria-labelledby={
           !hideLabel && isLabelAboveControl ? labelId : undefined

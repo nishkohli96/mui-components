@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/mui-components",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A suite of 25+ production-ready, form-library-agnostic Material UI components — build forms with any form library, or drop in each one standalone. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://mui-components-docs.vercel.app/",
@@ -41,8 +41,9 @@
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
-    "@mui/icons-material": "^6.0.0 || ^7.0.0",
+    "@mui/system": "^6.0.0 || ^7.0.0",
     "@mui/material": "^6.0.0 || ^7.0.0",
+    "@mui/icons-material": "^6.0.0 || ^7.0.0",
     "@mui/x-date-pickers": "^7.0.0 || ^8.0.0",
     "react-hook-form": "^7.0.0"
   },

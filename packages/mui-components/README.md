@@ -5,10 +5,6 @@
 <h1>@nish1896/mui-components</h1>
 
 <p>
-  <b>A suite of 25+ production-ready, form-library-agnostic <a href="https://v7.mui.com/">Material UI</a> components — fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state) or drop in each component standalone.</b>
-</p>
-
-<p>
   <img alt="NPM Version" src="https://img.shields.io/npm/v/%40nish1896%2Fmui-components" />
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/%40nish1896%2Fmui-components" />
   <img alt="NPM Downloads Per Month" src="https://img.shields.io/npm/dm/%40nish1896%2Fmui-components?color=%23e0e063" />
@@ -17,11 +13,15 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
+<p>
+  <b>A suite of 25+ production-ready, form-library-agnostic <a href="https://v7.mui.com/">Material UI</a> components — fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state) or drop in each component standalone.</b>
+</p>
+
 > 📋 **Using [react-hook-form](https://react-hook-form.com/) in your application?**
 >
 > Skip writing the form UI logic and grab the purpose-built sibling: **[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components)** — the same Material UI components, with first-class RHF bindings baked in.
 
-## Features ✨
+## ✨ Features
 
 - Every component is designed to work out of the box with minimal configuration, allowing you to focus on building features instead of implementing core logic..
 - **Form-library-agnostic**: every component is controlled through `value` / `onValueChange`, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required.
@@ -45,7 +45,9 @@ Spin up an editable sandbox in your browser — fork it and experiment freely:
 
 ## Components List
 
-Below is a comprehensive list of all components included in this package, categorized by module. Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfield`) for optimal tree-shaking.
+Below is a comprehensive list of all components included in this package, categorized by module.
+
+Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfield`) for optimal tree-shaking.
 
 - **mui**
   - [TextField](https://mui-components-docs.vercel.app/components/mui/textfield)

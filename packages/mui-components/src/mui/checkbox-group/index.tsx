@@ -59,6 +59,19 @@ export type MUICheckboxGroupProps<
    */
   fieldName: string;
   /**
+   * List of options to render as checkboxes. Best suited for smaller datasets, with
+   * upto 10 options. For larger datasets, consider using `MUIMultiAutocomplete`.
+   */
+  options: Option[];
+  /**
+   * Object key used to read the display label from each option.
+   */
+  labelKey?: LabelKey;
+  /**
+   * Object key used to derive the stored field value when options are an array of objects.
+   */
+  valueKey?: ValueKey;
+  /**
    * Currently checked option values: `string[]` for string options, `number[]`
    * for number options, or the `valueKey` property type for object options. This
    * is a controlled component: `value` and `onValueChange` must be supplied
@@ -86,19 +99,6 @@ export type MUICheckboxGroupProps<
     toggledValue,
     checked
   }: OnValueChangeProps<Option, ValueKey>) => void;
-  /**
-   * List of options to render as checkboxes. Best suited for smaller datasets, with
-   * upto 10 options. For larger datasets, consider using `MUIMultiAutocomplete`.
-   */
-  options: Option[];
-  /**
-   * Object key used to read the display label from each option.
-   */
-  labelKey?: LabelKey;
-  /**
-   * Object key used to derive the stored field value when options are an array of objects.
-   */
-  valueKey?: ValueKey;
   /**
    * Function to customize the label for each checkbox.
    * When not provided, the option label derived from `labelKey` (or the
@@ -211,11 +211,12 @@ const MUICheckboxGroup = <
   Value extends OptionValue<Option, ValueKey> = OptionValue<Option, ValueKey>
 >({
   fieldName,
-  value,
-  onValueChange,
   options,
   labelKey,
   valueKey,
+  value,
+  onValueChange,
+  onBlur: muiOnBlur,
   renderOptionLabel,
   getOptionDisabled,
   disabled: muiDisabled,
@@ -231,7 +232,6 @@ const MUICheckboxGroup = <
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur,
   customIds
 }: MUICheckboxGroupProps<Option, LabelKey, ValueKey, Value>) => {
   const {
@@ -319,7 +319,7 @@ const MUICheckboxGroup = <
         const currentTarget = e.currentTarget;
         const relatedTarget = e.relatedTarget as Node | null;
         if (!currentTarget.contains(relatedTarget)) {
-          onBlur?.(e);
+          muiOnBlur?.(e);
         }
       }}
     >

@@ -3,6 +3,9 @@
 import {
   useCallback,
   useContext,
+  forwardRef,
+  type JSX,
+  type Ref,
   type ReactNode,
   type SyntheticEvent
 } from 'react';
@@ -55,6 +58,7 @@ type OmittedAutocompleteProps<
   | 'disableCloseOnSelect'
   | 'ChipProps'
   | 'disableClearable'
+  | 'ref'
 >;
 
 type OnValueChangeProps<
@@ -110,10 +114,6 @@ export type MUIAutocompleteObjectProps<
    */
   options: Option[];
   /**
-   * When true, allows selecting multiple values.
-   */
-  multiple?: Multiple;
-  /**
    * Object key used to read the display label from each option.
    */
   labelKey: LabelKey;
@@ -121,6 +121,10 @@ export type MUIAutocompleteObjectProps<
    * Object key used to compare options with the current value.
    */
   valueKey: ValueKey;
+  /**
+   * When true, allows selecting multiple values.
+   */
+  multiple?: Multiple;
   /**
    * When true, the selected value cannot be cleared from the input.
    * @default false
@@ -205,7 +209,7 @@ export type MUIAutocompleteObjectProps<
  *
  * Use `MUIAutocomplete` instead when `freeSolo` behavior is required.
  */
-const MUIAutocompleteObject = <
+const MUIAutocompleteObjectInner = forwardRef(function MUIAutocompleteObject<
   Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
     keyof Option,
@@ -217,44 +221,47 @@ const MUIAutocompleteObject = <
   >,
   Multiple extends boolean = false,
   DisableClearable extends boolean = false
->({
-  fieldName,
-  value,
-  onValueChange,
-  options,
-  multiple,
-  labelKey,
-  valueKey,
-  disableClearable,
-  autoHighlight = true,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  required,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  textFieldProps,
-  slotProps,
-  ChipProps,
-  onBlur,
-  onFocus,
-  loading,
-  limitTags = 2,
-  getLimitTagsText,
-  customIds,
-  ...otherAutocompleteObjectProps
-}: MUIAutocompleteObjectProps<
-  Option,
-  LabelKey,
-  ValueKey,
-  Multiple,
-  DisableClearable
->) => {
+>(
+  {
+    fieldName,
+    value,
+    onValueChange,
+    options,
+    labelKey,
+    valueKey,
+    multiple,
+    disableClearable,
+    autoHighlight = true,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    required,
+    errorMessage,
+    renderError,
+    hideErrorMessage,
+    helperText,
+    formHelperTextProps,
+    textFieldProps,
+    slotProps,
+    ChipProps,
+    onFocus,
+    onBlur,
+    loading,
+    limitTags = 2,
+    getLimitTagsText,
+    customIds,
+    ...otherAutocompleteObjectProps
+  }: MUIAutocompleteObjectProps<
+    Option,
+    LabelKey,
+    ValueKey,
+    Multiple,
+    DisableClearable
+  >,
+  ref: Ref<HTMLInputElement>
+) {
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
 
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
@@ -316,6 +323,7 @@ const MUIAutocompleteObject = <
         id={fieldId}
         options={options}
         multiple={multiple}
+        disableClearable={disableClearable}
         value={
           (value ?? (multiple ? [] : null)) as AutocompleteValue<
             Option,
@@ -324,7 +332,6 @@ const MUIAutocompleteObject = <
             false
           >
         }
-        disabled={muiDisabled}
         onChange={(
           event,
           newValue,
@@ -338,6 +345,7 @@ const MUIAutocompleteObject = <
             details
           });
         }}
+        disabled={muiDisabled}
         onFocus={onFocus}
         onBlur={onBlur}
         getOptionLabel={option => renderOptionLabel(option)}
@@ -372,6 +380,7 @@ const MUIAutocompleteObject = <
           return (
             <TextField
               name={fieldName}
+              inputRef={ref}
               disabled={paramsDisabled}
               {...otherTextFieldProps}
               {...otherInputParams}
@@ -405,7 +414,6 @@ const MUIAutocompleteObject = <
         autoHighlight={autoHighlight}
         blurOnSelect={!multiple}
         disableCloseOnSelect={multiple}
-        disableClearable={disableClearable}
         fullWidth
         loading={loading}
         limitTags={limitTags}
@@ -429,6 +437,30 @@ const MUIAutocompleteObject = <
       />
     </FormControl>
   );
-};
+});
+
+const MUIAutocompleteObject = MUIAutocompleteObjectInner as <
+  Option extends KeyValueOption = KeyValueOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  ValueKey extends Extract<keyof Option, string> = Extract<
+    keyof Option,
+    string
+  >,
+  Multiple extends boolean = false,
+  DisableClearable extends boolean = false
+>(
+  props: MUIAutocompleteObjectProps<
+    Option,
+    LabelKey,
+    ValueKey,
+    Multiple,
+    DisableClearable
+  > & {
+    ref?: Ref<HTMLInputElement>;
+  }
+) => JSX.Element;
 
 export default MUIAutocompleteObject;

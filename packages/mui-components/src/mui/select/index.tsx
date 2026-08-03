@@ -14,7 +14,6 @@ import {
   FormLabelText,
   FormHelperText,
   defaultAutocompleteValue,
-  MUISELECT_OPTIONS_THRESHOLD,
   type FormLabelProps,
   type FormHelperTextProps,
   type SelectProps,
@@ -31,7 +30,6 @@ import {
   normalizeSelectValue,
   useFieldIds,
   getDisplayLabelForSelectValue,
-  generateLargeOptionsErrMsg,
   getErrorList
 } from '@/utils';
 
@@ -205,8 +203,6 @@ export type MUISelectProps<
   customIds?: CustomComponentIds;
 } & SelectProps;
 
-const componentName = 'MUISelect';
-
 const MUISelect = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
@@ -250,11 +246,6 @@ const MUISelect = <
   ...otherSelectProps
 }: MUISelectProps<Option, LabelKey, ValueKey, Multiple>) => {
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
-
-  if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
-    console.warn(generateLargeOptionsErrMsg(componentName, options.length));
-  }
-
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds

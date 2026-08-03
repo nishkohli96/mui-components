@@ -1,11 +1,11 @@
-import type { SxProps } from '@mui/system';
+import type { SxProps, Theme } from '@mui/system';
 
 export type MuiPickersAdapter = new (...args: any) => any;
 
 export type MUIComponentsConfig = {
-  defaultFormLabelSx: SxProps;
-  defaultFormControlLabelSx: SxProps;
-  defaultFormHelperTextSx: SxProps;
+  defaultFormLabelSx: SxProps<Theme>;
+  defaultFormControlLabelSx: SxProps<Theme>;
+  defaultFormHelperTextSx: SxProps<Theme>;
   dateAdapter?: MuiPickersAdapter;
   allLabelsAboveFields?: boolean;
 };

@@ -100,6 +100,7 @@ const MUICheckbox = ({
   fieldName,
   value,
   onValueChange,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
   formControlLabelProps,
@@ -109,7 +110,6 @@ const MUICheckbox = ({
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur,
   slotProps: muiSlotProps,
   customIds,
   ...otherCheckboxProps
@@ -158,7 +158,7 @@ const MUICheckbox = ({
             onChange={(event, checked) => {
               onValueChange({ newValue: checked, event });
             }}
-            onBlur={onBlur}
+            onBlur={muiOnBlur}
             aria-label={hideLabel ? accessibleFieldLabel : undefined}
             aria-describedby={
               showHelperTextElement

@@ -28,6 +28,10 @@ import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   sanitizePastedNumber,
+  setInputValueAndNotify,
+  getSteppedInputValue,
+  isNativeNumberMarkerClick,
+  buildNumberInputDecimalPattern,
   useFieldIds,
   getErrorList
 } from '@/utils';
@@ -50,64 +54,6 @@ type TextFieldInputProps = Omit<
   /** Always an `<input>`; multiline / textarea are not supported. */
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 };
-
-function setInputValueAndNotify(input: HTMLInputElement, value: string) {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    'value'
-  );
-  descriptor?.set?.call(input, value);
-  input.dispatchEvent(new Event('input', { bubbles: true }));
-}
-
-function getSteppedInputValue(
-  input: HTMLInputElement,
-  step: number,
-  direction: 1 | -1,
-  nonNegative: boolean
-) {
-  const currentValue = Number(input.value);
-  const resolvedValue = Number.isNaN(currentValue)
-    ? 0
-    : currentValue;
-  const nextValue = resolvedValue + (step * direction);
-  return String(nonNegative ? Math.max(0, nextValue) : nextValue);
-}
-
-function isNativeNumberMarkerClick(
-  input: HTMLInputElement,
-  event: MouseEvent
-) {
-  const rect = input.getBoundingClientRect();
-  const markerWidth = Math.min(24, rect.width);
-
-  return event.clientX >= rect.right - markerWidth;
-}
-
-/**
- * Builds a pattern for in-progress typing: optional leading `-` when
- * `nonNegative` is false; digits; optional decimal with length limit.
- * @param nonNegative - When `true`, only non-negative values (including 0) match
- *   while typing. When `false` or omitted, `-` and negative numbers are allowed.
- * @param onlyIntegers - When `true`, decimal values are blocked.
- * @param maxDecimalPlaces - The maximum number of decimal places allowed.
- * @returns A RegExp pattern for in-progress typing.
- */
-function buildNumberInputDecimalPattern(
-  nonNegative: boolean,
-  onlyIntegers: boolean,
-  maxDecimalPlaces?: number,
-): RegExp {
-  const sign = nonNegative ? '' : '-?';
-  if (onlyIntegers) {
-    return new RegExp(`^${sign}\\d+$`);
-  }
-  if (maxDecimalPlaces !== undefined) {
-    const n = Math.max(0, Math.floor(maxDecimalPlaces));
-    return new RegExp(`^${sign}\\d*(\\.\\d{0,${n}})?$`);
-  }
-  return new RegExp(`^${sign}\\d*(\\.\\d*)?$`);
-}
 
 export type MUINumberInputProps = {
   /**
@@ -203,6 +149,7 @@ export type MUINumberInputProps = {
 
 const MUINumberInput = ({
   fieldName,
+  required,
   value: muiValue,
   onValueChange,
   disabled: muiDisabled,
@@ -215,7 +162,6 @@ const MUINumberInput = ({
   nonNegative = false,
   maxDecimalPlaces,
   stepAmount = 1,
-  required,
   errorMessage,
   renderError,
   hideErrorMessage,
@@ -299,12 +245,6 @@ const MUINumberInput = ({
     },
     [nonNegative, onMouseDown, resolvedStepAmount, showMarkers]
   );
-
-  if (onlyIntegers && maxDecimalPlaces !== undefined) {
-    console.warn(
-      'MUINumberInput: "onlyIntegers" and "maxDecimalPlaces" props cannot be used together'
-    );
-  }
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent<HTMLDivElement>) => {

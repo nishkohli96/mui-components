@@ -4,6 +4,7 @@ import { PropsDescription as P, resolveProp } from '../descriptions';
 /** Props reference rows for `MUICountrySelect`. */
 const countrySelectRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
+  P.ref_Autocomplete,
   P.value_CountrySelect,
   P.onValueChange_CountrySelect,
   P.countries,

@@ -13,10 +13,10 @@ import {
   FormLabel,
   FormHelperText,
   defaultAutocompleteValue,
-  MUISELECT_OPTIONS_THRESHOLD,
   type FormHelperTextProps,
   type FormLabelProps,
-  type OptionValue
+  type OptionValue,
+  type OptionRenderState
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds, StrNumObjOption } from '@/types';
@@ -26,7 +26,6 @@ import {
   isKeyValueOption,
   normalizeSelectValue,
   useFieldIds,
-  generateLargeOptionsErrMsg,
   resolveLabelAboveControl,
   getErrorList
 } from '@/utils';
@@ -101,7 +100,7 @@ export type MUINativeSelectProps<
     newValue,
     event
   }: OnValueChangeProps<Option, ValueKey>) => void;
-  renderOptionLabel?: (option: Option) => ReactNode;
+  renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).
    *
@@ -178,8 +177,6 @@ export type MUINativeSelectProps<
   customIds?: CustomComponentIds;
 } & InputNativeSelectProps;
 
-const componentName = 'MUINativeSelect';
-
 const MUINativeSelect = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
@@ -216,10 +213,6 @@ const MUINativeSelect = <
   ...otherNativeSelectProps
 }: MUINativeSelectProps<Option, LabelKey, ValueKey>) => {
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
-  if (options.length > MUISELECT_OPTIONS_THRESHOLD) {
-    console.warn(generateLargeOptionsErrMsg(componentName, options.length));
-  }
-
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds
@@ -325,13 +318,18 @@ const MUINativeSelect = <
             ? String(option[labelKey!])
             : String(option);
           const isOptionDisabled = getOptionDisabled?.(option) ?? false;
+          const isSelected = muiValue === opnValue;
+
           return (
             <option
               key={`${opnValue}-${index}`}
               value={opnValue}
               disabled={isOptionDisabled}
             >
-              {renderOptionLabel?.(option) ?? opnLabel}
+              {renderOptionLabel?.(option, {
+                disabled: isOptionDisabled || !!muiDisabled,
+                selected: isSelected
+              }) ?? opnLabel}
             </option>
           );
         })}

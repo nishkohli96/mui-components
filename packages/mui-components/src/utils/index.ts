@@ -4,6 +4,7 @@ export * from './control';
 export * from './errors';
 export * from './file';
 export * from './mui';
+export * from './number';
 export * from './object';
 export * from './text-transform';
 export * from './useFieldIds';

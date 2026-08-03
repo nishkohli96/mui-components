@@ -38,6 +38,7 @@ import {
 type TextFieldInputProps = Omit<
   TextFieldProps,
   | 'name'
+  | 'type'
   | 'value'
   | 'defaultValue'
   | 'onChange'

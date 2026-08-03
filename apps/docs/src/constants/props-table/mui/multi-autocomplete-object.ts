@@ -4,6 +4,7 @@ import { PropsDescription as P, resolveProp } from '../descriptions';
 /** Props reference rows for `MUIMultiAutocompleteObject`. */
 const multiAutocompleteObjectRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
+  P.ref_Autocomplete,
   P.value_MultiAutocompleteObject,
   P.onValueChange_MultiAutocompleteObject,
   P.options_Obj,

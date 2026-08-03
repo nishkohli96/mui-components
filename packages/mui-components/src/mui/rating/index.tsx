@@ -123,9 +123,10 @@ export type MUIRatingProps = {
 
 const MUIRating = ({
   fieldName,
+  required,
   value,
   onValueChange,
-  required,
+  onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
   showLabelAboveFormField,
@@ -136,7 +137,6 @@ const MUIRating = ({
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  onBlur,
   customIds,
   ...otherRatingProps
 }: MUIRatingProps) => {
@@ -205,7 +205,8 @@ const MUIRating = ({
         onChange={(event, newValue) => {
           onValueChange({ newValue, event });
         }}
-        onBlur={onBlur}
+        onBlur={muiOnBlur}
+        aria-required={required || undefined}
         aria-labelledby={!hideLabel ? labelId : undefined}
         aria-label={hideLabel ? accessibleFieldLabel : undefined}
         aria-describedby={

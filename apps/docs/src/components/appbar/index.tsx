@@ -23,7 +23,7 @@ const AppBar = () => {
       color="inherit"
       sx={{
         bgcolor: 'background.default',
-        color: 'primary.contrastText',
+        color: 'text.primary',
         borderBottom: '1px solid',
         borderColor: 'divider',
         '[data-mui-color-scheme="dark"] &': {
@@ -34,7 +34,6 @@ const AppBar = () => {
            */
           bgcolor: 'rgba(11, 14, 20, 0.85)',
           backdropFilter: 'blur(8px)',
-          color: 'text.primary',
           borderColor: 'divider'
         }
       }}

@@ -429,7 +429,7 @@ export const PropsDescription = Object.freeze({
   readOnly_PasswordInput: {
     name: 'readOnly',
     description:
-      'When true, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, is still submitted with the form, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it. `disabled` instead makes the whole field inert, including the toggle.',
+      'When true, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it.',
     type: 'boolean'
   },
   nonNegative: {
@@ -747,6 +747,12 @@ export const PropsDescription = Object.freeze({
     type: `[ChipProps](${muiDocsUrl(args.muiVersion)}/api/chip/)`,
     hasLinkInType: true
   }),
+  ref_Autocomplete: {
+    name: 'ref',
+    description:
+      'Forwarded ref for the underlying MUI `TextField`\'s input element — use it to imperatively focus the field or read its DOM node.',
+    type: 'Ref<HTMLInputElement>'
+  },
   checkboxProps: (args: PropsDescriptionArgs) => ({
     name: 'checkboxProps',
     description: `[CheckboxProps](${muiDocsUrl(args.muiVersion)}/api/checkbox/) passed down to each Checkbox component — custom color, size, etc.`,
