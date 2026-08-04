@@ -10,16 +10,7 @@ const AvailabilityBanner = ({
   version
 }: AvailabilityBannerProps) => {
   return (
-    <Alert
-      severity="info"
-      sx={{
-        mb: '20px',
-        '[data-mui-color-scheme="dark"] &': {
-          bgcolor: 'rgba(41, 121, 255, 0.12)',
-          border: '1px solid rgba(41, 121, 255, 0.3)'
-        }
-      }}
-    >
+    <Alert severity="info" sx={{ mb: '20px' }}>
       <b>
         {componentName}
       </b>
