@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
+import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 
 export const metadata = componentMetadata.fieldNameToId;
@@ -11,16 +11,23 @@ export default function Layout({ children }) {
 
 <AvailabilityBanner componentName="fieldNameToId" version="1.0.3" />
 
-This function converts a form field name into a valid, HTML-friendly `id` attribute. It is especially useful for nested object paths and field arrays, ensuring generated IDs are unique, predictable, and safe to use with form controls and labels.
+This function converts a form field name into a valid, HTML-friendly `id` attribute. It is especially useful for nested object paths and field arrays, producing predictable, HTML-safe IDs for form controls and labels.
 
 ```ts
 function fieldNameToId(fieldName: string): string;
 ```
 
+<Callout type="warning">
+  This is a sanitizer, not a uniqueness guarantee — field names that differ only
+  by separator style (e.g. `a.b` and `a-b`) can produce the same ID, and a name
+  made entirely of invalid characters falls back to `'field'`. Keep field names
+  distinguishable by more than punctuation alone.
+</Callout>
+
 ## Usage
 
 ```ts
-import { fieldNameToId } from '@nish1896/rhf-mui-components/form-helpers';
+import { fieldNameToId } from '@nish1896/mui-components/form-helpers';
 ```
 
 This function transforms field names by:
