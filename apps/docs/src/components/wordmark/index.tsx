@@ -1,5 +1,3 @@
-'use client';
-
 import { Poppins } from 'next/font/google';
 import Box, { type BoxProps } from '@mui/material/Box';
 
