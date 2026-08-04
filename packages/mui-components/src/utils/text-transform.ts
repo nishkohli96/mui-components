@@ -25,12 +25,18 @@ export function fieldNameToLabel(str: string) {
 }
 
 export function fieldNameToId(fieldName: string): string {
-  return fieldName
+  const id = fieldName
     .replace(/\[(\d+)\]/g, '-$1') // phones[0] -> phones-0
     .replace(/\./g, '-') // user.email -> user-email
     .replace(/[^a-zA-Z0-9-]/g, '-') // remove invalid characters
     .replace(/-+/g, '-') // collapse multiple dashes
     .replace(/^-|-$/g, ''); // trim leading/trailing dash
+
+  /**
+   * Sanitizing away every character (e.g. a name made entirely of symbols)
+   * would otherwise return '' — not a usable id.
+   */
+  return id || 'field';
 }
 
 export function normalizeString(str: string) {

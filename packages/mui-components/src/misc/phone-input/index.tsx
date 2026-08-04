@@ -141,11 +141,9 @@ function getPhoneValue(value: unknown): string | undefined {
   if (typeof value === 'string') {
     return value;
   }
-
   if (value && typeof value === 'object' && 'phone' in value) {
     return String(value.phone ?? '');
   }
-
   return undefined;
 }
 

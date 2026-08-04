@@ -247,7 +247,7 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
   /**
    * Called when the hidden file input loses focus.
    */
-  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: FocusEvent<HTMLInputElement, Element>) => void;
   /**
    * Ref for the hidden file `<input>` element.
    */

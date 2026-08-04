@@ -9,6 +9,8 @@
  * - PageToc: standalone TOC, already included by DocsPage.
  * - PropsTable: props reference table fed by `constants/props-table`.
  */
+
+export { default as AvailabilityBanner } from './AvailabilityBanner';
 export { default as Callout } from './Callout';
 export { default as CodeSnippets, type ComponentSnippet } from './CodeSnippets';
 export { default as DocsPage } from './DocsPage';

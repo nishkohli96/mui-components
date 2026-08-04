@@ -61,6 +61,10 @@ export const sidebarLinks: Page[] = [
     title: 'Form Helpers',
     pages: [
       {
+        title: 'fieldNameToId',
+        href: '/form-helpers/fieldNameToId',
+      },
+      {
         title: 'fieldNameToLabel',
         href: '/form-helpers/fieldNameToLabel',
       },

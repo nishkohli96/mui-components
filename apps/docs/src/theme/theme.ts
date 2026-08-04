@@ -54,5 +54,46 @@ export const theme: Theme = createTheme({
         underline: 'hover',
       },
     },
+    /**
+     * The default dark-mode `standard` Alert background/border sit only a
+     * few RGB points off `background.default` for every severity (info,
+     * success, warning, error alike), so alerts read as flat, indistinguishable
+     * boxes. Tint them from each severity's own `main` color instead.
+     *
+     * Built from the `*Channel` CSS-var tokens (space-separated RGB, e.g.
+     * "128 216 255"), not `theme.palette.X.main` — with CSS variables enabled,
+     * `theme.palette.X.main` bakes in a single static value (the light scheme's),
+     * so wrapping it in `applyStyles('dark', ...)` would still use the light
+     * color. The `*Channel` var resolves through `--mui-palette-*` at runtime,
+     * so it correctly picks up each scheme's own color.
+     */
+    MuiAlert: {
+      styleOverrides: {
+        standardInfo: ({ theme: t }) => ({
+          ...t.applyStyles('dark', {
+            backgroundColor: `rgba(${t.vars.palette.info.mainChannel} / 0.14)`,
+            border: `1px solid rgba(${t.vars.palette.info.mainChannel} / 0.3)`,
+          }),
+        }),
+        standardSuccess: ({ theme: t }) => ({
+          ...t.applyStyles('dark', {
+            backgroundColor: `rgba(${t.vars.palette.success.mainChannel} / 0.14)`,
+            border: `1px solid rgba(${t.vars.palette.success.mainChannel} / 0.3)`,
+          }),
+        }),
+        standardWarning: ({ theme: t }) => ({
+          ...t.applyStyles('dark', {
+            backgroundColor: `rgba(${t.vars.palette.warning.mainChannel} / 0.14)`,
+            border: `1px solid rgba(${t.vars.palette.warning.mainChannel} / 0.3)`,
+          }),
+        }),
+        standardError: ({ theme: t }) => ({
+          ...t.applyStyles('dark', {
+            backgroundColor: `rgba(${t.vars.palette.error.mainChannel} / 0.14)`,
+            border: `1px solid rgba(${t.vars.palette.error.mainChannel} / 0.3)`,
+          }),
+        }),
+      },
+    },
   },
 });

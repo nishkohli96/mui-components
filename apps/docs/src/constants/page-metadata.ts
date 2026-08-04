@@ -222,6 +222,10 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'Controlled CKEditor 5 rich text editor with label, error and helper-text handling.'
   },
+  fieldNameToId: {
+    title: 'fieldNameToId',
+    description: 'Converts a nested or array-indexed form field name (e.g. `phones[0].number`) into a sanitized, stable HTML id — safe for pairing form controls with `<label htmlFor>`.'
+  },
   fieldNameToLabel: {
     title: 'fieldNameToLabel',
     description: 'Generates a human-readable field label from a camelCase or snake_case fieldName, so you don\'t have to hand-write a label for every field.'

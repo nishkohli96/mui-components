@@ -234,9 +234,6 @@ importers:
       react-dom:
         specifier: ^19.2.7
         version: 19.2.7(react@19.2.7)
-      react-hook-form:
-        specifier: ^7.80.0
-        version: 7.81.0(react@19.2.7)
       react-international-phone:
         specifier: ^4.8.0
         version: 4.8.0(react@19.2.7)
