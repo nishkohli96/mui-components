@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { AppBar, Footer, GradientButton } from '@/components';
+import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
 import CopyInstallCommand from './CopyInstallCommand';
 
 const installCommand = 'npm install @nish1896/mui-components';
@@ -29,7 +29,7 @@ const features = [
     icon: '/icons/tree-shakable.svg',
     title: 'Tree-shakable',
     description:
-      'Import only what you use, with subpath exports for MUI, pickers and misc components.'
+      'Import only what you use, with subpath exports for mui, mui-pickers and misc components.'
   },
   {
     icon: '/icons/form-ux.svg',
@@ -69,22 +69,9 @@ const HomeLanding = () => {
             textAlign: 'center'
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              '& img': {
-                height: { xs: 44, sm: 56, md: 64, lg: 75 },
-                width: 'auto'
-              }
-            }}
-          >
-            <Image
-              src="/wordmark.svg"
-              alt="MUI Components Wordmark"
-              width={465}
-              height={75}
-              priority
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Wordmark
+              sx={{ fontSize: { xs: 34, sm: 44, md: 52, lg: 60 } }}
             />
           </Box>
           <Typography
