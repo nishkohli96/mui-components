@@ -28,7 +28,7 @@ import {
 
 type StaticDatePickerInputProps = Omit<
   StaticDatePickerProps,
-  'ref' | 'onChange' | 'value'
+  'onChange' | 'value'
 >;
 
 type PickerOnValueChangeProps<TDate extends PickerValidDate, ValidationError> = {
