@@ -1,6 +1,12 @@
 'use client';
 
-import { useContext, type ReactNode } from 'react';
+import {
+  useContext,
+  forwardRef,
+  type JSX,
+  type Ref,
+  type ReactNode
+} from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import {
   StaticTimePicker as MuiStaticTimePicker,
@@ -28,7 +34,7 @@ import {
 
 type StaticTimePickerInputProps = Omit<
   StaticTimePickerProps,
-  'onChange' | 'value'
+  'onChange' | 'value' | 'ref'
 >;
 
 type PickerOnValueChangeProps<TDate extends PickerValidDate, ValidationError> = {
@@ -121,26 +127,31 @@ export type MUIStaticTimePickerProps<TDate extends PickerValidDate = PickerValid
   customIds?: CustomComponentIds;
 } & StaticTimePickerInputProps;
 
-const MUIStaticTimePicker = <TDate extends PickerValidDate = PickerValidDate>({
-  fieldName,
-  value: muiValue,
-  onValueChange,
-  required,
-  onAccept: muiOnAccept,
-  disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  slotProps: muiSlotProps,
-  customIds,
-  ...otherPickerProps
-}: MUIStaticTimePickerProps<TDate>) => {
+const MUIStaticTimePickerInner = forwardRef(function MUIStaticTimePicker<
+  TDate extends PickerValidDate = PickerValidDate
+>(
+  {
+    fieldName,
+    value: muiValue,
+    onValueChange,
+    required,
+    onAccept: muiOnAccept,
+    disabled: muiDisabled,
+    label,
+    showLabelAboveFormField,
+    formLabelProps,
+    hideLabel,
+    errorMessage,
+    renderError,
+    hideErrorMessage,
+    helperText,
+    formHelperTextProps,
+    slotProps: muiSlotProps,
+    customIds,
+    ...otherPickerProps
+  }: MUIStaticTimePickerProps<TDate>,
+  ref: Ref<HTMLDivElement>
+) {
   const { dateAdapter, allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   if (!dateAdapter) {
     throw new Error(generateDateAdapterErrMsg('MUIStaticTimePicker'));
@@ -195,8 +206,16 @@ const MUIStaticTimePicker = <TDate extends PickerValidDate = PickerValidDate>({
           />
         )}
         <div
+          ref={ref}
           id={fieldId}
           role="group"
+          /*
+           * Static pickers have no `<input>` to attach a ref to, so `ref`
+           * targets this group container instead — `tabIndex={-1}` makes it
+           * programmatically focusable (not tab-reachable) so callers like
+           * RHF's focus-on-validation-error can still bring it into view.
+           */
+          tabIndex={-1}
           aria-labelledby={
             !hideLabel && isLabelAboveFormField ? labelId : undefined
           }
@@ -241,6 +260,12 @@ const MUIStaticTimePicker = <TDate extends PickerValidDate = PickerValidDate>({
       </FormControl>
     </LocalizationProvider>
   );
-};
+});
+
+const MUIStaticTimePicker = MUIStaticTimePickerInner as <
+  TDate extends PickerValidDate = PickerValidDate
+>(
+  props: MUIStaticTimePickerProps<TDate> & { ref?: Ref<HTMLDivElement> }
+) => JSX.Element;
 
 export default MUIStaticTimePicker;
