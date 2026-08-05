@@ -1,4 +1,0 @@
-allowBuilds:
-  sharp: true
-minimumReleaseAgeExclude:
-  - '@nish1896/mui-components@1.0.5'
