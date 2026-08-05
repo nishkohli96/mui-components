@@ -17,6 +17,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
+import { fieldNameToLabel } from '@nish1896/mui-components/form-helpers';
 import {
   FormContainer,
   GridContainer,
@@ -214,7 +215,7 @@ export default function AutocompleteExampleForm() {
                           style={{ objectFit: 'contain' }}
                         />
                         <Typography>
-                          {option.name}
+                          {fieldNameToLabel(option.name)}
                         </Typography>
                       </Box>
                     );
@@ -239,7 +240,7 @@ export default function AutocompleteExampleForm() {
                           return (
                             <Chip
                               key={item.id}
-                              label={item.name}
+                              label={fieldNameToLabel(item.name)}
                               avatar={
                                 <Image
                                   src={item.image}
@@ -256,6 +257,7 @@ export default function AutocompleteExampleForm() {
                     );
                   }}
                   textFieldProps={{ variant: 'standard' }}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                 />
               )}
             </form.Field>

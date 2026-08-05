@@ -177,6 +177,7 @@ export default function PasswordInputForm() {
               value="s3cr3t-recovery-key"
               onValueChange={() => { /* no-op */ }}
               readOnly
+              showLabelAboveFormField
               helperText="Read-only: not editable, but the show/hide toggle still works"
               disabled={disableAllFields}
             />

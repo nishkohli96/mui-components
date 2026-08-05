@@ -51,8 +51,8 @@ importers:
         specifier: ^16.2.10
         version: 16.2.12(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@19.2.17)(react@19.2.8))
       '@nish1896/mui-components':
-        specifier: latest
-        version: 1.0.0(749b5f73dbd28906e852575fa68e5f93)
+        specifier: ^1.0.5
+        version: 1.0.5(53d839a3bfd141c1390b819fd5983e69)
       '@shikijs/rehype':
         specifier: ^4.3.1
         version: 4.3.1
@@ -1263,13 +1263,13 @@ packages:
       '@eslint/js': '>=9'
       eslint: '>=9'
 
-  '@nish1896/mui-components@1.0.0':
-    resolution: {integrity: sha512-LqcGQr6dzGsuzfsNDfTr1cMJQgrQdsjdBQUZ7l5mirZPJVDFhDrkZF0PiiumFAVca1BmNIEX+YEQwXBJ63aXtw==}
+  '@nish1896/mui-components@1.0.5':
+    resolution: {integrity: sha512-Ea0aUDl2TLozq7/CzxBUR0I7Rd/HU2xqTOTZ89PdziDSWB+VNDKPCh2KTkFHD37F6nhO7dGj5GnNC1jDJ5DmvQ==}
     peerDependencies:
       '@mui/icons-material': ^6.0.0 || ^7.0.0
       '@mui/material': ^6.0.0 || ^7.0.0
+      '@mui/system': ^6.0.0 || ^7.0.0
       '@mui/x-date-pickers': ^7.0.0 || ^8.0.0
-      react-hook-form: ^7.0.0
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -4974,12 +4974,12 @@ snapshots:
       - supports-color
       - typescript
 
-  '@nish1896/mui-components@1.0.0(749b5f73dbd28906e852575fa68e5f93)':
+  '@nish1896/mui-components@1.0.5(53d839a3bfd141c1390b819fd5983e69)':
     dependencies:
       '@mui/icons-material': 7.3.11(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@types/react@19.2.17)(react@19.2.8)
       '@mui/material': 7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@mui/system': 7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react@19.2.8)
       '@mui/x-date-pickers': 8.29.2(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react@19.2.8))(@mui/material@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@mui/system@7.3.11(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(react@19.2.8))(@types/react@19.2.17)(date-fns@4.4.0)(dayjs@1.11.21)(luxon@3.7.2)(moment@2.30.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      react-hook-form: 7.83.0(react@19.2.8)
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:

@@ -173,7 +173,7 @@ const SelectForm = () => {
                 setValue('randomNum', newValue, {
                   shouldValidate: true
                 });
-                toast.info(JSON.stringify(newValue, null, 2));
+                toast.info(`You selected: ${newValue}`);
               }}
               disabled={disableAllFields}
               errorMessage={errors.randomNum?.message?.toString()}
