@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentProps } from '@/constants';
+import { componentMetadata, componentPropsV1 } from '@/constants';
 import PickersForm from '@/forms/mui-pickers/date-time/Client';
 
 export const metadata = componentMetadata.MUIDateTimePicker;
@@ -63,7 +63,7 @@ All four variants (`MUIDateTimePicker`, `MUIDesktopDateTimePicker`,
 `MUIMobileDateTimePicker`, `MUIStaticDateTimePicker`) share the props below. Props
 marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUIDateTimePicker} />
+<PropsTable rows={componentPropsV1.MUIDateTimePicker} />
 
 <Callout type="info">
   `MUIStaticDateTimePicker` renders inline with no text field, so two props behave

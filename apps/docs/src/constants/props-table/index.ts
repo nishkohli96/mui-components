@@ -6,9 +6,13 @@
  *
  * Each row-builder is a function of `PropsDescriptionArgs` — props that link
  * to MUI/MUI X docs resolve their URL from `muiVersion`/`muiPickersVersion`
- * (see `descriptions.ts`). `currentVersionArgs` below pins the version this
- * release actually documents; bumping it is the only change a future v2
- * (MUI 9) needs here.
+ * (see `descriptions.ts`).
+ *
+ * One row set is built per docs version, since each documents a different MUI
+ * major. The current docs target the latest MUI, so they pass no version at
+ * all and link to the unprefixed `mui.com` — which always resolves to latest —
+ * rather than pinning a `vN.mui.com` host that would go stale on the next
+ * MUI release.
  */
 
 import type { PropsInfo, PropsDescriptionArgs } from '@/types';
@@ -39,38 +43,54 @@ import richTextEditorRows from './misc/rich-text-editor';
 
 export { PropsDescription, resolveProp } from './descriptions';
 
-/** The MUI / MUI X Date Pickers version this release's docs actually target. */
-export const currentVersionArgs: PropsDescriptionArgs = {
+/**
+ * Current docs (v2, MUI v9). Deliberately empty: omitting the versions makes
+ * every generated URL unprefixed (`https://mui.com/...`), which always points
+ * at the latest MUI docs.
+ */
+export const latestVersionArgs: PropsDescriptionArgs = {};
+
+/** v1 docs, which documented MUI v7 and MUI X Date Pickers v8. */
+export const v1VersionArgs: PropsDescriptionArgs = {
   muiVersion: 7,
   muiPickersVersion: 8
 };
 
-export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
-  MUITextField: textFieldRows(currentVersionArgs),
-  MUIPasswordInput: passwordInputRows(currentVersionArgs),
-  MUINumberInput: numberInputRows(currentVersionArgs),
-  MUITagsInput: tagsInputRows(currentVersionArgs),
-  MUIFileUploader: fileUploaderRows(currentVersionArgs),
-  MUISelect: selectRows(currentVersionArgs),
-  MUINativeSelect: nativeSelectRows(currentVersionArgs),
-  MUIAutocomplete: autocompleteRows(currentVersionArgs),
-  MUIAutocompleteObject: autocompleteObjectRows(currentVersionArgs),
-  MUIMultiAutocomplete: multiAutocompleteRows(currentVersionArgs),
-  MUIMultiAutocompleteObject: multiAutocompleteObjectRows(currentVersionArgs),
-  MUICountrySelect: countrySelectRows(currentVersionArgs),
-  MUICheckbox: checkboxRows(currentVersionArgs),
-  MUICheckboxGroup: checkboxGroupRows(currentVersionArgs),
-  MUIRadioGroup: radioGroupRows(currentVersionArgs),
-  MUISwitch: switchRows(currentVersionArgs),
-  MUISlider: sliderRows(currentVersionArgs),
-  MUIRating: ratingRows(currentVersionArgs),
+const buildComponentProps = (
+  args: PropsDescriptionArgs
+): Record<string, PropsInfo[]> =>
+  Object.freeze({
+    MUITextField: textFieldRows(args),
+    MUIPasswordInput: passwordInputRows(args),
+    MUINumberInput: numberInputRows(args),
+    MUITagsInput: tagsInputRows(args),
+    MUIFileUploader: fileUploaderRows(args),
+    MUISelect: selectRows(args),
+    MUINativeSelect: nativeSelectRows(args),
+    MUIAutocomplete: autocompleteRows(args),
+    MUIAutocompleteObject: autocompleteObjectRows(args),
+    MUIMultiAutocomplete: multiAutocompleteRows(args),
+    MUIMultiAutocompleteObject: multiAutocompleteObjectRows(args),
+    MUICountrySelect: countrySelectRows(args),
+    MUICheckbox: checkboxRows(args),
+    MUICheckboxGroup: checkboxGroupRows(args),
+    MUIRadioGroup: radioGroupRows(args),
+    MUISwitch: switchRows(args),
+    MUISlider: sliderRows(args),
+    MUIRating: ratingRows(args),
 
-  /* All four variants per family (responsive/desktop/mobile/static) share one row set. */
-  MUIDatePicker: datePickerRows(currentVersionArgs),
-  MUITimePicker: timePickerRows(currentVersionArgs),
-  MUIDateTimePicker: dateTimePickerRows(currentVersionArgs),
+    /* All four variants per family (responsive/desktop/mobile/static) share one row set. */
+    MUIDatePicker: datePickerRows(args),
+    MUITimePicker: timePickerRows(args),
+    MUIDateTimePicker: dateTimePickerRows(args),
 
-  MUIColorPicker: colorPickerRows(currentVersionArgs),
-  MUIPhoneInput: phoneInputRows(currentVersionArgs),
-  MUIRichTextEditor: richTextEditorRows(currentVersionArgs)
-});
+    MUIColorPicker: colorPickerRows(args),
+    MUIPhoneInput: phoneInputRows(args),
+    MUIRichTextEditor: richTextEditorRows(args)
+  });
+
+/** Props rows for the current docs — consumed by `app/**` pages. */
+export const componentProps = buildComponentProps(latestVersionArgs);
+
+/** Props rows for the v1 docs — consumed by `app/v1/**` pages. */
+export const componentPropsV1 = buildComponentProps(v1VersionArgs);

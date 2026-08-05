@@ -13,14 +13,14 @@ import { type DocsVersionInfo } from '@/types';
 export const docsVersions: DocsVersionInfo[] = [
   {
     slug: 'current',
-    label: 'v2.x',
+    label: 'v2',
     /* Latest version is served from the root, so it carries no prefix. */
     basePath: '',
     fallbackPath: '/introduction'
   },
   {
     slug: 'v1',
-    label: 'v1.x',
+    label: 'v1',
     basePath: '/v1',
     fallbackPath: '/v1/introduction',
     /*

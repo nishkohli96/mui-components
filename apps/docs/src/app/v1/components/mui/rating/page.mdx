@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentProps } from '@/constants';
+import { componentMetadata, componentPropsV1 } from '@/constants';
 import RatingForm from '@/forms/mui/rating/Client';
 
 export const metadata = componentMetadata.MUIRating;
@@ -34,7 +34,7 @@ const [score, setScore] = useState<number | null>(null);
 `MUIRatingProps` also accepts most [RatingProps](https://v7.mui.com/material-ui/api/rating/).
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUIRating} />
+<PropsTable rows={componentPropsV1.MUIRating} />
 
 ## Playground
 

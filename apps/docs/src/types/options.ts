@@ -20,7 +20,7 @@ export type DocsVersionInfo = {
   fallbackPath: string;
   /**
    * Canonical (unprefixed) path prefixes absent from this version, e.g.
-   * `['/components']`. Used to filter the sidebar and to decide whether a
+   * `['/examples']`. Used to filter the sidebar and to decide whether a
    * version switch can preserve the current page.
    */
   unavailablePaths?: string[];

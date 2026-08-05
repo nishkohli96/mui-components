@@ -1,5 +1,5 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentProps } from '@/constants';
+import { componentMetadata, componentPropsV1 } from '@/constants';
 import ColorPickerForm from '@/forms/misc/color-picker/Client';
 
 export const metadata = componentMetadata.MUIColorPicker;
@@ -78,7 +78,7 @@ The color value returned from the `onValueChange` prop is an object containing t
 
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUIColorPicker} />
+<PropsTable rows={componentPropsV1.MUIColorPicker} />
 
 ## Playground
 

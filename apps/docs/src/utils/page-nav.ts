@@ -7,7 +7,10 @@ import {
   toVersionedPath
 } from './docs-version';
 
-/** Depth-first flatten of the sidebar tree into linkable leaf pages, in reading order — category headers (no `href`) are skipped. */
+/**
+ * Depth-first flatten of the sidebar tree into linkable leaf pages, in
+ * reading order — category headers (no `href`) are skipped.
+ */
 function flattenPages(pages: Page[]): PageInfo[] {
   return pages.flatMap(page => {
     if (page.pages?.length) {

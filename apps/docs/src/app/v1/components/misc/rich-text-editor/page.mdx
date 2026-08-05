@@ -1,6 +1,6 @@
 import MuiLink from '@mui/material/Link';
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentProps, componentMetadata, externalLinks } from '@/constants';
+import { componentPropsV1, componentMetadata, externalLinks } from '@/constants';
 import RichTextEditorForm from '@/forms/misc/rich-text-editor/Client';
 
 export const metadata = componentMetadata.MUIRichTextEditor;
@@ -103,7 +103,7 @@ as follows:​
 
 Pass a custom `editorConfig` to control the CKEditor toolbar and plugins. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUIRichTextEditor} />
+<PropsTable rows={componentPropsV1.MUIRichTextEditor} />
 
 ## Playground
 
