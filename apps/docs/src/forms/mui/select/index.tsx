@@ -167,7 +167,7 @@ const SelectForm = () => {
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Select with number options" />
+            <FieldVariantInfo title="Select with number options and menuItemProps" />
             <MUISelect
               fieldName="randomNum"
               options={randomNumbers}
@@ -176,7 +176,7 @@ const SelectForm = () => {
                 setValue('randomNum', newValue, {
                   shouldValidate: true
                 });
-                toast.info(JSON.stringify(newValue, null, 2));
+                toast.info(`You selected: ${newValue}`);
               }}
               disabled={disableAllFields}
               errorMessage={errors.randomNum?.message?.toString()}
@@ -184,6 +184,7 @@ const SelectForm = () => {
               showLabelAboveFormField
               hideLabel
               helperText="Select a random number"
+              menuItemProps={{ dense: true }}
               required
             />
           </Grid>

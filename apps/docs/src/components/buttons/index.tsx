@@ -78,7 +78,7 @@ export const ThemeChangeButton = () => {
   );
 };
 
-const githubBtnTooltip = 'Github';
+const githubBtnTooltip = 'Github Repository';
 
 export const GithubButton = () => {
   return (

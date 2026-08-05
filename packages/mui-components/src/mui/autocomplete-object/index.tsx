@@ -27,7 +27,8 @@ import {
   type FormLabelProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
-  type MuiChipProps
+  type MuiChipProps,
+  type CircularProgressProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { KeyValueOption, CustomComponentIds } from '@/types';
@@ -195,6 +196,11 @@ export type MUIAutocompleteObjectProps<
    */
   ChipProps?: MuiChipProps;
   /**
+   * Props forwarded to the internal MUI `CircularProgress` shown in the input
+   * while `loading` is true.
+   */
+  circularProgressProps?: CircularProgressProps;
+  /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
@@ -246,6 +252,7 @@ const MUIAutocompleteObjectInner = forwardRef(function MUIAutocompleteObject<
     textFieldProps,
     slotProps,
     ChipProps,
+    circularProgressProps,
     onFocus,
     onBlur,
     loading,
@@ -403,7 +410,11 @@ const MUIAutocompleteObjectInner = forwardRef(function MUIAutocompleteObject<
                   endAdornment: (
                     <>
                       {loading && (
-                        <CircularProgress color="inherit" size={20} />
+                        <CircularProgress
+                          color="inherit"
+                          size={20}
+                          {...circularProgressProps}
+                        />
                       )}
                       {paramsSlotProps.input?.endAdornment}
                     </>

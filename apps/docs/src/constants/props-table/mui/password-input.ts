@@ -8,6 +8,7 @@ const passwordInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.onValueChange_Inputs,
   P.showPasswordIcon,
   P.hidePasswordIcon,
+  resolveProp(P.iconButtonProps, args),
   P.readOnly_PasswordInput,
   P.label,
   resolveProp(P.showLabelAboveFormField, args),

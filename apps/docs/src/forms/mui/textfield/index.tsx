@@ -150,7 +150,7 @@ export default function TextFieldForm() {
             }}
             variant="filled"
             disabled={disableAllFields}
-            helperText="The final value would be capitalized!"
+            helperText="Input value would be capitalized!"
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>

@@ -8,6 +8,7 @@ const phoneInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.onValueChange_PhoneInput,
   P.phoneInputProps,
   P.searchCountryProps,
+  P.countrySelectProps,
   P.required,
   P.errorMessage,
   P.renderError,

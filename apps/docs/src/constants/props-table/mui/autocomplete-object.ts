@@ -16,6 +16,7 @@ const autocompleteObjectRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.getLimitTagsText,
   resolveProp(P.textFieldProps, args),
   resolveProp(P.ChipProps, args),
+  resolveProp(P.circularProgressProps, args),
   P.label,
   resolveProp(P.showLabelAboveFormField, args),
   resolveProp(P.formLabelProps, args),

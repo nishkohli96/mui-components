@@ -18,7 +18,9 @@ import {
   type FormHelperTextProps,
   type SelectProps,
   type OptionValue,
-  type OptionRenderState
+  type OptionRenderState,
+  type MenuItemProps,
+  type InputLabelProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { StrNumObjOption, CustomComponentIds } from '@/types';
@@ -122,6 +124,12 @@ export type MUISelectProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
+   * Props forwarded to each internal MUI `MenuItem`, applied to every rendered
+   * option — including the default placeholder option when `showDefaultOption`
+   * is enabled. Useful for a custom `dense`, `divider` or `sx` across all options.
+   */
+  menuItemProps?: MenuItemProps;
+  /**
    * When true, allows selecting multiple values.
    */
   multiple?: Multiple;
@@ -150,6 +158,13 @@ export type MUISelectProps<
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * Props forwarded to the internal MUI `InputLabel` — the inline label shown
+   * inside the field's outline when `showLabelAboveFormField` is off. Has no
+   * effect when that label isn't rendered (`hideLabel`, `showLabelAboveFormField`,
+   * or a `placeholder` with no value selected).
+   */
+  inputLabelProps?: InputLabelProps;
   /**
    * When true, hides the rendered field label while preserving accessible labeling where possible.
    */
@@ -223,6 +238,7 @@ const MUISelect = <
   onValueChange,
   renderOptionLabel,
   getOptionDisabled,
+  menuItemProps,
   multiple,
   showDefaultOption,
   defaultOptionText,
@@ -230,6 +246,7 @@ const MUISelect = <
   label,
   showLabelAboveFormField,
   formLabelProps,
+  inputLabelProps,
   hideLabel,
   required,
   errorMessage,
@@ -314,6 +331,7 @@ const MUISelect = <
       )}
       {!hideLabel && !isLabelAboveFormField && !showPlaceholder && (
         <InputLabel
+          {...inputLabelProps}
           id={labelId}
           htmlFor={fieldId}
           shrink={!isValueEmpty}
@@ -409,7 +427,7 @@ const MUISelect = <
         }}
       >
         {showDefaultOption && (
-          <MenuItem value="" disabled={required}>
+          <MenuItem {...menuItemProps} value="" disabled={required}>
             {defaultOptionText ?? `Select ${defaultFieldLabel}`}
           </MenuItem>
         )}
@@ -434,6 +452,7 @@ const MUISelect = <
           const isSelected = currentValues.includes(opnValue);
           return (
             <MenuItem
+              {...menuItemProps}
               key={`${opnValue}-${index}`}
               value={opnValue}
               disabled={isOptionDisabled}

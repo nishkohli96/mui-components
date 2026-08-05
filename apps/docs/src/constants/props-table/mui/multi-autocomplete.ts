@@ -22,6 +22,7 @@ const multiAutocompleteRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   resolveProp(P.checkboxProps, args),
   resolveProp(P.formControlLabelProps, args),
   resolveProp(P.ChipProps, args),
+  resolveProp(P.circularProgressProps, args),
   P.label,
   resolveProp(P.showLabelAboveFormField, args),
   resolveProp(P.formLabelProps, args),
