@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -11,6 +11,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { sidebarLinks } from '@/constants';
 import { type Page } from '@/types';
+import { buildVersionedSidebar, getDocsVersion } from '@/utils';
 
 const containsPath = (page: Page, pathname: string): boolean => {
   return (
@@ -111,6 +112,16 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
   const pathname = usePathname();
   const listRef = useRef<HTMLUListElement>(null);
 
+  /*
+   * Rebuild the tree for whichever version the reader is in, so every link
+   * stays inside it (`/v1/...` keeps navigating within v1) and sections that
+   * version doesn't have are hidden rather than linking to a 404.
+   */
+  const versionedLinks = useMemo(
+    () => buildVersionedSidebar(sidebarLinks, getDocsVersion(pathname)),
+    [pathname]
+  );
+
   useLayoutEffect(() => {
     const list = listRef.current;
     const active = list?.querySelector<HTMLElement>('.Mui-selected');
@@ -151,7 +162,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
 
   return (
     <List dense sx={{ px: 1 }} ref={listRef}>
-      {sidebarLinks.map(link => (
+      {versionedLinks.map(link => (
         <SidebarItem
           key={link.href ?? link.title}
           page={link}

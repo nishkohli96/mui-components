@@ -21,7 +21,7 @@ consistent form UIs.
 
 Install the package:
 
-<PackageManagerTabs id="install-core" command="@nish1896/mui-components" />
+<PackageManagerTabs id="install-core" command="@nish1896/mui-components@latest-v1" />
 
 The package expects Material UI (`v6` or `v7`) and its peers in your app.
 Match your project's MUI version by installing with the `latest-v6` or
@@ -94,6 +94,10 @@ export default function SignupName() {
 }
 ```
 
+There is no schema, resolver or registration step — derive `errorMessage` from
+your own validation (or your form library's) and the field renders in an error
+state.
+
 <Callout type="info" title="Using rhf-mui-components ?">
   Is this package similar to `@nish1896/rhf-mui-components`?
   
@@ -108,10 +112,6 @@ export default function SignupName() {
   Starting with `v4.2.0`, `@nish1896/rhf-mui-components` now reuses the core
   logic and default values from this package.
 </Callout>
-
-There is no schema, resolver or registration step — derive `errorMessage` from
-your own validation (or your form library's) and the field renders in an error
-state.
 
 ## Using Form Libraries
 
@@ -128,8 +128,10 @@ With [TanStack Form](https://tanstack.com/form/latest)'s `Field`, whose
 import { useForm } from '@tanstack/react-form';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 
-/* Flatten one level so a field failing several rules — where `meta.errors`
-   is `[[ruleA, ruleB]]` — surfaces every message. */
+/**
+ * Flatten one level so a field failing several rules — where `meta.errors`
+ * is `[[ruleA, ruleB]]` — surfaces every message.
+ */
 const tanstackErrors = (errors: unknown[]): string[] =>
   errors.flat().filter((error): error is string => typeof error === 'string');
 

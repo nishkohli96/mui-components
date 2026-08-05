@@ -4,6 +4,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import DrawerMenu from './DrawerMenu';
+import VersionSwitcher from '../version-switcher';
 import {
   GithubButton,
   NpmButton,
@@ -81,6 +82,7 @@ const AppBar = () => {
           </Box>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
+        <VersionSwitcher />
         <PlaygroundButton />
         <NpmButton />
         <GithubButton />
