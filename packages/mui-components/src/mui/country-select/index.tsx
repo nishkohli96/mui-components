@@ -452,8 +452,7 @@ const MUICountrySelectInner = forwardRef(function MUICountrySelect<
             : option.iso === value.iso}
         renderInput={params => {
           const {
-            InputProps,
-            inputProps,
+            slotProps: paramsSlotProps,
             disabled: paramsDisabled,
             ...otherInputParams
           } = params ?? {};
@@ -462,7 +461,7 @@ const MUICountrySelectInner = forwardRef(function MUICountrySelect<
             ...otherTextFieldProps
           } = textFieldProps ?? {};
           const textFieldInputProps = {
-            ...inputProps,
+            ...paramsSlotProps.htmlInput,
             'aria-required': required,
             'aria-invalid': isError,
             'aria-labelledby': !hideLabel && isLabelAboveFormField
@@ -493,8 +492,12 @@ const MUICountrySelectInner = forwardRef(function MUICountrySelect<
               error={isError}
               slotProps={{
                 ...textFieldProps?.slotProps,
+                inputLabel: {
+                  ...paramsSlotProps.inputLabel,
+                  ...textFieldProps?.slotProps?.inputLabel
+                },
                 input: {
-                  ...InputProps,
+                  ...paramsSlotProps.input,
                   ...textFieldProps?.slotProps?.input
                 },
                 htmlInput: textFieldInputProps

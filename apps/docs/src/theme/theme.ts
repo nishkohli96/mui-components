@@ -69,30 +69,27 @@ export const theme: Theme = createTheme({
      */
     MuiAlert: {
       styleOverrides: {
-        standardInfo: ({ theme: t }) => ({
-          ...t.applyStyles('dark', {
-            backgroundColor: `rgba(${t.vars.palette.info.mainChannel} / 0.14)`,
-            border: `1px solid rgba(${t.vars.palette.info.mainChannel} / 0.3)`,
-          }),
-        }),
-        standardSuccess: ({ theme: t }) => ({
-          ...t.applyStyles('dark', {
-            backgroundColor: `rgba(${t.vars.palette.success.mainChannel} / 0.14)`,
-            border: `1px solid rgba(${t.vars.palette.success.mainChannel} / 0.3)`,
-          }),
-        }),
-        standardWarning: ({ theme: t }) => ({
-          ...t.applyStyles('dark', {
-            backgroundColor: `rgba(${t.vars.palette.warning.mainChannel} / 0.14)`,
-            border: `1px solid rgba(${t.vars.palette.warning.mainChannel} / 0.3)`,
-          }),
-        }),
-        standardError: ({ theme: t }) => ({
-          ...t.applyStyles('dark', {
-            backgroundColor: `rgba(${t.vars.palette.error.mainChannel} / 0.14)`,
-            border: `1px solid rgba(${t.vars.palette.error.mainChannel} / 0.3)`,
-          }),
-        }),
+        /*
+         * MUI v9 collapsed the per-severity `standard{Info,Success,Warning,Error}`
+         * style-override slots into a single `standard` slot (severity now rides
+         * on separate `colorInfo`/`colorSuccess`/... classes), so the previous
+         * four overrides become one callback reading `ownerState.severity`.
+         */
+        standard: ({ theme: t, ownerState }) => {
+          const severity = ownerState.severity ?? 'success';
+          const paletteColor = t.vars.palette[
+            severity as keyof typeof t.vars.palette
+          ] as { mainChannel?: string } | undefined;
+
+          if (!paletteColor?.mainChannel) {
+            return {};
+          }
+
+          return t.applyStyles('dark', {
+            backgroundColor: `rgba(${paletteColor.mainChannel} / 0.14)`,
+            border: `1px solid rgba(${paletteColor.mainChannel} / 0.3)`,
+          });
+        },
       },
     },
   },

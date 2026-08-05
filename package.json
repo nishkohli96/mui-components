@@ -30,9 +30,11 @@
   "keywords": [
     "material-ui",
     "mui",
-    "mui-v7",
-    "mui-v6",
+    "mui-v9",
+    "mui-v8",
     "@mui/material",
+    "@mui/icons-material",
+    "@mui/material-nextjs",
     "react",
     "typescript",
     "component-library",

@@ -424,17 +424,19 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
             vertical: 'top',
             horizontal: 'left'
           },
-          PaperProps: {
-            sx: {
-              mt: '4px',
-              width: `min(${countryMenuWidthPx}px, calc(100vw - ${countryMenuViewportGutter}px))`,
-              maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`,
-              maxHeight: 300
-            }
-          },
-          MenuListProps: {
-            sx: {
-              pt: allowCountrySearch ? 0 : '8px'
+          slotProps: {
+            paper: {
+              sx: {
+                mt: '4px',
+                width: `min(${countryMenuWidthPx}px, calc(100vw - ${countryMenuViewportGutter}px))`,
+                maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`,
+                maxHeight: 300
+              }
+            },
+            list: {
+              sx: {
+                pt: allowCountrySearch ? 0 : '8px'
+              }
             }
           }
         }}

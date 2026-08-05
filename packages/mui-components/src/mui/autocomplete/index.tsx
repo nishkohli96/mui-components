@@ -415,9 +415,8 @@ const MUIAutocompleteInner = forwardRef(function MUIAutocomplete<
         />
       )}
       {/*
-       * MUI v7: use `renderValue` so single- and multi-select selections render as chips.
-       * MUI v6: use `renderTags` for multi-select chips only, as `renderValue` is not available.
-       * MUI v7 deprecates `renderTags` in favor of `renderValue`.
+       * Selections render as chips via `renderValue`, which covers both
+       * single- and multi-select.
        */}
       <Autocomplete
         {...otherAutoCompleteProps}
@@ -479,7 +478,7 @@ const MUIAutocompleteInner = forwardRef(function MUIAutocomplete<
           if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
             return (
               option[valueKey] === (typeof value === 'object' && value !== null
-                ? value[valueKey]
+                ? (value as Option)[valueKey]
                 : value)
             );
           }
@@ -487,8 +486,7 @@ const MUIAutocompleteInner = forwardRef(function MUIAutocomplete<
         }}
         renderInput={params => {
           const {
-            InputProps,
-            inputProps,
+            slotProps: paramsSlotProps,
             disabled: paramsDisabled,
             ...otherInputParams
           } = params ?? {};
@@ -497,7 +495,7 @@ const MUIAutocompleteInner = forwardRef(function MUIAutocomplete<
             ...otherTextFieldProps
           } = textFieldProps ?? {};
           const textFieldInputProps = {
-            ...inputProps,
+            ...paramsSlotProps.htmlInput,
             'aria-required': required,
             'aria-invalid': isError,
             'aria-labelledby': !hideLabel && isLabelAboveFormField
@@ -531,15 +529,19 @@ const MUIAutocompleteInner = forwardRef(function MUIAutocomplete<
               error={isError}
               slotProps={{
                 ...textFieldProps?.slotProps,
+                inputLabel: {
+                  ...paramsSlotProps.inputLabel,
+                  ...textFieldProps?.slotProps?.inputLabel
+                },
                 input: {
-                  ...InputProps,
+                  ...paramsSlotProps.input,
                   ...textFieldProps?.slotProps?.input,
                   endAdornment: (
                     <>
                       {loading && (
                         <CircularProgress color="inherit" size={20} />
                       )}
-                      {InputProps?.endAdornment}
+                      {paramsSlotProps.input?.endAdornment}
                     </>
                   )
                 },

@@ -31,9 +31,8 @@ export default function UploadedFile({
   return (
     <Stack
       direction="row"
-      alignItems="center"
-      justifyContent="space-between"
       spacing={1}
+      sx={{ alignItems: 'center', justifyContent: 'space-between' }}
     >
       <Typography
         component="button"

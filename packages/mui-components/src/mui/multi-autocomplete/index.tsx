@@ -528,7 +528,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
           if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
             return (
               option[valueKey] === (typeof value === 'object' && value !== null
-                ? value[valueKey]
+                ? (value as Option)[valueKey]
                 : value)
             );
           }
@@ -536,8 +536,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
         }}
         renderInput={params => {
           const {
-            InputProps,
-            inputProps,
+            slotProps: paramsSlotProps,
             disabled: paramsDisabled,
             ...otherInputParams
           } = params ?? {};
@@ -547,7 +546,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
             ...otherTextFieldProps
           } = textFieldProps ?? {};
           const textFieldInputProps = {
-            ...inputProps,
+            ...paramsSlotProps.htmlInput,
             'aria-required': required,
             'aria-invalid': isError,
             'aria-labelledby': !hideLabel && isLabelAboveFormField
@@ -581,15 +580,19 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
               error={isError}
               slotProps={{
                 ...textFieldProps?.slotProps,
+                inputLabel: {
+                  ...paramsSlotProps.inputLabel,
+                  ...textFieldProps?.slotProps?.inputLabel
+                },
                 input: {
-                  ...InputProps,
+                  ...paramsSlotProps.input,
                   ...textFieldProps?.slotProps?.input,
                   endAdornment: (
                     <>
                       {loading && (
                         <CircularProgress color="inherit" size={20} />
                       )}
-                      {InputProps.endAdornment}
+                      {paramsSlotProps.input.endAdornment}
                     </>
                   )
                 },

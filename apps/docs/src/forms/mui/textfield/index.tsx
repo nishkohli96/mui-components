@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 import {
   FormContainer,
@@ -170,7 +170,7 @@ export default function TextFieldForm() {
             errorMessage={emailError}
             renderError={errors => (
               <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
-                <ErrorOutlineIcon color="error" fontSize="small" />
+                <ErrorOutlinedIcon color="error" fontSize="small" />
                 <Typography component="span" variant="body2">
                   {errors[0]}
                 </Typography>

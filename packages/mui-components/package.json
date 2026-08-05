@@ -40,10 +40,10 @@
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
-    "@mui/system": "^6.0.0 || ^7.0.0",
-    "@mui/material": "^6.0.0 || ^7.0.0",
-    "@mui/icons-material": "^6.0.0 || ^7.0.0",
-    "@mui/x-date-pickers": "^7.0.0 || ^8.0.0"
+    "@mui/system": "^9.0.0",
+    "@mui/material": "^9.0.0",
+    "@mui/icons-material": "^9.0.0",
+    "@mui/x-date-pickers": "^9.0.0"
   },
   "exports": {
     "./package.json": "./dist/package.json",
@@ -66,9 +66,11 @@
   "keywords": [
     "material-ui",
     "mui",
-    "mui-v7",
-    "mui-v6",
+    "mui-v9",
+    "mui-v8",
     "@mui/material",
+    "@mui/icons-material",
+    "@mui/material-nextjs",
     "react",
     "typescript",
     "component-library",
