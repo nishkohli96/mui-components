@@ -69,6 +69,9 @@ const AppBar = () => {
               '& img': {
                 height: { xs: 22, md: 28 },
                 width: 'auto'
+              },
+              '@media (max-width: 329px)': {
+                display: 'none'
               }
             }}
           >

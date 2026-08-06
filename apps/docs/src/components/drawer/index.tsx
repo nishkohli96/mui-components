@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import MuiAppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -12,7 +13,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
 import { sidebarLinks } from '@/constants';
 import { type Page } from '@/types';
 import { buildVersionedSidebar, getDocsVersion } from '@/utils';
@@ -180,16 +181,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
           color: 'text.primary',
           borderBottom: '1px solid',
           borderColor: 'divider',
-          '[data-mui-color-scheme="dark"] &': {
-          /**
-           * Blend with the canvas (background.default at 85%) instead
-           * of sitting on it as a paper slab; the blur keeps scrolled
-           * content legible underneath, like mui.com.
-           */
-            bgcolor: 'rgba(11, 14, 20, 0.85)',
-            backdropFilter: 'blur(8px)',
-            borderColor: 'divider'
-          }
+          display: { md: 'none' }
         }}
       >
         <Toolbar sx={{ px: { xs: 1, sm: 2 }, gap: 0.5 }}>
@@ -200,11 +192,28 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
           />
           <Box
             sx={{
+              display: { xs: 'flex', md: 'none' },
+              alignItems: 'center',
+              '@media (max-width: 479px)': {
+                display: 'none'
+              }
+            }}
+          >
+            <Image
+              src={'/wordmark.svg'}
+              alt="MUI Components"
+              priority
+              width={175}
+              height={28}
+            />
+          </Box>
+          <Box
+            sx={{
               display: { xs: 'flex', sm: 'none' },
               alignItems: 'center',
               justifyContent: 'flex-end',
-              gap: 0.5, // Equal spacing (12px)
-              ml: 'auto', // Pushes the entire group to the right
+              gap: 0.5,
+              ml: 'auto',
             }}
           >
             <PlaygroundButton />
