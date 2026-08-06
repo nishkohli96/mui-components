@@ -34,8 +34,10 @@ const DrawerMenu = () => {
         onClose={toggleDrawer(false)}
         slotProps={{
           paper: {
+            elevation: 0,
             sx: {
               width: 'min(320px, 80vw)',
+              overlay: 'none'
             },
           }
         }}
