@@ -33,11 +33,11 @@ const [user, setUser] = useState<User | null>(null);
 
 <MUIAutocompleteObject
   fieldName="user"
-  value={user}
-  onValueChange={({ newValue }) => setUser(newValue)}
   options={users}
   labelKey="name"
   valueKey="id"
+  value={user}
+  onValueChange={({ newValue }) => setUser(newValue)}
 />
 ```
 

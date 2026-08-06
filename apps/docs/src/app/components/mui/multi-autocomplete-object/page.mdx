@@ -26,11 +26,11 @@ const [members, setMembers] = useState<User[]>([]);
 
 <MUIMultiAutocompleteObject
   fieldName="members"
-  value={members}
-  onValueChange={({ newValue }) => setMembers(newValue)}
   options={users}
   labelKey="name"
   valueKey="id"
+  value={members}
+  onValueChange={({ newValue }) => setMembers(newValue)}
 />
 ```
 

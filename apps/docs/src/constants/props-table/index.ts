@@ -71,9 +71,9 @@ const buildComponentProps = (
     MUINativeSelect: nativeSelectRows(args),
     MUIAutocomplete: autocompleteRows(args, docsVersion),
     MUIAutocompleteObject: autocompleteObjectRows(args, docsVersion),
-    MUIMultiAutocomplete: multiAutocompleteRows(args),
-    MUIMultiAutocompleteObject: multiAutocompleteObjectRows(args),
     MUICountrySelect: countrySelectRows(args),
+    MUIMultiAutocomplete: multiAutocompleteRows(args, docsVersion),
+    MUIMultiAutocompleteObject: multiAutocompleteObjectRows(args, docsVersion),
     MUICheckbox: checkboxRows(args),
     MUICheckboxGroup: checkboxGroupRows(args),
     MUIRadioGroup: radioGroupRows(args),
@@ -87,8 +87,8 @@ const buildComponentProps = (
     MUIDateTimePicker: dateTimePickerRows(args),
 
     MUIColorPicker: colorPickerRows(args),
-    MUIPhoneInput: phoneInputRows(args),
-    MUIRichTextEditor: richTextEditorRows(args)
+    MUIRichTextEditor: richTextEditorRows(args),
+    MUIPhoneInput: phoneInputRows(args)
   });
 
 /** Props rows for the current docs — consumed by `app/**` pages. */

@@ -112,8 +112,8 @@ export const PropsDescription = Object.freeze({
   value_CheckboxGroup: {
     name: 'value',
     description:
-      'Currently checked option values. `undefined`/`null` are treated as an empty selection.',
-    type: '(string | number)[] | null'
+      'Currently checked option values. `undefined`/`[]` is treated as an empty selection.',
+    type: 'string[] | number[]'
   },
   value_RadioGroup: {
     name: 'value',

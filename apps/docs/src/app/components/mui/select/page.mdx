@@ -29,9 +29,9 @@ const [role, setRole] = useState();
 
 <MUISelect
   fieldName="role"
+  options={['Admin', 'Editor', 'Viewer']}
   value={role}
   onValueChange={({ newValue }) => setRole(newValue)}
-  options={['Admin', 'Editor', 'Viewer']}
 />
 ```
 

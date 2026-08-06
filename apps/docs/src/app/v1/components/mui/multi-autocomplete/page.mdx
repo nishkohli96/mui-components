@@ -1,6 +1,9 @@
 import { DocsPage, PropsTable, Callout } from '@/components/docs';
-import { componentMetadata, componentPropsV1,
-  stackblitzFileLink } from '@/constants';
+import {
+  componentMetadata,
+  componentPropsV1,
+  stackblitzFileLink
+} from '@/constants';
 
 export const metadata = componentMetadata.MUIMultiAutocomplete;
 
@@ -48,9 +51,9 @@ const [skills, setSkills] = useState<string[]>([]);
 
 <MUIMultiAutocomplete
   fieldName="skills"
+  options={['React', 'Vue', 'Angular', 'Svelte']}
   value={skills}
   onValueChange={({ newValue }) => setSkills(newValue)}
-  options={['React', 'Vue', 'Angular', 'Svelte']}
 />
 ```
 
@@ -61,10 +64,6 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
 <PropsTable rows={componentPropsV1.MUIMultiAutocomplete} />
 
 ## Playground
-
-Integrated with [Formik](https://formik.org/) — a checkbox multi-select
-storing a `string[]` with `selectAllText`, `limitTags` and `checkboxProps`,
-plus object options with `getOptionDisabled`.
 
 Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
 

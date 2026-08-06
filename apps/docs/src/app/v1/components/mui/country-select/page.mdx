@@ -40,9 +40,9 @@ const [country, setCountry] = useState<CountryDetails | null>(null);
 /* Returns "IN", "AU" */
 <MUICountrySelect
   fieldName="country"
+  preferredCountries={['US', 'GB', 'IN']}
   value={country}
   onValueChange={({ newValue }) => setCountry(newValue)}
-  preferredCountries={['US', 'GB', 'IN']}
 />
 
 /**
@@ -56,10 +56,10 @@ const [country, setCountry] = useState<CountryDetails | null>(null);
  */
 <MUICountrySelect
   fieldName="nationality"
-  value={nationality}
-  valueKey="iso3"
-  onValueChange={({ newValue }) => setNationality(newValue)}
   preferredCountries={['IN', 'US', 'AU']}
+  valueKey="iso3"
+  value={nationality}
+  onValueChange={({ newValue }) => setNationality(newValue)}
 />
 ```
 
@@ -102,9 +102,9 @@ const filteredCountries = countryList.filter(
 ```jsx
 <MUICountrySelect
   fieldName="dreamDestinations"
-  valueKey="name"
-  preferredCountries={['IN', 'AU', 'JP']}
   countries={filteredCountries}
+  preferredCountries={['IN', 'AU', 'JP']}
+  valueKey="name"
   multiple
 />
 ```
@@ -116,10 +116,7 @@ Pass `valueKey` (e.g. `iso` or `name`) to store a single country property instea
 
 <PropsTable rows={componentPropsV1.MUICountrySelect} />
 
-## Playground
-
-Driven by plain React state — a single select with `preferredCountries` and a
-flag `renderOptionLabel`, and a multi-select with `limitTags` and `ChipProps`.
+## Playgrounds
 
 Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
 

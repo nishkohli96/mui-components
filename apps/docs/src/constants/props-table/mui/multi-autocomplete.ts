@@ -1,40 +1,49 @@
-import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import { resolveProp } from '@/utils';
 import { PropsDescription as P } from '../descriptions/latest';
 
 /** Props reference rows for `MUIMultiAutocomplete`. */
-const multiAutocompleteRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
-  P.fieldName,
-  P.ref_Autocomplete,
-  P.value_MultiAutocomplete,
-  P.onValueChange_MultiAutocomplete,
-  P.options_StrOrObj,
-  P.labelKey,
-  P.valueKey,
-  P.freeSolo_MultiAutocomplete,
-  P.disableClearable,
-  P.selectAllText,
-  P.hideSelectAllOption,
-  P.renderOptionLabel_MultiAutocomplete,
-  P.getOptionDisabled,
-  P.limitTags,
-  P.getLimitTagsText,
-  resolveProp(P.textFieldProps, args),
-  resolveProp(P.checkboxProps, args),
-  resolveProp(P.formControlLabelProps, args),
-  resolveProp(P.ChipProps, args),
-  resolveProp(P.circularProgressProps, args),
-  P.label,
-  resolveProp(P.showLabelAboveFormField, args),
-  resolveProp(P.formLabelProps, args),
-  P.hideLabel,
-  P.required,
-  P.errorMessage,
-  P.renderError,
-  P.hideErrorMessage,
-  resolveProp(P.helperText, args),
-  resolveProp(P.formHelperTextProps, args),
-  P.customIds
-];
+const multiAutocompleteRows = (
+  args: MuiPropsDescriptionArgs,
+  docsVersion?: DocsVersion
+): PropsInfo[] => {
+  const v1 = docsVersion === 1;
+  return [
+    P.fieldName,
+    P.options_StrOrObj,
+    P.labelKey,
+    P.valueKey,
+    P.ref_Autocomplete,
+    P.value_MultiAutocomplete,
+    P.onValueChange_MultiAutocomplete,
+    P.freeSolo_MultiAutocomplete,
+    P.disableClearable,
+    P.selectAllText,
+    P.hideSelectAllOption,
+    P.renderOptionLabel_MultiAutocomplete,
+    P.getOptionDisabled,
+    P.limitTags,
+    P.getLimitTagsText,
+    resolveProp(P.textFieldProps, args),
+    resolveProp(P.checkboxProps, args),
+    resolveProp(P.formControlLabelProps, args),
+    resolveProp(P.ChipProps, args),
+    ...(!v1
+      ? [resolveProp(P.circularProgressProps, args)]
+      : []
+    ),
+    P.label,
+    resolveProp(P.showLabelAboveFormField, args),
+    resolveProp(P.formLabelProps, args),
+    P.hideLabel,
+    P.required,
+    P.errorMessage,
+    P.renderError,
+    P.hideErrorMessage,
+    resolveProp(P.helperText, args),
+    resolveProp(P.formHelperTextProps, args),
+    P.customIds
+  ];
+};
 
 export default multiAutocompleteRows;

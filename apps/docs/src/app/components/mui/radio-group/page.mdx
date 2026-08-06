@@ -23,9 +23,9 @@ const [plan, setPlan] = useState();
 
 <MUIRadioGroup
   fieldName="plan"
+  options={['Free', 'Pro', 'Enterprise']}
   value={plan}
   onValueChange={({ newValue }) => setPlan(newValue)}
-  options={['Free', 'Pro', 'Enterprise']}
 />
 ```
 
@@ -34,7 +34,6 @@ Example with an array of objects:
 ```jsx
 <MUIRadioGroup
   fieldName="nationality"
-  value={nationality}
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },
@@ -43,6 +42,7 @@ Example with an array of objects:
   ]}
   labelKey="country"
   valueKey="code"
+  value={nationality}
 />
 ```
 

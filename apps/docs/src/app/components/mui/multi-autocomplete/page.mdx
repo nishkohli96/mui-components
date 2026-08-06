@@ -48,9 +48,9 @@ const [skills, setSkills] = useState<string[]>([]);
 
 <MUIMultiAutocomplete
   fieldName="skills"
+  options={['React', 'Vue', 'Angular', 'Svelte']}
   value={skills}
   onValueChange={({ newValue }) => setSkills(newValue)}
-  options={['React', 'Vue', 'Angular', 'Svelte']}
 />
 ```
 

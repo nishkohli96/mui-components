@@ -30,9 +30,9 @@ const [color, setColor] = useState<string | null>(null);
 
 <MUIAutocomplete
   fieldName="color"
+  options={['Red', 'Green', 'Blue']}
   value={color}
   onValueChange={({ newValue }) => setColor(newValue)}
-  options={['Red', 'Green', 'Blue']}
 />
 ```
 

@@ -1,6 +1,9 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1,
-  stackblitzFileLink } from '@/constants';
+import {
+  componentMetadata,
+  componentPropsV1,
+  stackblitzFileLink
+} from '@/constants';
 
 export const metadata = componentMetadata.MUIMultiAutocompleteObject;
 
@@ -26,11 +29,11 @@ const [members, setMembers] = useState<User[]>([]);
 
 <MUIMultiAutocompleteObject
   fieldName="members"
-  value={members}
-  onValueChange={({ newValue }) => setMembers(newValue)}
   options={users}
   labelKey="name"
   valueKey="id"
+  value={members}
+  onValueChange={({ newValue }) => setMembers(newValue)}
 />
 ```
 
@@ -41,9 +44,6 @@ const [members, setMembers] = useState<User[]>([]);
 <PropsTable rows={componentPropsV1.MUIMultiAutocompleteObject} />
 
 ## Playground
-
-Driven by plain React state — a checkbox multi-select storing whole objects,
-with a Select-All option, `limitTags`, `ChipProps` and a custom `renderOptionLabel`.
 
 Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
 

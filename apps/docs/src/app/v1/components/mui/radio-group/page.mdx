@@ -23,9 +23,9 @@ const [plan, setPlan] = useState();
 
 <MUIRadioGroup
   fieldName="plan"
+  options={['Free', 'Pro', 'Enterprise']}
   value={plan}
   onValueChange={({ newValue }) => setPlan(newValue)}
-  options={['Free', 'Pro', 'Enterprise']}
 />
 ```
 
@@ -34,7 +34,6 @@ Example with an array of objects:
 ```jsx
 <MUIRadioGroup
   fieldName="nationality"
-  value={nationality}
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },
@@ -43,6 +42,7 @@ Example with an array of objects:
   ]}
   labelKey="country"
   valueKey="code"
+  value={nationality}
 />
 ```
 
@@ -53,9 +53,6 @@ For object options, pass `labelKey` and `valueKey`. Props marked with <strong st
 <PropsTable rows={componentPropsV1.MUIRadioGroup} />
 
 ## Playground
-
-Driven by plain React state — string and object options (`labelKey` / `valueKey`),
-`getOptionDisabled`, `radioProps`, a custom `renderOptionLabel`, and required validation.
 
 Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
 

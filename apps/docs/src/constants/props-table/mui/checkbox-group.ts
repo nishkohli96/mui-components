@@ -5,11 +5,11 @@ import { PropsDescription as P } from '../descriptions/latest';
 /** Props reference rows for `MUICheckboxGroup`. */
 const checkboxGroupRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
-  P.value_CheckboxGroup,
-  P.onValueChange_CheckboxGroup,
   P.options,
   P.labelKey,
   P.valueKey,
+  P.value_CheckboxGroup,
+  P.onValueChange_CheckboxGroup,
   P.renderOptionLabel,
   P.getOptionDisabled,
   resolveProp(P.checkboxProps, args),

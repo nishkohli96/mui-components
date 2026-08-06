@@ -1,6 +1,9 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1,
-  stackblitzFileLink } from '@/constants';
+import {
+  componentMetadata,
+  componentPropsV1,
+  stackblitzFileLink
+} from '@/constants';
 
 export const metadata = componentMetadata.MUIRating;
 
@@ -37,9 +40,6 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
 <PropsTable rows={componentPropsV1.MUIRating} />
 
 ## Playground
-
-Driven by plain React state — pass-through `RatingProps` (`precision`, `max`,
-`size`), a label above the control, and required validation via `errorMessage`.
 
 Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
 

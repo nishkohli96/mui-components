@@ -25,9 +25,9 @@ const [permissions, setPermissions] = useState<string[]>([]);
 
 <MUICheckboxGroup
   fieldName="permissions"
+  options={['Read', 'Write', 'Delete']}
   value={permissions}
   onValueChange={({ newValue }) => setPermissions(newValue)}
-  options={['Read', 'Write', 'Delete']}
 />
 ```
 

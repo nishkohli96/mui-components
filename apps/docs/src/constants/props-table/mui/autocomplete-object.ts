@@ -10,10 +10,10 @@ const autocompleteObjectRows = (
   const v1 = docsVersion === 1;
   return [
     P.fieldName,
-    P.ref_Autocomplete,
     P.options_Obj,
     P.labelKey_Obj,
     P.valueKey_Obj,
+    P.ref_Autocomplete,
     P.value_AutocompleteObject,
     P.onValueChange_AutocompleteObject,
     P.multiple,

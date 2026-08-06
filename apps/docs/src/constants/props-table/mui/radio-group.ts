@@ -5,11 +5,11 @@ import { PropsDescription as P } from '../descriptions/latest';
 /** Props reference rows for `MUIRadioGroup`. */
 const radioGroupRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
-  P.value_RadioGroup,
-  P.onValueChange_RadioGroup,
   P.options,
   P.labelKey,
   P.valueKey,
+  P.value_RadioGroup,
+  P.onValueChange_RadioGroup,
   P.renderOptionLabel,
   P.getOptionDisabled,
   resolveProp(P.radioProps, args),
