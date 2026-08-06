@@ -96,16 +96,15 @@ There is no schema, resolver or registration step — derive `errorMessage` from
 your own validation (or your form library's) and the field renders in an error
 state.
 
-<Callout type="info" title="Using rhf-mui-components ?">
+<Callout type="info" title="Using rhf-mui-components?">
   Is this package similar to `@nish1896/rhf-mui-components`?
   
   Yes. The component API is largely the same. The main difference is that
-  `control` and `registerOptions` have been replaced with the controlled
-  `value` / `onValueChange` / `errorMessage` props.
+  `control` and `registerOptions` from **rhf-mui-components** have been replaced
+  with the controlled `value` / `onValueChange` / `errorMessage` props.
 
-  The developer only has to provide the `fieldName`, `control` and manage
-  the validation on his end, updating field value and handling errors is
-  managed within the component itself.
+  The developer has to provide `value` and manage the validation on his end,
+  rendering logic is managed within the component itself.
 
   Starting with `v4.2.0`, `@nish1896/rhf-mui-components` now reuses the core
   logic and default values from this package.

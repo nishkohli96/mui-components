@@ -37,9 +37,10 @@ If `valueKey` is omitted, the complete country object is returned instead.
 ```tsx
 const [country, setCountry] = useState<CountryDetails | null>(null);
 
-/* Returns "IN", "AU" */
+/* Returns "IND" or "AUS" */
 <MUICountrySelect
   fieldName="country"
+  valueKey="iso3"
   preferredCountries={['US', 'GB', 'IN']}
   value={country}
   onValueChange={({ newValue }) => setCountry(newValue)}
@@ -57,7 +58,6 @@ const [country, setCountry] = useState<CountryDetails | null>(null);
 <MUICountrySelect
   fieldName="nationality"
   preferredCountries={['IN', 'US', 'AU']}
-  valueKey="iso3"
   value={nationality}
   onValueChange={({ newValue }) => setNationality(newValue)}
 />
