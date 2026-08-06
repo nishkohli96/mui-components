@@ -1,6 +1,9 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1,
-  stackblitzFileLink } from '@/constants';
+import {
+  componentMetadata,
+  componentPropsV1,
+  stackblitzFileLink
+} from '@/constants';
 
 export const metadata = componentMetadata.MUITagsInput;
 
@@ -91,10 +94,6 @@ pasted tags, a `string[]` to replace them with a custom set, or `void` to add
 <PropsTable rows={componentPropsV1.MUITagsInput} />
 
 ## Playground
-
-Integrated with [Formik](https://formik.org/) — covers `onTagAdd` /
-`onTagDelete` / `onTagPaste`, `delimiter`, `maxTags`, `limitTags` +
-`getLimitTagsText`, `renderTagLabel` and `ChipProps`.
 
 Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
 
