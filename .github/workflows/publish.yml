@@ -3,7 +3,7 @@ name: Publish package on npm
 on:
   push:
     tags:
-      - "v*"
+      - "v1.*"
 
 permissions:
   id-token: write
@@ -33,5 +33,5 @@ jobs:
       - name: Build Components Package
         run: pnpm -F @nish1896/mui-components run lib:build
       - name: Publish package on npm
-        run: npm publish --tag latest
+        run: npm publish --tag latest-v1
         working-directory: packages/mui-components/dist
