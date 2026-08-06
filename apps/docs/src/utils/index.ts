@@ -1,3 +1,4 @@
+export * from './component-props';
 export * from './docs-version';
 export * from './errors';
 export * from './firebase';

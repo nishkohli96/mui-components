@@ -1,26 +1,35 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
-import { PropsDescription as P, resolveProp } from '../descriptions';
+import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
+import { resolveProp } from '@/utils';
+import { PropsDescription as P } from '../descriptions/latest';
 
 /** Props reference rows for `MUIPasswordInput`. */
-const passwordInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
-  P.fieldName,
-  P.value_Input,
-  P.onValueChange_Inputs,
-  P.showPasswordIcon,
-  P.hidePasswordIcon,
-  resolveProp(P.iconButtonProps, args),
-  P.readOnly_PasswordInput,
-  P.label,
-  resolveProp(P.showLabelAboveFormField, args),
-  resolveProp(P.formLabelProps, args),
-  P.hideLabel,
-  P.required,
-  P.errorMessage,
-  P.renderError,
-  P.hideErrorMessage,
-  resolveProp(P.helperText, args),
-  resolveProp(P.formHelperTextProps, args),
-  P.customIds
-];
+const passwordInputRows = (
+  args: MuiPropsDescriptionArgs,
+  docsVersion?: DocsVersion
+): PropsInfo[] => {
+  const v1 = docsVersion === 1;
+  return [
+    P.fieldName,
+    P.value_Input,
+    P.onValueChange_Inputs,
+    P.showPasswordIcon,
+    P.hidePasswordIcon,
+    ...(!v1
+      ? [resolveProp(P.iconButtonProps, args)]
+      : []),
+    P.readOnly_PasswordInput,
+    P.label,
+    resolveProp(P.showLabelAboveFormField, args),
+    resolveProp(P.formLabelProps, args),
+    P.hideLabel,
+    P.required,
+    P.errorMessage,
+    P.renderError,
+    P.hideErrorMessage,
+    resolveProp(P.helperText, args),
+    resolveProp(P.formHelperTextProps, args),
+    P.customIds
+  ];
+};
 
 export default passwordInputRows;

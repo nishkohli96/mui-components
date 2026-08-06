@@ -1,8 +1,9 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
-import { PropsDescription as P, resolveProp } from '../descriptions';
+import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import { resolveProp } from '@/utils';
+import { PropsDescription as P } from '../descriptions/latest';
 
 /** Props reference rows for `MUIMultiAutocomplete`. */
-const multiAutocompleteRows = (args: PropsDescriptionArgs): PropsInfo[] => [
+const multiAutocompleteRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.ref_Autocomplete,
   P.value_MultiAutocomplete,

@@ -4,7 +4,7 @@
  * descriptions live in `descriptions.ts`; the `componentProps` record below
  * is what doc pages feed into `PropsTable`.
  *
- * Each row-builder is a function of `PropsDescriptionArgs` — props that link
+ * Each row-builder is a function of `MuiPropsDescriptionArgs` — props that link
  * to MUI/MUI X docs resolve their URL from `muiVersion`/`muiPickersVersion`
  * (see `descriptions.ts`).
  *
@@ -15,7 +15,7 @@
  * MUI release.
  */
 
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import textFieldRows from './mui/textfield';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
@@ -41,27 +41,29 @@ import colorPickerRows from './misc/color-picker';
 import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
 
-export { PropsDescription, resolveProp } from './descriptions';
+export { PropsDescription } from './descriptions/latest';
+export { PropsDescription_v1 } from './descriptions/v1';
 
 /**
  * Current docs (v2, MUI v9). Deliberately empty: omitting the versions makes
  * every generated URL unprefixed (`https://mui.com/...`), which always points
  * at the latest MUI docs.
  */
-export const latestVersionArgs: PropsDescriptionArgs = {};
+export const latestVersionArgs: MuiPropsDescriptionArgs = {};
 
 /** v1 docs, which documented MUI v7 and MUI X Date Pickers v8. */
-export const v1VersionArgs: PropsDescriptionArgs = {
+export const v1VersionArgs: MuiPropsDescriptionArgs = {
   muiVersion: 7,
   muiPickersVersion: 8
 };
 
 const buildComponentProps = (
-  args: PropsDescriptionArgs
+  args: MuiPropsDescriptionArgs,
+  docsVersion?: DocsVersion
 ): Record<string, PropsInfo[]> =>
   Object.freeze({
     MUITextField: textFieldRows(args),
-    MUIPasswordInput: passwordInputRows(args),
+    MUIPasswordInput: passwordInputRows(args, docsVersion),
     MUINumberInput: numberInputRows(args),
     MUITagsInput: tagsInputRows(args),
     MUIFileUploader: fileUploaderRows(args),
@@ -93,4 +95,4 @@ const buildComponentProps = (
 export const componentProps = buildComponentProps(latestVersionArgs);
 
 /** Props rows for the v1 docs — consumed by `app/v1/**` pages. */
-export const componentPropsV1 = buildComponentProps(v1VersionArgs);
+export const componentPropsV1 = buildComponentProps(v1VersionArgs, 1);

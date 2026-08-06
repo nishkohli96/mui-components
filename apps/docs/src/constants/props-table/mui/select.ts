@@ -1,8 +1,9 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
-import { PropsDescription as P, resolveProp } from '../descriptions';
+import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import { resolveProp } from '@/utils';
+import { PropsDescription as P } from '../descriptions/latest';
 
 /** Props reference rows for `MUISelect`. */
-const selectRows = (args: PropsDescriptionArgs): PropsInfo[] => [
+const selectRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_Select,
   P.onValueChange_Select,

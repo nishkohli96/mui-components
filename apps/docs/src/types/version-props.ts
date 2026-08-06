@@ -14,7 +14,7 @@ export type VersionProps = {
  * per release (e.g. `{ muiVersion: 7, muiPickersVersion: 8 }`) so a future
  * version bump (v2 / MUI 9) only means updating the values passed in.
  */
-export type PropsDescriptionArgs = {
+export type MuiPropsDescriptionArgs = {
   muiVersion?: MuiVersion;
   muiPickersVersion?: MuiXVersion;
 };

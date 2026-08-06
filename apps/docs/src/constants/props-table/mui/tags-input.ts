@@ -1,8 +1,9 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
-import { PropsDescription as P, resolveProp } from '../descriptions';
+import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import { resolveProp } from '@/utils';
+import { PropsDescription as P } from '../descriptions/latest';
 
 /** Props reference rows for `MUITagsInput`. */
-const tagsInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
+const tagsInputRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_TagsInput,
   P.onValueChange_TagsInput,

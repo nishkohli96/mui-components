@@ -1,5 +1,6 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
-import { PropsDescription as P, resolveProp } from '../descriptions';
+import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import { resolveProp } from '@/utils';
+import { PropsDescription as P } from '../descriptions/latest';
 
 /**
  * Every picker family ships four variants — responsive, desktop, mobile and
@@ -8,7 +9,7 @@ import { PropsDescription as P, resolveProp } from '../descriptions';
  * in behavior for `fieldName` and `showLabelAboveFormField`; that's called
  * out inline on the doc page rather than with a separate row set.)
  */
-export const pickerRows = (onValueChange: PropsInfo) => (args: PropsDescriptionArgs): PropsInfo[] => [
+export const pickerRows = (onValueChange: PropsInfo) => (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_Picker,
   onValueChange,
