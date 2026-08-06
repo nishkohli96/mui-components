@@ -1,35 +1,44 @@
-import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import { resolveProp } from '@/utils';
 import { PropsDescription as P } from '../descriptions/latest';
 
 /** Props reference rows for `MUIAutocomplete`. */
-const autocompleteRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
-  P.fieldName,
-  P.ref_Autocomplete,
-  P.value_Autocomplete,
-  P.onValueChange_Autocomplete,
-  P.options_StrOrObj,
-  P.labelKey,
-  P.valueKey,
-  P.multiple,
-  P.disableClearable,
-  P.freeSolo,
-  P.limitTags,
-  P.getLimitTagsText,
-  resolveProp(P.textFieldProps, args),
-  resolveProp(P.ChipProps, args),
-  resolveProp(P.circularProgressProps, args),
-  P.label,
-  resolveProp(P.showLabelAboveFormField, args),
-  P.hideLabel,
-  resolveProp(P.formLabelProps, args),
-  P.required,
-  P.errorMessage,
-  P.renderError,
-  P.hideErrorMessage,
-  resolveProp(P.helperText, args),
-  resolveProp(P.formHelperTextProps, args),
-  P.customIds
-];
+const autocompleteRows = (
+  args: MuiPropsDescriptionArgs,
+  docsVersion?: DocsVersion
+): PropsInfo[] => {
+  const v1 = docsVersion === 1;
+  return [
+    P.fieldName,
+    P.options_StrOrObj,
+    P.labelKey,
+    P.valueKey,
+    P.ref_Autocomplete,
+    P.value_Autocomplete,
+    P.onValueChange_Autocomplete,
+    P.multiple,
+    P.disableClearable,
+    P.freeSolo,
+    P.limitTags,
+    P.getLimitTagsText,
+    resolveProp(P.textFieldProps, args),
+    resolveProp(P.ChipProps, args),
+    ...(!v1
+      ? [resolveProp(P.circularProgressProps, args)]
+      : []
+    ),
+    P.label,
+    resolveProp(P.showLabelAboveFormField, args),
+    P.hideLabel,
+    resolveProp(P.formLabelProps, args),
+    P.required,
+    P.errorMessage,
+    P.renderError,
+    P.hideErrorMessage,
+    resolveProp(P.helperText, args),
+    resolveProp(P.formHelperTextProps, args),
+    P.customIds
+  ];
+};
 
 export default autocompleteRows;

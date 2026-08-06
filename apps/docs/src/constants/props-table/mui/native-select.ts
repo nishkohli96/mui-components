@@ -5,11 +5,11 @@ import { PropsDescription as P } from '../descriptions/latest';
 /** Props reference rows for `MUINativeSelect`. */
 const nativeSelectRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
-  P.value_NativeSelect,
-  P.onValueChange_NativeSelect,
   P.options,
   P.labelKey,
   P.valueKey,
+  P.value_NativeSelect,
+  P.onValueChange_NativeSelect,
   P.getOptionDisabled,
   P.label,
   P.showLabelAboveFormField_Default,

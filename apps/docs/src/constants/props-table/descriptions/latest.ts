@@ -742,13 +742,13 @@ export const PropsDescription = Object.freeze({
   }),
   menuItemProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'menuItemProps',
-    description: `[MenuItemProps](${getMuiDocsUrl(args.muiVersion)}/api/menu-item/) forwarded to every rendered option's \`MenuItem\` — custom \`dense\`, \`divider\`, \`sx\`, etc. \`key\`, \`value\`, \`disabled\` and \`children\` are controlled by the component.`,
+    description: `[MenuItemProps](${getMuiDocsUrl(args.muiVersion)}/api/menu-item/) forwarded to every rendered option's \`MenuItem\` — custom \`dense\`, \`divider\`, \`sx\`, etc. \`key\`, \`value\`, \`disabled\` and \`children\` are controlled by the component.\n\n**Added in \`v2\`.**`,
     type: `[MenuItemProps](${getMuiDocsUrl(args.muiVersion)}/api/menu-item/)`,
     hasLinkInType: true
   }),
   inputLabelProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'inputLabelProps',
-    description: `[InputLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/input-label/) forwarded to the internal \`InputLabel\` — the inline label shown inside the field's outline. \`id\`, \`htmlFor\`, \`shrink\`, \`disabled\` and \`children\` are controlled by the component.`,
+    description: `[InputLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/input-label/) forwarded to the internal \`InputLabel\` — the inline label shown inside the field's outline. \`id\`, \`htmlFor\`, \`shrink\`, \`disabled\` and \`children\` are controlled by the component.\n\n**Added in \`v2\`.**`,
     type: `[InputLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/input-label/)`,
     hasLinkInType: true
   }),
@@ -760,7 +760,7 @@ export const PropsDescription = Object.freeze({
   }),
   circularProgressProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'circularProgressProps',
-    description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is true — custom \`color\`, \`size\`, etc.`,
+    description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is true — custom \`color\`, \`size\`, etc.\n\n**Added in \`v2\`.**`,
     type: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/)`,
     hasLinkInType: true
   }),
