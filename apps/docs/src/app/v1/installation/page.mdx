@@ -1,5 +1,6 @@
+import MuiLink from '@mui/material/Link';
 import { DocsPage } from '@/components/docs';
-import { pageMetadata } from '@/constants';
+import { pageMetadata, stackblitzFileLink } from '@/constants';
 import FolderStructure from '@/components/folder-structure';
 
 export const metadata = pageMetadata.gettingStarted;
@@ -176,4 +177,5 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 </ConfigProvider>
 ```
 
-Refer the [Customization](/customization) section for a working example.
+Explore the <MuiLink href={stackblitzFileLink('src/forms/styled-components/index.tsx')} target="_blank" rel="noopener noreferrer" underline="hover">Customization</MuiLink>
+example for a complete working implementation.

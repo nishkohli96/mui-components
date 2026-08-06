@@ -227,7 +227,7 @@ export default function RadioGroupForm() {
                 if(genderError) {
                   setGenderError(undefined);
                 }
-                toast.info(`You selected ${newValue}`);
+                toast.info(`You selected: ${newValue}`);
               }}
               renderOptionLabel={option => {
                 switch (option) {
