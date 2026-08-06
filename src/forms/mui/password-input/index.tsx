@@ -164,6 +164,7 @@ export default function PasswordInputForm() {
                   showLabelAboveFormField
                   helperText="4–6 digit numeric PIN"
                   disabled={disableAllFields}
+                  iconButtonProps={{ color: 'warning' }}
                 />
               )}
             </form.Field>

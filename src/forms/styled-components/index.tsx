@@ -29,7 +29,6 @@ import {
   reqdMsg,
   minCharMsg,
   showToastMessage,
-
 } from '@/utils';
 import StyledTextField from './StyledTextField';
 import StyledSelect from './StyledSelect';

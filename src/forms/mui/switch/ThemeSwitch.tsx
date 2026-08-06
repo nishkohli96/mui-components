@@ -3,7 +3,7 @@
 /**
  * ThemeSwitch — a self-contained light/dark theme toggle built on `MUISwitch`,
  * styled with MUI's "MaterialUISwitch" day/night design
- * (https://v7.mui.com/material-ui/react-switch/#customization).
+ * (https://mui.com/material-ui/react-switch/#customization).
  *
  * It reads and flips the app theme through `useThemeContext`, so `value` and
  * `onValueChange` are wired internally — callers only pass presentational props
