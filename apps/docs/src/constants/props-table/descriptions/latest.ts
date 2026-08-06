@@ -878,13 +878,13 @@ export const PropsDescription = Object.freeze({
   searchCountryProps: {
     name: 'searchCountryProps',
     description:
-        'Options for the inline country search field in the country dropdown — `allowCountrySearch`, `textFieldProps`, `renderCountryMenuItem`, `noCountryFoundText`, `menuItemProps` (forwarded to every country `MenuItem`, including the disabled "no results" item).',
+        'Options for the inline country search field in the country dropdown — `allowCountrySearch`, `textFieldProps`, `renderCountryMenuItem`, `noCountryFoundText`, `menuItemProps` (forwarded to every country `MenuItem`, including the disabled "no results" item).\n\n`menuItemProps` **added in** `v2`. ',
     type: 'SearchCountryProps'
   },
   countrySelectProps: {
     name: 'countrySelectProps',
     description:
-      'Props forwarded to the internal MUI `Select` that renders the flag/dial-code trigger and country dropdown — e.g. a custom `size` or `sx` (merged with the component\'s own). `value`, `defaultValue`, `onChange`, `onOpen`, `onClose`, `renderValue`, `MenuProps`, `disabled`, `children` and `ref` are controlled by the component.',
+      'Props forwarded to the internal MUI `Select` that renders the flag/dial-code trigger and country dropdown — e.g. a custom `size` or `sx` (merged with the component\'s own). `value`, `defaultValue`, `onChange`, `onOpen`, `onClose`, `renderValue`, `MenuProps`, `disabled`, `children` and `ref` are controlled by the component.\n\n**Added in** `v2`.',
     type: 'CountrySelectProps'
   },
 }) satisfies Record<string, PropsInfo | ((args: MuiPropsDescriptionArgs) => PropsInfo)>;

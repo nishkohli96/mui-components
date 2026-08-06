@@ -88,7 +88,7 @@ const buildComponentProps = (
 
     MUIColorPicker: colorPickerRows(args),
     MUIRichTextEditor: richTextEditorRows(args),
-    MUIPhoneInput: phoneInputRows(args)
+    MUIPhoneInput: phoneInputRows(args, docsVersion)
   });
 
 /** Props rows for the current docs — consumed by `app/**` pages. */

@@ -30,4 +30,16 @@ export const PropsDescription_v1 = Object.freeze({
     type: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/)`,
     hasLinkInType: true
   }),
+  searchCountryProps: {
+    name: 'searchCountryProps',
+    description:
+        'Options for the inline country search field in the country dropdown — `allowCountrySearch`, `textFieldProps`, `renderCountryMenuItem`, `noCountryFoundText`, `menuItemProps` (forwarded to every country `MenuItem`, including the disabled "no results" item).\n\n`menuItemProps` **added in** `v1.1`. ',
+    type: 'SearchCountryProps'
+  },
+  countrySelectProps: {
+    name: 'countrySelectProps',
+    description:
+      'Props forwarded to the internal MUI `Select` that renders the flag/dial-code trigger and country dropdown — e.g. a custom `size` or `sx` (merged with the component\'s own). `value`, `defaultValue`, `onChange`, `onOpen`, `onClose`, `renderValue`, `MenuProps`, `disabled`, `children` and `ref` are controlled by the component.\n\n**Added in** `v1.1`.',
+    type: 'CountrySelectProps'
+  },
 });

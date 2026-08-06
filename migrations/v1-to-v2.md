@@ -1,7 +1,7 @@
 # Migrating from v1 to v2
 
 `@nish1896/mui-components` **v2** targets **Material UI v9** and **MUI X Date Pickers v9**.
-v1 targeted MUI v6/v7 and pickers v7/v8.
+`v1` targeted MUI `v6`/`v7` and mui-pickers `v7`/`v8`.
 
 > **This is a hard version boundary.** v2 is not compatible with MUI v6, v7 or v8, and v1 is
 > not compatible with MUI v9. See [Why there is no overlap](#why-there-is-no-overlap).
