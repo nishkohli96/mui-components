@@ -83,9 +83,18 @@ const AppBar = () => {
         </Link>
         <Box sx={{ flexGrow: 1 }} />
         <VersionSwitcher />
-        <PlaygroundButton />
-        <NpmButton />
-        <GithubButton />
+        <Box
+          sx={{
+            display: { xs: 'none', sm: 'flex' },
+            alignItems: 'center',
+            gap: 1,
+            ml: 1,
+          }}
+        >
+          <PlaygroundButton />
+          <NpmButton />
+          <GithubButton />
+        </Box>
         <ThemeChangeButton />
       </Toolbar>
     </MuiAppBar>

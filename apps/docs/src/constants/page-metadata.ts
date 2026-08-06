@@ -96,7 +96,7 @@ export const pageMetadata: Record<string, Metadata> = {
   migrationGuide_v2: {
     title: 'Migration Guide - v1 to v2',
     description:
-      'Migration guide to upgrade from v1 to v2 of mui-components. Includes breaking changes, and new feature additions.' 
+      'Step-by-step migration guide for @nish1896/mui-components v2 with Material UI v9, covering breaking changes, updated APIs, and required code changes.'
   }
 };
 

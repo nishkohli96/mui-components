@@ -2,6 +2,9 @@
 
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import MuiAppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -9,9 +12,15 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import Toolbar from '@mui/material/Box';
 import { sidebarLinks } from '@/constants';
 import { type Page } from '@/types';
 import { buildVersionedSidebar, getDocsVersion } from '@/utils';
+import {
+  GithubButton,
+  NpmButton,
+  PlaygroundButton
+} from '../buttons';
 
 const containsPath = (page: Page, pathname: string): boolean => {
   return (
@@ -161,16 +170,60 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
   }, [pathname]);
 
   return (
-    <List dense sx={{ px: 1 }} ref={listRef}>
-      {versionedLinks.map(link => (
-        <SidebarItem
-          key={link.href ?? link.title}
-          page={link}
-          pathname={pathname}
-          onNavigate={onNavigate}
-        />
-      ))}
-    </List>
+    <>
+      <MuiAppBar
+        position="sticky"
+        elevation={0}
+        color="inherit"
+        sx={{
+          bgcolor: 'background.default',
+          color: 'text.primary',
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+          '[data-mui-color-scheme="dark"] &': {
+          /**
+           * Blend with the canvas (background.default at 85%) instead
+           * of sitting on it as a paper slab; the blur keeps scrolled
+           * content legible underneath, like mui.com.
+           */
+            bgcolor: 'rgba(11, 14, 20, 0.85)',
+            backdropFilter: 'blur(8px)',
+            borderColor: 'divider'
+          }
+        }}
+      >
+        <Toolbar sx={{ px: { xs: 1, sm: 2 }, gap: 0.5 }}>
+          <Avatar
+            src="/logo.svg"
+            alt="Logo"
+            sx={{ width: '35px', height: '35px' }}
+          />
+          <Box
+            sx={{
+              display: { xs: 'flex', sm: 'none' },
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              gap: 0.5, // Equal spacing (12px)
+              ml: 'auto', // Pushes the entire group to the right
+            }}
+          >
+            <PlaygroundButton />
+            <NpmButton />
+            <GithubButton />
+          </Box>
+        </Toolbar>
+      </MuiAppBar>
+      <List dense sx={{ px: 1 }} ref={listRef}>
+        {versionedLinks.map(link => (
+          <SidebarItem
+            key={link.href ?? link.title}
+            page={link}
+            pathname={pathname}
+            onNavigate={onNavigate}
+          />
+        ))}
+      </List>
+    </>
   );
 };
 

@@ -47,8 +47,6 @@ const VersionSwitcher = () => {
         '.MuiOutlinedInput-notchedOutline': { borderColor: 'divider' },
         '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'text.secondary' },
         '.MuiSelect-icon': { color: 'inherit' },
-        /* Collapse to the icon-button rhythm on narrow screens. */
-        display: { xs: 'none', sm: 'inline-flex' }
       }}
     >
       {docsVersions.map(version => (
