@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1 } from '@/constants';
-import NativeSelectForm from '@/forms/mui/native-select/Client';
+import { componentMetadata, componentPropsV1,
+  stackblitzFileLink } from '@/constants';
 
 export const metadata = componentMetadata.MUINativeSelect;
 
@@ -42,7 +42,11 @@ For object options, pass `labelKey` and `valueKey`. Props marked with <strong st
 
 ## Playground
 
-<NativeSelectForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/mui/native-select/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>
 
 ## Reference
 - [Native Select](https://v7.mui.com/material-ui/react-select/#native-select)

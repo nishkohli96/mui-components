@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1 } from '@/constants';
-import PickersForm from '@/forms/mui-pickers/date/Client';
+import { componentMetadata, componentPropsV1,
+  stackblitzFileLink } from '@/constants';
 
 export const metadata = componentMetadata.MUIDatePicker;
 
@@ -73,4 +73,8 @@ All four variants (`MUIDatePicker`, `MUIDesktopDatePicker`, `MUIMobileDatePicker
 
 ## Playground
 
-<PickersForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/mui-pickers/date/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>

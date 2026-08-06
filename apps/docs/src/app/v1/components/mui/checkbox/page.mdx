@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1 } from '@/constants';
-import CheckboxForm from '@/forms/mui/checkbox/Client';
+import { componentMetadata, componentPropsV1,
+  stackblitzFileLink } from '@/constants';
 
 export const metadata = componentMetadata.MUICheckbox;
 
@@ -42,7 +42,11 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
 Driven by plain React state — a custom `label`, pass-through `CheckboxProps`
 (`color` / `size`), `helperText`, and a required checkbox with a custom `renderError`.
 
-<CheckboxForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/mui/checkbox/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>
 
 ## Reference
 - [MUI Checkbox](https://v7.mui.com/material-ui/react-checkbox/)

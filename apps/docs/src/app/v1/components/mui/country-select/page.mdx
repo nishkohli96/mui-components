@@ -3,9 +3,9 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import {
   componentMetadata,
   componentPropsV1,
-  externalLinks
+  externalLinks,
+  stackblitzFileLink
 } from '@/constants';
-import CountrySelectForm from '@/forms/mui/country-select/Client';
 
 export const metadata = componentMetadata.MUICountrySelect;
 
@@ -121,7 +121,11 @@ Pass `valueKey` (e.g. `iso` or `name`) to store a single country property instea
 Driven by plain React state — a single select with `preferredCountries` and a
 flag `renderOptionLabel`, and a multi-select with `limitTags` and `ChipProps`.
 
-<CountrySelectForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/mui/country-select/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>
 
 ## Reference
 - [Country select](https://v7.mui.com/material-ui/react-autocomplete/#country-select)

@@ -1,7 +1,7 @@
 import MuiLink from '@mui/material/Link';
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentPropsV1, componentMetadata, externalLinks } from '@/constants';
-import RichTextEditorForm from '@/forms/misc/rich-text-editor/Client';
+import { componentPropsV1, componentMetadata, externalLinks,
+  stackblitzFileLink } from '@/constants';
 
 export const metadata = componentMetadata.MUIRichTextEditor;
 
@@ -110,4 +110,8 @@ Pass a custom `editorConfig` to control the CKEditor toolbar and plugins. Props 
 Driven by plain React state — the value is an HTML string; a required editor
 with a custom `label` and validation, plus one with the label above the field.
 
-<RichTextEditorForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/misc/rich-text-editor/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>

@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1 } from '@/constants';
-import SliderForm from '@/forms/mui/slider/Client';
+import { componentMetadata, componentPropsV1,
+  stackblitzFileLink } from '@/constants';
 
 export const metadata = componentMetadata.MUISlider;
 
@@ -43,7 +43,11 @@ Pass a number array as `value` for a range slider. Props marked with <strong sty
 Driven by plain React state — a single-value slider, a range slider (number
 array), and `SliderProps` (`min`, `max`, `step`, `marks`, `valueLabelDisplay`).
 
-<SliderForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/mui/slider/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>
 
 ## Reference
 - [MUI Slider](https://v7.mui.com/material-ui/react-slider/)

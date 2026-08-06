@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1 } from '@/constants';
-import PasswordInputForm from '@/forms/mui/password-input/Client';
+import { componentMetadata, componentPropsV1,
+  stackblitzFileLink } from '@/constants';
 
 export const metadata = componentMetadata.MUIPasswordInput;
 
@@ -45,7 +45,11 @@ Integrated with [TanStack Form](https://tanstack.com/form/latest) — the passwo
 field runs several rules at once (`renderError` lists them), a confirm field
 validates against another field, and there are custom show/hide icons.
 
-<PasswordInputForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/mui/password-input/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>
 
 ## Reference
 - [TextField with Input Adornment](https://v7.mui.com/material-ui/react-text-field/#input-adornments)

@@ -6,6 +6,9 @@ export const githubRepoLink = 'https://github.com/nishkohli96/mui-components';
 export const npmLink = 'https://www.npmjs.com/package/@nish1896/mui-components';
 export const stackblitzLink = 'https://stackblitz.com/github/nishkohli96/mui-components/tree/v1-playground';
 
+/** StackBlitz link opened to a specific file in the v1-playground repo, e.g. `src/forms/mui/textfield/index.tsx`. */
+export const stackblitzFileLink = (filePath: string) => `${stackblitzLink}?file=${filePath}`;
+
 export const externalLinks = Object.freeze({
   githubRepo: {
     countriesList: `${pkgRepoLink}packages/mui-components/src/mui/country-select/countries.ts`,

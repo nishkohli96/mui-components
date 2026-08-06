@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1 } from '@/constants';
-import NumberInputForm from '@/forms/mui/number-input/Client';
+import { componentMetadata, componentPropsV1,
+  stackblitzFileLink } from '@/constants';
 
 export const metadata = componentMetadata.MUINumberInput;
 
@@ -44,4 +44,8 @@ Integrated with [TanStack Form](https://tanstack.com/form/latest) — covers
 `onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `showMarkers`
 and `showLabelAboveFormField`, with validation surfaced through `errorMessage`.
 
-<NumberInputForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/mui/number-input/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>

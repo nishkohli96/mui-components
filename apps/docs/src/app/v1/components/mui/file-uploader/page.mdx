@@ -3,9 +3,9 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import {
   componentPropsV1,
   componentMetadata,
-  externalLinks
+  externalLinks,
+  stackblitzFileLink
 } from '@/constants';
-import FileUploaderForm from '@/forms/mui/file-uploader/Client';
 
 export const metadata = componentMetadata.MUIFileUploader;
 
@@ -287,4 +287,8 @@ Driven by plain React state — a single-image uploader with `accept` / `maxSize
 and an `onUploadError` handler, plus a multi-file uploader with `maxFiles`,
 `fullWidth` and drag-and-drop.
 
-<FileUploaderForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/mui/file-uploader/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>

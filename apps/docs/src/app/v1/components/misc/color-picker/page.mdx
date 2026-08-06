@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable } from '@/components/docs';
-import { componentMetadata, componentPropsV1 } from '@/constants';
-import ColorPickerForm from '@/forms/misc/color-picker/Client';
+import { componentMetadata, componentPropsV1,
+  stackblitzFileLink } from '@/constants';
 
 export const metadata = componentMetadata.MUIColorPicker;
 
@@ -85,4 +85,8 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
 Driven by plain React state — `valueKey` (hex / rgb / hsv), `defaultColor`,
 `excludeAlpha`, a custom `height`, and using `setColor` to reject a value.
 
-<ColorPickerForm />
+Playgrounds for older versions are hosted on StackBlitz and are not embedded inline in the component documentation.
+
+<a href={stackblitzFileLink('src/forms/misc/color-picker/index.tsx')} target="_blank" rel="noopener noreferrer">
+  <img src="https://developer.stackblitz.com/img/open_in_stackblitz.svg" alt="Open in StackBlitz" />
+</a>
