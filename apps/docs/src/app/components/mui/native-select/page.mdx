@@ -10,7 +10,7 @@ export default function Layout({ children }) {
 
 # MUINativeSelect
 
-`MUINativeSelect` wraps the Material UI [Native Select](https://v7.mui.com/material-ui/react-select/#native-select) — a real `<select>` element, ideal for mobile and lightweight dropdowns — with the same label/error/helper-text handling as the rest of the suite.
+`MUINativeSelect` wraps the Material UI [Native Select](https://mui.com/material-ui/react-select/#native-select) — a real `<select>` element, ideal for mobile and lightweight dropdowns — with the same label/error/helper-text handling as the rest of the suite.
 
 ## Usage
 
@@ -23,9 +23,9 @@ const [country, setCountry] = useState();
 
 <MUINativeSelect
   fieldName="country"
+  options={['India', 'United States', 'Germany']}
   value={country}
   onValueChange={({ newValue }) => setCountry(newValue)}
-  options={['India', 'United States', 'Germany']}
 />
 ```
 
@@ -45,4 +45,4 @@ For object options, pass `labelKey` and `valueKey`. Props marked with <strong st
 <NativeSelectForm />
 
 ## Reference
-- [Native Select](https://v7.mui.com/material-ui/react-select/#native-select)
+- [Native Select](https://mui.com/material-ui/react-select/#native-select)

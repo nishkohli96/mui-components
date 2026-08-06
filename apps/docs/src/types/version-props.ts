@@ -1,6 +1,6 @@
 export type DocsVersion = 1 | 2;
-export type MuiVersion = 6 | 7 | 9;
-export type MuiXVersion = 7 | 8 | 9;
+export type MuiVersion = 6 | 7;
+export type MuiXVersion = 7 | 8;
 
 export type VersionProps = {
   docsVersion?: DocsVersion;
@@ -14,7 +14,7 @@ export type VersionProps = {
  * per release (e.g. `{ muiVersion: 7, muiPickersVersion: 8 }`) so a future
  * version bump (v2 / MUI 9) only means updating the values passed in.
  */
-export type PropsDescriptionArgs = {
+export type MuiPropsDescriptionArgs = {
   muiVersion?: MuiVersion;
   muiPickersVersion?: MuiXVersion;
 };

@@ -91,5 +91,11 @@ export const sidebarLinks: Page[] = [
       { title: 'Complete Form — Formik', href: '/examples/formik' },
       { title: 'Complete Form — TanStack', href: '/examples/tanstack' }
     ]
+  },
+  {
+    title: 'Migration Guide',
+    pages: [
+      { title: 'v1 to v2', href: '/migration-guide/v1-to-v2' }
+    ]
   }
 ];

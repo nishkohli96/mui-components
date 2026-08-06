@@ -15,7 +15,7 @@ export default function Layout({ children }) {
 
 # MUICountrySelect
 
-`MUICountrySelect` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
+`MUICountrySelect` is an [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
 pre-loaded with a list of <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 countries</MuiLink>
 (**flag**, **name**, **dial code**, **ISO**). Store the complete `CountryDetails` object,
 or a single property via `valueKey`. Pin common choices with `preferredCountries`.
@@ -37,12 +37,13 @@ If `valueKey` is omitted, the complete country object is returned instead.
 ```tsx
 const [country, setCountry] = useState<CountryDetails | null>(null);
 
-/* Returns "IN", "AU" */
+/* Returns "IND" or "AUS" */
 <MUICountrySelect
   fieldName="country"
+  valueKey="iso3"
+  preferredCountries={['US', 'GB', 'IN']}
   value={country}
   onValueChange={({ newValue }) => setCountry(newValue)}
-  preferredCountries={['US', 'GB', 'IN']}
 />
 
 /**
@@ -56,10 +57,9 @@ const [country, setCountry] = useState<CountryDetails | null>(null);
  */
 <MUICountrySelect
   fieldName="nationality"
-  value={nationality}
-  valueKey="iso3"
-  onValueChange={({ newValue }) => setNationality(newValue)}
   preferredCountries={['IN', 'US', 'AU']}
+  value={nationality}
+  onValueChange={({ newValue }) => setNationality(newValue)}
 />
 ```
 
@@ -102,9 +102,9 @@ const filteredCountries = countryList.filter(
 ```jsx
 <MUICountrySelect
   fieldName="dreamDestinations"
-  valueKey="name"
-  preferredCountries={['IN', 'AU', 'JP']}
   countries={filteredCountries}
+  preferredCountries={['IN', 'AU', 'JP']}
+  valueKey="name"
   multiple
 />
 ```
@@ -124,4 +124,4 @@ flag `renderOptionLabel`, and a multi-select with `limitTags` and `ChipProps`.
 <CountrySelectForm />
 
 ## Reference
-- [Country select](https://v7.mui.com/material-ui/react-autocomplete/#country-select)
+- [Country select](https://mui.com/material-ui/react-autocomplete/#country-select)

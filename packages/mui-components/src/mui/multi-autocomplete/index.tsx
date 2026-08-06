@@ -33,6 +33,7 @@ import {
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
   type MuiChipProps,
+  type CircularProgressProps,
   type AutocompleteOptionRenderState
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
@@ -225,6 +226,11 @@ export type MUIMultiAutocompleteProps<
    */
   ChipProps?: MuiChipProps;
   /**
+   * Props forwarded to the internal MUI `CircularProgress` shown in the input
+   * while `loading` is true.
+   */
+  circularProgressProps?: CircularProgressProps;
+  /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
@@ -272,6 +278,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
     textFieldProps,
     slotProps,
     ChipProps,
+    circularProgressProps,
     onBlur,
     loading,
     customIds,
@@ -528,7 +535,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
           if (valueKey && isKeyValueOption(option, labelKey, valueKey)) {
             return (
               option[valueKey] === (typeof value === 'object' && value !== null
-                ? value[valueKey]
+                ? (value as Option)[valueKey]
                 : value)
             );
           }
@@ -536,8 +543,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
         }}
         renderInput={params => {
           const {
-            InputProps,
-            inputProps,
+            slotProps: paramsSlotProps,
             disabled: paramsDisabled,
             ...otherInputParams
           } = params ?? {};
@@ -547,7 +553,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
             ...otherTextFieldProps
           } = textFieldProps ?? {};
           const textFieldInputProps = {
-            ...inputProps,
+            ...paramsSlotProps.htmlInput,
             'aria-required': required,
             'aria-invalid': isError,
             'aria-labelledby': !hideLabel && isLabelAboveFormField
@@ -581,15 +587,23 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
               error={isError}
               slotProps={{
                 ...textFieldProps?.slotProps,
+                inputLabel: {
+                  ...paramsSlotProps.inputLabel,
+                  ...textFieldProps?.slotProps?.inputLabel
+                },
                 input: {
-                  ...InputProps,
+                  ...paramsSlotProps.input,
                   ...textFieldProps?.slotProps?.input,
                   endAdornment: (
                     <>
                       {loading && (
-                        <CircularProgress color="inherit" size={20} />
+                        <CircularProgress
+                          color="inherit"
+                          size={20}
+                          {...circularProgressProps}
+                        />
                       )}
-                      {InputProps.endAdornment}
+                      {paramsSlotProps.input.endAdornment}
                     </>
                   )
                 },

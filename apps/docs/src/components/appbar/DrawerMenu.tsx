@@ -33,7 +33,13 @@ const DrawerMenu = () => {
         open={drawerOpen}
         onClose={toggleDrawer(false)}
         slotProps={{
-          paper: { sx: { width: 'min(280px, 80vw)', pt: 1 } }
+          paper: {
+            elevation: 0,
+            sx: {
+              width: 'min(320px, 80vw)',
+              overlay: 'none'
+            },
+          }
         }}
       >
         <DrawerContentClient onNavigate={toggleDrawer(false)} />

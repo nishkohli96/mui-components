@@ -4,6 +4,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import DrawerMenu from './DrawerMenu';
+import VersionSwitcher from '../version-switcher';
 import {
   GithubButton,
   NpmButton,
@@ -68,6 +69,9 @@ const AppBar = () => {
               '& img': {
                 height: { xs: 22, md: 28 },
                 width: 'auto'
+              },
+              '@media (max-width: 329px)': {
+                display: 'none'
               }
             }}
           >
@@ -81,9 +85,19 @@ const AppBar = () => {
           </Box>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
-        <PlaygroundButton />
-        <NpmButton />
-        <GithubButton />
+        <VersionSwitcher />
+        <Box
+          sx={{
+            display: { xs: 'none', sm: 'flex' },
+            alignItems: 'center',
+            gap: 1,
+            ml: 1,
+          }}
+        >
+          <PlaygroundButton />
+          <NpmButton />
+          <GithubButton />
+        </Box>
         <ThemeChangeButton />
       </Toolbar>
     </MuiAppBar>

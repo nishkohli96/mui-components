@@ -10,7 +10,7 @@ export default function Layout({ children }) {
 
 # MUIAutocompleteObject
 
-`MUIAutocompleteObject` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) that stores the **complete option object** rather than a primitive.
+`MUIAutocompleteObject` is an [Autocomplete](https://mui.com/material-ui/react-autocomplete/) that stores the **complete option object** rather than a primitive.
 
 <Callout type="note">
   `freeSolo` is intentionally unsupported to keep the value type predictable — use [MUIAutocomplete](autocomplete)
@@ -30,17 +30,17 @@ const [user, setUser] = useState<User | null>(null);
 
 <MUIAutocompleteObject
   fieldName="user"
-  value={user}
-  onValueChange={({ newValue }) => setUser(newValue)}
   options={users}
   labelKey="name"
   valueKey="id"
+  value={user}
+  onValueChange={({ newValue }) => setUser(newValue)}
 />
 ```
 
 ## Props
 
-`MUIAutocompleteObjectProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/).
+`MUIAutocompleteObjectProps` also accepts most [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/).
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIAutocompleteObject} />
@@ -53,4 +53,4 @@ select (`labelKey` / `valueKey`) and a multi-select with `limitTags` and `ChipPr
 <AutocompleteObjectForm />
 
 ## Reference
-- [Autocomplete Variations](https://v7.mui.com/material-ui/react-autocomplete/#playground)
+- [Autocomplete Variations](https://mui.com/material-ui/react-autocomplete/#playground)

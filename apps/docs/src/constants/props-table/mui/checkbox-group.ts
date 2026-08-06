@@ -1,14 +1,15 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
-import { PropsDescription as P, resolveProp } from '../descriptions';
+import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import { resolveProp } from '@/utils';
+import { PropsDescription as P } from '../descriptions/latest';
 
 /** Props reference rows for `MUICheckboxGroup`. */
-const checkboxGroupRows = (args: PropsDescriptionArgs): PropsInfo[] => [
+const checkboxGroupRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
-  P.value_CheckboxGroup,
-  P.onValueChange_CheckboxGroup,
   P.options,
   P.labelKey,
   P.valueKey,
+  P.value_CheckboxGroup,
+  P.onValueChange_CheckboxGroup,
   P.renderOptionLabel,
   P.getOptionDisabled,
   resolveProp(P.checkboxProps, args),

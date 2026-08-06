@@ -1,3 +1,4 @@
+export * from './docs-versions';
 export * from './employees';
 export * from './environment';
 export * from './external-links';

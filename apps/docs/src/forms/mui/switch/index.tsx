@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined';
 import MUISwitch from '@nish1896/mui-components/mui/switch';
 import {
   FormContainer,
@@ -114,7 +114,7 @@ export default function SwitchForm() {
               errorMessage={acceptTermsError}
               renderError={errors => (
                 <Box sx={{ alignItems: 'center', display: 'flex', gap: 0.5 }}>
-                  <ErrorOutlineIcon color="error" fontSize="small" />
+                  <ErrorOutlinedIcon color="error" fontSize="small" />
                   <Typography component="span" variant="body2">
                     {errors[0]}
                   </Typography>

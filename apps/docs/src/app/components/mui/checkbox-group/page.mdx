@@ -10,7 +10,7 @@ export default function Layout({ children }) {
 
 # MUICheckboxGroup
 
-`MUICheckboxGroup` renders a group of [checkboxes](https://v7.mui.com/material-ui/react-checkbox/) from `options` and stores an array of the selected values. Supports primitive or object options via `labelKey`/`valueKey`.
+`MUICheckboxGroup` renders a group of [checkboxes](https://mui.com/material-ui/react-checkbox/) from `options` and stores an array of the selected values. Supports primitive or object options via `labelKey`/`valueKey`.
 
 ## Usage
 
@@ -25,9 +25,9 @@ const [permissions, setPermissions] = useState<string[]>([]);
 
 <MUICheckboxGroup
   fieldName="permissions"
+  options={['Read', 'Write', 'Delete']}
   value={permissions}
   onValueChange={({ newValue }) => setPermissions(newValue)}
-  options={['Read', 'Write', 'Delete']}
 />
 ```
 
@@ -47,4 +47,4 @@ minimum-selected rule, and object options (`labelKey` / `valueKey`) with
 <CheckboxGroupForm />
 
 ## Reference
-- [Checkbox Group](https://v7.mui.com/material-ui/react-checkbox/#formgroup)
+- [Checkbox Group](https://mui.com/material-ui/react-checkbox/#formgroup)

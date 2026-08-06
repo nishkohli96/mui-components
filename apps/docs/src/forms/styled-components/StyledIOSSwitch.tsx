@@ -1,6 +1,6 @@
 /**
  * The below snippet illustrates how to reproduce MUI's "iOS style" Switch
- * customization (https://v7.mui.com/material-ui/react-switch/#customization)
+ * customization (https://mui.com/material-ui/react-switch/#customization)
  * on top of `MUISwitch`, so it can be reused across the application while
  * keeping `MUISwitch`'s label / helper-text / error handling.
  *

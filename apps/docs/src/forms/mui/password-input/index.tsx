@@ -168,6 +168,7 @@ export default function PasswordInputForm() {
                   showLabelAboveFormField
                   helperText="4–6 digit numeric PIN"
                   disabled={disableAllFields}
+                  iconButtonProps={{ color: 'warning' }}
                 />
               )}
             </form.Field>
@@ -181,6 +182,7 @@ export default function PasswordInputForm() {
               value="s3cr3t-recovery-key"
               onValueChange={() => { /* no-op */ }}
               readOnly
+              showLabelAboveFormField
               helperText="Read-only: not editable, but the show/hide toggle still works"
               disabled={disableAllFields}
             />

@@ -10,7 +10,7 @@ export default function Layout({ children }) {
 
 # MUIRadioGroup
 
-`MUIRadioGroup` wraps the Material UI [RadioGroup](https://v7.mui.com/material-ui/react-radio-button/) for a single choice among `options`, storing the selected value. Supports primitive or object options via `labelKey`/`valueKey`.
+`MUIRadioGroup` wraps the Material UI [RadioGroup](https://mui.com/material-ui/react-radio-button/) for a single choice among `options`, storing the selected value. Supports primitive or object options via `labelKey`/`valueKey`.
 
 ## Usage
 
@@ -23,9 +23,9 @@ const [plan, setPlan] = useState();
 
 <MUIRadioGroup
   fieldName="plan"
+  options={['Free', 'Pro', 'Enterprise']}
   value={plan}
   onValueChange={({ newValue }) => setPlan(newValue)}
-  options={['Free', 'Pro', 'Enterprise']}
 />
 ```
 
@@ -34,7 +34,6 @@ Example with an array of objects:
 ```jsx
 <MUIRadioGroup
   fieldName="nationality"
-  value={nationality}
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },
@@ -43,6 +42,7 @@ Example with an array of objects:
   ]}
   labelKey="country"
   valueKey="code"
+  value={nationality}
 />
 ```
 
@@ -60,4 +60,4 @@ Driven by plain React state — string and object options (`labelKey` / `valueKe
 <RadioGroupForm />
 
 ## Reference
-- [MUI Radio Group](https://v7.mui.com/material-ui/react-radio-button/)
+- [MUI Radio Group](https://mui.com/material-ui/react-radio-button/)

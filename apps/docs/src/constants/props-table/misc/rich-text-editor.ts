@@ -1,8 +1,9 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
-import { PropsDescription as P, resolveProp } from '../descriptions';
+import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import { resolveProp } from '@/utils';
+import { PropsDescription as P } from '../descriptions/latest';
 
 /** Props reference rows for `MUIRichTextEditor`. */
-const richTextEditorRows = (args: PropsDescriptionArgs): PropsInfo[] => [
+const richTextEditorRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName_NoName,
   P.value_RichTextEditor,
   P.onValueChange_RichTextEditor,

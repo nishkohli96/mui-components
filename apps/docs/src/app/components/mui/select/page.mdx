@@ -10,7 +10,7 @@ export default function Layout({ children }) {
 
 # MUISelect
 
-`MUISelect` wraps the Material UI [Select](https://v7.mui.com/material-ui/react-select/) with label, error and helper-text handling. It supports single or multiple selection and either primitive or object options via `labelKey`/`valueKey`.
+`MUISelect` wraps the Material UI [Select](https://mui.com/material-ui/react-select/) with label, error and helper-text handling. It supports single or multiple selection and either primitive or object options via `labelKey`/`valueKey`.
 
 <Callout type="tip">
   If the number of options **exceeds 20**, consider using [MUIAutocomplete](autocomplete)
@@ -29,9 +29,9 @@ const [role, setRole] = useState();
 
 <MUISelect
   fieldName="role"
+  options={['Admin', 'Editor', 'Viewer']}
   value={role}
   onValueChange={({ newValue }) => setRole(newValue)}
-  options={['Admin', 'Editor', 'Viewer']}
 />
 ```
 
@@ -58,7 +58,7 @@ For options as an array of objects:
 
 ## Props
 
-`MUISelectProps` also accepts the remaining [SelectProps](https://v7.mui.com/material-ui/api/select/).
+`MUISelectProps` also accepts the remaining [SelectProps](https://mui.com/material-ui/api/select/).
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUISelect} />
@@ -68,4 +68,4 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
 <SelectForm />
 
 ## Reference
-- [MUI Select](https://v7.mui.com/material-ui/react-select/)
+- [MUI Select](https://mui.com/material-ui/react-select/)

@@ -1,4 +1,4 @@
-import { PropsDescription as P } from '../descriptions';
+import { PropsDescription as P } from '../descriptions/latest';
 import { pickerRows } from './shared';
 
 /** `MUIDatePicker` / `MUIDesktopDatePicker` / `MUIMobileDatePicker` / `MUIStaticDatePicker` — shared props surface. */

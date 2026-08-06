@@ -3,6 +3,7 @@
 /**
  * Shared prop descriptions for every component's props table, ensuring
  * consistency and easier maintenance across releases (v1 → v2 / MUI 9).
+ * These are the props description for the latest version.
  *
  * Conventions:
  * - Base keys hold descriptions shared verbatim across components.
@@ -15,35 +16,9 @@
  * and `[label](url)` links, rendered by the docs `PropsTable` component.
  */
 
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
+import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import { getMuiDocsUrl, getMuiPickersDocsUrl } from '@/utils';
 
-/**
- * Versioned MUI docs URLs — every entry below that links to material-ui or
- * MUI X api docs is a function accepting `PropsDescriptionArgs`, so bumping
- * `muiVersion`/`muiPickersVersion` (passed in from `props-table/index.ts`)
- * is the only change needed when v2 targets a newer MUI release.
- */
-const muiDocsUrl = (muiVersion?: PropsDescriptionArgs['muiVersion']) =>
-  `https://${muiVersion ? `v${muiVersion}.` : ''}mui.com/material-ui`;
-
-const muiPickersDocsUrl = (muiPickersVersion?: PropsDescriptionArgs['muiPickersVersion']) =>
-  `https://${muiPickersVersion ? `v${muiPickersVersion}.` : ''}mui.com/x/api/date-pickers`;
-
-/** Resolves a `PropsDescription` entry, invoking it with version args when it's a function. */
-export function resolveProp(
-  entry: PropsInfo | ((args: PropsDescriptionArgs) => PropsInfo),
-  args: PropsDescriptionArgs
-): PropsInfo {
-  return typeof entry === 'function' ? entry(args) : entry;
-}
-
-/*
- * `satisfies` (not a `Record<...>` type annotation) so each key keeps its
- * own precise inferred type — a plain entry stays `PropsInfo` and a
- * version-dependent entry stays a function. A blanket `Record` annotation
- * would widen every key to the union, forcing every consumer through
- * `resolveProp` even for entries that are never functions.
- */
 export const PropsDescription = Object.freeze({
   /* ------------------------------------------------------------------ */
   /* Identity & value contract                                          */
@@ -137,8 +112,8 @@ export const PropsDescription = Object.freeze({
   value_CheckboxGroup: {
     name: 'value',
     description:
-      'Currently checked option values. `undefined`/`null` are treated as an empty selection.',
-    type: '(string | number)[] | null'
+      'Currently checked option values. `undefined`/`[]` is treated as an empty selection.',
+    type: 'string[] | number[]'
   },
   value_RadioGroup: {
     name: 'value',
@@ -354,9 +329,9 @@ export const PropsDescription = Object.freeze({
       'When true, hides the rendered field label while preserving accessible labeling where possible.',
     type: 'boolean'
   },
-  showLabelAboveFormField: (args: PropsDescriptionArgs) => ({
+  showLabelAboveFormField: (args: MuiPropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
-    description: `When true, renders the field label above the form field in the [FormLabel](${muiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
+    description: `When true, renders the field label above the form field in the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
     type: 'boolean'
   }),
   showLabelAboveFormField_Default: {
@@ -365,16 +340,16 @@ export const PropsDescription = Object.freeze({
       'Whether the field label renders above the control. This control has no built-in inline label, so it defaults to `true`; pass `false` to hide the visible label (the accessible name is still applied).\n\n**Default:** `true`',
     type: 'boolean'
   },
-  formLabelProps: (args: PropsDescriptionArgs) => ({
+  formLabelProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'formLabelProps',
-    description: `[FormLabelProps](${muiDocsUrl(args.muiVersion)}/api/form-label/) forwarded to the internal \`FormLabel\`. The \`id\` is managed by the component. Multiple fields can be configured using the \`ConfigProvider\` component.`,
-    type: `[FormLabelProps](${muiDocsUrl(args.muiVersion)}/api/form-label/)`,
+    description: `[FormLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) forwarded to the internal \`FormLabel\`. The \`id\` is managed by the component. Multiple fields can be configured using the \`ConfigProvider\` component.`,
+    type: `[FormLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/form-label/)`,
     hasLinkInType: true
   }),
-  formControlLabelProps: (args: PropsDescriptionArgs) => ({
+  formControlLabelProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'formControlLabelProps',
-    description: `[FormControlLabelProps](${muiDocsUrl(args.muiVersion)}/api/form-control-label/) forwarded to the internal \`FormControlLabel\`. Multiple fields can be configured using the \`ConfigProvider\` component.`,
-    type: `[FormControlLabelProps](${muiDocsUrl(args.muiVersion)}/api/form-control-label/)`,
+    description: `[FormControlLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/form-control-label/) forwarded to the internal \`FormControlLabel\`. Multiple fields can be configured using the \`ConfigProvider\` component.`,
+    type: `[FormControlLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/form-control-label/)`,
     hasLinkInType: true
   }),
 
@@ -399,15 +374,15 @@ export const PropsDescription = Object.freeze({
       'If true, hides the error message text while keeping the field in an error state.',
     type: 'boolean'
   },
-  helperText: (args: PropsDescriptionArgs) => ({
+  helperText: (args: MuiPropsDescriptionArgs) => ({
     name: 'helperText',
-    description: `Content displayed in the [FormHelperText](${muiDocsUrl(args.muiVersion)}/api/form-helper-text/) component below the field when there is no visible validation error.`,
+    description: `Content displayed in the [FormHelperText](${getMuiDocsUrl(args.muiVersion)}/api/form-helper-text/) component below the field when there is no visible validation error.`,
     type: 'ReactNode'
   }),
-  formHelperTextProps: (args: PropsDescriptionArgs) => ({
+  formHelperTextProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'formHelperTextProps',
-    description: `[FormHelperTextProps](${muiDocsUrl(args.muiVersion)}/api/form-helper-text/) forwarded to the internal \`FormHelperText\`. The \`id\` is managed by the component. Multiple fields can be configured using the \`ConfigProvider\` component.`,
-    type: `[FormHelperTextProps](${muiDocsUrl(args.muiVersion)}/api/form-helper-text/)`,
+    description: `[FormHelperTextProps](${getMuiDocsUrl(args.muiVersion)}/api/form-helper-text/) forwarded to the internal \`FormHelperText\`. The \`id\` is managed by the component. Multiple fields can be configured using the \`ConfigProvider\` component.`,
+    type: `[FormHelperTextProps](${getMuiDocsUrl(args.muiVersion)}/api/form-helper-text/)`,
     hasLinkInType: true
   }),
 
@@ -735,16 +710,16 @@ export const PropsDescription = Object.freeze({
       'Custom label rendered for the hidden selections counter. Receives the number of hidden values.',
     type: '(more: number) => ReactNode'
   },
-  textFieldProps: (args: PropsDescriptionArgs) => ({
+  textFieldProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'textFieldProps',
-    description: `[TextFieldProps](${muiDocsUrl(args.muiVersion)}/api/text-field/) forwarded to the internal MUI \`TextField\`.`,
-    type: `[TextFieldProps](${muiDocsUrl(args.muiVersion)}/api/text-field/)`,
+    description: `[TextFieldProps](${getMuiDocsUrl(args.muiVersion)}/api/text-field/) forwarded to the internal MUI \`TextField\`.`,
+    type: `[TextFieldProps](${getMuiDocsUrl(args.muiVersion)}/api/text-field/)`,
     hasLinkInType: true
   }),
-  ChipProps: (args: PropsDescriptionArgs) => ({
+  ChipProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'ChipProps',
-    description: `[ChipProps](${muiDocsUrl(args.muiVersion)}/api/chip/) forwarded to chips rendered for selected values.`,
-    type: `[ChipProps](${muiDocsUrl(args.muiVersion)}/api/chip/)`,
+    description: `[ChipProps](${getMuiDocsUrl(args.muiVersion)}/api/chip/) forwarded to chips rendered for selected values.`,
+    type: `[ChipProps](${getMuiDocsUrl(args.muiVersion)}/api/chip/)`,
     hasLinkInType: true
   }),
   ref_Autocomplete: {
@@ -753,16 +728,40 @@ export const PropsDescription = Object.freeze({
       'Forwarded ref for the underlying MUI `TextField`\'s input element — use it to imperatively focus the field or read its DOM node.',
     type: 'Ref<HTMLInputElement>'
   },
-  checkboxProps: (args: PropsDescriptionArgs) => ({
+  checkboxProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'checkboxProps',
-    description: `[CheckboxProps](${muiDocsUrl(args.muiVersion)}/api/checkbox/) passed down to each Checkbox component — custom color, size, etc.`,
-    type: `[CheckboxProps](${muiDocsUrl(args.muiVersion)}/api/checkbox/)`,
+    description: `[CheckboxProps](${getMuiDocsUrl(args.muiVersion)}/api/checkbox/) passed down to each Checkbox component — custom color, size, etc.`,
+    type: `[CheckboxProps](${getMuiDocsUrl(args.muiVersion)}/api/checkbox/)`,
     hasLinkInType: true
   }),
-  radioProps: (args: PropsDescriptionArgs) => ({
+  radioProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'radioProps',
-    description: `[RadioProps](${muiDocsUrl(args.muiVersion)}/api/radio/) passed down to each Radio component — custom color, size, etc.`,
-    type: `[RadioProps](${muiDocsUrl(args.muiVersion)}/api/radio/)`,
+    description: `[RadioProps](${getMuiDocsUrl(args.muiVersion)}/api/radio/) passed down to each Radio component — custom color, size, etc.`,
+    type: `[RadioProps](${getMuiDocsUrl(args.muiVersion)}/api/radio/)`,
+    hasLinkInType: true
+  }),
+  menuItemProps: (args: MuiPropsDescriptionArgs) => ({
+    name: 'menuItemProps',
+    description: `[MenuItemProps](${getMuiDocsUrl(args.muiVersion)}/api/menu-item/) forwarded to every rendered option's \`MenuItem\` — custom \`dense\`, \`divider\`, \`sx\`, etc. \`key\`, \`value\`, \`disabled\` and \`children\` are controlled by the component.\n\n**Added in \`v2\`.**`,
+    type: `[MenuItemProps](${getMuiDocsUrl(args.muiVersion)}/api/menu-item/)`,
+    hasLinkInType: true
+  }),
+  inputLabelProps: (args: MuiPropsDescriptionArgs) => ({
+    name: 'inputLabelProps',
+    description: `[InputLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/input-label/) forwarded to the internal \`InputLabel\` — the inline label shown inside the field's outline. \`id\`, \`htmlFor\`, \`shrink\`, \`disabled\` and \`children\` are controlled by the component.\n\n**Added in \`v2\`.**`,
+    type: `[InputLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/input-label/)`,
+    hasLinkInType: true
+  }),
+  iconButtonProps: (args: MuiPropsDescriptionArgs) => ({
+    name: 'iconButtonProps',
+    description: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/) forwarded to the internal show/hide toggle \`IconButton\` — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.\n\n**Added in \`v2\`.**`,
+    type: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/)`,
+    hasLinkInType: true
+  }),
+  circularProgressProps: (args: MuiPropsDescriptionArgs) => ({
+    name: 'circularProgressProps',
+    description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is true — custom \`color\`, \`size\`, etc.\n\n**Added in \`v2\`.**`,
+    type: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/)`,
     hasLinkInType: true
   }),
 
@@ -808,9 +807,9 @@ export const PropsDescription = Object.freeze({
   /* ------------------------------------------------------------------ */
   /* Pickers                                                            */
   /* ------------------------------------------------------------------ */
-  pickerSlotProps: (args: PropsDescriptionArgs) => ({
+  pickerSlotProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'slotProps',
-    description: `MUI X picker [slotProps](${muiPickersDocsUrl(args.muiPickersVersion)}/date-picker/). The \`textField\` slot is merged with the component's own id, error state, and aria attributes.`,
+    description: `MUI X picker [slotProps](${getMuiPickersDocsUrl(args.muiPickersVersion)}/date-picker/). The \`textField\` slot is merged with the component's own id, error state, and aria attributes.`,
     type: 'object'
   }),
 
@@ -879,7 +878,13 @@ export const PropsDescription = Object.freeze({
   searchCountryProps: {
     name: 'searchCountryProps',
     description:
-        'Options for the inline country search field in the country dropdown — `allowCountrySearch`, `textFieldProps`, `renderCountryMenuItem`, `noCountryFoundText`.',
+        'Options for the inline country search field in the country dropdown — `allowCountrySearch`, `textFieldProps`, `renderCountryMenuItem`, `noCountryFoundText`, `menuItemProps` (forwarded to every country `MenuItem`, including the disabled "no results" item).\n\n`menuItemProps` **added in** `v2`. ',
     type: 'SearchCountryProps'
   },
-}) satisfies Record<string, PropsInfo | ((args: PropsDescriptionArgs) => PropsInfo)>;
+  countrySelectProps: {
+    name: 'countrySelectProps',
+    description:
+      'Props forwarded to the internal MUI `Select` that renders the flag/dial-code trigger and country dropdown — e.g. a custom `size` or `sx` (merged with the component\'s own). `value`, `defaultValue`, `onChange`, `onOpen`, `onClose`, `renderValue`, `MenuProps`, `disabled`, `children` and `ref` are controlled by the component.\n\n**Added in** `v2`.',
+    type: 'CountrySelectProps'
+  },
+}) satisfies Record<string, PropsInfo | ((args: MuiPropsDescriptionArgs) => PropsInfo)>;

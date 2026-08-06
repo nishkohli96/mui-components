@@ -11,7 +11,7 @@ export default function Layout({ children }) {
 # MUIPhoneInput
 
 `MUIPhoneInput` wraps [react-international-phone](https://react-international-phone.vercel.app/)
-inside a [TextField](https://v7.mui.com/material-ui/react-text-field/), with a searchable country
+inside a [TextField](https://mui.com/material-ui/react-text-field/), with a searchable country
 dropdown. It emits a structured `MUIPhoneInputValue` (`phone`, `country`, `dialCode`, `phoneNo`).
 
 ## Installation
@@ -121,7 +121,7 @@ The search field is enabled by default and can be customized using `searchCountr
 with the following properties:
 
 - `allowCountrySearch` - Shows or hides the inline search field. Defaults to `true`.
-- `textFieldProps` - [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) for customizing the search text field.
+- `textFieldProps` - [TextFieldProps](https://mui.com/material-ui/api/text-field/) for customizing the search text field.
 - `renderCountryMenuItem` - Customizes the content of each `MenuItem` in the country search dropdown.
 - `noCountryFoundText` - Text shown when no countries match the search. Defaults to "**No countries found**".
 
@@ -145,7 +145,7 @@ the top while the country list is scrolled.
 
 ## Props
 
-`MUIPhoneInputProps` also accepts most [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) except `value`, `onChange` and `type`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`MUIPhoneInputProps` also accepts most [TextFieldProps](https://mui.com/material-ui/api/text-field/) except `value`, `onChange` and `type`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIPhoneInput} />
 

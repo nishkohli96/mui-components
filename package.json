@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/mui-components-root",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "A suite of 25+ production-ready, form-library-agnostic Material UI components — build forms with any form library, or drop in each one standalone. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
@@ -30,9 +30,11 @@
   "keywords": [
     "material-ui",
     "mui",
-    "mui-v7",
-    "mui-v6",
+    "mui-v9",
+    "mui-v8",
     "@mui/material",
+    "@mui/icons-material",
+    "@mui/material-nextjs",
     "react",
     "typescript",
     "component-library",
@@ -52,6 +54,6 @@
     "tree-shakable",
     "react-file-uploader"
   ],
-  "packageManager": "pnpm@11.10.0",
+  "packageManager": "pnpm@11.20.0",
   "license": "MIT"
 }

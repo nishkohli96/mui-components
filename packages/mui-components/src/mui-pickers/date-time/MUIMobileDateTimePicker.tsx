@@ -230,21 +230,24 @@ const MUIMobileDateTimePicker = <TDate extends PickerValidDate = PickerValidDate
                 ...resolvedTextFieldSlotProps,
                 id: fieldId,
                 error: isError,
-                inputProps: {
-                  ...resolvedTextFieldSlotProps?.inputProps,
-                  'aria-labelledby': !hideLabel && isLabelAboveFormField
-                    ? labelId
-                    : undefined,
-                  'aria-label': hideLabel
-                    ? accessibleFieldLabel
-                    : undefined,
-                  'aria-describedby': showHelperTextElement
-                    ? isError
-                      ? errorId
-                      : helperTextId
-                    : undefined,
-                  'aria-invalid': isError || undefined,
-                  'aria-required': required || undefined,
+                slotProps: {
+                  ...resolvedTextFieldSlotProps?.slotProps,
+                  htmlInput: {
+                    ...resolvedTextFieldSlotProps?.slotProps?.htmlInput,
+                    'aria-labelledby': !hideLabel && isLabelAboveFormField
+                      ? labelId
+                      : undefined,
+                    'aria-label': hideLabel
+                      ? accessibleFieldLabel
+                      : undefined,
+                    'aria-describedby': showHelperTextElement
+                      ? isError
+                        ? errorId
+                        : helperTextId
+                      : undefined,
+                    'aria-invalid': isError || undefined,
+                    'aria-required': required || undefined,
+                  }
                 }
               };
             }

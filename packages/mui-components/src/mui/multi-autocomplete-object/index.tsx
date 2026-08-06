@@ -32,6 +32,7 @@ import {
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
   type MuiChipProps,
+  type CircularProgressProps,
   type AutocompleteOptionRenderState
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
@@ -217,6 +218,11 @@ export type MUIMultiAutocompleteObjectProps<
    */
   ChipProps?: MuiChipProps;
   /**
+   * Props forwarded to the internal MUI `CircularProgress` shown in the input
+   * while `loading` is true.
+   */
+  circularProgressProps?: CircularProgressProps;
+  /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
@@ -273,6 +279,7 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
       textFieldProps,
       slotProps,
       ChipProps,
+      circularProgressProps,
       loading,
       customIds,
       getOptionDisabled,
@@ -521,8 +528,7 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
           }}
           renderInput={params => {
             const {
-              InputProps,
-              inputProps,
+              slotProps: paramsSlotProps,
               disabled: paramsDisabled,
               ...otherInputParams
             } = params ?? {};
@@ -532,7 +538,7 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
               ...otherTextFieldProps
             } = textFieldProps ?? {};
             const textFieldInputProps = {
-              ...inputProps,
+              ...paramsSlotProps.htmlInput,
               'aria-required': required,
               'aria-invalid': isError,
               'aria-labelledby': !hideLabel && isLabelAboveFormField
@@ -566,15 +572,23 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
                 error={isError}
                 slotProps={{
                   ...textFieldProps?.slotProps,
+                  inputLabel: {
+                    ...paramsSlotProps.inputLabel,
+                    ...textFieldProps?.slotProps?.inputLabel
+                  },
                   input: {
-                    ...InputProps,
+                    ...paramsSlotProps.input,
                     ...textFieldProps?.slotProps?.input,
                     endAdornment: (
                       <>
                         {loading && (
-                          <CircularProgress color="inherit" size={20} />
+                          <CircularProgress
+                            color="inherit"
+                            size={20}
+                            {...circularProgressProps}
+                          />
                         )}
-                        {InputProps.endAdornment}
+                        {paramsSlotProps.input.endAdornment}
                       </>
                     )
                   },

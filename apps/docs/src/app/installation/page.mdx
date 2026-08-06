@@ -23,27 +23,25 @@ Install the package:
 
 <PackageManagerTabs id="install-core" command="@nish1896/mui-components" />
 
-The package expects Material UI (`v6` or `v7`) and its peers in your app.
-Match your project's MUI version by installing with the `latest-v6` or
-`latest-v7` tag:
+The package expects Material UI `v9` and its peers in your app.
 
 <PackageManagerTabs
   id="install-mui-peers"
-  command="@mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled"
+  command="@mui/material @mui/icons-material @emotion/react @emotion/styled"
 />
 
-Date & time pickers additionally use [MUI X](https://v8.mui.com/x/react-date-pickers/)
-(`v7` or `v8`) and a date adapter of your choice, with `AdapterDayjs` being
-[recommended by Material UI](https://v8.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
+Date & time pickers additionally use [MUI X](https://mui.com/x/react-date-pickers/)
+(`v9`) and a date adapter of your choice, with `AdapterDayjs` being
+[recommended by Material UI](https://mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
 <PackageManagerTabs
   id="install-pickers"
-  command="@mui/x-date-pickers@latest-v8 dayjs"
+  command="@mui/x-date-pickers dayjs"
 />
 
 To minimize the bundle size during the build process, this package includes both
 named and default exports within each module. Similar to Material-UI, developers 
-are encouraged to use default import syntax to [reduce bundle size](https://v7.mui.com/material-ui/guides/minimizing-bundle-size/).
+are encouraged to use default import syntax to [reduce bundle size](https://mui.com/material-ui/guides/minimizing-bundle-size/).
 
 The type for each component can also be imported to modify or customize an 
 existing component.
@@ -94,24 +92,23 @@ export default function SignupName() {
 }
 ```
 
-<Callout type="info" title="Using rhf-mui-components ?">
+There is no schema, resolver or registration step — derive `errorMessage` from
+your own validation (or your form library's) and the field renders in an error
+state.
+
+<Callout type="info" title="Using rhf-mui-components?">
   Is this package similar to `@nish1896/rhf-mui-components`?
   
   Yes. The component API is largely the same. The main difference is that
-  `control` and `registerOptions` have been replaced with the controlled
-  `value` / `onValueChange` / `errorMessage` props.
+  `control` and `registerOptions` from **rhf-mui-components** have been replaced
+  with the controlled `value` / `onValueChange` / `errorMessage` props.
 
-  The developer only has to provide the `fieldName`, `control` and manage
-  the validation on his end, updating field value and handling errors is
-  managed within the component itself.
+  The developer has to provide `value` and manage the validation on his end,
+  rendering logic is managed within the component itself.
 
   Starting with `v4.2.0`, `@nish1896/rhf-mui-components` now reuses the core
   logic and default values from this package.
 </Callout>
-
-There is no schema, resolver or registration step — derive `errorMessage` from
-your own validation (or your form library's) and the field renders in an error
-state.
 
 ## Using Form Libraries
 
@@ -128,8 +125,10 @@ With [TanStack Form](https://tanstack.com/form/latest)'s `Field`, whose
 import { useForm } from '@tanstack/react-form';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 
-/* Flatten one level so a field failing several rules — where `meta.errors`
-   is `[[ruleA, ruleB]]` — surfaces every message. */
+/**
+ * Flatten one level so a field failing several rules — where `meta.errors`
+ * is `[[ruleA, ruleB]]` — surfaces every message.
+ */
 const tanstackErrors = (errors: unknown[]): string[] =>
   errors.flat().filter((error): error is string => typeof error === 'string');
 
@@ -174,4 +173,4 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 </ConfigProvider>
 ```
 
-Refer the [Customization](/customization) section for a working example.
+Explore the [Customization](/examples/customization) example for a complete working implementation.

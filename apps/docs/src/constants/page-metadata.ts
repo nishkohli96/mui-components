@@ -93,6 +93,11 @@ export const pageMetadata: Record<string, Metadata> = {
     description:
       'Form utilizing MUISelect and MUINativeSelect with validation managed using class-validator.'
   },
+  migrationGuide_v2: {
+    title: 'Migration Guide - v1 to v2',
+    description:
+      'Step-by-step migration guide for @nish1896/mui-components v2 with Material UI v9, covering breaking changes, updated APIs, and required code changes.'
+  }
 };
 
 /**

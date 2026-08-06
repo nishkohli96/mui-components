@@ -12,4 +12,5 @@ export { default as LinksList } from './links-list';
 export { default as NotFoundActions } from './not-found-actions';
 export * from './page-heading';
 export { default as ToastDialog } from './toast-dialog';
+export { default as VersionSwitcher } from './version-switcher';
 export { default as Wordmark } from './wordmark';

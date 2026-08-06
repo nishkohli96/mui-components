@@ -14,7 +14,7 @@ import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
 import {
   FormContainer,
@@ -115,7 +115,7 @@ export default function CheckboxGroupForm() {
               checkboxProps={{
                 color: 'success',
                 icon: <CancelOutlinedIcon color="error" />,
-                checkedIcon: <CheckCircleOutlineIcon />
+                checkedIcon: <CheckCircleOutlinedIcon />
               }}
               showLabelAboveFormField
               helperText="'Read' is always granted"

@@ -1,8 +1,9 @@
-import type { PropsInfo, PropsDescriptionArgs } from '@/types';
-import { PropsDescription as P, resolveProp } from '../descriptions';
+import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import { resolveProp } from '@/utils';
+import { PropsDescription as P } from '../descriptions/latest';
 
 /** Props reference rows for `MUIFileUploader`. */
-const fileUploaderRows = (args: PropsDescriptionArgs): PropsInfo[] => [
+const fileUploaderRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_FileUploader,
   P.onValueChange_FileUploader,
@@ -11,6 +12,7 @@ const fileUploaderRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.maxSize,
   P.maxFiles,
   P.onUploadError,
+  P.fullWidth_FileUploader,
   P.dropZoneProps,
   P.disableDragAndDrop,
   P.renderUploadButton,
@@ -22,7 +24,6 @@ const fileUploaderRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.inputRef_FileUploader,
   P.label,
   resolveProp(P.showLabelAboveFormField, args),
-  P.fullWidth_FileUploader,
   resolveProp(P.formLabelProps, args),
   P.hideLabel,
   P.required,

@@ -10,7 +10,7 @@ export default function Layout({ children }) {
 
 # MUIAutocomplete
 
-`MUIAutocomplete` wraps the Material UI [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
+`MUIAutocomplete` wraps the Material UI [Autocomplete](https://mui.com/material-ui/react-autocomplete/)
 and stores **primitive** values (the option string, or the `valueKey` property
 for object options). It supports single or multiple selection, `disableClearable`
 and `freeSolo`.
@@ -30,9 +30,9 @@ const [color, setColor] = useState<string | null>(null);
 
 <MUIAutocomplete
   fieldName="color"
+  options={['Red', 'Green', 'Blue']}
   value={color}
   onValueChange={({ newValue }) => setColor(newValue)}
-  options={['Red', 'Green', 'Blue']}
 />
 ```
 
@@ -60,7 +60,7 @@ to distinguish free-form input from predefined option objects.
 
 ## Props
 
-`MUIAutocompleteProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/).
+`MUIAutocompleteProps` also accepts most [AutocompleteProps](https://mui.com/material-ui/api/autocomplete/).
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIAutocomplete} />
@@ -74,4 +74,4 @@ free-solo select (`string`) and a multi-select (`string[]`) with `limitTags`,
 <AutocompleteExampleForm />
 
 ## Reference
-- [MUI Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
+- [MUI Autocomplete](https://mui.com/material-ui/react-autocomplete/)

@@ -12,10 +12,10 @@ const CountryMenuItem = ({ country }: CountryMenuItemProps) => {
         iso2={country.iso2}
         style={{ marginRight: '8px' }}
       />
-      <Typography color="gray">
+      <Typography sx={{ color: 'gray' }}>
         {`+${country.dialCode}`}
       </Typography>
-      <Typography marginLeft="8px">
+      <Typography sx={{ marginLeft: '8px' }}>
         {country.iso2.toUpperCase()}
       </Typography>
     </>

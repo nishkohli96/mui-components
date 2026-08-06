@@ -1,3 +1,5 @@
+export * from './component-props';
+export * from './docs-version';
 export * from './errors';
 export * from './firebase';
 export * from './form';

@@ -78,7 +78,7 @@ export const ThemeChangeButton = () => {
   );
 };
 
-const githubBtnTooltip = 'Github';
+const githubBtnTooltip = 'Github Repository';
 
 export const GithubButton = () => {
   return (
@@ -91,7 +91,7 @@ export const GithubButton = () => {
         aria-label={githubBtnTooltip}
         size="large"
         color="inherit"
-        sx={{ padding: { xs: '6px', md: '12px' } }}
+        sx={{ padding: '6px' }}
       >
         <Image
           src="https://img.icons8.com/fluency/30/github.png"
@@ -117,7 +117,7 @@ export const NpmButton = () => {
         aria-label={npmBtnTooltip}
         size="large"
         color="inherit"
-        sx={{ padding: { xs: '6px', md: '12px' } }}
+        sx={{ padding: '6px' }}
       >
         <Image
           src="https://img.icons8.com/color/30/npm.png"
@@ -144,10 +144,7 @@ export const PlaygroundButton = () => {
         size="large"
         color="inherit"
         sx={{
-          padding: { xs: '6px 0px 6px 6px', md: '12px' },
-          '@media (max-width: 374.95px)': {
-            display: 'none'
-          }
+          padding: '6px',
         }}
       >
         <TerminalIcon />
