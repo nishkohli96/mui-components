@@ -29,7 +29,7 @@ export const docsVersions: DocsVersionInfo[] = [
      * switcher fall back to `fallbackPath` instead of stranding the user.
      * Delete an entry once the corresponding pages exist under `app/v1`.
      */
-    unavailablePaths: ['/examples']
+    unavailablePaths: ['/examples', '/migration-guide']
   }
 ];
 

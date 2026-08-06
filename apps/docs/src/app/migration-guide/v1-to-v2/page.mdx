@@ -1,34 +1,41 @@
+import { DocsPage } from '@/components/docs';
+import { pageMetadata } from '@/constants';
+
+export const metadata = pageMetadata.migrationGuide_v2;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
 # Migrating from v1 to v2
 
 `@nish1896/mui-components` **v2** targets **Material UI v9** and **MUI X Date Pickers v9**.
+
 `v1` targeted MUI `v6`/`v7` and mui-pickers `v7`/`v8`.
-
-> **This is a hard version boundary.** v2 is not compatible with MUI v6, v7 or v8, and v1 is
-> not compatible with MUI v9. See [Why there is no overlap](#why-there-is-no-overlap).
-
----
 
 ## TL;DR
 
-1. Upgrade your MUI packages to v9.
-2. Upgrade `@nish1896/mui-components` to v2.
-3. Run MUI's official codemods over **your own** code.
-4. Fix the pass-through props listed in [What you need to change](#what-you-need-to-change).
+1. Upgrade your MUI packages to `v9`.
+2. Upgrade `@nish1896/mui-components` to `v2`.
+3. Refer the [MUI v9](https://mui.com/material-ui/migration/upgrade-to-v9/)
+and [MUI Pickers v9](https://mui.com/x/migration/migration-pickers-v8/) migration guide.
+4. Run MUI's official codemods over **your own** code.
+5. Fix the pass-through props listed in [What you need to change](#what-you-need-to-change).
 
-**No prop on any `MUI*` component was renamed or removed in v2.** Every break below comes from
-props you forward *through* our components into MUI (`textFieldProps`, `checkboxProps`,
-`slotProps`, …), whose shapes MUI itself changed.
+**No prop on any `MUI*` component was renamed or removed in v2.**
 
----
+Every break below comes from props you forward *through* our components into
+MUI (`textFieldProps`, `checkboxProps`, `slotProps`), whose shapes MUI itself changed.
+
 
 ## 1. Update dependencies
 
 ```bash
-npm install @mui/material@^9 @mui/system@^9 @mui/icons-material@^9 @mui/x-date-pickers@^9
+npm install @mui/material@^9 @mui/icons-material@^9 @mui/x-date-pickers@^9
 npm install @nish1896/mui-components@^2
 ```
 
-`peerDependencies` are now `^9.0.0` for all four MUI packages, so your package manager will
+`peerDependencies` are now `^9.0.0` for all MUI packages, so your package manager will
 warn if any of them is still on an older major.
 
 ## 2. Run MUI's codemods
@@ -56,13 +63,12 @@ Then read MUI's own guides, which cover everything outside this package:
 - [Upgrade to Material UI v9](https://mui.com/material-ui/migration/upgrade-to-v9/)
 - [Upgrade to MUI X v9](https://mui.com/x/migration/migration-pickers-v8/)
 
----
 
 ## What you need to change
 
 ### Anything forwarded to a `TextField`
 
-MUI v9 removed `TextField`'s legacy prop bag in favour of `slotProps`. In this package that
+MUI `v9` removed `TextField`'s legacy prop bag in favour of `slotProps`. In this package that
 surfaces in three places:
 
 | Where | Components |
@@ -114,7 +120,7 @@ The same rename applies when the props are set directly on a component:
 
 ### `checkboxProps` / `radioProps`, and `MUISwitch`
 
-MUI v9 removed `inputProps` and `inputRef` from `SwitchBase`, the shared base of
+MUI `v9` removed `inputProps` and `inputRef` from `SwitchBase`, the shared base of
 `Checkbox`, `Radio` and `Switch`.
 
 Affects `MUICheckbox`, `MUICheckboxGroup`, `MUIRadioGroup`, `MUISwitch`,
@@ -134,7 +140,7 @@ Affects `MUICheckbox`, `MUICheckboxGroup`, `MUIRadioGroup`, `MUISwitch`,
   />
 ```
 
-### Date / time picker `slotProps.textField`
+### Date / Time picker `slotProps.textField`
 
 The picker text field moved to the same slot model.
 
@@ -155,13 +161,13 @@ Affects all `MUIDatePicker`, `MUITimePicker` and `MUIDateTimePicker` variants
   />
 ```
 
-> This one fails **silently** — the old `inputProps` is simply ignored rather than raising a
-> type error in every configuration, so attributes disappear with no warning. Grep your
-> codebase for `textField` + `inputProps` explicitly.
+This one fails **silently** — the old `inputProps` is simply ignored rather than raising a
+type error in every configuration, so attributes disappear with no warning. Grep your
+codebase for `textField` + `inputProps` explicitly.
 
 ### System props are gone — use `sx`
 
-MUI v9 removed system props from `Box`, `Stack`, `Grid`, `Typography`, `Link` and
+MUI `v9` removed system props from `Box`, `Stack`, `Grid`, `Typography`, `Link` and
 `DialogContentText`. Any prop bag we forward to those (`formLabelProps`,
 `formHelperTextProps`, `formControlLabelProps`, `ChipProps`, …) is affected.
 
@@ -187,7 +193,7 @@ The `renderOptionLabel(option, state)` signature itself is **unchanged**.
 
 ### Icons: `*Outline` → `*Outlined`
 
-MUI v9 deleted 23 legacy `*Outline` icon aliases.
+MUI `v9` deleted 23 legacy `*Outline` icon aliases.
 
 ```diff
 - import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
@@ -206,7 +212,7 @@ longer fires.
 
 ### Theme: `MuiAlert` style overrides
 
-v9 collapsed the per-severity `standard{Info,Success,Warning,Error}` slots into a single
+`v9` collapsed the per-severity `standard{Info,Success,Warning,Error}` slots into a single
 `standard` slot, with severity moved onto separate `colorInfo`/`colorSuccess`/… classes.
 
 ```diff
@@ -224,14 +230,12 @@ v9 collapsed the per-severity `standard{Info,Success,Warning,Error}` slots into 
 
 ### `GridLegacy` removed
 
-If your layout still used the legacy Grid API, move to Grid v2 sizing:
+If your layout still used the legacy Grid API, update to the new Grid sizing:
 
 ```diff
 - <Grid item xs={12} md={6}>
 + <Grid size={{ xs: 12, md: 6 }}>
 ```
-
----
 
 ## What did *not* change
 
@@ -243,41 +247,17 @@ If your layout still used the legacy Grid API, move to Grid v2 sizing:
 - `form-helpers` exports (`fieldNameToId`, `fieldNameToLabel`, `getFileSize`,
   `validateFileList`, `colorToString`).
 - `ref` forwarding on the Autocomplete family and the pickers.
-- `MUISelect` / `MUINativeSelect` `inputProps` — MUI's `Select` **kept** this prop in v9.
-
----
-
-## Why there is no overlap
-
-MUI usually introduces a replacement API in one major and removes the old one in the next,
-leaving a version where both work. That did **not** happen for `Autocomplete`'s
-`renderInput` params:
-
-| | MUI v7 | MUI v9 |
-| --- | --- | --- |
-| `AutocompleteRenderInputParams` | `InputProps`, `inputProps`, `InputLabelProps` | `slotProps.{input, htmlInput, inputLabel}` |
-| Other form present? | no `slotProps` at all | no `InputProps` at all |
-
-The same applies to the pickers' text field, where `slotProps.htmlInput` does not exist in
-v8 at all. Because every Autocomplete in this package reads `params.slotProps.*`, a v2 build
-running against MUI v7/v8 throws at render, and a v1 build against v9 renders fields with no
-label, no adornments and no accessibility attributes.
-
-Supporting both would mean runtime branching on a union the type system says cannot exist,
-plus dead-branch bundle weight for every consumer — so the v1 line stays on MUI v6/v7 and the
-v2 line is v9-only.
-
----
+- `MUISelect` / `MUINativeSelect` `inputProps` — MUI's `Select` **kept** this prop in `v9`.
 
 ## Troubleshooting
 
 **Floating label overlaps the selected value on an Autocomplete.**
-You are running a v1 build against MUI v9. In v7 the label props reached the `TextField`
-implicitly through the params rest-spread; in v9 they live under `slotProps.inputLabel`, so
-the spread silently stops delivering them. Upgrade to v2.
+You are running a `v1` build against MUI `v9`. In `v7` the label props reached the `TextField`
+implicitly through the params rest-spread; in `v9` they live under `slotProps.inputLabel`, so
+the spread silently stops delivering them. Upgrade to `v2`.
 
 **`Cannot read properties of undefined (reading 'input')` inside `renderInput`.**
-A v2 build running against MUI v7/v8 — `params.slotProps` does not exist there. Upgrade MUI to v9.
+A `v2` build running against MUI `v7`/`v8` — `params.slotProps` does not exist there. Upgrade MUI to `v9`.
 
 **Picker fields lost their `aria-*` attributes.**
 You are still passing `slotProps.textField.inputProps`. Move it to

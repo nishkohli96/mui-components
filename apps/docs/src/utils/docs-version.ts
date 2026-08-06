@@ -65,11 +65,9 @@ export function resolveVersionSwitchHref(
   pathname: string
 ): string {
   const canonicalPath = toCanonicalPath(pathname);
-
   if (canonicalPath === '/' || !isPathInVersion(targetVersion, canonicalPath)) {
     return targetVersion.fallbackPath;
   }
-
   return toVersionedPath(targetVersion, canonicalPath);
 }
 
@@ -87,11 +85,9 @@ export function buildVersionedSidebar(
       const children = buildVersionedSidebar(page.pages, version);
       return children.length ? [{ ...page, pages: children }] : [];
     }
-
     if (!page.href) {
       return [];
     }
-
     return isPathInVersion(version, page.href)
       ? [{ ...page, href: toVersionedPath(version, page.href) }]
       : [];
