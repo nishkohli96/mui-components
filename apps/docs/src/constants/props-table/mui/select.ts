@@ -1,6 +1,7 @@
 import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import { resolveProp } from '@/utils';
 import { PropsDescription as P } from '../descriptions/latest';
+import { PropsDescription_v1 as Pv1 } from '../descriptions/v1';
 
 /** Props reference rows for `MUISelect`. */
 const selectRows = (
@@ -18,7 +19,7 @@ const selectRows = (
     P.onValueChange_Select,
     ...(!v1
       ? [resolveProp(P.menuItemProps, args)]
-      : []
+      : [resolveProp(Pv1.menuItemProps, args)]
     ),
     P.renderOptionLabel,
     P.getOptionDisabled,
@@ -30,7 +31,7 @@ const selectRows = (
     resolveProp(P.formLabelProps, args),
     ...(!v1
       ? [resolveProp(P.inputLabelProps, args)]
-      : []
+      : [resolveProp(Pv1.inputLabelProps, args)]
     ),
     P.hideLabel,
     P.required,

@@ -1,6 +1,7 @@
 import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import { resolveProp } from '@/utils';
 import { PropsDescription as P } from '../descriptions/latest';
+import { PropsDescription_v1 as Pv1 } from '../descriptions/v1';
 
 /** Props reference rows for `MUIPhoneInput`. */
 const phoneInputRows = (
@@ -13,10 +14,15 @@ const phoneInputRows = (
     P.value_PhoneInput,
     P.onValueChange_PhoneInput,
     P.phoneInputProps,
-    P.searchCountryProps,
     ...(!v1
-      ? [resolveProp(P.countrySelectProps, args)]
-      : []
+      ? [
+        resolveProp(P.searchCountryProps, args),
+        resolveProp(P.countrySelectProps, args)
+      ]
+      : [
+        resolveProp(Pv1.searchCountryProps, args),
+        resolveProp(Pv1.countrySelectProps, args)
+      ]
     ),
     P.required,
     P.errorMessage,

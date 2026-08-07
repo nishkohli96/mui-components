@@ -143,9 +143,11 @@ type CountrySelectProps = Omit<
   MuiSelectProps,
   | 'value'
   | 'defaultValue'
+  | 'multiple'
   | 'onChange'
   | 'onOpen'
   | 'onClose'
+  | 'multiline'
   | 'renderValue'
   | 'MenuProps'
   | 'disabled'
@@ -444,6 +446,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     >
       <Select
         {...countrySelectProps}
+        multiple={false}
+        multiline={false}
         MenuProps={{
           autoFocus: false,
           /*
