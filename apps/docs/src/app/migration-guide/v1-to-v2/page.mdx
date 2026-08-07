@@ -22,11 +22,13 @@ and [MUI Pickers v9](https://mui.com/x/migration/migration-pickers-v8/) migratio
 4. Run MUI's official codemods over **your own** code.
 5. Fix the pass-through props listed in [What you need to change](#what-you-need-to-change).
 
-**No prop on any `MUI*` component was renamed or removed in v2.**
+<Callout type="info">
+  **No prop on any `MUI*` component was renamed or removed in v2.**
 
-Every break below comes from props you forward *through* our components into
-MUI (`textFieldProps`, `checkboxProps`, `slotProps`), whose shapes MUI itself changed.
-
+  Every break below comes from props you forward *through* our components
+  into MUI (`textFieldProps`, `checkboxProps`, `slotProps`), whose shapes
+  MUI itself changed.
+</Callout>
 
 ## 1. Update dependencies
 
@@ -36,7 +38,7 @@ npm install @nish1896/mui-components@^2
 ```
 
 `peerDependencies` are now `^9.0.0` for all MUI packages, so your package manager will
-warn if any of them is still on an older major.
+warn if any of them is still on an older version.
 
 ## 2. Run MUI's codemods
 
@@ -64,7 +66,7 @@ Then read MUI's own guides, which cover everything outside this package:
 - [Upgrade to MUI X v9](https://mui.com/x/migration/migration-pickers-v8/)
 
 
-## What you need to change
+## 3. What you need to change
 
 ### Anything forwarded to a `TextField`
 
