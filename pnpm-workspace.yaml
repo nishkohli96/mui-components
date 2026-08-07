@@ -1,0 +1,5 @@
+allowBuilds:
+  sharp: true
+  unrs-resolver: false
+minimumReleaseAgeExclude:
+  - '@nish1896/mui-components@1.1.1'
