@@ -194,6 +194,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
             sx={{
               display: { xs: 'flex', md: 'none' },
               alignItems: 'center',
+              ml: 1,
               '@media (max-width: 479px)': {
                 display: 'none'
               }
