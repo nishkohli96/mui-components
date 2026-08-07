@@ -1,10 +1,10 @@
 {
-  "name": "@nish1896/mui-components-playground",
+  "name": "@nish1896/mui-components-v2-playground",
   "version": "1.0.0",
   "private": true,
   "author": "Nishant Kohli",
   "scripts": {
-    "dev": "next dev --webpack -p 3000",
+    "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "eslint --fix ."
@@ -23,7 +23,7 @@
     "@mui/material-nextjs": "^9.3.0",
     "@mui/x-date-pickers": "^9.11.0",
     "@next/mdx": "^16.3.0",
-    "@nish1896/mui-components": "^1.0.5",
+    "@nish1896/mui-components": "^2.0.1",
     "@shikijs/rehype": "^4.4.2",
     "@tanstack/react-form": "^1.33.3",
     "@types/mdx": "^2.0.14",
@@ -62,7 +62,7 @@
     "eslint": "^9.39.0",
     "eslint-config-next": "16.3.0",
     "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2"
+    "typescript": "^6.0.3"
   },
   "packageManager": "pnpm@11.20.0"
 }

@@ -64,8 +64,10 @@ const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps
           <ListItemText
             slotProps={{
               primary: {
-                fontSize: '0.9rem',
-                fontWeight: isActive || (hasChildren && containsActivePage) ? 600 : 400
+                sx: {
+                  fontSize: '0.9rem',
+                  fontWeight: isActive || (hasChildren && containsActivePage) ? 600 : 400
+                }
               }
             }}
           >
