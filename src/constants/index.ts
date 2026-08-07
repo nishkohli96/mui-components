@@ -1,4 +1,3 @@
-export * from './employees';
 export * from './external-links';
 export { default as defaultLibConfig } from './lib-config';
 export * from './options';
