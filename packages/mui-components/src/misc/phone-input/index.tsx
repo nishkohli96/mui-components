@@ -16,11 +16,11 @@ import {
   type Ref
 } from 'react';
 import Box from '@mui/material/Box';
+import Paper, { type PaperProps } from '@mui/material/Paper';
 import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
 import Select, { type SelectProps as MuiSelectProps } from '@mui/material/Select';
-import ListSubheader from '@mui/material/ListSubheader';
 import MenuItem from '@mui/material/MenuItem';
 import {
   defaultCountries,
@@ -63,6 +63,36 @@ const countryMenuWidth = 350;
  * flush against the viewport edge, e.g. a full-width field with no side margin.
  */
 const countryMenuViewportGutter = 32;
+const countryMenuMaxHeight = 300;
+
+/**
+ * Custom `Paper` for `MenuProps.slots.paper`.
+ *
+ * `Select` needs `MenuItem`s as direct children to wire up selection, so
+ * the search field lives here instead — above a scrollable wrapper around
+ * `children` (the `MenuList`), so the scrollbar starts below the search
+ * field, not alongside it.
+ *
+ * `position: 'absolute'` re-adds what MUI's default Popover `Paper` normally
+ * bakes in; without it, Popover's `top`/`left` positioning is ignored.
+ */
+const CountryMenuPaper = forwardRef<
+  HTMLDivElement,
+  PaperProps & { searchElement?: ReactNode }
+>(function CountryMenuPaper({ searchElement, children, sx, ...paperProps }, ref) {
+  return (
+    <Paper
+      ref={ref}
+      {...paperProps}
+      sx={mergeSx({ position: 'absolute', outline: 0 }, sx)}
+    >
+      {searchElement}
+      <Box sx={{ overflowY: 'auto', maxHeight: countryMenuMaxHeight }}>
+        {children}
+      </Box>
+    </Paper>
+  );
+});
 
 type PhoneInputChangeReturnValue = {
   phone: string;
@@ -463,27 +493,53 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
             vertical: 'top',
             horizontal: 'left'
           },
+          slots: {
+            paper: CountryMenuPaper
+          },
           slotProps: {
             paper: {
               sx: {
                 mt: '4px',
                 width: `min(${countryMenuWidthPx}px, calc(100vw - ${countryMenuViewportGutter}px))`,
                 maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`
-              }
-            },
-            /*
-             * `maxHeight` lives here (not on `paper`) and the list is a flex
-             * column: the search `ListSubheader` becomes a static, non-scrolling
-             * flex item, and only the items wrapper below it (`overflowY: auto`)
-             * scrolls — so the scrollbar track starts below the search field
-             * instead of running its full length alongside it.
-             */
+              },
+              searchElement: allowCountrySearch && (
+                <Box
+                  sx={{
+                    flexShrink: 0,
+                    bgcolor: 'background.paper',
+                    lineHeight: 'normal',
+                    padding: '8px'
+                  }}
+                >
+                  <MuiTextField
+                    {...otherSearchCountryTextFieldProps}
+                    label={null}
+                    id={searchCountryTextFieldId}
+                    fullWidth={searchCountryFullWidth}
+                    placeholder={searchCountryPlaceholder}
+                    size={searchCountrySize}
+                    value={countrySearch}
+                    onChange={event => {
+                      setCountrySearch(event.target.value);
+                      searchCountryOnChange?.(event);
+                    }}
+                    onClick={event => {
+                      event.stopPropagation();
+                      searchCountryOnClick?.(event);
+                    }}
+                    onKeyDown={event => {
+                      event.stopPropagation();
+                      searchCountryOnKeyDown?.(event);
+                    }}
+                  />
+                  <Divider sx={{ mt: '8px', mx: '-8px' }} />
+                </Box>
+              )
+            } as PaperProps & { searchElement?: ReactNode },
             list: {
               sx: {
-                display: 'flex',
-                flexDirection: 'column',
-                maxHeight: 300,
-                pt: allowCountrySearch ? 0 : '8px'
+                pt: '8px'
               }
             }
           }
@@ -522,66 +578,31 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
           <FlagImage iso2={selectedValue} style={{ display: 'flex' }} />
         )}
       >
-        {allowCountrySearch && (
-          <ListSubheader
-            sx={{
-              flexShrink: 0,
-              bgcolor: 'background.paper',
-              lineHeight: 'normal',
-              padding: '8px',
-            }}
-          >
-            <MuiTextField
-              {...otherSearchCountryTextFieldProps}
-              label={null}
-              id={searchCountryTextFieldId}
-              fullWidth={searchCountryFullWidth}
-              placeholder={searchCountryPlaceholder}
-              size={searchCountrySize}
-              value={countrySearch}
-              onChange={event => {
-                setCountrySearch(event.target.value);
-                searchCountryOnChange?.(event);
-              }}
-              onClick={event => {
-                event.stopPropagation();
-                searchCountryOnClick?.(event);
-              }}
-              onKeyDown={event => {
-                event.stopPropagation();
-                searchCountryOnKeyDown?.(event);
-              }}
-            />
-            <Divider sx={{ mt: '8px', mx: '-8px' }} />
-          </ListSubheader>
-        )}
-        <Box sx={{ overflowY: 'auto' }}>
-          {filteredCountriesToListAtTop.map(c => {
-            const countryInfo = parseCountry(c);
-            return (
-              <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
-                {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
-              </MenuItem>
-            );
-          })}
-          {filteredCountriesToListAtTop.length > 0
-            && filteredCountriesToList.length > 0
-            && <Divider />}
-          {filteredCountriesToList.map(c => {
-            const countryInfo = parseCountry(c);
-            return (
-              <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
-                {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
-              </MenuItem>
-            );
-          })}
-          {filteredCountriesToListAtTop.length === 0
-            && filteredCountriesToList.length === 0 && (
-            <MenuItem {...menuItemProps} disabled>
-              {noCountryFoundText}
+        {filteredCountriesToListAtTop.map(c => {
+          const countryInfo = parseCountry(c);
+          return (
+            <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
+              {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
             </MenuItem>
-          )}
-        </Box>
+          );
+        })}
+        {filteredCountriesToListAtTop.length > 0
+          && filteredCountriesToList.length > 0
+          && <Divider />}
+        {filteredCountriesToList.map(c => {
+          const countryInfo = parseCountry(c);
+          return (
+            <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
+              {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
+            </MenuItem>
+          );
+        })}
+        {filteredCountriesToListAtTop.length === 0
+          && filteredCountriesToList.length === 0 && (
+          <MenuItem {...menuItemProps} disabled>
+            {noCountryFoundText}
+          </MenuItem>
+        )}
       </Select>
     </InputAdornment>
   );
