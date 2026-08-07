@@ -426,9 +426,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     );
   };
 
-  const filteredCountriesToListAtTop
-    = countriesToListAtTop.filter(filterCountry);
-  const filteredCountriesToList = countriesToList.filter(filterCountry);
+  const hasVisibleCountriesAtTop = countriesToListAtTop.some(filterCountry);
+  const hasVisibleCountries = countriesToList.some(filterCountry);
 
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
@@ -567,8 +566,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
         )}
         value={country.iso2}
         disabled={muiDisabled || forceDialCode}
-        onOpen={updateCountryMenuLayout}
-        onClose={() => {
+        onOpen={() => {
+          updateCountryMenuLayout();
           setCountrySearch('');
         }}
         onChange={e => {
@@ -578,31 +577,64 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
           <FlagImage iso2={selectedValue} style={{ display: 'flex' }} />
         )}
       >
-        {filteredCountriesToListAtTop.map(c => {
+        {countriesToListAtTop.map(c => {
           const countryInfo = parseCountry(c);
           return (
-            <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
+            <MenuItem
+              {...menuItemProps}
+              key={countryInfo.iso2}
+              value={countryInfo.iso2}
+              sx={mergeSx(
+                { display: filterCountry(c) ? undefined : 'none' },
+                menuItemProps?.sx
+              )}
+            >
               {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
             </MenuItem>
           );
         })}
-        {filteredCountriesToListAtTop.length > 0
-          && filteredCountriesToList.length > 0
-          && <Divider />}
-        {filteredCountriesToList.map(c => {
+        {countriesToListAtTop.length > 0
+          && countriesToList.length > 0
+          && (
+            <Divider
+              sx={{
+                display: hasVisibleCountriesAtTop && hasVisibleCountries ? undefined : 'none'
+              }}
+            />
+          )}
+        {countriesToList.map(c => {
           const countryInfo = parseCountry(c);
           return (
-            <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
+            <MenuItem
+              {...menuItemProps}
+              key={countryInfo.iso2}
+              value={countryInfo.iso2}
+              sx={mergeSx(
+                { display: filterCountry(c) ? undefined : 'none' },
+                menuItemProps?.sx
+              )}
+            >
               {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
             </MenuItem>
           );
         })}
-        {filteredCountriesToListAtTop.length === 0
-          && filteredCountriesToList.length === 0 && (
-          <MenuItem {...menuItemProps} disabled>
-            {noCountryFoundText}
-          </MenuItem>
-        )}
+        {/*
+         * Every country stays mounted as a `MenuItem` (just hidden via
+         * `display: none` when filtered out) instead of being filtered out
+         * of `Select`'s children — MUI warns/misbehaves when the currently
+         * selected `value` has no matching child, which searching away the
+         * selected country's item would otherwise trigger on every keystroke.
+         */}
+        <MenuItem
+          {...menuItemProps}
+          disabled
+          sx={mergeSx(
+            { display: hasVisibleCountriesAtTop || hasVisibleCountries ? 'none' : undefined },
+            menuItemProps?.sx
+          )}
+        >
+          {noCountryFoundText}
+        </MenuItem>
       </Select>
     </InputAdornment>
   );
