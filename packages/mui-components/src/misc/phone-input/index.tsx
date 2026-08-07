@@ -444,6 +444,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     >
       <Select
         {...countrySelectProps}
+        multiple={false}
+        multiline={false}
         MenuProps={{
           autoFocus: false,
           /*
