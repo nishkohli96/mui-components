@@ -424,8 +424,10 @@ const MUINumberInput = ({
                 : helperTextId
               : undefined,
             'aria-required': required,
-            ...(nonNegative ? { min: 0 } : {}),
-            step: resolvedStepAmount
+            ...(nonNegative && { min: 0 }),
+            step: onlyIntegers
+              ? resolvedStepAmount
+              : 'any'
           }
         }}
         error={isError}

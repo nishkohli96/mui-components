@@ -31,8 +31,9 @@ import {
   type CheckboxProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
+  type AutocompleteOptionRenderState,
   type MuiChipProps,
-  type AutocompleteOptionRenderState
+  type CircularProgressProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { KeyValueOption, CustomComponentIds } from '@/types';
@@ -213,6 +214,11 @@ export type MUIMultiAutocompleteObjectProps<
    */
   textFieldProps?: AutoCompleteTextFieldProps;
   /**
+   * Props forwarded to the internal MUI `CircularProgress` shown in the input
+   * while `loading` is true.
+   */
+  circularProgressProps?: CircularProgressProps;
+  /**
    * Props forwarded to chips rendered for selected values.
    */
   ChipProps?: MuiChipProps;
@@ -272,6 +278,7 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
       formHelperTextProps,
       textFieldProps,
       slotProps,
+      circularProgressProps,
       ChipProps,
       loading,
       customIds,
@@ -572,7 +579,11 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
                     endAdornment: (
                       <>
                         {loading && (
-                          <CircularProgress color="inherit" size={20} />
+                          <CircularProgress
+                            color="inherit"
+                            size={20}
+                            {...circularProgressProps}
+                          />
                         )}
                         {InputProps.endAdornment}
                       </>

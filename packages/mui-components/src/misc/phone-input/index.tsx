@@ -18,7 +18,7 @@ import {
 import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
-import Select from '@mui/material/Select';
+import Select, { type SelectProps as MuiSelectProps } from '@mui/material/Select';
 import ListSubheader from '@mui/material/ListSubheader';
 import MenuItem from '@mui/material/MenuItem';
 import {
@@ -38,7 +38,8 @@ import {
   FormHelperText,
   defaultAutocompleteValue,
   type FormLabelProps,
-  type FormHelperTextProps
+  type FormHelperTextProps,
+  type MenuItemProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
@@ -47,7 +48,8 @@ import {
   keepLabelAboveFormField,
   mergeRefs,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 import CountryMenuItem from './CountryMenuItem';
 import 'react-international-phone/style.css';
@@ -117,9 +119,39 @@ type SearchCountryProps = {
    * @default 'No countries found'
    */
   noCountryFoundText?: string;
+  /**
+   * Props forwarded to every rendered country `MenuItem` — including the
+   * disabled "no results" item shown when `noCountryFoundText` applies.
+   */
+  menuItemProps?: MenuItemProps;
 };
 
 type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'>;
+
+/**
+ * Props forwarded to the internal MUI `Select` that renders the flag/dial-code
+ * trigger and country dropdown. Anything the component derives itself or
+ * relies on for correct positioning is omitted: `value`/`defaultValue`/`onChange`
+ * (the select is always controlled via `usePhoneInput`'s `country`),
+ * `onOpen`/`onClose`/`renderValue` (own the search-reset and flag-only trigger
+ * behavior), `MenuProps` (owns the anchor/width math that keeps the dropdown
+ * aligned to the field — see `updateCountryMenuLayout`), `disabled` (derived
+ * from `muiDisabled`/`forceDialCode`), and `children`/`ref` (the component
+ * renders the option list itself and doesn't forward a ref to this element).
+ */
+type CountrySelectProps = Omit<
+  MuiSelectProps,
+  | 'value'
+  | 'defaultValue'
+  | 'onChange'
+  | 'onOpen'
+  | 'onClose'
+  | 'renderValue'
+  | 'MenuProps'
+  | 'disabled'
+  | 'children'
+  | 'ref'
+>;
 
 function toStructuredValue(
   phoneData: PhoneInputChangeReturnValue
@@ -169,6 +201,12 @@ export type MUIPhoneInputProps = {
    * Options for the inline country search field in the country dropdown.
    */
   searchCountryProps?: SearchCountryProps;
+  /**
+   * Props forwarded to the internal MUI `Select` that renders the flag/dial-code
+   * trigger and country dropdown — e.g. a custom `size` or `sx` (merged with
+   * the component's own). See `CountrySelectProps` for what's excluded and why.
+   */
+  countrySelectProps?: CountrySelectProps;
   /**
    * When true, renders the field label above the form field instead of inside or beside it.
    */
@@ -245,6 +283,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     autoComplete = defaultAutocompleteValue,
     customIds,
     searchCountryProps,
+    countrySelectProps,
     ...otherPhoneInputPropsForTextField
   }: MUIPhoneInputProps,
   ref: Ref<HTMLInputElement>
@@ -282,7 +321,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     textFieldProps: searchCountryTextFieldProps,
     allowCountrySearch = true,
     renderCountryMenuItem,
-    noCountryFoundText = 'No countries found'
+    noCountryFoundText = 'No countries found',
+    menuItemProps
   } = searchCountryProps ?? {};
 
   const {
@@ -403,6 +443,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
       style={{ marginRight: '2px', marginLeft: '-8px' }}
     >
       <Select
+        {...countrySelectProps}
         MenuProps={{
           autoFocus: false,
           /*
@@ -438,24 +479,27 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
             }
           }
         }}
-        sx={{
-          width: 'max-content',
-          fieldset: {
-            display: 'none'
-          },
-          '&.Mui-focused:has(div[aria-expanded="false"])': {
+        sx={mergeSx(
+          {
+            width: 'max-content',
             fieldset: {
-              display: 'block'
+              display: 'none'
+            },
+            '&.Mui-focused:has(div[aria-expanded="false"])': {
+              fieldset: {
+                display: 'block'
+              }
+            },
+            '.MuiSelect-select': {
+              padding: '8px',
+              paddingRight: '24px !important'
+            },
+            svg: {
+              right: 0
             }
           },
-          '.MuiSelect-select': {
-            padding: '8px',
-            paddingRight: '24px !important'
-          },
-          svg: {
-            right: 0
-          }
-        }}
+          countrySelectProps?.sx
+        )}
         value={country.iso2}
         disabled={muiDisabled || forceDialCode}
         onOpen={updateCountryMenuLayout}
@@ -507,7 +551,11 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
         {filteredCountriesToListAtTop.map(c => {
           const countryInfo = parseCountry(c);
           return (
-            <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+            <MenuItem
+              {...menuItemProps}
+              key={countryInfo.iso2}
+              value={countryInfo.iso2}
+            >
               {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
             </MenuItem>
           );
@@ -518,14 +566,18 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
         {filteredCountriesToList.map(c => {
           const countryInfo = parseCountry(c);
           return (
-            <MenuItem key={countryInfo.iso2} value={countryInfo.iso2}>
+            <MenuItem
+              {...menuItemProps}
+              key={countryInfo.iso2}
+              value={countryInfo.iso2}
+            >
               {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
             </MenuItem>
           );
         })}
         {filteredCountriesToListAtTop.length === 0
           && filteredCountriesToList.length === 0 && (
-          <MenuItem disabled>
+          <MenuItem {...menuItemProps} disabled>
             {noCountryFoundText}
           </MenuItem>
         )}

@@ -21,7 +21,8 @@ import {
   defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
-  type TextFieldProps
+  type TextFieldProps,
+  type IconButtonProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
@@ -91,6 +92,12 @@ export type MUIPasswordInputProps = {
    */
   hidePasswordIcon?: ReactNode;
   /**
+   * Props forwarded to the internal MUI `IconButton` that toggles password
+   * visibility. Use `showPasswordIcon`/`hidePasswordIcon` to swap the icon
+   * itself; this is for the button around it — e.g. a custom `size` or `sx`.
+   */
+  iconButtonProps?: IconButtonProps;
+  /**
    * When true, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
@@ -150,6 +157,7 @@ const MUIPasswordInput = ({
   readOnly,
   showPasswordIcon,
   hidePasswordIcon,
+  iconButtonProps,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -199,6 +207,7 @@ const MUIPasswordInput = ({
   const endAdornment = (
     <InputAdornment position="end">
       <IconButton
+        {...iconButtonProps}
         type="button"
         disabled={muiDisabled}
         aria-label={showPassword ? 'Hide password' : 'Show password'}
