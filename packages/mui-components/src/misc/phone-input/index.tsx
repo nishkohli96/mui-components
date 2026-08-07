@@ -15,6 +15,7 @@ import {
   type ReactNode,
   type Ref
 } from 'react';
+import Box from '@mui/material/Box';
 import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
@@ -130,14 +131,7 @@ type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'>;
 
 /**
  * Props forwarded to the internal MUI `Select` that renders the flag/dial-code
- * trigger and country dropdown. Anything the component derives itself or
- * relies on for correct positioning is omitted: `value`/`defaultValue`/`onChange`
- * (the select is always controlled via `usePhoneInput`'s `country`),
- * `onOpen`/`onClose`/`renderValue` (own the search-reset and flag-only trigger
- * behavior), `MenuProps` (owns the anchor/width math that keeps the dropdown
- * aligned to the field — see `updateCountryMenuLayout`), `disabled` (derived
- * from `muiDisabled`/`forceDialCode`), and `children`/`ref` (the component
- * renders the option list itself and doesn't forward a ref to this element).
+ * trigger and country dropdown.
  */
 type CountrySelectProps = Omit<
   MuiSelectProps,
@@ -460,7 +454,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
            * otherwise permanently omit `anchorEl` whenever nothing else
            * happens to force a re-render first.
            */
-          ...(countryMenuAnchorEl ? { anchorEl: countryMenuAnchorEl } : {}),
+          ...(countryMenuAnchorEl && { anchorEl: countryMenuAnchorEl }),
           anchorOrigin: {
             vertical: 'bottom',
             horizontal: 'left'
@@ -474,12 +468,21 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
               sx: {
                 mt: '4px',
                 width: `min(${countryMenuWidthPx}px, calc(100vw - ${countryMenuViewportGutter}px))`,
-                maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`,
-                maxHeight: 300
+                maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`
               }
             },
+            /*
+             * `maxHeight` lives here (not on `paper`) and the list is a flex
+             * column: the search `ListSubheader` becomes a static, non-scrolling
+             * flex item, and only the items wrapper below it (`overflowY: auto`)
+             * scrolls — so the scrollbar track starts below the search field
+             * instead of running its full length alongside it.
+             */
             list: {
               sx: {
+                display: 'flex',
+                flexDirection: 'column',
+                maxHeight: 300,
                 pt: allowCountrySearch ? 0 : '8px'
               }
             }
@@ -522,9 +525,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
         {allowCountrySearch && (
           <ListSubheader
             sx={{
-              position: 'sticky',
-              top: 0,
-              zIndex: 1,
+              flexShrink: 0,
               bgcolor: 'background.paper',
               lineHeight: 'normal',
               padding: '8px',
@@ -554,31 +555,33 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
             <Divider sx={{ mt: '8px', mx: '-8px' }} />
           </ListSubheader>
         )}
-        {filteredCountriesToListAtTop.map(c => {
-          const countryInfo = parseCountry(c);
-          return (
-            <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
-              {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
+        <Box sx={{ overflowY: 'auto' }}>
+          {filteredCountriesToListAtTop.map(c => {
+            const countryInfo = parseCountry(c);
+            return (
+              <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
+                {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
+              </MenuItem>
+            );
+          })}
+          {filteredCountriesToListAtTop.length > 0
+            && filteredCountriesToList.length > 0
+            && <Divider />}
+          {filteredCountriesToList.map(c => {
+            const countryInfo = parseCountry(c);
+            return (
+              <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
+                {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
+              </MenuItem>
+            );
+          })}
+          {filteredCountriesToListAtTop.length === 0
+            && filteredCountriesToList.length === 0 && (
+            <MenuItem {...menuItemProps} disabled>
+              {noCountryFoundText}
             </MenuItem>
-          );
-        })}
-        {filteredCountriesToListAtTop.length > 0
-          && filteredCountriesToList.length > 0
-          && <Divider />}
-        {filteredCountriesToList.map(c => {
-          const countryInfo = parseCountry(c);
-          return (
-            <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
-              {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
-            </MenuItem>
-          );
-        })}
-        {filteredCountriesToListAtTop.length === 0
-          && filteredCountriesToList.length === 0 && (
-          <MenuItem {...menuItemProps} disabled>
-            {noCountryFoundText}
-          </MenuItem>
-        )}
+          )}
+        </Box>
       </Select>
     </InputAdornment>
   );
