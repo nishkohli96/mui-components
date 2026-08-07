@@ -20,7 +20,7 @@ import { buildVersionedSidebar, getDocsVersion } from '@/utils';
 import {
   GithubButton,
   NpmButton,
-  PlaygroundButton
+  // PlaygroundButton
 } from '../buttons';
 
 const containsPath = (page: Page, pathname: string): boolean => {
@@ -194,6 +194,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
             sx={{
               display: { xs: 'flex', md: 'none' },
               alignItems: 'center',
+              ml: 1,
               '@media (max-width: 479px)': {
                 display: 'none'
               }
@@ -216,7 +217,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
               ml: 'auto',
             }}
           >
-            <PlaygroundButton />
+            {/* <PlaygroundButton /> */}
             <NpmButton />
             <GithubButton />
           </Box>

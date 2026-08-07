@@ -89,14 +89,11 @@ export default function RadioGroupForm() {
     const contactError = !contact
       ? 'Select a preferred contact method'
       : undefined;
-
     const genderError = !gender
       ? 'Select your gender'
       : undefined;
-
     setContactError(contactError);
     setGenderError(genderError);
-
     if (contactError || genderError) {
       return;
     }

@@ -15,11 +15,12 @@ import {
   type ReactNode,
   type Ref
 } from 'react';
+import Box from '@mui/material/Box';
+import Paper, { type PaperProps } from '@mui/material/Paper';
 import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Divider from '@mui/material/Divider';
 import Select, { type SelectProps as MuiSelectProps } from '@mui/material/Select';
-import ListSubheader from '@mui/material/ListSubheader';
 import MenuItem from '@mui/material/MenuItem';
 import {
   defaultCountries,
@@ -62,6 +63,36 @@ const countryMenuWidth = 350;
  * flush against the viewport edge, e.g. a full-width field with no side margin.
  */
 const countryMenuViewportGutter = 32;
+const countryMenuMaxHeight = 300;
+
+/**
+ * Custom `Paper` for `MenuProps.slots.paper`.
+ *
+ * `Select` needs `MenuItem`s as direct children to wire up selection, so
+ * the search field lives here instead — above a scrollable wrapper around
+ * `children` (the `MenuList`), so the scrollbar starts below the search
+ * field, not alongside it.
+ *
+ * `position: 'absolute'` re-adds what MUI's default Popover `Paper` normally
+ * bakes in; without it, Popover's `top`/`left` positioning is ignored.
+ */
+const CountryMenuPaper = forwardRef<
+  HTMLDivElement,
+  PaperProps & { searchElement?: ReactNode }
+>(function CountryMenuPaper({ searchElement, children, sx, ...paperProps }, ref) {
+  return (
+    <Paper
+      ref={ref}
+      {...paperProps}
+      sx={mergeSx({ position: 'absolute', outline: 0 }, sx)}
+    >
+      {searchElement}
+      <Box sx={{ overflowY: 'auto', maxHeight: countryMenuMaxHeight }}>
+        {children}
+      </Box>
+    </Paper>
+  );
+});
 
 type PhoneInputChangeReturnValue = {
   phone: string;
@@ -130,22 +161,17 @@ type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'>;
 
 /**
  * Props forwarded to the internal MUI `Select` that renders the flag/dial-code
- * trigger and country dropdown. Anything the component derives itself or
- * relies on for correct positioning is omitted: `value`/`defaultValue`/`onChange`
- * (the select is always controlled via `usePhoneInput`'s `country`),
- * `onOpen`/`onClose`/`renderValue` (own the search-reset and flag-only trigger
- * behavior), `MenuProps` (owns the anchor/width math that keeps the dropdown
- * aligned to the field — see `updateCountryMenuLayout`), `disabled` (derived
- * from `muiDisabled`/`forceDialCode`), and `children`/`ref` (the component
- * renders the option list itself and doesn't forward a ref to this element).
+ * trigger and country dropdown.
  */
 type CountrySelectProps = Omit<
   MuiSelectProps,
   | 'value'
   | 'defaultValue'
+  | 'multiple'
   | 'onChange'
   | 'onOpen'
   | 'onClose'
+  | 'multiline'
   | 'renderValue'
   | 'MenuProps'
   | 'disabled'
@@ -400,9 +426,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     );
   };
 
-  const filteredCountriesToListAtTop
-    = countriesToListAtTop.filter(filterCountry);
-  const filteredCountriesToList = countriesToList.filter(filterCountry);
+  const hasVisibleCountriesAtTop = countriesToListAtTop.some(filterCountry);
+  const hasVisibleCountries = countriesToList.some(filterCountry);
 
   const { inputValue, handlePhoneValueChange, inputRef, country, setCountry }
     = usePhoneInput({
@@ -444,6 +469,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     >
       <Select
         {...countrySelectProps}
+        multiple={false}
+        multiline={false}
         MenuProps={{
           autoFocus: false,
           /*
@@ -456,7 +483,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
            * otherwise permanently omit `anchorEl` whenever nothing else
            * happens to force a re-render first.
            */
-          ...(countryMenuAnchorEl ? { anchorEl: countryMenuAnchorEl } : {}),
+          ...(countryMenuAnchorEl && { anchorEl: countryMenuAnchorEl }),
           anchorOrigin: {
             vertical: 'bottom',
             horizontal: 'left'
@@ -465,18 +492,53 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
             vertical: 'top',
             horizontal: 'left'
           },
+          slots: {
+            paper: CountryMenuPaper
+          },
           slotProps: {
             paper: {
               sx: {
                 mt: '4px',
                 width: `min(${countryMenuWidthPx}px, calc(100vw - ${countryMenuViewportGutter}px))`,
-                maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`,
-                maxHeight: 300
-              }
-            },
+                maxWidth: `calc(100vw - ${countryMenuViewportGutter}px)`
+              },
+              searchElement: allowCountrySearch && (
+                <Box
+                  sx={{
+                    flexShrink: 0,
+                    bgcolor: 'background.paper',
+                    lineHeight: 'normal',
+                    padding: '8px'
+                  }}
+                >
+                  <MuiTextField
+                    {...otherSearchCountryTextFieldProps}
+                    label={null}
+                    id={searchCountryTextFieldId}
+                    fullWidth={searchCountryFullWidth}
+                    placeholder={searchCountryPlaceholder}
+                    size={searchCountrySize}
+                    value={countrySearch}
+                    onChange={event => {
+                      setCountrySearch(event.target.value);
+                      searchCountryOnChange?.(event);
+                    }}
+                    onClick={event => {
+                      event.stopPropagation();
+                      searchCountryOnClick?.(event);
+                    }}
+                    onKeyDown={event => {
+                      event.stopPropagation();
+                      searchCountryOnKeyDown?.(event);
+                    }}
+                  />
+                  <Divider sx={{ mt: '8px', mx: '-8px' }} />
+                </Box>
+              )
+            } as PaperProps & { searchElement?: ReactNode },
             list: {
               sx: {
-                pt: allowCountrySearch ? 0 : '8px'
+                pt: '8px'
               }
             }
           }
@@ -504,8 +566,8 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
         )}
         value={country.iso2}
         disabled={muiDisabled || forceDialCode}
-        onOpen={updateCountryMenuLayout}
-        onClose={() => {
+        onOpen={() => {
+          updateCountryMenuLayout();
           setCountrySearch('');
         }}
         onChange={e => {
@@ -515,66 +577,64 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
           <FlagImage iso2={selectedValue} style={{ display: 'flex' }} />
         )}
       >
-        {allowCountrySearch && (
-          <ListSubheader
-            sx={{
-              position: 'sticky',
-              top: 0,
-              zIndex: 1,
-              bgcolor: 'background.paper',
-              lineHeight: 'normal',
-              padding: '8px',
-            }}
-          >
-            <MuiTextField
-              {...otherSearchCountryTextFieldProps}
-              label={null}
-              id={searchCountryTextFieldId}
-              fullWidth={searchCountryFullWidth}
-              placeholder={searchCountryPlaceholder}
-              size={searchCountrySize}
-              value={countrySearch}
-              onChange={event => {
-                setCountrySearch(event.target.value);
-                searchCountryOnChange?.(event);
-              }}
-              onClick={event => {
-                event.stopPropagation();
-                searchCountryOnClick?.(event);
-              }}
-              onKeyDown={event => {
-                event.stopPropagation();
-                searchCountryOnKeyDown?.(event);
+        {countriesToListAtTop.map(c => {
+          const countryInfo = parseCountry(c);
+          return (
+            <MenuItem
+              {...menuItemProps}
+              key={countryInfo.iso2}
+              value={countryInfo.iso2}
+              sx={mergeSx(
+                { display: filterCountry(c) ? undefined : 'none' },
+                menuItemProps?.sx
+              )}
+            >
+              {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
+            </MenuItem>
+          );
+        })}
+        {countriesToListAtTop.length > 0
+          && countriesToList.length > 0
+          && (
+            <Divider
+              sx={{
+                display: hasVisibleCountriesAtTop && hasVisibleCountries ? undefined : 'none'
               }}
             />
-            <Divider sx={{ mt: '8px', mx: '-8px' }} />
-          </ListSubheader>
-        )}
-        {filteredCountriesToListAtTop.map(c => {
+          )}
+        {countriesToList.map(c => {
           const countryInfo = parseCountry(c);
           return (
-            <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
+            <MenuItem
+              {...menuItemProps}
+              key={countryInfo.iso2}
+              value={countryInfo.iso2}
+              sx={mergeSx(
+                { display: filterCountry(c) ? undefined : 'none' },
+                menuItemProps?.sx
+              )}
+            >
               {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
             </MenuItem>
           );
         })}
-        {filteredCountriesToListAtTop.length > 0
-          && filteredCountriesToList.length > 0
-          && <Divider />}
-        {filteredCountriesToList.map(c => {
-          const countryInfo = parseCountry(c);
-          return (
-            <MenuItem {...menuItemProps} key={countryInfo.iso2} value={countryInfo.iso2}>
-              {renderCountryMenuItem?.(countryInfo) ?? <CountryMenuItem country={countryInfo} />}
-            </MenuItem>
-          );
-        })}
-        {filteredCountriesToListAtTop.length === 0
-          && filteredCountriesToList.length === 0 && (
-          <MenuItem {...menuItemProps} disabled>
-            {noCountryFoundText}
-          </MenuItem>
-        )}
+        {/*
+         * Every country stays mounted as a `MenuItem` (just hidden via
+         * `display: none` when filtered out) instead of being filtered out
+         * of `Select`'s children — MUI warns/misbehaves when the currently
+         * selected `value` has no matching child, which searching away the
+         * selected country's item would otherwise trigger on every keystroke.
+         */}
+        <MenuItem
+          {...menuItemProps}
+          disabled
+          sx={mergeSx(
+            { display: hasVisibleCountriesAtTop || hasVisibleCountries ? 'none' : undefined },
+            menuItemProps?.sx
+          )}
+        >
+          {noCountryFoundText}
+        </MenuItem>
       </Select>
     </InputAdornment>
   );

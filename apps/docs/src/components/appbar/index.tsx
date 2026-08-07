@@ -9,7 +9,7 @@ import {
   GithubButton,
   NpmButton,
   ThemeChangeButton,
-  PlaygroundButton
+  // PlaygroundButton
 } from '../buttons';
 
 /**
@@ -94,7 +94,7 @@ const AppBar = () => {
             ml: 1,
           }}
         >
-          <PlaygroundButton />
+          {/* <PlaygroundButton /> */}
           <NpmButton />
           <GithubButton />
         </Box>

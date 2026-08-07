@@ -1,6 +1,7 @@
 import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import { resolveProp } from '@/utils';
 import { PropsDescription as P } from '../descriptions/latest';
+import { PropsDescription_v1 as Pv1 } from '../descriptions/v1';
 
 /** Props reference rows for `MUIMultiAutocomplete`. */
 const multiAutocompleteRows = (
@@ -30,7 +31,7 @@ const multiAutocompleteRows = (
     resolveProp(P.ChipProps, args),
     ...(!v1
       ? [resolveProp(P.circularProgressProps, args)]
-      : []
+      : [resolveProp(Pv1.circularProgressProps, args)]
     ),
     P.label,
     resolveProp(P.showLabelAboveFormField, args),
