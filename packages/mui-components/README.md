@@ -42,8 +42,6 @@ Full setup instructions, API references, and examples for every component:
 Playground code lives on the [`v1-playground`](https://github.com/nishkohli96/mui-components/tree/v1-playground) branch. Clone repo, checkout that branch, run locally:
 
 ```bash
-git clone https://github.com/nish1896/mui-components-playground.git
-cd mui-components-playground
 git clone git@github.com:nishkohli96/mui-components.git
 cd mui-components
 git checkout v1-playground
