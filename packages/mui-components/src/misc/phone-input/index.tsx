@@ -161,14 +161,7 @@ type PhoneInputProps = Omit<UsePhoneInputConfig, 'value' | 'onChange'>;
 
 /**
  * Props forwarded to the internal MUI `Select` that renders the flag/dial-code
- * trigger and country dropdown. Anything the component derives itself or
- * relies on for correct positioning is omitted: `value`/`defaultValue`/`onChange`
- * (the select is always controlled via `usePhoneInput`'s `country`),
- * `onOpen`/`onClose`/`renderValue` (own the search-reset and flag-only trigger
- * behavior), `MenuProps` (owns the anchor/width math that keeps the dropdown
- * aligned to the field — see `updateCountryMenuLayout`), `disabled` (derived
- * from `muiDisabled`/`forceDialCode`), and `children`/`ref` (the component
- * renders the option list itself and doesn't forward a ref to this element).
+ * trigger and country dropdown.
  */
 type CountrySelectProps = Omit<
   MuiSelectProps,
@@ -235,7 +228,7 @@ export type MUIPhoneInputProps = {
   /**
    * Props forwarded to the internal MUI `Select` that renders the flag/dial-code
    * trigger and country dropdown — e.g. a custom `size` or `sx` (merged with
-   * the component's own). See `CountrySelectProps` for what's excluded and why.
+   * the component's own).
    */
   countrySelectProps?: CountrySelectProps;
   /**
