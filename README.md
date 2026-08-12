@@ -36,10 +36,11 @@
 npm install @nish1896/mui-components @mui/material @mui/icons-material @mui/x-date-pickers
 ```
 
-`@mui/material`, `@mui/system`, `@mui/icons-material` and `@mui/x-date-pickers` are peer
-dependencies. **v2 requires MUI v9** — for MUI v6/v7 support, stay on the `1.x` line.
+`@mui/material`, `@mui/system`, `@mui/icons-material` and `@mui/x-date-pickers` are peer dependencies.
 
-> ⬆️ Upgrading from `1.x`? See the [v1 → v2 migration guide](./migrations/v1-to-v2.md).
+**v2 requires MUI v9** — for MUI v6/v7 support, stay on the `1.x` line.
+
+> ⬆️ Upgrading from `1.x`? See the [v1 → v2 migration guide](https://mui-components-docs.vercel.app/migration-guide/v1-to-v2).
 
 ```tsx
 import { useState } from 'react';
