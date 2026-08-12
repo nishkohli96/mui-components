@@ -230,7 +230,7 @@ export type MUIPhoneInputProps = {
   /**
    * Props forwarded to the internal MUI `Select` that renders the flag/dial-code
    * trigger and country dropdown — e.g. a custom `size` or `sx` (merged with
-   * the component's own). See `CountrySelectProps` for what's excluded and why.
+   * the component's own).
    */
   countrySelectProps?: CountrySelectProps;
   /**
