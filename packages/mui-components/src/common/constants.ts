@@ -7,8 +7,13 @@
 export const defaultAutocompleteValue = 'off';
 
 /**
- * Default value for the select all option in MUIMultiAutocomplete
- * and MUIMultiAutocompleteObject components.
+ * Default label for the "**Select All**" option in `MUIMultiAutocomplete`
+ * and `MUIMultiAutocompleteObject` components.
+ */
+export const defaultSelectAllOptionLabel = 'Select All';
+
+/**
+ * Default value for the "**Select All**" option in `MUIMultiAutocomplete`
+ * and `MUIMultiAutocompleteObject` components.
  */
 export const selectAllOptionValue = '__ALL__';
-export const defaultSelectAllOptionLabel = 'Select All';

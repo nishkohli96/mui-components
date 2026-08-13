@@ -121,6 +121,17 @@ export type MUIMobileTimePickerProps<TDate extends PickerValidDate = PickerValid
   customIds?: CustomComponentIds;
 } & MobileTimePickerInputProps;
 
+/**
+ * Controlled time picker that always renders the mobile, full-screen modal
+ * UI, regardless of the input device.
+ *
+ * Generic over `TDate`, inferred from `value`, so `onValueChange` returns a
+ * precisely-typed date instead of MUI X's adapter-agnostic `PickerValidDate`.
+ *
+ * Docs: [MUIMobileTimePicker](https://mui-components-docs.vercel.app/v1/components/mui-pickers/time)
+ *
+ * API: [MUIMobileTimePickerProps](https://mui-components-docs.vercel.app/v1/components/mui-pickers/time#api)
+ */
 const MUIMobileTimePicker = <TDate extends PickerValidDate = PickerValidDate>({
   fieldName,
   value: muiValue,

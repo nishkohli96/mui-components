@@ -8,6 +8,16 @@ const DefaultStyles = Object.freeze({
   },
 });
 
+/**
+ * Baseline `MUIComponentsConfig` every `MUI*` component falls back to when
+ * no `ConfigProvider` is mounted, or a given config key is left unset.
+ *
+ * Only supplies default `sx` overrides for `FormLabel`/`FormControlLabel`/
+ * `FormHelperText` spacing — `dateAdapter` and `allLabelsAboveFields` have
+ * no default and stay `undefined` until a `ConfigProvider` sets them.
+ *
+ * Docs: [Customization](https://mui-components-docs.vercel.app/v1/customization)
+ */
 export const DefaultMUIComponentsConfig: MUIComponentsConfig = {
   defaultFormLabelSx: { mb: DefaultStyles.margin.bottom },
   defaultFormControlLabelSx: {},

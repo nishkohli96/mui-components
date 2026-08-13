@@ -201,6 +201,17 @@ export type MUICheckboxGroupProps<
   customIds?: CustomComponentIds;
 };
 
+/**
+ * Group of `Checkbox`es rendered from an `Option[]` array, backed by an
+ * array value of the toggled options' `valueKey`s.
+ *
+ * Reports both the full next `value` array and the single option value that
+ * was just toggled (plus its resulting checked state) on every change.
+ *
+ * Docs: [MUICheckboxGroup](https://mui-components-docs.vercel.app/v1/components/mui/checkbox-group)
+ *
+ * API: [MUICheckboxGroupProps](https://mui-components-docs.vercel.app/v1/components/mui/checkbox-group#api)
+ */
 const MUICheckboxGroup = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<

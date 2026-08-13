@@ -191,6 +191,17 @@ export type MUIRadioGroupProps<
   customIds?: CustomComponentIds;
 } & RadioGroupInputProps;
 
+/**
+ * Group of `Radio`s rendered from an `Option[]` array, backed by a single
+ * selected `valueKey` value.
+ *
+ * Same `Option`/`valueKey`/`labelKey` shape as `MUISelect` and
+ * `MUICheckboxGroup`, so switching between them is mostly a drop-in change.
+ *
+ * Docs: [MUIRadioGroup](https://mui-components-docs.vercel.app/v1/components/mui/radio-group)
+ *
+ * API: [MUIRadioGroupProps](https://mui-components-docs.vercel.app/v1/components/mui/radio-group#api)
+ */
 const MUIRadioGroup = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
