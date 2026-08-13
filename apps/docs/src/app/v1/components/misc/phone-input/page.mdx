@@ -146,9 +146,12 @@ with the following properties:
 The search field is rendered inside the country dropdown and remains pinned to
 the top while the country list is scrolled.
 
-## Props
+## API
 
-`MUIPhoneInputProps` also accepts most [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) except `value`, `onChange` and `type`. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`MUIPhoneInputProps` also accepts most [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/),
+with some props excluded, including `name`, `value`, `onChange`.
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUIPhoneInput} />
 

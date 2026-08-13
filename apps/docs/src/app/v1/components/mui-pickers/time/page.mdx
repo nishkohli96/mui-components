@@ -60,10 +60,12 @@ const [value, setValue] = useState<Dayjs | null>(null);
 The default handler stores the value only when it is valid — inspect
 `context.validationError` in `onValueChange` if you need to react to invalid entries.
 
-## Props
+## API
 
 All four variants (`MUITimePicker`, `MUIDesktopTimePicker`, `MUIMobileTimePicker`,
-`MUIStaticTimePicker`) share the props below. Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`MUIStaticTimePicker`) share the props below.
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUITimePicker} />
 
