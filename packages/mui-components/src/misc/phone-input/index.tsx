@@ -285,6 +285,16 @@ export type MUIPhoneInputProps = {
   customIds?: CustomComponentIds;
 } & InputTextFieldProps;
 
+/**
+ * Controlled `react-international-phone` input wrapped in a MUI `TextField`.
+ *
+ * Renders a searchable country dropdown and emits a structured
+ * `MUIPhoneInputValue` (phone, country, dial code, and national number).
+ *
+ * Docs: [MUIPhoneInput](https://mui-components-docs.vercel.app/v1/components/misc/phone-input)
+ *
+ * API: [MUIPhoneInputProps](https://mui-components-docs.vercel.app/v1/components/misc/phone-input#api)
+ */
 const MUIPhoneInput = forwardRef(function MUIPhoneInput(
   {
     fieldName,
@@ -526,7 +536,15 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
                       searchCountryOnClick?.(event);
                     }}
                     onKeyDown={event => {
-                      event.stopPropagation();
+                      /*
+                       * Stop propagation for everything except Escape, so
+                       * typing/navigation in the search field doesn't reach
+                       * MUI's Select, but Escape still bubbles to the Menu's
+                       * Modal to close the dropdown as expected.
+                       */
+                      if (event.key !== 'Escape') {
+                        event.stopPropagation();
+                      }
                       searchCountryOnKeyDown?.(event);
                     }}
                   />

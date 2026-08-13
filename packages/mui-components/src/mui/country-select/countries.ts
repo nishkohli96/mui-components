@@ -5,6 +5,12 @@
 
 import type { CountryDetails } from '@/types';
 
+/**
+ * Static list of 250 countries (`name`, `iso`, `iso3`, `emoji` flag), used
+ * as `MUICountrySelect`'s default `countries` option list.
+ *
+ * @see [countries.ts on GitHub](https://github.com/nishkohli96/mui-components/blob/version-1/packages/mui-components/src/mui/country-select/countries.ts)
+ */
 /* Total - 250 Records */
 export const countryList: readonly CountryDetails[] = [
   {

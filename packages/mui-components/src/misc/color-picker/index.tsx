@@ -146,6 +146,16 @@ export type MUIColorPickerProps = {
   customIds?: CustomComponentIds;
 };
 
+/**
+ * Controlled color picker built on `react-color-palette`'s saturation/hue panel.
+ *
+ * Emits both the picker's structured `IColor` and a plain string in the
+ * configured `ColorFormat` (`hex`/`rgb`/`hsv`) on every change.
+ *
+ * Docs: [MUIColorPicker](https://mui-components-docs.vercel.app/v1/components/misc/color-picker)
+ *
+ * API: [MUIColorPickerProps](https://mui-components-docs.vercel.app/v1/components/misc/color-picker#api)
+ */
 const MUIColorPicker = ({
   fieldName,
   value,

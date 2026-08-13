@@ -147,6 +147,19 @@ export type MUINumberInputProps = {
   customIds?: CustomComponentIds;
 } & TextFieldInputProps;
 
+/**
+ * Controlled numeric `TextField` that keeps `value` as a real `number | null`
+ * instead of a string, with native stepper/keyboard/paste input all going
+ * through the same sanitization path.
+ *
+ * Supports an integer-only mode, configurable decimal precision, and a
+ * customizable step amount. Rejects keystrokes and pasted values that
+ * would result in invalid numbers instead of correcting them after input.
+ *
+ * Docs: [MUINumberInput](https://mui-components-docs.vercel.app/v1/components/mui/number-input)
+ *
+ * API: [MUINumberInputProps](https://mui-components-docs.vercel.app/v1/components/mui/number-input#api)
+ */
 const MUINumberInput = ({
   fieldName,
   required,

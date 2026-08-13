@@ -157,6 +157,17 @@ export type MUIRichTextEditorProps = {
   customIds?: CustomComponentIds;
 };
 
+/**
+ * Controlled rich-text editor wrapping CKEditor 5's `ClassicEditor`, backed
+ * by an HTML string value.
+ *
+ * Ships with a sensible `DefaultEditorConfig` (toolbar, plugins) that can be
+ * overridden, and surfaces both initialization and runtime editor errors.
+ *
+ * Docs: [MUIRichTextEditor](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor)
+ *
+ * API: [MUIRichTextEditorProps](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor#api)
+ */
 const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
   {
     fieldName,

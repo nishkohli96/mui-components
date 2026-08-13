@@ -28,9 +28,9 @@ export function fieldNameToLabel(str: string) {
  * Function to convert a field name/path into a DOM-safe id.
  *
  * Examples:
+ * - "user.name" to "user-name"
  * - "phones[0]" to "phones-0"
- * - "user.email" to "user-email"
- * - "user..name" to "user-name"
+ * - "user.profile@details" to "user-profile-details"
  */
 export function fieldNameToId(fieldName: string): string {
   const id = fieldName

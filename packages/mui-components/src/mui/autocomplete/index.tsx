@@ -586,6 +586,15 @@ const MUIAutocompleteInner = forwardRef(function MUIAutocomplete<
   );
 });
 
+/**
+ * Controlled wrapper around MUI's `Autocomplete`, generic over `Multiple`/
+ * `DisableClearable`/`FreeSolo` so a single component covers single-select,
+ * multi-select, and free-text-entry search fields.
+ *
+ * Docs: [MUIAutocomplete](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete)
+ *
+ * API: [MUIAutocompleteProps](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete#api)
+ */
 const MUIAutocomplete = MUIAutocompleteInner as <
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<

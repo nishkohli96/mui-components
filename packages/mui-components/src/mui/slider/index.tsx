@@ -139,6 +139,18 @@ export type MUISliderProps<Value extends SliderValue = SliderValue> = {
   customIds?: CustomComponentIds;
 } & SliderInputProps;
 
+/**
+ * Controlled wrapper around MUI's `Slider`, generic over `Value` so the same
+ * component covers both a single-thumb slider (`number`) and a range slider
+ * (`number[]`) with a correctly narrowed `onValueChange`.
+ *
+ * Emits the active thumb index alongside the new value, useful for range
+ * sliders where callers need to know which handle moved.
+ *
+ * Docs: [MUISlider](https://mui-components-docs.vercel.app/v1/components/mui/slider)
+ *
+ * API: [MUISliderProps](https://mui-components-docs.vercel.app/v1/components/mui/slider#api)
+ */
 const MUISlider = <Value extends SliderValue = SliderValue>({
   fieldName,
   value,

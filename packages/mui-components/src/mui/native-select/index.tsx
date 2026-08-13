@@ -177,6 +177,18 @@ export type MUINativeSelectProps<
   customIds?: CustomComponentIds;
 } & InputNativeSelectProps;
 
+/**
+ * Controlled wrapper around MUI's `NativeSelect` (a real `<select>` element),
+ * driven by an `Option[]` array in the same shape as `MUISelect`.
+ *
+ * Renders the browser's native dropdown UI instead of a popover — useful on
+ * mobile or wherever the lighter-weight native control is preferred over a
+ * full `Select` menu.
+ *
+ * Docs: [MUINativeSelect](https://mui-components-docs.vercel.app/v1/components/mui/native-select)
+ *
+ * API: [MUINativeSelectProps](https://mui-components-docs.vercel.app/v1/components/mui/native-select#api)
+ */
 const MUINativeSelect = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<

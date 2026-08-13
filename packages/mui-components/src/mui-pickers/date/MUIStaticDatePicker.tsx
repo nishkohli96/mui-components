@@ -262,6 +262,18 @@ const MUIStaticDatePickerInner = forwardRef(function MUIStaticDatePicker<
   );
 });
 
+/**
+ * Controlled date picker rendered always-visible and inline, with no text
+ * field to open/close — just the calendar grid itself.
+ *
+ * Since there's no `<input>` to attach a ref to, `ref` targets the picker's
+ * group container instead (focusable via `tabIndex={-1}`, so callers like
+ * RHF's focus-on-validation-error can still bring it into view).
+ *
+ * Docs: [MUIStaticDatePicker](https://mui-components-docs.vercel.app/v1/components/mui-pickers/date)
+ *
+ * API: [MUIStaticDatePickerProps](https://mui-components-docs.vercel.app/v1/components/mui-pickers/date#api)
+ */
 const MUIStaticDatePicker = MUIStaticDatePickerInner as <
   TDate extends PickerValidDate = PickerValidDate
 >(
