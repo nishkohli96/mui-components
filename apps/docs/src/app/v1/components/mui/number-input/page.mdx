@@ -35,8 +35,10 @@ const [age, setAge] = useState<number | null>(null);
 
 ## API
 
-`MUINumberInputProps` also accepts the remaining [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/),
-except `type`, `multiline` and `rows`. Props marked with
+`MUINumberInputProps` accepts most [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/),
+with some props excluded, including `type`, `multiline` and `rows`.
+
+Props marked with
 <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUINumberInput} />
