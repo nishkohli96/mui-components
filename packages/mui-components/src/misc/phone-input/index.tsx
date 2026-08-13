@@ -536,7 +536,15 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
                       searchCountryOnClick?.(event);
                     }}
                     onKeyDown={event => {
-                      event.stopPropagation();
+                      /*
+                       * Stop propagation for everything except Escape, so
+                       * typing/navigation in the search field doesn't reach
+                       * MUI's Select, but Escape still bubbles to the Menu's
+                       * Modal to close the dropdown as expected.
+                       */
+                      if (event.key !== 'Escape') {
+                        event.stopPropagation();
+                      }
                       searchCountryOnKeyDown?.(event);
                     }}
                   />
