@@ -121,6 +121,17 @@ export type MUIDesktopTimePickerProps<TDate extends PickerValidDate = PickerVali
   customIds?: CustomComponentIds;
 } & DesktopTimePickerInputProps;
 
+/**
+ * Controlled time picker that always renders the desktop, keyboard-first
+ * popover UI, regardless of the input device.
+ *
+ * Generic over `TDate`, inferred from `value`, so `onValueChange` returns a
+ * precisely-typed date instead of MUI X's adapter-agnostic `PickerValidDate`.
+ *
+ * Docs: [MUIDesktopTimePicker](https://mui-components-docs.vercel.app/v1/components/mui-pickers/time)
+ *
+ * API: [MUIDesktopTimePickerProps](https://mui-components-docs.vercel.app/v1/components/mui-pickers/time#api)
+ */
 const MUIDesktopTimePicker = <TDate extends PickerValidDate = PickerValidDate>({
   fieldName,
   value: muiValue,

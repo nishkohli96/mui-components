@@ -8,5 +8,5 @@ export {
   fieldNameToLabel,
   validateFileList,
   getFileSize,
-  colorToString,
+  colorToString
 } from '@/utils';

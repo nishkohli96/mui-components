@@ -218,6 +218,18 @@ export type MUISelectProps<
   customIds?: CustomComponentIds;
 } & SelectProps;
 
+/**
+ * Controlled wrapper around MUI's `Select`, driven by an `Option[]` array
+ * instead of hand-written `MenuItem`s, generic over both the option shape
+ * and whether selection is single or multiple.
+ *
+ * Accepts plain string/number options or an array of objects via
+ * `valueKey`/`labelKey`, and normalizes the emitted value/label pair for you.
+ *
+ * Docs: [MUISelect](https://mui-components-docs.vercel.app/v1/components/mui/select)
+ *
+ * API: [MUISelectProps](https://mui-components-docs.vercel.app/v1/components/mui/select#api)
+ */
 const MUISelect = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<

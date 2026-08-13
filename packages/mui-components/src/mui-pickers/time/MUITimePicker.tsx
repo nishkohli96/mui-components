@@ -121,6 +121,17 @@ export type MUITimePickerProps<TDate extends PickerValidDate = PickerValidDate> 
   customIds?: CustomComponentIds;
 } & TimePickerInputProps;
 
+/**
+ * Controlled time picker that adapts to the input device — a desktop
+ * keyboard-first popover on pointer devices, a mobile modal on touch.
+ *
+ * Generic over `TDate`, inferred from `value`, so `onValueChange` returns a
+ * precisely-typed date instead of MUI X's adapter-agnostic `PickerValidDate`.
+ *
+ * Docs: [MUITimePicker](https://mui-components-docs.vercel.app/v1/components/mui-pickers/time)
+ *
+ * API: [MUITimePickerProps](https://mui-components-docs.vercel.app/v1/components/mui-pickers/time#api)
+ */
 const MUITimePicker = <TDate extends PickerValidDate = PickerValidDate>({
   fieldName,
   value: muiValue,

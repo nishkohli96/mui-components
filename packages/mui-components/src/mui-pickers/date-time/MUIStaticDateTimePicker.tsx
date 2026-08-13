@@ -262,6 +262,19 @@ const MUIStaticDateTimePickerInner = forwardRef(function MUIStaticDateTimePicker
   );
 });
 
+/**
+ * Controlled combined date-and-time picker rendered always-visible and
+ * inline, with no text field to open/close — just the calendar and clock
+ * views themselves.
+ *
+ * Since there's no `<input>` to attach a ref to, `ref` targets the picker's
+ * group container instead (focusable via `tabIndex={-1}`, so callers like
+ * RHF's focus-on-validation-error can still bring it into view).
+ *
+ * Docs: [MUIStaticDateTimePicker](https://mui-components-docs.vercel.app/v1/components/mui-pickers/date-time)
+ *
+ * API: [MUIStaticDateTimePickerProps](https://mui-components-docs.vercel.app/v1/components/mui-pickers/date-time#api)
+ */
 const MUIStaticDateTimePicker = MUIStaticDateTimePickerInner as <
   TDate extends PickerValidDate = PickerValidDate
 >(

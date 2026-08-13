@@ -30,7 +30,7 @@ export function fieldNameToLabel(str: string) {
  * Examples:
  * - "phones[0]" to "phones-0"
  * - "user.email" to "user-email"
- * - "user..name" to "user-name"
+ * - "user.name" to "user-name"
  */
 export function fieldNameToId(fieldName: string): string {
   const id = fieldName

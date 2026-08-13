@@ -121,6 +121,17 @@ export type MUIRatingProps = {
   customIds?: CustomComponentIds;
 } & InputRatingProps;
 
+/**
+ * Controlled wrapper around MUI's `Rating`, backed by a `number | null`
+ * value (`null` for "no rating selected").
+ *
+ * Supports half-star precision and custom icons through the underlying
+ * `Rating` props.
+ *
+ * Docs: [MUIRating](https://mui-components-docs.vercel.app/v1/components/mui/rating)
+ *
+ * API: [MUIRatingProps](https://mui-components-docs.vercel.app/v1/components/mui/rating#api)
+ */
 const MUIRating = ({
   fieldName,
   required,
