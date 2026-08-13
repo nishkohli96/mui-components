@@ -322,9 +322,9 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
  * accepted, and can seed the field with already-uploaded files via
  * `ExistingUploadedFile`.
  *
- * Docs: [MUIFileUploader](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader)
+ * Docs: [MUIFileUploader](https://mui-components-docs.vercel.app/components/mui/file-uploader)
  *
- * API: [MUIFileUploaderProps](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader#api)
+ * API: [MUIFileUploaderProps](https://mui-components-docs.vercel.app/components/mui/file-uploader#api)
  */
 const MUIFileUploader = <Multiple extends boolean = false>({
   fieldName,

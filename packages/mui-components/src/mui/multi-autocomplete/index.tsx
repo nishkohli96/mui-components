@@ -733,9 +733,9 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
  * Toggling "**Select All**" option selects/clears every option in one action, and
  * stays in sync (checked/indeterminate) as individual options change.
  *
- * Docs: [MUIMultiAutocomplete](https://mui-components-docs.vercel.app/v1/components/mui/multi-autocomplete)
+ * Docs: [MUIMultiAutocomplete](https://mui-components-docs.vercel.app/components/mui/multi-autocomplete)
  *
- * API: [MUIMultiAutocompleteProps](https://mui-components-docs.vercel.app/v1/components/mui/multi-autocomplete#api)
+ * API: [MUIMultiAutocompleteProps](https://mui-components-docs.vercel.app/components/mui/multi-autocomplete#api)
  */
 const MUIMultiAutocomplete = MUIMultiAutocompleteInner as <
   Option extends StrObjOption = StrObjOption,

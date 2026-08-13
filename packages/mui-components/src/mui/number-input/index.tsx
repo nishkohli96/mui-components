@@ -156,9 +156,9 @@ export type MUINumberInputProps = {
  * customizable step amount. Rejects keystrokes and pasted values that
  * would result in invalid numbers instead of correcting them after input.
  *
- * Docs: [MUINumberInput](https://mui-components-docs.vercel.app/v1/components/mui/number-input)
+ * Docs: [MUINumberInput](https://mui-components-docs.vercel.app/components/mui/number-input)
  *
- * API: [MUINumberInputProps](https://mui-components-docs.vercel.app/v1/components/mui/number-input#api)
+ * API: [MUINumberInputProps](https://mui-components-docs.vercel.app/components/mui/number-input#api)
  */
 const MUINumberInput = ({
   fieldName,

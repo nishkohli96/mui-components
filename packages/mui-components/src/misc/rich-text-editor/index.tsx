@@ -164,9 +164,9 @@ export type MUIRichTextEditorProps = {
  * Ships with a sensible `DefaultEditorConfig` (toolbar, plugins) that can be
  * overridden, and surfaces both initialization and runtime editor errors.
  *
- * Docs: [MUIRichTextEditor](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor)
+ * Docs: [MUIRichTextEditor](https://mui-components-docs.vercel.app/components/misc/rich-text-editor)
  *
- * API: [MUIRichTextEditorProps](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor#api)
+ * API: [MUIRichTextEditorProps](https://mui-components-docs.vercel.app/components/misc/rich-text-editor#api)
  */
 const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
   {

@@ -226,9 +226,9 @@ export type MUISelectProps<
  * Accepts plain string/number options or an array of objects via
  * `valueKey`/`labelKey`, and normalizes the emitted value/label pair for you.
  *
- * Docs: [MUISelect](https://mui-components-docs.vercel.app/v1/components/mui/select)
+ * Docs: [MUISelect](https://mui-components-docs.vercel.app/components/mui/select)
  *
- * API: [MUISelectProps](https://mui-components-docs.vercel.app/v1/components/mui/select#api)
+ * API: [MUISelectProps](https://mui-components-docs.vercel.app/components/mui/select#api)
  */
 const MUISelect = <
   Option extends StrNumObjOption = StrNumObjOption,

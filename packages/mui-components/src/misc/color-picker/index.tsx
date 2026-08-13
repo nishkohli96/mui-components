@@ -152,9 +152,9 @@ export type MUIColorPickerProps = {
  * Emits both the picker's structured `IColor` and a plain string in the
  * configured `ColorFormat` (`hex`/`rgb`/`hsv`) on every change.
  *
- * Docs: [MUIColorPicker](https://mui-components-docs.vercel.app/v1/components/misc/color-picker)
+ * Docs: [MUIColorPicker](https://mui-components-docs.vercel.app/components/misc/color-picker)
  *
- * API: [MUIColorPickerProps](https://mui-components-docs.vercel.app/v1/components/misc/color-picker#api)
+ * API: [MUIColorPickerProps](https://mui-components-docs.vercel.app/components/misc/color-picker#api)
  */
 const MUIColorPicker = ({
   fieldName,

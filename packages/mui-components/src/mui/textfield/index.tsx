@@ -103,9 +103,9 @@ export type MUITextFieldProps = {
  * text out of the box, so callers don't have to wire `FormHelperText`/error
  * state by hand.
  *
- * Docs: [MUITextField](https://mui-components-docs.vercel.app/v1/components/mui/textfield)
+ * Docs: [MUITextField](https://mui-components-docs.vercel.app/components/mui/textfield)
  *
- * API: [MUITextFieldProps](https://mui-components-docs.vercel.app/v1/components/mui/textfield#api)
+ * API: [MUITextFieldProps](https://mui-components-docs.vercel.app/components/mui/textfield#api)
  */
 const MUITextField = ({
   fieldName,

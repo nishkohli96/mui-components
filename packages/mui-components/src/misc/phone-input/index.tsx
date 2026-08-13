@@ -293,9 +293,9 @@ export type MUIPhoneInputProps = {
  * Renders a searchable country dropdown and emits a structured
  * `MUIPhoneInputValue` (phone, country, dial code, and national number).
  *
- * Docs: [MUIPhoneInput](https://mui-components-docs.vercel.app/v1/components/misc/phone-input)
+ * Docs: [MUIPhoneInput](https://mui-components-docs.vercel.app/components/misc/phone-input)
  *
- * API: [MUIPhoneInputProps](https://mui-components-docs.vercel.app/v1/components/misc/phone-input#api)
+ * API: [MUIPhoneInputProps](https://mui-components-docs.vercel.app/components/misc/phone-input#api)
  */
 const MUIPhoneInput = forwardRef(function MUIPhoneInput(
   {

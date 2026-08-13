@@ -450,9 +450,9 @@ const MUIAutocompleteObjectInner = forwardRef(function MUIAutocompleteObject<
  *
  * Use `MUIAutocomplete` when `freeSolo` is needed.
  *
- * Docs: [MUIAutocompleteObject](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete-object)
+ * Docs: [MUIAutocompleteObject](https://mui-components-docs.vercel.app/components/mui/autocomplete-object)
  *
- * API: [MUIAutocompleteObjectProps](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete-object#api)
+ * API: [MUIAutocompleteObjectProps](https://mui-components-docs.vercel.app/components/mui/autocomplete-object#api)
  */
 const MUIAutocompleteObject = MUIAutocompleteObjectInner as <
   Option extends KeyValueOption = KeyValueOption,

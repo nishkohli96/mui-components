@@ -153,9 +153,9 @@ export type MUIPasswordInputProps = {
  *
  * Toggling visibility swaps the input `type` between `password` and `text`.
  *
- * Docs: [MUIPasswordInput](https://mui-components-docs.vercel.app/v1/components/mui/password-input)
+ * Docs: [MUIPasswordInput](https://mui-components-docs.vercel.app/components/mui/password-input)
  *
- * API: [MUIPasswordInputProps](https://mui-components-docs.vercel.app/v1/components/mui/password-input#api)
+ * API: [MUIPasswordInputProps](https://mui-components-docs.vercel.app/components/mui/password-input#api)
  */
 const MUIPasswordInput = ({
   fieldName,

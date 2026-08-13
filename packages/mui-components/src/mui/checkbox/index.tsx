@@ -102,9 +102,9 @@ export type MUICheckboxProps = {
  *
  * Renders its label beside the checkbox by default (via `FormControlLabel`).
  *
- * Docs: [MUICheckbox](https://mui-components-docs.vercel.app/v1/components/mui/checkbox)
+ * Docs: [MUICheckbox](https://mui-components-docs.vercel.app/components/mui/checkbox)
  *
- * API: [MUICheckboxProps](https://mui-components-docs.vercel.app/v1/components/mui/checkbox#api)
+ * API: [MUICheckboxProps](https://mui-components-docs.vercel.app/components/mui/checkbox#api)
  */
 const MUICheckbox = ({
   fieldName,

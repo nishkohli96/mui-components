@@ -198,9 +198,9 @@ export type MUIRadioGroupProps<
  * Same `Option`/`valueKey`/`labelKey` shape as `MUISelect` and
  * `MUICheckboxGroup`, so switching between them is mostly a drop-in change.
  *
- * Docs: [MUIRadioGroup](https://mui-components-docs.vercel.app/v1/components/mui/radio-group)
+ * Docs: [MUIRadioGroup](https://mui-components-docs.vercel.app/components/mui/radio-group)
  *
- * API: [MUIRadioGroupProps](https://mui-components-docs.vercel.app/v1/components/mui/radio-group#api)
+ * API: [MUIRadioGroupProps](https://mui-components-docs.vercel.app/components/mui/radio-group#api)
  */
 const MUIRadioGroup = <
   Option extends StrNumObjOption = StrNumObjOption,

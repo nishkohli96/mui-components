@@ -106,9 +106,9 @@ export type MUISwitchProps = {
  *
  * Renders its label beside the switch by default for toggling on/off.
  *
- * Docs: [MUISwitch](https://mui-components-docs.vercel.app/v1/components/mui/switch)
+ * Docs: [MUISwitch](https://mui-components-docs.vercel.app/components/mui/switch)
  *
- * API: [MUISwitchProps](https://mui-components-docs.vercel.app/v1/components/mui/switch#api)
+ * API: [MUISwitchProps](https://mui-components-docs.vercel.app/components/mui/switch#api)
  */
 const MUISwitch = ({
   fieldName,

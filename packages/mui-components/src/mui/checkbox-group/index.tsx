@@ -208,9 +208,9 @@ export type MUICheckboxGroupProps<
  * Reports both the full next `value` array and the single option value that
  * was just toggled (plus its resulting checked state) on every change.
  *
- * Docs: [MUICheckboxGroup](https://mui-components-docs.vercel.app/v1/components/mui/checkbox-group)
+ * Docs: [MUICheckboxGroup](https://mui-components-docs.vercel.app/components/mui/checkbox-group)
  *
- * API: [MUICheckboxGroupProps](https://mui-components-docs.vercel.app/v1/components/mui/checkbox-group#api)
+ * API: [MUICheckboxGroupProps](https://mui-components-docs.vercel.app/components/mui/checkbox-group#api)
  */
 const MUICheckboxGroup = <
   Option extends StrNumObjOption = StrNumObjOption,

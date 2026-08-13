@@ -711,9 +711,9 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
  *
  * Use `MUIMultiAutocomplete` when `freeSolo` is needed.
  *
- * Docs: [MUIMultiAutocompleteObject](https://mui-components-docs.vercel.app/v1/components/mui/multi-autocomplete-object)
+ * Docs: [MUIMultiAutocompleteObject](https://mui-components-docs.vercel.app/components/mui/multi-autocomplete-object)
  *
- * API: [MUIMultiAutocompleteObjectProps](https://mui-components-docs.vercel.app/v1/components/mui/multi-autocomplete-object#api)
+ * API: [MUIMultiAutocompleteObjectProps](https://mui-components-docs.vercel.app/components/mui/multi-autocomplete-object#api)
  */
 const MUIMultiAutocompleteObject = MUIMultiAutocompleteObjectInner as <
   Option extends KeyValueOption = KeyValueOption,

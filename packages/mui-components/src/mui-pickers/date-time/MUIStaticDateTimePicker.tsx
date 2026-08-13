@@ -271,9 +271,9 @@ const MUIStaticDateTimePickerInner = forwardRef(function MUIStaticDateTimePicker
  * group container instead (focusable via `tabIndex={-1}`, so callers like
  * RHF's focus-on-validation-error can still bring it into view).
  *
- * Docs: [MUIStaticDateTimePicker](https://mui-components-docs.vercel.app/v1/components/mui-pickers/date-time)
+ * Docs: [MUIStaticDateTimePicker](https://mui-components-docs.vercel.app/components/mui-pickers/date-time)
  *
- * API: [MUIStaticDateTimePickerProps](https://mui-components-docs.vercel.app/v1/components/mui-pickers/date-time#api)
+ * API: [MUIStaticDateTimePickerProps](https://mui-components-docs.vercel.app/components/mui-pickers/date-time#api)
  */
 const MUIStaticDateTimePicker = MUIStaticDateTimePickerInner as <
   TDate extends PickerValidDate = PickerValidDate
