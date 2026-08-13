@@ -318,9 +318,9 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
  * Drag-and-drop + click-to-browse file uploader, generic over `Multiple` so
  * `value` is a single `File` or an array depending on the `multiple` prop.
  *
- * Validates every file against `accept`/`maxSize`/`maxFiles` before it's
- * accepted, and can seed the field with already-uploaded files via
- * `ExistingUploadedFile`.
+ * Validates every incoming file against `accept`/`maxSize` individually;
+ * `maxFiles` caps the total across `existingFiles`, previously
+ * selected files, and the incoming batch, rejecting only the excess.
  *
  * Docs: [MUIFileUploader](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader)
  *
