@@ -6,7 +6,7 @@
 export {
   fieldNameToId,
   fieldNameToLabel,
-  colorToString,
+  validateFileList,
   getFileSize,
-  validateFileList
+  colorToString,
 } from '@/utils';
