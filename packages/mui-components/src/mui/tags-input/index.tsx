@@ -250,7 +250,7 @@ export type MUITagsInputProps = {
  * inside a `TextField`, backed by a `string[]` value.
  *
  * Tags are added on delimiter keystrokes (e.g. Enter/comma) or on paste of
- * delimiter-separated text, with duplicate detection and a `limitTags` cap
+ * delimiter-separated text, with duplicate detection and a `maxTags` cap
  * with a "+N more" overflow indicator.
  *
  * Docs: [MUITagsInput](https://mui-components-docs.vercel.app/components/mui/tags-input)

@@ -219,12 +219,11 @@ export type MUISelectProps<
 } & SelectProps;
 
 /**
- * Controlled wrapper around MUI's `Select`, driven by an `Option[]` array
- * instead of hand-written `MenuItem`s, generic over both the option shape
- * and whether selection is single or multiple.
+ * Controlled wrapper around MUI's `Select`, supporting single or multiple selection.
  *
- * Accepts plain string/number options or an array of objects via
- * `valueKey`/`labelKey`, and normalizes the emitted value/label pair for you.
+ * `options` can be plain strings/numbers, or objects. For object options, use
+ * `valueKey` and `labelKey` to specify the properties used for the value and
+ * display label, respectively.
  *
  * Docs: [MUISelect](https://mui-components-docs.vercel.app/components/mui/select)
  *
