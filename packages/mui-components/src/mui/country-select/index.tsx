@@ -537,6 +537,18 @@ const MUICountrySelectInner = forwardRef(function MUICountrySelect<
   );
 });
 
+/**
+ * `Autocomplete` preloaded with every country, generic over `ValueKey` so
+ * the emitted value can be the ISO code, dial code, or the full country
+ * object depending on what's configured.
+ *
+ * Renders each option with its flag alongside the name, and supports the
+ * same single/multi-select and clearable behavior as `MUIAutocomplete`.
+ *
+ * Docs: [MUICountrySelect](https://mui-components-docs.vercel.app/components/mui/country-select)
+ *
+ * API: [MUICountrySelectProps](https://mui-components-docs.vercel.app/components/mui/country-select#api)
+ */
 const MUICountrySelect = MUICountrySelectInner as <
   ValueKey extends CountrySelectValueKey | undefined = undefined,
   Multiple extends boolean = false,

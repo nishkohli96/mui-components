@@ -218,6 +218,17 @@ export type MUISelectProps<
   customIds?: CustomComponentIds;
 } & SelectProps;
 
+/**
+ * Controlled wrapper around MUI's `Select`, supporting single or multiple selection.
+ *
+ * `options` can be plain strings/numbers, or objects. For object options, use
+ * `valueKey` and `labelKey` to specify the properties used for the value and
+ * display label, respectively.
+ *
+ * Docs: [MUISelect](https://mui-components-docs.vercel.app/components/mui/select)
+ *
+ * API: [MUISelectProps](https://mui-components-docs.vercel.app/components/mui/select#api)
+ */
 const MUISelect = <
   Option extends StrNumObjOption = StrNumObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<

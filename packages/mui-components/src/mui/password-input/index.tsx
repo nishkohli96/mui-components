@@ -147,6 +147,16 @@ export type MUIPasswordInputProps = {
   customIds?: CustomComponentIds;
 } & InputPasswordProps;
 
+/**
+ * Controlled password `TextField` with a built-in show/hide visibility
+ * toggle icon button.
+ *
+ * Toggling visibility swaps the input `type` between `password` and `text`.
+ *
+ * Docs: [MUIPasswordInput](https://mui-components-docs.vercel.app/components/mui/password-input)
+ *
+ * API: [MUIPasswordInputProps](https://mui-components-docs.vercel.app/components/mui/password-input#api)
+ */
 const MUIPasswordInput = ({
   fieldName,
   required,

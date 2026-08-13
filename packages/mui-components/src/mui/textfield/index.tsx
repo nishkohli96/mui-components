@@ -95,6 +95,18 @@ export type MUITextFieldProps = {
   customIds?: CustomComponentIds;
 } & TextFieldProps;
 
+/**
+ * Controlled wrapper around MUI's `TextField`, wired to a `fieldName` and
+ * `value`/`onValueChange` pair instead of raw MUI input events.
+ *
+ * Handles label placement, single/multi-message error display, and helper
+ * text out of the box, so callers don't have to wire `FormHelperText`/error
+ * state by hand.
+ *
+ * Docs: [MUITextField](https://mui-components-docs.vercel.app/components/mui/textfield)
+ *
+ * API: [MUITextFieldProps](https://mui-components-docs.vercel.app/components/mui/textfield#api)
+ */
 const MUITextField = ({
   fieldName,
   required,

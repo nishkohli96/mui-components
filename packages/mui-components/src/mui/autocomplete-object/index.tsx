@@ -206,15 +206,6 @@ export type MUIAutocompleteObjectProps<
   customIds?: CustomComponentIds;
 } & OmittedAutocompleteProps<Option, Multiple, DisableClearable>;
 
-/**
- * The component is designed to work with complete option object(s) as its value.
- *
- * `freeSolo` is not supported in `MUIAutocompleteObject` as it would introduce
- * string values alongside objects (`Option | string`), making the field value
- * less predictable and type-safe.
- *
- * Use `MUIAutocomplete` instead when `freeSolo` behavior is required.
- */
 const MUIAutocompleteObjectInner = forwardRef(function MUIAutocompleteObject<
   Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<
@@ -453,6 +444,16 @@ const MUIAutocompleteObjectInner = forwardRef(function MUIAutocompleteObject<
   );
 });
 
+/**
+ * Controlled `Autocomplete` variant whose value is the whole selected
+ * option object (or objects, when `multiple`).
+ *
+ * Use `MUIAutocomplete` when `freeSolo` is needed.
+ *
+ * Docs: [MUIAutocompleteObject](https://mui-components-docs.vercel.app/components/mui/autocomplete-object)
+ *
+ * API: [MUIAutocompleteObjectProps](https://mui-components-docs.vercel.app/components/mui/autocomplete-object#api)
+ */
 const MUIAutocompleteObject = MUIAutocompleteObjectInner as <
   Option extends KeyValueOption = KeyValueOption,
   LabelKey extends Extract<keyof Option, string> = Extract<

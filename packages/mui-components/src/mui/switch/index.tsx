@@ -100,6 +100,16 @@ export type MUISwitchProps = {
   customIds?: CustomComponentIds;
 } & Omit<SwitchProps, 'name' | 'value' | 'checked' | 'defaultChecked' | 'onChange'>;
 
+/**
+ * Controlled `Switch` paired with a `FormControlLabel`, backed by a plain
+ * `boolean` value — the toggle counterpart to `MUICheckbox`.
+ *
+ * Renders its label beside the switch by default for toggling on/off.
+ *
+ * Docs: [MUISwitch](https://mui-components-docs.vercel.app/components/mui/switch)
+ *
+ * API: [MUISwitchProps](https://mui-components-docs.vercel.app/components/mui/switch#api)
+ */
 const MUISwitch = ({
   fieldName,
   value,

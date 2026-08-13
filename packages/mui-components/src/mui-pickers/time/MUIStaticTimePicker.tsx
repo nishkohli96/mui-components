@@ -262,6 +262,18 @@ const MUIStaticTimePickerInner = forwardRef(function MUIStaticTimePicker<
   );
 });
 
+/**
+ * Controlled time picker rendered always-visible and inline, with no text
+ * field to open/close — just the clock face itself.
+ *
+ * Since there's no `<input>` to attach a ref to, `ref` targets the picker's
+ * group container instead (focusable via `tabIndex={-1}`, so callers like
+ * RHF's focus-on-validation-error can still bring it into view).
+ *
+ * Docs: [MUIStaticTimePicker](https://mui-components-docs.vercel.app/components/mui-pickers/time)
+ *
+ * API: [MUIStaticTimePickerProps](https://mui-components-docs.vercel.app/components/mui-pickers/time#api)
+ */
 const MUIStaticTimePicker = MUIStaticTimePickerInner as <
   TDate extends PickerValidDate = PickerValidDate
 >(

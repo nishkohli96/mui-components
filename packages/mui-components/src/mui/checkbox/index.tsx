@@ -96,6 +96,16 @@ export type MUICheckboxProps = {
   customIds?: CustomComponentIds;
 } & CheckboxProps;
 
+/**
+ * Controlled single `Checkbox` paired with a `FormControlLabel`, backed by
+ * a plain `boolean` value.
+ *
+ * Renders its label beside the checkbox by default (via `FormControlLabel`).
+ *
+ * Docs: [MUICheckbox](https://mui-components-docs.vercel.app/components/mui/checkbox)
+ *
+ * API: [MUICheckboxProps](https://mui-components-docs.vercel.app/components/mui/checkbox#api)
+ */
 const MUICheckbox = ({
   fieldName,
   value,
