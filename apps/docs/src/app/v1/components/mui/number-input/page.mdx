@@ -5,7 +5,10 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = componentMetadata.MUINumberInput;
+export const metadata = {
+  ...componentMetadata.MUINumberInput,
+  alternates: { canonical: '/components/mui/number-input' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

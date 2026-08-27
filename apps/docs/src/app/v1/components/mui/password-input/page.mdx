@@ -5,7 +5,10 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = componentMetadata.MUIPasswordInput;
+export const metadata = {
+  ...componentMetadata.MUIPasswordInput,
+  alternates: { canonical: '/components/mui/password-input' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

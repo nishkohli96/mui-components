@@ -3,7 +3,10 @@ import { DocsPage } from '@/components/docs';
 import { pageMetadata, stackblitzFileLink } from '@/constants';
 import FolderStructure from '@/components/folder-structure';
 
-export const metadata = pageMetadata.gettingStarted;
+export const metadata = {
+  ...pageMetadata.gettingStarted,
+  alternates: { canonical: '/installation' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

@@ -2,7 +2,10 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import PickersForm from '@/forms/mui-pickers/time/Client';
 
-export const metadata = componentMetadata.MUITimePicker;
+export const metadata = {
+  ...componentMetadata.MUITimePicker,
+  alternates: { canonical: '/components/mui-pickers/time' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

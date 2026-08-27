@@ -5,7 +5,10 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = componentMetadata.MUIDateTimePicker;
+export const metadata = {
+  ...componentMetadata.MUIDateTimePicker,
+  alternates: { canonical: '/components/mui-pickers/date-time' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

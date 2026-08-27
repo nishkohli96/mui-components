@@ -7,7 +7,10 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = componentMetadata.MUIRichTextEditor;
+export const metadata = {
+  ...componentMetadata.MUIRichTextEditor,
+  alternates: { canonical: '/components/misc/rich-text-editor' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

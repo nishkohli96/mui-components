@@ -1,7 +1,10 @@
 import { DocsPage, PropsTable, AvailabilityBanner, Callout } from '@/components/docs';
 import { componentMetadata, componentPropsV1 } from '@/constants';
 
-export const metadata = componentMetadata.fieldNameToId;
+export const metadata = {
+  ...componentMetadata.fieldNameToId,
+  alternates: { canonical: '/form-helpers/fieldNameToId' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

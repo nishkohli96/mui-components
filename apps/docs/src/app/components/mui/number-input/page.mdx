@@ -2,7 +2,10 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import NumberInputForm from '@/forms/mui/number-input/Client';
 
-export const metadata = componentMetadata.MUINumberInput;
+export const metadata = {
+  ...componentMetadata.MUINumberInput,
+  alternates: { canonical: '/components/mui/number-input' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

@@ -4,8 +4,12 @@ import { buildVersionedSidebar } from '@/utils';
 import type { Page } from '@/types';
 
 function flattenHrefs(pages: Page[]): string[] {
-  return pages.flatMap(page =>
-    (page.pages ? flattenHrefs(page.pages) : page.href ? [page.href] : []));
+  return pages.flatMap(page => {
+    if (page.pages) {
+      return flattenHrefs(page.pages);
+    }
+    return page.href ? [page.href] : [];
+  });
 }
 
 /**

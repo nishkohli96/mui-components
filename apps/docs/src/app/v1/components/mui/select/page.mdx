@@ -5,7 +5,10 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = componentMetadata.MUISelect;
+export const metadata = {
+  ...componentMetadata.MUISelect,
+  alternates: { canonical: '/components/mui/select' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
