@@ -13,6 +13,13 @@ export const stackblitzLink = 'https://stackblitz.com/github/nishkohli96/mui-com
  */
 export const stackblitzFileLink = (filePath: string) => `${stackblitzLink}?file=${filePath}`;
 
+/**
+ * Source file for a component page, e.g. `/mui/textfield` (the canonical
+ * path with `/components` stripped) → .../src/mui/textfield/index.tsx.
+ */
+export const componentSourceLink = (componentSrcPath: string) =>
+  `${pkgRepoLink}packages/mui-components/src${componentSrcPath}/index.tsx`;
+
 export const externalLinks = Object.freeze({
   githubRepo: {
     countriesList: `${pkgRepoLink}packages/mui-components/src/mui/country-select/countries.ts`,

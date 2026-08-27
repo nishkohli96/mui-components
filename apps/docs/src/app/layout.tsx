@@ -52,16 +52,19 @@ export const metadata: Metadata = {
     default: defaultPageTitle
   },
   description: defaultPageDescription,
+  /*
+   * No `title`/`description` here — Next auto-inherits both from the
+   * resolved page `title`/`description` above when a page doesn't set its
+   * own `openGraph`/`twitter` object (see `inheritFromMetadata` in Next's
+   * metadata resolver). Setting them here explicitly, even to the same
+   * defaults, blocks that inheritance and pins every page to these values.
+   */
   openGraph: {
     type: 'website',
-    siteName: defaultPageTitle,
-    title: defaultPageTitle,
-    description: defaultPageDescription
+    siteName: defaultPageTitle
   },
   twitter: {
-    card: 'summary_large_image',
-    title: defaultPageTitle,
-    description: defaultPageDescription
+    card: 'summary_large_image'
   }
 };
 

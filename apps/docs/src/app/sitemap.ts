@@ -21,8 +21,12 @@ function flattenHrefs(pages: Page[]): string[] {
 export default function sitemap(): MetadataRoute.Sitemap {
   const hrefs = flattenHrefs(buildVersionedSidebar(sidebarLinks, currentDocsVersion));
 
+  /*
+   * No `lastModified` — a build timestamp would mark every URL "modified" on
+   * every deploy regardless of actual content changes, and Google already
+   * discounts a sitemap's lastmod once it stops looking trustworthy.
+   */
   return ['/', ...hrefs].map(href => ({
-    url: `${websiteUrl}${href}`,
-    lastModified: new Date()
+    url: `${websiteUrl}${href}`
   }));
 }
