@@ -6,7 +6,12 @@ export const defaultPageDescription
 
 export const pageMetadata: Record<string, Metadata> = {
   home: {
-    title: 'MUI Components',
+    /*
+     * `absolute` (not a plain string) so the root layout's `%s | MUI-Components`
+     * template doesn't append the brand name a second time to a title that
+     * already leads with it.
+     */
+    title: { absolute: 'MUI Components — Form-Library-Independent Material UI Components' },
     description:
       'Production-ready, form-library-independent Material UI components for forms or standalone use, with consistent labels, helper text and validation UI.'
   },

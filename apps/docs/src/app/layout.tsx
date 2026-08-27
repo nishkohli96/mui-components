@@ -79,6 +79,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         />
         <script
           type="application/ld+json"
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>

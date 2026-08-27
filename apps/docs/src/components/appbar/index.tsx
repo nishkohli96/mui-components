@@ -68,7 +68,8 @@ const AppBar = () => {
               alignItems: 'center',
               '& img': {
                 height: { xs: 22, md: 28 },
-                width: 'auto'
+                width: 'auto',
+                aspectRatio: '191 / 28'
               },
               '@media (max-width: 329px)': {
                 display: 'none'
