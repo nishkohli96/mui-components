@@ -28,7 +28,7 @@ export function fieldNameToLabel(str: string) {
  * Function to convert a field name/path into a DOM-safe id.
  *
  * Examples:
- * - "user.name" to "user-name"
+ * - "user.email" to "user-email"
  * - "phones[0]" to "phones-0"
  * - "user.profile@details" to "user-profile-details"
  */
