@@ -86,7 +86,8 @@ const HomeLanding = () => {
               letterSpacing: 0
             }}
           >
-            Production-ready form components for{' '}
+            Production-ready form components for
+            {' '}
             <MuiLink
               href="https://mui.com/"
               target="_blank"

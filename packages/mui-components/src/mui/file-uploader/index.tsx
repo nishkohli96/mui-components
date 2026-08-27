@@ -318,9 +318,12 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
  * Drag-and-drop + click-to-browse file uploader, generic over `Multiple` so
  * `value` is a single `File` or an array depending on the `multiple` prop.
  *
- * Validates every incoming file against `accept`/`maxSize` individually;
- * `maxFiles` caps the total across `existingFiles`, previously
- * selected files, and the incoming batch, rejecting only the excess.
+ * Validates every incoming file against `accept`/`maxSize` individually. In
+ * `multiple` mode, `maxFiles` caps the total across `existingFiles`,
+ * previously selected files, and the incoming batch, rejecting only the
+ * excess. In single-file mode, a valid incoming file replaces the current
+ * one; an invalid or excess incoming file is rejected and the current file
+ * is kept.
  *
  * Can seed the field with already-uploaded files via `ExistingUploadedFile`.
  *
@@ -444,17 +447,15 @@ const MUIFileUploader = <Multiple extends boolean = false>({
     }
 
     const incomingFiles = Array.from(files);
-    const previousFiles: File[] = multiple
-      ? Array.isArray(fieldValue)
-        ? fieldValue
-        : fieldValue instanceof File
-          ? [fieldValue]
-          : []
-      : [];
+    const previousFiles: File[] = Array.isArray(fieldValue)
+      ? fieldValue
+      : fieldValue instanceof File
+        ? [fieldValue]
+        : [];
 
     const remainingFileSlots
       = maxFiles !== undefined
-        ? Math.max(0, maxFiles - serverFileCount - previousFiles.length)
+        ? Math.max(0, maxFiles - serverFileCount - (multiple ? previousFiles.length : 0))
         : undefined;
 
     const { acceptedFiles, rejectedFiles } = validateFileList(incomingFiles, {
@@ -482,9 +483,15 @@ const MUIFileUploader = <Multiple extends boolean = false>({
       onUploadError?.(fileErrors);
     }
 
+    /*
+     * Single mode: a valid incoming file replaces the current one; an
+     * invalid/excess incoming file is rejected and the current one is kept
+     * (not wiped to `null`).
+     */
     const finalAcceptedFiles = multiple
       ? [...previousFiles, ...acceptedIncomingFiles]
-      : acceptedIncomingFiles;
+      : (acceptedIncomingFiles.length > 0 ? acceptedIncomingFiles : previousFiles);
+
     /* A multi-file field always holds an array — `[]` when nothing was accepted. */
     const newValue = multiple
       ? finalAcceptedFiles
