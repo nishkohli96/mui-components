@@ -1,7 +1,10 @@
 import { DocsPage } from '@/components/docs';
 import { pageMetadata } from '@/constants';
 
-export const metadata = pageMetadata.migrationGuide_v2;
+export const metadata = {
+  ...pageMetadata.migrationGuide_v2,
+  alternates: { canonical: '/migration-guide/v1-to-v2' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

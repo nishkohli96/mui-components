@@ -1,13 +1,24 @@
-const githubProfile = 'https://github.com/nishkohli96/';
-const pkgRepoLink = `${githubProfile}mui-components/blob/main/`;
-const cslRepo = `${githubProfile}client-server-libs/blob/main/`;
+export const githubProfile = 'https://github.com/nishkohli96';
+const pkgRepoLink = `${githubProfile}/mui-components/blob/main/`;
+const cslRepo = `${githubProfile}/client-server-libs/blob/main/`;
 
-export const githubRepoLink = 'https://github.com/nishkohli96/mui-components';
+export const githubRepoLink = `${githubProfile}/mui-components`;
 export const npmLink = 'https://www.npmjs.com/package/@nish1896/mui-components';
+export const websiteUrl = 'https://mui-components-docs.vercel.app';
 export const stackblitzLink = 'https://stackblitz.com/github/nishkohli96/mui-components/tree/v1-playground';
 
-/** StackBlitz link opened to a specific file in the v1-playground repo, e.g. `src/forms/mui/textfield/index.tsx`. */
+/**
+ * StackBlitz link opened to a specific file in the v1-playground repo.
+ * E.g. `src/forms/mui/textfield/index.tsx`.
+ */
 export const stackblitzFileLink = (filePath: string) => `${stackblitzLink}?file=${filePath}`;
+
+/**
+ * Source file for a component page, e.g. `/mui/textfield` (the canonical
+ * path with `/components` stripped) → .../src/mui/textfield/index.tsx.
+ */
+export const componentSourceLink = (componentSrcPath: string) =>
+  `${pkgRepoLink}packages/mui-components/src${componentSrcPath}/index.tsx`;
 
 export const externalLinks = Object.freeze({
   githubRepo: {

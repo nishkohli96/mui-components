@@ -2,7 +2,10 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import PasswordInputForm from '@/forms/mui/password-input/Client';
 
-export const metadata = componentMetadata.MUIPasswordInput;
+export const metadata = {
+  ...componentMetadata.MUIPasswordInput,
+  alternates: { canonical: '/components/mui/password-input' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

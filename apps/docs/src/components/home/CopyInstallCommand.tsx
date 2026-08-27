@@ -18,7 +18,7 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
         try {
           await navigator.clipboard.writeText(command);
           setCopied(true);
-          window.setTimeout(() => setCopied(false), 1600);
+          window.setTimeout(() => setCopied(false), 2000);
         } catch {
           /* Clipboard unavailable (unfocused tab / permissions) — ignore. */
         }

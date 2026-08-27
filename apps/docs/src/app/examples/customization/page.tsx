@@ -12,7 +12,10 @@ import {
 import { pageMetadata } from '@/constants';
 import StyledReusableComponentForm from '@/forms/styled-components/Client';
 
-export const metadata = pageMetadata.customizationExample;
+export const metadata = {
+  ...pageMetadata.customizationExample,
+  alternates: { canonical: '/examples/customization' }
+};
 
 const styledFiles = [
   'StyledTextField.tsx',

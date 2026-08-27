@@ -2,7 +2,10 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import AutocompleteExampleForm from '@/forms/mui/autocomplete/Client';
 
-export const metadata = componentMetadata.MUIAutocomplete;
+export const metadata = {
+  ...componentMetadata.MUIAutocomplete,
+  alternates: { canonical: '/components/mui/autocomplete' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

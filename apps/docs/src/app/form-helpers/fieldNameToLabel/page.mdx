@@ -1,7 +1,10 @@
 import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 
-export const metadata = componentMetadata.fieldNameToLabel;
+export const metadata = {
+  ...componentMetadata.fieldNameToLabel,
+  alternates: { canonical: '/form-helpers/fieldNameToLabel' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

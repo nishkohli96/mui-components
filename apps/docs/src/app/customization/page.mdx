@@ -2,7 +2,10 @@ import { DocsPage } from '@/components/docs';
 import { DefaultConfigTable } from '@/components';
 import { pageMetadata } from '@/constants';
 
-export const metadata = pageMetadata.customization;
+export const metadata = {
+  ...pageMetadata.customization,
+  alternates: { canonical: '/customization' }
+};
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

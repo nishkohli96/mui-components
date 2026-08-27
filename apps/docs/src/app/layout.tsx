@@ -5,7 +5,10 @@ import { Analytics } from '@vercel/analytics/next';
 import {
   defaultPageTitle,
   defaultPageDescription,
-  defaultPageKeywords
+  githubProfile,
+  githubRepoLink,
+  npmLink,
+  websiteUrl
 } from '@/constants';
 import AppShell from '@/components/app-shell';
 import { AppThemeProvider } from '@/theme';
@@ -15,6 +18,15 @@ import './globals.css';
 
 type RootLayoutProps = {
   children: React.ReactNode;
+};
+
+/* Person JSON-LD — identifies the site's author to AI/search crawlers. */
+const authorJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Nishant Kohli',
+  url: githubProfile,
+  sameAs: [githubRepoLink, npmLink]
 };
 
 /*
@@ -34,12 +46,26 @@ type RootLayoutProps = {
 const colorSchemeInit = `(function(){try{var m=localStorage.getItem('${modeStorageKey}')||'system';var s=m==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('${colorSchemeAttribute}',s);}catch(e){}})();`;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(websiteUrl),
   title: {
     template: `%s | ${defaultPageTitle}`,
     default: defaultPageTitle
   },
   description: defaultPageDescription,
-  keywords: defaultPageKeywords
+  /*
+   * No `title`/`description` here — Next auto-inherits both from the
+   * resolved page `title`/`description` above when a page doesn't set its
+   * own `openGraph`/`twitter` object (see `inheritFromMetadata` in Next's
+   * metadata resolver). Setting them here explicitly, even to the same
+   * defaults, blocks that inheritance and pins every page to these values.
+   */
+  openGraph: {
+    type: 'website',
+    siteName: defaultPageTitle
+  },
+  twitter: {
+    card: 'summary_large_image'
+  }
 };
 
 const RootLayout = ({ children }: RootLayoutProps) => {
@@ -50,6 +76,11 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: colorSchemeInit }}
+        />
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>

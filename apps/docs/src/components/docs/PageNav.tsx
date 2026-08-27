@@ -7,7 +7,8 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { getAdjacentPages } from '@/utils';
+import { websiteUrl, componentSourceLink } from '@/constants';
+import { getAdjacentPages, getBreadcrumbTrail, toCanonicalPath } from '@/utils';
 
 type NavCardProps = {
   href: string;
@@ -85,26 +86,95 @@ const NavCard = ({ href, title, direction }: NavCardProps) => {
 const PageNav = () => {
   const pathname = usePathname();
   const { prev, next } = getAdjacentPages(pathname);
+  const trail = getBreadcrumbTrail(pathname);
+
+  const breadcrumbJsonLd = trail.length > 0 && {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { title: 'Home', href: '/' },
+      ...trail
+    ].map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.title,
+      item: `${websiteUrl}${item.href}`
+    }))
+  };
+
+  /*
+   * `SoftwareSourceCode` on component pages only, reusing the breadcrumb
+   * trail's own last title as `name` — no per-page description wiring
+   * needed (`componentMetadata` is keyed by component name, not by path,
+   * so there's no existing map from `pathname` to it). `codeRepository`
+   * points at the component's actual source file, derived from the same
+   * canonical path (`/components/mui/textfield` → `.../mui/textfield/index.tsx`).
+   */
+  const canonicalPath = toCanonicalPath(pathname);
+  const componentSrcPath = canonicalPath.startsWith('/components/')
+    ? canonicalPath.replace('/components', '')
+    : null;
+  const componentTitle = trail.at(-1)?.title;
+  const softwareJsonLd = componentSrcPath && componentTitle && {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareSourceCode',
+    name: componentTitle,
+    codeRepository: componentSourceLink(componentSrcPath),
+    programmingLanguage: 'TypeScript',
+    url: `${websiteUrl}${pathname}`
+  };
+
+  const jsonLdBlocks = [breadcrumbJsonLd, softwareJsonLd].filter(Boolean);
+  const jsonLdScripts = jsonLdBlocks.map((block, index) => (
+    <script
+      key={index}
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(block) }}
+    />
+  ));
 
   if (!prev && !next) {
-    return null;
+    return (
+      <>
+        {jsonLdScripts}
+      </>
+    );
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: 2,
-        mt: 6,
-        pt: 3,
-        borderTop: '1px solid',
-        borderColor: 'divider'
-      }}
-    >
-      {prev ? <NavCard href={prev.href} title={prev.title} direction="prev" /> : <Box />}
-      {next ? <NavCard href={next.href} title={next.title} direction="next" /> : <Box />}
-    </Box>
+    <>
+      {jsonLdScripts}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          gap: 2,
+          mt: 6,
+          pt: 3,
+          borderTop: '1px solid',
+          borderColor: 'divider'
+        }}
+      >
+        {prev
+          ? (
+            <NavCard
+              href={prev.href}
+              title={prev.title}
+              direction="prev"
+            />
+          )
+          : <Box />}
+        {next
+          ? (
+            <NavCard
+              href={next.href}
+              title={next.title}
+              direction="next"
+            />
+          )
+          : <Box />}
+      </Box>
+    </>
   );
 };
 

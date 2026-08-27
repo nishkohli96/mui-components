@@ -4,6 +4,25 @@ import createMDX from '@next/mdx';
 const nextConfig: NextConfig = {
   /* .mdx pages compile to server components — docs ship as static HTML. */
   pageExtensions: ['ts', 'tsx', 'js', 'jsx', 'mdx'],
+  /*
+   * Docs pages are all static — no dynamic route needs a fresh response per
+   * request. Vercel's default for static HTML is `public, max-age=0,
+   * must-revalidate` (every browser must revalidate on each visit); this lets
+   * the CDN serve a cached copy for 5 minutes past a deploy while it revalidates.
+   */
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, s-maxage=300, stale-while-revalidate=86400'
+          }
+        ]
+      }
+    ];
+  },
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: 'attachment',

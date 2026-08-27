@@ -2,7 +2,10 @@ import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { pageMetadata } from '@/constants';
 import CompleteFormikForm from '@/forms/complete-forms/formik/Client';
 
-export const metadata = pageMetadata.completeFormFormik;
+export const metadata = {
+  ...pageMetadata.completeFormFormik,
+  alternates: { canonical: '/examples/formik' }
+};
 
 export default function CompleteFormikFormPage() {
   return (
