@@ -19,8 +19,6 @@ export const MUIComponentsConfigContext
  * only need to pass the keys you want to override.
  *
  * Docs: [Customization](https://mui-components-docs.vercel.app/v1/customization)
- *
- * API: [MUIComponentsConfigInput](https://mui-components-docs.vercel.app/v1/customization#api)
  */
 export const ConfigProvider = ({
   children,
