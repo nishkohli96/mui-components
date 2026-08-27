@@ -5,10 +5,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUISlider,
-  alternates: { canonical: '/components/mui/slider' }
-};
+export const metadata = componentMetadata.MUISlider;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

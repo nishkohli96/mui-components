@@ -5,10 +5,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUICheckbox,
-  alternates: { canonical: '/components/mui/checkbox' }
-};
+export const metadata = componentMetadata.MUICheckbox;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

@@ -5,10 +5,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUISwitch,
-  alternates: { canonical: '/components/mui/switch' }
-};
+export const metadata = componentMetadata.MUISwitch;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

@@ -5,10 +5,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUIColorPicker,
-  alternates: { canonical: '/components/misc/color-picker' }
-};
+export const metadata = componentMetadata.MUIColorPicker;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

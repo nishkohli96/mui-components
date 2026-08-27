@@ -5,10 +5,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUIAutocomplete,
-  alternates: { canonical: '/components/mui/autocomplete' }
-};
+export const metadata = componentMetadata.MUIAutocomplete;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

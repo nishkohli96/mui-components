@@ -1,10 +1,7 @@
 import { DocsPage } from '@/components/docs';
 import { pageMetadata } from '@/constants';
 
-export const metadata = {
-  ...pageMetadata.introduction,
-  alternates: { canonical: '/introduction' }
-};
+export const metadata = pageMetadata.introduction;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

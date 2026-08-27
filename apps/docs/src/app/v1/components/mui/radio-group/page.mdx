@@ -2,10 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentPropsV1,
   stackblitzFileLink } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUIRadioGroup,
-  alternates: { canonical: '/components/mui/radio-group' }
-};
+export const metadata = componentMetadata.MUIRadioGroup;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

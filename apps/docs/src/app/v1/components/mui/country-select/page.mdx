@@ -7,10 +7,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUICountrySelect,
-  alternates: { canonical: '/components/mui/country-select' }
-};
+export const metadata = componentMetadata.MUICountrySelect;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

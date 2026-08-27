@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { sidebarLinks, docsVersions, websiteUrl } from '@/constants';
+import { sidebarLinks, currentDocsVersion, websiteUrl } from '@/constants';
 import { buildVersionedSidebar } from '@/utils';
 import type { Page } from '@/types';
 
@@ -13,13 +13,13 @@ function flattenHrefs(pages: Page[]): string[] {
 }
 
 /**
- * Generated from `sidebarLinks`, once per docs version (`buildVersionedSidebar`
- * already applies each version's URL prefix) — stays in sync with the sidebar
- * without a separate route list to maintain.
+ * Generated from `sidebarLinks`, current version only — stays in sync with
+ * the sidebar without a separate route list to maintain. Older versions
+ * (`/v1/**`) are noindex, so they're deliberately excluded: a noindexed URL
+ * in the sitemap is a GSC "Submitted URL marked 'noindex'" error.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const hrefs = docsVersions.flatMap(version =>
-    flattenHrefs(buildVersionedSidebar(sidebarLinks, version)));
+  const hrefs = flattenHrefs(buildVersionedSidebar(sidebarLinks, currentDocsVersion));
 
   return ['/', ...hrefs].map(href => ({
     url: `${websiteUrl}${href}`,

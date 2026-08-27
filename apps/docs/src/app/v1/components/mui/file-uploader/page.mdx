@@ -7,10 +7,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUIFileUploader,
-  alternates: { canonical: '/components/mui/file-uploader' }
-};
+export const metadata = componentMetadata.MUIFileUploader;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

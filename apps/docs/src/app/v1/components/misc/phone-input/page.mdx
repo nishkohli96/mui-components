@@ -5,10 +5,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUIPhoneInput,
-  alternates: { canonical: '/components/misc/phone-input' }
-};
+export const metadata = componentMetadata.MUIPhoneInput;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

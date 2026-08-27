@@ -5,10 +5,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUIRating,
-  alternates: { canonical: '/components/mui/rating' }
-};
+export const metadata = componentMetadata.MUIRating;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

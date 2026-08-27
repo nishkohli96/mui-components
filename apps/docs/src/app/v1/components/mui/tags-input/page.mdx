@@ -5,10 +5,7 @@ import {
   stackblitzFileLink
 } from '@/constants';
 
-export const metadata = {
-  ...componentMetadata.MUITagsInput,
-  alternates: { canonical: '/components/mui/tags-input' }
-};
+export const metadata = componentMetadata.MUITagsInput;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
