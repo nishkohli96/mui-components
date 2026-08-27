@@ -4,25 +4,6 @@ export const defaultPageTitle = 'MUI-Components';
 export const defaultPageDescription
   = '25+ form-library-independent Material UI components for forms or standalone use — docs, live demos and full props reference.';
 
-export const defaultPageKeywords = [
-  'material-ui form components',
-  'mui form components',
-  'mui components',
-  '@nish1896/mui-components',
-  'form-library-independent',
-  'controlled form components',
-  'react-hook-form',
-  'tanstack form',
-  'formik',
-  'mui',
-  '@mui/material',
-  'react form validation',
-  'mui autocomplete',
-  'mui select',
-  'mui date picker',
-  'mui file upload'
-];
-
 export const pageMetadata: Record<string, Metadata> = {
   home: {
     title: 'MUI Components',
