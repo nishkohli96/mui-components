@@ -134,7 +134,11 @@ const PageNav = () => {
   ));
 
   if (!prev && !next) {
-    return <>{jsonLdScripts}</>;
+    return (
+      <>
+        {jsonLdScripts}
+      </>
+    );
   }
 
   return (
