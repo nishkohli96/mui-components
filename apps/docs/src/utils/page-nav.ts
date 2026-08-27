@@ -20,6 +20,43 @@ function flattenPages(pages: Page[]): PageInfo[] {
   });
 }
 
+/**
+ * Depth-first search for `targetHref`, collecting ancestor `{title, href}` pairs
+ * along the way (category headers with no `href` are skipped — they're not a
+ * linkable crumb).
+ */
+function findTrail(
+  pages: Page[],
+  targetHref: string,
+  trail: PageInfo[]
+): PageInfo[] | null {
+  for (const page of pages) {
+    const nextTrail = page.href
+      ? [...trail, { title: page.title, href: page.href }]
+      : trail;
+    if (page.href === targetHref) {
+      return nextTrail;
+    }
+    if (page.pages) {
+      const found = findTrail(page.pages, targetHref, nextTrail);
+      if (found) {
+        return found;
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Ancestor trail (root → current page) for `pathname`, each with its own
+ * `href` — powers the `BreadcrumbList` structured data rendered by `DocsPage`.
+ */
+export function getBreadcrumbTrail(pathname: string): PageInfo[] {
+  const version = getDocsVersion(pathname);
+  const versionedPath = toVersionedPath(version, toCanonicalPath(pathname));
+  return findTrail(buildVersionedSidebar(sidebarLinks, version), versionedPath, []) ?? [];
+}
+
 export type AdjacentPages = {
   prev?: PageInfo;
   next?: PageInfo;

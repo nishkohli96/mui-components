@@ -7,7 +7,8 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { getAdjacentPages } from '@/utils';
+import { websiteUrl } from '@/constants';
+import { getAdjacentPages, getBreadcrumbTrail } from '@/utils';
 
 type NavCardProps = {
   href: string;
@@ -85,26 +86,70 @@ const NavCard = ({ href, title, direction }: NavCardProps) => {
 const PageNav = () => {
   const pathname = usePathname();
   const { prev, next } = getAdjacentPages(pathname);
+  const trail = getBreadcrumbTrail(pathname);
+
+  const breadcrumbJsonLd = trail.length > 0 && {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { title: 'Home', href: '/' },
+      ...trail
+    ].map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.title,
+      item: `${websiteUrl}${item.href}`
+    }))
+  };
 
   if (!prev && !next) {
-    return null;
+    return breadcrumbJsonLd && (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+    );
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: 2,
-        mt: 6,
-        pt: 3,
-        borderTop: '1px solid',
-        borderColor: 'divider'
-      }}
-    >
-      {prev ? <NavCard href={prev.href} title={prev.title} direction="prev" /> : <Box />}
-      {next ? <NavCard href={next.href} title={next.title} direction="next" /> : <Box />}
-    </Box>
+    <>
+      {breadcrumbJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
+      )}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          gap: 2,
+          mt: 6,
+          pt: 3,
+          borderTop: '1px solid',
+          borderColor: 'divider'
+        }}
+      >
+        {prev
+          ? (
+            <NavCard
+              href={prev.href}
+              title={prev.title}
+              direction="prev"
+            />
+          )
+          : <Box />}
+        {next
+          ? (
+            <NavCard
+              href={next.href}
+              title={next.title}
+              direction="next"
+            />
+          )
+          : <Box />}
+      </Box>
+    </>
   );
 };
 
