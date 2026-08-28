@@ -8,7 +8,6 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { faker } from '@faker-js/faker';
 import { toast } from 'react-toastify';
 import MUISelect from '@nish1896/mui-components/mui/select';
 import {
@@ -19,26 +18,17 @@ import {
   SubmitButton,
   ResetButton
 } from '@/components';
-import { iplTeams, formSubmitEventName } from '@/constants';
+import { iplTeams, languagesList, formSubmitEventName } from '@/constants';
 import { Colors } from '@/types';
 import { logFirebaseEvent, showToastMessage } from '@/utils';
 import { FormSchema } from './validation';
 
 const randomNumbers = [23, 56, 67, 32, 68, 54, 90];
 
-const getLanguagesList = (count: number) => {
-  const languages = new Set<string>();
-  while (languages.size < count) {
-    languages.add(faker.location.language().name);
-  }
-  return Array.from(languages);
-};
-
 const initialValues = { favouriteColor: Colors.Orange };
 
 const SelectForm = () => {
   const pathName = usePathname();
-  const languagesList = useMemo(() => getLanguagesList(10), []);
   const [disableAllFields, setDisableAllFields] = useState(false);
 
   const {
