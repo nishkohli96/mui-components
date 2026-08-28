@@ -27,6 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
    * discounts a sitemap's lastmod once it stops looking trustworthy.
    */
   return ['/', ...hrefs].map(href => ({
-    url: `${websiteUrl}${href}`
+    url: `${websiteUrl}${href}`,
+    changeFrequency: 'monthly',
   }));
 }

@@ -37,7 +37,7 @@ const CopyButton = ({ code }: { code: string }) => {
     try {
       await navigator.clipboard.writeText(code);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      setTimeout(() => setCopied(false), 2000);
     } catch {
       /* Clipboard unavailable (permissions/insecure context) — ignore. */
     }

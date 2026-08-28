@@ -92,7 +92,7 @@ const HomeLanding = () => {
               href="https://mui.com/"
               target="_blank"
               rel="noopener noreferrer"
-              underline="always"
+              underline="hover"
               sx={{ color: '#007FFF', textDecorationColor: '#007FFF' }}
             >
               Material UI

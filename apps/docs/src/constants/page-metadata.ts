@@ -95,7 +95,7 @@ export const pageMetadata: Record<string, Metadata> = {
  */
 export const componentMetadata: Record<string, Metadata> = {
   MUITextField: {
-    title: 'TextField',
+    title: 'MUITextField',
     description:
       'MUITextField — a controlled Material UI text field with built-in label, error and helper-text handling. Usage, live examples and full props reference.'
   },
@@ -184,17 +184,17 @@ export const componentMetadata: Record<string, Metadata> = {
       'Controlled Material UI Rating (star) input with label and helper-text handling.'
   },
   MUIDatePicker: {
-    title: 'Date Pickers',
+    title: 'MUIDatePicker',
     description:
       'Controlled Material UI X date pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
   },
   MUITimePicker: {
-    title: 'Time Pickers',
+    title: 'MUITimePicker',
     description:
       'Controlled Material UI X time pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
   },
   MUIDateTimePicker: {
-    title: 'Date-Time Pickers',
+    title: 'MUIDateTimePicker',
     description:
       'Controlled Material UI X date-time pickers — responsive, desktop, mobile and static variants with label, error and helper-text handling.'
   },
