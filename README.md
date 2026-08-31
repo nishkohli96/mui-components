@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/main/apps/docs/public/logo.svg" width="200" />
+  <img src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/version-1/apps/docs/public/logo.svg" width="200" />
 </p>
 
 <h1>@nish1896/mui-components</h1>
@@ -25,8 +25,8 @@
 
 - Every component is designed to work out of the box with minimal configuration, allowing you to focus on building features instead of implementing core logic..
 - **Form-library-agnostic**: every component is controlled through `value` / `onValueChange`, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required.
-- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider).
-- Includes well-configured unique components like [Rich Text Editor](https://mui-components-docs.vercel.app/components/misc/rich-text-editor), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
+- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/v1/customization#configprovider).
+- Includes well-configured unique components like [Rich Text Editor](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor), [Country Select](https://mui-components-docs.vercel.app/v1/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/v1/components/mui/tags-input), saving development time.
 - Provides full control over value validation and transformation before updates are committed to the state.
 - Comprehensive docs showcasing multiple variations for each component.
 
@@ -59,7 +59,7 @@ function ProfileForm() {
 ### 📖 Documentation
 Full setup instructions, API references, and examples for every component:
 
-👉 [Documentation Website](https://mui-components-docs.vercel.app/)
+👉 [Documentation Website](https://mui-components-docs.vercel.app)
 
 ### 🧪 Playground
 
