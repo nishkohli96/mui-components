@@ -9,6 +9,7 @@ import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
 import {
   CopyInstallCommand,
   PopularComponents,
+  ComponentDirectory,
   HowItCompares,
   RHFMuiSection
 } from './components';
@@ -200,6 +201,7 @@ const HomeLanding = () => {
             );
           })}
         </Box>
+        <ComponentDirectory />
         <RHFMuiSection />
         <HowItCompares />
         <Box component="section">
@@ -213,13 +215,13 @@ const HomeLanding = () => {
               Introduction
             </MuiLink>
             {' '}
-            for the full component list, or jump straight to
+            page to have an overview about this package, or jump straight to
             {' '}
             <MuiLink href="/installation" underline="hover">
               Installation
             </MuiLink>
             {' '}
-            to add the package and wire up your first field.
+            section to add the package and wire up your first field.
           </Typography>
         </Box>
       </Container>

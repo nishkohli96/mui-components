@@ -59,7 +59,8 @@ export const metadata: Metadata = {
    */
   openGraph: {
     type: 'website',
-    siteName: defaultPageTitle
+    siteName: defaultPageTitle,
+    url: './'
   },
   twitter: {
     card: 'summary_large_image'

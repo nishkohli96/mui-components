@@ -7,8 +7,14 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { websiteUrl, componentSourceLink } from '@/constants';
+import {
+  websiteUrl,
+  componentSourceLink,
+  defaultPageTitle,
+  personalWebsite
+} from '@/constants';
 import { getAdjacentPages, getBreadcrumbTrail, toCanonicalPath } from '@/utils';
+import lastmodMap from '@/generated/sitemap-lastmod.json';
 
 type NavCardProps = {
   href: string;
@@ -125,7 +131,29 @@ const PageNav = () => {
     url: `${websiteUrl}${pathname}`
   };
 
-  const jsonLdBlocks = [breadcrumbJsonLd, softwareJsonLd].filter(Boolean);
+  /*
+   * `TechArticle` for the doc page itself (component pages only), alongside the
+   * `SoftwareSourceCode` for the code it documents. `dateModified` reuses the
+   * per-route git commit date already generated for the sitemap — no
+   * per-page description map exists, so `headline` is the only text.
+   */
+  const lastmod: Record<string, string> = lastmodMap;
+  const techArticleJsonLd = componentSrcPath && componentTitle && {
+    '@context': 'https://schema.org',
+    '@type': 'TechArticle',
+    headline: componentTitle,
+    url: `${websiteUrl}${pathname}`,
+    ...(lastmod[canonicalPath] && { dateModified: lastmod[canonicalPath] }),
+    author: { '@type': 'Person', name: 'Nishant Kohli', url: personalWebsite },
+    isPartOf: { '@type': 'WebSite', name: defaultPageTitle, url: websiteUrl },
+    about: { '@type': 'SoftwareSourceCode', name: componentTitle }
+  };
+
+  const jsonLdBlocks = [
+    breadcrumbJsonLd,
+    softwareJsonLd,
+    techArticleJsonLd
+  ].filter(Boolean);
   const jsonLdScripts = jsonLdBlocks.map((block, index) => (
     <script
       key={index}

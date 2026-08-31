@@ -4,14 +4,13 @@
   "private": true,
   "author": "Nishant Kohli",
   "scripts": {
-    "predev": "node scripts/gen-sitemap-lastmod.mjs",
-    "dev": "next dev -p 3000",
-    "prebuild": "node scripts/gen-sitemap-lastmod.mjs",
-    "build": "pnpm prebuild && next build",
+    "gen:sitemap-lastmod": "node scripts/gen-sitemap-lastmod.mjs",
+    "dev": "pnpm run gen:sitemap-lastmod && next dev -p 3000",
+    "build": "pnpm run gen:sitemap-lastmod && next build",
     "start": "next start -p 3000",
     "lint": "eslint --fix .",
     "typecheck": "next typegen && tsc --noEmit",
-    "prod": "next build && next start"
+    "prod": "pnpm run build && next start"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-react": "^9.0.0",
