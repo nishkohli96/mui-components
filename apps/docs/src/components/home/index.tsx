@@ -11,6 +11,7 @@ import Typography from '@mui/material/Typography';
 import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
 import CopyInstallCommand from './CopyInstallCommand';
 import PopularComponents from './PopularComponents';
+import RHFMuiSection from './RHFMuiSection';
 
 const installCommand = 'npm install @nish1896/mui-components';
 
@@ -200,6 +201,7 @@ const HomeLanding = () => {
             );
           })}
         </Box>
+        <RHFMuiSection />
       </Container>
       <Footer />
     </Box>
