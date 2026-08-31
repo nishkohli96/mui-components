@@ -14,7 +14,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
-import { sidebarLinks } from '@/constants';
+import { appName, sidebarLinks } from '@/constants';
 import { type Page } from '@/types';
 import { buildVersionedSidebar, getDocsVersion } from '@/utils';
 import {
@@ -236,7 +236,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
           >
             <Image
               src={'/wordmark.svg'}
-              alt="MUI Components"
+              alt={appName}
               priority
               width={175}
               height={28}

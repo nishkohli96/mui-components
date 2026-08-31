@@ -3,6 +3,7 @@ import Image from 'next/image';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import { appName } from '@/constants';
 import DrawerMenu from './DrawerMenu';
 import VersionSwitcher from '../version-switcher';
 import {
@@ -79,7 +80,7 @@ const AppBar = () => {
           >
             <Image
               src={'/wordmark.svg'}
-              alt="MUI Components"
+              alt={appName}
               priority
               width={175}
               height={28}

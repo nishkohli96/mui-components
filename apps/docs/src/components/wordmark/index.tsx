@@ -1,5 +1,6 @@
 import { Poppins } from 'next/font/google';
 import Box, { type BoxProps } from '@mui/material/Box';
+import { appName } from '@/constants';
 
 const poppinsBold = Poppins({
   subsets: ['latin'],
@@ -34,7 +35,7 @@ const Wordmark = ({ sx, ...otherProps }: WordmarkProps) => {
       }}
       {...otherProps}
     >
-      MUI Components
+      {appName}
     </Box>
   );
 };

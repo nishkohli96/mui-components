@@ -3,7 +3,7 @@ import {
   sidebarLinks,
   currentDocsVersion,
   websiteUrl,
-  defaultPageTitle,
+  appName,
   defaultPageDescription
 } from '@/constants';
 import { buildVersionedSidebar } from '@/utils';
@@ -26,7 +26,7 @@ function toMarkdownLines(pages: Page[], depth = 0): string[] {
  */
 export function GET() {
   const lines = [
-    `# ${defaultPageTitle}`,
+    `# ${appName}`,
     '',
     `> ${defaultPageDescription}`,
     '',

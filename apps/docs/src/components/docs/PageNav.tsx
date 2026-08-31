@@ -10,7 +10,7 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import {
   websiteUrl,
   componentSourceLink,
-  defaultPageTitle,
+  appName,
   personalWebsite
 } from '@/constants';
 import { getAdjacentPages, getBreadcrumbTrail, toCanonicalPath } from '@/utils';
@@ -145,7 +145,7 @@ const PageNav = () => {
     url: `${websiteUrl}${pathname}`,
     ...(lastmod[canonicalPath] && { dateModified: lastmod[canonicalPath] }),
     author: { '@type': 'Person', name: 'Nishant Kohli', url: personalWebsite },
-    isPartOf: { '@type': 'WebSite', name: defaultPageTitle, url: websiteUrl },
+    isPartOf: { '@type': 'WebSite', name: appName, url: websiteUrl },
     about: { '@type': 'SoftwareSourceCode', name: componentTitle }
   };
 

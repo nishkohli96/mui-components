@@ -7,7 +7,7 @@ import {
   githubProfile,
   githubRepoLink,
   npmLink,
-  defaultPageTitle,
+  appName,
   defaultPageDescription
 } from '@/constants';
 
@@ -24,7 +24,7 @@ const homeJsonLd = {
   '@graph': [
     {
       '@type': 'WebSite',
-      name: defaultPageTitle,
+      name: appName,
       url: websiteUrl
     },
     {

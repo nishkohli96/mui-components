@@ -79,7 +79,7 @@ export default function RHFMuiSection() {
         endIcon={<ArrowForwardRoundedIcon />}
         sx={{ mt: 3 }}
       >
-        Explore RHF-Mui Components
+        Explore RHF-MUI Components
       </GradientButton>
     </Paper>
   );
