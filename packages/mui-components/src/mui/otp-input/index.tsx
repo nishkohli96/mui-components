@@ -400,21 +400,20 @@ const MUIOTPInput = ({
               )}
               slotProps={{
                 ...textFieldProps?.slotProps,
-                htmlInput: {
-                  ...textFieldProps?.slotProps?.htmlInput,
-                  maxLength: 1,
-                  inputMode: alphanumeric ? 'text' : 'numeric',
-                  /*
-                   * Per-box name only — no `aria-labelledby`. With both set,
-                   * `aria-labelledby` would win and every box would announce
-                   * identically, losing the character position. The group is
-                   * named via `role="group"` on the wrapper instead.
-                   */
-                  'aria-label': `${accessibleFieldLabel} — character ${index + 1} of ${length}`,
-                  'aria-describedby': showHelperTextElement
-                    ? (isError ? errorId : helperTextId)
-                    : undefined,
-                  'aria-required': required
+                htmlInput: ownerState => {
+                  const callerHtmlInput = textFieldProps?.slotProps?.htmlInput;
+                  return {
+                    ...(typeof callerHtmlInput === 'function'
+                      ? callerHtmlInput(ownerState)
+                      : callerHtmlInput),
+                    maxLength: 1,
+                    inputMode: alphanumeric ? 'text' : 'numeric',
+                    'aria-label': `${accessibleFieldLabel} — character ${index + 1} of ${length}`,
+                    'aria-describedby': showHelperTextElement
+                      ? (isError ? errorId : helperTextId)
+                      : undefined,
+                    'aria-required': required
+                  };
                 }
               }}
             />
