@@ -1,7 +1,4 @@
-'use client';
-
 import Image from 'next/image';
-import Link from 'next/link';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -145,7 +142,6 @@ const HomeLanding = () => {
             <CopyInstallCommand command={installCommand} />
           </Paper>
           <GradientButton
-            component={Link}
             href="/introduction"
             endIcon={<ArrowForwardRoundedIcon />}
             sx={{ mt: 3 }}

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
@@ -43,7 +42,7 @@ const PopularComponents = () => (
       {popularComponents.map(component => (
         <Chip
           key={component.title}
-          component={Link}
+          component="a"
           href={component.href}
           label={component.title}
           clickable
@@ -51,6 +50,8 @@ const PopularComponents = () => (
           size="small"
           sx={{
             fontWeight: 600,
+            height: 'auto',
+            '& .MuiChip-label': { px: 1.5, py: 0.6 },
             '&:hover': {
               borderColor: 'primary.main',
               color: 'primary.main',
