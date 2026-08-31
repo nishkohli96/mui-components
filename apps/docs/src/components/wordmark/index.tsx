@@ -34,7 +34,7 @@ const Wordmark = ({ sx, ...otherProps }: WordmarkProps) => {
       }}
       {...otherProps}
     >
-      MUI-Components
+      MUI Components
     </Box>
   );
 };

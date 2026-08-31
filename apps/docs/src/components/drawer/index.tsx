@@ -222,7 +222,13 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
             sx={{
               display: { xs: 'flex', md: 'none' },
               alignItems: 'center',
-              ml: 1,
+              ml: 1.25,
+              '& img': {
+                height: 28,
+                width: 'auto',
+                /* wordmark.svg intrinsic viewBox is 530.5 × 85 */
+                aspectRatio: '530.5 / 85'
+              },
               '@media (max-width: 479px)': {
                 display: 'none'
               }

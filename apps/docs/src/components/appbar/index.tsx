@@ -69,7 +69,8 @@ const AppBar = () => {
               '& img': {
                 height: { xs: 22, md: 28 },
                 width: 'auto',
-                aspectRatio: '191 / 28'
+                /* wordmark.svg intrinsic viewBox is 530.5 × 85 */
+                aspectRatio: '530.5 / 85'
               },
               '@media (max-width: 329px)': {
                 display: 'none'
@@ -80,7 +81,7 @@ const AppBar = () => {
               src={'/wordmark.svg'}
               alt="MUI Components"
               priority
-              width={191}
+              width={175}
               height={28}
             />
           </Box>
