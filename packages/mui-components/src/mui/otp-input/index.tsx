@@ -12,13 +12,14 @@ import {
   type Ref
 } from 'react';
 import Box from '@mui/material/Box';
-import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
+import MuiTextField from '@mui/material/TextField';
 import {
   FormControl,
   FormLabel,
   FormHelperText,
   type FormLabelProps,
-  type FormHelperTextProps
+  type FormHelperTextProps,
+  type TextFieldProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
@@ -54,19 +55,16 @@ type OnValueChangeProps = {
  */
 type OTPTextFieldProps = Omit<
   TextFieldProps,
-  | 'name'
-  | 'id'
-  | 'value'
-  | 'onChange'
+  | 'disabled'
+  | 'autoFocus'
+  | 'onFocus'
   | 'onKeyDown'
   | 'onPaste'
-  | 'error'
   | 'multiline'
   | 'rows'
   | 'minRows'
   | 'maxRows'
   | 'inputRef'
-  | 'ref'
 >;
 
 export type MUIOTPInputProps = {
@@ -396,6 +394,7 @@ const MUIOTPInput = ({
                   mergeRefs(inputRef)(el);
                 }
               }}
+              multiline={false}
               sx={mergeSx(
                 { width: 48, '& input': { textAlign: 'center' } },
                 textFieldProps?.sx
