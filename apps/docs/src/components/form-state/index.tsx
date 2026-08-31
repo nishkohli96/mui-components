@@ -6,9 +6,9 @@ import Paper from '@mui/material/Paper';
 import { type JsonObject } from '@/types';
 import { SubHeading } from '../page-heading';
 
-/** react-json-view touches `document` at module load; load only in the browser for SSG/SSR. */
+/** @microlink/react-json-view touches `document` at module load; load only in the browser for SSG/SSR. */
 const ReactJson = dynamic(
-  () => import('react-json-view').then(mod => mod.default),
+  () => import('@microlink/react-json-view').then(mod => mod.default),
   { ssr: false }
 );
 
