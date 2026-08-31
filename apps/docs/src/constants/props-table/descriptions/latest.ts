@@ -52,7 +52,7 @@ export const PropsDescription = Object.freeze({
   value_OTPInput: {
     name: 'value',
     description:
-      'Current code, as a single string with no separators (e.g. `\'123456\'`). This is a controlled component — `value` and `onValueChange` must be supplied together. `undefined` is treated as an empty code.',
+      'Current code, as a single string with no separators (e.g. `\'123456\'`). This is a controlled component — `value` and `onValueChange` must be supplied together. `undefined` is treated as an empty code. Only the first `length` characters are shown and editable — a longer `value` (or shrinking `length`) drops the overflow from the next `onValueChange`, so keep `value.length <= length`.',
     type: 'string'
   },
   value_TagsInput: {

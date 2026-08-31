@@ -98,7 +98,8 @@ const PageNav = () => {
       '@type': 'ListItem',
       position: index + 1,
       name: item.title,
-      item: `${websiteUrl}${item.href}`
+      /* Home is `''` not `/`, so its URL matches the slash-less home canonical. */
+      item: `${websiteUrl}${item.href === '/' ? '' : item.href}`
     }))
   };
 

@@ -4,10 +4,13 @@
   "private": true,
   "author": "Nishant Kohli",
   "scripts": {
+    "predev": "node scripts/gen-sitemap-lastmod.mjs",
     "dev": "next dev -p 3000",
-    "build": "next build",
+    "prebuild": "node scripts/gen-sitemap-lastmod.mjs",
+    "build": "pnpm prebuild && next build",
     "start": "next start -p 3000",
     "lint": "eslint --fix .",
+    "typecheck": "next typegen && tsc --noEmit",
     "prod": "next build && next start"
   },
   "dependencies": {

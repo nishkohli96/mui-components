@@ -77,7 +77,9 @@ export type MUIOTPInputProps = {
   /**
    * Current code value, as a single string with no separators (e.g. `'123456'`).
    *
-   * `undefined` is treated as an empty code.
+   * `undefined` is treated as an empty code. Only the first `length` characters
+   * are shown and editable — a longer `value` (or shrinking `length`) drops the
+   * overflow from the next `onValueChange`, so keep `value.length <= length`.
    */
   value?: string;
   /**
@@ -256,6 +258,10 @@ const MUIOTPInput = ({
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const inputValueChars = Array.from({ length }, (_, index) => value?.[index] ?? '');
 
+  /* First empty box, or box 0 when the code is already complete. */
+  const filledCount = value?.length ?? 0;
+  const autoFocusIndex = filledCount >= length ? 0 : filledCount;
+
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
   const fieldErrorMessage = isError
@@ -383,7 +389,7 @@ const MUIOTPInput = ({
               disabled={muiDisabled}
               error={isError}
               // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus={autoFocus && index === Math.min(value?.length ?? 0, length - 1)}
+              autoFocus={autoFocus && index === autoFocusIndex}
               inputRef={el => {
                 inputRefs.current[index] = el;
                 if (index === 0) {
