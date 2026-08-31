@@ -29,6 +29,9 @@ character, backed by a single string `value` with no separators.
 - `separatorIndexes` renders a `separator` (default `'-'`) after the given
   zero-based indexes — e.g. `separatorIndexes={[2, 6]}` with `length={10}`
   renders as `*** - **** - ***`.
+- There is no inline label. The label is hidden unless `showLabelAboveFormField`
+  (or the `allLabelsAboveFields` config) renders it above the boxes; either way
+  the accessible name is applied to every box.
 
 ## Usage
 

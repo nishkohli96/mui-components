@@ -365,6 +365,12 @@ export const PropsDescription = Object.freeze({
       'Whether the field label renders above the control. This control has no built-in inline label, so it defaults to `true`; pass `false` to hide the visible label (the accessible name is still applied).\n\n**Default:** `true`',
     type: 'boolean'
   },
+  showLabelAboveFormField_OTPInput: {
+    name: 'showLabelAboveFormField',
+    description:
+      'Renders the field label above the boxes. The label is otherwise hidden — there is no inline label, but the accessible name is still applied to every box. Set the value to `true` to render the `FormLabel` for this field.\n\n**Default:** `false`',
+    type: 'boolean'
+  },
   formLabelProps: (args: PropsDescriptionArgs) => ({
     name: 'formLabelProps',
     description: `[FormLabelProps](${muiDocsUrl(args.muiVersion)}/api/form-label/) forwarded to the internal \`FormLabel\`. The \`id\` is managed by the component. Multiple fields can be configured using the \`ConfigProvider\` component.`,
