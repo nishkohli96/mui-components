@@ -35,7 +35,7 @@
 ### 📖 Documentation
 Full setup instructions, API references, and examples for every component:
 
-👉 [Documentation Website](https://mui-components-docs.vercel.app/v1/)
+👉 [Documentation Website](https://mui-components-docs.vercel.app)
 
 ### 🧪 Playground
 

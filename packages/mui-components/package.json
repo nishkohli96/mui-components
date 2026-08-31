@@ -86,6 +86,8 @@
     "file-upload",
     "tags-input",
     "tree-shakable",
-    "react-file-uploader"
+    "react-file-uploader",
+    "react otp input",
+    "otp-input"
   ]
 }
