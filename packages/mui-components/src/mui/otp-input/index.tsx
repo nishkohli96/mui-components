@@ -12,13 +12,14 @@ import {
   type Ref
 } from 'react';
 import Box from '@mui/material/Box';
-import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
+import MuiTextField from '@mui/material/TextField';
 import {
   FormControl,
   FormLabel,
   FormHelperText,
   type FormLabelProps,
-  type FormHelperTextProps
+  type FormHelperTextProps,
+  type TextFieldProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
@@ -54,19 +55,16 @@ type OnValueChangeProps = {
  */
 type OTPTextFieldProps = Omit<
   TextFieldProps,
-  | 'name'
-  | 'id'
-  | 'value'
-  | 'onChange'
+  | 'disabled'
+  | 'autoFocus'
+  | 'onFocus'
   | 'onKeyDown'
   | 'onPaste'
-  | 'error'
   | 'multiline'
   | 'rows'
   | 'minRows'
   | 'maxRows'
   | 'inputRef'
-  | 'ref'
 >;
 
 export type MUIOTPInputProps = {
@@ -77,7 +75,9 @@ export type MUIOTPInputProps = {
   /**
    * Current code value, as a single string with no separators (e.g. `'123456'`).
    *
-   * `undefined` is treated as an empty code.
+   * `undefined` is treated as an empty code. Only the first `length` characters
+   * are shown and editable — a longer `value` (or shrinking `length`) drops the
+   * overflow from the next `onValueChange`, so keep `value.length <= length`.
    */
   value?: string;
   /**
@@ -256,6 +256,10 @@ const MUIOTPInput = ({
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const inputValueChars = Array.from({ length }, (_, index) => value?.[index] ?? '');
 
+  /* First empty box, or box 0 when the code is already complete. */
+  const filledCount = value?.length ?? 0;
+  const autoFocusIndex = filledCount >= length ? 0 : filledCount;
+
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
   const fieldErrorMessage = isError
@@ -383,18 +387,20 @@ const MUIOTPInput = ({
               disabled={muiDisabled}
               error={isError}
               // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus={autoFocus && index === Math.min(value?.length ?? 0, length - 1)}
+              autoFocus={autoFocus && index === autoFocusIndex}
               inputRef={el => {
                 inputRefs.current[index] = el;
                 if (index === 0) {
                   mergeRefs(inputRef)(el);
                 }
               }}
-              sx={mergeSx({ width: 48 }, textFieldProps?.sx)}
+              sx={mergeSx(
+                { width: 48, '& input': { textAlign: 'center' } },
+                textFieldProps?.sx
+              )}
               slotProps={{
                 ...textFieldProps?.slotProps,
                 htmlInput: {
-                  style: { textAlign: 'center' },
                   ...textFieldProps?.slotProps?.htmlInput,
                   maxLength: 1,
                   inputMode: alphanumeric ? 'text' : 'numeric',
