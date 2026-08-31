@@ -12,6 +12,7 @@ const otpInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.alphanumeric,
   resolveProp(P.textFieldProps_OTPInput, args),
   P.autoFocus_OTPInput,
+  P.inputRef_OTPInput,
   P.label,
   P.showLabelAboveFormField_OTPInput,
   resolveProp(P.formLabelProps, args),

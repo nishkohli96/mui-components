@@ -8,7 +8,8 @@ import {
   type ClipboardEvent,
   type FocusEvent,
   type KeyboardEvent,
-  type ReactNode
+  type ReactNode,
+  type Ref
 } from 'react';
 import Box from '@mui/material/Box';
 import MuiTextField, { type TextFieldProps } from '@mui/material/TextField';
@@ -26,7 +27,8 @@ import {
   keepLabelAboveFormField,
   useFieldIds,
   getErrorList,
-  mergeSx
+  mergeSx,
+  mergeRefs
 } from '@/utils';
 
 type OTPChangeEvent
@@ -182,6 +184,12 @@ export type MUIOTPInputProps = {
    */
   autoFocus?: boolean;
   /**
+   * Ref to the first character box's `<input>` element — use it to
+   * imperatively focus the field (e.g. React Hook Form's `setFocus` or
+   * focus-on-error handling).
+   */
+  inputRef?: Ref<HTMLInputElement>;
+  /**
    * Props forwarded to every internal MUI `TextField` character box — e.g.
    * a custom `size`, `variant` or `sx`.
    */
@@ -225,6 +233,7 @@ const MUIOTPInput = ({
   formHelperTextProps,
   disabled: muiDisabled,
   autoFocus,
+  inputRef,
   textFieldProps,
   customIds
 }: MUIOTPInputProps) => {
@@ -377,6 +386,9 @@ const MUIOTPInput = ({
               autoFocus={autoFocus && index === Math.min(value?.length ?? 0, length - 1)}
               inputRef={el => {
                 inputRefs.current[index] = el;
+                if (index === 0) {
+                  mergeRefs(inputRef)(el);
+                }
               }}
               sx={mergeSx({ width: 48 }, textFieldProps?.sx)}
               slotProps={{

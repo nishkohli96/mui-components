@@ -636,6 +636,12 @@ export const PropsDescription = Object.freeze({
     description: 'Ref for the hidden file `<input>` element.',
     type: 'Ref<HTMLInputElement>'
   },
+  inputRef_OTPInput: {
+    name: 'inputRef',
+    description:
+      'Ref to the first character box\'s `<input>` element — use it to imperatively focus the field (e.g. React Hook Form\'s `setFocus` or focus-on-error handling).',
+    type: 'Ref<HTMLInputElement>'
+  },
   fullWidth_FileUploader: {
     name: 'fullWidth',
     description: 'When true, the component expands to fill its container width.\n\n**Default:** `false`',
