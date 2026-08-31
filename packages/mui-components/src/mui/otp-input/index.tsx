@@ -25,7 +25,8 @@ import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 
 type OTPChangeEvent
@@ -354,7 +355,11 @@ const MUIOTPInput = ({
           htmlFor: `${fieldId}-0`
         }}
       />
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+      <Box
+        role="group"
+        aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+      >
         {inputValueChars.map((char, index) => (
           <Fragment key={index}>
             <MuiTextField
@@ -373,7 +378,7 @@ const MUIOTPInput = ({
               inputRef={el => {
                 inputRefs.current[index] = el;
               }}
-              sx={{ width: 48, ...textFieldProps?.sx }}
+              sx={mergeSx({ width: 48 }, textFieldProps?.sx)}
               slotProps={{
                 ...textFieldProps?.slotProps,
                 htmlInput: {
@@ -381,7 +386,12 @@ const MUIOTPInput = ({
                   ...textFieldProps?.slotProps?.htmlInput,
                   maxLength: 1,
                   inputMode: alphanumeric ? 'text' : 'numeric',
-                  'aria-labelledby': isLabelAboveFormField ? labelId : undefined,
+                  /*
+                   * Per-box name only — no `aria-labelledby`. With both set,
+                   * `aria-labelledby` would win and every box would announce
+                   * identically, losing the character position. The group is
+                   * named via `role="group"` on the wrapper instead.
+                   */
                   'aria-label': `${accessibleFieldLabel} — character ${index + 1} of ${length}`,
                   'aria-describedby': showHelperTextElement
                     ? (isError ? errorId : helperTextId)
