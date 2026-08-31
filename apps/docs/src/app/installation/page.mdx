@@ -1,6 +1,5 @@
 import { DocsPage } from '@/components/docs';
 import { pageMetadata } from '@/constants';
-import FolderStructure from '@/components/folder-structure';
 
 export const metadata = pageMetadata.gettingStarted;
 
@@ -45,27 +44,6 @@ are encouraged to use default import syntax to [reduce bundle size](https://mui.
 
 The type for each component can also be imported to modify or customize an 
 existing component.
-
-## Package structure
-
-Components are available through focused subpath exports, so applications only
-import the modules they use.
-
-Click a folder to expand its contents and view the form components available for that module.
-
-<FolderStructure />
-
-- **mui** - Includes core Material-UI components such as TextField, 
-Select, and others.
-- **mui-pickers** - Contains Material-UI date and 
-time picker components, along with their variations - `Desktop`, `Mobile` and `Static`.
-- **misc** -  Features external form components, such as the rich text editor, that are not
-part of Material-UI.
-- **config** - Provides a Context Provider to set default styles 
-for all components and configure the `dateAdapter` for date and time pickers.
-- **form-helpers** - Utility functions used internally by the components,
-which can also be leveraged by developers for processing and validating form data.
-
 
 ## Quick start
 

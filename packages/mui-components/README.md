@@ -57,8 +57,9 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
 
 - **mui**
   - [TextField](https://mui-components-docs.vercel.app/components/mui/textfield)
-  - [Number Input](https://mui-components-docs.vercel.app/components/mui/number-input)
   - [Password Input](https://mui-components-docs.vercel.app/components/mui/password-input)
+  - [Number Input](https://mui-components-docs.vercel.app/components/mui/number-input)
+  - [OTP Input](https://mui-components-docs.vercel.app/components/mui/otp-input)
   - [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input)
   - [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader)
   - [Select](https://mui-components-docs.vercel.app/components/mui/select)
