@@ -134,8 +134,10 @@ const PageNav = () => {
   /*
    * `TechArticle` for the doc page itself (component pages only), alongside the
    * `SoftwareSourceCode` for the code it documents. `dateModified` reuses the
-   * per-route git commit date already generated for the sitemap — no
-   * per-page description map exists, so `headline` is the only text.
+   * per-route git author date generated for the sitemap — keyed by the real
+   * `pathname` (version prefix kept), since `/v1/...` pages have their own
+   * date distinct from the current version's. No per-page description map
+   * exists, so `headline` is the only text.
    */
   const lastmod: Record<string, string> = lastmodMap;
   const techArticleJsonLd = componentSrcPath && componentTitle && {
@@ -143,7 +145,7 @@ const PageNav = () => {
     '@type': 'TechArticle',
     headline: componentTitle,
     url: `${websiteUrl}${pathname}`,
-    ...(lastmod[canonicalPath] && { dateModified: lastmod[canonicalPath] }),
+    ...(lastmod[pathname] && { dateModified: lastmod[pathname] }),
     author: { '@type': 'Person', name: 'Nishant Kohli', url: personalWebsite },
     isPartOf: { '@type': 'WebSite', name: appName, url: websiteUrl },
     about: { '@type': 'SoftwareSourceCode', name: componentTitle }
