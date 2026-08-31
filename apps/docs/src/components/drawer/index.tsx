@@ -14,7 +14,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
-import { sidebarLinks } from '@/constants';
+import { appName, sidebarLinks } from '@/constants';
 import { type Page } from '@/types';
 import { buildVersionedSidebar, getDocsVersion } from '@/utils';
 import {
@@ -222,7 +222,13 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
             sx={{
               display: { xs: 'flex', md: 'none' },
               alignItems: 'center',
-              ml: 1,
+              ml: 1.25,
+              '& img': {
+                height: 28,
+                width: 'auto',
+                /* wordmark.svg intrinsic viewBox is 530.5 × 85 */
+                aspectRatio: '530.5 / 85'
+              },
               '@media (max-width: 479px)': {
                 display: 'none'
               }
@@ -230,7 +236,7 @@ const Drawer = ({ onNavigate }: DrawerProps) => {
           >
             <Image
               src={'/wordmark.svg'}
-              alt="MUI Components"
+              alt={appName}
               priority
               width={175}
               height={28}

@@ -12,9 +12,10 @@ const popularComponents = [
 ];
 
 /**
- * Quick links to the most-searched-for component pages, rendered on the
- * homepage below the "Get Started" button — gives search/AI crawlers
- * (and first-time visitors) a shortcut past the sidebar to real docs pages.
+ * Curated shortlist of component pages, rendered on the homepage below the
+ * "Get Started" button — the always-visible internal links to real docs pages
+ * (the full directory further down is collapsed by default). Each links to a
+ * page with a live demo, so the heading invites a click.
  */
 const PopularComponents = () => (
   <Box sx={{ mt: 4 }}>
@@ -29,7 +30,7 @@ const PopularComponents = () => (
         fontWeight: 600
       }}
     >
-      Popular components
+      See it in action
     </Typography>
     <Box
       sx={{

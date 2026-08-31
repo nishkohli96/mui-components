@@ -3,6 +3,7 @@ import Image from 'next/image';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import { appName } from '@/constants';
 import DrawerMenu from './DrawerMenu';
 import VersionSwitcher from '../version-switcher';
 import {
@@ -69,7 +70,8 @@ const AppBar = () => {
               '& img': {
                 height: { xs: 22, md: 28 },
                 width: 'auto',
-                aspectRatio: '191 / 28'
+                /* wordmark.svg intrinsic viewBox is 530.5 × 85 */
+                aspectRatio: '530.5 / 85'
               },
               '@media (max-width: 329px)': {
                 display: 'none'
@@ -78,9 +80,9 @@ const AppBar = () => {
           >
             <Image
               src={'/wordmark.svg'}
-              alt="MUI Components"
+              alt={appName}
               priority
-              width={191}
+              width={175}
               height={28}
             />
           </Box>

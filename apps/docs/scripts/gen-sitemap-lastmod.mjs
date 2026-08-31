@@ -1,7 +1,8 @@
 /*
  * Emits src/generated/sitemap-lastmod.json — a { "/route": "<ISO date>" } map
- * of each App Router page's last git commit date. Run by the `prebuild` /
- * `predev` npm scripts.
+ * of each App Router page's last **author** date (`%aI`), i.e. when the page's
+ * content actually last changed. Not committer date (`%cI`, which a rebase or
+ * amend rewrites) and not build/deploy time. Run before `dev` / `build`.
  *
  * Why a build step and not inline in app/sitemap.ts: doing fs + `git` access
  * from a module in the app bundle makes Turbopack trace the whole project
@@ -47,7 +48,7 @@ for (const file of walkPages(appDir)) {
   const rel = relative(appDir, dirname(file)).replace(/\\/g, '/');
   const route = rel === '' ? '/' : `/${rel}`;
   try {
-    const iso = execFileSync('git', ['log', '-1', '--format=%cI', '--', file], {
+    const iso = execFileSync('git', ['log', '-1', '--format=%aI', '--', file], {
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'ignore']
     }).trim();

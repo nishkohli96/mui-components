@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from '@vercel/analytics/next';
 import {
-  defaultPageTitle,
+  appName,
   defaultPageDescription,
   githubProfile,
   websiteUrl
@@ -37,11 +37,11 @@ const colorSchemeInit = `(function(){try{var m=localStorage.getItem('${modeStora
 export const metadata: Metadata = {
   metadataBase: new URL(websiteUrl),
   title: {
-    template: `%s | ${defaultPageTitle}`,
-    default: defaultPageTitle
+    template: `%s | ${appName}`,
+    default: appName
   },
   description: defaultPageDescription,
-  applicationName: defaultPageTitle,
+  applicationName: appName,
   authors: [{ name: 'Nishant Kohli', url: githubProfile }],
   creator: 'Nishant Kohli',
   /*
@@ -59,11 +59,24 @@ export const metadata: Metadata = {
    */
   openGraph: {
     type: 'website',
-    siteName: defaultPageTitle
+    siteName: appName,
+    url: './'
   },
   twitter: {
     card: 'summary_large_image'
   }
+};
+
+/*
+ * `theme-color` per scheme — matches `background.default` in `theme/palette.ts`
+ * (light `#ffffff`, dark `#0b0e14`) so the mobile browser chrome blends with
+ * the page instead of defaulting to white in dark mode.
+ */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0e14' }
+  ]
 };
 
 const RootLayout = ({ children }: RootLayoutProps) => {

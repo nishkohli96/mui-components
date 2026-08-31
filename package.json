@@ -1,10 +1,10 @@
 {
   "name": "@nish1896/mui-components-root",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A suite of 25+ production-ready, form-library-agnostic Material UI components — build forms with any form library, or drop in each one standalone. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
-  "homepage": "https://mui-components-docs.vercel.app/",
+  "homepage": "https://mui-components-docs.vercel.app",
   "repository": {
     "url": "git+https://github.com/nishkohli96/mui-components.git"
   },

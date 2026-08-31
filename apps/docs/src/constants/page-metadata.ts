@@ -1,17 +1,18 @@
 import type { Metadata } from 'next';
 
-export const defaultPageTitle = 'MUI-Components';
+/* One brand string everywhere — page titles, og:site_name, application-name, JSON-LD. */
+export const appName = 'MUI Components';
 export const defaultPageDescription
   = '25+ form-library-independent Material UI components for forms or standalone use — docs, live demos and full props reference.';
 
 export const pageMetadata: Record<string, Metadata> = {
   home: {
     /*
-     * `absolute` (not a plain string) so the root layout's `%s | MUI-Components`
+     * `absolute` (not a plain string) so the root layout's `%s | MUI Components`
      * template doesn't append the brand name a second time to a title that
      * already leads with it.
      */
-    title: { absolute: 'MUI Components — Form-Library-Independent Material UI Components' },
+    title: { absolute: `${appName} — Form-Library-Independent Material UI Components` },
     description:
       'Production-ready, form-library-independent Material UI components for forms or standalone use, with consistent labels, helper text and validation UI.'
   },
