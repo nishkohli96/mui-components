@@ -49,6 +49,12 @@ export const PropsDescription = Object.freeze({
       'Current numeric value of the field. `undefined`/`null` render an empty input.',
     type: 'number | null'
   },
+  value_OTPInput: {
+    name: 'value',
+    description:
+      'Current code, as a single string with no separators (e.g. `\'123456\'`). This is a controlled component — `value` and `onValueChange` must be supplied together. `undefined` is treated as an empty code.',
+    type: 'string'
+  },
   value_TagsInput: {
     name: 'value',
     description:
@@ -171,6 +177,13 @@ export const PropsDescription = Object.freeze({
     name: 'onValueChange',
     description:
       'Called on every accepted numeric change. `newValue` is `null` when the input is cleared.',
+    required: true,
+    type: '({ newValue, event }) => void'
+  },
+  onValueChange_OTPInput: {
+    name: 'onValueChange',
+    description:
+      'Called after every character entry, deletion, or paste with the next full code string (always `length` characters or fewer) and the original keystroke, backspace, or paste event.',
     required: true,
     type: '({ newValue, event }) => void'
   },
@@ -340,6 +353,12 @@ export const PropsDescription = Object.freeze({
       'Whether the field label renders above the control. This control has no built-in inline label, so it defaults to `true`; pass `false` to hide the visible label (the accessible name is still applied).\n\n**Default:** `true`',
     type: 'boolean'
   },
+  showLabelAboveFormField_OTPInput: (args: MuiPropsDescriptionArgs) => ({
+    name: 'showLabelAboveFormField',
+    description:
+      `Renders the field label above the boxes. The label is otherwise hidden — there is no inline label, but the accessible name is still applied to every box. Set the value to \`true\` to render the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) for this field.\n\n**Default:** \`false\``,
+    type: 'boolean'
+  }),
   formLabelProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'formLabelProps',
     description: `[FormLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) forwarded to the internal \`FormLabel\`. The \`id\` is managed by the component. Multiple fields can be configured using the \`ConfigProvider\` component.`,
@@ -387,7 +406,7 @@ export const PropsDescription = Object.freeze({
   }),
 
   /* ------------------------------------------------------------------ */
-  /* Password, Number, Tags & File Input fields                         */
+  /* Password, Number, OTP, Tags & File Input fields                         */
   /* ------------------------------------------------------------------ */
   showPasswordIcon: {
     name: 'showPasswordIcon',
@@ -436,6 +455,48 @@ export const PropsDescription = Object.freeze({
       'When true, shows increment/decrement markers on the input.',
     type: 'boolean'
   },
+  length_OTPInput: {
+    name: 'length',
+    description:
+      'Number of individual character boxes.\n\n**Default:** `6`',
+    type: 'number'
+  },
+  separatorIndexes: {
+    name: 'separatorIndexes',
+    description:
+      'Zero-based character indexes after which a `separator` is rendered. For example, `[2, 6]` with `length={10}` renders as `*** - **** - ***`.',
+    type: 'number[]'
+  },
+  separator: {
+    name: 'separator',
+    description:
+      'Content rendered at each `separatorIndexes` position.\n\n**Default:** `\'-\'`',
+    type: 'ReactNode'
+  },
+  alphanumeric: {
+    name: 'alphanumeric',
+    description:
+      'When true, each box accepts letters and digits. When false, only digits can be typed or pasted — a non-digit keystroke or paste is ignored.\n\n**Default:** `false`',
+    type: 'boolean'
+  },
+  autoFocus_OTPInput: {
+    name: 'autoFocus',
+    description:
+      'When `true`, focuses the first empty box (or the first box, if the code is already complete) on mount.\n\n**Default:** `false`',
+    type: 'boolean'
+  },
+  inputRef_OTPInput: {
+    name: 'inputRef',
+    description:
+      'Ref to the first character box\'s `<input>` element — use it to imperatively focus the field (e.g. React Hook Form\'s `setFocus` or focus-on-error handling).',
+    type: 'Ref<HTMLInputElement>'
+  },
+  textFieldProps_OTPInput: (args: MuiPropsDescriptionArgs) => ({
+    name: 'textFieldProps',
+    description: `[TextFieldProps](${getMuiDocsUrl(args.muiVersion)}/api/text-field/) forwarded to every character box — e.g. a custom \`size\`, \`variant\` or \`sx\`. Props the component derives or controls per box (\`name\`, \`id\`, \`value\`, \`onChange\`, \`onKeyDown\`, \`onPaste\`, \`error\`, \`multiline\`/\`rows\`, \`inputRef\`/\`ref\`) are omitted.`,
+    type: `[TextFieldProps](${getMuiDocsUrl(args.muiVersion)}/api/text-field/)`,
+    hasLinkInType: true
+  }),
   onTagAdd: {
     name: 'onTagAdd',
     description:

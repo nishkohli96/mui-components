@@ -1,0 +1,85 @@
+import { DocsPage, AvailabilityBanner, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import OTPInputForm from '@/forms/mui/otp-input/Client';
+
+export const metadata = componentMetadata.MUIOTPInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIOTPInput <sup><img src="/images/new.png" alt="NEW" height="40" /></sup>
+
+<AvailabilityBanner componentName="MUIOTPInput" version="2.1" />
+
+`MUIOTPInput` renders a one-time-password field as `length` individual
+[TextField](https://mui.com/material-ui/react-text-field/) boxes, one per
+character, backed by a single string `value` with no separators.
+
+## Working
+
+`MUIOTPInput` works as follows:
+
+- Typing a character fills the current box and auto-advances focus to the next one.
+- **Backspace** on an empty box clears the previous box and moves focus back to it.
+- **Arrow Left / Right** move focus between boxes without changing the value.
+- Focusing a box selects its character, so typing replaces it instead of appending.
+- Pasting a code distributes its characters across the remaining boxes starting
+  from the box where the cursor is — paste into the first box to fill the whole field.
+- By default only digits are accepted; a non-digit keystroke or paste is ignored.
+  Set `alphanumeric` to also allow letters.
+- `separatorIndexes` renders a `separator` (default `'-'`) after the given
+  zero-based indexes.
+
+  **E.g.** `separatorIndexes={[2, 6]}` with `length={10}` renders as `*** - **** - ***`.
+- There is no inline label. The label is hidden unless `showLabelAboveFormField`
+  (or the `allLabelsAboveFields` config) renders it above the boxes; either way
+  the accessible name is applied to every box.
+
+## Usage
+
+```tsx
+import MUIOTPInput, { MUIOTPInputProps } from '@nish1896/mui-components/mui/otp-input';
+```
+
+```tsx
+const [code, setCode] = useState('');
+
+<MUIOTPInput
+  fieldName="otp"
+  value={code}
+  onValueChange={({ newValue }) => setCode(newValue)}
+/>
+```
+
+### Separators and alphanumeric codes
+
+```tsx
+<MUIOTPInput
+  fieldName="licenseKey"
+  value={code}
+  onValueChange={({ newValue }) => setCode(newValue)}
+  length={10}
+  alphanumeric
+  separatorIndexes={[2, 6]}
+  separator="–"
+  textFieldProps={{ size: 'small' }}
+/>
+```
+
+## API
+
+`MUIOTPInput` does not spread arbitrary [TextFieldProps](https://mui.com/material-ui/api/text-field/)
+on itself — use `textFieldProps` to customize every character box. Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIOTPInput} />
+
+## Playground
+
+Controlled with plain React state — a 6-digit numeric SMS code with `autoFocus`,
+and a 10-character `alphanumeric` license key grouped `3–4–3` via
+`separatorIndexes` with a custom `separator`, `showLabelAboveFormField` and
+`textFieldProps`.
+
+<OTPInputForm />

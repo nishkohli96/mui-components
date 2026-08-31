@@ -38,7 +38,7 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "src/app/form-helpers/validateFileList/page.mdx"  ],
+, "src/app/form-helpers/validateFileList/page.mdx", "src/app/v1/components/mui/otp-input/page.mdx"  ],
   "exclude": [
     "node_modules"
   ]
