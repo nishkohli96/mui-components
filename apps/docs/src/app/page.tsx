@@ -10,10 +10,7 @@ import {
   defaultPageTitle
 } from '@/constants';
 
-export const metadata: Metadata = {
-  ...pageMetadata.home,
-  alternates: { canonical: '/' }
-};
+export const metadata: Metadata = pageMetadata.home;
 
 /*
  * WebSite + Person on the homepage only — the author identity that used to

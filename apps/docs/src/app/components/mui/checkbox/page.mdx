@@ -2,10 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import CheckboxForm from '@/forms/mui/checkbox/Client';
 
-export const metadata = {
-  ...componentMetadata.MUICheckbox,
-  alternates: { canonical: '/components/mui/checkbox' }
-};
+export const metadata = componentMetadata.MUICheckbox;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

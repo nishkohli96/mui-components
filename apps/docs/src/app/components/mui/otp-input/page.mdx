@@ -2,10 +2,7 @@ import { DocsPage, AvailabilityBanner, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import OTPInputForm from '@/forms/mui/otp-input/Client';
 
-export const metadata = {
-  ...componentMetadata.MUIOTPInput,
-  alternates: { canonical: '/components/mui/otp-input' }
-};
+export const metadata = componentMetadata.MUIOTPInput;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

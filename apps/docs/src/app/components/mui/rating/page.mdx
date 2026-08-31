@@ -2,10 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import RatingForm from '@/forms/mui/rating/Client';
 
-export const metadata = {
-  ...componentMetadata.MUIRating,
-  alternates: { canonical: '/components/mui/rating' }
-};
+export const metadata = componentMetadata.MUIRating;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

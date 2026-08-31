@@ -25,6 +25,11 @@ function flattenHrefs(pages: Page[]): string[] {
  *
  * ponytail: spawns `git` once per route (~40x) at build; fine at this scale,
  * batch into a single `git log` call only if the route count grows large.
+ *
+ * ponytail: the dynamic `fs`/`child_process` access here makes Turbopack
+ * trace the whole project ("Dynamic filesystem access" build warning).
+ * Harmless for a docs app this size; if deploy bundle size ever bites, move
+ * this into a `prebuild` script that emits a static JSON date map.
  */
 function lastModified(href: string): Date | undefined {
   const dir = join(process.cwd(), 'src/app', href === '/' ? '' : href);

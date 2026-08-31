@@ -2,10 +2,7 @@ import { ContentContainer, PageHeading, SubHeading } from '@/components';
 import { pageMetadata } from '@/constants';
 import CompleteStateForm from '@/forms/complete-forms/state/Client';
 
-export const metadata = {
-  ...pageMetadata.completeFormState,
-  alternates: { canonical: '/examples/state' }
-};
+export const metadata = pageMetadata.completeFormState;
 
 export default function CompleteStateFormPage () {
   return (

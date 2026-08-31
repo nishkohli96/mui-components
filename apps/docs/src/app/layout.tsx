@@ -45,6 +45,12 @@ export const metadata: Metadata = {
   authors: [{ name: 'Nishant Kohli', url: githubProfile }],
   creator: 'Nishant Kohli',
   /*
+   * `./` resolves to the current route, so every page gets a self-referential
+   * canonical from this one line — no per-page `alternates`, and version
+   * copies (`app/v1/**`, a future `app/v2/**`) inherit it automatically.
+   */
+  alternates: { canonical: './' },
+  /*
    * No `title`/`description` here — Next auto-inherits both from the
    * resolved page `title`/`description` above when a page doesn't set its
    * own `openGraph`/`twitter` object (see `inheritFromMetadata` in Next's
