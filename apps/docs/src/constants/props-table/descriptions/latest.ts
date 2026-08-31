@@ -361,13 +361,13 @@ export const PropsDescription = Object.freeze({
   }),
   formLabelProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'formLabelProps',
-    description: `\`FormLabelProps\` forwarded to the internal \`FormLabel\`. The \`id\` is managed by the component. Multiple fields can be configured using the \`ConfigProvider\` component.`,
+    description: '`FormLabelProps` forwarded to the internal `FormLabel`. The `id` is managed by the component. Multiple fields can be configured using the `ConfigProvider` component.',
     type: `[FormLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/form-label/)`,
     hasLinkInType: true
   }),
   formControlLabelProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'formControlLabelProps',
-    description: `\'FormControlLabelProps\` forwarded to the internal \`FormControlLabel\`. Multiple fields can be configured using the \`ConfigProvider\` component.`,
+    description: '`FormControlLabelProps` forwarded to the internal `FormControlLabel`. Multiple fields can be configured using the `ConfigProvider` component.',
     type: `[FormControlLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/form-control-label/)`,
     hasLinkInType: true
   }),
@@ -400,7 +400,7 @@ export const PropsDescription = Object.freeze({
   }),
   formHelperTextProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'formHelperTextProps',
-    description: `\`FormHelperTextProps\` forwarded to the internal \`FormHelperText\`. The \`id\` is managed by the component. Multiple fields can be configured using the \`ConfigProvider\` component.`,
+    description: '`FormHelperTextProps` forwarded to the internal `FormHelperText`. The `id` is managed by the component. Multiple fields can be configured using the `ConfigProvider` component.',
     type: `[FormHelperTextProps](${getMuiDocsUrl(args.muiVersion)}/api/form-helper-text/)`,
     hasLinkInType: true
   }),

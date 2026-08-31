@@ -1,4 +1,6 @@
+export const personalWebsite = 'https://nishkohli96.vercel.app';
 export const githubProfile = 'https://github.com/nishkohli96';
+
 const pkgRepoLink = `${githubProfile}/mui-components/blob/main/`;
 const cslRepo = `${githubProfile}/client-server-libs/blob/main/`;
 

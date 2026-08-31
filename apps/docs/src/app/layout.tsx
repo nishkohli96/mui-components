@@ -6,8 +6,6 @@ import {
   defaultPageTitle,
   defaultPageDescription,
   githubProfile,
-  githubRepoLink,
-  npmLink,
   websiteUrl
 } from '@/constants';
 import AppShell from '@/components/app-shell';
@@ -18,15 +16,6 @@ import './globals.css';
 
 type RootLayoutProps = {
   children: React.ReactNode;
-};
-
-/* Person JSON-LD — identifies the site's author to AI/search crawlers. */
-const authorJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Nishant Kohli',
-  url: githubProfile,
-  sameAs: [githubRepoLink, npmLink]
 };
 
 /*
@@ -79,10 +68,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: colorSchemeInit }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
