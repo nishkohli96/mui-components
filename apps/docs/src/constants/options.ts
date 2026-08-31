@@ -50,3 +50,16 @@ export const hobbiesList = [
   'Reading',
   'Cooking'
 ];
+
+export const languagesList = [
+  'English',
+  'Mandarin Chinese',
+  'Hindi',
+  'Spanish',
+  'French',
+  'Arabic',
+  'Bengali',
+  'Portuguese',
+  'Russian',
+  'Japanese'
+];
