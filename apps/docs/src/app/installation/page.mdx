@@ -2,10 +2,7 @@ import { DocsPage } from '@/components/docs';
 import { pageMetadata } from '@/constants';
 import FolderStructure from '@/components/folder-structure';
 
-export const metadata = {
-  ...pageMetadata.gettingStarted,
-  alternates: { canonical: '/installation' }
-};
+export const metadata = pageMetadata.gettingStarted;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

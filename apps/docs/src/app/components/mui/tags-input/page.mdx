@@ -2,10 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import TagsInputForm from '@/forms/mui/tags-input/Client';
 
-export const metadata = {
-  ...componentMetadata.MUITagsInput,
-  alternates: { canonical: '/components/mui/tags-input' }
-};
+export const metadata = componentMetadata.MUITagsInput;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

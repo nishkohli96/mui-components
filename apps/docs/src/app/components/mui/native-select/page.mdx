@@ -2,10 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import NativeSelectForm from '@/forms/mui/native-select/Client';
 
-export const metadata = {
-  ...componentMetadata.MUINativeSelect,
-  alternates: { canonical: '/components/mui/native-select' }
-};
+export const metadata = componentMetadata.MUINativeSelect;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

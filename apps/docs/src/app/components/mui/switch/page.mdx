@@ -2,10 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import SwitchForm from '@/forms/mui/switch/Client';
 
-export const metadata = {
-  ...componentMetadata.MUISwitch,
-  alternates: { canonical: '/components/mui/switch' }
-};
+export const metadata = componentMetadata.MUISwitch;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

@@ -84,7 +84,35 @@ const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps
           >
             {page.title}
           </ListItemText>
-          {hasChildren && (open ? <ExpandLess fontSize="small" /> : <ExpandMore fontSize="small" />)}
+          {hasChildren && (open
+            ? <ExpandLess fontSize="small" />
+            : <ExpandMore fontSize="small" />
+          )}
+          {page.isNew && (
+            /*
+             * "New" comes from CSS pseudo-content + aria-hidden, so it is
+             * absent from the link's text content / accessible name — a
+             * decorative badge with no anchor-text or SEO impact.
+             */
+            <Box
+              component="span"
+              aria-hidden
+              sx={{
+                ml: 1,
+                px: 0.75,
+                py: '1px',
+                flexShrink: 0,
+                fontSize: '0.625rem',
+                fontWeight: 700,
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                borderRadius: 1,
+                color: 'success.contrastText',
+                bgcolor: 'success.main',
+                '&::after': { content: '"New"' }
+              }}
+            />
+          )}
         </ListItemButton>
       </ListItem>
       {hasChildren && (

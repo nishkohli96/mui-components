@@ -2,10 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import PhoneInputForm from '@/forms/misc/phone-input/Client';
 
-export const metadata = {
-  ...componentMetadata.MUIPhoneInput,
-  alternates: { canonical: '/components/misc/phone-input' }
-};
+export const metadata = componentMetadata.MUIPhoneInput;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

@@ -1,7 +1,4 @@
-'use client';
-
 import Image from 'next/image';
-import Link from 'next/link';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -9,8 +6,12 @@ import MuiLink from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
-import CopyInstallCommand from './CopyInstallCommand';
-import PopularComponents from './PopularComponents';
+import {
+  CopyInstallCommand,
+  PopularComponents,
+  HowItCompares,
+  RHFMuiSection
+} from './components';
 
 const installCommand = 'npm install @nish1896/mui-components';
 
@@ -144,7 +145,6 @@ const HomeLanding = () => {
             <CopyInstallCommand command={installCommand} />
           </Paper>
           <GradientButton
-            component={Link}
             href="/introduction"
             endIcon={<ArrowForwardRoundedIcon />}
             sx={{ mt: 3 }}
@@ -199,6 +199,28 @@ const HomeLanding = () => {
               </Paper>
             );
           })}
+        </Box>
+        <RHFMuiSection />
+        <HowItCompares />
+        <Box component="section">
+          <Typography
+            sx={{ mt: 4, fontSize: { xs: 15, md: 16 }, lineHeight: 1.7 }}
+            variant="body1"
+          >
+            Start with the
+            {' '}
+            <MuiLink href="/introduction" underline="hover">
+              Introduction
+            </MuiLink>
+            {' '}
+            for the full component list, or jump straight to
+            {' '}
+            <MuiLink href="/installation" underline="hover">
+              Installation
+            </MuiLink>
+            {' '}
+            to add the package and wire up your first field.
+          </Typography>
         </Box>
       </Container>
       <Footer />

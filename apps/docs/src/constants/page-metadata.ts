@@ -109,6 +109,11 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'Controlled numeric Material UI input with decimal, integer, non-negative and step constraints.'
   },
+  MUIOTPInput: {
+    title: 'MUIOTPInput',
+    description:
+      'Controlled one-time-password input rendered as individual Material UI TextField boxes, backed by a single string value.'
+  },
   MUITagsInput: {
     title: 'MUITagsInput',
     description:

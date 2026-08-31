@@ -2,10 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import TextFieldsForm from '@/forms/mui/textfield/Client';
 
-export const metadata = {
-  ...componentMetadata.MUITextField,
-  alternates: { canonical: '/components/mui/textfield' }
-};
+export const metadata = componentMetadata.MUITextField;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

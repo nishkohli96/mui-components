@@ -3,10 +3,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentProps, componentMetadata, externalLinks } from '@/constants';
 import RichTextEditorForm from '@/forms/misc/rich-text-editor/Client';
 
-export const metadata = {
-  ...componentMetadata.MUIRichTextEditor,
-  alternates: { canonical: '/components/misc/rich-text-editor' }
-};
+export const metadata = componentMetadata.MUIRichTextEditor;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;

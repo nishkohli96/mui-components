@@ -1,5 +1,6 @@
 'use client';
 
+import { type AnchorHTMLAttributes } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button, { type ButtonProps } from '@mui/material/Button';
@@ -35,12 +36,19 @@ export const ResetButton = (btnProps: ButtonProps) => {
 };
 
 /**
+ * `ButtonProps` plus the anchor attributes needed when rendered
+ * as a link (`component="a"`).
+ */
+type GradientButtonProps = ButtonProps
+  & Pick<AnchorHTMLAttributes<HTMLAnchorElement>, 'target' | 'rel'>;
+
+/**
  * Brand-gradient action button (blue → teal), used for the site's primary
  * calls to action — e.g. "Get Started" on the homepage, "Go Back" on the
  * 404 page. Accepts the full `ButtonProps` surface, including `component`
  * and `href` for use as a link.
  */
-export const GradientButton = ({ sx, ...otherBtnProps }: ButtonProps) => {
+export const GradientButton = ({ sx, ...otherBtnProps }: GradientButtonProps) => {
   return (
     <Button
       variant="contained"

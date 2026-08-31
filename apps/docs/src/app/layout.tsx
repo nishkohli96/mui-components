@@ -6,8 +6,6 @@ import {
   defaultPageTitle,
   defaultPageDescription,
   githubProfile,
-  githubRepoLink,
-  npmLink,
   websiteUrl
 } from '@/constants';
 import AppShell from '@/components/app-shell';
@@ -18,15 +16,6 @@ import './globals.css';
 
 type RootLayoutProps = {
   children: React.ReactNode;
-};
-
-/* Person JSON-LD — identifies the site's author to AI/search crawlers. */
-const authorJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Nishant Kohli',
-  url: githubProfile,
-  sameAs: [githubRepoLink, npmLink]
 };
 
 /*
@@ -56,6 +45,12 @@ export const metadata: Metadata = {
   authors: [{ name: 'Nishant Kohli', url: githubProfile }],
   creator: 'Nishant Kohli',
   /*
+   * `./` resolves to the current route, so every page gets a self-referential
+   * canonical from this one line — no per-page `alternates`, and version
+   * copies (`app/v1/**`, a future `app/v2/**`) inherit it automatically.
+   */
+  alternates: { canonical: './' },
+  /*
    * No `title`/`description` here — Next auto-inherits both from the
    * resolved page `title`/`description` above when a page doesn't set its
    * own `openGraph`/`twitter` object (see `inheritFromMetadata` in Next's
@@ -79,10 +74,6 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <script
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: colorSchemeInit }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(authorJsonLd) }}
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
