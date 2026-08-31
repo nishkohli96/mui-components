@@ -1,5 +1,6 @@
 import { DocsPage } from '@/components/docs';
 import { pageMetadata } from '@/constants';
+import FolderStructure from '@/components/folder-structure';
 
 export const metadata = pageMetadata.introduction;
 
@@ -37,3 +38,23 @@ application, understand the package structure and get started.
   (`variant`, `slotProps`, `sx`, etc.), so nothing about MUI is hidden from you.
 - **Live demo + full props reference** — every component page pairs a working example
   with a complete props table, so you can see the shape before wiring it into your form.
+
+## Package Structure
+
+Components are available through focused subpath exports, so applications only
+import the modules they use.
+
+Click a folder to expand its contents and view the form components available for that module.
+
+<FolderStructure />
+
+- **mui** - Includes core Material-UI components such as TextField, 
+Select, and others.
+- **mui-pickers** - Contains Material-UI date and 
+time picker components, along with their variations - `Desktop`, `Mobile` and `Static`.
+- **misc** -  Features external form components, such as the rich text editor, that are not
+part of Material-UI.
+- **config** - Provides a Context Provider to set default styles 
+for all components and configure the `dateAdapter` for date and time pickers.
+- **form-helpers** - Utility functions used internally by the components,
+which can also be leveraged by developers for processing and validating form data.

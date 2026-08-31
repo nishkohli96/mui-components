@@ -1,5 +1,6 @@
 import { DocsPage } from '@/components/docs';
 import { pageMetadata } from '@/constants';
+import FolderStructure from '@/components/folder-structure';
 
 export const metadata = pageMetadata.introduction;
 
@@ -38,10 +39,40 @@ application, understand the package structure and get started.
 - **Live demo + full props reference** — every component page pairs a working example
   with a complete props table, so you can see the shape before wiring it into your form.
 
+## Package Structure
+
+Components are available through focused subpath exports, so applications only
+import the modules they use.
+
+Click a folder to expand its contents and view the form components available for that module.
+
+<FolderStructure />
+
+- **mui** - Includes core Material-UI components such as TextField, 
+Select, and others.
+- **mui-pickers** - Contains Material-UI date and 
+time picker components, along with their variations - `Desktop`, `Mobile` and `Static`.
+- **misc** -  Features external form components, such as the rich text editor, that are not
+part of Material-UI.
+- **config** - Provides a Context Provider to set default styles 
+for all components and configure the `dateAdapter` for date and time pickers.
+- **form-helpers** - Utility functions used internally by the components,
+which can also be leveraged by developers for processing and validating form data.
+
 ## Package Versions
 
-This library is a port of `@nish1896/rhf-mui-components` **v4** and supports
-MUI `v6` and `v7`.
+| Package | Material UI | MUI X Date Pickers |
+| --- | --- | --- |
+| **`v1`** — this documentation | `v6` / `v7` | `v7` / `v8` |
+| **`v2`** | `v9` | `v9` |
 
-To use this package with MUI `v9`, upgrade to `v2` of this package.
+`@nish1896/mui-components` was extracted from
+[`@nish1896/rhf-mui-components`](https://rhf-mui-components.vercel.app/) **v4**. The
+form-library-agnostic core split out into its own package, which
+`rhf-mui-components` now depends on directly.
+
+<Callout type="tip">
+  Already on **Material UI v9**? Upgrade to `v2` and follow the
+  [v1 → v2 migration guide](/migration-guide/v1-to-v2).
+</Callout>
 
