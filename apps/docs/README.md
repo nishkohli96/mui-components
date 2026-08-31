@@ -12,9 +12,15 @@ Setup guides, API references, and multiple live variations for every component:
 
 ### 🧪 Playground
 
-Spin up an editable sandbox in your browser — fork it and experiment freely:
+Playground code lives on the [`v2-playground`](https://github.com/nishkohli96/mui-components/tree/v2-playground) branch. Clone repo, checkout that branch, run locally:
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/nishkohli96/mui-components/tree/v1-playground)
+```bash
+git clone https://github.com/nishkohli96/mui-components.git
+cd mui-components
+git checkout v2-playground
+pnpm install
+pnpm dev
+```
 
 ### Local Development
 
