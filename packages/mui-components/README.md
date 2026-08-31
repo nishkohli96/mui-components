@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/main/apps/docs/public/logo.svg" width="200" />
+  <img src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/version-1/apps/docs/public/logo.svg" width="200" />
 </p>
 
 <h1>@nish1896/mui-components</h1>
@@ -25,8 +25,8 @@
 
 - Every component is designed to work out of the box with minimal configuration, allowing you to focus on building features instead of implementing core logic..
 - **Form-library-agnostic**: every component is controlled through `value` / `onValueChange`, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required.
-- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider).
-- Includes well-configured unique components like [Rich Text Editor](https://mui-components-docs.vercel.app/components/misc/rich-text-editor), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
+- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/v1/customization#configprovider).
+- Includes well-configured unique components like [Rich Text Editor](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor), [Country Select](https://mui-components-docs.vercel.app/v1/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/v1/components/mui/tags-input), saving development time.
 - Provides full control over value validation and transformation before updates are committed to form state.
 - Comprehensive docs showcasing multiple variations for each component.
 
@@ -35,7 +35,7 @@
 ### 📖 Documentation
 Full setup instructions, API references, and examples for every component:
 
-👉 [Documentation Website](https://mui-components-docs.vercel.app/)
+👉 [Documentation Website](https://mui-components-docs.vercel.app/v1/)
 
 ### 🧪 Playground
 
@@ -56,33 +56,34 @@ Below is a comprehensive list of all components included in this package, catego
 Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfield`) for optimal tree-shaking.
 
 - **mui**
-  - [TextField](https://mui-components-docs.vercel.app/components/mui/textfield)
-  - [Number Input](https://mui-components-docs.vercel.app/components/mui/number-input)
-  - [Password Input](https://mui-components-docs.vercel.app/components/mui/password-input)
-  - [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input)
-  - [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader)
-  - [Select](https://mui-components-docs.vercel.app/components/mui/select)
-  - [Native Select](https://mui-components-docs.vercel.app/components/mui/native-select)
-  - [Autocomplete](https://mui-components-docs.vercel.app/components/mui/autocomplete)
-  - [Autocomplete Object](https://mui-components-docs.vercel.app/components/mui/autocomplete-object)
-  - [Multi Autocomplete](https://mui-components-docs.vercel.app/components/mui/multi-autocomplete)
-  - [Multi Autocomplete Object](https://mui-components-docs.vercel.app/components/mui/multi-autocomplete-object)
-  - [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select)
-  - [Checkbox](https://mui-components-docs.vercel.app/components/mui/checkbox)
-  - [Checkbox Group](https://mui-components-docs.vercel.app/components/mui/checkbox-group)
-  - [Radio Group](https://mui-components-docs.vercel.app/components/mui/radio-group)
-  - [Slider](https://mui-components-docs.vercel.app/components/mui/slider)
-  - [Switch](https://mui-components-docs.vercel.app/components/mui/switch)
-  - [Rating](https://mui-components-docs.vercel.app/components/mui/rating)
+  - [TextField](https://mui-components-docs.vercel.app/v1/components/mui/textfield)
+  - [Password Input](https://mui-components-docs.vercel.app/v1/components/mui/password-input)
+  - [Number Input](https://mui-components-docs.vercel.app/v1/components/mui/number-input)
+  - [OTP Input](https://mui-components-docs.vercel.app/v1/components/mui/otp-input)
+  - [Tags Input](https://mui-components-docs.vercel.app/v1/components/mui/tags-input)
+  - [File Uploader](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader)
+  - [Select](https://mui-components-docs.vercel.app/v1/components/mui/select)
+  - [Native Select](https://mui-components-docs.vercel.app/v1/components/mui/native-select)
+  - [Autocomplete](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete)
+  - [Autocomplete Object](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete-object)
+  - [Multi Autocomplete](https://mui-components-docs.vercel.app/v1/components/mui/multi-autocomplete)
+  - [Multi Autocomplete Object](https://mui-components-docs.vercel.app/v1/components/mui/multi-autocomplete-object)
+  - [Country Select](https://mui-components-docs.vercel.app/v1/components/mui/country-select)
+  - [Checkbox](https://mui-components-docs.vercel.app/v1/components/mui/checkbox)
+  - [Checkbox Group](https://mui-components-docs.vercel.app/v1/components/mui/checkbox-group)
+  - [Radio Group](https://mui-components-docs.vercel.app/v1/components/mui/radio-group)
+  - [Slider](https://mui-components-docs.vercel.app/v1/components/mui/slider)
+  - [Switch](https://mui-components-docs.vercel.app/v1/components/mui/switch)
+  - [Rating](https://mui-components-docs.vercel.app/v1/components/mui/rating)
 
 - **mui-pickers**
-  - [Date](https://mui-components-docs.vercel.app/components/mui-pickers/date)
-  - [Time](https://mui-components-docs.vercel.app/components/mui-pickers/time)
-  - [DateTime](https://mui-components-docs.vercel.app/components/mui-pickers/date-time)
+  - [Date](https://mui-components-docs.vercel.app/v1/components/mui-pickers/date)
+  - [Time](https://mui-components-docs.vercel.app/v1/components/mui-pickers/time)
+  - [DateTime](https://mui-components-docs.vercel.app/v1/components/mui-pickers/date-time)
 - **misc**
-  - [Color Picker](https://mui-components-docs.vercel.app/components/misc/color-picker)
-  - [Rich Text Editor](https://mui-components-docs.vercel.app/components/misc/rich-text-editor)
-  - [Phone Input](https://mui-components-docs.vercel.app/components/misc/phone-input)
+  - [Color Picker](https://mui-components-docs.vercel.app/v1/components/misc/color-picker)
+  - [Rich Text Editor](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor)
+  - [Phone Input](https://mui-components-docs.vercel.app/v1/components/misc/phone-input)
 
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**
 
