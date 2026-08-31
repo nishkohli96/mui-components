@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from '@vercel/analytics/next';
@@ -65,6 +65,18 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image'
   }
+};
+
+/*
+ * `theme-color` per scheme — matches `background.default` in `theme/palette.ts`
+ * (light `#ffffff`, dark `#0b0e14`) so the mobile browser chrome blends with
+ * the page instead of defaulting to white in dark mode.
+ */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0e14' }
+  ]
 };
 
 const RootLayout = ({ children }: RootLayoutProps) => {
