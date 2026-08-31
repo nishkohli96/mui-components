@@ -261,8 +261,12 @@ const MUIOTPInput = ({
     : undefined;
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
-  const isAllowedChar = (char: string) =>
-    alphanumeric ? (/[a-z0-9]/i).test(char) : (/[0-9]/).test(char);
+  /**
+   * Anchored so a typed or pasted string is accepted only when *every*
+   * character is allowed — pasting `w2323s` into a numeric field is rejected
+   * outright rather than filtered down to `2323`.
+   */
+  const allowedInputPattern = alphanumeric ? (/^[a-z0-9]+$/i) : (/^[0-9]+$/);
 
   const emitChange = (newChars: string[], event: OTPChangeEvent) => {
     onValueChange({ newValue: newChars.join(''), event });
@@ -277,14 +281,13 @@ const MUIOTPInput = ({
     rawInput: string,
     event: OTPChangeEvent
   ) => {
-    const sanitized = rawInput.split('').filter(isAllowedChar);
-    if (sanitized.length === 0) {
+    if (!allowedInputPattern.test(rawInput)) {
       return;
     }
 
     const newChars = [...inputValueChars];
     let cursor = index;
-    for (const char of sanitized) {
+    for (const char of rawInput) {
       if (cursor >= length) {
         break;
       }

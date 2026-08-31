@@ -7,7 +7,7 @@
  * `errorMessage`.
  */
 
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
@@ -46,8 +46,7 @@ export default function OTPInputForm() {
       values.licenseKey.length < 10 ? 'Enter all 10 characters' : undefined
   };
 
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     setSubmitted(true);
     if (errors.smsCode || errors.licenseKey) {
       return;
@@ -58,72 +57,78 @@ export default function OTPInputForm() {
 
   return (
     <FormContainer>
-      <form onSubmit={handleSubmit}>
-        <GridContainer>
-          <Grid size={12}>
-            <FormControlLabel
-              control={(
-                <Checkbox
-                  checked={disableAllFields}
-                  onChange={event => setDisableAllFields(event.target.checked)}
-                />
-              )}
-              label="Disable all fields"
-            />
-          </Grid>
+      <GridContainer>
+        <Grid size={12}>
+          <FormControlLabel
+            control={(
+              <Checkbox
+                checked={disableAllFields}
+                onChange={event => setDisableAllFields(event.target.checked)}
+              />
+            )}
+            label="Disable all fields"
+          />
+        </Grid>
 
-          <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="6-digit numeric SMS code, autofocus" />
-            <MUIOTPInput
-              fieldName="smsCode"
-              value={values.smsCode}
-              onValueChange={({ newValue }) =>
-                setValues(prev => ({ ...prev, smsCode: newValue }))}
-              autoFocus
-              required
-              disabled={disableAllFields}
-              errorMessage={submitted ? errors.smsCode : undefined}
-              helperText="Type or paste the code from your text message"
-            />
-          </Grid>
+        <Grid size={{ xs: 12, md: 6 }}>
+          <FieldVariantInfo title="6-digit numeric SMS code, autofocus" />
+          <MUIOTPInput
+            fieldName="smsCode"
+            value={values.smsCode}
+            onValueChange={({ newValue }) =>
+              setValues(prev => ({ ...prev, smsCode: newValue }))}
+            autoFocus
+            required
+            disabled={disableAllFields}
+            errorMessage={submitted ? errors.smsCode : undefined}
+            helperText="Type or paste the code from your text message"
+          />
+        </Grid>
 
-          <Grid size={12}>
-            <FieldVariantInfo title="10-char alphanumeric key, grouped 3-4-3, label above" />
-            <MUIOTPInput
-              fieldName="licenseKey"
-              label="License key"
-              value={values.licenseKey}
-              onValueChange={({ newValue }) =>
-                setValues(prev => ({ ...prev, licenseKey: newValue }))}
-              length={10}
-              alphanumeric
-              separatorIndexes={[2, 6]}
-              separator="–"
-              showLabelAboveFormField
-              disabled={disableAllFields}
-              errorMessage={submitted ? errors.licenseKey : undefined}
-              textFieldProps={{ size: 'small' }}
-              helperText="Letters and digits; paste distributes across the boxes"
-            />
-          </Grid>
+        <Grid size={12}>
+          <FieldVariantInfo title="10-char alphanumeric key, grouped 3-4-3, label above" />
+          <MUIOTPInput
+            fieldName="licenseKey"
+            label="License key"
+            value={values.licenseKey}
+            onValueChange={({ newValue }) =>
+              setValues(prev => ({ ...prev, licenseKey: newValue }))}
+            length={10}
+            alphanumeric
+            separatorIndexes={[2, 6]}
+            separator="–"
+            showLabelAboveFormField
+            disabled={disableAllFields}
+            errorMessage={submitted ? errors.licenseKey : undefined}
+            textFieldProps={{
+              size: 'small',
+              color: 'info',
+              sx: {
+                width: '60px',
+                '& .MuiOutlinedInput-root': { borderRadius: '8px' },
+                '& .MuiOutlinedInput-input': { color: '#007ABA' }
+              }
+            }}
+            helperText="Letters and digits; paste distributes across the boxes"
+          />
+        </Grid>
 
-          <Grid size={12}>
-            <SubmitButton />
-            <ResetButton
-              onClick={() => {
-                setValues(initialValues);
-                setSubmitted(false);
-              }}
-            />
-          </Grid>
-          <Grid size={12}>
-            <FormState
-              formValues={values}
-              errors={submitted ? errors : {}}
-            />
-          </Grid>
-        </GridContainer>
-      </form>
+        <Grid size={12}>
+          <SubmitButton onClick={handleSubmit}/>
+          <ResetButton
+            onClick={() => {
+              setValues(initialValues);
+              setSubmitted(false);
+            }}
+          />
+        </Grid>
+        <Grid size={12}>
+          <FormState
+            formValues={values}
+            errors={submitted ? errors : {}}
+          />
+        </Grid>
+      </GridContainer>
     </FormContainer>
   );
 }
