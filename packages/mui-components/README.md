@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/main/apps/docs/public/logo.svg" width="200" />
+  <img src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/version-2/apps/docs/public/logo.svg" width="200" />
 </p>
 
 <h1>@nish1896/mui-components</h1>
