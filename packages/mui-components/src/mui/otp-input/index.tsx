@@ -390,11 +390,13 @@ const MUIOTPInput = ({
                   mergeRefs(inputRef)(el);
                 }
               }}
-              sx={mergeSx({ width: 48 }, textFieldProps?.sx)}
+              sx={mergeSx(
+                { width: 48, '& input': { textAlign: 'center' } },
+                textFieldProps?.sx
+              )}
               slotProps={{
                 ...textFieldProps?.slotProps,
                 htmlInput: {
-                  style: { textAlign: 'center' },
                   ...textFieldProps?.slotProps?.htmlInput,
                   maxLength: 1,
                   inputMode: alphanumeric ? 'text' : 'numeric',
