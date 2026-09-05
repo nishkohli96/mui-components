@@ -35,6 +35,17 @@ export function resolveMinBound(nonNegative: boolean, min?: number) {
   return min;
 }
 
+/**
+ * Normalizes `stepAmount` for the active mode: integer fields step by at least
+ * `1` and never by a fraction.
+ */
+export function resolveStepAmount(
+  stepAmount: number,
+  onlyIntegers: boolean
+) {
+  return onlyIntegers ? Math.max(1, Math.floor(stepAmount)) : stepAmount;
+}
+
 type SteppedInputBounds = {
   nonNegative: boolean;
   min?: number;
