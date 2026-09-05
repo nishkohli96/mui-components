@@ -169,20 +169,30 @@ const MUINumberStepper = ({
       }}
       slotProps={{
         ...muiSlotProps,
-        input: {
-          ...muiSlotProps?.input,
-          startAdornment: (
-            <>
-              {(muiSlotProps?.input as { startAdornment?: ReactNode })?.startAdornment}
-              {decrementButton}
-            </>
-          ),
-          endAdornment: (
-            <>
-              {(muiSlotProps?.input as { endAdornment?: ReactNode })?.endAdornment}
-              {incrementButton}
-            </>
-          )
+        /*
+         * `slotProps.input` can be an object or an `(ownerState) => props`
+         * function — passing a function through as-is (rather than eagerly
+         * reading properties off it here, where no `ownerState` exists yet)
+         * lets MUI resolve it normally and still lets us merge in the
+         * stepper buttons alongside whatever adornments it returns.
+         */
+        input: ownerState => {
+          const externalInputProps = typeof muiSlotProps?.input === 'function'
+            ? muiSlotProps.input(ownerState)
+            : muiSlotProps?.input;
+          return {
+            ...externalInputProps,
+            startAdornment: (
+              <>
+                {decrementButton}
+              </>
+            ),
+            endAdornment: (
+              <>
+                {incrementButton}
+              </>
+            )
+          };
         }
       }}
     />

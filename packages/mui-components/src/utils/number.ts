@@ -37,13 +37,21 @@ export function resolveMinBound(nonNegative: boolean, min?: number) {
 
 /**
  * Normalizes `stepAmount` for the active mode: integer fields step by at least
- * `1` and never by a fraction.
+ * `1` and never by a fraction. A non-finite, zero, or negative `stepAmount`
+ * (`NaN`, `Infinity`, `0`, or a negative number — from a bad prop value or
+ * `Math.max`'s own `NaN` propagation) would stall stepping, reverse its
+ * direction, or produce an invalid value, so it falls back to `1`.
  */
 export function resolveStepAmount(
   stepAmount: number,
   onlyIntegers: boolean
 ) {
-  return onlyIntegers ? Math.max(1, Math.floor(stepAmount)) : stepAmount;
+  const safeStepAmount = Number.isFinite(stepAmount) && stepAmount > 0
+    ? stepAmount
+    : 1;
+  return onlyIntegers
+    ? Math.max(1, Math.floor(safeStepAmount))
+    : safeStepAmount;
 }
 
 type SteppedInputBounds = {

@@ -470,13 +470,13 @@ export const PropsDescription = Object.freeze({
   min_NumberInput: {
     name: 'min',
     description:
-      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` can only tighten this, never loosen it.\n\n**Added in `v1.3`.**',
+      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` can only tighten this, never loosen it.\n\n**Added in** `v1.3`.',
     type: 'number'
   },
   max_NumberInput: {
     name: 'max',
     description:
-      'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in `v1.3`.**',
+      'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in** `v1.3`.',
     type: 'number'
   },
   decrementIcon_NumberStepper: {
