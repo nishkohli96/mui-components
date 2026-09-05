@@ -2,7 +2,7 @@ import { DocsPage, PropsTable } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import NumberStepperForm from '@/forms/mui/number-stepper/Client';
 
-export const metadata = componentMetadata.MUINumberInput;
+export const metadata = componentMetadata.MUINumberStepper;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
@@ -10,7 +10,47 @@ export default function Layout({ children }) {
 
 # MUINumberStepper
 
+`MUINumberStepper` is [MUINumberInput](/components/mui/number-input) with
+always-visible `-` / `+` buttons flanking the input instead of the native
+browser steppers. Every numeric behaviour - `number | null` value,
+`onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `min` / `max`
+clamping, validation and labelling, is delegated to `MUINumberInput`. This
+component only adds the buttons and disables the decrement / increment button
+once its `min` / `max` bound is reached.
+
+## Usage
+
+```tsx
+import MUINumberStepper, { MUINumberStepperProps } from '@nish1896/mui-components/mui/number-stepper';
+```
+
+```tsx
+const [quantity, setQuantity] = useState<number | null>(1);
+
+<MUINumberStepper
+  fieldName="quantity"
+  value={quantity}
+  onValueChange={({ newValue }) => setQuantity(newValue)}
+  onlyIntegers
+  min={1}
+  max={10}
+/>
+```
+
+## API
+
+`MUINumberStepperProps` extends [MUINumberInputProps](/components/mui/number-input#api)
+(minus `showMarkers`) and also accepts the remaining
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), except `type`,
+`multiline` and `rows`. Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUINumberStepper} />
 
 ## Playground
+
+Integrated with [TanStack Form](https://tanstack.com/form/latest) — covers
+`onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `min` / `max`
+bounds and custom stepper icons, with validation surfaced through `errorMessage`.
 
 <NumberStepperForm />

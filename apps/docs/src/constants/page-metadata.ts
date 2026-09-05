@@ -116,7 +116,12 @@ export const componentMetadata: Record<string, Metadata> = {
   MUINumberInput: {
     title: 'MUINumberInput',
     description:
-      'Controlled numeric Material UI input with decimal, integer, non-negative and step constraints.'
+      'Controlled numeric Material UI input with decimal, integer, non-negative, min/max and step constraints.'
+  },
+  MUINumberStepper: {
+    title: 'MUINumberStepper',
+    description:
+      'MUINumberInput with always-visible - / + stepper buttons flanking the input, min/max clamping and per-bound button disabling.'
   },
   MUIOTPInput: {
     title: 'MUIOTPInput',

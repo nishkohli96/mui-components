@@ -467,6 +467,43 @@ export const PropsDescription = Object.freeze({
       'When true, shows increment/decrement markers on the input.',
     type: 'boolean'
   },
+  min_NumberInput: {
+    name: 'min',
+    description:
+      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` can only tighten this, never loosen it.\n\n**Added in `v1.3`.**',
+    type: 'number'
+  },
+  max_NumberInput: {
+    name: 'max',
+    description:
+      'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in `v1.3`.**',
+    type: 'number'
+  },
+  decrementIcon_NumberStepper: {
+    name: 'decrementIcon',
+    description:
+      'Custom icon for the decrement (`-`) button.\n\n**Default:** Material UI `Remove` icon',
+    type: 'ReactNode'
+  },
+  incrementIcon_NumberStepper: {
+    name: 'incrementIcon',
+    description:
+      'Custom icon for the increment (`+`) button.\n\n**Default:** Material UI `Add` icon',
+    type: 'ReactNode'
+  },
+  swapIcons_NumberStepper: {
+    name: 'swapIcons',
+    description:
+      'When true, the increment icon renders on the left (decrement) button and vice versa. Accessible labels and behaviour are unchanged — the left button still decreases the value.',
+    type: 'boolean'
+  },
+  iconButtonProps_NumberStepper: {
+    name: 'iconButtonProps',
+    description:
+      'Props forwarded to both internal stepper [IconButton](https://v7.mui.com/material-ui/api/icon-button/)s — e.g. a custom `size` or `sx`.',
+    type: 'IconButtonProps',
+    hasLinkInType: false
+  },
 
   /* ------------------------------------------------------------------ */
   /* OTP Input                                                          */

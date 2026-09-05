@@ -23,6 +23,7 @@ const componentRoutes: Record<
   [MuiComponents.TextField]: 'textfield',
   [MuiComponents.PasswordInput]: 'password-input',
   [MuiComponents.NumberInput]: 'number-input',
+  [MuiComponents.NumberStepper]: 'number-stepper',
   [MuiComponents.TagsInput]: 'tags-input',
   [MuiComponents.FileUploader]: 'file-uploader',
   [MuiComponents.Select]: 'select',
@@ -50,6 +51,7 @@ const componentRoutes: Record<
 const muiComponents = [
   MuiComponents.TextField,
   MuiComponents.NumberInput,
+  MuiComponents.NumberStepper,
   MuiComponents.PasswordInput,
   MuiComponents.TagsInput,
   MuiComponents.FileUploader,
