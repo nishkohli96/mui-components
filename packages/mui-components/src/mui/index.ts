@@ -23,6 +23,7 @@ import MUIMultiAutocompleteObject, {
 } from './multi-autocomplete-object';
 import MUINativeSelect, { type MUINativeSelectProps } from './native-select';
 import MUINumberInput, { type MUINumberInputProps } from './number-input';
+import MUINumberStepper, { type MUINumberStepperProps } from './number-stepper';
 import MUIOTPInput, { type MUIOTPInputProps } from './otp-input';
 import MUIPasswordInput, { type MUIPasswordInputProps } from './password-input';
 import MUIRadioGroup, { type MUIRadioGroupProps } from './radio-group';
@@ -45,6 +46,7 @@ export {
   MUIMultiAutocompleteObject,
   MUINativeSelect,
   MUINumberInput,
+  MUINumberStepper,
   MUIOTPInput,
   MUIPasswordInput,
   MUIRadioGroup,
@@ -72,6 +74,7 @@ export type {
   MUIMultiAutocompleteObjectProps,
   MUINativeSelectProps,
   MUINumberInputProps,
+  MUINumberStepperProps,
   MUIOTPInputProps,
   MUIPasswordInputProps,
   MUIRadioGroupProps,

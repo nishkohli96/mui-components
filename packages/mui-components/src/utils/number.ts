@@ -9,18 +9,50 @@ export function setInputValueAndNotify(input: HTMLInputElement, value: string) {
   input.dispatchEvent(new Event('input', { bubbles: true }));
 }
 
+/**
+ * Clamps `value` into the inclusive `[min, max]` range. Either bound may be
+ * omitted, in which case that side is unbounded.
+ */
+export function clampNumber(value: number, min?: number, max?: number) {
+  let result = value;
+  if (min !== undefined && result < min) {
+    result = min;
+  }
+  if (max !== undefined && result > max) {
+    result = max;
+  }
+  return result;
+}
+
+/**
+ * Resolves the effective lower bound for a number field: `nonNegative` acts as
+ * an implicit `min` of `0` and can only tighten an explicit `min`.
+ */
+export function resolveMinBound(nonNegative: boolean, min?: number) {
+  if (nonNegative) {
+    return Math.max(0, min ?? 0);
+  }
+  return min;
+}
+
+type SteppedInputBounds = {
+  nonNegative: boolean;
+  min?: number;
+  max?: number;
+};
+
 export function getSteppedInputValue(
   input: HTMLInputElement,
   step: number,
   direction: 1 | -1,
-  nonNegative: boolean
+  { nonNegative, min, max }: SteppedInputBounds
 ) {
   const currentValue = Number(input.value);
   const resolvedValue = Number.isNaN(currentValue)
     ? 0
     : currentValue;
   const nextValue = resolvedValue + (step * direction);
-  return String(nonNegative ? Math.max(0, nextValue) : nextValue);
+  return String(clampNumber(nextValue, resolveMinBound(nonNegative, min), max));
 }
 
 export function isNativeNumberMarkerClick(

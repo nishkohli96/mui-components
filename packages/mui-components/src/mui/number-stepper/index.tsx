@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useRef,
   type ChangeEvent,
   type ClipboardEvent,
   type FocusEvent,
@@ -12,6 +13,10 @@ import {
   type ReactNode
 } from 'react';
 import MuiTextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import {
   FormControl,
   FormLabel,
@@ -20,7 +25,8 @@ import {
   defaultAutocompleteValue,
   type FormLabelProps,
   type FormHelperTextProps,
-  type TextFieldProps
+  type TextFieldProps,
+  type IconButtonProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
@@ -30,7 +36,8 @@ import {
   sanitizePastedNumber,
   setInputValueAndNotify,
   getSteppedInputValue,
-  isNativeNumberMarkerClick,
+  clampNumber,
+  resolveMinBound,
   buildNumberInputDecimalPattern,
   useFieldIds,
   getErrorList
@@ -55,7 +62,7 @@ type TextFieldInputProps = Omit<
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 };
 
-export type MUINumberInputProps = {
+export type MUINumberStepperProps = {
   /**
    * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
    */
@@ -91,7 +98,7 @@ export type MUINumberInputProps = {
   onlyIntegers?: boolean;
   /**
    * When `true`, negative and exponential values are not allowed
-   * while typing or pasting.
+   * while typing or pasting. Acts as an implicit `min` of `0`.
    */
   nonNegative?: boolean;
   /**
@@ -101,14 +108,40 @@ export type MUINumberInputProps = {
    */
   maxDecimalPlaces?: number;
   /**
-   * Show the increment and decrement markers on number input. Hidden by default.
+   * Lower bound for the value. Stepping (buttons / arrow keys) clamps to this,
+   * the value is clamped on blur, and the decrement button is disabled once the
+   * bound is reached. `nonNegative` can only tighten this, never loosen it.
    */
-  showMarkers?: boolean;
+  min?: number;
   /**
-   * The amount to increase/decrease value when using arrow keys or input steppers.
+   * Upper bound for the value. Stepping (buttons / arrow keys) clamps to this,
+   * the value is clamped on blur, and the increment button is disabled once the
+   * bound is reached.
+   */
+  max?: number;
+  /**
+   * The amount to increase/decrease value when using the stepper buttons or arrow keys.
    * @default 1
    */
   stepAmount?: number;
+  /**
+   * Custom icon for the decrement (`-`) button.
+   *
+   * @default Remove icon
+   */
+  decrementIcon?: ReactNode;
+  /**
+   * Custom icon for the increment (`+`) button.
+   *
+   * @default Add icon
+   */
+  incrementIcon?: ReactNode;
+  /**
+   * Props forwarded to both internal stepper `IconButton`s. Use
+   * `decrementIcon`/`incrementIcon` to swap the icons themselves; this is for
+   * the buttons around them — e.g. a custom `size` or `sx`.
+   */
+  iconButtonProps?: IconButtonProps;
   /**
    * Validation error for the field — pass a single message `string`, or a
    * `string[]` when the field can fail multiple rules at once (every message
@@ -148,19 +181,22 @@ export type MUINumberInputProps = {
 } & TextFieldInputProps;
 
 /**
- * Controlled numeric `TextField` that keeps `value` as a real `number | null`
- * instead of a string, with native stepper/keyboard/paste input all going
- * through the same sanitization path.
+ * Controlled numeric `TextField` with always-visible `-` / `+` stepper buttons
+ * flanking the input. Keeps `value` as a real `number | null` instead of a
+ * string, with button, keyboard, and paste input all going through the same
+ * sanitization path.
  *
- * Supports an integer-only mode, configurable decimal precision, and a
- * customizable step amount. Rejects keystrokes and pasted values that
- * would result in invalid numbers instead of correcting them after input.
+ * Supports an integer-only mode, configurable decimal precision, a customizable
+ * step amount, and optional `min` / `max` bounds that clamp stepping and
+ * disable the relevant button at the limit. Rejects keystrokes and pasted
+ * values that would result in invalid numbers instead of correcting them after
+ * input.
  *
- * Docs: [MUINumberInput](https://mui-components-docs.vercel.app/v1/components/mui/number-input)
+ * Docs: [MUINumberStepper](https://mui-components-docs.vercel.app/v1/components/mui/number-stepper)
  *
- * API: [MUINumberInputProps](https://mui-components-docs.vercel.app/v1/components/mui/number-input#api)
+ * API: [MUINumberStepperProps](https://mui-components-docs.vercel.app/v1/components/mui/number-stepper#api)
  */
-const MUINumberInput = ({
+const MUINumberStepper = ({
   fieldName,
   required,
   value: muiValue,
@@ -170,11 +206,15 @@ const MUINumberInput = ({
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
-  showMarkers,
   onlyIntegers = false,
   nonNegative = false,
   maxDecimalPlaces,
+  min,
+  max,
   stepAmount = 1,
+  decrementIcon,
+  incrementIcon,
+  iconButtonProps,
   errorMessage,
   renderError,
   hideErrorMessage,
@@ -186,16 +226,17 @@ const MUINumberInput = ({
   slotProps: muiSlotProps,
   customIds,
   onKeyDown,
-  onMouseDown,
   onPaste,
-  ...otherNumberInputProps
-}: MUINumberInputProps) => {
+  ...otherNumberStepperProps
+}: MUINumberStepperProps) => {
   const {
     fieldId,
     labelId,
     helperTextId,
     errorId
   } = useFieldIds(fieldName, customIds);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const isLabelAboveFormField = keepLabelAboveFormField(
@@ -217,6 +258,18 @@ const MUINumberInput = ({
     ? Math.max(1, Math.floor(stepAmount))
     : stepAmount;
 
+  const effectiveMin = resolveMinBound(nonNegative, min);
+  const atMin = effectiveMin !== undefined
+    && muiValue !== null
+    && muiValue !== undefined
+    && muiValue <= effectiveMin;
+  const atMax = max !== undefined
+    && muiValue !== null
+    && muiValue !== undefined
+    && muiValue >= max;
+  const decrementDisabled = !!muiDisabled || atMin;
+  const incrementDisabled = !!muiDisabled || atMax;
+
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
   const fieldErrorMessage = isError
@@ -235,28 +288,32 @@ const MUINumberInput = ({
     || (isError && !hideErrorMessage)
   );
 
-  const handleMouseDown = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      const input = e.target instanceof HTMLInputElement ? e.target : null;
-
-      if (showMarkers && input && isNativeNumberMarkerClick(input, e)) {
-        const rect = input.getBoundingClientRect();
-        e.preventDefault();
-        input.focus();
-        setInputValueAndNotify(
-          input,
-          getSteppedInputValue(
-            input,
-            resolvedStepAmount,
-            e.clientY < rect.top + (rect.height / 2) ? 1 : -1,
-            { nonNegative }
-          )
-        );
+  const stepBy = useCallback(
+    (direction: 1 | -1) => {
+      const input = inputRef.current;
+      if (!input) {
+        return;
       }
-
-      onMouseDown?.(e);
+      input.focus();
+      setInputValueAndNotify(
+        input,
+        getSteppedInputValue(
+          input,
+          resolvedStepAmount,
+          direction,
+          { nonNegative, min, max }
+        )
+      );
     },
-    [nonNegative, onMouseDown, resolvedStepAmount, showMarkers]
+    [max, min, nonNegative, resolvedStepAmount]
+  );
+
+  const handleStepButtonMouseDown = useCallback(
+    (e: MouseEvent<HTMLButtonElement>) => {
+      // Keep focus on the input instead of the button.
+      e.preventDefault();
+    },
+    []
   );
 
   const handleKeyDown = useCallback(
@@ -277,7 +334,7 @@ const MUINumberInput = ({
               input,
               resolvedStepAmount,
               e.key === 'ArrowUp' ? 1 : -1,
-              { nonNegative }
+              { nonNegative, min, max }
             )
           );
         }
@@ -321,7 +378,7 @@ const MUINumberInput = ({
 
       onKeyDown?.(e);
     },
-    [nonNegative, onlyIntegers, onKeyDown, resolvedStepAmount]
+    [max, min, nonNegative, onlyIntegers, onKeyDown, resolvedStepAmount]
   );
 
   const handlePaste = useCallback(
@@ -347,6 +404,23 @@ const MUINumberInput = ({
     [decimalPattern, maxDecimalPlaces, nonNegative, onlyIntegers, onPaste]
   );
 
+  const handleBlur = useCallback(
+    (blurEvent: FocusEvent<HTMLInputElement>) => {
+      const input = blurEvent.target;
+      if (input.value !== '' && !input.validity.badInput) {
+        const parsed = Number(input.value);
+        if (!Number.isNaN(parsed)) {
+          const clamped = clampNumber(parsed, effectiveMin, max);
+          if (clamped !== parsed) {
+            setInputValueAndNotify(input, String(clamped));
+          }
+        }
+      }
+      muiOnBlur?.(blurEvent);
+    },
+    [effectiveMin, max, muiOnBlur]
+  );
+
   return (
     <FormControl error={isError} disabled={muiDisabled}>
       {!hideLabel && (
@@ -364,10 +438,11 @@ const MUINumberInput = ({
         />
       )}
       <MuiTextField
-        {...otherNumberInputProps}
+        {...otherNumberStepperProps}
         id={fieldId}
         name={fieldName}
         type="number"
+        inputRef={inputRef}
         autoComplete={autoComplete}
         label={
           !hideLabel && !isLabelAboveFormField
@@ -418,11 +493,8 @@ const MUINumberInput = ({
             onValueChange({ newValue: safeValue, event: changeEvent });
           }
         }}
-        onBlur={blurEvent => {
-          muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
-        }}
+        onBlur={handleBlur}
         onKeyDown={handleKeyDown}
-        onMouseDown={handleMouseDown}
         onPaste={handlePaste}
         slotProps={{
           ...muiSlotProps,
@@ -437,22 +509,63 @@ const MUINumberInput = ({
                 : helperTextId
               : undefined,
             'aria-required': required,
-            ...(nonNegative && { min: 0 }),
+            ...(effectiveMin !== undefined && { min: effectiveMin }),
+            ...(max !== undefined && { max }),
             step: onlyIntegers
               ? resolvedStepAmount
               : 'any'
+          },
+          input: {
+            ...muiSlotProps?.input,
+            startAdornment: (
+              <>
+                {(muiSlotProps?.input as { startAdornment?: ReactNode })?.startAdornment}
+                <InputAdornment position="start">
+                  <IconButton
+                    {...iconButtonProps}
+                    type="button"
+                    edge="start"
+                    size={iconButtonProps?.size ?? 'small'}
+                    aria-label="Decrease value"
+                    disabled={decrementDisabled}
+                    onClick={() => stepBy(-1)}
+                    onMouseDown={handleStepButtonMouseDown}
+                  >
+                    {decrementIcon ?? <RemoveIcon fontSize="small" />}
+                  </IconButton>
+                </InputAdornment>
+              </>
+            ),
+            endAdornment: (
+              <>
+                {(muiSlotProps?.input as { endAdornment?: ReactNode })?.endAdornment}
+                <InputAdornment position="end">
+                  <IconButton
+                    {...iconButtonProps}
+                    type="button"
+                    edge="end"
+                    size={iconButtonProps?.size ?? 'small'}
+                    aria-label="Increase value"
+                    disabled={incrementDisabled}
+                    onClick={() => stepBy(1)}
+                    onMouseDown={handleStepButtonMouseDown}
+                  >
+                    {incrementIcon ?? <AddIcon fontSize="small" />}
+                  </IconButton>
+                </InputAdornment>
+              </>
+            )
           }
         }}
         error={isError}
         sx={{
           ...muiSx,
-          ...(!showMarkers && {
-            '& input[type=number]': {
-              MozAppearance: 'textfield',
-              '&::-webkit-outer-spin-button': { display: 'none' },
-              '&::-webkit-inner-spin-button': { display: 'none' },
-            },
-          }),
+          '& input[type=number]': {
+            MozAppearance: 'textfield',
+            textAlign: 'center',
+            '&::-webkit-outer-spin-button': { display: 'none' },
+            '&::-webkit-inner-spin-button': { display: 'none' },
+          },
         }}
         multiline={false}
       />
@@ -471,4 +584,4 @@ const MUINumberInput = ({
   );
 };
 
-export default MUINumberInput;
+export default MUINumberStepper;
