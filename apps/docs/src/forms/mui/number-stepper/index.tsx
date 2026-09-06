@@ -108,8 +108,12 @@ export default function NumberStepperForm() {
             <form.Field
               name="price"
               validators={{
-                onChange: ({ value }) =>
-                  (value !== null && value < 0 ? 'Price cannot be negative' : undefined)
+                onChange: ({ value }) => {
+                  if (value === null) {
+                    return 'Price is required';
+                  }
+                  return value < 0 ? 'Price cannot be negative' : undefined;
+                }
               }}
             >
               {field => (
@@ -126,6 +130,7 @@ export default function NumberStepperForm() {
                   showLabelAboveFormField
                   formLabelProps={{ sx: { fontWeight: 600 } }}
                   helperText="Up to two decimal places"
+                  required
                   disabled={disableAllFields}
                 />
               )}
@@ -134,22 +139,34 @@ export default function NumberStepperForm() {
 
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Custom step (±2), bounded 16–30, custom icons" />
-            <form.Field name="targetTemp">
+            <form.Field
+              name="targetTemp"
+              validators={{
+                onChange: ({ value }) =>
+                  (value === null ? 'Target temp is required' : undefined)
+              }}
+            >
               {field => (
                 <MUINumberStepper
                   fieldName="targetTemp"
                   label="Target temp (°C)"
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                   onlyIntegers
                   min={16}
                   max={30}
                   stepAmount={2}
+                  required
                   swapIcons
                   decrementIcon={<span>▼</span>}
                   incrementIcon={<span>▲</span>}
-                  unitIcon={<DeviceThermostatIcon sx={{ fontSize: 14 }} />}
-                  unitLabel="Bedrooms"
+                  caption={(
+                    <>
+                      <DeviceThermostatIcon sx={{ fontSize: 14 }} />
+                      Bedrooms
+                    </>
+                  )}
                   helperText="Arrow keys / steppers change by 2"
                   disabled={disableAllFields}
                 />

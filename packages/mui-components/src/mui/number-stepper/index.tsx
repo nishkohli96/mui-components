@@ -49,13 +49,9 @@ export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'v
    */
   iconButtonProps?: IconButtonProps;
   /**
-   * Icon shown under the value (e.g. a bed icon for a "Bedrooms" stepper).
+   * Content rendered under the value (e.g. an icon + "Bedrooms" label).
    */
-  unitIcon?: ReactNode;
-  /**
-   * Text shown under the value, next to `unitIcon`.
-   */
-  unitLabel?: ReactNode;
+  caption?: ReactNode;
 };
 
 /**
@@ -93,8 +89,7 @@ const MUINumberStepper = ({
   incrementIcon,
   swapIcons,
   iconButtonProps,
-  unitIcon,
-  unitLabel,
+  caption,
   sx: muiSx,
   slotProps: muiSlotProps,
   ...otherNumberInputProps
@@ -170,7 +165,7 @@ const MUINumberStepper = ({
 
   const removeButtonIcon = decrementIcon ?? <RemoveIcon fontSize="small" />;
   const addButtonIcon = incrementIcon ?? <AddIcon fontSize="small" />;
-  const hasUnitCaption = !!(unitIcon || unitLabel);
+  const hasCaption = !!caption;
 
   return (
     <FormControl error={isError} disabled={muiDisabled}>
@@ -197,6 +192,11 @@ const MUINumberStepper = ({
           borderRadius: '9999px',
           bgcolor: 'background.paper',
           overflow: 'hidden',
+          '&:focus-within': {
+            borderColor: isError ? 'error.main' : 'primary.main',
+            borderWidth: '2px',
+            m: '-1px'
+          },
           ...muiSx
         }}
       >
@@ -217,7 +217,10 @@ const MUINumberStepper = ({
           {swapIcons ? addButtonIcon : removeButtonIcon}
         </IconButton>
 
-        <Box sx={{ position: 'relative', flex: 1, minWidth: 0 }}>
+        <Box
+          sx={{ position: 'relative', flex: 1, minWidth: 0 }}
+          onClick={() => inputRef.current?.focus()}
+        >
           <MUINumberInput
             {...otherNumberInputProps}
             fieldName={fieldName}
@@ -250,11 +253,11 @@ const MUINumberStepper = ({
             sx={{
               '& input[type=number]': {
                 textAlign: 'center',
-                ...(hasUnitCaption ? { paddingBottom: '18px' } : {})
+                ...(hasCaption ? { paddingBottom: '18px' } : {})
               }
             }}
           />
-          {hasUnitCaption && (
+          {hasCaption && (
             <Box
               sx={{
                 position: 'absolute',
@@ -271,8 +274,7 @@ const MUINumberStepper = ({
                 whiteSpace: 'nowrap'
               }}
             >
-              {unitIcon}
-              {unitLabel}
+              {caption}
             </Box>
           )}
         </Box>
