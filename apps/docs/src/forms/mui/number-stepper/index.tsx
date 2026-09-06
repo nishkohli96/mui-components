@@ -17,6 +17,7 @@ import { useForm } from '@tanstack/react-form';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import MUINumberStepper from '@nish1896/mui-components/mui/number-stepper';
 import {
   FormContainer,
@@ -144,8 +145,11 @@ export default function NumberStepperForm() {
                   min={16}
                   max={30}
                   stepAmount={2}
+                  swapIcons
                   decrementIcon={<span>▼</span>}
                   incrementIcon={<span>▲</span>}
+                  unitIcon={<DeviceThermostatIcon sx={{ fontSize: 14 }} />}
+                  unitLabel="Bedrooms"
                   helperText="Arrow keys / steppers change by 2"
                   disabled={disableAllFields}
                 />

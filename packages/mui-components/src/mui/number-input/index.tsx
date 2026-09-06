@@ -476,13 +476,14 @@ const MUINumberInput = ({
         error={isError}
         sx={{
           ...muiSx,
-          ...(!showMarkers && {
-            '& input[type=number]': {
+          '& input[type=number]': {
+            ...(muiSx as Record<string, object> | undefined)?.['& input[type=number]'],
+            ...(!showMarkers && {
               MozAppearance: 'textfield',
               '&::-webkit-outer-spin-button': { display: 'none' },
               '&::-webkit-inner-spin-button': { display: 'none' },
-            },
-          }),
+            }),
+          },
         }}
         multiline={false}
       />
