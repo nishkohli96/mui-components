@@ -76,7 +76,7 @@ export default function NumberStepperForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Integer only, bounded 1–10" />
+            <FieldVariantInfo title="Integer only, bounded 1–10, rectangular (sx override)" />
             <form.Field
               name="quantity"
               validators={{
@@ -98,13 +98,14 @@ export default function NumberStepperForm() {
                   required
                   disabled={disableAllFields}
                   helperText='"−" disabled at 1, "+" disabled at 10'
+                  sx={{ borderRadius: '8px' }}
                 />
               )}
             </form.Field>
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Decimal (2 places), step ±0.5, label above field" />
+            <FieldVariantInfo title="Decimal (2 places), step ±0.5, label above field, larger buttons (iconButtonProps override)" />
             <form.Field
               name="price"
               validators={{
@@ -132,13 +133,14 @@ export default function NumberStepperForm() {
                   helperText="Up to two decimal places"
                   required
                   disabled={disableAllFields}
+                  iconButtonProps={{ size: 'large' }}
                 />
               )}
             </form.Field>
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Custom step (±2), bounded 16–30, custom icons" />
+            <FieldVariantInfo title="Custom step (±2), bounded 16–30, custom icons, tighter caption padding (sx override)" />
             <form.Field
               name="targetTemp"
               validators={{
@@ -169,6 +171,9 @@ export default function NumberStepperForm() {
                   )}
                   helperText="Arrow keys / steppers change by 2"
                   disabled={disableAllFields}
+                  sx={{
+                    '& input[type=number]': { paddingBottom: '12px' }
+                  }}
                 />
               )}
             </form.Field>

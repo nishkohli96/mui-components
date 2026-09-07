@@ -205,7 +205,7 @@ const MUINumberStepper = ({
           type="button"
           size={iconButtonProps?.size ?? 'small'}
           aria-label={swapIcons ? 'Increase value' : 'Decrease value'}
-          disabled={!!muiDisabled || atMin}
+          disabled={!!muiDisabled || (swapIcons ? atMax : atMin)}
           onClick={() => stepBy(swapIcons ? 1 : -1)}
           onMouseDown={keepInputFocused}
           sx={{
@@ -253,7 +253,8 @@ const MUINumberStepper = ({
             sx={{
               '& input[type=number]': {
                 textAlign: 'center',
-                ...(hasCaption ? { paddingBottom: '18px' } : {})
+                ...(hasCaption ? { paddingBottom: '18px' } : {}),
+                ...(muiSx as Record<string, object> | undefined)?.['& input[type=number]']
               }
             }}
           />
@@ -284,7 +285,7 @@ const MUINumberStepper = ({
           type="button"
           size={iconButtonProps?.size ?? 'small'}
           aria-label={swapIcons ? 'Decrease value' : 'Increase value'}
-          disabled={!!muiDisabled || atMax}
+          disabled={!!muiDisabled || (swapIcons ? atMin : atMax)}
           onClick={() => stepBy(swapIcons ? -1 : 1)}
           onMouseDown={keepInputFocused}
           sx={{
