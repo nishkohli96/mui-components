@@ -10,12 +10,13 @@ import {
   type OptionValue
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
-import type { CustomComponentIds } from '@/types';
+import type { CustomComponentIds, StrObjOption } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  getOptionValue
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 import MUISelect, { type MUISelectProps } from '../select';
@@ -27,14 +28,14 @@ const MIN_SEGMENT_WIDTH = 50;
 export type MUIUnitInputValue<Unit extends string = string> = {
   /** Numeric quantity. `null` renders an empty input. */
   quantity: number | null;
-  /** Currently selected unit — one of the values passed via `units`. */
+  /** Currently selected unit — one of the values passed via `unitOptions`. */
   unit: Unit;
 };
 
 type OnValueChangeProps<Unit extends string> = {
   newValue: MUIUnitInputValue<Unit>;
   event: Parameters<MUINumberInputProps['onValueChange']>[0]['event']
-    | Parameters<MUISelectProps<Unit>['onValueChange']>[0]['event'];
+    | Parameters<MUISelectProps<StrObjOption>['onValueChange']>[0]['event'];
 };
 
 type QuantityInputProps = Omit<
@@ -64,10 +65,16 @@ type QuantityInputProps = Omit<
   | 'max'
 >;
 
-type UnitSelectProps<Unit extends string> = Omit<
-  MUISelectProps<Unit>,
+type UnitSelectProps<
+  Option extends StrObjOption,
+  LabelKey extends Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string>
+> = Omit<
+  MUISelectProps<Option, LabelKey, ValueKey>,
   | 'fieldName'
   | 'options'
+  | 'labelKey'
+  | 'valueKey'
   | 'value'
   | 'onValueChange'
   | 'variant'
@@ -85,7 +92,12 @@ type UnitSelectProps<Unit extends string> = Omit<
   | 'disabled'
 >;
 
-export type MUIUnitInputProps<Unit extends string = string> = {
+export type MUIUnitInputProps<
+  Option extends StrObjOption = StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  Unit extends string = OptionValue<Option, ValueKey> & string
+> = {
   /**
    * Name/path of the field's two underlying controls, kept separate (rather
    * than one combined `fieldName`) so each can be registered independently
@@ -107,13 +119,24 @@ export type MUIUnitInputProps<Unit extends string = string> = {
    */
   onValueChange: ({ newValue, event }: OnValueChangeProps<Unit>) => void;
   /**
-   * Units selectable from the dropdown, e.g. `['USD', 'EUR', 'GBP']` or
-   * `['kg', 'lb']`. Always plain strings — a numeric or nullable unit belongs
-   * in a second `MUINumberInput`, not here. Pass a string-literal union (e.g.
-   * an enum's values) to get that type back on `value.unit` and `newValue.unit`
-   * instead of a widened `string`.
+   * Units selectable from the dropdown — a plain string array (e.g.
+   * `['USD', 'EUR', 'GBP']`, or a string-literal union/enum's values for
+   * literal-union safety on `value.unit`/`newValue.unit`), or an object
+   * array read via `labelKey`/`valueKey`, same convention as `MUISelect`.
+   * The resolved unit value is always a `string` — a numeric or nullable
+   * unit belongs in a second `MUINumberInput`, not here.
    */
-  units: Unit[];
+  unitOptions: Option[];
+  /**
+   * Object key used to read the display label from each option, when
+   * `unitOptions` is an array of objects.
+   */
+  labelKey?: LabelKey;
+  /**
+   * Object key used to derive the unit value from each option, when
+   * `unitOptions` is an array of objects.
+   */
+  valueKey?: ValueKey;
   /**
    * Which side the unit `Select` renders on relative to the quantity input.
    * @default 'end'
@@ -209,7 +232,7 @@ export type MUIUnitInputProps<Unit extends string = string> = {
   /**
    * Props forwarded to the internal unit `MUISelect`.
    */
-  unitSelectProps?: UnitSelectProps<Unit>;
+  unitSelectProps?: UnitSelectProps<Option, LabelKey, ValueKey>;
   /** Props forwarded to the outer pill container. */
   sx?: MUINumberInputProps['sx'];
 };
@@ -220,6 +243,10 @@ export type MUIUnitInputProps<Unit extends string = string> = {
  * rendered borderless inside one bordered pill and divided by a single
  * border, similar in spirit to `MUIPhoneInput`'s country + number pairing.
  *
+ * `unitOptions` accepts either a plain string array or an array of objects read
+ * via `labelKey`/`valueKey`, same convention as `MUISelect`; the resolved
+ * unit value is always a `string`.
+ *
  * `fieldName`/`customIds` take one entry per control (`quantity`/`unit`) so
  * each can be registered independently against a flat form schema; `value`/
  * `onValueChange` still report the pair together as one `{ quantity, unit }`
@@ -229,11 +256,18 @@ export type MUIUnitInputProps<Unit extends string = string> = {
  *
  * API: [MUIUnitInputProps](https://mui-components-docs.vercel.app/v1/components/mui/unit-input#api)
  */
-const MUIUnitInput = <Unit extends string = string>({
+const MUIUnitInput = <
+  Option extends StrObjOption = StrObjOption,
+  LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
+  Unit extends string = OptionValue<Option, ValueKey> & string
+>({
   fieldName,
   value,
   onValueChange,
-  units,
+  unitOptions,
+  labelKey,
+  valueKey,
   unitPosition = 'end',
   unitWidth,
   placeholder,
@@ -257,7 +291,7 @@ const MUIUnitInput = <Unit extends string = string>({
   quantityInputProps,
   unitSelectProps,
   sx: muiSx
-}: MUIUnitInputProps<Unit>) => {
+}: MUIUnitInputProps<Option, LabelKey, ValueKey, Unit>) => {
   const {
     fieldId: quantityFieldId,
     labelId,
@@ -287,7 +321,8 @@ const MUIUnitInput = <Unit extends string = string>({
     : undefined;
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
-  const resolvedUnit = value?.unit ?? units[0];
+  const resolvedUnit = value?.unit
+    ?? (getOptionValue(unitOptions[0], valueKey) as unknown as Unit);
 
   /*
    * `MUINumberInput`/`MUISelect` each wrap themselves in the shared
@@ -358,17 +393,13 @@ const MUIUnitInput = <Unit extends string = string>({
         minWidth: MIN_SEGMENT_WIDTH
       }}
     >
-    <MUISelect<Unit>
+    <MUISelect<Option, LabelKey, ValueKey>
       {...unitSelectProps}
       fieldName={fieldName.unit}
-      options={units}
-      /*
-       * `units` is always `Unit[]` (never object options), so
-       * `OptionValue<Unit, ...>` is always exactly `Unit` at runtime — the
-       * cast just works around `MUISelect`'s conditional type not
-       * distributing over a still-generic `Unit` two components deep.
-       */
-      value={resolvedUnit as unknown as OptionValue<Unit, never>}
+      options={unitOptions}
+      labelKey={labelKey}
+      valueKey={valueKey}
+      value={resolvedUnit as unknown as OptionValue<Option, ValueKey>}
       onValueChange={({ newValue, event }) => {
         onValueChange({
           newValue: { quantity: value?.quantity ?? null, unit: newValue as unknown as Unit },

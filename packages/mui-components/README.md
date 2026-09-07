@@ -65,6 +65,7 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
   - [File Uploader](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader)
   - [Select](https://mui-components-docs.vercel.app/v1/components/mui/select)
   - [Native Select](https://mui-components-docs.vercel.app/v1/components/mui/native-select)
+  - [Unit Input](https://mui-components-docs.vercel.app/v1/components/mui/unit-input)
   - [Autocomplete](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete)
   - [Autocomplete Object](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete-object)
   - [Multi Autocomplete](https://mui-components-docs.vercel.app/v1/components/mui/multi-autocomplete)

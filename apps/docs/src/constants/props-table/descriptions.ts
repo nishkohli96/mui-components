@@ -521,65 +521,6 @@ export const PropsDescription = Object.freeze({
     description: 'Content rendered under the value.\n\n E.g. an icon + label.',
     type: 'ReactNode'
   },
-  fieldName_UnitInput: {
-    name: 'fieldName',
-    description:
-      'Name/path of the field\'s two underlying controls, kept separate (rather than one combined `fieldName`) so each can be registered independently against a flat form schema — e.g. `{ quantity: \'weight\', unit: \'weightUnit\' }`.',
-    required: true,
-    type: '{ quantity: string; unit: string }'
-  },
-  value_UnitInput: {
-    name: 'value',
-    description:
-      'Current value of the field. `quantity` and `unit` are always reported together through `onValueChange`, even though they\'re two controls.',
-    type: 'MUIUnitInputValue<Unit>'
-  },
-  onValueChange_UnitInput: {
-    name: 'onValueChange',
-    description:
-      'Called whenever either the quantity or the unit changes. Always receives the full `{ quantity, unit }` value.',
-    type: '({ newValue, event }) => void'
-  },
-  units_UnitInput: {
-    name: 'units',
-    description:
-      'Units selectable from the dropdown, e.g. `[\'USD\', \'EUR\', \'GBP\']` or `[\'kg\', \'lb\']`. Always plain strings. Pass a string-literal union (e.g. an enum\'s values) as the `Unit` type argument to get that type back on `value.unit` / `newValue.unit` instead of a widened `string`.',
-    required: true,
-    type: 'Unit[]'
-  },
-  unitPosition_UnitInput: {
-    name: 'unitPosition',
-    description: 'Which side the unit `Select` renders on relative to the quantity input.\n\n**Default:** `\'end\'`',
-    type: '\'start\' | \'end\''
-  },
-  unitWidth_UnitInput: {
-    name: 'unitWidth',
-    description:
-      'Width of the unit `Select` as a CSS `flex-basis` value, typically a percentage (e.g. `\'30%\'`) — the quantity input fills the rest. Accepts a single value or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`. Both segments keep a hardcoded `minWidth: 50px` so neither collapses. When omitted, the unit `Select` sizes to its content.',
-    type: 'ResponsiveStyleValue<string>'
-  },
-  placeholder_UnitInput: {
-    name: 'placeholder',
-    description: 'Placeholder shown in the empty quantity input.',
-    type: 'string'
-  },
-  quantityInputProps_UnitInput: {
-    name: 'quantityInputProps',
-    description: 'Props forwarded to the internal quantity `MUINumberInput`.',
-    type: 'MUINumberInputProps',
-    hasLinkInType: false
-  },
-  unitSelectProps_UnitInput: {
-    name: 'unitSelectProps',
-    description: 'Props forwarded to the internal unit `MUISelect`.',
-    type: 'MUISelectProps<Unit>',
-    hasLinkInType: false
-  },
-  customIds_UnitInput: {
-    name: 'customIds',
-    description: 'Custom ids for the quantity and unit controls respectively.',
-    type: '{ quantity?: CustomComponentIds; unit?: CustomComponentIds }'
-  },
   value_OTPInput: {
     name: 'value',
     description:
@@ -841,6 +782,88 @@ export const PropsDescription = Object.freeze({
     description:
       'Function used to determine whether an option should be disabled. Return `true` to disable the option and prevent it from being selected.',
     type: '(option) => boolean'
+  },
+  fieldName_UnitInput: {
+    name: 'fieldName',
+    description:
+      'Name/path of the field\'s two underlying controls, kept separate (rather than one combined `fieldName`) so each can be registered independently against a flat form schema — e.g. `{ quantity: \'weight\', unit: \'weightUnit\' }`.',
+    required: true,
+    type: '{ quantity: string; unit: string }'
+  },
+  value_UnitInput: {
+    name: 'value',
+    description:
+      'Current value of the field. `quantity` and `unit` are always reported together through `onValueChange`, even though they\'re two controls.',
+    type: '{ quantity: number | null; unit: string }'
+  },
+  onValueChange_UnitInput: {
+    name: 'onValueChange',
+    description:
+      'Called whenever either the quantity or the unit changes. Always receives the full `{ quantity, unit }` value.',
+    type: '({ newValue, event }) => void',
+    required: true,
+  },
+  unitOptions_UnitInput: {
+    name: 'unitOptions',
+    description:
+      'Units selectable from the dropdown — a plain string array (e.g. `[\'USD\', \'EUR\', \'GBP\']` or `[\'kg\', \'lb\']`, a string-literal union/enum\'s values for literal-union safety), or an object array read via `labelKey`/`valueKey`, same convention as `MUISelect`. `Unit` is auto-derived from `unitOptions`/`valueKey` — no need to pass it as an explicit type argument.',
+    required: true,
+    type: 'Option[]'
+  },
+  labelKey_UnitInput: {
+    name: 'labelKey',
+    description: 'Object key used to read the display label from each option, when `unitOptions` is an array of objects.',
+    type: 'string'
+  },
+  valueKey_UnitInput: {
+    name: 'valueKey',
+    description: 'Object key used to derive the unit value from each option, when `unitOptions` is an array of objects.',
+    type: 'string'
+  },
+  unitPosition_UnitInput: {
+    name: 'unitPosition',
+    description: 'Which side the unit `Select` renders on relative to the quantity input.\n\n**Default:** `\'end\'`',
+    type: '\'start\' | \'end\''
+  },
+  unitWidth_UnitInput: {
+    name: 'unitWidth',
+    description:
+      'Width of the unit `Select` as a CSS `flex-basis` value, the quantity input fills the rest. Accepts a single value (e.g. `100px` or `\'30%\'`) or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`.\n\nBoth segments have a default `minWidth: 50px` so neither collapses. When omitted, the unit `Select` sizes to its content.',
+    type: 'ResponsiveStyleValue<string>'
+  },
+  min_UnitInput: {
+    name: 'min',
+    description:
+      'Lower bound for the quantity value. `nonNegative` sets the default value to `0` unless overridden.',
+    type: 'number'
+  },
+  max_UnitInput: {
+    name: 'max',
+    description:
+      'Upper bound for the quantity value.',
+    type: 'number'
+  },
+  placeholder_UnitInput: {
+    name: 'placeholder',
+    description: 'Placeholder shown in the empty quantity input.',
+    type: 'string'
+  },
+  quantityInputProps_UnitInput: {
+    name: 'quantityInputProps',
+    description: 'Props forwarded to the internal quantity `MUINumberInput`.',
+    type: 'MUINumberInputProps',
+    hasLinkInType: false
+  },
+  unitSelectProps_UnitInput: {
+    name: 'unitSelectProps',
+    description: 'Props forwarded to the internal unit `MUISelect`.',
+    type: 'MUISelectProps',
+    hasLinkInType: false
+  },
+  customIds_UnitInput: {
+    name: 'customIds',
+    description: 'Custom ids for the quantity and unit controls respectively.',
+    type: '{ quantity?: CustomComponentIds; unit?: CustomComponentIds }'
   },
 
   /* ------------------------------------------------------------------ */

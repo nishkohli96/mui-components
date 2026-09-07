@@ -2,9 +2,11 @@
 
 /**
  * MUIUnitInput example — plain React `useState`. Shows a currency field
- * (string units, unit on the right) and a generic weight field (a
- * string-literal union `Unit` type, unit on the left) to demonstrate
- * `unitPosition` and that `newValue.unit` keeps its literal type.
+ * (object `unitOptions` read via `labelKey`/`valueKey`, unit on the left)
+ * and a generic weight field (a plain string `unitOptions` array, unit on
+ * the right, responsive `unitWidth`) to demonstrate `unitPosition` and that
+ * `newValue.unit` keeps its literal type either way. Both fields are
+ * `required` and validated on submit.
  */
 
 import { useState } from 'react';
@@ -25,12 +27,24 @@ import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 type WeightUnit = 'kg' | 'lb';
+type Currency = 'USD' | 'EUR' | 'GBP';
+
+type CurrencyOption = {
+  code: Currency;
+  label: string;
+};
+
+const currencyOptions: CurrencyOption[] = [
+  { code: 'USD', label: 'US Dollar' },
+  { code: 'EUR', label: 'Euro' },
+  { code: 'GBP', label: 'British Pound' }
+];
 
 export default function UnitInputForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
 
-  const [price, setPrice] = useState<MUIUnitInputValue>({
+  const [price, setPrice] = useState<MUIUnitInputValue<Currency>>({
     quantity: null,
     unit: 'USD'
   });
@@ -39,9 +53,27 @@ export default function UnitInputForm() {
     unit: 'kg'
   });
 
+  const [priceError, setPriceError] = useState<string>();
+  const [weightError, setWeightError] = useState<string>();
+
   const formValues = { price, weight };
+  const errors = { price: priceError, weight: weightError };
+
+  function resetForm() {
+    setPrice({ quantity: null, unit: 'USD' });
+    setWeight({ quantity: 5, unit: 'kg' });
+    setPriceError(undefined);
+    setWeightError(undefined);
+  }
 
   async function onFormSubmit() {
+    const priceMissing = price.quantity === null;
+    const weightMissing = weight.quantity === null;
+    setPriceError(priceMissing ? 'Price is required' : undefined);
+    setWeightError(weightMissing ? 'Weight is required' : undefined);
+    if (priceMissing || weightMissing) {
+      return;
+    }
     await logFirebaseEvent(formSubmitEventName, { pathName });
     showToastMessage(formValues);
   }
@@ -68,28 +100,7 @@ export default function UnitInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Weight, generic literal-union Unit type, responsive unitWidth (40% on mobile, 30% from md up)" />
-            <MUIUnitInput<WeightUnit>
-              fieldName={{
-                quantity: 'weightAmount',
-                unit: 'weightUnit'
-              }}
-              label="Package weight"
-              value={weight}
-              onValueChange={({ newValue }) => setWeight(newValue)}
-              units={['kg', 'lb']}
-              unitWidth={{ xs: '40%', md: '30%' }}
-              unitSelectProps={{ sx: { fontWeight: 600 } }}
-              onlyIntegers
-              min={0}
-              max={100}
-              helperText="kg or lb — try TypeScript-hovering newValue.unit, it's 'kg' | 'lb', not string"
-              disabled={disableAllFields}
-            />
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Currency amount, unit on the left, string units" />
+            <FieldVariantInfo title="Currency, object unitOptions via labelKey/valueKey, unit on the left" />
             <MUIUnitInput
               fieldName={{
                 quantity: 'priceAmount',
@@ -97,29 +108,55 @@ export default function UnitInputForm() {
               }}
               label="Price"
               value={price}
-              onValueChange={({ newValue }) => setPrice(newValue)}
-              units={['USD', 'EUR', 'GBP']}
+              onValueChange={({ newValue }) => {
+                setPrice(newValue);
+                setPriceError(undefined);
+              }}
+              unitOptions={currencyOptions}
+              labelKey="label"
+              valueKey="code"
               unitPosition="start"
               placeholder="Enter amount"
               nonNegative
               maxDecimalPlaces={2}
               required
+              errorMessage={priceError}
               helperText="Amount and currency"
+              disabled={disableAllFields}
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Weight, plain string unitOptions, responsive unitWidth (40% on mobile, 30% from md up)" />
+            <MUIUnitInput
+              fieldName={{
+                quantity: 'weightAmount',
+                unit: 'weightUnit'
+              }}
+              label="Package weight"
+              value={weight}
+              onValueChange={({ newValue }) => {
+                setWeight(newValue);
+                setWeightError(undefined);
+              }}
+              unitOptions={['kg', 'lb']}
+              unitWidth={{ xs: '40%', md: '30%' }}
+              onlyIntegers
+              min={0}
+              max={100}
+              required
+              errorMessage={weightError}
+              helperText="kg or lb — try TypeScript-hovering newValue.unit, it's 'kg' | 'lb', not string"
               disabled={disableAllFields}
             />
           </Grid>
 
           <Grid size={12}>
             <SubmitButton />
-            <ResetButton
-              onClick={() => {
-                setPrice({ quantity: null, unit: 'USD' });
-                setWeight({ quantity: 5, unit: 'kg' });
-              }}
-            />
+            <ResetButton onClick={resetForm} />
           </Grid>
           <Grid size={12}>
-            <FormState formValues={formValues} errors={{}} />
+            <FormState formValues={formValues} errors={errors} />
           </Grid>
         </GridContainer>
       </form>
