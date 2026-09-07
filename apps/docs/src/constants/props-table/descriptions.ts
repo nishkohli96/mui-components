@@ -521,10 +521,59 @@ export const PropsDescription = Object.freeze({
     description: 'Content rendered under the value.\n\n E.g. an icon + label.',
     type: 'ReactNode'
   },
-
-  /* ------------------------------------------------------------------ */
-  /* OTP Input                                                          */
-  /* ------------------------------------------------------------------ */
+  fieldName_UnitInput: {
+    name: 'fieldName',
+    description:
+      'Name/path of the field\'s two underlying controls, kept separate (rather than one combined `fieldName`) so each can be registered independently against a flat form schema — e.g. `{ quantity: \'weight\', unit: \'weightUnit\' }`.',
+    required: true,
+    type: '{ quantity: string; unit: string }'
+  },
+  value_UnitInput: {
+    name: 'value',
+    description:
+      'Current value of the field. `quantity` and `unit` are always reported together through `onValueChange`, even though they\'re two controls.',
+    type: 'MUIUnitInputValue<Unit>'
+  },
+  onValueChange_UnitInput: {
+    name: 'onValueChange',
+    description:
+      'Called whenever either the quantity or the unit changes. Always receives the full `{ quantity, unit }` value.',
+    type: '({ newValue, event }) => void'
+  },
+  units_UnitInput: {
+    name: 'units',
+    description:
+      'Units selectable from the dropdown, e.g. `[\'USD\', \'EUR\', \'GBP\']` or `[\'kg\', \'lb\']`. Always plain strings. Pass a string-literal union (e.g. an enum\'s values) as the `Unit` type argument to get that type back on `value.unit` / `newValue.unit` instead of a widened `string`.',
+    required: true,
+    type: 'Unit[]'
+  },
+  unitPosition_UnitInput: {
+    name: 'unitPosition',
+    description: 'Which side the unit `Select` renders on relative to the quantity input.\n\n**Default:** `\'end\'`',
+    type: '\'start\' | \'end\''
+  },
+  placeholder_UnitInput: {
+    name: 'placeholder',
+    description: 'Placeholder shown in the empty quantity input.',
+    type: 'string'
+  },
+  quantityInputProps_UnitInput: {
+    name: 'quantityInputProps',
+    description: 'Props forwarded to the internal quantity `MUINumberInput`.',
+    type: 'MUINumberInputProps',
+    hasLinkInType: false
+  },
+  unitSelectProps_UnitInput: {
+    name: 'unitSelectProps',
+    description: 'Props forwarded to the internal unit `MUISelect`.',
+    type: 'MUISelectProps<Unit>',
+    hasLinkInType: false
+  },
+  customIds_UnitInput: {
+    name: 'customIds',
+    description: 'Custom ids for the quantity and unit controls respectively.',
+    type: '{ quantity?: CustomComponentIds; unit?: CustomComponentIds }'
+  },
   value_OTPInput: {
     name: 'value',
     description:

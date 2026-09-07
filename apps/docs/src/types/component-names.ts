@@ -3,6 +3,7 @@ export enum MuiComponents {
   PasswordInput = 'MUIPasswordInput',
   NumberInput = 'MUINumberInput',
   CounterInput = 'MUICounterInput',
+  UnitInput = 'MUIUnitInput',
   OTPInput = 'MUIOTPInput',
   TagsInput = 'MUITagsInput',
   FileUploader = 'MUIFileUploader',

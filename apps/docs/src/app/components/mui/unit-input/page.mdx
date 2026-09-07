@@ -1,0 +1,71 @@
+import { DocsPage, PropsTable } from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import UnitInputForm from '@/forms/mui/unit-input/Client';
+
+export const metadata = componentMetadata.MUIUnitInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIUnitInput
+
+`MUIUnitInput` pairs a numeric quantity ([MUINumberInput](/components/mui/number-input))
+with a unit picker ([MUISelect](/components/mui/select)) — currency, weight, temperature, or any other unit set —
+rendered borderless inside one bordered pill, similar in spirit to
+[MUIPhoneInput](/components/mui/phone-input)'s country + number pairing.
+
+`fieldName` and `customIds` take one entry per control (`quantity`/`unit`) so
+each is registered independently against a flat form schema, but `value` /
+`onValueChange` still report the pair together as one `{ quantity, unit }`
+object. `units` is generic over a `Unit` string type — pass a string-literal
+union (an enum's values) as the type argument to keep `value.unit` /
+`newValue.unit` typed as that union instead of a widened `string`.
+
+## Usage
+
+```tsx
+import MUIUnitInput, { MUIUnitInputValue } from '@nish1896/mui-components/mui/unit-input';
+```
+
+```tsx
+const [price, setPrice] = useState<MUIUnitInputValue>({ quantity: null, unit: 'USD' });
+
+<MUIUnitInput
+  fieldName={{ quantity: 'priceAmount', unit: 'priceUnit' }}
+  value={price}
+  onValueChange={({ newValue }) => setPrice(newValue)}
+  units={['USD', 'EUR', 'GBP']}
+  nonNegative
+  maxDecimalPlaces={2}
+/>
+```
+
+Type the `Unit` set explicitly to keep it out of plain `string`:
+
+```tsx
+type WeightUnit = 'kg' | 'lb';
+
+<MUIUnitInput<WeightUnit>
+  fieldName={{ quantity: 'weightAmount', unit: 'weightUnit' }}
+  value={weight}
+  onValueChange={({ newValue }) => setWeight(newValue)}
+  units={['kg', 'lb']}
+  unitPosition="start"
+/>
+```
+
+## API
+
+Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIUnitInput} />
+
+## Playground
+
+Two examples — a currency field (unit on the right, plain `string` units)
+and a generic weight field (unit on the left, a `'kg' | 'lb'` literal union
+kept type-safe through `onValueChange`).
+
+<UnitInputForm />

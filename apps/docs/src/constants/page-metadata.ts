@@ -123,6 +123,11 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'Pill-shaped numeric counter with always-visible - / + buttons flanking the value, min/max clamping and per-bound button disabling.'
   },
+  MUIUnitInput: {
+    title: 'MUIUnitInput',
+    description:
+      'Numeric quantity input paired with a unit Select (currency, weight, temperature or any other unit set), with a generic Unit type for full literal-union safety.'
+  },
   MUIOTPInput: {
     title: 'MUIOTPInput',
     description:

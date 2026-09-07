@@ -1,0 +1,409 @@
+'use client';
+
+import { useContext, type ReactNode } from 'react';
+import Box from '@mui/material/Box';
+import {
+  FormControl,
+  FormLabel,
+  FormHelperText
+} from '@/common';
+import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
+import type { CustomComponentIds } from '@/types';
+import {
+  fieldNameToLabel,
+  keepLabelAboveFormField,
+  useFieldIds,
+  getErrorList
+} from '@/utils';
+import MUINumberInput, { type MUINumberInputProps } from '../number-input';
+import MUISelect, { type MUISelectProps } from '../select';
+import type { OptionValue } from '@/common';
+
+export type MUIUnitInputValue<Unit extends string = string> = {
+  /** Numeric quantity. `null` renders an empty input. */
+  quantity: number | null;
+  /** Currently selected unit — one of the values passed via `units`. */
+  unit: Unit;
+};
+
+type OnValueChangeProps<Unit extends string> = {
+  newValue: MUIUnitInputValue<Unit>;
+  event: Parameters<MUINumberInputProps['onValueChange']>[0]['event']
+    | Parameters<MUISelectProps<Unit>['onValueChange']>[0]['event'];
+};
+
+type QuantityInputProps = Omit<
+  MUINumberInputProps,
+  | 'fieldName'
+  | 'value'
+  | 'onValueChange'
+  | 'showMarkers'
+  | 'variant'
+  | 'label'
+  | 'showLabelAboveFormField'
+  | 'formLabelProps'
+  | 'hideLabel'
+  | 'errorMessage'
+  | 'renderError'
+  | 'hideErrorMessage'
+  | 'helperText'
+  | 'formHelperTextProps'
+  | 'customIds'
+  | 'required'
+  | 'disabled'
+  | 'placeholder'
+  | 'onlyIntegers'
+  | 'nonNegative'
+  | 'maxDecimalPlaces'
+  | 'min'
+  | 'max'
+>;
+
+type UnitSelectProps<Unit extends string> = Omit<
+  MUISelectProps<Unit>,
+  | 'fieldName'
+  | 'options'
+  | 'value'
+  | 'onValueChange'
+  | 'variant'
+  | 'label'
+  | 'showLabelAboveFormField'
+  | 'formLabelProps'
+  | 'hideLabel'
+  | 'errorMessage'
+  | 'renderError'
+  | 'hideErrorMessage'
+  | 'helperText'
+  | 'formHelperTextProps'
+  | 'customIds'
+  | 'required'
+  | 'disabled'
+>;
+
+export type MUIUnitInputProps<Unit extends string = string> = {
+  /**
+   * Name/path of the field's two underlying controls, kept separate (rather
+   * than one combined `fieldName`) so each can be registered independently
+   * against a flat form schema — e.g. `{ quantity: 'weight', unit: 'weightUnit' }`.
+   */
+  fieldName: {
+    quantity: string;
+    unit: string;
+  };
+  /**
+   * Current value of the field. `quantity` and `unit` are always reported
+   * together through `onValueChange`, even though they're two controls.
+   */
+  value?: MUIUnitInputValue<Unit>;
+  /**
+   * Called whenever either the quantity or the unit changes. Always receives
+   * the full `{ quantity, unit }` value — read `newValue.quantity` /
+   * `newValue.unit` as needed.
+   */
+  onValueChange: ({ newValue, event }: OnValueChangeProps<Unit>) => void;
+  /**
+   * Units selectable from the dropdown, e.g. `['USD', 'EUR', 'GBP']` or
+   * `['kg', 'lb']`. Always plain strings — a numeric or nullable unit belongs
+   * in a second `MUINumberInput`, not here. Pass a string-literal union (e.g.
+   * an enum's values) to get that type back on `value.unit` and `newValue.unit`
+   * instead of a widened `string`.
+   */
+  units: Unit[];
+  /**
+   * Which side the unit `Select` renders on relative to the quantity input.
+   * @default 'end'
+   */
+  unitPosition?: 'start' | 'end';
+  /**
+   * Placeholder shown in the empty quantity input.
+   */
+  placeholder?: string;
+  /**
+   * When `true`, only integer quantities are allowed. Cannot be used
+   * together with `maxDecimalPlaces`.
+   */
+  onlyIntegers?: MUINumberInputProps['onlyIntegers'];
+  /**
+   * When `true`, negative quantities are not allowed. Acts as an implicit
+   * `min` of `0`.
+   */
+  nonNegative?: MUINumberInputProps['nonNegative'];
+  /**
+   * Maximum number of decimal places allowed in the quantity. Cannot be used
+   * together with `onlyIntegers`.
+   */
+  maxDecimalPlaces?: MUINumberInputProps['maxDecimalPlaces'];
+  /** Lower bound for the quantity. */
+  min?: MUINumberInputProps['min'];
+  /** Upper bound for the quantity. */
+  max?: MUINumberInputProps['max'];
+  /**
+   * When true, renders the field label above the form field instead of inside or beside it.
+   */
+  showLabelAboveFormField?: boolean;
+  /**
+   * Custom field label. Defaults to a humanized version of `fieldName.quantity`.
+   */
+  label?: ReactNode;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: MUINumberInputProps['formLabelProps'];
+  /**
+   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   */
+  hideLabel?: boolean;
+  /**
+   * When true, marks both the quantity and unit controls as required.
+   */
+  required?: boolean;
+  /**
+   * When true, disables both the quantity and unit controls.
+   */
+  disabled?: boolean;
+  /**
+   * Validation error for the field — pass a single message `string`, or a
+   * `string[]` when the field can fail multiple rules at once.
+   */
+  errorMessage?: string | string[];
+  /**
+   * Custom renderer for the resolved error message(s).
+   */
+  renderError?: (errors: string[]) => ReactNode;
+  /**
+   * If true, hides the error message text while keeping the field in an error state.
+   */
+  hideErrorMessage?: boolean;
+  /**
+   * Helper text shown below the field when there's no error.
+   */
+  helperText?: ReactNode;
+  /**
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   */
+  formHelperTextProps?: MUINumberInputProps['formHelperTextProps'];
+  /**
+   * Custom ids for the quantity and unit controls respectively.
+   */
+  customIds?: {
+    quantity?: CustomComponentIds;
+    unit?: CustomComponentIds;
+  };
+  /**
+   * Props forwarded to the internal quantity `MUINumberInput`.
+   */
+  quantityInputProps?: QuantityInputProps;
+  /**
+   * Props forwarded to the internal unit `MUISelect`.
+   */
+  unitSelectProps?: UnitSelectProps<Unit>;
+  /** Props forwarded to the outer pill container. */
+  sx?: MUINumberInputProps['sx'];
+};
+
+/**
+ * A pill-shaped `MUINumberInput` + `MUISelect` combo — a numeric quantity
+ * paired with a unit picker (currency, weight, temperature, anything),
+ * rendered borderless inside one bordered pill and divided by a single
+ * border, similar in spirit to `MUIPhoneInput`'s country + number pairing.
+ *
+ * `fieldName`/`customIds` take one entry per control (`quantity`/`unit`) so
+ * each can be registered independently against a flat form schema; `value`/
+ * `onValueChange` still report the pair together as one `{ quantity, unit }`
+ * object.
+ *
+ * Docs: [MUIUnitInput](https://mui-components-docs.vercel.app/v1/components/mui/unit-input)
+ *
+ * API: [MUIUnitInputProps](https://mui-components-docs.vercel.app/v1/components/mui/unit-input#api)
+ */
+const MUIUnitInput = <Unit extends string = string>({
+  fieldName,
+  value,
+  onValueChange,
+  units,
+  unitPosition = 'end',
+  placeholder,
+  onlyIntegers,
+  nonNegative,
+  maxDecimalPlaces,
+  min,
+  max,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  hideLabel,
+  required,
+  disabled,
+  errorMessage,
+  renderError,
+  hideErrorMessage,
+  helperText,
+  formHelperTextProps,
+  customIds,
+  quantityInputProps,
+  unitSelectProps,
+  sx: muiSx
+}: MUIUnitInputProps<Unit>) => {
+  const {
+    fieldId: quantityFieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName.quantity, customIds?.quantity);
+
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
+  const fieldLabel = label ?? fieldNameToLabel(fieldName.quantity);
+
+  const errorList = getErrorList(errorMessage);
+  const isError = errorList.length > 0;
+  const fieldErrorMessage = isError
+    ? renderError?.(errorList) ?? (
+      errorList.length === 1
+        ? errorList[0]
+        : errorList.map((message, index) => (
+          <div key={index}>
+            {message}
+          </div>
+        ))
+    )
+    : undefined;
+  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+
+  const resolvedUnit = value?.unit ?? units[0];
+
+  const quantityInput = (
+    <MUINumberInput
+      {...quantityInputProps}
+      fieldName={fieldName.quantity}
+      value={value?.quantity ?? null}
+      onValueChange={({ newValue, event }) => {
+        onValueChange({
+          newValue: { quantity: newValue, unit: resolvedUnit },
+          event
+        });
+      }}
+      placeholder={placeholder}
+      onlyIntegers={onlyIntegers}
+      nonNegative={nonNegative}
+      maxDecimalPlaces={maxDecimalPlaces}
+      min={min}
+      max={max}
+      disabled={disabled}
+      required={required}
+      customIds={customIds?.quantity}
+      hideLabel
+      hideErrorMessage
+      variant="standard"
+      slotProps={{
+        ...quantityInputProps?.slotProps,
+        input: ownerState => {
+          const externalInputProps = typeof quantityInputProps?.slotProps?.input === 'function'
+            ? quantityInputProps.slotProps.input(ownerState)
+            : quantityInputProps?.slotProps?.input;
+          return {
+            ...externalInputProps,
+            disableUnderline: true
+          };
+        }
+      }}
+      sx={{ flex: 1, minWidth: 0 }}
+    />
+  );
+
+  const unitSelect = (
+    <MUISelect<Unit>
+      {...unitSelectProps}
+      fieldName={fieldName.unit}
+      options={units}
+      /*
+       * `units` is always `Unit[]` (never object options), so
+       * `OptionValue<Unit, ...>` is always exactly `Unit` at runtime — the
+       * cast just works around `MUISelect`'s conditional type not
+       * distributing over a still-generic `Unit` two components deep.
+       */
+      value={resolvedUnit as unknown as OptionValue<Unit, never>}
+      onValueChange={({ newValue, event }) => {
+        onValueChange({
+          newValue: { quantity: value?.quantity ?? null, unit: newValue as unknown as Unit },
+          event
+        });
+      }}
+      disabled={disabled}
+      required={required}
+      customIds={customIds?.unit}
+      hideLabel
+      hideErrorMessage
+      variant="standard"
+      sx={{
+        flexShrink: 0,
+        '&:before, &:after': { display: 'none' },
+        ...unitSelectProps?.sx
+      }}
+    />
+  );
+
+  return (
+    <FormControl error={isError} disabled={disabled}>
+      {!hideLabel && (
+        <FormLabel
+          label={fieldLabel}
+          isVisible={isLabelAboveFormField}
+          required={required}
+          error={isError}
+          disabled={disabled}
+          formLabelProps={{
+            ...formLabelProps,
+            id: labelId,
+            htmlFor: quantityFieldId
+          }}
+        />
+      )}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'stretch',
+          border: '1px solid',
+          borderColor: isError ? 'error.main' : 'divider',
+          borderRadius: '9999px',
+          bgcolor: 'background.paper',
+          overflow: 'hidden',
+          px: 2,
+          gap: 1.5,
+          '&:focus-within': {
+            borderColor: isError ? 'error.main' : 'primary.main',
+            borderWidth: '2px',
+            m: '-1px'
+          },
+          ...muiSx
+        }}
+      >
+        {unitPosition === 'start' && unitSelect}
+        {unitPosition === 'start' && (
+          <Box sx={{ borderLeft: '1px solid', borderColor: 'divider' }} />
+        )}
+        {quantityInput}
+        {unitPosition === 'end' && (
+          <Box sx={{ borderLeft: '1px solid', borderColor: 'divider' }} />
+        )}
+        {unitPosition === 'end' && unitSelect}
+      </Box>
+      <FormHelperText
+        error={isError}
+        errorMessage={fieldErrorMessage}
+        hideErrorMessage={hideErrorMessage}
+        helperText={helperText}
+        showHelperTextElement={showHelperTextElement}
+        formHelperTextProps={{
+          ...formHelperTextProps,
+          id: isError ? errorId : helperTextId
+        }}
+      />
+    </FormControl>
+  );
+};
+
+export default MUIUnitInput;

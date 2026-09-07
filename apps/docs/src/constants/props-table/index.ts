@@ -16,6 +16,7 @@ import textFieldRows from './mui/textfield';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
 import counterInputRows from './mui/counter-input';
+import unitInputRows from './mui/unit-input';
 import otpInputRows from './mui/otp-input';
 import tagsInputRows from './mui/tags-input';
 import fileUploaderRows from './mui/file-uploader';
@@ -52,6 +53,7 @@ export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
   MUIPasswordInput: passwordInputRows(currentVersionArgs),
   MUINumberInput: numberInputRows(currentVersionArgs),
   MUICounterInput: counterInputRows(currentVersionArgs),
+  MUIUnitInput: unitInputRows(currentVersionArgs),
   MUIOTPInput: otpInputRows(currentVersionArgs),
   MUITagsInput: tagsInputRows(currentVersionArgs),
   MUIFileUploader: fileUploaderRows(currentVersionArgs),

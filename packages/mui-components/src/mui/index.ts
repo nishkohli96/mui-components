@@ -33,6 +33,10 @@ import MUISlider, { type MUISliderProps } from './slider';
 import MUISwitch, { type MUISwitchProps } from './switch';
 import MUITagsInput, { type MUITagsInputProps } from './tags-input';
 import MUITextField, { type MUITextFieldProps } from './textfield';
+import MUIUnitInput, {
+  type MUIUnitInputProps,
+  type MUIUnitInputValue
+} from './unit-input';
 import { selectAllOptionValue } from '@/common/constants';
 
 export {
@@ -56,6 +60,7 @@ export {
   MUISwitch,
   MUITextField,
   MUITagsInput,
+  MUIUnitInput,
   countryList,
   selectAllOptionValue,
 };
@@ -84,6 +89,8 @@ export type {
   MUISwitchProps,
   MUITagsInputProps,
   MUITextFieldProps,
+  MUIUnitInputProps,
+  MUIUnitInputValue,
   CountrySelectValueKey,
   CountryISO,
   CountryDetails,
