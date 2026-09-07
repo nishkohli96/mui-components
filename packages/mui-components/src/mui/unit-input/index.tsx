@@ -75,6 +75,7 @@ type QuantityInputProps = Omit<
   | 'onlyIntegers'
   | 'nonNegative'
   | 'maxDecimalPlaces'
+  | 'stepAmount'
   | 'min'
   | 'max'
 >;
@@ -190,6 +191,11 @@ export type MUIUnitInputProps<
    * together with `onlyIntegers`.
    */
   maxDecimalPlaces?: MUINumberInputProps['maxDecimalPlaces'];
+  /**
+   * The amount to increase/decrease value when using arrow keys.
+   * @default 1
+   */
+  stepAmount?: MUINumberInputProps['stepAmount'];
   /**
    * Lower bound for the quantity. When `nonNegative` is `true`, `0` is used as
    * the effective lower bound, unless overridden by the value of this prop.
@@ -307,6 +313,7 @@ const MUIUnitInput = <
   onlyIntegers,
   nonNegative,
   maxDecimalPlaces,
+  stepAmount,
   min,
   max,
   label,
@@ -378,7 +385,10 @@ const MUIUnitInput = <
         value={value?.quantity ?? null}
         onValueChange={({ newValue, event }) => {
           onValueChange({
-            newValue: { quantity: newValue, unit: resolvedUnit },
+            newValue: {
+              quantity: newValue,
+              unit: resolvedUnit
+            },
             event
           });
         }}
@@ -386,6 +396,7 @@ const MUIUnitInput = <
         onlyIntegers={onlyIntegers}
         nonNegative={nonNegative}
         maxDecimalPlaces={maxDecimalPlaces}
+        stepAmount={stepAmount}
         min={min}
         max={max}
         disabled={disabled}

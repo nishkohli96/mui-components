@@ -2,11 +2,11 @@
 
 /**
  * MUIUnitInput example — plain React `useState`. Shows a currency field
- * (object `unitOptions` read via `labelKey`/`valueKey`, unit on the left)
- * and a generic weight field (a plain string `unitOptions` array, unit on
- * the right, responsive `unitWidth`) to demonstrate `unitPosition` and that
- * `newValue.unit` keeps its literal type either way. Both fields are
- * `required` and validated on submit.
+ * (object `unitOptions` via `labelKey`/`valueKey`, unit on the left), a
+ * generic weight field (plain string `unitOptions`, responsive `unitWidth`),
+ * and a temperature field exercising `containerProps`/`dividerProps` plus
+ * `sx` overrides on the internal quantity `MUINumberInput` and unit
+ * `MUISelect`. All three are `required` and validated on submit.
  */
 
 import { useState } from 'react';
@@ -27,6 +27,7 @@ import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 type WeightUnit = 'kg' | 'lb';
+type TemperatureUnit = '°C' | '°F';
 type Currency = 'USD' | 'EUR' | 'GBP' | 'YEN';
 
 type CurrencyOption = {
@@ -55,25 +56,35 @@ export default function UnitInputForm() {
     unit: 'kg'
   });
 
+  const [temperature, setTemperature] = useState<MUIUnitInputValue<TemperatureUnit>>({
+    quantity: null,
+    unit: '°C'
+  });
+
   const [priceError, setPriceError] = useState<string>();
   const [weightError, setWeightError] = useState<string>();
+  const [temperatureError, setTemperatureError] = useState<string>();
 
-  const formValues = { price, weight };
-  const errors = { price: priceError, weight: weightError };
+  const formValues = { price, weight, temperature };
+  const errors = { price: priceError, weight: weightError, temperature: temperatureError };
 
   function resetForm() {
     setPrice({ quantity: null, unit: 'USD' });
     setWeight({ quantity: 5, unit: 'kg' });
+    setTemperature({ quantity: null, unit: '°C' });
     setPriceError(undefined);
     setWeightError(undefined);
+    setTemperatureError(undefined);
   }
 
   async function onFormSubmit() {
     const priceMissing = price.quantity === null;
     const weightMissing = weight.quantity === null;
+    const temperatureMissing = temperature.quantity === null;
     setPriceError(priceMissing ? 'Price is required' : undefined);
     setWeightError(weightMissing ? 'Weight is required' : undefined);
-    if (priceMissing || weightMissing) {
+    setTemperatureError(temperatureMissing ? 'Temperature is required' : undefined);
+    if (priceMissing || weightMissing || temperatureMissing) {
       return;
     }
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -149,10 +160,58 @@ export default function UnitInputForm() {
               unitWidth={{ xs: '40%', md: '30%' }}
               onlyIntegers
               min={0}
-              max={100}
+              max={150}
+              stepAmount={5}
               required
               errorMessage={weightError}
-              helperText="kg or lb — try TypeScript-hovering newValue.unit, it's 'kg' | 'lb', not string"
+              helperText="Only Integers, max limit 150"
+              disabled={disableAllFields}
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="Temperature — containerProps, dividerProps, and sx overrides on the internal quantity input & unit Select" />
+            <MUIUnitInput
+              fieldName={{
+                quantity: 'temperatureAmount',
+                unit: 'temperatureUnit'
+              }}
+              label="Target temperature"
+              value={temperature}
+              onValueChange={({ newValue }) => {
+                setTemperature(newValue);
+                setTemperatureError(undefined);
+              }}
+              unitOptions={['°C', '°F']}
+              containerProps={{
+                sx: {
+                  borderColor: 'info.main',
+                  bgcolor: 'action.hover'
+                }
+              }}
+              dividerProps={{
+                sx: { borderColor: 'info.main' }
+              }}
+              quantityInputProps={{
+                sx: {
+                  '& input[type=number]': {
+                    fontWeight: 700,
+                    color: 'secondary.dark'
+                  }
+                }
+              }}
+              unitSelectProps={{
+                sx: {
+                  fontStyle: 'italic',
+                  color: 'success.dark'
+                }
+              }}
+              onlyIntegers
+              min={-50}
+              max={150}
+              required
+              errorMessage={temperatureError}
+              helperText="containerProps/dividerProps/quantityInputProps.sx/unitSelectProps.sx all overridden here"
               disabled={disableAllFields}
             />
           </Grid>

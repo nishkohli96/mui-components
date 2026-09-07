@@ -20,6 +20,7 @@ const unitInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.maxDecimalPlaces,
   P.min_UnitInput,
   P.max_UnitInput,
+  P.stepAmount,
   P.label,
   resolveProp(P.showLabelAboveFormField, args),
   resolveProp(P.formLabelProps, args),
