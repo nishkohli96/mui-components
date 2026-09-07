@@ -1,0 +1,64 @@
+import {
+  DocsPage,
+  PropsTable,
+  AvailabilityBanner
+} from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import CounterInputForm from '@/forms/mui/counter-input/Client';
+
+export const metadata = componentMetadata.MUICounterInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUICounterInput
+
+<AvailabilityBanner componentName="MUICounterInput" version="1.3" />
+
+`MUICounterInput` is a pill-shaped numeric counter - always-visible `-` / `+`
+buttons flush against the rounded ends of a bordered pill, flanking the value
+instead of the native browser steppers. Every numeric behaviour like
+`number | null` value, `onlyIntegers`, `nonNegative` etc., is delegated
+to [MUINumberInput](/components/mui/number-input) rendered borderless inside
+the pill. This component only owns the pill chrome, the buttons and the
+optional `caption` content, and disables the decrement / increment button
+once its `min` / `max` bound is reached.
+
+## Usage
+
+```tsx
+import MUICounterInput, { MUICounterInputProps } from '@nish1896/mui-components/mui/counter-input';
+```
+
+```tsx
+const [quantity, setQuantity] = useState<number | null>(1);
+
+<MUICounterInput
+  fieldName="quantity"
+  value={quantity}
+  onValueChange={({ newValue }) => setQuantity(newValue)}
+  onlyIntegers
+  min={1}
+  max={10}
+/>
+```
+
+## API
+
+`MUICounterInputProps` extends [MUINumberInputProps](/components/mui/number-input#api)
+(minus `showMarkers` and `variant`) and also accepts the remaining
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), except `type`,
+`multiline` and `rows`. Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUICounterInput} />
+
+## Playground
+
+Integrated with [TanStack Form](https://tanstack.com/form/latest) — covers
+`onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `min` / `max`
+bounds, custom stepper icons and `sx`/`iconButtonProps` overrides, with
+validation surfaced through `errorMessage`.
+
+<CounterInputForm />

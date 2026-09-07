@@ -1,21 +1,22 @@
 import type { PropsInfo, PropsDescriptionArgs } from '@/types';
 import { PropsDescription as P, resolveProp } from '../descriptions';
 
-/** Props reference rows for `MUINumberStepper`. */
-const numberStepperRows = (args: PropsDescriptionArgs): PropsInfo[] => [
+/** Props reference rows for `MUICounterInput`. */
+const counterInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_NumberInput,
   P.onValueChange_NumberInput,
+  P.min_CounterInput,
+  P.max_CounterInput,
   P.nonNegative,
   P.onlyIntegers,
   P.maxDecimalPlaces,
-  P.min_NumberInput,
-  P.max_NumberInput,
   P.stepAmount,
-  P.decrementIcon_NumberStepper,
-  P.incrementIcon_NumberStepper,
-  P.swapIcons_NumberStepper,
-  P.iconButtonProps_NumberStepper,
+  P.decrementIcon_CounterInput,
+  P.incrementIcon_CounterInput,
+  P.swapIcons_CounterInput,
+  P.iconButtonProps_CounterInput,
+  P.caption_CounterInput,
   P.label,
   resolveProp(P.showLabelAboveFormField, args),
   resolveProp(P.formLabelProps, args),
@@ -28,4 +29,4 @@ const numberStepperRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.customIds
 ];
 
-export default numberStepperRows;
+export default counterInputRows;

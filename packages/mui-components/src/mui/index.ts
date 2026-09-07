@@ -2,6 +2,7 @@ import MUIAutocomplete, { type MUIAutocompleteProps } from './autocomplete';
 import MUIAutocompleteObject, { type MUIAutocompleteObjectProps } from './autocomplete-object';
 import MUICheckbox, { type MUICheckboxProps } from './checkbox';
 import MUICheckboxGroup, { type MUICheckboxGroupProps } from './checkbox-group';
+import MUICounterInput, { type MUICounterInputProps } from './counter-input';
 import MUICountrySelect, {
   countryList,
   type MUICountrySelectProps,
@@ -23,7 +24,6 @@ import MUIMultiAutocompleteObject, {
 } from './multi-autocomplete-object';
 import MUINativeSelect, { type MUINativeSelectProps } from './native-select';
 import MUINumberInput, { type MUINumberInputProps } from './number-input';
-import MUINumberStepper, { type MUINumberStepperProps } from './number-stepper';
 import MUIOTPInput, { type MUIOTPInputProps } from './otp-input';
 import MUIPasswordInput, { type MUIPasswordInputProps } from './password-input';
 import MUIRadioGroup, { type MUIRadioGroupProps } from './radio-group';
@@ -40,13 +40,13 @@ export {
   MUIAutocompleteObject,
   MUICheckbox,
   MUICheckboxGroup,
+  MUICounterInput,
   MUICountrySelect,
   MUIFileUploader,
   MUIMultiAutocomplete,
   MUIMultiAutocompleteObject,
   MUINativeSelect,
   MUINumberInput,
-  MUINumberStepper,
   MUIOTPInput,
   MUIPasswordInput,
   MUIRadioGroup,
@@ -65,6 +65,7 @@ export type {
   MUIAutocompleteObjectProps,
   MUICheckboxProps,
   MUICheckboxGroupProps,
+  MUICounterInputProps,
   MUICountrySelectProps,
   MUIFileUploaderProps,
   FileUploadError,
@@ -74,7 +75,6 @@ export type {
   MUIMultiAutocompleteObjectProps,
   MUINativeSelectProps,
   MUINumberInputProps,
-  MUINumberStepperProps,
   MUIOTPInputProps,
   MUIPasswordInputProps,
   MUIRadioGroupProps,

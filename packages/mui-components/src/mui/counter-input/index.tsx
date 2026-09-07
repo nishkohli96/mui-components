@@ -24,7 +24,7 @@ import {
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 
-export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'variant'> & {
+export type MUICounterInputProps = Omit<MUINumberInputProps, 'showMarkers' | 'variant'> & {
   /**
    * Custom icon for the decrement (`-`) button.
    *
@@ -38,9 +38,9 @@ export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'v
    */
   incrementIcon?: ReactNode;
   /**
-   * Swap which icon sits on which button — the increment icon renders on the
-   * left (decrement) button and vice versa. Accessible labels and behaviour
-   * are unchanged.
+   * Swap both the icons and the behaviour of the two buttons — the left
+   * button increments and the right button decrements, each with its icon,
+   * `aria-label` and disabled-at-bound state swapped to match.
    */
   swapIcons?: boolean;
   /**
@@ -61,11 +61,11 @@ export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'v
  * `MUINumberInput` (rendered borderless inside the pill) — this component
  * only owns the pill chrome, the buttons and the optional unit caption.
  *
- * Docs: [MUINumberStepper](https://mui-components-docs.vercel.app/v1/components/mui/number-stepper)
+ * Docs: [MUICounterInput](https://mui-components-docs.vercel.app/v1/components/mui/counter-input)
  *
- * API: [MUINumberStepperProps](https://mui-components-docs.vercel.app/v1/components/mui/number-stepper#api)
+ * API: [MUICounterInputProps](https://mui-components-docs.vercel.app/v1/components/mui/counter-input#api)
  */
-const MUINumberStepper = ({
+const MUICounterInput = ({
   fieldName,
   value: muiValue,
   disabled: muiDisabled,
@@ -93,7 +93,7 @@ const MUINumberStepper = ({
   sx: muiSx,
   slotProps: muiSlotProps,
   ...otherNumberInputProps
-}: MUINumberStepperProps) => {
+}: MUICounterInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const {
     fieldId,
@@ -318,4 +318,4 @@ const MUINumberStepper = ({
   );
 };
 
-export default MUINumberStepper;
+export default MUICounterInput;
