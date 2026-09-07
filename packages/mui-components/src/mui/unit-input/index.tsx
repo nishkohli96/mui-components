@@ -5,7 +5,8 @@ import Box from '@mui/material/Box';
 import {
   FormControl,
   FormLabel,
-  FormHelperText
+  FormHelperText,
+  type OptionValue
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
@@ -17,7 +18,6 @@ import {
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 import MUISelect, { type MUISelectProps } from '../select';
-import type { OptionValue } from '@/common';
 
 export type MUIUnitInputValue<Unit extends string = string> = {
   /** Numeric quantity. `null` renders an empty input. */
@@ -346,6 +346,15 @@ const MUIUnitInput = <Unit extends string = string>({
     />
   );
 
+  const divider = (
+    <Box
+      sx={{
+        borderLeft: '1px solid',
+        borderColor: 'divider'
+      }}
+    />
+  );
+
   return (
     <FormControl error={isError} disabled={disabled}>
       {!hideLabel && (
@@ -368,7 +377,7 @@ const MUIUnitInput = <Unit extends string = string>({
           alignItems: 'stretch',
           border: '1px solid',
           borderColor: isError ? 'error.main' : 'divider',
-          borderRadius: '9999px',
+          borderRadius: '8px',
           bgcolor: 'background.paper',
           overflow: 'hidden',
           px: 2,
@@ -382,13 +391,9 @@ const MUIUnitInput = <Unit extends string = string>({
         }}
       >
         {unitPosition === 'start' && unitSelect}
-        {unitPosition === 'start' && (
-          <Box sx={{ borderLeft: '1px solid', borderColor: 'divider' }} />
-        )}
+        {unitPosition === 'start' && divider}
         {quantityInput}
-        {unitPosition === 'end' && (
-          <Box sx={{ borderLeft: '1px solid', borderColor: 'divider' }} />
-        )}
+        {unitPosition === 'end' && divider}
         {unitPosition === 'end' && unitSelect}
       </Box>
       <FormHelperText
