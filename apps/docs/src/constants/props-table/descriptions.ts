@@ -552,6 +552,12 @@ export const PropsDescription = Object.freeze({
     description: 'Which side the unit `Select` renders on relative to the quantity input.\n\n**Default:** `\'end\'`',
     type: '\'start\' | \'end\''
   },
+  unitWidth_UnitInput: {
+    name: 'unitWidth',
+    description:
+      'Width of the unit `Select` as a CSS `flex-basis` value, typically a percentage (e.g. `\'30%\'`) — the quantity input fills the rest. Accepts a single value or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`. Both segments keep a hardcoded `minWidth: 50px` so neither collapses. When omitted, the unit `Select` sizes to its content.',
+    type: 'ResponsiveStyleValue<string>'
+  },
   placeholder_UnitInput: {
     name: 'placeholder',
     description: 'Placeholder shown in the empty quantity input.',

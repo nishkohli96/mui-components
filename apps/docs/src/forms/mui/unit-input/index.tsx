@@ -68,35 +68,43 @@ export default function UnitInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Currency amount, unit on the right (default), string units" />
-            <MUIUnitInput
-              fieldName={{ quantity: 'priceAmount', unit: 'priceUnit' }}
-              label="Price"
-              value={price}
-              onValueChange={({ newValue }) => setPrice(newValue)}
-              units={['USD', 'EUR', 'GBP']}
-              placeholder="Enter amount"
-              nonNegative
-              maxDecimalPlaces={2}
-              required
-              helperText="Amount and currency"
+            <FieldVariantInfo title="Weight, generic literal-union Unit type, responsive unitWidth (40% on mobile, 30% from md up)" />
+            <MUIUnitInput<WeightUnit>
+              fieldName={{
+                quantity: 'weightAmount',
+                unit: 'weightUnit'
+              }}
+              label="Package weight"
+              value={weight}
+              onValueChange={({ newValue }) => setWeight(newValue)}
+              units={['kg', 'lb']}
+              unitWidth={{ xs: '40%', md: '30%' }}
+              unitSelectProps={{ sx: { fontWeight: 600 } }}
+              onlyIntegers
+              min={0}
+              max={100}
+              helperText="kg or lb — try TypeScript-hovering newValue.unit, it's 'kg' | 'lb', not string"
               disabled={disableAllFields}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Weight, unit on the left (unitPosition=start), generic literal-union Unit type" />
-            <MUIUnitInput<WeightUnit>
-              fieldName={{ quantity: 'weightAmount', unit: 'weightUnit' }}
-              label="Package weight"
-              value={weight}
-              onValueChange={({ newValue }) => setWeight(newValue)}
-              units={['kg', 'lb']}
+            <FieldVariantInfo title="Currency amount, unit on the left, string units" />
+            <MUIUnitInput
+              fieldName={{
+                quantity: 'priceAmount',
+                unit: 'priceUnit'
+              }}
+              label="Price"
+              value={price}
+              onValueChange={({ newValue }) => setPrice(newValue)}
+              units={['USD', 'EUR', 'GBP']}
               unitPosition="start"
-              onlyIntegers
-              min={0}
-              max={100}
-              helperText="kg or lb — try TypeScript-hovering newValue.unit, it's 'kg' | 'lb', not string"
+              placeholder="Enter amount"
+              nonNegative
+              maxDecimalPlaces={2}
+              required
+              helperText="Amount and currency"
               disabled={disableAllFields}
             />
           </Grid>

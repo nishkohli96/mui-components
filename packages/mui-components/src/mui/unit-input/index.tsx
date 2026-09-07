@@ -2,6 +2,7 @@
 
 import { useContext, type ReactNode } from 'react';
 import Box from '@mui/material/Box';
+import type { ResponsiveStyleValue } from '@mui/system';
 import {
   FormControl,
   FormLabel,
@@ -18,6 +19,10 @@ import {
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 import MUISelect, { type MUISelectProps } from '../select';
+
+/** Minimum width for both the quantity input and the unit `Select`, so
+ * neither collapses to an unusable size when `unitWidth` skews the split. */
+const MIN_SEGMENT_WIDTH = 50;
 
 export type MUIUnitInputValue<Unit extends string = string> = {
   /** Numeric quantity. `null` renders an empty input. */
@@ -114,6 +119,14 @@ export type MUIUnitInputProps<Unit extends string = string> = {
    * @default 'end'
    */
   unitPosition?: 'start' | 'end';
+  /**
+   * Width of the unit `Select` as a CSS `flex-basis` value — typically a
+   * percentage (e.g. `'30%'`), so the quantity input (`flex: 1`) fills the
+   * rest. Accepts a single value or a responsive `sx`-style breakpoint object
+   * (e.g. `{ xs: '40%', md: '30%' }`). When omitted, the unit `Select` sizes
+   * to its content instead of a fixed share of the pill.
+   */
+  unitWidth?: ResponsiveStyleValue<string>;
   /**
    * Placeholder shown in the empty quantity input.
    */
@@ -222,6 +235,7 @@ const MUIUnitInput = <Unit extends string = string>({
   onValueChange,
   units,
   unitPosition = 'end',
+  unitWidth,
   placeholder,
   onlyIntegers,
   nonNegative,
@@ -275,7 +289,17 @@ const MUIUnitInput = <Unit extends string = string>({
 
   const resolvedUnit = value?.unit ?? units[0];
 
+  /*
+   * `MUINumberInput`/`MUISelect` each wrap themselves in the shared
+   * `FormControl` (`fullWidth` by default) and never forward `sx` to that
+   * outer wrapper — only to their own inner control. Sizing sx passed
+   * directly to either component would therefore be ignored by the actual
+   * flex item (the outer `fullWidth` `FormControl`), so the flex/minWidth
+   * layout lives on these wrapping `Box`es instead, leaving each
+   * component's own `sx` free for its internal styling only.
+   */
   const quantityInput = (
+    <Box sx={{ flex: '1 1 auto', minWidth: MIN_SEGMENT_WIDTH }}>
     <MUINumberInput
       {...quantityInputProps}
       fieldName={fieldName.quantity}
@@ -310,11 +334,30 @@ const MUIUnitInput = <Unit extends string = string>({
           };
         }
       }}
-      sx={{ flex: 1, minWidth: 0 }}
     />
+    </Box>
   );
 
   const unitSelect = (
+    <Box
+      sx={{
+        /**
+         * Never grow to absorb extra leftover space in the row.
+         */
+        flexGrow: 0,
+        /**
+         * Whether it's allowed to shrink below that basis if the
+         * row runs out of room. 0: No, 1: Yes.
+         */
+        flexShrink: unitWidth !== undefined ? 0 : 1,
+        /**
+         * When you pass unitWidth (e.g. '30%'), that's its size.
+         * When you don't, 'auto' means "size to content"
+         */
+        flexBasis: unitWidth ?? 'auto',
+        minWidth: MIN_SEGMENT_WIDTH
+      }}
+    >
     <MUISelect<Unit>
       {...unitSelectProps}
       fieldName={fieldName.unit}
@@ -339,11 +382,11 @@ const MUIUnitInput = <Unit extends string = string>({
       hideErrorMessage
       variant="standard"
       sx={{
-        flexShrink: 0,
         '&:before, &:after': { display: 'none' },
         ...unitSelectProps?.sx
       }}
     />
+    </Box>
   );
 
   const divider = (

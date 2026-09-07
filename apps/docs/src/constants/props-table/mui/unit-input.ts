@@ -8,6 +8,7 @@ const unitInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.onValueChange_UnitInput,
   P.units_UnitInput,
   P.unitPosition_UnitInput,
+  P.unitWidth_UnitInput,
   P.placeholder_UnitInput,
   P.onlyIntegers,
   P.nonNegative,
