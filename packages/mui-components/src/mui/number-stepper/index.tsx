@@ -189,6 +189,12 @@ const MUINumberStepper = ({
           alignItems: 'center',
           border: '1px solid',
           borderColor: isError ? 'error.main' : 'divider',
+          /**
+           * Sets a corner radius bigger than half the element's own
+           * height/width. Since a rounded corner can never curve past
+           * a semicircle, the browser clamps it to the max possible
+           * — height÷2.
+           */
           borderRadius: '9999px',
           bgcolor: 'background.paper',
           overflow: 'hidden',
