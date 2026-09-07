@@ -19,11 +19,25 @@ import {
   getOptionValue
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
-import MUISelect, { type MUISelectProps } from '../select';
+import MUISelect, { type MUISelectProps, type SelectValue } from '../select';
 
-/** Minimum width for both the quantity input and the unit `Select`, so
- * neither collapses to an unusable size when `unitWidth` skews the split. */
+/**
+ * Minimum width for both the quantity input and the unit `Select`, so
+ * neither collapses to an unusable size when `unitWidth` skews the split.
+ */
 const MIN_SEGMENT_WIDTH = 50;
+
+/**
+ * The resolved unit value type — computed the same way `MUISelect` computes
+ * its own value type (`SelectValue<OptionValue<Option, ValueKey>, Multiple>`,
+ * `Multiple` always `false` here), rather than a free-standing `Unit`
+ * generic. Consumers never pass this explicitly: it falls out of whatever
+ * `unitOptions`/`valueKey` they pass.
+ */
+type ResolvedUnit<
+  Option extends StrObjOption,
+  ValueKey extends Extract<keyof Option, string>
+> = SelectValue<OptionValue<Option, ValueKey>, false> & string;
 
 export type MUIUnitInputValue<Unit extends string = string> = {
   /** Numeric quantity. `null` renders an empty input. */
@@ -95,8 +109,7 @@ type UnitSelectProps<
 export type MUIUnitInputProps<
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  Unit extends string = OptionValue<Option, ValueKey> & string
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
   /**
    * Name/path of the field's two underlying controls, kept separate (rather
@@ -111,13 +124,16 @@ export type MUIUnitInputProps<
    * Current value of the field. `quantity` and `unit` are always reported
    * together through `onValueChange`, even though they're two controls.
    */
-  value?: MUIUnitInputValue<Unit>;
+  value?: MUIUnitInputValue<ResolvedUnit<Option, ValueKey>>;
   /**
    * Called whenever either the quantity or the unit changes. Always receives
    * the full `{ quantity, unit }` value — read `newValue.quantity` /
    * `newValue.unit` as needed.
    */
-  onValueChange: ({ newValue, event }: OnValueChangeProps<Unit>) => void;
+  onValueChange: ({
+    newValue,
+    event
+  }: OnValueChangeProps<ResolvedUnit<Option, ValueKey>>) => void;
   /**
    * Units selectable from the dropdown — a plain string array (e.g.
    * `['USD', 'EUR', 'GBP']`, or a string-literal union/enum's values for
@@ -151,9 +167,13 @@ export type MUIUnitInputProps<
    */
   unitWidth?: ResponsiveStyleValue<string>;
   /**
-   * Placeholder shown in the empty quantity input.
+   * Props forwarded to the internal quantity `MUINumberInput`.
    */
-  placeholder?: string;
+  quantityInputProps?: QuantityInputProps;
+  /**
+   * Props forwarded to the internal unit `MUISelect`.
+   */
+  unitSelectProps?: UnitSelectProps<Option, LabelKey, ValueKey>;
   /**
    * When `true`, only integer quantities are allowed. Cannot be used
    * together with `maxDecimalPlaces`.
@@ -169,9 +189,14 @@ export type MUIUnitInputProps<
    * together with `onlyIntegers`.
    */
   maxDecimalPlaces?: MUINumberInputProps['maxDecimalPlaces'];
-  /** Lower bound for the quantity. */
+  /**
+   * Lower bound for the quantity. When `nonNegative` is `true`, `0` is used as
+   * the effective lower bound, unless overridden by the value of this prop.
+   */
   min?: MUINumberInputProps['min'];
-  /** Upper bound for the quantity. */
+  /**
+   * Upper bound for the quantity.
+   */
   max?: MUINumberInputProps['max'];
   /**
    * When true, renders the field label above the form field instead of inside or beside it.
@@ -193,6 +218,10 @@ export type MUIUnitInputProps<
    * When true, marks both the quantity and unit controls as required.
    */
   required?: boolean;
+  /**
+   * Placeholder shown in the empty quantity input.
+   */
+  placeholder?: string;
   /**
    * When true, disables both the quantity and unit controls.
    */
@@ -225,14 +254,6 @@ export type MUIUnitInputProps<
     quantity?: CustomComponentIds;
     unit?: CustomComponentIds;
   };
-  /**
-   * Props forwarded to the internal quantity `MUINumberInput`.
-   */
-  quantityInputProps?: QuantityInputProps;
-  /**
-   * Props forwarded to the internal unit `MUISelect`.
-   */
-  unitSelectProps?: UnitSelectProps<Option, LabelKey, ValueKey>;
   /** Props forwarded to the outer pill container. */
   sx?: MUINumberInputProps['sx'];
 };
@@ -259,8 +280,7 @@ export type MUIUnitInputProps<
 const MUIUnitInput = <
   Option extends StrObjOption = StrObjOption,
   LabelKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>,
-  Unit extends string = OptionValue<Option, ValueKey> & string
+  ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
   fieldName,
   value,
@@ -291,7 +311,7 @@ const MUIUnitInput = <
   quantityInputProps,
   unitSelectProps,
   sx: muiSx
-}: MUIUnitInputProps<Option, LabelKey, ValueKey, Unit>) => {
+}: MUIUnitInputProps<Option, LabelKey, ValueKey>) => {
   const {
     fieldId: quantityFieldId,
     labelId,
@@ -322,7 +342,7 @@ const MUIUnitInput = <
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
   const resolvedUnit = value?.unit
-    ?? (getOptionValue(unitOptions[0], valueKey) as unknown as Unit);
+    ?? (getOptionValue(unitOptions[0], valueKey));
 
   /*
    * `MUINumberInput`/`MUISelect` each wrap themselves in the shared
@@ -334,42 +354,47 @@ const MUIUnitInput = <
    * component's own `sx` free for its internal styling only.
    */
   const quantityInput = (
-    <Box sx={{ flex: '1 1 auto', minWidth: MIN_SEGMENT_WIDTH }}>
-    <MUINumberInput
-      {...quantityInputProps}
-      fieldName={fieldName.quantity}
-      value={value?.quantity ?? null}
-      onValueChange={({ newValue, event }) => {
-        onValueChange({
-          newValue: { quantity: newValue, unit: resolvedUnit },
-          event
-        });
+    <Box
+      sx={{
+        flex: '1 1 auto',
+        minWidth: MIN_SEGMENT_WIDTH
       }}
-      placeholder={placeholder}
-      onlyIntegers={onlyIntegers}
-      nonNegative={nonNegative}
-      maxDecimalPlaces={maxDecimalPlaces}
-      min={min}
-      max={max}
-      disabled={disabled}
-      required={required}
-      customIds={customIds?.quantity}
-      hideLabel
-      hideErrorMessage
-      variant="standard"
-      slotProps={{
-        ...quantityInputProps?.slotProps,
-        input: ownerState => {
-          const externalInputProps = typeof quantityInputProps?.slotProps?.input === 'function'
-            ? quantityInputProps.slotProps.input(ownerState)
-            : quantityInputProps?.slotProps?.input;
-          return {
-            ...externalInputProps,
-            disableUnderline: true
-          };
-        }
-      }}
-    />
+    >
+      <MUINumberInput
+        {...quantityInputProps}
+        fieldName={fieldName.quantity}
+        value={value?.quantity ?? null}
+        onValueChange={({ newValue, event }) => {
+          onValueChange({
+            newValue: { quantity: newValue, unit: resolvedUnit },
+            event
+          });
+        }}
+        placeholder={placeholder}
+        onlyIntegers={onlyIntegers}
+        nonNegative={nonNegative}
+        maxDecimalPlaces={maxDecimalPlaces}
+        min={min}
+        max={max}
+        disabled={disabled}
+        required={required}
+        customIds={customIds?.quantity}
+        hideLabel
+        hideErrorMessage
+        variant="standard"
+        slotProps={{
+          ...quantityInputProps?.slotProps,
+          input: ownerState => {
+            const externalInputProps = typeof quantityInputProps?.slotProps?.input === 'function'
+              ? quantityInputProps.slotProps.input(ownerState)
+              : quantityInputProps?.slotProps?.input;
+            return {
+              ...externalInputProps,
+              disableUnderline: true
+            };
+          }
+        }}
+      />
     </Box>
   );
 
@@ -393,30 +418,34 @@ const MUIUnitInput = <
         minWidth: MIN_SEGMENT_WIDTH
       }}
     >
-    <MUISelect<Option, LabelKey, ValueKey>
-      {...unitSelectProps}
-      fieldName={fieldName.unit}
-      options={unitOptions}
-      labelKey={labelKey}
-      valueKey={valueKey}
-      value={resolvedUnit as unknown as OptionValue<Option, ValueKey>}
-      onValueChange={({ newValue, event }) => {
-        onValueChange({
-          newValue: { quantity: value?.quantity ?? null, unit: newValue as unknown as Unit },
-          event
-        });
-      }}
-      disabled={disabled}
-      required={required}
-      customIds={customIds?.unit}
-      hideLabel
-      hideErrorMessage
-      variant="standard"
-      sx={{
-        '&:before, &:after': { display: 'none' },
-        ...unitSelectProps?.sx
-      }}
-    />
+      <MUISelect<Option, LabelKey, ValueKey>
+        {...unitSelectProps}
+        fieldName={fieldName.unit}
+        options={unitOptions}
+        labelKey={labelKey}
+        valueKey={valueKey}
+        value={resolvedUnit}
+        onValueChange={({ newValue, event }) => {
+          onValueChange({
+            newValue: {
+              quantity: value?.quantity ?? null,
+              unit: newValue
+            },
+            event
+          });
+        }}
+        disabled={disabled}
+        required={required}
+        customIds={customIds?.unit}
+        hideLabel
+        hideErrorMessage
+        variant="standard"
+        multiple={false}
+        sx={{
+          '&:before, &:after': { display: 'none' },
+          ...unitSelectProps?.sx
+        }}
+      />
     </Box>
   );
 
