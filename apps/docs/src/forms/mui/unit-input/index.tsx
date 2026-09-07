@@ -27,17 +27,19 @@ import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 type WeightUnit = 'kg' | 'lb';
-type Currency = 'USD' | 'EUR' | 'GBP';
+type Currency = 'USD' | 'EUR' | 'GBP' | 'YEN';
 
 type CurrencyOption = {
   code: Currency;
   label: string;
+  symbol: string;
 };
 
 const currencyOptions: CurrencyOption[] = [
-  { code: 'USD', label: 'US Dollar' },
-  { code: 'EUR', label: 'Euro' },
-  { code: 'GBP', label: 'British Pound' }
+  { code: 'USD', label: 'US Dollar', symbol: '$' },
+  { code: 'EUR', label: 'Euro', symbol: '€' },
+  { code: 'GBP', label: 'British Pound', symbol: '£' },
+  { code: 'YEN', label: 'Yen', symbol: '¥' },
 ];
 
 export default function UnitInputForm() {
@@ -100,7 +102,7 @@ export default function UnitInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Currency, object unitOptions via labelKey/valueKey, unit on the left" />
+            <FieldVariantInfo title="Currency, object unitOptions via labelKey/valueKey, unit on the left, renderOption and getOptionDisabled" />
             <MUIUnitInput
               fieldName={{
                 quantity: 'priceAmount',
@@ -116,6 +118,10 @@ export default function UnitInputForm() {
               labelKey="label"
               valueKey="code"
               unitPosition="start"
+              unitSelectProps={{
+                renderOptionLabel: opn => `${opn.label} (${opn.symbol})`,
+                getOptionDisabled: opn => opn.code === 'YEN'
+              }}
               placeholder="Enter amount"
               nonNegative
               maxDecimalPlaces={2}

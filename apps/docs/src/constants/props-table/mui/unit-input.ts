@@ -13,6 +13,8 @@ const unitInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.unitWidth_UnitInput,
   P.unitSelectProps_UnitInput,
   P.quantityInputProps_UnitInput,
+  resolveProp(P.dividerProps_UnitInput, args),
+  P.sx_UnitInput,
   P.onlyIntegers,
   P.nonNegative,
   P.maxDecimalPlaces,

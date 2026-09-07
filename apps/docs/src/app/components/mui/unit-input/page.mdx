@@ -24,21 +24,11 @@ or any other unit set - rendered borderless inside one bordered pill, similar in
 `fieldName` and `customIds` take one entry per control (`quantity`/`unit`) so
 each is registered independently against a flat form schema, but `value` /
 `onValueChange` still report the pair together as one `{ quantity, unit }`
-object.
+object. `sx` styles the outer pill container; `dividerProps` styles the
+vertical divider between the two controls.
 
-`unitOptions` accepts either a plain string array (or a string-literal
-union/enum's values, for literal-union safety), or an object array read via
-`labelKey`/`valueKey` — the same convention as `MUISelect`. The type of
-`value.unit`/`newValue.unit` is computed the same way `MUISelect` computes
-its own value type, from `unitOptions`/`valueKey` — there's no separate
-`Unit` type argument to pass.
-
-With a plain string array, this infers on its own from `unitOptions`. With
-an object array, TypeScript can only infer the option shape from `unitOptions`
-itself — if `value` also comes from a `useState` you've already typed with a
-concrete union (e.g. `useState<MUIUnitInputValue<Currency>>(...)`), pin the
-option type explicitly on the JSX tag (`<MUIUnitInput<CurrencyOption, 'label', 'code'>>`)
-so the two don't fight each other during inference.
+`unitOptions` accepts either a plain string array, or an object array read via
+`labelKey`/`valueKey` — the same convention as `MUISelect`.
 
 ## Usage
 
@@ -62,10 +52,8 @@ const [price, setPrice] = useState<MUIUnitInputValue>({ quantity: null, unit: 'U
 ```
 
 Object `unitOptions` via `labelKey`/`valueKey` — `newValue.unit` is typed
-`'USD' | 'EUR' | 'GBP'`. Since `price` is a `useState<MUIUnitInputValue<Currency>>`
-already typed with that union, the option shape (`CurrencyOption`) is pinned
-explicitly on the tag so it isn't inferred inconsistently from both `value`
-and `unitOptions` at once:
+`'USD' | 'EUR' | 'GBP'` automatically, even though `price` already comes
+from a `useState<MUIUnitInputValue<Currency>>`:
 
 ```tsx
 type Currency = 'USD' | 'EUR' | 'GBP';
@@ -77,7 +65,7 @@ const currencyOptions: CurrencyOption[] = [
   { code: 'GBP', label: 'British Pound' }
 ];
 
-<MUIUnitInput<CurrencyOption, 'label', 'code'>
+<MUIUnitInput
   fieldName={{ quantity: 'priceAmount', unit: 'priceUnit' }}
   value={price}
   onValueChange={({ newValue }) => setPrice(newValue)}

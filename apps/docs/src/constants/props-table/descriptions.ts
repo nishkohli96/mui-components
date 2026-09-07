@@ -831,6 +831,17 @@ export const PropsDescription = Object.freeze({
       'Width of the unit `Select` as a CSS `flex-basis` value, the quantity input fills the rest. Accepts a single value (e.g. `100px` or `\'30%\'`) or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`.\n\nBoth segments have a default `minWidth: 50px` so neither collapses. When omitted, the unit `Select` sizes to its content.',
     type: 'ResponsiveStyleValue<string>'
   },
+  sx_UnitInput: {
+    name: 'sx',
+    description: 'Props forwarded to the outer pill container wrapping the quantity input and unit `Select`.',
+    type: 'SxProps<Theme>'
+  },
+  dividerProps_UnitInput: (args: PropsDescriptionArgs) => ({
+    name: 'dividerProps',
+    description: 'Props forwarded to the vertical divider between the quantity input and the unit `Select` (a plain `Box` with `borderLeft`/`borderColor`).',
+    type: `[BoxProps](${muiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
   min_UnitInput: {
     name: 'min',
     description:

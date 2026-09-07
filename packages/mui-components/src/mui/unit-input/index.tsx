@@ -1,7 +1,7 @@
 'use client';
 
 import { useContext, type ReactNode } from 'react';
-import Box from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import type { ResponsiveStyleValue } from '@mui/system';
 import {
   FormControl,
@@ -111,9 +111,10 @@ export type MUIUnitInputProps<
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 > = {
   /**
-   * Name/path of the field's two underlying controls, kept separate (rather
-   * than one combined `fieldName`) so each can be registered independently
-   * against a flat form schema — e.g. `{ quantity: 'weight', unit: 'weightUnit' }`.
+   * Name/path of the field's two underlying controls, kept separate,
+   * so each can be registered independently against a flat form schema.
+   *
+   * E.g. `{ quantity: 'weight', unit: 'weightUnit' }`.
    */
   fieldName: {
     quantity: string;
@@ -122,12 +123,6 @@ export type MUIUnitInputProps<
   /**
    * Current value of the field. `quantity` and `unit` are always reported
    * together through `onValueChange`, even though they're two controls.
-   *
-   * Wrapped in `NoInfer` (same as `MUISelect`'s own `value` prop) so a
-   * concretely-typed `value` (e.g. from `useState<MUIUnitInputValue<Foo>>`)
-   * never competes with `unitOptions` as the source `Option` is inferred
-   * from — `Option` always comes from `unitOptions`/`labelKey`/`valueKey`
-   * alone, and `value` is just checked against the resulting type.
    */
   value?: NoInfer<MUIUnitInputValue<ResolvedUnit<Option, ValueKey>>>;
   /**
@@ -144,8 +139,7 @@ export type MUIUnitInputProps<
    * `['USD', 'EUR', 'GBP']`, or a string-literal union/enum's values for
    * literal-union safety on `value.unit`/`newValue.unit`), or an object
    * array read via `labelKey`/`valueKey`, same convention as `MUISelect`.
-   * The resolved unit value is always a `string` — a numeric or nullable
-   * unit belongs in a second `MUINumberInput`, not here.
+   * The resolved unit value is always a `string`.
    */
   unitOptions: Option[];
   /**
@@ -164,11 +158,12 @@ export type MUIUnitInputProps<
    */
   unitPosition?: 'start' | 'end';
   /**
-   * Width of the unit `Select` as a CSS `flex-basis` value — typically a
-   * percentage (e.g. `'30%'`), so the quantity input (`flex: 1`) fills the
-   * rest. Accepts a single value or a responsive `sx`-style breakpoint object
-   * (e.g. `{ xs: '40%', md: '30%' }`). When omitted, the unit `Select` sizes
-   * to its content instead of a fixed share of the pill.
+   * Width of the unit `Select` as a CSS `flex-basis` value — a
+   * percentage (e.g. `'30%'`) or fixed width (e.g. `'100px'`), so the quantity
+   * input (`flex: 1`) fills the rest. Accepts a single value or a
+   * responsive `sx`-style breakpoint object (e.g. `{ xs: '40%', md: '30%' }`).
+   * When omitted, the unit `Select` sizes to its selected content instead of a
+   * fixed share of the pill.
    */
   unitWidth?: ResponsiveStyleValue<string>;
   /**
@@ -203,6 +198,16 @@ export type MUIUnitInputProps<
    * Upper bound for the quantity.
    */
   max?: MUINumberInputProps['max'];
+  /**
+   * Props forwarded to the outer pill container wrapping the quantity input
+   * and unit `Select`.
+   */
+  sx?: MUINumberInputProps['sx'];
+  /**
+   * Props forwarded to the vertical divider between the quantity input and
+   * the unit `Select` (a plain `Box` with `borderLeft`/`borderColor`).
+   */
+  dividerProps?: Omit<BoxProps, 'children'>;
   /**
    * When true, renders the field label above the form field instead of inside or beside it.
    */
@@ -259,8 +264,6 @@ export type MUIUnitInputProps<
     quantity?: CustomComponentIds;
     unit?: CustomComponentIds;
   };
-  /** Props forwarded to the outer pill container. */
-  sx?: MUINumberInputProps['sx'];
 };
 
 /**
@@ -295,6 +298,8 @@ const MUIUnitInput = <
   valueKey,
   unitPosition = 'end',
   unitWidth,
+  quantityInputProps,
+  unitSelectProps,
   placeholder,
   onlyIntegers,
   nonNegative,
@@ -302,6 +307,8 @@ const MUIUnitInput = <
   min,
   max,
   label,
+  sx: muiSx,
+  dividerProps,
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
@@ -312,10 +319,7 @@ const MUIUnitInput = <
   hideErrorMessage,
   helperText,
   formHelperTextProps,
-  customIds,
-  quantityInputProps,
-  unitSelectProps,
-  sx: muiSx
+  customIds
 }: MUIUnitInputProps<Option, LabelKey, ValueKey>) => {
   const {
     fieldId: quantityFieldId,
@@ -456,9 +460,11 @@ const MUIUnitInput = <
 
   const divider = (
     <Box
+      {...dividerProps}
       sx={{
         borderLeft: '1px solid',
-        borderColor: 'divider'
+        borderColor: 'divider',
+        ...dividerProps?.sx
       }}
     />
   );
