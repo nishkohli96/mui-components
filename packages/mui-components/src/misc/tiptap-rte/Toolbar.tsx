@@ -41,7 +41,9 @@ type ToolbarProps = {
 const Toolbar = ({ editor, disabled }: ToolbarProps) => {
   const headingButtons: ToolbarButton[] = [1, 2, 3].map(level => ({
     label: `Heading ${level}`,
-    icon: <span style={{ fontSize: 13, fontWeight: 600 }}>{`H${level}`}</span>,
+    icon: <span style={{ fontSize: 13, fontWeight: 600 }}>
+      {`H${level}`}
+    </span>,
     isActive: editor.isActive('heading', { level }),
     onClick: () => editor.chain().focus().toggleHeading({ level: level as 1 | 2 | 3 }).run()
   }));

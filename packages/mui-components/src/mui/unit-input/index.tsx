@@ -28,11 +28,10 @@ import MUISelect, { type MUISelectProps, type SelectValue } from '../select';
 const MIN_SEGMENT_WIDTH = 50;
 
 /**
- * The resolved unit value type — computed the same way `MUISelect` computes
- * its own value type (`SelectValue<OptionValue<Option, ValueKey>, Multiple>`,
- * `Multiple` always `false` here), rather than a free-standing `Unit`
- * generic. Consumers never pass this explicitly: it falls out of whatever
- * `unitOptions`/`valueKey` they pass.
+ * The unit value type `MUIUnitInput` reports through `value`/
+ * `onValueChange` — computed the same way `MUISelect` computes its own value
+ * type (`SelectValue<OptionValue<Option, ValueKey>, Multiple>`, `Multiple`
+ * always `false` here) rather than hand-defined.
  */
 type ResolvedUnit<
   Option extends StrObjOption,
@@ -123,8 +122,14 @@ export type MUIUnitInputProps<
   /**
    * Current value of the field. `quantity` and `unit` are always reported
    * together through `onValueChange`, even though they're two controls.
+   *
+   * Wrapped in `NoInfer` (same as `MUISelect`'s own `value` prop) so a
+   * concretely-typed `value` (e.g. from `useState<MUIUnitInputValue<Foo>>`)
+   * never competes with `unitOptions` as the source `Option` is inferred
+   * from — `Option` always comes from `unitOptions`/`labelKey`/`valueKey`
+   * alone, and `value` is just checked against the resulting type.
    */
-  value?: MUIUnitInputValue<ResolvedUnit<Option, ValueKey>>;
+  value?: NoInfer<MUIUnitInputValue<ResolvedUnit<Option, ValueKey>>>;
   /**
    * Called whenever either the quantity or the unit changes. Always receives
    * the full `{ quantity, unit }` value — read `newValue.quantity` /
@@ -342,7 +347,7 @@ const MUIUnitInput = <
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
   const resolvedUnit = value?.unit
-    ?? (getOptionValue(unitOptions[0], valueKey));
+    ?? (getOptionValue(unitOptions[0], valueKey) as unknown as ResolvedUnit<Option, ValueKey>);
 
   /*
    * `MUINumberInput`/`MUISelect` each wrap themselves in the shared
@@ -424,12 +429,12 @@ const MUIUnitInput = <
         options={unitOptions}
         labelKey={labelKey}
         valueKey={valueKey}
-        value={resolvedUnit}
+        value={resolvedUnit as unknown as OptionValue<Option, ValueKey>}
         onValueChange={({ newValue, event }) => {
           onValueChange({
             newValue: {
               quantity: value?.quantity ?? null,
-              unit: newValue
+              unit: newValue as unknown as ResolvedUnit<Option, ValueKey>
             },
             event
           });
