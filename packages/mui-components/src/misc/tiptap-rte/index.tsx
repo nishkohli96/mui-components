@@ -243,7 +243,6 @@ const MUITipTapRte = ({
     if (currentHtml !== nextHtml) {
       editor.commands.setContent(nextHtml, { emitUpdate: false });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, editor]);
 
   useEffect(() => {

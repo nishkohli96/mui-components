@@ -16,7 +16,8 @@ import {
   keepLabelAboveFormField,
   useFieldIds,
   getErrorList,
-  getOptionValue
+  getOptionValue,
+  mergeSx
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 import MUISelect, { type MUISelectProps, type SelectValue } from '../select';
@@ -200,9 +201,11 @@ export type MUIUnitInputProps<
   max?: MUINumberInputProps['max'];
   /**
    * Props forwarded to the outer pill container wrapping the quantity input
-   * and unit `Select`.
+   * and unit `Select`. `containerProps.sx` is merged with the component's
+   * own base pill styles (border, radius, focus ring) rather than replacing
+   * them, and accepts any `sx` form — object, array, or function.
    */
-  sx?: MUINumberInputProps['sx'];
+  containerProps?: Omit<BoxProps, 'children'>;
   /**
    * Props forwarded to the vertical divider between the quantity input and
    * the unit `Select` (a plain `Box` with `borderLeft`/`borderColor`).
@@ -307,7 +310,7 @@ const MUIUnitInput = <
   min,
   max,
   label,
-  sx: muiSx,
+  containerProps,
   dividerProps,
   showLabelAboveFormField,
   formLabelProps,
@@ -351,7 +354,7 @@ const MUIUnitInput = <
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
   const resolvedUnit = value?.unit
-    ?? (getOptionValue(unitOptions[0], valueKey) as unknown as ResolvedUnit<Option, ValueKey>);
+    ?? (getOptionValue(unitOptions[0], valueKey));
 
   /*
    * `MUINumberInput`/`MUISelect` each wrap themselves in the shared
@@ -433,12 +436,12 @@ const MUIUnitInput = <
         options={unitOptions}
         labelKey={labelKey}
         valueKey={valueKey}
-        value={resolvedUnit as unknown as OptionValue<Option, ValueKey>}
+        value={resolvedUnit}
         onValueChange={({ newValue, event }) => {
           onValueChange({
             newValue: {
               quantity: value?.quantity ?? null,
-              unit: newValue as unknown as ResolvedUnit<Option, ValueKey>
+              unit: newValue
             },
             event
           });
@@ -450,10 +453,12 @@ const MUIUnitInput = <
         hideErrorMessage
         variant="standard"
         multiple={false}
-        sx={{
-          '&:before, &:after': { display: 'none' },
-          ...unitSelectProps?.sx
-        }}
+        sx={mergeSx(
+          {
+            '&:before, &:after': { display: 'none' }
+          },
+          unitSelectProps?.sx
+        )}
       />
     </Box>
   );
@@ -461,11 +466,13 @@ const MUIUnitInput = <
   const divider = (
     <Box
       {...dividerProps}
-      sx={{
-        borderLeft: '1px solid',
-        borderColor: 'divider',
-        ...dividerProps?.sx
-      }}
+      sx={mergeSx(
+        {
+          borderLeft: '1px solid',
+          borderColor: 'divider'
+        },
+        dividerProps?.sx
+      )}
     />
   );
 
@@ -486,23 +493,26 @@ const MUIUnitInput = <
         />
       )}
       <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'stretch',
-          border: '1px solid',
-          borderColor: isError ? 'error.main' : 'divider',
-          borderRadius: '8px',
-          bgcolor: 'background.paper',
-          overflow: 'hidden',
-          px: 2,
-          gap: 1.5,
-          '&:focus-within': {
-            borderColor: isError ? 'error.main' : 'primary.main',
-            borderWidth: '2px',
-            m: '-1px'
+        {...containerProps}
+        sx={mergeSx(
+          {
+            display: 'flex',
+            alignItems: 'stretch',
+            border: '1px solid',
+            borderColor: isError ? 'error.main' : 'divider',
+            borderRadius: '8px',
+            bgcolor: 'background.paper',
+            overflow: 'hidden',
+            px: 2,
+            gap: 1.5,
+            '&:focus-within': {
+              borderColor: isError ? 'error.main' : 'primary.main',
+              borderWidth: '2px',
+              m: '-1px'
+            }
           },
-          ...muiSx
-        }}
+          containerProps?.sx
+        )}
       >
         {unitPosition === 'start' && unitSelect}
         {unitPosition === 'start' && divider}

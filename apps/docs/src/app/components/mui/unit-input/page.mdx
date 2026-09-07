@@ -24,8 +24,8 @@ or any other unit set - rendered borderless inside one bordered pill, similar in
 `fieldName` and `customIds` take one entry per control (`quantity`/`unit`) so
 each is registered independently against a flat form schema, but `value` /
 `onValueChange` still report the pair together as one `{ quantity, unit }`
-object. `sx` styles the outer pill container; `dividerProps` styles the
-vertical divider between the two controls.
+object. `containerProps` styles the outer pill container; `dividerProps`
+styles the vertical divider between the two controls.
 
 `unitOptions` accepts either a plain string array, or an object array read via
 `labelKey`/`valueKey` — the same convention as `MUISelect`.

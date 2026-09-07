@@ -14,7 +14,7 @@ const unitInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.unitSelectProps_UnitInput,
   P.quantityInputProps_UnitInput,
   resolveProp(P.dividerProps_UnitInput, args),
-  P.sx_UnitInput,
+  resolveProp(P.containerProps_UnitInput, args),
   P.onlyIntegers,
   P.nonNegative,
   P.maxDecimalPlaces,
