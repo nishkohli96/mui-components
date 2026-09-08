@@ -1079,6 +1079,43 @@ export const PropsDescription = Object.freeze({
       'Callback fired when CKEditor reports an initialization or runtime error.',
     type: '(error: Error, details) => void'
   },
+  value_TipTapRte: {
+    name: 'value',
+    description: 'Current editor HTML string.',
+    type: 'string | null'
+  },
+  onValueChange_TipTapRte: {
+    name: 'onValueChange',
+    description: 'Called when the editor content changes, with the updated HTML string and editor instance.',
+    required: true,
+    type: '({ newValue, editor }) => void'
+  },
+  placeholder_TipTapRte: {
+    name: 'placeholder',
+    description: 'Placeholder text shown when the editor is empty. Always applied via an internal `Placeholder` extension appended after `editorExtensions` (or `DefaultEditorExtensions`), regardless of which set is active.',
+    type: 'string'
+  },
+  editorExtensions_TipTapRte: {
+    name: 'editorExtensions',
+    description:
+      'Tiptap extensions passed to `useEditor`. Defaults to this package\'s `DefaultEditorExtensions`. The built-in toolbar omits any button whose backing extension isn\'t loaded, so a custom set missing e.g. `Heading` or `TextAlign` simply hides those controls instead of throwing when clicked.',
+    type: 'AnyExtension[]'
+  },
+  onReady_TipTapRte: {
+    name: 'onReady',
+    description: 'Callback fired when the Tiptap editor instance is created.',
+    type: '(editor: Editor) => void'
+  },
+  onFocus_TipTapRte: {
+    name: 'onFocus',
+    description: 'Callback fired when the editor receives focus.',
+    type: '(editor: Editor) => void'
+  },
+  onBlur_TipTapRte: {
+    name: 'onBlur',
+    description: 'Callback fired when the editor loses focus.',
+    type: '(editor: Editor) => void'
+  },
   phoneInputProps: {
     name: 'phoneInputProps',
     description:

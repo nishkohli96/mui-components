@@ -1,9 +1,8 @@
-import MuiLink from '@mui/material/Link';
-import { DocsPage, PropsTable } from '@/components/docs';
-import { componentProps, componentMetadata, externalLinks } from '@/constants';
+import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
+import { componentProps, componentMetadata } from '@/constants';
 import TipTapForm from '@/forms/misc/tiptap-rte/Client';
 
-export const metadata = componentMetadata.MUIRichTextEditor;
+export const metadata = componentMetadata.MUITipTapRte;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
@@ -11,6 +10,62 @@ export default function Layout({ children }) {
 
 # MUITipTapRte
 
+<AvailabilityBanner componentName="MUITipTapRte" version="1.3" />
+
+`MUITipTapRte` wraps [Tiptap](https://tiptap.dev/)'s headless `useEditor` hook, backed by
+an HTML string value — a lighter, dependency-thinner alternative to
+[MUIRichTextEditor](/components/misc/rich-text-editor) (CKEditor 5). Since Tiptap ships no UI of
+its own, this component includes a hand-built formatting toolbar (bold, italic, underline,
+strikethrough, headings, lists, blockquote, code block, links, alignment, undo/redo) driven
+entirely by the editor's own extensions.
+
+## Usage
+
+```tsx
+import MUITipTapRte from '@nish1896/mui-components/misc/tiptap-rte';
+```
+
+The value of `bio` will be an **HTML string**.
+
+```tsx
+const [bio, setBio] = useState('');
+
+<MUITipTapRte
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  placeholder="Tell us about yourself"
+/>
+```
+
+To customize the toolbar/formatting options, pass a custom `editorExtensions` array (or
+extend `DefaultEditorExtensions`). Every toolbar button checks whether its backing extension
+is actually loaded before rendering, so a custom set missing e.g. `Heading` or `TextAlign`
+simply omits those buttons instead of throwing when clicked:
+
+```tsx
+import MUITipTapRte, { DefaultEditorExtensions } from '@nish1896/mui-components/misc/tiptap-rte';
+import Table from '@tiptap/extension-table';
+
+<MUITipTapRte
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  editorExtensions={[...DefaultEditorExtensions, Table]}
+/>
+```
+
+## API
+
+Pass a custom `editorExtensions` to control the Tiptap extension set (and, in turn, which
+toolbar buttons render). Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUITipTapRte} />
+
 ## Playground
+
+Driven by plain React state — the value is an HTML string; a required editor with a custom
+`label` and validation, plus one with the label above the field.
 
 <TipTapForm />

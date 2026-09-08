@@ -3,6 +3,7 @@
 import {
   useContext,
   useEffect,
+  useMemo,
   type ReactNode
 } from 'react';
 import {
@@ -11,6 +12,7 @@ import {
   type Editor,
   type AnyExtension
 } from '@tiptap/react';
+import Placeholder from '@tiptap/extension-placeholder';
 import Box from '@mui/material/Box';
 import {
   FormControl,
@@ -50,6 +52,12 @@ export type MUITipTapRteProps = {
    * Called when the editor content changes.
    */
   onValueChange: ({ newValue, editor }: MUITipTapRteOnValueChangeProps) => void;
+  /**
+   * Placeholder text shown when the editor is empty. Always applied via an
+   * internal `Placeholder` extension appended after `editorExtensions` (or
+   * `DefaultEditorExtensions`), regardless of which set is active.
+   */
+  placeholder?: string;
   /**
    * When true, marks the field as required in the UI and accessibility attributes.
    */
@@ -152,6 +160,7 @@ const MUITipTapRte = ({
   fieldName,
   value,
   onValueChange,
+  placeholder,
   required,
   editorExtensions,
   onReady,
@@ -202,8 +211,24 @@ const MUITipTapRte = ({
     || (isError && !hideErrorMessage)
   );
 
+  /*
+   * `useEditor` re-diffs `extensions` on every render and calls
+   * `editor.setOptions(...)` (rebuilding the schema/extension manager)
+   * whenever the array or any element's reference changes — a fresh array
+   * and a fresh `Placeholder.configure(...)` instance built inline on every
+   * render would trigger that on every keystroke, since `onValueChange`
+   * updating the caller's `value` re-renders this component.
+   */
+  const extensions = useMemo(
+    () => [
+      ...(editorExtensions ?? DefaultEditorExtensions),
+      Placeholder.configure({ placeholder: placeholder ?? '' })
+    ],
+    [editorExtensions, placeholder]
+  );
+
   const editor = useEditor({
-    extensions: editorExtensions ?? DefaultEditorExtensions,
+    extensions,
     content: value ?? '',
     editable: !muiDisabled,
     onCreate: ({ editor: createdEditor }) => onReady?.(createdEditor),
