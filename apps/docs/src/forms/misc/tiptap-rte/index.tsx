@@ -13,12 +13,9 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import UndoIcon from '@mui/icons-material/Undo';
-import RedoIcon from '@mui/icons-material/Redo';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
+import { Markdown, type MarkdownStorage } from 'tiptap-markdown';
 import MUITipTapRte from '@nish1896/mui-components/misc/tiptap-rte';
 import {
   FormContainer,
@@ -30,6 +27,18 @@ import {
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
+import CustomToolbar from './CustomToolbar';
+
+/**
+ * Currently this package is in BETA.
+ * `tiptap-markdown` doesn't ship this augmentation itself — declare it here
+ * so `editor.storage.markdown` below is typed instead of falling to `any`
+ */
+declare module '@tiptap/core' {
+  interface Storage {
+    markdown: MarkdownStorage;
+  }
+}
 
 /** Tiptap emits an empty document as "<p></p>" — treat it as blank. */
 function isBlankHtml(html: string) {
@@ -43,7 +52,9 @@ const initialValues = {
 };
 
 /** Trimmed extension set for the "custom" example below — no headings, lists,
- * blockquote or code block, so its toolbar only needs Bold/Italic/Underline. */
+ * blockquote or code block, so its toolbar only needs Bold/Italic/Underline —
+ * plus `Markdown` (from `tiptap-markdown`) so the editor's content can also
+ * be read back out as a markdown string via `editor.storage.markdown`. */
 const reviewExtensions = [
   StarterKit.configure({
     heading: false,
@@ -52,7 +63,8 @@ const reviewExtensions = [
     bulletList: false,
     orderedList: false
   }),
-  Underline
+  Underline,
+  Markdown
 ];
 
 export default function TipTapRteForm() {
@@ -62,6 +74,7 @@ export default function TipTapRteForm() {
   const [bioError, setBioError] = useState<string>();
   const [notes, setNotes] = useState(initialValues.notes);
   const [review, setReview] = useState(initialValues.review);
+  const [reviewMarkdown, setReviewMarkdown] = useState('');
   const [disableAllFields, setDisableAllFields] = useState(false);
 
   const formValues = { bio, notes, review };
@@ -71,6 +84,7 @@ export default function TipTapRteForm() {
     setBio(initialValues.bio);
     setNotes(initialValues.notes);
     setReview(initialValues.review);
+    setReviewMarkdown('');
     setBioError(undefined);
   }
 
@@ -138,7 +152,7 @@ export default function TipTapRteForm() {
           </Grid>
 
           <Grid size={12}>
-            <FieldVariantInfo title="Custom extensions, toolbar & style overrides" />
+            <FieldVariantInfo title="Custom extensions, toolbar, markdown & style overrides" />
             <MUITipTapRte
               fieldName="review"
               label="Quick review"
@@ -146,57 +160,43 @@ export default function TipTapRteForm() {
               onValueChange={({ newValue }) => setReview(newValue)}
               disabled={disableAllFields}
               editorExtensions={reviewExtensions}
+              editorOptions={{
+                onCreate: ({ editor }) => {
+                  setReviewMarkdown(editor.storage.markdown.getMarkdown());
+                  editor.on('update', ({ editor: updatedEditor }) => {
+                    setReviewMarkdown(updatedEditor.storage.markdown.getMarkdown());
+                  });
+                }
+              }}
               containerProps={{ sx: { borderColor: 'secondary.main', borderRadius: 2 } }}
               contentContainerProps={{ sx: { minHeight: 100, bgcolor: 'action.hover' } }}
               renderToolbar={(editor, disabled) => (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, p: 0.5 }}>
-                  <Button
-                    size="small"
-                    disabled={disabled}
-                    variant={editor.isActive('bold') ? 'contained' : 'text'}
-                    color="secondary"
-                    onClick={() => editor.chain().focus().toggleBold().run()}
-                  >
-                    Bold
-                  </Button>
-                  <Button
-                    size="small"
-                    disabled={disabled}
-                    variant={editor.isActive('italic') ? 'contained' : 'text'}
-                    color="secondary"
-                    onClick={() => editor.chain().focus().toggleItalic().run()}
-                  >
-                    Italic
-                  </Button>
-                  <Button
-                    size="small"
-                    disabled={disabled}
-                    variant={editor.isActive('underline') ? 'contained' : 'text'}
-                    color="secondary"
-                    onClick={() => editor.chain().focus().toggleUnderline().run()}
-                  >
-                    Underline
-                  </Button>
-                  <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-                  <Button
-                    size="small"
-                    disabled={disabled || !editor.can().undo()}
-                    color="secondary"
-                    onClick={() => editor.chain().focus().undo().run()}
-                  >
-                    <UndoIcon fontSize="small" />
-                  </Button>
-                  <Button
-                    size="small"
-                    disabled={disabled || !editor.can().redo()}
-                    color="secondary"
-                    onClick={() => editor.chain().focus().redo().run()}
-                  >
-                    <RedoIcon fontSize="small" />
-                  </Button>
-                </Box>
+                <CustomToolbar editor={editor} disabled={disabled} />
               )}
             />
+            {reviewMarkdown && (
+              <Box
+                component="pre"
+                sx={{
+                  mt: 1,
+                  p: 1,
+                  fontSize: 13,
+                  fontFamily: 'monospace',
+                  whiteSpace: 'pre-wrap',
+                  bgcolor: 'grey.100',
+                  borderRadius: 1
+                }}
+              >
+                {reviewMarkdown}
+              </Box>
+            )}
+            <Typography variant="caption" color="text.secondary">
+              Value above stays an HTML string — this preview reads
+              {' '}
+              <code>editor.storage.markdown.getMarkdown()</code>
+              {' '}
+              (from the <code>Markdown</code> extension) via <code>editorOptions.onCreate</code>.
+            </Typography>
           </Grid>
 
           <Grid size={12}>
