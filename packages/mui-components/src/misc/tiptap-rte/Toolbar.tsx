@@ -178,16 +178,21 @@ const Toolbar = ({ editor, disabled }: ToolbarProps) => {
     }
   ];
 
+  /**
+   * Tiptap v3's StarterKit ships history as `UndoRedo` (name `undoRedo`);
+   * `history` is kept for callers still on the older `History` extension.
+   */
+  const historyExtension = hasExtension('undoRedo') ? 'undoRedo' : 'history';
   const historyButtons: ToolbarButton[] = [
     {
-      extension: 'history',
+      extension: historyExtension,
       label: 'Undo',
       icon: <UndoIcon fontSize="small" />,
       disabled: !editor.can().undo(),
       onClick: () => editor.chain().focus().undo().run()
     },
     {
-      extension: 'history',
+      extension: historyExtension,
       label: 'Redo',
       icon: <RedoIcon fontSize="small" />,
       disabled: !editor.can().redo(),
