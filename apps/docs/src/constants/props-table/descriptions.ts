@@ -390,7 +390,7 @@ export const PropsDescription = Object.freeze({
   errorMessage: {
     name: 'errorMessage',
     description:
-      'Validation error for the field — pass a single message `string`, or a `string[]` when the field can fail multiple rules at once (every message is shown together). A non-empty string or array puts the field in an error state; `undefined`/`\'\'`/`[]` clear it. Normalize your form library\'s error shape to this at the call site (e.g. an RHF `FieldError` via its `.message`). Use `renderError` to customize how the message(s) are rendered.',
+      'Validation error for the field — pass a single message `string`, or a `string[]` when the field can fail multiple rules at once (every message is shown together). A non-empty string or array puts the field in an error state; `undefined`/`\'\'`/`[]` clear it.\n\nNormalize your form library\'s error shape to this at the call site (e.g. an RHF `FieldError` via its `.message`). Use `renderError` to customize how the message(s) are rendered.',
     type: 'string \| string[]'
   },
   renderError: {
@@ -1103,7 +1103,7 @@ export const PropsDescription = Object.freeze({
   },
   editorOptions_TipTapRte: {
     name: 'editorOptions',
-    description: 'Additional options passed straight through to `useEditor` — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. There\'s no separate `onReady`/`onFocus`/`onBlur` prop — pass those here directly, and they reach `useEditor` unmodified. Applied *underneath* only this component\'s own required wiring (`extensions`, `content`, `editable`, `onUpdate`, and the accessibility attributes in `editorProps.attributes`), so it can\'t accidentally break the controlled-value contract — those always win on conflict. `editorProps.attributes` is deep-merged instead of replaced.',
+    description: 'Additional options passed straight through to `useEditor` hook — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. Applied *underneath* only this component\'s own required wiring (`extensions`, `content`, `editable`, `onUpdate`, and the accessibility attributes in `editorProps.attributes`), so it can\'t accidentally break the controlled-value contract — those always win on conflict. `editorProps.attributes` is deep-merged instead of replaced.',
     type: 'UseEditorOptions'
   },
   containerProps_TipTapRte: {

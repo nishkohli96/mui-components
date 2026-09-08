@@ -22,7 +22,10 @@ entirely by the editor's own extensions.
 ## Usage
 
 ```tsx
-import MUITipTapRte from '@nish1896/mui-components/misc/tiptap-rte';
+import MUITipTapRte, {
+  DefaultEditorExtensions,
+  type MUITipTapRteProps
+} from '@nish1896/mui-components/misc/tiptap-rte';
 ```
 
 The value of `bio` will be an **HTML string**.
@@ -55,12 +58,12 @@ import Table from '@tiptap/extension-table';
 />
 ```
 
-Reach into `useEditor` itself for anything not exposed as its own prop via `editorOptions` —
-there's no separate `onReady`/`onFocus`/`onBlur` prop; pass `onCreate`/`onFocus`/`onBlur`
-here directly and they reach `useEditor` unmodified. `editorOptions` is layered *underneath*
+Reach into `useEditor` itself for anything not exposed as its own prop
+via `editorOptions` — pass `onCreate`/`onFocus`/`onBlur` here directly
+and they reach `useEditor` unmodified. `editorOptions` is layered *underneath*
 only this component's own required wiring (`content`/`editable`/`onUpdate` and the
-accessibility attributes), so it can't break the controlled-value contract; `editorProps.attributes`
-is deep-merged rather than replaced:
+accessibility attributes), so it can't break the controlled-value contract;
+`editorProps.attributes` is deep-merged rather than replaced:
 
 ```tsx
 <MUITipTapRte

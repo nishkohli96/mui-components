@@ -51,6 +51,7 @@ export const sidebarLinks: Page[] = [
         pages: [
           { title: 'Color Picker', href: '/components/misc/color-picker' },
           { title: 'Rich Text Editor', href: '/components/misc/rich-text-editor' },
+          { title: 'TipTap Rte', href: '/components/misc/tiptap-rte' },
           { title: 'Phone Input', href: '/components/misc/phone-input' }
         ]
       }

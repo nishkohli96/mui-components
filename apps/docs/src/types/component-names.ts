@@ -31,5 +31,6 @@ export enum MuiPickersComponents {
 export enum MiscComponents {
   ColorPicker = 'MUIColorPicker',
   RichTextEditor = 'MUIRichTextEditor',
+  TipTapRte = 'MUITipTapRte',
   PhoneInput = 'MUIPhoneInput',
 }

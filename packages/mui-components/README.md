@@ -85,6 +85,7 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
 - **misc**
   - [Color Picker](https://mui-components-docs.vercel.app/v1/components/misc/color-picker)
   - [Rich Text Editor](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor)
+  - [TipTap Rte](https://mui-components-docs.vercel.app/v1/components/misc/tiptap-rte)
   - [Phone Input](https://mui-components-docs.vercel.app/v1/components/misc/phone-input)
 
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**

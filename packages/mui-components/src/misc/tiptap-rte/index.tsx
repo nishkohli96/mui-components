@@ -261,7 +261,10 @@ const MUITipTapRte = ({
     content: value ?? '',
     editable: !muiDisabled,
     onUpdate: ({ editor: updatedEditor }) => {
-      onValueChange({ newValue: updatedEditor.getHTML(), editor: updatedEditor });
+      onValueChange({
+        newValue: updatedEditor.getHTML(),
+        editor: updatedEditor
+      });
     },
     editorProps: {
       ...editorOptions?.editorProps,
