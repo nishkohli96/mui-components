@@ -2,6 +2,7 @@ export enum MuiComponents {
   TextField = 'MUITextField',
   PasswordInput = 'MUIPasswordInput',
   NumberInput = 'MUINumberInput',
+  CounterInput = 'MUICounterInput',
   OTPInput = 'MUIOTPInput',
   TagsInput = 'MUITagsInput',
   FileUploader = 'MUIFileUploader',

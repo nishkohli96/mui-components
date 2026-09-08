@@ -30,6 +30,9 @@ import {
   sanitizePastedNumber,
   setInputValueAndNotify,
   getSteppedInputValue,
+  clampNumber,
+  resolveMinBound,
+  resolveStepAmount,
   isNativeNumberMarkerClick,
   buildNumberInputDecimalPattern,
   useFieldIds,
@@ -91,7 +94,7 @@ export type MUINumberInputProps = {
   onlyIntegers?: boolean;
   /**
    * When `true`, negative and exponential values are not allowed
-   * while typing or pasting.
+   * while typing or pasting. Acts as an implicit `min` of `0`.
    */
   nonNegative?: boolean;
   /**
@@ -100,6 +103,17 @@ export type MUINumberInputProps = {
    * with `onlyIntegers`.
    */
   maxDecimalPlaces?: number;
+  /**
+   * Lower bound for the value. Stepping (native steppers / arrow keys) clamps
+   * to this and the value is clamped on blur. `nonNegative` can only tighten
+   * this, never loosen it.
+   */
+  min?: number;
+  /**
+   * Upper bound for the value. Stepping (native steppers / arrow keys) clamps
+   * to this and the value is clamped on blur.
+   */
+  max?: number;
   /**
    * Show the increment and decrement markers on number input. Hidden by default.
    */
@@ -174,6 +188,8 @@ const MUINumberInput = ({
   onlyIntegers = false,
   nonNegative = false,
   maxDecimalPlaces,
+  min,
+  max,
   stepAmount = 1,
   errorMessage,
   renderError,
@@ -213,9 +229,8 @@ const MUINumberInput = ({
     [nonNegative, onlyIntegers, maxDecimalPlaces]
   );
 
-  const resolvedStepAmount = onlyIntegers
-    ? Math.max(1, Math.floor(stepAmount))
-    : stepAmount;
+  const resolvedStepAmount = resolveStepAmount(stepAmount, onlyIntegers);
+  const effectiveMin = resolveMinBound(nonNegative, min);
 
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
@@ -249,14 +264,14 @@ const MUINumberInput = ({
             input,
             resolvedStepAmount,
             e.clientY < rect.top + (rect.height / 2) ? 1 : -1,
-            nonNegative
+            { nonNegative, min, max }
           )
         );
       }
 
       onMouseDown?.(e);
     },
-    [nonNegative, onMouseDown, resolvedStepAmount, showMarkers]
+    [max, min, nonNegative, onMouseDown, resolvedStepAmount, showMarkers]
   );
 
   const handleKeyDown = useCallback(
@@ -277,7 +292,7 @@ const MUINumberInput = ({
               input,
               resolvedStepAmount,
               e.key === 'ArrowUp' ? 1 : -1,
-              nonNegative
+              { nonNegative, min, max }
             )
           );
         }
@@ -321,7 +336,7 @@ const MUINumberInput = ({
 
       onKeyDown?.(e);
     },
-    [nonNegative, onlyIntegers, onKeyDown, resolvedStepAmount]
+    [max, min, nonNegative, onlyIntegers, onKeyDown, resolvedStepAmount]
   );
 
   const handlePaste = useCallback(
@@ -419,6 +434,20 @@ const MUINumberInput = ({
           }
         }}
         onBlur={blurEvent => {
+          const input = blurEvent.target as HTMLInputElement;
+          if (
+            (effectiveMin !== undefined || max !== undefined)
+            && input.value !== ''
+            && !input.validity.badInput
+          ) {
+            const parsed = Number(input.value);
+            if (!Number.isNaN(parsed)) {
+              const clamped = clampNumber(parsed, effectiveMin, max);
+              if (clamped !== parsed) {
+                setInputValueAndNotify(input, String(clamped));
+              }
+            }
+          }
           muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
         }}
         onKeyDown={handleKeyDown}
@@ -437,7 +466,8 @@ const MUINumberInput = ({
                 : helperTextId
               : undefined,
             'aria-required': required,
-            ...(nonNegative ? { min: 0 } : {}),
+            ...(effectiveMin !== undefined ? { min: effectiveMin } : {}),
+            ...(max !== undefined ? { max } : {}),
             step: onlyIntegers
               ? resolvedStepAmount
               : 'any'

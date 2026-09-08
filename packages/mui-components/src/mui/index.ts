@@ -2,6 +2,7 @@ import MUIAutocomplete, { type MUIAutocompleteProps } from './autocomplete';
 import MUIAutocompleteObject, { type MUIAutocompleteObjectProps } from './autocomplete-object';
 import MUICheckbox, { type MUICheckboxProps } from './checkbox';
 import MUICheckboxGroup, { type MUICheckboxGroupProps } from './checkbox-group';
+import MUICounterInput, { type MUICounterInputProps } from './counter-input';
 import MUICountrySelect, {
   countryList,
   type MUICountrySelectProps,
@@ -39,6 +40,7 @@ export {
   MUIAutocompleteObject,
   MUICheckbox,
   MUICheckboxGroup,
+  MUICounterInput,
   MUICountrySelect,
   MUIFileUploader,
   MUIMultiAutocomplete,
@@ -63,6 +65,7 @@ export type {
   MUIAutocompleteObjectProps,
   MUICheckboxProps,
   MUICheckboxGroupProps,
+  MUICounterInputProps,
   MUICountrySelectProps,
   MUIFileUploaderProps,
   FileUploadError,

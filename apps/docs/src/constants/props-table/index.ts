@@ -19,6 +19,7 @@ import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import textFieldRows from './mui/textfield';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
+import counterInputRows from './mui/counter-input';
 import otpInputRows from './mui/otp-input';
 import tagsInputRows from './mui/tags-input';
 import fileUploaderRows from './mui/file-uploader';
@@ -66,6 +67,7 @@ const buildComponentProps = (
     MUITextField: textFieldRows(args),
     MUIPasswordInput: passwordInputRows(args, docsVersion),
     MUINumberInput: numberInputRows(args),
+    MUICounterInput: counterInputRows(args),
     MUIOTPInput: otpInputRows(args),
     MUITagsInput: tagsInputRows(args),
     MUIFileUploader: fileUploaderRows(args),
