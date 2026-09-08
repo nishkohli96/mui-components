@@ -31,7 +31,7 @@ import {
   setInputValueAndNotify,
   getSteppedInputValue,
   clampNumber,
-  resolveMinBound,
+  resolveBounds,
   resolveStepAmount,
   isNativeNumberMarkerClick,
   buildNumberInputDecimalPattern,
@@ -230,7 +230,10 @@ const MUINumberInput = ({
   );
 
   const resolvedStepAmount = resolveStepAmount(stepAmount, onlyIntegers);
-  const effectiveMin = resolveMinBound(nonNegative, min);
+  const {
+    min: effectiveMin,
+    max: effectiveMax
+  } = resolveBounds(nonNegative, min, max);
 
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
@@ -436,13 +439,13 @@ const MUINumberInput = ({
         onBlur={blurEvent => {
           const input = blurEvent.target as HTMLInputElement;
           if (
-            (effectiveMin !== undefined || max !== undefined)
+            (effectiveMin !== undefined || effectiveMax !== undefined)
             && input.value !== ''
             && !input.validity.badInput
           ) {
             const parsed = Number(input.value);
             if (!Number.isNaN(parsed)) {
-              const clamped = clampNumber(parsed, effectiveMin, max);
+              const clamped = clampNumber(parsed, effectiveMin, effectiveMax);
               if (clamped !== parsed) {
                 setInputValueAndNotify(input, String(clamped));
               }
@@ -467,7 +470,7 @@ const MUINumberInput = ({
               : undefined,
             'aria-required': required,
             ...(effectiveMin !== undefined && { min: effectiveMin }),
-            ...(max !== undefined && { max }),
+            ...(effectiveMax !== undefined && { max: effectiveMax }),
             step: onlyIntegers
               ? resolvedStepAmount
               : 'any'

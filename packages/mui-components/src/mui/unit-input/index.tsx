@@ -361,7 +361,9 @@ const MUIUnitInput = <
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
   const resolvedUnit = value?.unit
-    ?? (getOptionValue(unitOptions[0], valueKey));
+    ?? (unitOptions.length > 0
+      ? getOptionValue(unitOptions[0], valueKey)
+      : ('' as ResolvedUnit<Option, ValueKey>));
 
   /*
    * `MUINumberInput`/`MUISelect` each wrap themselves in the shared

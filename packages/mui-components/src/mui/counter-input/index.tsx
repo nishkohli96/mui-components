@@ -17,7 +17,7 @@ import {
   keepLabelAboveFormField,
   setInputValueAndNotify,
   getSteppedInputValue,
-  resolveMinBound,
+  resolveBounds,
   resolveStepAmount,
   useFieldIds,
   getErrorList
@@ -125,16 +125,19 @@ const MUICounterInput = ({
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
   const resolvedStepAmount = resolveStepAmount(stepAmount, onlyIntegers);
-  const effectiveMin = resolveMinBound(nonNegative, min);
+  const {
+    min: effectiveMin,
+    max: effectiveMax
+  } = resolveBounds(nonNegative, min, max);
 
   const atMin = effectiveMin !== undefined
     && muiValue !== null
     && muiValue !== undefined
     && muiValue <= effectiveMin;
-  const atMax = max !== undefined
+  const atMax = effectiveMax !== undefined
     && muiValue !== null
     && muiValue !== undefined
-    && muiValue >= max;
+    && muiValue >= effectiveMax;
 
   const stepBy = useCallback(
     (direction: 1 | -1) => {

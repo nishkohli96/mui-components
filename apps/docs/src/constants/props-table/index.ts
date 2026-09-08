@@ -39,6 +39,7 @@ import { dateTimePickerRows } from './mui-pickers/date-time';
 import colorPickerRows from './misc/color-picker';
 import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
+import tipTapRteRows from './misc/tiptap-rte';
 
 export { PropsDescription, resolveProp } from './descriptions';
 
@@ -78,5 +79,6 @@ export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
 
   MUIColorPicker: colorPickerRows(currentVersionArgs),
   MUIPhoneInput: phoneInputRows(currentVersionArgs),
-  MUIRichTextEditor: richTextEditorRows(currentVersionArgs)
+  MUIRichTextEditor: richTextEditorRows(currentVersionArgs),
+  MUITipTapRte: tipTapRteRows(currentVersionArgs)
 });
