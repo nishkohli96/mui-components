@@ -10,10 +10,11 @@ import {
   useEditor,
   EditorContent,
   type Editor,
-  type AnyExtension
+  type AnyExtension,
+  type UseEditorOptions
 } from '@tiptap/react';
 import Placeholder from '@tiptap/extension-placeholder';
-import Box from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import {
   FormControl,
   FormLabel,
@@ -27,7 +28,8 @@ import {
   fieldNameToLabel,
   resolveLabelAboveControl,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 import { DefaultEditorExtensions } from './config';
 import Toolbar from './Toolbar';
@@ -69,21 +71,46 @@ export type MUITipTapRteProps = {
    */
   editorExtensions?: AnyExtension[];
   /**
-   * Callback fired when the Tiptap editor instance is created.
+   * Additional options passed straight through to `useEditor` — e.g.
+   * `autofocus`, `onCreate`, `onFocus`, `onBlur`, `editorProps.handleDOMEvents`,
+   * `parseOptions`, `injectCSS`.
+   *
+   * Applied *underneath* this component's own required wiring
+   * (`extensions`, `content`, `editable`, `onUpdate`, and the accessibility
+   * attributes in `editorProps.attributes`) so it can't accidentally break
+   * the controlled-value contract — those always win on conflict. Everything
+   * else, including `onCreate`/`onFocus`/`onBlur`, passes straight through
+   * unmodified — there's no separate `onReady`/`onFocus`/`onBlur` prop.
+   * `editorProps.attributes` is deep-merged instead of replaced, so you can
+   * add your own attributes alongside the accessibility ones this component sets.
    */
-  onReady?: (editor: Editor) => void;
-  /**
-   * Callback fired when the editor receives focus.
-   */
-  onFocus?: (editor: Editor) => void;
-  /**
-   * Callback fired when the editor loses focus.
-   */
-  onBlur?: (editor: Editor) => void;
+  editorOptions?: Omit<
+    UseEditorOptions,
+    'extensions' | 'content' | 'editable' | 'onUpdate'
+  >;
   /**
    * When true, disables the field and associated controls.
    */
   disabled?: boolean;
+  /**
+   * Props forwarded to the outer bordered container wrapping the toolbar
+   * and editor content. `containerProps.sx` is merged with the component's
+   * own base styles (border, radius, focus ring) rather than replacing
+   * them, and accepts any `sx` form — object, array, or function.
+   */
+  containerProps?: Omit<BoxProps, 'children'>;
+  /**
+   * Props forwarded to the scrollable `Box` directly wrapping `EditorContent`
+   * (padding, min/max height, and the `.ProseMirror`/placeholder styling).
+   * `contentContainerProps.sx` is merged the same way as `containerProps.sx`.
+   */
+  contentContainerProps?: Omit<BoxProps, 'children'>;
+  /**
+   * Custom toolbar renderer, called with the live `editor` instance and the
+   * field's resolved `disabled` state. Defaults to this package's built-in
+   * `Toolbar`. Pass `() => null` to hide the toolbar entirely.
+   */
+  renderToolbar?: (editor: Editor, disabled: boolean) => ReactNode;
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
@@ -163,10 +190,11 @@ const MUITipTapRte = ({
   placeholder,
   required,
   editorExtensions,
-  onReady,
-  onFocus,
-  onBlur,
+  editorOptions,
   disabled: muiDisabled,
+  containerProps,
+  contentContainerProps,
+  renderToolbar,
   label,
   showLabelAboveFormField,
   formLabelProps,
@@ -228,17 +256,17 @@ const MUITipTapRte = ({
   );
 
   const editor = useEditor({
+    ...editorOptions,
     extensions,
     content: value ?? '',
     editable: !muiDisabled,
-    onCreate: ({ editor: createdEditor }) => onReady?.(createdEditor),
-    onFocus: ({ editor: focusedEditor }) => onFocus?.(focusedEditor),
-    onBlur: ({ editor: blurredEditor }) => onBlur?.(blurredEditor),
     onUpdate: ({ editor: updatedEditor }) => {
       onValueChange({ newValue: updatedEditor.getHTML(), editor: updatedEditor });
     },
     editorProps: {
+      ...editorOptions?.editorProps,
       attributes: {
+        ...editorOptions?.editorProps?.attributes,
         id: fieldId,
         role: 'textbox',
         'aria-multiline': 'true',
@@ -295,40 +323,50 @@ const MUITipTapRte = ({
         />
       )}
       <Box
-        sx={{
-          border: '1px solid',
-          borderColor: isError ? 'error.main' : 'divider',
-          borderRadius: 1,
-          overflow: 'hidden',
-          bgcolor: 'background.paper',
-          opacity: muiDisabled ? 0.6 : 1,
-          '&:focus-within': {
-            borderColor: isError ? 'error.main' : 'primary.main',
-            borderWidth: '2px',
-            m: '-1px'
-          }
-        }}
-      >
-        <Toolbar editor={editor} disabled={muiDisabled} />
-        <Box
-          sx={{
-            px: 1.5,
-            py: 1,
-            minHeight: 160,
-            maxHeight: 400,
-            overflowY: 'auto',
-            '& .ProseMirror': {
-              outline: 'none',
-              minHeight: 140
-            },
-            '& .ProseMirror p.is-editor-empty:first-of-type::before': {
-              content: 'attr(data-placeholder)',
-              color: 'text.disabled',
-              float: 'left',
-              height: 0,
-              pointerEvents: 'none'
+        {...containerProps}
+        sx={mergeSx(
+          {
+            border: '1px solid',
+            borderColor: isError ? 'error.main' : 'divider',
+            borderRadius: 1,
+            overflow: 'hidden',
+            bgcolor: 'background.paper',
+            opacity: muiDisabled ? 0.6 : 1,
+            '&:focus-within': {
+              borderColor: isError ? 'error.main' : 'primary.main',
+              borderWidth: '2px',
+              m: '-1px'
             }
-          }}
+          },
+          containerProps?.sx
+        )}
+      >
+        {renderToolbar
+          ? renderToolbar(editor, !!muiDisabled)
+          : <Toolbar editor={editor} disabled={muiDisabled} />}
+        <Box
+          {...contentContainerProps}
+          sx={mergeSx(
+            {
+              px: 1.5,
+              py: 1,
+              minHeight: 160,
+              maxHeight: 400,
+              overflowY: 'auto',
+              '& .ProseMirror': {
+                outline: 'none',
+                minHeight: 140
+              },
+              '& .ProseMirror p.is-editor-empty:first-of-type::before': {
+                content: 'attr(data-placeholder)',
+                color: 'text.disabled',
+                float: 'left',
+                height: 0,
+                pointerEvents: 'none'
+              }
+            },
+            contentContainerProps?.sx
+          )}
         >
           <EditorContent editor={editor} />
         </Box>

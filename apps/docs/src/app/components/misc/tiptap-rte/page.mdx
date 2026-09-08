@@ -55,6 +55,53 @@ import Table from '@tiptap/extension-table';
 />
 ```
 
+Reach into `useEditor` itself for anything not exposed as its own prop via `editorOptions` —
+there's no separate `onReady`/`onFocus`/`onBlur` prop; pass `onCreate`/`onFocus`/`onBlur`
+here directly and they reach `useEditor` unmodified. `editorOptions` is layered *underneath*
+only this component's own required wiring (`content`/`editable`/`onUpdate` and the
+accessibility attributes), so it can't break the controlled-value contract; `editorProps.attributes`
+is deep-merged rather than replaced:
+
+```tsx
+<MUITipTapRte
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  editorOptions={{
+    autofocus: true,
+    onCreate: ({ editor }) => console.log('ready', editor),
+    onFocus: ({ editor }) => console.log('focused', editor),
+    onBlur: ({ editor }) => console.log('blurred', editor),
+    editorProps: { attributes: { spellcheck: 'false' } }
+  }}
+/>
+```
+
+`containerProps`/`contentContainerProps` style the outer bordered box and the scrollable
+box directly wrapping the editor content respectively — both merge their `sx` with this
+component's own base styles rather than replacing them. `renderToolbar` replaces the
+built-in toolbar entirely (pass `() => null` to hide it), receiving the live `editor`
+instance and the field's resolved `disabled` state so a custom toolbar can drive the same
+`editor.chain()...run()` commands and respect the same disabled state:
+
+```tsx
+<MUITipTapRte
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  containerProps={{ sx: { borderColor: 'primary.main' } }}
+  contentContainerProps={{ sx: { minHeight: 240 } }}
+  renderToolbar={(editor, disabled) => (
+    <Button
+      disabled={disabled}
+      onClick={() => editor.chain().focus().toggleBold().run()}
+    >
+      Bold
+    </Button>
+  )}
+/>
+```
+
 ## API
 
 Pass a custom `editorExtensions` to control the Tiptap extension set (and, in turn, which

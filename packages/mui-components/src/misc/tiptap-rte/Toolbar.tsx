@@ -20,12 +20,14 @@ import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
 
 type ToolbarButton = {
+  /**
+   * Name of the Tiptap extension this button's command depends on — the
+   * button is omitted entirely when that extension isn't loaded, since
+   * calling a command whose extension is missing throws at runtime.
+   */
+  extension: string;
   label: string;
   icon: ReactNode;
-  /** Name of the Tiptap extension this button's command depends on — the
-   * button is omitted entirely when that extension isn't loaded, since
-   * calling a command whose extension is missing throws at runtime. */
-  extension: string;
   isActive?: boolean;
   disabled?: boolean;
   onClick: () => void;
@@ -52,41 +54,41 @@ const Toolbar = ({ editor, disabled }: ToolbarProps) => {
     editor.extensionManager.extensions.some(extension => extension.name === name);
 
   const headingButtons: ToolbarButton[] = [1, 2, 3].map(level => ({
+    extension: 'heading',
     label: `Heading ${level}`,
     icon: <span style={{ fontSize: 13, fontWeight: 600 }}>
       {`H${level}`}
     </span>,
-    extension: 'heading',
     isActive: editor.isActive('heading', { level }),
     onClick: () => editor.chain().focus().toggleHeading({ level: level as 1 | 2 | 3 }).run()
   }));
 
   const markButtons: ToolbarButton[] = [
     {
+      extension: 'bold',
       label: 'Bold',
       icon: <FormatBoldIcon fontSize="small" />,
-      extension: 'bold',
       isActive: editor.isActive('bold'),
       onClick: () => editor.chain().focus().toggleBold().run()
     },
     {
+      extension: 'italic',
       label: 'Italic',
       icon: <FormatItalicIcon fontSize="small" />,
-      extension: 'italic',
       isActive: editor.isActive('italic'),
       onClick: () => editor.chain().focus().toggleItalic().run()
     },
     {
+      extension: 'underline',
       label: 'Underline',
       icon: <FormatUnderlinedIcon fontSize="small" />,
-      extension: 'underline',
       isActive: editor.isActive('underline'),
       onClick: () => editor.chain().focus().toggleUnderline().run()
     },
     {
+      extension: 'strike',
       label: 'Strikethrough',
       icon: <StrikethroughSIcon fontSize="small" />,
-      extension: 'strike',
       isActive: editor.isActive('strike'),
       onClick: () => editor.chain().focus().toggleStrike().run()
     }
@@ -94,30 +96,30 @@ const Toolbar = ({ editor, disabled }: ToolbarProps) => {
 
   const listButtons: ToolbarButton[] = [
     {
+      extension: 'bulletList',
       label: 'Bulleted list',
       icon: <FormatListBulletedIcon fontSize="small" />,
-      extension: 'bulletList',
       isActive: editor.isActive('bulletList'),
       onClick: () => editor.chain().focus().toggleBulletList().run()
     },
     {
+      extension: 'orderedList',
       label: 'Numbered list',
       icon: <FormatListNumberedIcon fontSize="small" />,
-      extension: 'orderedList',
       isActive: editor.isActive('orderedList'),
       onClick: () => editor.chain().focus().toggleOrderedList().run()
     },
     {
+      extension: 'blockquote',
       label: 'Blockquote',
       icon: <FormatQuoteIcon fontSize="small" />,
-      extension: 'blockquote',
       isActive: editor.isActive('blockquote'),
       onClick: () => editor.chain().focus().toggleBlockquote().run()
     },
     {
+      extension: 'codeBlock',
       label: 'Code block',
       icon: <CodeIcon fontSize="small" />,
-      extension: 'codeBlock',
       isActive: editor.isActive('codeBlock'),
       onClick: () => editor.chain().focus().toggleCodeBlock().run()
     }
@@ -125,23 +127,23 @@ const Toolbar = ({ editor, disabled }: ToolbarProps) => {
 
   const alignButtons: ToolbarButton[] = [
     {
+      extension: 'textAlign',
       label: 'Align left',
       icon: <FormatAlignLeftIcon fontSize="small" />,
-      extension: 'textAlign',
       isActive: editor.isActive({ textAlign: 'left' }),
       onClick: () => editor.chain().focus().setTextAlign('left').run()
     },
     {
+      extension: 'textAlign',
       label: 'Align center',
       icon: <FormatAlignCenterIcon fontSize="small" />,
-      extension: 'textAlign',
       isActive: editor.isActive({ textAlign: 'center' }),
       onClick: () => editor.chain().focus().setTextAlign('center').run()
     },
     {
+      extension: 'textAlign',
       label: 'Align right',
       icon: <FormatAlignRightIcon fontSize="small" />,
-      extension: 'textAlign',
       isActive: editor.isActive({ textAlign: 'right' }),
       onClick: () => editor.chain().focus().setTextAlign('right').run()
     }
@@ -149,9 +151,9 @@ const Toolbar = ({ editor, disabled }: ToolbarProps) => {
 
   const linkButtons: ToolbarButton[] = [
     {
+      extension: 'link',
       label: 'Link',
       icon: <LinkIcon fontSize="small" />,
-      extension: 'link',
       isActive: editor.isActive('link'),
       onClick: () => {
         const previousUrl = editor.getAttributes('link').href as string | undefined;
@@ -168,9 +170,9 @@ const Toolbar = ({ editor, disabled }: ToolbarProps) => {
       }
     },
     {
+      extension: 'link',
       label: 'Remove link',
       icon: <LinkOffIcon fontSize="small" />,
-      extension: 'link',
       disabled: !editor.isActive('link'),
       onClick: () => editor.chain().focus().unsetLink().run()
     }
@@ -178,16 +180,16 @@ const Toolbar = ({ editor, disabled }: ToolbarProps) => {
 
   const historyButtons: ToolbarButton[] = [
     {
+      extension: 'history',
       label: 'Undo',
       icon: <UndoIcon fontSize="small" />,
-      extension: 'history',
       disabled: !editor.can().undo(),
       onClick: () => editor.chain().focus().undo().run()
     },
     {
+      extension: 'history',
       label: 'Redo',
       icon: <RedoIcon fontSize="small" />,
-      extension: 'history',
       disabled: !editor.can().redo(),
       onClick: () => editor.chain().focus().redo().run()
     }
@@ -217,9 +219,23 @@ const Toolbar = ({ editor, disabled }: ToolbarProps) => {
       }}
     >
       {groups.map((group, groupIndex) => (
-        <Box key={group[0].extension} sx={{ display: 'flex', alignItems: 'center', gap: 0.25 }}>
+        <Box
+          key={group[0].extension}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 0.25
+          }}
+        >
           {groupIndex > 0 && (
-            <Divider orientation="vertical" flexItem sx={{ mx: 0.5, my: 0.5 }} />
+            <Divider
+              orientation="vertical"
+              flexItem
+              sx={{
+                mx: 0.5,
+                my: 0.5
+              }}
+            />
           )}
           {group.map(button => (
             <IconButton
