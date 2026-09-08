@@ -35,7 +35,7 @@ import {
   getErrorList
 } from '@/utils';
 
-type SelectValue<Value, Multiple extends boolean> = Multiple extends true
+export type SelectValue<Value, Multiple extends boolean> = Multiple extends true
   ? Value[]
   : Value;
 

@@ -60,6 +60,7 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
   - [Password Input](https://mui-components-docs.vercel.app/components/mui/password-input)
   - [Number Input](https://mui-components-docs.vercel.app/components/mui/number-input)
   - [Counter Input](https://mui-components-docs.vercel.app/components/mui/counter-input)
+  - [Unit Input](https://mui-components-docs.vercel.app/components/mui/unit-input)
   - [OTP Input](https://mui-components-docs.vercel.app/components/mui/otp-input)
   - [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input)
   - [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader)

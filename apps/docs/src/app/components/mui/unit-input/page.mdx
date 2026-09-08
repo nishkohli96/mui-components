@@ -1,0 +1,92 @@
+import {
+  DocsPage,
+  PropsTable,
+  AvailabilityBanner
+} from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import UnitInputForm from '@/forms/mui/unit-input/Client';
+
+export const metadata = componentMetadata.MUIUnitInput;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUIUnitInput
+
+<AvailabilityBanner componentName="MUIUnitInput" version="2.2" />
+
+`MUIUnitInput` pairs a numeric quantity ([MUINumberInput](/components/mui/number-input))
+with a unit picker ([MUISelect](/components/mui/select)) - currency, weight, temperature,
+or any other unit set - rendered borderless inside one bordered pill, similar in spirit to
+[MUIPhoneInput](/components/mui/phone-input)'s country + number pairing.
+
+`fieldName` and `customIds` take one entry per control (`quantity`/`unit`) so
+each is registered independently against a flat form schema, but `value` /
+`onValueChange` still report the pair together as one `{ quantity, unit }`
+object. `containerProps` styles the outer pill container; `dividerProps`
+styles the vertical divider between the two controls.
+
+`unitOptions` accepts either a plain string array, or an object array read via
+`labelKey`/`valueKey` — the same convention as `MUISelect`.
+
+## Usage
+
+```tsx
+import MUIUnitInput, { MUIUnitInputValue } from '@nish1896/mui-components/mui/unit-input';
+```
+
+Plain string `unitOptions`:
+
+```tsx
+const [price, setPrice] = useState<MUIUnitInputValue>({ quantity: null, unit: 'USD' });
+
+<MUIUnitInput
+  fieldName={{ quantity: 'priceAmount', unit: 'priceUnit' }}
+  value={price}
+  onValueChange={({ newValue }) => setPrice(newValue)}
+  unitOptions={['USD', 'EUR', 'GBP']}
+  nonNegative
+  maxDecimalPlaces={2}
+/>
+```
+
+Object `unitOptions` via `labelKey`/`valueKey` — `newValue.unit` is typed
+`'USD' | 'EUR' | 'GBP'` automatically, even though `price` already comes
+from a `useState<MUIUnitInputValue<Currency>>`:
+
+```tsx
+type Currency = 'USD' | 'EUR' | 'GBP';
+type CurrencyOption = { code: Currency; label: string };
+
+const currencyOptions: CurrencyOption[] = [
+  { code: 'USD', label: 'US Dollar' },
+  { code: 'EUR', label: 'Euro' },
+  { code: 'GBP', label: 'British Pound' }
+];
+
+<MUIUnitInput
+  fieldName={{ quantity: 'priceAmount', unit: 'priceUnit' }}
+  value={price}
+  onValueChange={({ newValue }) => setPrice(newValue)}
+  unitOptions={currencyOptions}
+  labelKey="label"
+  valueKey="code"
+  unitPosition="start"
+/>
+```
+
+## API
+
+Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUIUnitInput} />
+
+## Playground
+
+Two examples — a currency field (object `unitOptions` via `labelKey`/`valueKey`,
+unit on the left) and a weight field (plain string `unitOptions`, unit on the
+right, responsive `unitWidth`). Both are `required` and validated on submit.
+
+<UnitInputForm />

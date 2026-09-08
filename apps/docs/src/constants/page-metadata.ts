@@ -115,6 +115,11 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'MUINumberInput with always-visible - / + stepper buttons flanking the input, min/max clamping and per-bound button disabling.'
   },
+  MUIUnitInput: {
+    title: 'MUIUnitInput',
+    description:
+      'A pill-shaped MUINumberInput + MUISelect combo — a numeric quantity paired with a unit picker (currency, weight, temperature) reported together as one { quantity, unit } value.'
+  },
   MUIOTPInput: {
     title: 'MUIOTPInput',
     description:
