@@ -51,10 +51,12 @@ const initialValues = {
   review: ''
 };
 
-/** Trimmed extension set for the "custom" example below — no headings, lists,
+/**
+ * Trimmed extension set for the "custom" example below — no headings, lists,
  * blockquote or code block, so its toolbar only needs Bold/Italic/Underline —
  * plus `Markdown` (from `tiptap-markdown`) so the editor's content can also
- * be read back out as a markdown string via `editor.storage.markdown`. */
+ * be read back out as a markdown string via `editor.storage.markdown`.
+ */
 const reviewExtensions = [
   StarterKit.configure({
     heading: false,
@@ -161,12 +163,8 @@ export default function TipTapRteForm() {
               disabled={disableAllFields}
               editorExtensions={reviewExtensions}
               editorOptions={{
-                onCreate: ({ editor }) => {
-                  setReviewMarkdown(editor.storage.markdown.getMarkdown());
-                  editor.on('update', ({ editor: updatedEditor }) => {
-                    setReviewMarkdown(updatedEditor.storage.markdown.getMarkdown());
-                  });
-                }
+                onCreate: ({ editor }) => setReviewMarkdown(editor.storage.markdown.getMarkdown()),
+                onUpdate: ({ editor }) => setReviewMarkdown(editor.storage.markdown.getMarkdown())
               }}
               containerProps={{ sx: { borderColor: 'secondary.main', borderRadius: 2 } }}
               contentContainerProps={{ sx: { minHeight: 100, bgcolor: 'action.hover' } }}
@@ -195,7 +193,7 @@ export default function TipTapRteForm() {
               {' '}
               <code>editor.storage.markdown.getMarkdown()</code>
               {' '}
-              (from the <code>Markdown</code> extension) via <code>editorOptions.onCreate</code>.
+              (from the <code>Markdown</code> extension) via <code>editorOptions.onCreate</code>/<code>onUpdate</code>.
             </Typography>
           </Grid>
 

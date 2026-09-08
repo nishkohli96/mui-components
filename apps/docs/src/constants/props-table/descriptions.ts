@@ -1103,7 +1103,7 @@ export const PropsDescription = Object.freeze({
   },
   editorOptions_TipTapRte: {
     name: 'editorOptions',
-    description: 'Additional options passed straight through to `useEditor` hook — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. Applied *underneath* only this component\'s own required wiring (`extensions`, `content`, `editable`, `onUpdate`, and the accessibility attributes in `editorProps.attributes`), so it can\'t accidentally break the controlled-value contract — those always win on conflict. `editorProps.attributes` is deep-merged instead of replaced.',
+    description: 'Additional options passed straight through to `useEditor` hook — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. Applied *underneath* only this component\'s own required wiring (`extensions`, `content`, `editable`, and the accessibility attributes in `editorProps.attributes`), so it can\'t accidentally break the controlled-value contract — those always win on conflict. `editorProps.attributes` is deep-merged instead of replaced. `onUpdate` is also passed through, but this component\'s own `onUpdate` (which calls `onValueChange`) always runs first.',
     type: 'UseEditorOptions'
   },
   containerProps_TipTapRte: {

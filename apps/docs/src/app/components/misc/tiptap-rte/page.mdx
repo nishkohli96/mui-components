@@ -59,11 +59,11 @@ import Table from '@tiptap/extension-table';
 ```
 
 Reach into `useEditor` itself for anything not exposed as its own prop
-via `editorOptions` — pass `onCreate`/`onFocus`/`onBlur` here directly
-and they reach `useEditor` unmodified. `editorOptions` is layered *underneath*
-only this component's own required wiring (`content`/`editable`/`onUpdate` and the
-accessibility attributes), so it can't break the controlled-value contract;
-`editorProps.attributes` is deep-merged rather than replaced:
+via `editorOptions` — pass `onCreate`/`onFocus`/`onUpdate`/`onBlur` here
+directly and they reach `useEditor` unmodified. `editorOptions` is layered
+*underneath* only this component's own required wiring (`content`/`editable`
+and the accessibility attributes), so it can't break the controlled-value
+contract; `editorProps.attributes` is deep-merged rather than replaced.
 
 ```tsx
 <MUITipTapRte
@@ -75,6 +75,7 @@ accessibility attributes), so it can't break the controlled-value contract;
     onCreate: ({ editor }) => console.log('ready', editor),
     onFocus: ({ editor }) => console.log('focused', editor),
     onBlur: ({ editor }) => console.log('blurred', editor),
+    onUpdate: ({ editor }) => console.log('newContent', editor.getHTML()),
     editorProps: { attributes: { spellcheck: 'false' } }
   }}
 />

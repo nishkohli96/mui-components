@@ -76,17 +76,22 @@ export type MUITipTapRteProps = {
    * `parseOptions`, `injectCSS`.
    *
    * Applied *underneath* this component's own required wiring
-   * (`extensions`, `content`, `editable`, `onUpdate`, and the accessibility
-   * attributes in `editorProps.attributes`) so it can't accidentally break
-   * the controlled-value contract — those always win on conflict. Everything
+   * (`extensions`, `content`, `editable`, and the accessibility attributes in
+   * `editorProps.attributes`) so it can't accidentally break the
+   * controlled-value contract — those always win on conflict. Everything
    * else, including `onCreate`/`onFocus`/`onBlur`, passes straight through
    * unmodified — there's no separate `onReady`/`onFocus`/`onBlur` prop.
    * `editorProps.attributes` is deep-merged instead of replaced, so you can
    * add your own attributes alongside the accessibility ones this component sets.
+   *
+   * `onUpdate` is also passed through, but this component's own `onUpdate`
+   * (which calls `onValueChange`) always runs first — useful e.g. to read
+   * `editor.storage.markdown.getMarkdown()` (from a `tiptap-markdown`
+   * extension) after each change, alongside the HTML `value`.
    */
   editorOptions?: Omit<
     UseEditorOptions,
-    'extensions' | 'content' | 'editable' | 'onUpdate'
+    'extensions' | 'content' | 'editable'
   >;
   /**
    * When true, disables the field and associated controls.
@@ -260,11 +265,12 @@ const MUITipTapRte = ({
     extensions,
     content: value ?? '',
     editable: !muiDisabled,
-    onUpdate: ({ editor: updatedEditor }) => {
+    onUpdate: props => {
       onValueChange({
-        newValue: updatedEditor.getHTML(),
-        editor: updatedEditor
+        newValue: props.editor.getHTML(),
+        editor: props.editor
       });
+      editorOptions?.onUpdate?.(props);
     },
     editorProps: {
       ...editorOptions?.editorProps,
