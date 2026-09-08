@@ -43,6 +43,7 @@ import { dateTimePickerRows } from './mui-pickers/date-time';
 import colorPickerRows from './misc/color-picker';
 import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
+import tipTapRteRows from './misc/tiptap-rte';
 
 export { PropsDescription } from './descriptions/latest';
 export { PropsDescription_v1 } from './descriptions/v1';
@@ -94,6 +95,7 @@ const buildComponentProps = (
 
     MUIColorPicker: colorPickerRows(args),
     MUIRichTextEditor: richTextEditorRows(args),
+    MUITipTapRte: tipTapRteRows(args),
     MUIPhoneInput: phoneInputRows(args, docsVersion)
   });
 

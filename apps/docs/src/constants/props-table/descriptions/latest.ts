@@ -585,6 +585,48 @@ export const PropsDescription = Object.freeze({
     description: 'Custom ids for the quantity and unit controls respectively.',
     type: '{ quantity?: CustomComponentIds; unit?: CustomComponentIds }'
   },
+  value_TipTapRte: {
+    name: 'value',
+    description: 'Current editor HTML string.',
+    type: 'string | null'
+  },
+  onValueChange_TipTapRte: {
+    name: 'onValueChange',
+    description: 'Called when the editor content changes, with the updated HTML string and editor instance.',
+    required: true,
+    type: '({ newValue, editor }) => void'
+  },
+  placeholder_TipTapRte: {
+    name: 'placeholder',
+    description: 'Placeholder text shown when the editor is empty. Always applied via an internal `Placeholder` extension appended after `editorExtensions` (or `DefaultEditorExtensions`), regardless of which set is active.',
+    type: 'string'
+  },
+  editorExtensions_TipTapRte: {
+    name: 'editorExtensions',
+    description:
+      'Tiptap extensions passed to `useEditor`. Defaults to this package\'s `DefaultEditorExtensions`. The built-in toolbar omits any button whose backing extension isn\'t loaded, so a custom set missing e.g. `Heading` or `TextAlign` simply hides those controls instead of throwing when clicked.',
+    type: 'AnyExtension[]'
+  },
+  editorOptions_TipTapRte: {
+    name: 'editorOptions',
+    description: 'Additional options passed straight through to the `useEditor` hook — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. Applied *underneath* only this component\'s own required wiring (`extensions`, `content`, `editable`, and the accessibility attributes in `editorProps.attributes`), so it can\'t accidentally break the controlled-value contract — those always win on conflict. `editorProps.attributes` is deep-merged instead of replaced. `onUpdate` is also passed through, but this component\'s own `onUpdate` (which calls `onValueChange`) always runs first.',
+    type: 'UseEditorOptions'
+  },
+  containerProps_TipTapRte: {
+    name: 'containerProps',
+    description: 'Props forwarded to the outer bordered container wrapping the toolbar and editor content. `containerProps.sx` is merged with the component\'s own base styles (border, radius, focus ring) rather than replacing them, and accepts any `sx` form — object, array, or function.',
+    type: 'BoxProps'
+  },
+  contentContainerProps_TipTapRte: {
+    name: 'contentContainerProps',
+    description: 'Props forwarded to the scrollable `Box` directly wrapping `EditorContent` (padding, min/max height, and the `.ProseMirror`/placeholder styling). `contentContainerProps.sx` is merged the same way as `containerProps.sx`.',
+    type: 'BoxProps'
+  },
+  renderToolbar_TipTapRte: {
+    name: 'renderToolbar',
+    description: 'Custom toolbar renderer, called with the live `editor` instance and the field\'s resolved `disabled` state. Defaults to this package\'s built-in `Toolbar`. Pass `() => null` to hide the toolbar entirely.',
+    type: '(editor: Editor, disabled: boolean) => ReactNode'
+  },
   length_OTPInput: {
     name: 'length',
     description:

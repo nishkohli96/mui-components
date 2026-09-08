@@ -229,6 +229,11 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'Controlled CKEditor 5 rich text editor with label, error and helper-text handling.'
   },
+  MUITipTapRte: {
+    title: 'MUITipTapRte',
+    description:
+      'Controlled Tiptap rich text editor backed by an HTML string, with a hand-built formatting toolbar — a lighter alternative to the CKEditor 5-based MUIRichTextEditor.'
+  },
   fieldNameToId: {
     title: 'fieldNameToId',
     description: 'Converts a nested or array-indexed form field name (e.g. `phones[0].number`) into a sanitized, stable HTML id — safe for pairing form controls with `<label htmlFor>`.'

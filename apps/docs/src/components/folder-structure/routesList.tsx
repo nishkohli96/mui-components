@@ -47,6 +47,7 @@ const componentRoutes: Record<
   [MuiPickersComponents.DateTimePicker]: 'date-time',
   [MiscComponents.ColorPicker]: 'color-picker',
   [MiscComponents.RichTextEditor]: 'rich-text-editor',
+  [MiscComponents.TipTapRte]: 'tiptap-rte',
   [MiscComponents.PhoneInput]: 'phone-input'
 };
 
@@ -83,6 +84,7 @@ const muiPickersComponents = [
 const miscComponents = [
   MiscComponents.ColorPicker,
   MiscComponents.RichTextEditor,
+  MiscComponents.TipTapRte,
   MiscComponents.PhoneInput
 ];
 
