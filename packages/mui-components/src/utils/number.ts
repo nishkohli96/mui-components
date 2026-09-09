@@ -36,11 +36,42 @@ export function resolveMinBound(nonNegative: boolean, min?: number) {
 }
 
 /**
- * Normalizes `stepAmount` for the active mode: integer fields step by at least
- * `1` and never by a fraction.
+ * Resolves the effective `{ min, max }` bounds together (folding in
+ * `nonNegative` via `resolveMinBound`), swapping them if the caller's min
+ * ends up greater than max (e.g. `min={10} max={5}`, a typo/misconfiguration)
+ * so blur-clamping, stepping, native `<input min max>` attributes, and
+ * stepper/counter button-disabled state all agree on the same valid range
+ * instead of silently disagreeing with each other.
  */
-export function resolveStepAmount(stepAmount: number, onlyIntegers: boolean) {
-  return onlyIntegers ? Math.max(1, Math.floor(stepAmount)) : stepAmount;
+export function resolveBounds(
+  nonNegative: boolean,
+  min?: number,
+  max?: number
+): { min?: number; max?: number } {
+  const effectiveMin = resolveMinBound(nonNegative, min);
+  if (effectiveMin !== undefined && max !== undefined && effectiveMin > max) {
+    return { min: max, max: effectiveMin };
+  }
+  return { min: effectiveMin, max };
+}
+
+/**
+ * Normalizes `stepAmount` for the active mode: integer fields step by at least
+ * `1` and never by a fraction. A non-finite, zero, or negative `stepAmount`
+ * (`NaN`, `Infinity`, `0`, or a negative number — from a bad prop value or
+ * `Math.max`'s own `NaN` propagation) would stall stepping, reverse its
+ * direction, or produce an invalid value, so it falls back to `1`.
+ */
+export function resolveStepAmount(
+  stepAmount: number,
+  onlyIntegers: boolean
+) {
+  const safeStepAmount = Number.isFinite(stepAmount) && stepAmount > 0
+    ? stepAmount
+    : 1;
+  return onlyIntegers
+    ? Math.max(1, Math.floor(safeStepAmount))
+    : safeStepAmount;
 }
 
 type SteppedInputBounds = {
@@ -60,7 +91,8 @@ export function getSteppedInputValue(
     ? 0
     : currentValue;
   const nextValue = resolvedValue + (step * direction);
-  return String(clampNumber(nextValue, resolveMinBound(nonNegative, min), max));
+  const bounds = resolveBounds(nonNegative, min, max);
+  return String(clampNumber(nextValue, bounds.min, bounds.max));
 }
 
 export function isNativeNumberMarkerClick(

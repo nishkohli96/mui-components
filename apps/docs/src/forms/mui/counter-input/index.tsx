@@ -17,6 +17,7 @@ import { useForm } from '@tanstack/react-form';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import MUICounterInput from '@nish1896/mui-components/mui/counter-input';
 import {
   FormContainer,
@@ -75,7 +76,7 @@ export default function CounterInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Integer only, bounded 1–10" />
+            <FieldVariantInfo title="Integer only, bounded 1–10, rectangular (sx override)" />
             <form.Field
               name="quantity"
               validators={{
@@ -97,18 +98,23 @@ export default function CounterInputForm() {
                   required
                   disabled={disableAllFields}
                   helperText='"−" disabled at 1, "+" disabled at 10'
+                  sx={{ borderRadius: '8px' }}
                 />
               )}
             </form.Field>
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Decimal (2 places), step ±0.5, label above field" />
+            <FieldVariantInfo title="Decimal (2 places), step ±0.5, label above field, larger buttons (iconButtonProps override)" />
             <form.Field
               name="price"
               validators={{
-                onChange: ({ value }) =>
-                  (value !== null && value < 0 ? 'Price cannot be negative' : undefined)
+                onChange: ({ value }) => {
+                  if (value === null) {
+                    return 'Price is required';
+                  }
+                  return value < 0 ? 'Price cannot be negative' : undefined;
+                }
               }}
             >
               {field => (
@@ -125,28 +131,52 @@ export default function CounterInputForm() {
                   showLabelAboveFormField
                   formLabelProps={{ sx: { fontWeight: 600 } }}
                   helperText="Up to two decimal places"
+                  required
                   disabled={disableAllFields}
+                  iconButtonProps={{
+                    size: 'large',
+                    color: 'info'
+                  }}
                 />
               )}
             </form.Field>
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Custom step (±2), bounded 16–30, swapped icons" />
-            <form.Field name="targetTemp">
+            <FieldVariantInfo title="Custom step (±2), bounded 16–30, custom icons, tighter caption padding (sx override)" />
+            <form.Field
+              name="targetTemp"
+              validators={{
+                onChange: ({ value }) =>
+                  (value === null ? 'Target temp is required' : undefined)
+              }}
+            >
               {field => (
                 <MUICounterInput
                   fieldName="targetTemp"
                   label="Target temp (°C)"
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
+                  errorMessage={tanstackErrors(field.state.meta.errors)}
                   onlyIntegers
                   min={16}
                   max={30}
                   stepAmount={2}
+                  required
                   swapButtons
+                  decrementIcon={<span>▼</span>}
+                  incrementIcon={<span>▲</span>}
+                  caption={(
+                    <>
+                      <DeviceThermostatIcon sx={{ fontSize: 14 }} />
+                      Degrees
+                    </>
+                  )}
                   helperText="Arrow keys / steppers change by 2"
                   disabled={disableAllFields}
+                  sx={{
+                    '& input[type=number]': { paddingBottom: '15px' }
+                  }}
                 />
               )}
             </form.Field>

@@ -479,7 +479,7 @@ export const PropsDescription = Object.freeze({
       'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.',
     type: 'number'
   },
-decrementIcon_CounterInput: {
+  decrementIcon_CounterInput: {
     name: 'decrementIcon',
     description:
       'Custom icon for the decrement (`-`) button.\n\n**Default:** Material UI `Remove` icon',

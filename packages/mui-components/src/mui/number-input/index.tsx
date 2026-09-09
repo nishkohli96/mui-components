@@ -31,7 +31,7 @@ import {
   setInputValueAndNotify,
   getSteppedInputValue,
   clampNumber,
-  resolveMinBound,
+  resolveBounds,
   resolveStepAmount,
   isNativeNumberMarkerClick,
   buildNumberInputDecimalPattern,
@@ -105,8 +105,8 @@ export type MUINumberInputProps = {
   maxDecimalPlaces?: number;
   /**
    * Lower bound for the value. Stepping (native steppers / arrow keys) clamps
-   * to this and the value is clamped on blur. `nonNegative` can only tighten
-   * this, never loosen it.
+   * to this and the value is clamped on blur. `nonNegative` sets the lower
+   * bound to `0`, but an explicit `min` overrides it.
    */
   min?: number;
   /**
@@ -230,7 +230,10 @@ const MUINumberInput = ({
   );
 
   const resolvedStepAmount = resolveStepAmount(stepAmount, onlyIntegers);
-  const effectiveMin = resolveMinBound(nonNegative, min);
+  const {
+    min: effectiveMin,
+    max: effectiveMax
+  } = resolveBounds(nonNegative, min, max);
 
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
@@ -436,13 +439,13 @@ const MUINumberInput = ({
         onBlur={blurEvent => {
           const input = blurEvent.target as HTMLInputElement;
           if (
-            (effectiveMin !== undefined || max !== undefined)
+            (effectiveMin !== undefined || effectiveMax !== undefined)
             && input.value !== ''
             && !input.validity.badInput
           ) {
             const parsed = Number(input.value);
             if (!Number.isNaN(parsed)) {
-              const clamped = clampNumber(parsed, effectiveMin, max);
+              const clamped = clampNumber(parsed, effectiveMin, effectiveMax);
               if (clamped !== parsed) {
                 setInputValueAndNotify(input, String(clamped));
               }
@@ -466,8 +469,8 @@ const MUINumberInput = ({
                 : helperTextId
               : undefined,
             'aria-required': required,
-            ...(effectiveMin !== undefined ? { min: effectiveMin } : {}),
-            ...(max !== undefined ? { max } : {}),
+            ...(effectiveMin !== undefined && { min: effectiveMin }),
+            ...(effectiveMax !== undefined && { max: effectiveMax }),
             step: onlyIntegers
               ? resolvedStepAmount
               : 'any'
@@ -476,13 +479,14 @@ const MUINumberInput = ({
         error={isError}
         sx={{
           ...muiSx,
-          ...(!showMarkers && {
-            '& input[type=number]': {
+          '& input[type=number]': {
+            ...(muiSx as Record<string, object> | undefined)?.['& input[type=number]'],
+            ...(!showMarkers && {
               MozAppearance: 'textfield',
               '&::-webkit-outer-spin-button': { display: 'none' },
               '&::-webkit-inner-spin-button': { display: 'none' },
-            },
-          }),
+            }),
+          },
         }}
         multiline={false}
       />
