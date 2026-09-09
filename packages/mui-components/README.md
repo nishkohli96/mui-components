@@ -59,11 +59,13 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
   - [TextField](https://mui-components-docs.vercel.app/v1/components/mui/textfield)
   - [Password Input](https://mui-components-docs.vercel.app/v1/components/mui/password-input)
   - [Number Input](https://mui-components-docs.vercel.app/v1/components/mui/number-input)
+  - [Counter Input](https://mui-components-docs.vercel.app/v1/components/mui/counter-input)
   - [OTP Input](https://mui-components-docs.vercel.app/v1/components/mui/otp-input)
   - [Tags Input](https://mui-components-docs.vercel.app/v1/components/mui/tags-input)
   - [File Uploader](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader)
   - [Select](https://mui-components-docs.vercel.app/v1/components/mui/select)
   - [Native Select](https://mui-components-docs.vercel.app/v1/components/mui/native-select)
+  - [Unit Input](https://mui-components-docs.vercel.app/v1/components/mui/unit-input)
   - [Autocomplete](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete)
   - [Autocomplete Object](https://mui-components-docs.vercel.app/v1/components/mui/autocomplete-object)
   - [Multi Autocomplete](https://mui-components-docs.vercel.app/v1/components/mui/multi-autocomplete)
@@ -83,6 +85,7 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
 - **misc**
   - [Color Picker](https://mui-components-docs.vercel.app/v1/components/misc/color-picker)
   - [Rich Text Editor](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor)
+  - [TipTap Rte](https://mui-components-docs.vercel.app/v1/components/misc/tiptap-rte)
   - [Phone Input](https://mui-components-docs.vercel.app/v1/components/misc/phone-input)
 
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**

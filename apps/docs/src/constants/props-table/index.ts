@@ -15,6 +15,8 @@ import type { PropsInfo, PropsDescriptionArgs } from '@/types';
 import textFieldRows from './mui/textfield';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
+import counterInputRows from './mui/counter-input';
+import unitInputRows from './mui/unit-input';
 import otpInputRows from './mui/otp-input';
 import tagsInputRows from './mui/tags-input';
 import fileUploaderRows from './mui/file-uploader';
@@ -37,6 +39,7 @@ import { dateTimePickerRows } from './mui-pickers/date-time';
 import colorPickerRows from './misc/color-picker';
 import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
+import tipTapRteRows from './misc/tiptap-rte';
 
 export { PropsDescription, resolveProp } from './descriptions';
 
@@ -50,6 +53,8 @@ export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
   MUITextField: textFieldRows(currentVersionArgs),
   MUIPasswordInput: passwordInputRows(currentVersionArgs),
   MUINumberInput: numberInputRows(currentVersionArgs),
+  MUICounterInput: counterInputRows(currentVersionArgs),
+  MUIUnitInput: unitInputRows(currentVersionArgs),
   MUIOTPInput: otpInputRows(currentVersionArgs),
   MUITagsInput: tagsInputRows(currentVersionArgs),
   MUIFileUploader: fileUploaderRows(currentVersionArgs),
@@ -74,5 +79,6 @@ export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
 
   MUIColorPicker: colorPickerRows(currentVersionArgs),
   MUIPhoneInput: phoneInputRows(currentVersionArgs),
-  MUIRichTextEditor: richTextEditorRows(currentVersionArgs)
+  MUIRichTextEditor: richTextEditorRows(currentVersionArgs),
+  MUITipTapRte: tipTapRteRows(currentVersionArgs)
 });

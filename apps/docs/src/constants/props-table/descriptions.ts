@@ -390,7 +390,7 @@ export const PropsDescription = Object.freeze({
   errorMessage: {
     name: 'errorMessage',
     description:
-      'Validation error for the field — pass a single message `string`, or a `string[]` when the field can fail multiple rules at once (every message is shown together). A non-empty string or array puts the field in an error state; `undefined`/`\'\'`/`[]` clear it. Normalize your form library\'s error shape to this at the call site (e.g. an RHF `FieldError` via its `.message`). Use `renderError` to customize how the message(s) are rendered.',
+      'Validation error for the field — pass a single message `string`, or a `string[]` when the field can fail multiple rules at once (every message is shown together). A non-empty string or array puts the field in an error state; `undefined`/`\'\'`/`[]` clear it.\n\nNormalize your form library\'s error shape to this at the call site (e.g. an RHF `FieldError` via its `.message`). Use `renderError` to customize how the message(s) are rendered.',
     type: 'string \| string[]'
   },
   renderError: {
@@ -440,13 +440,13 @@ export const PropsDescription = Object.freeze({
   },
   nonNegative: {
     name: 'nonNegative',
-    description: 'When true, negative values cannot be entered.',
+    description: 'When `true`, negative values cannot be entered.',
     type: 'boolean'
   },
   onlyIntegers: {
     name: 'onlyIntegers',
     description:
-      'When true, decimal input is not allowed. Cannot be combined with `maxDecimalPlaces`.',
+      'When `true`, decimal input is not allowed. Cannot be combined with `maxDecimalPlaces`.',
     type: 'boolean'
   },
   maxDecimalPlaces: {
@@ -467,10 +467,60 @@ export const PropsDescription = Object.freeze({
       'When true, shows increment/decrement markers on the input.',
     type: 'boolean'
   },
-
-  /* ------------------------------------------------------------------ */
-  /* OTP Input                                                          */
-  /* ------------------------------------------------------------------ */
+  min_NumberInput: {
+    name: 'min',
+    description:
+      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` sets the default value to `0` unless overridden.\n\n**Added in** `v1.3`.',
+    type: 'number'
+  },
+  max_NumberInput: {
+    name: 'max',
+    description:
+      'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in** `v1.3`.',
+    type: 'number'
+  },
+  min_CounterInput: {
+    name: 'min',
+    description:
+      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` sets the default value to `0` unless overridden.',
+    type: 'number'
+  },
+  max_CounterInput: {
+    name: 'max',
+    description:
+      'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.',
+    type: 'number'
+  },
+  decrementIcon_CounterInput: {
+    name: 'decrementIcon',
+    description:
+      'Custom icon for the decrement (`-`) button.\n\n**Default:** Material UI `Remove` icon',
+    type: 'ReactNode'
+  },
+  incrementIcon_CounterInput: {
+    name: 'incrementIcon',
+    description:
+      'Custom icon for the increment (`+`) button.\n\n**Default:** Material UI `Add` icon',
+    type: 'ReactNode'
+  },
+  swapButtons_CounterInput: {
+    name: 'swapButtons',
+    description:
+      'When `true`, swaps both the icons and the behaviour of the two buttons - the left button increments and the right button decrements, each with its icon, `aria-label` and disabled-at-bound state swapped to match.',
+    type: 'boolean'
+  },
+  iconButtonProps_CounterInput: {
+    name: 'iconButtonProps',
+    description:
+      'Props forwarded to both internal stepper [IconButton](https://v7.mui.com/material-ui/api/icon-button/)s — e.g. a custom `size` or `sx`.',
+    type: 'IconButtonProps',
+    hasLinkInType: false
+  },
+  caption_CounterInput: {
+    name: 'caption',
+    description: 'Content rendered under the value.\n\n E.g. an icon + label.',
+    type: 'ReactNode'
+  },
   value_OTPInput: {
     name: 'value',
     description:
@@ -733,6 +783,100 @@ export const PropsDescription = Object.freeze({
       'Function used to determine whether an option should be disabled. Return `true` to disable the option and prevent it from being selected.',
     type: '(option) => boolean'
   },
+  fieldName_UnitInput: {
+    name: 'fieldName',
+    description:
+      'Name/path of the field\'s two underlying controls, kept separate (rather than one combined `fieldName`) so each can be registered independently against a flat form schema — e.g. `{ quantity: \'weight\', unit: \'weightUnit\' }`.',
+    required: true,
+    type: '{ quantity: string; unit: string }'
+  },
+  value_UnitInput: {
+    name: 'value',
+    description:
+      'Current value of the field. `quantity` and `unit` are always reported together through `onValueChange`, even though they\'re two controls.',
+    type: '{ quantity: number | null; unit: string }'
+  },
+  onValueChange_UnitInput: {
+    name: 'onValueChange',
+    description:
+      'Called whenever either the quantity or the unit changes. Always receives the full `{ quantity, unit }` value.',
+    type: '({ newValue, event }) => void',
+    required: true,
+  },
+  unitOptions_UnitInput: {
+    name: 'unitOptions',
+    description:
+      'Units selectable from the dropdown — a plain string array (e.g. `[\'USD\', \'EUR\', \'GBP\']` or `[\'kg\', \'lb\']`, a string-literal union/enum\'s values for literal-union safety), or an object array read via `labelKey`/`valueKey`, same convention as `MUISelect`. `Unit` is auto-derived from `unitOptions`/`valueKey` — no need to pass it as an explicit type argument.',
+    required: true,
+    type: 'Option[]'
+  },
+  labelKey_UnitInput: {
+    name: 'labelKey',
+    description: 'Object key used to read the display label from each option, when `unitOptions` is an array of objects.',
+    type: 'string'
+  },
+  valueKey_UnitInput: {
+    name: 'valueKey',
+    description: 'Object key used to derive the unit value from each option, when `unitOptions` is an array of objects.',
+    type: 'string'
+  },
+  unitPosition_UnitInput: {
+    name: 'unitPosition',
+    description: 'Which side the unit `Select` renders on relative to the quantity input.\n\n**Default:** `\'end\'`',
+    type: '\'start\' | \'end\''
+  },
+  unitWidth_UnitInput: {
+    name: 'unitWidth',
+    description:
+      'Width of the unit `Select` as a CSS `flex-basis` value, the quantity input fills the rest. Accepts a single value (e.g. `100px` or `\'30%\'`) or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`.\n\nBoth segments have a default `minWidth: 50px` so neither collapses. When omitted, the unit `Select` sizes to its content.',
+    type: 'ResponsiveStyleValue<string>'
+  },
+  containerProps_UnitInput: (args: PropsDescriptionArgs) => ({
+    name: 'containerProps',
+    description: 'Props forwarded to the outer pill container wrapping the quantity input and unit `Select`. `containerProps.sx` is merged with the component\'s own base pill styles rather than replacing them, and accepts any `sx` form — object, array, or function.',
+    type: `[BoxProps](${muiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
+  dividerProps_UnitInput: (args: PropsDescriptionArgs) => ({
+    name: 'dividerProps',
+    description: 'Props forwarded to the vertical divider between the quantity input and the unit `Select` (a plain `Box` with `borderLeft`/`borderColor`).',
+    type: `[BoxProps](${muiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
+  min_UnitInput: {
+    name: 'min',
+    description:
+      'Lower bound for the quantity value. `nonNegative` sets the default value to `0` unless overridden.',
+    type: 'number'
+  },
+  max_UnitInput: {
+    name: 'max',
+    description:
+      'Upper bound for the quantity value.',
+    type: 'number'
+  },
+  placeholder_UnitInput: {
+    name: 'placeholder',
+    description: 'Placeholder shown in the empty quantity input.',
+    type: 'string'
+  },
+  quantityInputProps_UnitInput: {
+    name: 'quantityInputProps',
+    description: 'Props forwarded to the internal quantity `MUINumberInput`.',
+    type: 'MUINumberInputProps',
+    hasLinkInType: false
+  },
+  unitSelectProps_UnitInput: {
+    name: 'unitSelectProps',
+    description: 'Props forwarded to the internal unit `MUISelect`.',
+    type: 'MUISelectProps',
+    hasLinkInType: false
+  },
+  customIds_UnitInput: {
+    name: 'customIds',
+    description: 'Custom ids for the quantity and unit controls respectively.',
+    type: '{ quantity?: CustomComponentIds; unit?: CustomComponentIds }'
+  },
 
   /* ------------------------------------------------------------------ */
   /* Autocomplete family                                                */
@@ -934,6 +1078,48 @@ export const PropsDescription = Object.freeze({
     description:
       'Callback fired when CKEditor reports an initialization or runtime error.',
     type: '(error: Error, details) => void'
+  },
+  value_TipTapRte: {
+    name: 'value',
+    description: 'Current editor HTML string.',
+    type: 'string | null'
+  },
+  onValueChange_TipTapRte: {
+    name: 'onValueChange',
+    description: 'Called when the editor content changes, with the updated HTML string and editor instance.',
+    required: true,
+    type: '({ newValue, editor }) => void'
+  },
+  placeholder_TipTapRte: {
+    name: 'placeholder',
+    description: 'Placeholder text shown when the editor is empty. Always applied via an internal `Placeholder` extension appended after `editorExtensions` (or `DefaultEditorExtensions`), regardless of which set is active.',
+    type: 'string'
+  },
+  editorExtensions_TipTapRte: {
+    name: 'editorExtensions',
+    description:
+      'Tiptap extensions passed to `useEditor`. Defaults to this package\'s `DefaultEditorExtensions`. The built-in toolbar omits any button whose backing extension isn\'t loaded, so a custom set missing e.g. `Heading` or `TextAlign` simply hides those controls instead of throwing when clicked.',
+    type: 'AnyExtension[]'
+  },
+  editorOptions_TipTapRte: {
+    name: 'editorOptions',
+    description: 'Additional options passed straight through to `useEditor` hook — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. Applied *underneath* only this component\'s own required wiring (`extensions`, `content`, `editable`, and the accessibility attributes in `editorProps.attributes`), so it can\'t accidentally break the controlled-value contract — those always win on conflict. `editorProps.attributes` is deep-merged instead of replaced. `onUpdate` is also passed through, but this component\'s own `onUpdate` (which calls `onValueChange`) always runs first.',
+    type: 'UseEditorOptions'
+  },
+  containerProps_TipTapRte: {
+    name: 'containerProps',
+    description: 'Props forwarded to the outer bordered container wrapping the toolbar and editor content. `containerProps.sx` is merged with the component\'s own base styles (border, radius, focus ring) rather than replacing them, and accepts any `sx` form — object, array, or function.',
+    type: 'BoxProps'
+  },
+  contentContainerProps_TipTapRte: {
+    name: 'contentContainerProps',
+    description: 'Props forwarded to the scrollable `Box` directly wrapping `EditorContent` (padding, min/max height, and the `.ProseMirror`/placeholder styling). `contentContainerProps.sx` is merged the same way as `containerProps.sx`.',
+    type: 'BoxProps'
+  },
+  renderToolbar_TipTapRte: {
+    name: 'renderToolbar',
+    description: 'Custom toolbar renderer, called with the live `editor` instance and the field\'s resolved `disabled` state. Defaults to this package\'s built-in `Toolbar`. Pass `() => null` to hide the toolbar entirely.',
+    type: '(editor: Editor, disabled: boolean) => ReactNode'
   },
   phoneInputProps: {
     name: 'phoneInputProps',

@@ -116,7 +116,17 @@ export const componentMetadata: Record<string, Metadata> = {
   MUINumberInput: {
     title: 'MUINumberInput',
     description:
-      'Controlled numeric Material UI input with decimal, integer, non-negative and step constraints.'
+      'Controlled numeric Material UI input with decimal, integer, non-negative, min/max and step constraints.'
+  },
+  MUICounterInput: {
+    title: 'MUICounterInput',
+    description:
+      'Pill-shaped numeric counter with always-visible - / + buttons flanking the value, min/max clamping and per-bound button disabling.'
+  },
+  MUIUnitInput: {
+    title: 'MUIUnitInput',
+    description:
+      'Numeric quantity input paired with a unit Select (currency, weight, temperature or any other unit set), with a generic Unit type for full literal-union safety.'
   },
   MUIOTPInput: {
     title: 'MUIOTPInput',
@@ -226,6 +236,11 @@ export const componentMetadata: Record<string, Metadata> = {
     title: 'MUIRichTextEditor',
     description:
       'Controlled CKEditor 5 rich text editor with label, error and helper-text handling.'
+  },
+  MUITipTapRte: {
+    title: 'MUITipTapRte',
+    description:
+      'Controlled Tiptap rich text editor with a built-in formatting toolbar, label, error and helper-text handling — a lighter alternative to MUIRichTextEditor (CKEditor 5).'
   },
   fieldNameToId: {
     title: 'fieldNameToId',
