@@ -37,7 +37,7 @@ export type MUICounterInputProps = Omit<MUINumberInputProps, 'showMarkers'> & {
    * vice versa. Accessible labels and behaviour are unchanged — the left
    * button still decreases the value.
    */
-  swapIcons?: boolean;
+  swapButtons?: boolean;
   /**
    * Props forwarded to both internal stepper `IconButton`s. Use
    * `decrementIcon`/`incrementIcon` to swap the icons themselves; this is for
@@ -68,7 +68,7 @@ const MUICounterInput = ({
   stepAmount = 1,
   decrementIcon,
   incrementIcon,
-  swapIcons,
+  swapButtons,
   iconButtonProps,
   sx: muiSx,
   slotProps: muiSlotProps,
@@ -130,7 +130,7 @@ const MUICounterInput = ({
         onClick={() => stepBy(-1)}
         onMouseDown={keepInputFocused}
       >
-        {swapIcons ? addButtonIcon : removeButtonIcon}
+        {swapButtons ? addButtonIcon : removeButtonIcon}
       </IconButton>
     </InputAdornment>
   );
@@ -147,7 +147,7 @@ const MUICounterInput = ({
         onClick={() => stepBy(1)}
         onMouseDown={keepInputFocused}
       >
-        {swapIcons ? removeButtonIcon : addButtonIcon}
+        {swapButtons ? removeButtonIcon : addButtonIcon}
       </IconButton>
     </InputAdornment>
   );

@@ -144,7 +144,7 @@ export default function CounterInputForm() {
                   min={16}
                   max={30}
                   stepAmount={2}
-                  swapIcons
+                  swapButtons
                   helperText="Arrow keys / steppers change by 2"
                   disabled={disableAllFields}
                 />

@@ -13,7 +13,12 @@ export default function Layout({ children }) {
 
 # MUINumberInput
 
-`MUINumberInput` is a [TextField](https://v7.mui.com/material-ui/react-text-field/)-based numeric input that enforces number-only entry with options for integers-only, non-negative values, a maximum number of decimal places, and keyboard step increments.
+`MUINumberInput` is a [TextField](https://v7.mui.com/material-ui/react-text-field/)-based
+numeric input that enforces number-only entry with options for integers-only, non-negative values,
+a maximum number of decimal places, `min` / `max` bounds, and keyboard step increments.
+
+For always-visible `-` / `+` buttons instead of the native browser steppers,
+use [MUICounterInput](/v1/components/mui/counter-input).
 
 ## Usage
 

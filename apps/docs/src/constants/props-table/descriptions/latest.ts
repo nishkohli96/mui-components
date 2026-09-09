@@ -479,15 +479,15 @@ export const PropsDescription = Object.freeze({
       'Custom icon for the increment (`+`) button.\n\n**Default:** Material UI `Add` icon.',
     type: 'ReactNode'
   },
-  swapIcons_CounterInput: {
-    name: 'swapIcons',
+  swapButtons_CounterInput: {
+    name: 'swapButtons',
     description:
       'When true, the increment icon renders on the left (decrement) button and vice versa. Accessible labels and behaviour are unchanged — the left button still decreases the value.',
     type: 'boolean'
   },
   iconButtonProps_CounterInput: (args: MuiPropsDescriptionArgs) => ({
     name: 'iconButtonProps',
-    description: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/) forwarded to both stepper \`IconButton\`s — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.`,
+    description: '`IconButtonProps` forwarded to both stepper IconButtons — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.',
     type: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/)`,
     hasLinkInType: true
   }),
@@ -987,7 +987,7 @@ export const PropsDescription = Object.freeze({
   }),
   iconButtonProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'iconButtonProps',
-    description: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/) forwarded to the internal show/hide toggle \`IconButton\` — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.\n\n**Added in** \`v2\`.`,
+    description: '`IconButtonProps` forwarded to the internal show/hide toggle \`IconButton\` — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.\n\n**Added in** \`v2\`.',
     type: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/)`,
     hasLinkInType: true
   }),
