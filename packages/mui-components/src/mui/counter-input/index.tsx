@@ -42,10 +42,10 @@ export type MUICounterInputProps = Omit<MUINumberInputProps, 'showMarkers' | 'va
    * button increments and the right button decrements, each with its icon,
    * `aria-label` and disabled-at-bound state swapped to match.
    */
-  swapIcons?: boolean;
+  swapButtons?: boolean;
   /**
    * Props forwarded to both the stepper `IconButton`s. Use
-   * `swapIcons` prop to swap the icons themselves.
+   * `swapButtons` prop to swap the icons themselves.
    */
   iconButtonProps?: IconButtonProps;
   /**
@@ -87,7 +87,7 @@ const MUICounterInput = ({
   required,
   decrementIcon,
   incrementIcon,
-  swapIcons,
+  swapButtons,
   iconButtonProps,
   caption,
   sx: muiSx,
@@ -213,9 +213,9 @@ const MUICounterInput = ({
           {...iconButtonProps}
           type="button"
           size={iconButtonProps?.size ?? 'small'}
-          aria-label={swapIcons ? 'Increase value' : 'Decrease value'}
-          disabled={!!muiDisabled || (swapIcons ? atMax : atMin)}
-          onClick={() => stepBy(swapIcons ? 1 : -1)}
+          aria-label={swapButtons ? 'Increase value' : 'Decrease value'}
+          disabled={!!muiDisabled || (swapButtons ? atMax : atMin)}
+          onClick={() => stepBy(swapButtons ? 1 : -1)}
           onMouseDown={keepInputFocused}
           sx={{
             borderRadius: 0,
@@ -223,7 +223,7 @@ const MUICounterInput = ({
             ...iconButtonProps?.sx
           }}
         >
-          {swapIcons ? addButtonIcon : removeButtonIcon}
+          {swapButtons ? addButtonIcon : removeButtonIcon}
         </IconButton>
 
         <Box
@@ -293,9 +293,9 @@ const MUICounterInput = ({
           {...iconButtonProps}
           type="button"
           size={iconButtonProps?.size ?? 'small'}
-          aria-label={swapIcons ? 'Decrease value' : 'Increase value'}
-          disabled={!!muiDisabled || (swapIcons ? atMin : atMax)}
-          onClick={() => stepBy(swapIcons ? -1 : 1)}
+          aria-label={swapButtons ? 'Decrease value' : 'Increase value'}
+          disabled={!!muiDisabled || (swapButtons ? atMin : atMax)}
+          onClick={() => stepBy(swapButtons ? -1 : 1)}
           onMouseDown={keepInputFocused}
           sx={{
             borderRadius: 0,
@@ -303,7 +303,7 @@ const MUICounterInput = ({
             ...iconButtonProps?.sx
           }}
         >
-          {swapIcons ? removeButtonIcon : addButtonIcon}
+          {swapButtons ? removeButtonIcon : addButtonIcon}
         </IconButton>
       </Box>
       <FormHelperText

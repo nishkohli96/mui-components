@@ -503,8 +503,8 @@ export const PropsDescription = Object.freeze({
       'Custom icon for the increment (`+`) button.\n\n**Default:** Material UI `Add` icon',
     type: 'ReactNode'
   },
-  swapIcons_CounterInput: {
-    name: 'swapIcons',
+  swapButtons_CounterInput: {
+    name: 'swapButtons',
     description:
       'When `true`, swaps both the icons and the behaviour of the two buttons - the left button increments and the right button decrements, each with its icon, `aria-label` and disabled-at-bound state swapped to match.',
     type: 'boolean'

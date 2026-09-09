@@ -160,7 +160,7 @@ export default function CounterInputForm() {
                   max={30}
                   stepAmount={2}
                   required
-                  swapIcons
+                  swapButtons
                   decrementIcon={<span>▼</span>}
                   incrementIcon={<span>▲</span>}
                   caption={(

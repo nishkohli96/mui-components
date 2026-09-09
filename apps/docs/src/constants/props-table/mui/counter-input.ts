@@ -14,7 +14,7 @@ const counterInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.stepAmount,
   P.decrementIcon_CounterInput,
   P.incrementIcon_CounterInput,
-  P.swapIcons_CounterInput,
+  P.swapButtons_CounterInput,
   P.iconButtonProps_CounterInput,
   P.caption_CounterInput,
   P.label,
