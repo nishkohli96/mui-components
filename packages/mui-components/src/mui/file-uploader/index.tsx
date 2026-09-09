@@ -139,7 +139,7 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
     event
   }: FileUploaderOnValueChangeProps<Multiple>) => void;
   /**
-   * When true, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
@@ -152,7 +152,7 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
    */
   accept?: string;
   /**
-   * When true, allows selecting multiple files, and `value` / `onValueChange`
+   * When `true`, allows selecting multiple files, and `value` / `onValueChange`
    * operate on `File[]` instead of a single `File`.
    */
   multiple?: Multiple;
@@ -257,7 +257,7 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -265,7 +265,7 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -293,7 +293,7 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**
@@ -305,7 +305,7 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
-   * When true, the component expands to fill its container width.
+   * When `true`, the component expands to fill its container width.
    */
   fullWidth?: boolean;
   /**

@@ -87,7 +87,7 @@ export type MUISelectProps<
   /**
    * Current select value, normalized with `valueKey` for object options.
    * For `multiple`, pass an array. `undefined`/`null` are treated as no
-   * selection (an empty array when `multiple` is true).
+   * selection (an empty array when `multiple` is `true`).
    */
   value?: NoInfer<SelectValue<OptionValue<Option, ValueKey>, Multiple>> | null;
   /**
@@ -130,7 +130,7 @@ export type MUISelectProps<
    */
   menuItemProps?: MenuItemProps;
   /**
-   * When true, allows selecting multiple values.
+   * When `true`, allows selecting multiple values.
    */
   multiple?: Multiple;
   /**
@@ -151,7 +151,7 @@ export type MUISelectProps<
    */
   defaultOptionText?: string;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -166,7 +166,7 @@ export type MUISelectProps<
    */
   inputLabelProps?: InputLabelProps;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -194,7 +194,7 @@ export type MUISelectProps<
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**

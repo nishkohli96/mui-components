@@ -138,18 +138,18 @@ export type MUICountrySelectProps<
    */
   valueKey?: ValueKey;
   /**
-   * When true, allows selecting multiple countries.
+   * When `true`, allows selecting multiple countries.
    */
   multiple?: Multiple;
   /**
-   * When true, the selected value cannot be cleared from the input.
+   * When `true`, the selected value cannot be cleared from the input.
    * @default false
    */
   disableClearable?: DisableClearable;
   /**
    * Currently selected country value(s): the property named by `valueKey` when
    * it is provided, otherwise the complete `CountryDetails` object(s). An array
-   * when `multiple` is true; `null` is allowed for a single selection unless
+   * when `multiple` is `true`; `null` is allowed for a single selection unless
    * `disableClearable` is set.
    *
    * This is a controlled component: `value` and `onValueChange`
@@ -164,10 +164,10 @@ export type MUICountrySelectProps<
    *
    * `newValue` mirrors `value`: the `valueKey` property (e.g. a `string`) when
    * `valueKey` is set, otherwise the full `CountryDetails` object — arrayed when
-   * `multiple` is true, and `null` for a cleared single selection unless
+   * `multiple` is `true`, and `null` for a cleared single selection unless
    * `disableClearable` is set.
    *
-   * @param newValue - Normalized country value, or country value array when `multiple` is true.
+   * @param newValue - Normalized country value, or country value array when `multiple` is `true`.
    * @param event - Original MUI Autocomplete change event.
    * @param reason - MUI Autocomplete reason for the change.
    * @param details - Additional MUI Autocomplete change details, when available.
@@ -183,7 +183,7 @@ export type MUICountrySelectProps<
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -191,7 +191,7 @@ export type MUICountrySelectProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -204,7 +204,7 @@ export type MUICountrySelectProps<
     state: AutocompleteOptionRenderState
   ) => ReactNode;
   /**
-   * When true, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
@@ -232,7 +232,7 @@ export type MUICountrySelectProps<
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**

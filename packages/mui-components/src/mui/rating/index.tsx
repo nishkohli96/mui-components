@@ -56,7 +56,7 @@ export type MUIRatingProps = {
    */
   onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * When true, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
@@ -76,7 +76,7 @@ export type MUIRatingProps = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -104,7 +104,7 @@ export type MUIRatingProps = {
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**

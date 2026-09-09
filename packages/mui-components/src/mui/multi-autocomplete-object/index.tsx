@@ -124,7 +124,7 @@ export type MUIMultiAutocompleteObjectProps<
    */
   valueKey?: ValueKey;
   /**
-   * When true, the selected value cannot be cleared from the input.
+   * When `true`, the selected value cannot be cleared from the input.
    * @default false
    */
   disableClearable?: DisableClearable;
@@ -133,7 +133,7 @@ export type MUIMultiAutocompleteObjectProps<
    */
   selectAllText?: string;
   /**
-   * When true, hides the select-all option.
+   * When `true`, hides the "**Select All**" option.
    */
   hideSelectAllOption?: boolean;
   /**
@@ -141,7 +141,7 @@ export type MUIMultiAutocompleteObjectProps<
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -149,7 +149,7 @@ export type MUIMultiAutocompleteObjectProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -170,7 +170,7 @@ export type MUIMultiAutocompleteObjectProps<
    */
   formControlLabelProps?: FormControlLabelProps;
   /**
-   * When true, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
@@ -198,7 +198,7 @@ export type MUIMultiAutocompleteObjectProps<
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**
@@ -219,7 +219,7 @@ export type MUIMultiAutocompleteObjectProps<
   ChipProps?: MuiChipProps;
   /**
    * Props forwarded to the internal MUI `CircularProgress` shown in the input
-   * while `loading` is true.
+   * while `loading` is `true`.
    */
   circularProgressProps?: CircularProgressProps;
   /**

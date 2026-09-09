@@ -344,7 +344,7 @@ export const PropsDescription = Object.freeze({
   },
   showLabelAboveFormField: (args: MuiPropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
-    description: `When true, renders the field label above the form field in the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
+    description: `When \`true\`, renders the field label above the form field in the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
     type: 'boolean'
   }),
   showLabelAboveFormField_Default: {
@@ -390,7 +390,7 @@ export const PropsDescription = Object.freeze({
   hideErrorMessage: {
     name: 'hideErrorMessage',
     description:
-      'If true, hides the error message text while keeping the field in an error state.',
+      'If `true`, hides the error message text while keeping the field in an error state.',
     type: 'boolean'
   },
   helperText: (args: MuiPropsDescriptionArgs) => ({
@@ -585,9 +585,9 @@ export const PropsDescription = Object.freeze({
     description: 'Placeholder shown in the empty quantity input.',
     type: 'string'
   },
-  quantityInputProps_UnitInput: {
-    name: 'quantityInputProps',
-    description: 'Props forwarded to the internal quantity `MUINumberInput`.',
+  valueInputProps_UnitInput: {
+    name: 'valueInputProps',
+    description: 'Props forwarded to the internal `MUINumberInput` determining the **value** of the field.',
     type: 'MUINumberInputProps',
     hasLinkInType: false
   },
@@ -1026,7 +1026,7 @@ export const PropsDescription = Object.freeze({
   },
   disabled: {
     name: 'disabled',
-    description: 'When true, disables the field and associated controls.',
+    description: 'When `true`, disables the field and associated controls.',
     type: 'boolean'
   },
   customIds: {

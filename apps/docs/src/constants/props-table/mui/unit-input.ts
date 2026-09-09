@@ -13,7 +13,7 @@ const unitInputRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.unitPosition_UnitInput,
   P.unitWidth_UnitInput,
   P.unitSelectProps_UnitInput,
-  P.quantityInputProps_UnitInput,
+  P.valueInputProps_UnitInput,
   resolveProp(P.dividerProps_UnitInput, args),
   resolveProp(P.containerProps_UnitInput, args),
   P.onlyIntegers,

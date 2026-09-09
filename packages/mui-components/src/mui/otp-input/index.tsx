@@ -115,7 +115,7 @@ export type MUIOTPInputProps = {
    */
   alphanumeric?: boolean;
   /**
-   * When true, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
@@ -161,7 +161,7 @@ export type MUIOTPInputProps = {
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**
@@ -169,7 +169,8 @@ export type MUIOTPInputProps = {
    */
   helperText?: ReactNode;
   /**
-   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by
+   * the component.
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
@@ -178,7 +179,7 @@ export type MUIOTPInputProps = {
    */
   disabled?: boolean;
   /**
-   * When true, focuses the first empty box (or the first box, if the code
+   * When `true`, focuses the first empty box (or the first box, if the code
    * is already complete) on mount.
    * @default false
    */

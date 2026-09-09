@@ -5,7 +5,7 @@
  * (object `unitOptions` via `labelKey`/`valueKey`, unit on the left), a
  * generic weight field (plain string `unitOptions`, responsive `unitWidth`),
  * and a temperature field exercising `containerProps`/`dividerProps` plus
- * `sx` overrides on the internal quantity `MUINumberInput` and unit
+ * `sx` overrides on the internal value `MUINumberInput` and unit
  * `MUISelect`. All three are `required` and validated on submit.
  */
 
@@ -48,17 +48,17 @@ export default function UnitInputForm() {
   const [disableAllFields, setDisableAllFields] = useState(false);
 
   const [price, setPrice] = useState<MUIUnitInputValue<Currency>>({
-    quantity: null,
-    unit: 'USD'
+    unit: 'USD',
+    value: null
   });
   const [weight, setWeight] = useState<MUIUnitInputValue<WeightUnit>>({
-    quantity: 5,
-    unit: 'kg'
+    unit: 'kg',
+    value: 5
   });
 
   const [temperature, setTemperature] = useState<MUIUnitInputValue<TemperatureUnit>>({
-    quantity: null,
-    unit: '°C'
+    unit: '°C',
+    value: null
   });
 
   const [priceError, setPriceError] = useState<string>();
@@ -69,18 +69,18 @@ export default function UnitInputForm() {
   const errors = { price: priceError, weight: weightError, temperature: temperatureError };
 
   function resetForm() {
-    setPrice({ quantity: null, unit: 'USD' });
-    setWeight({ quantity: 5, unit: 'kg' });
-    setTemperature({ quantity: null, unit: '°C' });
+    setPrice({ unit: 'USD', value: null });
+    setWeight({ unit: 'kg', value: 5 });
+    setTemperature({ unit: '°C', value: null });
     setPriceError(undefined);
     setWeightError(undefined);
     setTemperatureError(undefined);
   }
 
   async function onFormSubmit() {
-    const priceMissing = price.quantity === null;
-    const weightMissing = weight.quantity === null;
-    const temperatureMissing = temperature.quantity === null;
+    const priceMissing = price.value === null;
+    const weightMissing = weight.value === null;
+    const temperatureMissing = temperature.value === null;
     setPriceError(priceMissing ? 'Price is required' : undefined);
     setWeightError(weightMissing ? 'Weight is required' : undefined);
     setTemperatureError(temperatureMissing ? 'Temperature is required' : undefined);
@@ -116,8 +116,8 @@ export default function UnitInputForm() {
             <FieldVariantInfo title="Currency, object unitOptions via labelKey/valueKey, unit on the left, renderOption and getOptionDisabled" />
             <MUIUnitInput
               fieldName={{
-                quantity: 'priceAmount',
-                unit: 'priceUnit'
+                unit: 'priceUnit',
+                value: 'priceAmount'
               }}
               label="Price"
               value={price}
@@ -147,8 +147,8 @@ export default function UnitInputForm() {
             <FieldVariantInfo title="Weight, plain string unitOptions, responsive unitWidth (40% on mobile, 30% from md up)" />
             <MUIUnitInput
               fieldName={{
-                quantity: 'weightAmount',
-                unit: 'weightUnit'
+                unit: 'weightUnit',
+                value: 'weightAmount'
               }}
               label="Package weight"
               value={weight}
@@ -173,8 +173,8 @@ export default function UnitInputForm() {
             <FieldVariantInfo title="Temperature — containerProps, dividerProps, and sx overrides on the internal quantity input & unit Select" />
             <MUIUnitInput
               fieldName={{
-                quantity: 'temperatureAmount',
-                unit: 'temperatureUnit'
+                unit: 'temperatureUnit',
+                value: 'temperatureAmount'
               }}
               label="Target temperature"
               value={temperature}
@@ -192,7 +192,7 @@ export default function UnitInputForm() {
               dividerProps={{
                 sx: { borderColor: 'info.main' }
               }}
-              quantityInputProps={{
+              valueInputProps={{
                 sx: {
                   '& input[type=number]': {
                     fontWeight: 700,
@@ -211,7 +211,7 @@ export default function UnitInputForm() {
               max={150}
               required
               errorMessage={temperatureError}
-              helperText="containerProps/dividerProps/quantityInputProps.sx/unitSelectProps.sx all overridden here"
+              helperText="containerProps/dividerProps/valueInputProps.sx/unitSelectProps.sx all overridden here"
               disabled={disableAllFields}
             />
           </Grid>
