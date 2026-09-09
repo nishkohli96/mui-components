@@ -1,14 +1,28 @@
-import type { PropsInfo, MuiPropsDescriptionArgs } from '@/types';
+import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import { resolveProp } from '@/utils';
 import { PropsDescription as P } from '../descriptions/latest';
+import { PropsDescription_v1 as Pv1 } from '../descriptions/v1';
 
 /** Props reference rows for `MUINumberInput`. */
-const numberInputRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
+const numberInputRows = (
+  args: MuiPropsDescriptionArgs,
+  docsVersion?: DocsVersion
+): PropsInfo[] => {
+    const v1 = docsVersion === 1;
+  return [
   P.fieldName,
   P.value_NumberInput,
   P.onValueChange_NumberInput,
-  P.min_NumberInput,
-  P.max_NumberInput,
+  ...(!v1
+    ? [
+      P.min_NumberInput,
+      P.max_NumberInput
+    ]
+    : [
+      Pv1.min_NumberInput,
+      Pv1.max_NumberInput
+    ]
+  ),
   P.nonNegative,
   P.onlyIntegers,
   P.maxDecimalPlaces,
@@ -25,5 +39,6 @@ const numberInputRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   resolveProp(P.formHelperTextProps, args),
   P.customIds
 ];
+}
 
 export default numberInputRows;

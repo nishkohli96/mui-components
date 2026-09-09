@@ -378,7 +378,7 @@ export const PropsDescription = Object.freeze({
   errorMessage: {
     name: 'errorMessage',
     description:
-      'Validation error for the field — pass a single message `string`, or a `string[]` when the field can fail multiple rules at once (every message is shown together). A non-empty string or array puts the field in an error state; `undefined`/`\'\'`/`[]` clear it. Normalize your form library\'s error shape to this at the call site (e.g. an RHF `FieldError` via its `.message`). Use `renderError` to customize how the message(s) are rendered.',
+      'Validation error for the field — pass a single message `string`, or a `string[]` when the field can fail multiple rules at once (every message is shown together). A non-empty string or array puts the field in an error state; `undefined`/`\'\'`/`[]` clear it.\n\nNormalize your form library\'s error shape to this at the call site (e.g. an RHF `FieldError` via its `.message`). Use `renderError` to customize how the message(s) are rendered.',
     type: 'string \| string[]'
   },
   renderError: {
@@ -423,18 +423,18 @@ export const PropsDescription = Object.freeze({
   readOnly_PasswordInput: {
     name: 'readOnly',
     description:
-      'When true, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it.',
+      'When `true`, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it.',
     type: 'boolean'
   },
   nonNegative: {
     name: 'nonNegative',
-    description: 'When true, negative values cannot be entered.',
+    description: 'When `true`, negative values cannot be entered.',
     type: 'boolean'
   },
   onlyIntegers: {
     name: 'onlyIntegers',
     description:
-      'When true, decimal input is not allowed. Cannot be combined with `maxDecimalPlaces`.',
+      'When `true`, decimal input is not allowed. Cannot be combined with `maxDecimalPlaces`.',
     type: 'boolean'
   },
   maxDecimalPlaces: {
@@ -458,7 +458,7 @@ export const PropsDescription = Object.freeze({
   min_NumberInput: {
     name: 'min',
     description:
-      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` can only tighten this, never loosen it.\n\n**Added in** `v2.2`.',
+      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` sets the lower bound to `0`, but `min` overrides it when set.\n\n**Added in** `v2.2`.',
     type: 'number'
   },
   max_NumberInput: {
@@ -467,22 +467,34 @@ export const PropsDescription = Object.freeze({
       'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in** `v2.2`.',
     type: 'number'
   },
-  decrementIcon_CounterInput: {
+  min_CounterInput: {
+    name: 'min',
+    description:
+      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` sets the lower bound to `0`, but `min` overrides it when set.',
+    type: 'number'
+  },
+  max_CounterInput: {
+    name: 'max',
+    description:
+      'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.',
+    type: 'number'
+  },
+decrementIcon_CounterInput: {
     name: 'decrementIcon',
     description:
-      'Custom icon for the decrement (`-`) button.\n\n**Default:** Material UI `Remove` icon.',
+      'Custom icon for the decrement (`-`) button.\n\n**Default:** Material UI `Remove` icon',
     type: 'ReactNode'
   },
   incrementIcon_CounterInput: {
     name: 'incrementIcon',
     description:
-      'Custom icon for the increment (`+`) button.\n\n**Default:** Material UI `Add` icon.',
+      'Custom icon for the increment (`+`) button.\n\n**Default:** Material UI `Add` icon',
     type: 'ReactNode'
   },
   swapButtons_CounterInput: {
     name: 'swapButtons',
     description:
-      'When true, the increment icon renders on the left (decrement) button and vice versa. Accessible labels and behaviour are unchanged — the left button still decreases the value.',
+      'When `true`, swaps both the icons and the behaviour of the two buttons - the left button increments and the right button decrements, each with its icon, `aria-label` and disabled-at-bound state swapped to match.',
     type: 'boolean'
   },
   iconButtonProps_CounterInput: (args: MuiPropsDescriptionArgs) => ({
@@ -491,6 +503,11 @@ export const PropsDescription = Object.freeze({
     type: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/)`,
     hasLinkInType: true
   }),
+  caption_CounterInput: {
+    name: 'caption',
+    description: 'Content rendered under the value.\n\n E.g. an icon + label.',
+    type: 'ReactNode'
+  },
   fieldName_UnitInput: {
     name: 'fieldName',
     description:

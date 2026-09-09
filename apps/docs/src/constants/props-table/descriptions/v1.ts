@@ -6,6 +6,18 @@ import type { MuiPropsDescriptionArgs } from '@/types';
 import { getMuiDocsUrl } from '@/utils';
 
 export const PropsDescription_v1 = Object.freeze({
+  min_NumberInput: {
+    name: 'min',
+    description:
+      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` sets the lower bound to `0`, but `min` overrides it when set.\n\n**Added in** `v1.3`.',
+    type: 'number'
+  },
+  max_NumberInput: {
+    name: 'max',
+    description:
+      'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in** `v1.3`.',
+    type: 'number'
+  },
   iconButtonProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'iconButtonProps',
     description: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/) forwarded to the internal show/hide toggle \`IconButton\` — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.\n\n**Added in** \`v1.1\`.`,

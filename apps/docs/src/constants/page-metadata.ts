@@ -118,7 +118,7 @@ export const componentMetadata: Record<string, Metadata> = {
   MUIUnitInput: {
     title: 'MUIUnitInput',
     description:
-      'A pill-shaped MUINumberInput + MUISelect combo — a numeric quantity paired with a unit picker (currency, weight, temperature) reported together as one { quantity, unit } value.'
+      'Controlled Material UI numeric input paired with a unit Select (currency, weight, temperature) inside one pill, reported together as a single { value, unit } value.'
   },
   MUIOTPInput: {
     title: 'MUIOTPInput',

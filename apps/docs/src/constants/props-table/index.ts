@@ -20,12 +20,12 @@ import textFieldRows from './mui/textfield';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
 import counterInputRows from './mui/counter-input';
-import unitInputRows from './mui/unit-input';
 import otpInputRows from './mui/otp-input';
 import tagsInputRows from './mui/tags-input';
 import fileUploaderRows from './mui/file-uploader';
 import selectRows from './mui/select';
 import nativeSelectRows from './mui/native-select';
+import unitInputRows from './mui/unit-input';
 import autocompleteRows from './mui/autocomplete';
 import autocompleteObjectRows from './mui/autocomplete-object';
 import multiAutocompleteRows from './mui/multi-autocomplete';
@@ -68,14 +68,14 @@ const buildComponentProps = (
   Object.freeze({
     MUITextField: textFieldRows(args),
     MUIPasswordInput: passwordInputRows(args, docsVersion),
-    MUINumberInput: numberInputRows(args),
+    MUINumberInput: numberInputRows(args, docsVersion),
     MUICounterInput: counterInputRows(args),
-    MUIUnitInput: unitInputRows(args),
     MUIOTPInput: otpInputRows(args),
     MUITagsInput: tagsInputRows(args),
     MUIFileUploader: fileUploaderRows(args),
     MUISelect: selectRows(args, docsVersion),
     MUINativeSelect: nativeSelectRows(args),
+    MUIUnitInput: unitInputRows(args),
     MUIAutocomplete: autocompleteRows(args, docsVersion),
     MUIAutocompleteObject: autocompleteObjectRows(args, docsVersion),
     MUICountrySelect: countrySelectRows(args),
