@@ -15,16 +15,17 @@ export default function Layout({ children }) {
 
 <AvailabilityBanner componentName="MUIUnitInput" version="1.3" />
 
-`MUIUnitInput` pairs a numeric quantity ([MUINumberInput](/v1/components/mui/number-input))
-with a unit picker ([MUISelect](/v1/components/mui/select)) - currency, weight, temperature,
+`MUIUnitInput` pairs a numeric **value** ([MUINumberInput](/v1/components/mui/number-input))
+with a **unit** picker ([MUISelect](/v1/components/mui/select)) - currency, weight, temperature,
 or any other unit set - rendered borderless inside one bordered pill, similar in spirit to
 [MUIPhoneInput](/v1/components/mui/phone-input)'s country + number pairing.
 
-`fieldName` and `customIds` take one entry per control (`quantity`/`unit`) so
-each is registered independently against a flat form schema, but `value` /
-`onValueChange` still report the pair together as one `{ quantity, unit }`
-object. `containerProps` styles the outer pill container; `dividerProps`
-styles the vertical divider between the two controls.
+`fieldName` and `customIds` are both `{ unit, value }` objects — one entry per
+control, so each is registered independently against a flat form schema.
+`fieldName` requires both keys; `customIds` keys are optional. `value` /
+`onValueChange` still report the pair together as one `{ unit, value }` object.
+`containerProps` styles the outer pill container; `dividerProps` styles the
+vertical divider between the two controls.
 
 `unitOptions` accepts either a plain string array, or an object array read via
 `labelKey`/`valueKey` — the same convention as `MUISelect`.
@@ -39,14 +40,14 @@ Plain string `unitOptions`:
 
 ```tsx
 const [price, setPrice] = useState<MUIUnitInputValue>({
-  quantity: null,
-  unit: 'USD'
+  unit: 'USD',
+  value: null
 });
 
 <MUIUnitInput
   fieldName={{
-    quantity: 'priceAmount',
-    unit: 'priceUnit'
+    unit: 'priceUnit',
+    value: 'priceAmount'
   }}
   value={price}
   onValueChange={({ newValue }) => setPrice(newValue)}

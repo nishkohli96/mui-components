@@ -22,7 +22,7 @@ const unitInputRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.min_UnitInput,
   P.max_UnitInput,
   P.stepAmount,
-  P.label,
+  P.label_UnitInput,
   resolveProp(P.showLabelAboveFormField, args),
   resolveProp(P.formLabelProps, args),
   P.hideLabel,

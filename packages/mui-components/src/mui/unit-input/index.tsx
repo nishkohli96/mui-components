@@ -14,10 +14,11 @@ import type { CustomComponentIds, StrObjOption } from '@/types';
 import {
   fieldNameToLabel,
   keepLabelAboveFormField,
+  generateUnitInputFieldNameErrMsg,
   useFieldIds,
   getErrorList,
   getOptionValue,
-  mergeSx
+  mergeSx,
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 import MUISelect, { type MUISelectProps, type SelectValue } from '../select';
@@ -335,6 +336,10 @@ const MUIUnitInput = <
   formHelperTextProps,
   customIds
 }: MUIUnitInputProps<Option, LabelKey, ValueKey>) => {
+  if (!fieldName.unit || !fieldName.value) {
+    throw new Error(generateUnitInputFieldNameErrMsg());
+  }
+
   const {
     fieldId: valueFieldId,
     labelId,

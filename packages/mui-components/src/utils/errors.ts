@@ -11,3 +11,7 @@ export function generateLabelValueErrMsg(formElement: string) {
 export function generateDateAdapterErrMsg(formElement: string) {
   return `Missing "dateAdapter" for ${formElement}. Please wrap your component tree with "ConfigProvider dateAdapter={...}>" to configure it.`;
 }
+
+export function generateUnitInputFieldNameErrMsg() {
+  return 'Provide both "unit" and "value" keys in the "fieldName" prop of "MUIUnitInput", e.g. fieldName={{ unit: "priceUnit", value: "priceAmount" }}.';
+}

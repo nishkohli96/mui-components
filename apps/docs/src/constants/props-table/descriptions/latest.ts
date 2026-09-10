@@ -511,27 +511,27 @@ export const PropsDescription = Object.freeze({
   fieldName_UnitInput: {
     name: 'fieldName',
     description:
-      'Name/path of the field\'s two underlying controls, kept separate (rather than one combined `fieldName`) so each can be registered independently against a flat form schema — e.g. `{ quantity: \'weight\', unit: \'weightUnit\' }`.',
+      'Name/path of the field\'s two underlying controls, kept separate (rather than one combined `fieldName`) so each can be registered independently against a flat form schema — e.g. `{ unit: \'weightUnit\', value: \'weight\' }`.',
     required: true,
-    type: '{ quantity: string; unit: string }'
+    type: '{ unit: string; value: string; }'
   },
   value_UnitInput: {
     name: 'value',
     description:
-      'Current value of the field. `quantity` and `unit` are always reported together through `onValueChange`, even though they\'re two controls.',
-    type: '{ quantity: number | null; unit: string }'
+      'Current value of the field. `unit` and `value` are always reported together through `onValueChange`, even though they are two controls.',
+    type: '{  unit: string; value: number | null; }'
   },
   onValueChange_UnitInput: {
     name: 'onValueChange',
     description:
-      'Called whenever either the quantity or the unit changes. Always receives the full `{ quantity, unit }` value.',
+      'Called whenever either the `unit` or the `value` changes. Always receives the full `{ unit, value }` value.',
     type: '({ newValue, event }) => void',
     required: true
   },
   unitOptions_UnitInput: {
     name: 'unitOptions',
     description:
-      'Units selectable from the dropdown — a plain string array (e.g. `[\'USD\', \'EUR\', \'GBP\']` or `[\'kg\', \'lb\']`, a string-literal union/enum\'s values for literal-union safety), or an object array read via `labelKey`/`valueKey`, same convention as `MUISelect`. `Unit` is auto-derived from `unitOptions`/`valueKey` — no need to pass it as an explicit type argument.',
+      'Units selectable from the dropdown — a plain string array (e.g. `[\'USD\', \'EUR\', \'GBP\']` or `[\'kg\', \'lb\']`, a string-literal union/enum\'s values for literal-union safety), or an object array read via `labelKey`/`valueKey`, same convention as `MUISelect`.',
     required: true,
     type: 'Option[]'
   },
@@ -547,42 +547,47 @@ export const PropsDescription = Object.freeze({
   },
   unitPosition_UnitInput: {
     name: 'unitPosition',
-    description: 'Which side the unit `Select` renders on relative to the quantity input.\n\n**Default:** `\'end\'`',
+    description: 'Which side the **unit** `Select` renders on relative to the **value** input.\n\n**Default:** `\'end\'`',
     type: '\'start\' | \'end\''
   },
   unitWidth_UnitInput: {
     name: 'unitWidth',
     description:
-      'Width of the unit `Select` as a CSS `flex-basis` value, the quantity input fills the rest. Accepts a single value (e.g. `100px` or `\'30%\'`) or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`.\n\nBoth segments have a default `minWidth: 50px` so neither collapses. When omitted, the unit `Select` sizes to its content.',
+      'Width of the **unit** `Select` as a CSS `flex-basis` value, the **value** input fills the rest. Accepts a single value (e.g. `100px` or `\'30%\'`) or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`.\n\nBoth segments have a default `minWidth: 50px` so neither collapses. When omitted, the **unit** `Select` sizes to its content.',
     type: 'ResponsiveStyleValue<string>'
   },
   containerProps_UnitInput: (args: MuiPropsDescriptionArgs) => ({
     name: 'containerProps',
-    description: 'Props forwarded to the outer pill container wrapping the quantity input and unit `Select`. `containerProps.sx` is merged with the component\'s own base pill styles rather than replacing them, and accepts any `sx` form — object, array, or function.',
+    description: 'Props forwarded to the outer pill container wrapping the **value** input and **unit** `Select`. `containerProps.sx` is merged with the component\'s own base pill styles rather than replacing them, and accepts any `sx` form — object, array, or function.',
     type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
     hasLinkInType: true
   }),
   dividerProps_UnitInput: (args: MuiPropsDescriptionArgs) => ({
     name: 'dividerProps',
-    description: 'Props forwarded to the vertical divider between the quantity input and the unit `Select` (a plain `Box` with `borderLeft`/`borderColor`).',
+    description: 'Props forwarded to the vertical divider between the **value** input and the **unit** `Select` (a plain `Box` with `borderLeft`/`borderColor`).',
     type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
     hasLinkInType: true
   }),
   min_UnitInput: {
     name: 'min',
     description:
-      'Lower bound for the quantity value. `nonNegative` sets the default value to `0` unless overridden.',
+      'Lower bound for the **value**. `nonNegative` sets the default value to `0` unless overridden.',
     type: 'number'
   },
   max_UnitInput: {
     name: 'max',
     description:
-      'Upper bound for the quantity value.',
+      'Upper bound for the **value**.',
     type: 'number'
+  },
+  label_UnitInput: {
+    name: 'label',
+    description: 'Custom field label. Defaults to a humanized version of `fieldName.value`.',
+    type: 'ReactNode'
   },
   placeholder_UnitInput: {
     name: 'placeholder',
-    description: 'Placeholder shown in the empty quantity input.',
+    description: 'Placeholder shown in the empty **value** input.',
     type: 'string'
   },
   valueInputProps_UnitInput: {
@@ -593,56 +598,14 @@ export const PropsDescription = Object.freeze({
   },
   unitSelectProps_UnitInput: {
     name: 'unitSelectProps',
-    description: 'Props forwarded to the internal unit `MUISelect`.',
+    description: 'Props forwarded to the internal **unit** `MUISelect`.',
     type: 'MUISelectProps',
     hasLinkInType: false
   },
   customIds_UnitInput: {
     name: 'customIds',
-    description: 'Custom ids for the quantity and unit controls respectively.',
-    type: '{ quantity?: CustomComponentIds; unit?: CustomComponentIds }'
-  },
-  value_TipTapRte: {
-    name: 'value',
-    description: 'Current editor HTML string.',
-    type: 'string | null'
-  },
-  onValueChange_TipTapRte: {
-    name: 'onValueChange',
-    description: 'Called when the editor content changes, with the updated HTML string and editor instance.',
-    required: true,
-    type: '({ newValue, editor }) => void'
-  },
-  placeholder_TipTapRte: {
-    name: 'placeholder',
-    description: 'Placeholder text shown when the editor is empty. Always applied via an internal `Placeholder` extension appended after `editorExtensions` (or `DefaultEditorExtensions`), regardless of which set is active.',
-    type: 'string'
-  },
-  editorExtensions_TipTapRte: {
-    name: 'editorExtensions',
-    description:
-      'Tiptap extensions passed to `useEditor`. Defaults to this package\'s `DefaultEditorExtensions`. The built-in toolbar omits any button whose backing extension isn\'t loaded, so a custom set missing e.g. `Heading` or `TextAlign` simply hides those controls instead of throwing when clicked.',
-    type: 'AnyExtension[]'
-  },
-  editorOptions_TipTapRte: {
-    name: 'editorOptions',
-    description: 'Additional options passed straight through to the `useEditor` hook — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. `editorProps.attributes` is deep-merged instead of replaced.\n\n`onUpdate` is also passed through, but this component\'s own `onUpdate` (which calls `onValueChange`) always runs first.',
-    type: 'UseEditorOptions'
-  },
-  containerProps_TipTapRte: {
-    name: 'containerProps',
-    description: 'Props forwarded to the outer bordered container wrapping the toolbar and editor content. `containerProps.sx` is merged with the component\'s own base styles (border, radius, focus ring) rather than replacing them, and accepts any `sx` form — object, array, or function.',
-    type: 'BoxProps'
-  },
-  contentContainerProps_TipTapRte: {
-    name: 'contentContainerProps',
-    description: 'Props forwarded to the scrollable `Box` directly wrapping `EditorContent` (padding, min/max height, and the `.ProseMirror`/placeholder styling). `contentContainerProps.sx` is merged the same way as `containerProps.sx`.',
-    type: 'BoxProps'
-  },
-  renderToolbar_TipTapRte: {
-    name: 'renderToolbar',
-    description: 'Custom toolbar renderer, called with the live `editor` instance and the field\'s resolved `disabled` state. Defaults to this package\'s built-in `Toolbar`. Pass `() => null` to hide the toolbar entirely.',
-    type: '(editor: Editor, disabled: boolean) => ReactNode'
+    description: 'Custom ids for the **unit** and **value** controls respectively.',
+    type: '{ unit?: CustomComponentIds; value?: CustomComponentIds }'
   },
   length_OTPInput: {
     name: 'length',
@@ -1118,6 +1081,48 @@ export const PropsDescription = Object.freeze({
     description:
       'Callback fired when CKEditor reports an initialization or runtime error.',
     type: '(error: Error, details) => void'
+  },
+  value_TipTapRte: {
+    name: 'value',
+    description: 'Current editor HTML string.',
+    type: 'string | null'
+  },
+  onValueChange_TipTapRte: {
+    name: 'onValueChange',
+    description: 'Called when the editor content changes, with the updated HTML string and editor instance.',
+    required: true,
+    type: '({ newValue, editor }) => void'
+  },
+  placeholder_TipTapRte: {
+    name: 'placeholder',
+    description: 'Placeholder text shown when the editor is empty. Always applied via an internal `Placeholder` extension appended after `editorExtensions` (or `DefaultEditorExtensions`), regardless of which set is active.',
+    type: 'string'
+  },
+  editorExtensions_TipTapRte: {
+    name: 'editorExtensions',
+    description:
+      'Tiptap extensions passed to `useEditor`. Defaults to this package\'s `DefaultEditorExtensions`. The built-in toolbar omits any button whose backing extension isn\'t loaded, so a custom set missing e.g. `Heading` or `TextAlign` simply hides those controls instead of throwing when clicked.',
+    type: 'AnyExtension[]'
+  },
+  editorOptions_TipTapRte: {
+    name: 'editorOptions',
+    description: 'Additional options passed straight through to the `useEditor` hook — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. `editorProps.attributes` is deep-merged instead of replaced.\n\n`onUpdate` is also passed through, but this component\'s own `onUpdate` (which calls `onValueChange`) always runs first.',
+    type: 'UseEditorOptions'
+  },
+  containerProps_TipTapRte: {
+    name: 'containerProps',
+    description: 'Props forwarded to the outer bordered container wrapping the toolbar and editor content. `containerProps.sx` is merged with the component\'s own base styles (border, radius, focus ring) rather than replacing them, and accepts any `sx` form — object, array, or function.',
+    type: 'BoxProps'
+  },
+  contentContainerProps_TipTapRte: {
+    name: 'contentContainerProps',
+    description: 'Props forwarded to the scrollable `Box` directly wrapping `EditorContent` (padding, min/max height, and the `.ProseMirror`/placeholder styling). `contentContainerProps.sx` is merged the same way as `containerProps.sx`.',
+    type: 'BoxProps'
+  },
+  renderToolbar_TipTapRte: {
+    name: 'renderToolbar',
+    description: 'Custom toolbar renderer, called with the live `editor` instance and the field\'s resolved `disabled` state. Defaults to this package\'s built-in `Toolbar`. Pass `() => null` to hide the toolbar entirely.',
+    type: '(editor: Editor, disabled: boolean) => ReactNode'
   },
   phoneInputProps: {
     name: 'phoneInputProps',

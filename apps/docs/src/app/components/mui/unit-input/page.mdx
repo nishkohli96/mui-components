@@ -16,16 +16,17 @@ export default function Layout({ children }) {
 
 <AvailabilityBanner componentName="MUIUnitInput" version="2.2" />
 
-`MUIUnitInput` pairs a numeric quantity ([MUINumberInput](/components/mui/number-input))
-with a unit picker ([MUISelect](/components/mui/select)) - currency, weight, temperature,
+`MUIUnitInput` pairs a numeric **value** ([MUINumberInput](/components/mui/number-input))
+with a **unit** picker ([MUISelect](/components/mui/select)) - currency, weight, temperature,
 or any other unit set - rendered borderless inside one bordered pill, similar in spirit to
 [MUIPhoneInput](/components/mui/phone-input)'s country + number pairing.
 
-`fieldName` and `customIds` take one entry per control (`quantity`/`unit`) so
-each is registered independently against a flat form schema, but `value` /
-`onValueChange` still report the pair together as one `{ quantity, unit }`
-object. `containerProps` styles the outer pill container; `dividerProps`
-styles the vertical divider between the two controls.
+`fieldName` and `customIds` are both `{ unit, value }` objects — one entry per
+control, so each is registered independently against a flat form schema.
+`fieldName` requires both keys; `customIds` keys are optional. `value` /
+`onValueChange` still report the pair together as one `{ unit, value }` object.
+`containerProps` styles the outer pill container; `dividerProps` styles the
+vertical divider between the two controls.
 
 `unitOptions` accepts either a plain string array, or an object array read via
 `labelKey`/`valueKey` — the same convention as `MUISelect`.
@@ -40,12 +41,15 @@ Plain string `unitOptions`:
 
 ```tsx
 const [price, setPrice] = useState<MUIUnitInputValue>({
-  quantity: null,
-  unit: 'USD'
+  unit: 'USD',
+  value: null
 });
 
 <MUIUnitInput
-  fieldName={{ quantity: 'priceAmount', unit: 'priceUnit' }}
+  fieldName={{
+    unit: 'priceUnit',
+    value: 'priceAmount'
+  }}
   value={price}
   onValueChange={({ newValue }) => setPrice(newValue)}
   unitOptions={['USD', 'EUR', 'GBP']}
@@ -69,7 +73,10 @@ const currencyOptions: CurrencyOption[] = [
 ];
 
 <MUIUnitInput
-  fieldName={{ quantity: 'priceAmount', unit: 'priceUnit' }}
+  fieldName={{
+    unit: 'priceUnit',
+    value: 'priceAmount'
+  }}
   value={price}
   onValueChange={({ newValue }) => setPrice(newValue)}
   unitOptions={currencyOptions}
@@ -88,8 +95,14 @@ Props marked with
 
 ## Playground
 
-Two examples — a currency field (object `unitOptions` via `labelKey`/`valueKey`,
-unit on the left) and a weight field (plain string `unitOptions`, unit on the
-right, responsive `unitWidth`). Both are `required` and validated on submit.
+Driven by plain React state — three fields, all `required` and validated on submit:
+
+- **Currency** — object `unitOptions` via `labelKey`/`valueKey`, unit on the left
+  (`unitPosition="start"`), with `renderOptionLabel` and `getOptionDisabled`
+  forwarded through `unitSelectProps`; `nonNegative` with `maxDecimalPlaces={2}`.
+- **Weight** — plain string `unitOptions`, responsive `unitWidth`
+  (`{ xs: '40%', md: '30%' }`), `onlyIntegers` and `max={150}`.
+- **Temperature** — `containerProps` / `dividerProps` and `sx` overrides on the
+  internal quantity input and unit `Select`.
 
 <UnitInputForm />

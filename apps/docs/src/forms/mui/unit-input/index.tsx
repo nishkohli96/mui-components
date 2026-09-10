@@ -164,7 +164,7 @@ export default function UnitInputForm() {
               stepAmount={5}
               required
               errorMessage={weightError}
-              helperText="Only Integers, max limit 150"
+              helperText="Only Integers, stepAmount: 5, max limit: 150"
               disabled={disableAllFields}
             />
           </Grid>
