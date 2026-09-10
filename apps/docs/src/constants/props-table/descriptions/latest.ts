@@ -70,7 +70,7 @@ export const PropsDescription = Object.freeze({
   value_Select: {
     name: 'value',
     description:
-      'Current select value, normalized with `valueKey` for object options. Pass an array when `multiple` is true.',
+      'Current select value, normalized with `valueKey` for object options. Pass an array when `multiple` is `true`.',
     type: 'string | number | (string | number)[] | null'
   },
   value_NativeSelect: {
@@ -82,13 +82,13 @@ export const PropsDescription = Object.freeze({
   value_Autocomplete: {
     name: 'value',
     description:
-      'Currently selected value(s): `string[]` when `multiple` is true, otherwise a `string` (normalized with `valueKey` for object options). A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
+      'Currently selected value(s): `string[]` when `multiple` is `true`, otherwise a `string` (normalized with `valueKey` for object options). A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
     type: 'string | string[] | null'
   },
   value_AutocompleteObject: {
     name: 'value',
     description:
-      'Currently selected option object(s): `Option[]` when `multiple` is true, otherwise a single `Option`. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
+      'Currently selected option object(s): `Option[]` when `multiple` is `true`, otherwise a single `Option`. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
     type: 'Option | Option[] | null'
   },
   value_MultiAutocomplete: {
@@ -106,7 +106,7 @@ export const PropsDescription = Object.freeze({
   value_CountrySelect: {
     name: 'value',
     description:
-      'Currently selected country value(s): complete `CountryDetails` object(s), or the property named by `valueKey` when provided. Pass an array when `multiple` is true. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
+      'Currently selected country value(s): complete `CountryDetails` object(s), or the property named by `valueKey` when provided. Pass an array when `multiple` is `true`. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
     type: 'CountryDetails | CountryDetails[keyof CountryDetails] | array | null'
   },
   value_Cbx_Switch: {
@@ -218,7 +218,7 @@ export const PropsDescription = Object.freeze({
   onValueChange_Autocomplete: {
     name: 'onValueChange',
     description:
-      'Called on every selection change with the normalized value and the raw MUI selection metadata. `newValue` is `string[]` when `multiple` is true, otherwise `string`, and includes `null` only when clearing is allowed.',
+      'Called on every selection change with the normalized value and the raw MUI selection metadata. `newValue` is `string[]` when `multiple` is `true`, otherwise `string`, and includes `null` only when clearing is allowed.',
     required: true,
     type: '({ newValue, selectedOption, event, reason, details }) => void'
   },
@@ -339,7 +339,7 @@ export const PropsDescription = Object.freeze({
   hideLabel: {
     name: 'hideLabel',
     description:
-      'When true, hides the rendered field label while preserving accessible labeling where possible.',
+      'When `true`, hides the rendered field label while preserving accessible labeling where possible.',
     type: 'boolean'
   },
   showLabelAboveFormField: (args: MuiPropsDescriptionArgs) => ({
@@ -452,7 +452,7 @@ export const PropsDescription = Object.freeze({
   showMarkers: {
     name: 'showMarkers',
     description:
-      'When true, shows increment/decrement markers on the input.',
+      'When `true`, shows increment/decrement markers on the input.',
     type: 'boolean'
   },
   min_NumberInput: {
@@ -711,7 +711,7 @@ export const PropsDescription = Object.freeze({
   },
   multiple_FileUploader: {
     name: 'multiple',
-    description: 'When true, allows selecting multiple files.',
+    description: 'When `true`, allows selecting multiple files.',
     type: 'boolean'
   },
   maxSize: {
@@ -880,25 +880,25 @@ export const PropsDescription = Object.freeze({
   /* ------------------------------------------------------------------ */
   multiple: {
     name: 'multiple',
-    description: 'When true, allows selecting multiple values.',
+    description: 'When `true`, allows selecting multiple values.',
     type: 'boolean'
   },
   disableClearable: {
     name: 'disableClearable',
     description:
-      'When true, the selected value cannot be cleared from the input.\n\n**Default:** `false`',
+      'When `true`, the selected value cannot be cleared from the input.\n\n**Default:** `false`',
     type: 'boolean'
   },
   freeSolo: {
     name: 'freeSolo',
     description:
-      'When true, the user may type any value not present in `options`. The typed string is passed to `onValueChange` as-is.',
+      'When `true`, the user may type any value not present in `options`. The typed string is passed to `onValueChange` as-is.',
     type: 'boolean'
   },
   freeSolo_MultiAutocomplete: {
     name: 'freeSolo',
     description:
-      'When true, the user may type any value not present in `options`. Not compatible with `selectAllText` — enabling it hides the "**Select All**" option.',
+      'When `true`, the user may type any value not present in `options`. Not compatible with `selectAllText` — enabling it hides the "**Select All**" option.',
     type: 'boolean'
   },
   countries: {
@@ -920,7 +920,7 @@ export const PropsDescription = Object.freeze({
   },
   hideSelectAllOption: {
     name: 'hideSelectAllOption',
-    description: 'When true, hides the select-all option.',
+    description: 'When `true`, hides the select-all option.',
     type: 'boolean'
   },
   limitTags: {
@@ -985,7 +985,7 @@ export const PropsDescription = Object.freeze({
   }),
   circularProgressProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'circularProgressProps',
-    description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is true — custom \`color\`, \`size\`, etc.\n\n**Added in** \`v2\`.`,
+    description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is \`true\` — custom \`color\`, \`size\`, etc.\n\n**Added in** \`v2\`.`,
     type: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/)`,
     hasLinkInType: true
   }),

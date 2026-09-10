@@ -44,7 +44,7 @@ export const PropsDescription_v1 = Object.freeze({
   }),
   circularProgressProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'circularProgressProps',
-    description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is true — custom \`color\`, \`size\`, etc.\n\n**Added in** \`v1.1\`.`,
+    description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is \`true\` — custom \`color\`, \`size\`, etc.\n\n**Added in** \`v1.1\`.`,
     type: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/)`,
     hasLinkInType: true
   }),
