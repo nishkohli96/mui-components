@@ -125,20 +125,6 @@ export type MUIUnitInputProps<
     value: string;
   };
   /**
-   * Current value of the field. `unit` and `value` are always reported
-   * together through `onValueChange`, even though they're two controls.
-   */
-  value?: NoInfer<MUIUnitInputValue<ResolvedUnit<Option, ValueKey>>>;
-  /**
-   * Called whenever either the **unit** or the **value** changes. Always
-   * receives the full `{ unit, value }` value - utilize `newValue.unit` /
-   * `newValue.value` as needed.
-   */
-  onValueChange: ({
-    newValue,
-    event
-  }: OnValueChangeProps<ResolvedUnit<Option, ValueKey>>) => void;
-  /**
    * Units selectable from the dropdown — a plain string array (e.g.
    * `['USD', 'EUR', 'GBP']`, or a string-literal union/enum's values for
    * literal-union safety on `value.unit`/`newValue.unit`), or an object
@@ -157,29 +143,29 @@ export type MUIUnitInputProps<
    */
   valueKey?: ValueKey;
   /**
-   * Which side the **unit** `Select` renders on relative to the **value** input.
-   * @default 'end'
+   * Current value of the field. `unit` and `value` are always reported
+   * together through `onValueChange`, even though they're two controls.
    */
-  unitPosition?: 'start' | 'end';
+  value?: NoInfer<MUIUnitInputValue<ResolvedUnit<Option, ValueKey>>>;
   /**
-   * Width of the **unit** `Select` as a CSS `flex-basis` value — a
-   * percentage (e.g. `'30%'`) or fixed width (e.g. `'100px'`), so the **value**
-   * input (`flex: 1`) fills the rest. Accepts a single value or a
-   * responsive `sx`-style breakpoint object (e.g. `{ xs: '40%', md: '30%' }`).
-   * When omitted, the **unit** `Select` sizes to its selected content instead of a
-   * fixed share of the pill.
+   * Called whenever either the **unit** or the **value** changes. Always
+   * receives the full `{ unit, value }` value - utilize `newValue.unit` /
+   * `newValue.value` as needed.
    */
-  unitWidth?: ResponsiveStyleValue<string>;
+  onValueChange: ({
+    newValue,
+    event
+  }: OnValueChangeProps<ResolvedUnit<Option, ValueKey>>) => void;
   /**
-   * Props forwarded to the internal `MUINumberInput` to determine the **value**
-   * of the field.
+   * Lower bound for the field **value**. When `nonNegative` is `true`,
+   * `0` is used as the effective lower bound, unless overridden by the
+   * value of this prop.
    */
-  valueInputProps?: ValueInputProps;
+  min?: MUINumberInputProps['min'];
   /**
-   * Props forwarded to the internal `MUISelect` to choose the **unit**
-   * for the field.
+   * Upper bound for the field **value**.
    */
-  unitSelectProps?: UnitSelectProps<Option, LabelKey, ValueKey>;
+  max?: MUINumberInputProps['max'];
   /**
    * When `true`, only integer values are allowed. Cannot be used
    * together with `maxDecimalPlaces`.
@@ -201,22 +187,36 @@ export type MUIUnitInputProps<
    */
   stepAmount?: MUINumberInputProps['stepAmount'];
   /**
-   * Lower bound for the field **value**. When `nonNegative` is `true`,
-   * `0` is used as the effective lower bound, unless overridden by the
-   * value of this prop.
-   */
-  min?: MUINumberInputProps['min'];
-  /**
-   * Upper bound for the field **value**.
-   */
-  max?: MUINumberInputProps['max'];
-  /**
    * Formats the numeric **value** for display — e.g. thousands separators or a
    * currency prefix: `value => value?.toLocaleString() ?? ''`. Forwarded to the
    * internal `MUINumberInput`; the raw number is shown while the value input is
    * focused and `value.value` stays a real `number | null`.
    */
   renderValue?: MUINumberInputProps['renderValue'];
+  /**
+   * Which side the **unit** `Select` renders on relative to the **value** input.
+   * @default 'end'
+   */
+  unitPosition?: 'start' | 'end';
+  /**
+   * Width of the **unit** `Select` as a CSS `flex-basis` value — a
+   * percentage (e.g. `'30%'`) or fixed width (e.g. `'100px'`), so the **value**
+   * input (`flex: 1`) fills the rest. Accepts a single value or a
+   * responsive `sx`-style breakpoint object (e.g. `{ xs: '40%', md: '30%' }`).
+   * When omitted, the **unit** `Select` sizes to its selected content instead of a
+   * fixed share of the pill.
+   */
+  unitWidth?: ResponsiveStyleValue<string>;
+  /**
+   * Props forwarded to the internal `MUISelect` to choose the **unit**
+   * for the field.
+   */
+  unitSelectProps?: UnitSelectProps<Option, LabelKey, ValueKey>;
+  /**
+   * Props forwarded to the internal `MUINumberInput` to determine the **value**
+   * of the field.
+   */
+  valueInputProps?: ValueInputProps;
   /**
    * Props forwarded to the outer pill container wrapping the **value**
    * input and **unit** `Select`. `containerProps.sx` is merged with the
@@ -230,14 +230,14 @@ export type MUIUnitInputProps<
    */
   dividerProps?: Omit<BoxProps, 'children'>;
   /**
+   * Custom field label. Defaults to a humanized version of `fieldName.value`.
+   */
+  label?: ReactNode;
+  /**
    * When `true`, renders the field label above the form field instead of inside
    * or beside it.
    */
   showLabelAboveFormField?: boolean;
-  /**
-   * Custom field label. Defaults to a humanized version of `fieldName.value`.
-   */
-  label?: ReactNode;
   /**
    * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
    */
@@ -313,30 +313,30 @@ const MUIUnitInput = <
   ValueKey extends Extract<keyof Option, string> = Extract<keyof Option, string>
 >({
   fieldName,
-  value,
-  onValueChange,
   unitOptions,
   labelKey,
   valueKey,
-  unitPosition = 'end',
-  unitWidth,
-  valueInputProps,
-  unitSelectProps,
-  placeholder,
+  value,
+  onValueChange,
+  min,
+  max,
   onlyIntegers,
   nonNegative,
   maxDecimalPlaces,
   stepAmount,
-  min,
-  max,
   renderValue,
-  label,
+  unitPosition = 'end',
+  unitWidth,
+  unitSelectProps,
+  valueInputProps,
   containerProps,
   dividerProps,
+  label,
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
   required,
+  placeholder,
   disabled,
   errorMessage,
   renderError,

@@ -23,15 +23,15 @@ const numberInputRows = (
         Pv1.max_NumberInput
       ]
     ),
-    P.nonNegative,
     P.onlyIntegers,
+    P.nonNegative,
     P.maxDecimalPlaces,
     P.stepAmount,
+    P.showMarkers,
     ...(!v1
       ? [P.renderValue_NumberInput]
       : [Pv1.renderValue_NumberInput]
     ),
-    P.showMarkers,
     P.label,
     resolveProp(P.showLabelAboveFormField, args),
     resolveProp(P.formLabelProps, args),

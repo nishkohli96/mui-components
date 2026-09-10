@@ -77,17 +77,16 @@ export type MUINumberInputProps = {
    */
   onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * When `true`, renders the field label above the form field instead of inside or beside it.
+   * Lower bound for the value. Stepping (native steppers / arrow keys) clamps
+   * to this and the value is clamped on blur. `nonNegative` sets the lower
+   * bound to `0`, but an explicit `min` overrides it.
    */
-  showLabelAboveFormField?: boolean;
+  min?: number;
   /**
-   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   * Upper bound for the value. Stepping (native steppers / arrow keys) clamps
+   * to this and the value is clamped on blur.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
-  /**
-   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
-   */
-  hideLabel?: boolean;
+  max?: number;
   /**
    * When `true`, only integer values are allowed. Decimal input is blocked.
    * Cannot be used together with `maxDecimalPlaces`.
@@ -104,17 +103,6 @@ export type MUINumberInputProps = {
    * with `onlyIntegers`.
    */
   maxDecimalPlaces?: number;
-  /**
-   * Lower bound for the value. Stepping (native steppers / arrow keys) clamps
-   * to this and the value is clamped on blur. `nonNegative` sets the lower
-   * bound to `0`, but an explicit `min` overrides it.
-   */
-  min?: number;
-  /**
-   * Upper bound for the value. Stepping (native steppers / arrow keys) clamps
-   * to this and the value is clamped on blur.
-   */
-  max?: number;
   /**
    * Show the increment and decrement markers on number input. Hidden by default.
    */
@@ -135,6 +123,18 @@ export type MUINumberInputProps = {
    * `value` stays a real `number | null` throughout.
    */
   renderValue?: (value: number | null) => string;
+  /**
+   * When `true`, renders the field label above the form field instead of inside or beside it.
+   */
+  showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
+   */
+  hideLabel?: boolean;
   /**
    * Validation error for the field — pass a single message `string`, or a
    * `string[]` when the field can fail multiple rules at once (every message
@@ -192,18 +192,18 @@ const MUINumberInput = ({
   value: muiValue,
   onValueChange,
   disabled: muiDisabled,
+  min,
+  max,
+  onlyIntegers = false,
+  nonNegative = false,
+  maxDecimalPlaces,
+  stepAmount = 1,
+  showMarkers,
+  renderValue,
   label,
   showLabelAboveFormField,
   formLabelProps,
   hideLabel,
-  showMarkers,
-  onlyIntegers = false,
-  nonNegative = false,
-  maxDecimalPlaces,
-  min,
-  max,
-  stepAmount = 1,
-  renderValue,
   errorMessage,
   renderError,
   hideErrorMessage,
