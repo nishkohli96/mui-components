@@ -79,6 +79,7 @@ type ValueInputProps = Omit<
   | 'stepAmount'
   | 'min'
   | 'max'
+  | 'renderValue'
 >;
 
 type UnitSelectProps<
@@ -210,6 +211,13 @@ export type MUIUnitInputProps<
    */
   max?: MUINumberInputProps['max'];
   /**
+   * Formats the numeric **value** for display — e.g. thousands separators or a
+   * currency prefix: `value => value?.toLocaleString() ?? ''`. Forwarded to the
+   * internal `MUINumberInput`; the raw number is shown while the value input is
+   * focused and `value.value` stays a real `number | null`.
+   */
+  renderValue?: MUINumberInputProps['renderValue'];
+  /**
    * Props forwarded to the outer pill container wrapping the **value**
    * input and **unit** `Select`. `containerProps.sx` is merged with the
    * component's own base pill styles (border, radius, focus ring) rather
@@ -321,6 +329,7 @@ const MUIUnitInput = <
   stepAmount,
   min,
   max,
+  renderValue,
   label,
   containerProps,
   dividerProps,
@@ -401,6 +410,7 @@ const MUIUnitInput = <
         stepAmount={stepAmount}
         min={min}
         max={max}
+        renderValue={renderValue}
         disabled={disabled}
         required={required}
         customIds={customIds?.value}

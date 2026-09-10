@@ -27,6 +27,10 @@ const numberInputRows = (
     P.onlyIntegers,
     P.maxDecimalPlaces,
     P.stepAmount,
+    ...(!v1
+      ? [P.renderValue_NumberInput]
+      : [Pv1.renderValue_NumberInput]
+    ),
     P.showMarkers,
     P.label,
     resolveProp(P.showLabelAboveFormField, args),

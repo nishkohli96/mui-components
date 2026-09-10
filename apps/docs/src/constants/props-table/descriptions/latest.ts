@@ -467,6 +467,12 @@ export const PropsDescription = Object.freeze({
       'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in** `v2.2`.',
     type: 'number'
   },
+  renderValue_NumberInput: {
+    name: 'renderValue',
+    description:
+      'Formats the numeric value for display, e.g. `value => value?.toLocaleString() ?? \'\'` for thousands separators. Switches the input to `type="text"` (which can render grouping characters); the formatted string is shown only while the field is **not** focused — on focus it reverts to the raw number and every typing / paste / `min` / `max` rule still applies. `value` stays a real `number | null`.\n\n**Added in** `v2.2`.',
+    type: '(value: number | null) => string'
+  },
   min_CounterInput: {
     name: 'min',
     description:
@@ -579,6 +585,12 @@ export const PropsDescription = Object.freeze({
     description:
       'Upper bound for the **value**.',
     type: 'number'
+  },
+  renderValue_UnitInput: {
+    name: 'renderValue',
+    description:
+      'Formats the numeric **value** for display, e.g. `value => value?.toLocaleString() ?? \'\'` for thousands separators or a currency prefix. Forwarded to the internal `MUINumberInput`: the raw number is shown while the value input is focused, the formatted string when it is not, and `value.value` stays a real `number | null`.',
+    type: '(value: number | null) => string'
   },
   label_UnitInput: {
     name: 'label',

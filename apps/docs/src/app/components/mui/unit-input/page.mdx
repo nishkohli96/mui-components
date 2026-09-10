@@ -99,7 +99,8 @@ Driven by plain React state — three fields, all `required` and validated on su
 
 - **Currency** — object `unitOptions` via `labelKey`/`valueKey`, unit on the left
   (`unitPosition="start"`), with `renderOptionLabel` and `getOptionDisabled`
-  forwarded through `unitSelectProps`; `nonNegative` with `maxDecimalPlaces={2}`.
+  forwarded through `unitSelectProps`; `nonNegative` with `maxDecimalPlaces={2}`,
+  and `renderValue`.
 - **Weight** — plain string `unitOptions`, responsive `unitWidth`
   (`{ xs: '40%', md: '30%' }`), `onlyIntegers` and `max={150}`.
 - **Temperature** — `containerProps` / `dividerProps` and `sx` overrides on the

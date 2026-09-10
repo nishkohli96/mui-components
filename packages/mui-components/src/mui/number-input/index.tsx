@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useState,
   type ChangeEvent,
   type ClipboardEvent,
   type FocusEvent,
@@ -124,6 +125,17 @@ export type MUINumberInputProps = {
    */
   stepAmount?: number;
   /**
+   * Formats the numeric value for display — e.g. thousands separators, a
+   * currency prefix, or fixed decimals: `value => value?.toLocaleString() ?? ''`.
+   *
+   * When set, the input switches from `type="number"` to `type="text"` (which
+   * cannot show grouping characters). The formatted string is shown only while
+   * the field is **not** focused; on focus it reverts to the raw numeric string
+   * and all the normal typing / paste / `min` / `max` constraints still apply.
+   * `value` stays a real `number | null` throughout.
+   */
+  renderValue?: (value: number | null) => string;
+  /**
    * Validation error for the field — pass a single message `string`, or a
    * `string[]` when the field can fail multiple rules at once (every message
    * is shown together).
@@ -191,6 +203,7 @@ const MUINumberInput = ({
   min,
   max,
   stepAmount = 1,
+  renderValue,
   errorMessage,
   renderError,
   hideErrorMessage,
@@ -198,6 +211,7 @@ const MUINumberInput = ({
   formHelperTextProps,
   sx: muiSx,
   onBlur: muiOnBlur,
+  onFocus: muiOnFocus,
   autoComplete = defaultAutocompleteValue,
   slotProps: muiSlotProps,
   customIds,
@@ -234,6 +248,21 @@ const MUINumberInput = ({
     min: effectiveMin,
     max: effectiveMax
   } = resolveBounds(nonNegative, min, max);
+
+  /**
+   * `renderValue` puts the field in `type="text"` mode so the formatted string
+   * (commas, prefixes, …) can be shown. `type="text"` gives us no
+   * `validity.badInput`, so we buffer exactly what the user is typing in
+   * `editBuffer` while focused — the same job the browser does for us in
+   * `type="number"` mode — and derive `value` (still a real number) from it.
+   * When blurred, the input shows `renderValue(value)` instead.
+   */
+  const isTextMode = typeof renderValue === 'function';
+  const [isFocused, setIsFocused] = useState(false);
+  const [editBuffer, setEditBuffer] = useState('');
+  const isEmptyValue = muiValue === null
+    || muiValue === undefined
+    || Number.isNaN(muiValue);
 
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
@@ -385,7 +414,7 @@ const MUINumberInput = ({
         {...otherNumberInputProps}
         id={fieldId}
         name={fieldName}
-        type="number"
+        type={isTextMode ? 'text' : 'number'}
         autoComplete={autoComplete}
         label={
           !hideLabel && !isLabelAboveFormField
@@ -393,26 +422,41 @@ const MUINumberInput = ({
             : undefined
         }
         value={
-          muiValue === null || muiValue === undefined || Number.isNaN(muiValue)
-            ? ''
-            : muiValue
+          isTextMode
+            ? (isFocused
+              ? editBuffer
+              : (isEmptyValue ? '' : renderValue(muiValue ?? null)))
+            : (isEmptyValue ? '' : muiValue)
         }
         disabled={muiDisabled}
+        onFocus={focusEvent => {
+          if (isTextMode) {
+            setIsFocused(true);
+            setEditBuffer(isEmptyValue ? '' : String(muiValue));
+          }
+          muiOnFocus?.(focusEvent);
+        }}
         onChange={event => {
           const changeEvent = event as ChangeEvent<HTMLInputElement>;
-          const { value: inputValue, validity } = changeEvent.target;
+          const { value: rawInputValue, validity } = changeEvent.target;
 
           /**
-           * type="number" reports value="" for ANY invalid input
-           * (e.g. "2.3.4", "-23-", partial states). validity.badInput
+           * `type="number"` reports value="" for ANY invalid input
+           * (e.g. "2.3.4", "-23-", partial states). `validity.badInput`
            * is the only reliable way to tell "user typed something wrong"
            * apart from "user intentionally cleared the field" (MDN).
            * Returning early protects state from being wiped to null
            * when the browser silently discards an invalid intermediate value.
+           * `type="text"` (renderValue mode) has no `badInput` — instead we
+           * strip everything but digits / sign / dot before the shared checks.
            */
-          if (validity.badInput) {
+          if (!isTextMode && validity.badInput) {
             return;
           }
+
+          const inputValue = isTextMode
+            ? rawInputValue.replace(/[^0-9.-]/g, '')
+            : rawInputValue;
 
           const safeInputValue = inputValue === '' || decimalPattern.test(inputValue)
             ? inputValue
@@ -427,6 +471,9 @@ const MUINumberInput = ({
             safeInputValue !== null
             && (safeInputValue === '' || decimalPattern.test(safeInputValue))
           ) {
+            if (isTextMode) {
+              setEditBuffer(safeInputValue);
+            }
             const parsed = safeInputValue === ''
               ? null
               : (
@@ -451,6 +498,9 @@ const MUINumberInput = ({
               }
             }
           }
+          if (isTextMode) {
+            setIsFocused(false);
+          }
           muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
         }}
         onKeyDown={handleKeyDown}
@@ -469,6 +519,9 @@ const MUINumberInput = ({
                 : helperTextId
               : undefined,
             'aria-required': required,
+            ...(isTextMode && {
+              inputMode: onlyIntegers ? 'numeric' : 'decimal'
+            }),
             ...(effectiveMin !== undefined && { min: effectiveMin }),
             ...(effectiveMax !== undefined && { max: effectiveMax }),
             step: onlyIntegers

@@ -35,6 +35,33 @@ const [age, setAge] = useState<number | null>(null);
 />
 ```
 
+### Formatting the displayed value
+
+The `renderValue` prop, added in `v2.2` formats the number for display -
+thousands separators, a currency prefix, fixed decimals. The field switches
+to `type="text"` (which can render grouping characters) and shows the formatted
+string only while it is **not** focused; on focus it reverts to the raw number
+and every typing / paste / `min` / `max` rule still applies. `value` stays a real `number | null`.
+
+```tsx
+const [salary, setSalary] = useState<number | null>(null);
+
+<MUINumberInput
+  fieldName="salary"
+  value={salary}
+  onValueChange={({ newValue }) => setSalary(newValue)}
+  nonNegative
+  maxDecimalPlaces={2}
+  renderValue={val => val === null
+    ? ''
+    : val.toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR'
+      })
+  }
+/>
+```
+
 ## API
 
 `MUINumberInputProps` accepts most [TextFieldProps](https://mui.com/material-ui/api/text-field/),
@@ -48,7 +75,7 @@ Props marked with
 ## Playground
 
 Integrated with [TanStack Form](https://tanstack.com/form/latest) — covers
-`onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `showMarkers`
-and `showLabelAboveFormField`, with validation surfaced through `errorMessage`.
+`onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `showMarkers`,
+`showLabelAboveFormField` and `renderValue` with validation surfaced through `errorMessage`.
 
 <NumberInputForm />

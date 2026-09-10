@@ -18,6 +18,12 @@ export const PropsDescription_v1 = Object.freeze({
       'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in** `v1.3`.',
     type: 'number'
   },
+  renderValue_NumberInput: {
+    name: 'renderValue',
+    description:
+      'Formats the numeric value for display, e.g. `value => value?.toLocaleString() ?? \'\'` for thousands separators. Switches the input to `type="text"` (which can render grouping characters); the formatted string is shown only while the field is **not** focused — on focus it reverts to the raw number and every typing / paste / `min` / `max` rule still applies. `value` stays a real `number | null`.\n\n**Added in** `v1.3`.',
+    type: '(value: number | null) => string'
+  },
   iconButtonProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'iconButtonProps',
     description: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/) forwarded to the internal show/hide toggle \`IconButton\` — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.\n\n**Added in** \`v1.1\`.`,

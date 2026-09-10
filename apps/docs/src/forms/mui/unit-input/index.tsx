@@ -28,7 +28,7 @@ import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 type WeightUnit = 'kg' | 'lb';
 type TemperatureUnit = '°C' | '°F';
-type Currency = 'USD' | 'EUR' | 'GBP' | 'YEN';
+type Currency = 'USD' | 'INR' | 'EUR' | 'GBP' | 'YEN';
 
 type CurrencyOption = {
   code: Currency;
@@ -38,10 +38,23 @@ type CurrencyOption = {
 
 const currencyOptions: CurrencyOption[] = [
   { code: 'USD', label: 'US Dollar', symbol: '$' },
+  { code: 'INR', label: 'Indian Rupee', symbol: '₹' },
   { code: 'EUR', label: 'Euro', symbol: '€' },
   { code: 'GBP', label: 'British Pound', symbol: '£' },
   { code: 'YEN', label: 'Yen', symbol: '¥' },
 ];
+
+/**
+ * Locale + ISO 4217 code per selectable currency, so `toLocaleString` groups
+ * (e.g. INR uses the lakh/crore system) and picks the right symbol.
+ */
+const currencyFormat: Record<Currency, { locale: string; currency: string }> = {
+  USD: { locale: 'en-US', currency: 'USD' },
+  INR: { locale: 'en-IN', currency: 'INR' },
+  EUR: { locale: 'de-DE', currency: 'EUR' },
+  GBP: { locale: 'en-GB', currency: 'GBP' },
+  YEN: { locale: 'ja-JP', currency: 'JPY' }
+};
 
 export default function UnitInputForm() {
   const pathName = usePathname();
@@ -113,7 +126,7 @@ export default function UnitInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Currency, object unitOptions via labelKey/valueKey, unit on the left, renderOption and getOptionDisabled" />
+            <FieldVariantInfo title="Currency, object unitOptions via labelKey/valueKey, unit on the left, renderOption/getOptionDisabled, and renderValue reformatting per selected currency" />
             <MUIUnitInput
               fieldName={{
                 unit: 'priceUnit',
@@ -136,9 +149,19 @@ export default function UnitInputForm() {
               placeholder="Enter amount"
               nonNegative
               maxDecimalPlaces={2}
+              renderValue={val => {
+                if (val === null) {
+                  return '';
+                }
+                const { locale, currency } = currencyFormat[price.unit];
+                return val.toLocaleString(locale, {
+                  style: 'currency',
+                  currency
+                });
+              }}
               required
               errorMessage={priceError}
-              helperText="Amount and currency"
+              helperText="Blur to see it formatted as the selected currency"
               disabled={disableAllFields}
             />
           </Grid>

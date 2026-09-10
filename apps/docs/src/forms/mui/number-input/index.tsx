@@ -33,12 +33,14 @@ type NumberFormValues = {
   age: number | null;
   price: number | null;
   randomInt: number | null;
+  salary: number | null;
 };
 
 const initialValues: NumberFormValues = {
   age: null,
   price: null,
-  randomInt: 1
+  randomInt: 1,
+  salary: null
 };
 
 export default function NumberInputForm() {
@@ -155,6 +157,33 @@ export default function NumberInputForm() {
                   label="Random Integer"
                   placeholder="Enter an integer"
                   helperText="Arrow keys / steppers change by 5"
+                  disabled={disableAllFields}
+                />
+              )}
+            </form.Field>
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="renderValue — formatted as INR currency while not focused" />
+            <form.Field name="salary">
+              {field => (
+                <MUINumberInput
+                  fieldName="salary"
+                  value={field.state.value}
+                  onValueChange={({ newValue }) => field.handleChange(newValue)}
+                  nonNegative
+                  maxDecimalPlaces={2}
+                  renderValue={val =>
+                    val === null
+                      ? ''
+                      : val.toLocaleString('en-IN', {
+                          style: 'currency',
+                          currency: 'INR'
+                        })
+                  }
+                  label="Annual salary"
+                  placeholder="e.g. 85000"
+                  helperText="Shows ₹ with lakh grouping (e.g. ₹85,000.00) on blur; plain number while editing"
                   disabled={disableAllFields}
                 />
               )}
