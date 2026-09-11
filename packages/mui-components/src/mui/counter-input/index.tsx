@@ -44,7 +44,7 @@ export type MUICounterInputProps = Omit<MUINumberInputProps, 'showMarkers' | 'va
    */
   incrementIcon?: ReactNode;
   /**
-   * Swap both the icons and the behaviour of the two buttons — the left
+   * Swap both the icons and the behaviour of the two buttons: the left
    * button increments and the right button decrements.
    */
   swapButtons?: boolean;

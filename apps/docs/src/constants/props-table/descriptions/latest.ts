@@ -500,12 +500,12 @@ export const PropsDescription = Object.freeze({
   swapButtons_CounterInput: {
     name: 'swapButtons',
     description:
-      'When `true`, swaps both the icons and the behaviour of the two buttons - the left button increments and the right button decrements, each with its icon, `aria-label` and disabled-at-bound state swapped to match.',
+      'When `true`, swaps both the icons and the behaviour of the two buttons: the left button increments and the right button decrements.',
     type: 'boolean'
   },
   iconButtonProps_CounterInput: (args: MuiPropsDescriptionArgs) => ({
     name: 'iconButtonProps',
-    description: '`IconButtonProps` forwarded to both stepper IconButtons — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.',
+    description: '`IconButtonProps` forwarded to both stepper IconButtons — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.',
     type: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/)`,
     hasLinkInType: true
   }),
