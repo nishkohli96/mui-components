@@ -4,6 +4,7 @@ import {
   useCallback,
   useContext,
   useMemo,
+  useState,
   type ChangeEvent,
   type ClipboardEvent,
   type FocusEvent,
@@ -30,6 +31,9 @@ import {
   sanitizePastedNumber,
   setInputValueAndNotify,
   getSteppedInputValue,
+  clampNumber,
+  resolveBounds,
+  resolveStepAmount,
   isNativeNumberMarkerClick,
   buildNumberInputDecimalPattern,
   useFieldIds,
@@ -73,17 +77,16 @@ export type MUINumberInputProps = {
    */
   onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * Lower bound for the value. Stepping (native steppers / arrow keys) clamps
+   * to this and the value is clamped on blur. `nonNegative` sets the lower
+   * bound to `0`, but an explicit `min` overrides it.
    */
-  showLabelAboveFormField?: boolean;
+  min?: number;
   /**
-   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   * Upper bound for the value. Stepping (native steppers / arrow keys) clamps
+   * to this and the value is clamped on blur.
    */
-  formLabelProps?: Omit<FormLabelProps, 'id'>;
-  /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
-   */
-  hideLabel?: boolean;
+  max?: number;
   /**
    * When `true`, only integer values are allowed. Decimal input is blocked.
    * Cannot be used together with `maxDecimalPlaces`.
@@ -91,7 +94,7 @@ export type MUINumberInputProps = {
   onlyIntegers?: boolean;
   /**
    * When `true`, negative and exponential values are not allowed
-   * while typing or pasting.
+   * while typing or pasting. Acts as an implicit `min` of `0`.
    */
   nonNegative?: boolean;
   /**
@@ -109,6 +112,29 @@ export type MUINumberInputProps = {
    * @default 1
    */
   stepAmount?: number;
+  /**
+   * Formats the numeric value for display — e.g. thousands separators, a
+   * currency prefix, or fixed decimals: `value => value?.toLocaleString() ?? ''`.
+   *
+   * When set, the input switches from `type="number"` to `type="text"` (which
+   * cannot show grouping characters). The formatted string is shown only while
+   * the field is **not** focused; on focus it reverts to the raw numeric string
+   * and all the normal typing / paste / `min` / `max` constraints still apply.
+   * `value` stays a real `number | null` throughout.
+   */
+  renderValue?: (value: number | null) => string;
+  /**
+   * When `true`, renders the field label above the form field instead of inside or beside it.
+   */
+  showLabelAboveFormField?: boolean;
+  /**
+   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+   */
+  formLabelProps?: Omit<FormLabelProps, 'id'>;
+  /**
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
+   */
+  hideLabel?: boolean;
   /**
    * Validation error for the field — pass a single message `string`, or a
    * `string[]` when the field can fail multiple rules at once (every message
@@ -134,7 +160,7 @@ export type MUINumberInputProps = {
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**
@@ -166,15 +192,18 @@ const MUINumberInput = ({
   value: muiValue,
   onValueChange,
   disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  showMarkers,
+  min,
+  max,
   onlyIntegers = false,
   nonNegative = false,
   maxDecimalPlaces,
   stepAmount = 1,
+  showMarkers,
+  renderValue,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  hideLabel,
   errorMessage,
   renderError,
   hideErrorMessage,
@@ -182,6 +211,7 @@ const MUINumberInput = ({
   formHelperTextProps,
   sx: muiSx,
   onBlur: muiOnBlur,
+  onFocus: muiOnFocus,
   autoComplete = defaultAutocompleteValue,
   slotProps: muiSlotProps,
   customIds,
@@ -213,9 +243,26 @@ const MUINumberInput = ({
     [nonNegative, onlyIntegers, maxDecimalPlaces]
   );
 
-  const resolvedStepAmount = onlyIntegers
-    ? Math.max(1, Math.floor(stepAmount))
-    : stepAmount;
+  const resolvedStepAmount = resolveStepAmount(stepAmount, onlyIntegers);
+  const {
+    min: effectiveMin,
+    max: effectiveMax
+  } = resolveBounds(nonNegative, min, max);
+
+  /**
+   * `renderValue` puts the field in `type="text"` mode so the formatted string
+   * (commas, prefixes, …) can be shown. `type="text"` gives us no
+   * `validity.badInput`, so we buffer exactly what the user is typing in
+   * `editBuffer` while focused — the same job the browser does for us in
+   * `type="number"` mode — and derive `value` (still a real number) from it.
+   * When blurred, the input shows `renderValue(value)` instead.
+   */
+  const isTextMode = typeof renderValue === 'function';
+  const [isFocused, setIsFocused] = useState(false);
+  const [editBuffer, setEditBuffer] = useState('');
+  const isEmptyValue = muiValue === null
+    || muiValue === undefined
+    || Number.isNaN(muiValue);
 
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
@@ -249,14 +296,14 @@ const MUINumberInput = ({
             input,
             resolvedStepAmount,
             e.clientY < rect.top + (rect.height / 2) ? 1 : -1,
-            nonNegative
+            { nonNegative, min, max }
           )
         );
       }
 
       onMouseDown?.(e);
     },
-    [nonNegative, onMouseDown, resolvedStepAmount, showMarkers]
+    [max, min, nonNegative, onMouseDown, resolvedStepAmount, showMarkers]
   );
 
   const handleKeyDown = useCallback(
@@ -277,7 +324,7 @@ const MUINumberInput = ({
               input,
               resolvedStepAmount,
               e.key === 'ArrowUp' ? 1 : -1,
-              nonNegative
+              { nonNegative, min, max }
             )
           );
         }
@@ -321,7 +368,7 @@ const MUINumberInput = ({
 
       onKeyDown?.(e);
     },
-    [nonNegative, onlyIntegers, onKeyDown, resolvedStepAmount]
+    [max, min, nonNegative, onlyIntegers, onKeyDown, resolvedStepAmount]
   );
 
   const handlePaste = useCallback(
@@ -367,7 +414,7 @@ const MUINumberInput = ({
         {...otherNumberInputProps}
         id={fieldId}
         name={fieldName}
-        type="number"
+        type={isTextMode ? 'text' : 'number'}
         autoComplete={autoComplete}
         label={
           !hideLabel && !isLabelAboveFormField
@@ -375,26 +422,41 @@ const MUINumberInput = ({
             : undefined
         }
         value={
-          muiValue === null || muiValue === undefined || Number.isNaN(muiValue)
-            ? ''
-            : muiValue
+          isTextMode
+            ? (isFocused
+              ? editBuffer
+              : (isEmptyValue ? '' : renderValue(muiValue ?? null)))
+            : (isEmptyValue ? '' : muiValue)
         }
         disabled={muiDisabled}
+        onFocus={focusEvent => {
+          if (isTextMode) {
+            setIsFocused(true);
+            setEditBuffer(isEmptyValue ? '' : String(muiValue));
+          }
+          muiOnFocus?.(focusEvent);
+        }}
         onChange={event => {
           const changeEvent = event as ChangeEvent<HTMLInputElement>;
-          const { value: inputValue, validity } = changeEvent.target;
+          const { value: rawInputValue, validity } = changeEvent.target;
 
           /**
-           * type="number" reports value="" for ANY invalid input
-           * (e.g. "2.3.4", "-23-", partial states). validity.badInput
+           * `type="number"` reports value="" for ANY invalid input
+           * (e.g. "2.3.4", "-23-", partial states). `validity.badInput`
            * is the only reliable way to tell "user typed something wrong"
            * apart from "user intentionally cleared the field" (MDN).
            * Returning early protects state from being wiped to null
            * when the browser silently discards an invalid intermediate value.
+           * `type="text"` (renderValue mode) has no `badInput` — instead we
+           * strip everything but digits / sign / dot before the shared checks.
            */
-          if (validity.badInput) {
+          if (!isTextMode && validity.badInput) {
             return;
           }
+
+          const inputValue = isTextMode
+            ? rawInputValue.replace(/[^0-9.-]/g, '')
+            : rawInputValue;
 
           const safeInputValue = inputValue === '' || decimalPattern.test(inputValue)
             ? inputValue
@@ -409,6 +471,9 @@ const MUINumberInput = ({
             safeInputValue !== null
             && (safeInputValue === '' || decimalPattern.test(safeInputValue))
           ) {
+            if (isTextMode) {
+              setEditBuffer(safeInputValue);
+            }
             const parsed = safeInputValue === ''
               ? null
               : (
@@ -419,6 +484,23 @@ const MUINumberInput = ({
           }
         }}
         onBlur={blurEvent => {
+          const input = blurEvent.target as HTMLInputElement;
+          if (
+            (effectiveMin !== undefined || effectiveMax !== undefined)
+            && input.value !== ''
+            && !input.validity.badInput
+          ) {
+            const parsed = Number(input.value);
+            if (!Number.isNaN(parsed)) {
+              const clamped = clampNumber(parsed, effectiveMin, effectiveMax);
+              if (clamped !== parsed) {
+                setInputValueAndNotify(input, String(clamped));
+              }
+            }
+          }
+          if (isTextMode) {
+            setIsFocused(false);
+          }
           muiOnBlur?.(blurEvent as FocusEvent<HTMLInputElement>);
         }}
         onKeyDown={handleKeyDown}
@@ -437,7 +519,11 @@ const MUINumberInput = ({
                 : helperTextId
               : undefined,
             'aria-required': required,
-            ...(nonNegative ? { min: 0 } : {}),
+            ...(isTextMode && {
+              inputMode: onlyIntegers ? 'numeric' : 'decimal'
+            }),
+            ...(effectiveMin !== undefined && { min: effectiveMin }),
+            ...(effectiveMax !== undefined && { max: effectiveMax }),
             step: onlyIntegers
               ? resolvedStepAmount
               : 'any'
@@ -446,13 +532,14 @@ const MUINumberInput = ({
         error={isError}
         sx={{
           ...muiSx,
-          ...(!showMarkers && {
-            '& input[type=number]': {
+          '& input[type=number]': {
+            ...(muiSx as Record<string, object> | undefined)?.['& input[type=number]'],
+            ...(!showMarkers && {
               MozAppearance: 'textfield',
               '&::-webkit-outer-spin-button': { display: 'none' },
               '&::-webkit-inner-spin-button': { display: 'none' },
-            },
-          }),
+            }),
+          },
         }}
         multiline={false}
       />

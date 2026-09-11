@@ -2,6 +2,8 @@ export enum MuiComponents {
   TextField = 'MUITextField',
   PasswordInput = 'MUIPasswordInput',
   NumberInput = 'MUINumberInput',
+  CounterInput = 'MUICounterInput',
+  UnitInput = 'MUIUnitInput',
   OTPInput = 'MUIOTPInput',
   TagsInput = 'MUITagsInput',
   FileUploader = 'MUIFileUploader',
@@ -29,5 +31,6 @@ export enum MuiPickersComponents {
 export enum MiscComponents {
   ColorPicker = 'MUIColorPicker',
   RichTextEditor = 'MUIRichTextEditor',
+  TipTapRte = 'MUITipTapRte',
   PhoneInput = 'MUIPhoneInput',
 }

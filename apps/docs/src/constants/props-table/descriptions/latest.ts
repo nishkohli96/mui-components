@@ -70,7 +70,7 @@ export const PropsDescription = Object.freeze({
   value_Select: {
     name: 'value',
     description:
-      'Current select value, normalized with `valueKey` for object options. Pass an array when `multiple` is true.',
+      'Current select value, normalized with `valueKey` for object options. Pass an array when `multiple` is `true`.',
     type: 'string | number | (string | number)[] | null'
   },
   value_NativeSelect: {
@@ -82,13 +82,13 @@ export const PropsDescription = Object.freeze({
   value_Autocomplete: {
     name: 'value',
     description:
-      'Currently selected value(s): `string[]` when `multiple` is true, otherwise a `string` (normalized with `valueKey` for object options). A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
+      'Currently selected value(s): `string[]` when `multiple` is `true`, otherwise a `string` (normalized with `valueKey` for object options). A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
     type: 'string | string[] | null'
   },
   value_AutocompleteObject: {
     name: 'value',
     description:
-      'Currently selected option object(s): `Option[]` when `multiple` is true, otherwise a single `Option`. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
+      'Currently selected option object(s): `Option[]` when `multiple` is `true`, otherwise a single `Option`. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
     type: 'Option | Option[] | null'
   },
   value_MultiAutocomplete: {
@@ -106,7 +106,7 @@ export const PropsDescription = Object.freeze({
   value_CountrySelect: {
     name: 'value',
     description:
-      'Currently selected country value(s): complete `CountryDetails` object(s), or the property named by `valueKey` when provided. Pass an array when `multiple` is true. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
+      'Currently selected country value(s): complete `CountryDetails` object(s), or the property named by `valueKey` when provided. Pass an array when `multiple` is `true`. A cleared single selection emits `null` (unless `disableClearable`); a cleared multi-selection emits `[]`, never `null`.',
     type: 'CountryDetails | CountryDetails[keyof CountryDetails] | array | null'
   },
   value_Cbx_Switch: {
@@ -218,7 +218,7 @@ export const PropsDescription = Object.freeze({
   onValueChange_Autocomplete: {
     name: 'onValueChange',
     description:
-      'Called on every selection change with the normalized value and the raw MUI selection metadata. `newValue` is `string[]` when `multiple` is true, otherwise `string`, and includes `null` only when clearing is allowed.',
+      'Called on every selection change with the normalized value and the raw MUI selection metadata. `newValue` is `string[]` when `multiple` is `true`, otherwise `string`, and includes `null` only when clearing is allowed.',
     required: true,
     type: '({ newValue, selectedOption, event, reason, details }) => void'
   },
@@ -339,12 +339,12 @@ export const PropsDescription = Object.freeze({
   hideLabel: {
     name: 'hideLabel',
     description:
-      'When true, hides the rendered field label while preserving accessible labeling where possible.',
+      'When `true`, hides the rendered field label while preserving accessible labeling where possible.',
     type: 'boolean'
   },
   showLabelAboveFormField: (args: MuiPropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
-    description: `When true, renders the field label above the form field in the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
+    description: `When \`true\`, renders the field label above the form field in the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
     type: 'boolean'
   }),
   showLabelAboveFormField_Default: {
@@ -378,7 +378,7 @@ export const PropsDescription = Object.freeze({
   errorMessage: {
     name: 'errorMessage',
     description:
-      'Validation error for the field — pass a single message `string`, or a `string[]` when the field can fail multiple rules at once (every message is shown together). A non-empty string or array puts the field in an error state; `undefined`/`\'\'`/`[]` clear it. Normalize your form library\'s error shape to this at the call site (e.g. an RHF `FieldError` via its `.message`). Use `renderError` to customize how the message(s) are rendered.',
+      'Validation error for the field — pass a single message `string`, or a `string[]` when the field can fail multiple rules at once (every message is shown together). A non-empty string or array puts the field in an error state; `undefined`/`\'\'`/`[]` clear it.\n\nNormalize your form library\'s error shape to this at the call site (e.g. an RHF `FieldError` via its `.message`). Use `renderError` to customize how the message(s) are rendered.',
     type: 'string \| string[]'
   },
   renderError: {
@@ -390,7 +390,7 @@ export const PropsDescription = Object.freeze({
   hideErrorMessage: {
     name: 'hideErrorMessage',
     description:
-      'If true, hides the error message text while keeping the field in an error state.',
+      'If `true`, hides the error message text while keeping the field in an error state.',
     type: 'boolean'
   },
   helperText: (args: MuiPropsDescriptionArgs) => ({
@@ -423,18 +423,18 @@ export const PropsDescription = Object.freeze({
   readOnly_PasswordInput: {
     name: 'readOnly',
     description:
-      'When true, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it.',
+      'When `true`, the value is displayed but cannot be edited. Unlike `disabled`, the field stays focusable, and the show/hide toggle remains usable — a read-only value is meaningful, so the user can still reveal it to verify it.',
     type: 'boolean'
   },
   nonNegative: {
     name: 'nonNegative',
-    description: 'When true, negative values cannot be entered.',
+    description: 'When `true`, negative values cannot be entered.',
     type: 'boolean'
   },
   onlyIntegers: {
     name: 'onlyIntegers',
     description:
-      'When true, decimal input is not allowed. Cannot be combined with `maxDecimalPlaces`.',
+      'When `true`, decimal input is not allowed. Cannot be combined with `maxDecimalPlaces`.',
     type: 'boolean'
   },
   maxDecimalPlaces: {
@@ -452,8 +452,172 @@ export const PropsDescription = Object.freeze({
   showMarkers: {
     name: 'showMarkers',
     description:
-      'When true, shows increment/decrement markers on the input.',
+      'When `true`, shows increment/decrement markers on the input.',
     type: 'boolean'
+  },
+  min_NumberInput: {
+    name: 'min',
+    description:
+      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` sets the lower bound to `0`, but `min` overrides it when set.\n\n**Added in** `v2.2`.',
+    type: 'number'
+  },
+  max_NumberInput: {
+    name: 'max',
+    description:
+      'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in** `v2.2`.',
+    type: 'number'
+  },
+  renderValue_NumberInput: {
+    name: 'renderValue',
+    description:
+      'Formats the numeric value for display, e.g. `value => value?.toLocaleString() ?? \'\'` for thousands separators. Switches the input to `type="text"` (which can render grouping characters); the formatted string is shown only while the field is **not** focused — on focus it reverts to the raw number and every typing / paste / `min` / `max` rule still applies. `value` stays a real `number | null`.\n\n**Added in** `v2.2`.',
+    type: '(value: number | null) => string'
+  },
+  min_CounterInput: {
+    name: 'min',
+    description:
+      'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` sets the lower bound to `0`, but `min` overrides it when set.',
+    type: 'number'
+  },
+  max_CounterInput: {
+    name: 'max',
+    description:
+      'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.',
+    type: 'number'
+  },
+  decrementIcon_CounterInput: {
+    name: 'decrementIcon',
+    description:
+      'Custom icon for the decrement (`-`) button.\n\n**Default:** Material UI `Remove` icon',
+    type: 'ReactNode'
+  },
+  incrementIcon_CounterInput: {
+    name: 'incrementIcon',
+    description:
+      'Custom icon for the increment (`+`) button.\n\n**Default:** Material UI `Add` icon',
+    type: 'ReactNode'
+  },
+  swapButtons_CounterInput: {
+    name: 'swapButtons',
+    description:
+      'When `true`, swaps both the icons and the behaviour of the two buttons: the left button increments and the right button decrements.',
+    type: 'boolean'
+  },
+  iconButtonProps_CounterInput: (args: MuiPropsDescriptionArgs) => ({
+    name: 'iconButtonProps',
+    description: '`IconButtonProps` forwarded to both stepper IconButtons — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.',
+    type: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/)`,
+    hasLinkInType: true
+  }),
+  caption_CounterInput: {
+    name: 'caption',
+    description: 'Content rendered under the value.\n\n E.g. an icon + label.',
+    type: 'ReactNode'
+  },
+  fieldName_UnitInput: {
+    name: 'fieldName',
+    description:
+      'Name/path of the field\'s two underlying controls, kept separate (rather than one combined `fieldName`) so each can be registered independently against a flat form schema — e.g. `{ unit: \'weightUnit\', value: \'weight\' }`.',
+    required: true,
+    type: '{ unit: string; value: string; }'
+  },
+  value_UnitInput: {
+    name: 'value',
+    description:
+      'Current value of the field. `unit` and `value` are always reported together through `onValueChange`, even though they are two controls.',
+    type: '{  unit: string; value: number | null; }'
+  },
+  onValueChange_UnitInput: {
+    name: 'onValueChange',
+    description:
+      'Called whenever either the `unit` or the `value` changes. Always receives the full `{ unit, value }` value.',
+    type: '({ newValue, event }) => void',
+    required: true
+  },
+  unitOptions_UnitInput: {
+    name: 'unitOptions',
+    description:
+      'Units selectable from the dropdown — a plain string array (e.g. `[\'USD\', \'EUR\', \'GBP\']` or `[\'kg\', \'lb\']`, a string-literal union/enum\'s values for literal-union safety), or an object array read via `labelKey`/`valueKey`, same convention as `MUISelect`.',
+    required: true,
+    type: 'Option[]'
+  },
+  labelKey_UnitInput: {
+    name: 'labelKey',
+    description: 'Object key used to read the display label from each option, when `unitOptions` is an array of objects.',
+    type: 'string'
+  },
+  valueKey_UnitInput: {
+    name: 'valueKey',
+    description: 'Object key used to derive the unit value from each option, when `unitOptions` is an array of objects.',
+    type: 'string'
+  },
+  unitPosition_UnitInput: {
+    name: 'unitPosition',
+    description: 'Which side the **unit** `Select` renders on relative to the **value** input.\n\n**Default:** `\'end\'`',
+    type: '\'start\' | \'end\''
+  },
+  unitWidth_UnitInput: {
+    name: 'unitWidth',
+    description:
+      'Width of the **unit** `Select` as a CSS `flex-basis` value, the **value** input fills the rest. Accepts a single value (e.g. `100px` or `\'30%\'`) or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`.\n\nBoth segments have a default `minWidth: 50px` so neither collapses. When omitted, the **unit** `Select` sizes to its content.',
+    type: 'ResponsiveStyleValue<string>'
+  },
+  containerProps_UnitInput: (args: MuiPropsDescriptionArgs) => ({
+    name: 'containerProps',
+    description: 'Props forwarded to the outer pill container wrapping the **value** input and **unit** `Select`. `containerProps.sx` is merged with the component\'s own base pill styles rather than replacing them, and accepts any `sx` form — object, array, or function.',
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
+  dividerProps_UnitInput: (args: MuiPropsDescriptionArgs) => ({
+    name: 'dividerProps',
+    description: 'Props forwarded to the vertical divider between the **value** input and the **unit** `Select` (a plain `Box` with `borderLeft`/`borderColor`).',
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
+  min_UnitInput: {
+    name: 'min',
+    description:
+      'Lower bound for the **value**. `nonNegative` sets the default value to `0` unless overridden.',
+    type: 'number'
+  },
+  max_UnitInput: {
+    name: 'max',
+    description:
+      'Upper bound for the **value**.',
+    type: 'number'
+  },
+  renderValue_UnitInput: {
+    name: 'renderValue',
+    description:
+      'Formats the numeric **value** for display, e.g. `value => value?.toLocaleString() ?? \'\'` for thousands separators or a currency prefix. Forwarded to the internal `MUINumberInput`: the raw number is shown while the value input is focused, the formatted string when it is not, and `value.value` stays a real `number | null`.',
+    type: '(value: number | null) => string'
+  },
+  label_UnitInput: {
+    name: 'label',
+    description: 'Custom field label. Defaults to a humanized version of `fieldName.value`.',
+    type: 'ReactNode'
+  },
+  placeholder_UnitInput: {
+    name: 'placeholder',
+    description: 'Placeholder shown in the empty **value** input.',
+    type: 'string'
+  },
+  valueInputProps_UnitInput: {
+    name: 'valueInputProps',
+    description: 'Props forwarded to the internal `MUINumberInput` determining the **value** of the field.',
+    type: 'MUINumberInputProps',
+    hasLinkInType: false
+  },
+  unitSelectProps_UnitInput: {
+    name: 'unitSelectProps',
+    description: 'Props forwarded to the internal **unit** `MUISelect`.',
+    type: 'MUISelectProps',
+    hasLinkInType: false
+  },
+  customIds_UnitInput: {
+    name: 'customIds',
+    description: 'Custom ids for the **unit** and **value** controls respectively.',
+    type: '{ unit?: CustomComponentIds; value?: CustomComponentIds }'
   },
   length_OTPInput: {
     name: 'length',
@@ -547,7 +711,7 @@ export const PropsDescription = Object.freeze({
   },
   multiple_FileUploader: {
     name: 'multiple',
-    description: 'When true, allows selecting multiple files.',
+    description: 'When `true`, allows selecting multiple files.',
     type: 'boolean'
   },
   maxSize: {
@@ -568,12 +732,13 @@ export const PropsDescription = Object.freeze({
       'Callback fired when uploaded files fail type, size, or count validation.',
     type: '(errors: FileUploadErrorDetails[]) => void'
   },
-  dropZoneProps: {
+  dropZoneProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'dropZoneProps',
     description:
       'Props applied to the drag-and-drop wrapper `Box`. Pass an object, or a callback receiving `{ isDragging, disabled, error }`. Ignored when `disableDragAndDrop` is true.',
-    type: 'BoxProps | (state) => BoxProps'
-  },
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/) | state => [BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
   disableDragAndDrop: {
     name: 'disableDragAndDrop',
     description:
@@ -604,16 +769,18 @@ export const PropsDescription = Object.freeze({
       'Custom renderer for each newly selected file. Call the provided `removeFile(event)` from your remove button to delete the file from the value.',
     type: '({ file, index, removeFile }) => ReactNode'
   },
-  existingFileListProps: {
+  existingFileListProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'existingFileListProps',
-    description: 'Props applied to the wrapper Box containing existing files.',
-    type: 'BoxProps'
-  },
-  uploadedFileListProps: {
+    description: 'Props applied to the wrapper `Box` containing existing files.',
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
+  uploadedFileListProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'uploadedFileListProps',
-    description: 'Props applied to the wrapper Box containing new uploads.',
-    type: 'BoxProps'
-  },
+    description: 'Props applied to the wrapper `Box` containing new uploads.',
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
   inputRef_FileUploader: {
     name: 'inputRef',
     description: 'Ref for the hidden file `<input>` element.',
@@ -621,7 +788,7 @@ export const PropsDescription = Object.freeze({
   },
   fullWidth_FileUploader: {
     name: 'fullWidth',
-    description: 'When true, the component expands to fill its container width.\n\n**Default:** `false`',
+    description: 'When `true`, the component expands to fill its container width.\n\n**Default:** `false`',
     type: 'boolean'
   },
 
@@ -716,25 +883,25 @@ export const PropsDescription = Object.freeze({
   /* ------------------------------------------------------------------ */
   multiple: {
     name: 'multiple',
-    description: 'When true, allows selecting multiple values.',
+    description: 'When `true`, allows selecting multiple values.',
     type: 'boolean'
   },
   disableClearable: {
     name: 'disableClearable',
     description:
-      'When true, the selected value cannot be cleared from the input.\n\n**Default:** `false`',
+      'When `true`, the selected value cannot be cleared from the input.\n\n**Default:** `false`',
     type: 'boolean'
   },
   freeSolo: {
     name: 'freeSolo',
     description:
-      'When true, the user may type any value not present in `options`. The typed string is passed to `onValueChange` as-is.',
+      'When `true`, the user may type any value not present in `options`. The typed string is passed to `onValueChange` as-is.',
     type: 'boolean'
   },
   freeSolo_MultiAutocomplete: {
     name: 'freeSolo',
     description:
-      'When true, the user may type any value not present in `options`. Not compatible with `selectAllText` — enabling it hides the "**Select All**" option.',
+      'When `true`, the user may type any value not present in `options`. Not compatible with `selectAllText` — enabling it hides the "**Select All**" option.',
     type: 'boolean'
   },
   countries: {
@@ -756,7 +923,7 @@ export const PropsDescription = Object.freeze({
   },
   hideSelectAllOption: {
     name: 'hideSelectAllOption',
-    description: 'When true, hides the select-all option.',
+    description: 'When `true`, hides the select-all option.',
     type: 'boolean'
   },
   limitTags: {
@@ -815,13 +982,13 @@ export const PropsDescription = Object.freeze({
   }),
   iconButtonProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'iconButtonProps',
-    description: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/) forwarded to the internal show/hide toggle \`IconButton\` — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.\n\n**Added in** \`v2\`.`,
+    description: '`IconButtonProps` forwarded to the internal show/hide toggle \`IconButton\` — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`type\`, \`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.\n\n**Added in** \`v2\`.',
     type: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/)`,
     hasLinkInType: true
   }),
   circularProgressProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'circularProgressProps',
-    description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is true — custom \`color\`, \`size\`, etc.\n\n**Added in** \`v2\`.`,
+    description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is \`true\` — custom \`color\`, \`size\`, etc.\n\n**Added in** \`v2\`.`,
     type: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/)`,
     hasLinkInType: true
   }),
@@ -837,7 +1004,7 @@ export const PropsDescription = Object.freeze({
   },
   disabled: {
     name: 'disabled',
-    description: 'When true, disables the field and associated controls.',
+    description: 'When `true`, disables the field and associated controls.',
     type: 'boolean'
   },
   customIds: {
@@ -929,6 +1096,50 @@ export const PropsDescription = Object.freeze({
     description:
       'Callback fired when CKEditor reports an initialization or runtime error.',
     type: '(error: Error, details) => void'
+  },
+  value_TipTapRte: {
+    name: 'value',
+    description: 'Current editor HTML string.',
+    type: 'string | null'
+  },
+  onValueChange_TipTapRte: {
+    name: 'onValueChange',
+    description: 'Called when the editor content changes, with the updated HTML string and editor instance.',
+    required: true,
+    type: '({ newValue, editor }) => void'
+  },
+  placeholder_TipTapRte: {
+    name: 'placeholder',
+    description: 'Placeholder text shown when the editor is empty. Always applied via an internal `Placeholder` extension appended after `editorExtensions` (or `DefaultEditorExtensions`), regardless of which set is active.',
+    type: 'string'
+  },
+  editorExtensions_TipTapRte: {
+    name: 'editorExtensions',
+    description:
+      'Tiptap extensions passed to `useEditor`. Defaults to this package\'s `DefaultEditorExtensions`. The built-in toolbar omits any button whose backing extension isn\'t loaded, so a custom set missing e.g. `Heading` or `TextAlign` simply hides those controls instead of throwing when clicked.',
+    type: 'AnyExtension[]'
+  },
+  editorOptions_TipTapRte: {
+    name: 'editorOptions',
+    description: 'Additional options passed straight through to the `useEditor` hook — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. `editorProps.attributes` is deep-merged instead of replaced.\n\n`onUpdate` is also passed through, but this component\'s own `onUpdate` (which calls `onValueChange`) always runs first.',
+    type: 'UseEditorOptions'
+  },
+  containerProps_TipTapRte: (args: MuiPropsDescriptionArgs) => ({
+    name: 'containerProps',
+    description: 'Props forwarded to the outer bordered container wrapping the toolbar and editor content. `containerProps.sx` is merged with the component\'s own base styles (border, radius, focus ring) rather than replacing them, and accepts any `sx` form — object, array, or function.',
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
+  contentContainerProps_TipTapRte: (args: MuiPropsDescriptionArgs) => ({
+    name: 'contentContainerProps',
+    description: 'Props forwarded to the scrollable `Box` directly wrapping `EditorContent` (padding, min/max height, and the `.ProseMirror`/placeholder styling). `contentContainerProps.sx` is merged the same way as `containerProps.sx`.',
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
+  renderToolbar_TipTapRte: {
+    name: 'renderToolbar',
+    description: 'Custom toolbar renderer, called with the live `editor` instance and the field\'s resolved `disabled` state. Defaults to this package\'s built-in `Toolbar`. Pass `() => null` to hide the toolbar entirely.',
+    type: '(editor: Editor, disabled: boolean) => ReactNode'
   },
   phoneInputProps: {
     name: 'phoneInputProps',

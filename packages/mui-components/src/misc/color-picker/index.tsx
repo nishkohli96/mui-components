@@ -64,11 +64,11 @@ export type MUIColorPickerProps = {
    */
   defaultColor?: string;
   /**
-   * When true, omits alpha from emitted color values.
+   * When `true`, omits alpha from emitted color values.
    */
   excludeAlpha?: boolean;
   /**
-   * When true, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as required in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
@@ -77,7 +77,7 @@ export type MUIColorPickerProps = {
    */
   height?: number;
   /**
-   * When true, hides alpha controls in the color picker.
+   * When `true`, hides alpha controls in the color picker.
    */
   hideAlpha?: boolean;
   /**
@@ -85,7 +85,7 @@ export type MUIColorPickerProps = {
    */
   hideInput?: (keyof IColor)[] | boolean;
   /**
-   * When true, disables the field and associated controls.
+   * When `true`, disables the field and associated controls.
    */
   disabled?: boolean;
   /**
@@ -93,7 +93,7 @@ export type MUIColorPickerProps = {
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -101,7 +101,7 @@ export type MUIColorPickerProps = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -129,7 +129,7 @@ export type MUIColorPickerProps = {
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**

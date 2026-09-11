@@ -23,11 +23,13 @@ const componentRoutes: Record<
   [MuiComponents.TextField]: 'textfield',
   [MuiComponents.PasswordInput]: 'password-input',
   [MuiComponents.NumberInput]: 'number-input',
+  [MuiComponents.CounterInput]: 'counter-input',
   [MuiComponents.OTPInput]: 'otp-input',
   [MuiComponents.TagsInput]: 'tags-input',
   [MuiComponents.FileUploader]: 'file-uploader',
   [MuiComponents.Select]: 'select',
   [MuiComponents.NativeSelect]: 'native-select',
+  [MuiComponents.UnitInput]: 'unit-input',
   [MuiComponents.Autocomplete]: 'autocomplete',
   [MuiComponents.AutocompleteObject]: 'autocomplete-object',
   [MuiComponents.MultiAutocomplete]: 'multi-autocomplete',
@@ -45,6 +47,7 @@ const componentRoutes: Record<
   [MuiPickersComponents.DateTimePicker]: 'date-time',
   [MiscComponents.ColorPicker]: 'color-picker',
   [MiscComponents.RichTextEditor]: 'rich-text-editor',
+  [MiscComponents.TipTapRte]: 'tiptap-rte',
   [MiscComponents.PhoneInput]: 'phone-input'
 };
 
@@ -52,11 +55,13 @@ const muiComponents = [
   MuiComponents.TextField,
   MuiComponents.PasswordInput,
   MuiComponents.NumberInput,
+  MuiComponents.CounterInput,
   MuiComponents.OTPInput,
   MuiComponents.TagsInput,
   MuiComponents.FileUploader,
   MuiComponents.Select,
   MuiComponents.NativeSelect,
+  MuiComponents.UnitInput,
   MuiComponents.Autocomplete,
   MuiComponents.AutocompleteObject,
   MuiComponents.CountrySelect,
@@ -79,6 +84,7 @@ const muiPickersComponents = [
 const miscComponents = [
   MiscComponents.ColorPicker,
   MiscComponents.RichTextEditor,
+  MiscComponents.TipTapRte,
   MiscComponents.PhoneInput
 ];
 

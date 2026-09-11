@@ -19,11 +19,13 @@ import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import textFieldRows from './mui/textfield';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
+import counterInputRows from './mui/counter-input';
 import otpInputRows from './mui/otp-input';
 import tagsInputRows from './mui/tags-input';
 import fileUploaderRows from './mui/file-uploader';
 import selectRows from './mui/select';
 import nativeSelectRows from './mui/native-select';
+import unitInputRows from './mui/unit-input';
 import autocompleteRows from './mui/autocomplete';
 import autocompleteObjectRows from './mui/autocomplete-object';
 import multiAutocompleteRows from './mui/multi-autocomplete';
@@ -41,6 +43,7 @@ import { dateTimePickerRows } from './mui-pickers/date-time';
 import colorPickerRows from './misc/color-picker';
 import phoneInputRows from './misc/phone-input';
 import richTextEditorRows from './misc/rich-text-editor';
+import tipTapRteRows from './misc/tiptap-rte';
 
 export { PropsDescription } from './descriptions/latest';
 export { PropsDescription_v1 } from './descriptions/v1';
@@ -65,12 +68,14 @@ const buildComponentProps = (
   Object.freeze({
     MUITextField: textFieldRows(args),
     MUIPasswordInput: passwordInputRows(args, docsVersion),
-    MUINumberInput: numberInputRows(args),
+    MUINumberInput: numberInputRows(args, docsVersion),
+    MUICounterInput: counterInputRows(args),
     MUIOTPInput: otpInputRows(args),
     MUITagsInput: tagsInputRows(args),
     MUIFileUploader: fileUploaderRows(args),
     MUISelect: selectRows(args, docsVersion),
     MUINativeSelect: nativeSelectRows(args),
+    MUIUnitInput: unitInputRows(args),
     MUIAutocomplete: autocompleteRows(args, docsVersion),
     MUIAutocompleteObject: autocompleteObjectRows(args, docsVersion),
     MUICountrySelect: countrySelectRows(args),
@@ -90,6 +95,7 @@ const buildComponentProps = (
 
     MUIColorPicker: colorPickerRows(args),
     MUIRichTextEditor: richTextEditorRows(args),
+    MUITipTapRte: tipTapRteRows(args),
     MUIPhoneInput: phoneInputRows(args, docsVersion)
   });
 

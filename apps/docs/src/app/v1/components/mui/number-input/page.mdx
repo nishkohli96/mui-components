@@ -13,7 +13,12 @@ export default function Layout({ children }) {
 
 # MUINumberInput
 
-`MUINumberInput` is a [TextField](https://v7.mui.com/material-ui/react-text-field/)-based numeric input that enforces number-only entry with options for integers-only, non-negative values, a maximum number of decimal places, and keyboard step increments.
+`MUINumberInput` is a [TextField](https://v7.mui.com/material-ui/react-text-field/)-based
+numeric input that enforces number-only entry with options for integers-only, non-negative values,
+a maximum number of decimal places, `min` / `max` bounds, and keyboard step increments.
+
+For always-visible `-` / `+` buttons instead of the native browser steppers,
+use [MUICounterInput](/v1/components/mui/counter-input).
 
 ## Usage
 
@@ -33,6 +38,33 @@ const [age, setAge] = useState<number | null>(null);
 />
 ```
 
+### Formatting the displayed value
+
+The `renderValue` prop, added in `v1.3` formats the number for display -
+thousands separators, a currency prefix, fixed decimals. The field switches
+to `type="text"` (which can render grouping characters) and shows the formatted
+string only while it is **not** focused; on focus it reverts to the raw number
+and every typing / paste / `min` / `max` rule still applies. `value` stays a real `number | null`.
+
+```tsx
+const [salary, setSalary] = useState<number | null>(null);
+
+<MUINumberInput
+  fieldName="salary"
+  value={salary}
+  onValueChange={({ newValue }) => setSalary(newValue)}
+  nonNegative
+  maxDecimalPlaces={2}
+  renderValue={val => val === null
+    ? ''
+    : val.toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR'
+      })
+  }
+/>
+```
+
 ## API
 
 `MUINumberInputProps` accepts most [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/),
@@ -42,4 +74,3 @@ Props marked with
 <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUINumberInput} />
-

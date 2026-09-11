@@ -31,14 +31,16 @@ import { showToastMessage, logFirebaseEvent, tanstackErrors } from '@/utils';
 
 type NumberFormValues = {
   age: number | null;
-  price: number | null;
+  weight: number | null;
   randomInt: number | null;
+  salary: number | null;
 };
 
 const initialValues: NumberFormValues = {
   age: null,
-  price: null,
-  randomInt: 1
+  weight: null,
+  randomInt: 1,
+  salary: null
 };
 
 export default function NumberInputForm() {
@@ -114,27 +116,27 @@ export default function NumberInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Decimal (2 places), label above field" />
+            <FieldVariantInfo title="Decimal (3 places), label above field" />
             <form.Field
-              name="price"
+              name="weight"
               validators={{
                 onChange: ({ value }) =>
-                  (value !== null && value < 0 ? 'Price cannot be negative' : undefined)
+                  (value !== null && value < 0 ? 'Weight cannot be negative' : undefined)
               }}
             >
               {field => (
                 <MUINumberInput
-                  fieldName="price"
-                  label="Unit price ($)"
+                  fieldName="weight"
+                  label="Weight"
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
                   onBlur={field.handleBlur}
                   errorMessage={tanstackErrors(field.state.meta.errors)}
-                  maxDecimalPlaces={2}
+                  maxDecimalPlaces={3}
                   nonNegative
                   showLabelAboveFormField
                   formLabelProps={{ sx: { fontWeight: 600 } }}
-                  helperText="Up to two decimal places"
+                  helperText="In kg; Up to three decimal places"
                   disabled={disableAllFields}
                 />
               )}
@@ -155,6 +157,32 @@ export default function NumberInputForm() {
                   label="Random Integer"
                   placeholder="Enter an integer"
                   helperText="Arrow keys / steppers change by 5"
+                  disabled={disableAllFields}
+                />
+              )}
+            </form.Field>
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="renderValue — formatted as INR currency while not focused" />
+            <form.Field name="salary">
+              {field => (
+                <MUINumberInput
+                  fieldName="salary"
+                  value={field.state.value}
+                  onValueChange={({ newValue }) => field.handleChange(newValue)}
+                  nonNegative
+                  maxDecimalPlaces={2}
+                  renderValue={val =>
+                    val === null
+                      ? ''
+                      : val.toLocaleString('en-IN', {
+                        style: 'currency',
+                        currency: 'INR'
+                      })}
+                  label="Annual salary"
+                  placeholder="e.g. 85000"
+                  helperText="Shows ₹ with lakh grouping (e.g. ₹85,000.00) on blur; plain number while editing"
                   disabled={disableAllFields}
                 />
               )}
