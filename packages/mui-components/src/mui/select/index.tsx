@@ -85,6 +85,10 @@ export type MUISelectProps<
    */
   valueKey?: ValueKey;
   /**
+   * When `true`, allows selecting multiple values.
+   */
+  multiple?: Multiple;
+  /**
    * Current select value, normalized with `valueKey` for object options.
    * For `multiple`, pass an array. `undefined`/`null` are treated as no
    * selection (an empty array when `multiple` is `true`).
@@ -124,15 +128,20 @@ export type MUISelectProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
+   * Custom renderer for the Select's displayed value — distinct from
+   * `renderOptionLabel`, which only affects each `MenuItem` in the open
+   * dropdown.
+   * @param value - The current normalized value(s), same shape as `value`/`onValueChange`'s `newValue`.
+   */
+  renderValue?: (
+    value: SelectValue<OptionValue<Option, ValueKey>, Multiple>
+  ) => ReactNode;
+  /**
    * Props forwarded to each internal MUI `MenuItem`, applied to every rendered
    * option — including the default placeholder option when `showDefaultOption`
    * is enabled. Useful for a custom `dense`, `divider` or `sx` across all options.
    */
   menuItemProps?: MenuItemProps;
-  /**
-   * When `true`, allows selecting multiple values.
-   */
-  multiple?: Multiple;
   /**
    * When `true`, displays a default placeholder option at the top of the
    * dropdown menu.
@@ -216,7 +225,7 @@ export type MUISelectProps<
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
-} & SelectProps;
+} & Omit<SelectProps, 'renderValue'>;
 
 /**
  * Controlled wrapper around MUI's `Select`, supporting single or multiple selection.
@@ -420,7 +429,9 @@ const MUISelect = <
               );
             return (
               <Fragment>
-                {renderValue?.(value) ?? labels.join(', ')}
+                {renderValue?.(
+                  value as SelectValue<OptionValue<Option, ValueKey>, Multiple>
+                ) ?? labels.join(', ')}
               </Fragment>
             );
           }
@@ -432,7 +443,9 @@ const MUISelect = <
           );
           return (
             <Fragment>
-              {renderValue?.(value) ?? optionLabel}
+              {renderValue?.(
+                value
+              ) ?? optionLabel}
             </Fragment>
           );
         }}
