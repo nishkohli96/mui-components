@@ -11,12 +11,13 @@ export default function Layout({ children }) {
 
 <AvailabilityBanner componentName="MUITipTapRte" version="1.3" />
 
-`MUITipTapRte` wraps [Tiptap](https://tiptap.dev/)'s headless `useEditor` hook, backed by
-an HTML string value — a lighter, dependency-thinner alternative to
-[MUIRichTextEditor](/components/misc/rich-text-editor) (CKEditor 5). Since Tiptap ships no UI of
-its own, this component includes a hand-built formatting toolbar (bold, italic, underline,
-strikethrough, headings, lists, blockquote, code block, links, alignment, undo/redo) driven
-entirely by the editor's own extensions.
+`MUITipTapRte` wraps [Tiptap](https://tiptap.dev/)'s headless `useEditor` hook,
+backed by an **HTML string** value — a lighter, dependency-thinner alternative to
+[MUIRichTextEditor](/v1/components/misc/rich-text-editor) (CKEditor 5). Since Tiptap
+ships no UI of its own, this component includes a hand-built formatting
+toolbar (bold, italic, underline, strikethrough, headings, lists, blockquote,
+code block, links, alignment, undo/redo) driven entirely by the editor's own
+extensions.
 
 ## Usage
 
@@ -40,10 +41,11 @@ const [bio, setBio] = useState('');
 />
 ```
 
-To customize the toolbar/formatting options, pass a custom `editorExtensions` array (or
-extend `DefaultEditorExtensions`). Every toolbar button checks whether its backing extension
-is actually loaded before rendering, so a custom set missing e.g. `Heading` or `TextAlign`
-simply omits those buttons instead of throwing when clicked:
+To customize the toolbar/formatting options, pass a custom `editorExtensions`
+array (or extend `DefaultEditorExtensions`). Every toolbar button checks whether
+its backing extension is actually loaded before rendering, so a custom set missing
+e.g. `Heading` or `TextAlign` simply omits those buttons instead of throwing when
+clicked:
 
 ```tsx
 import MUITipTapRte, { DefaultEditorExtensions } from '@nish1896/mui-components/misc/tiptap-rte';
@@ -59,10 +61,16 @@ import Table from '@tiptap/extension-table';
 
 Reach into `useEditor` itself for anything not exposed as its own prop
 via `editorOptions` — pass `onCreate`/`onFocus`/`onUpdate`/`onBlur` here
-directly and they reach `useEditor` unmodified. `editorOptions` is layered
-*underneath* only this component's own required wiring (`content`/`editable`
-and the accessibility attributes), so it can't break the controlled-value
-contract; `editorProps.attributes` is deep-merged rather than replaced.
+directly and they reach `useEditor` unmodified. `onUpdate` specifically is
+never replaced, only chained: `useEditor`'s `onUpdate` first calls `onValueChange`
+with the editor's latest HTML, then calls your `editorOptions.onUpdate`, so
+`value` is always in sync by the time your own handler runs.
+
+`editorOptions` is layered *underneath* only this component's own required
+wiring (`content`/`editable` and the accessibility attributes), so it can't
+break the controlled-value contract; `editorProps.attributes` is deep-merged
+rather than replaced.
+
 
 ```tsx
 <MUITipTapRte
@@ -112,4 +120,3 @@ toolbar buttons render). Props marked with
 <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUITipTapRte} />
-
