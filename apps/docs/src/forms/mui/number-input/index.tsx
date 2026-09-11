@@ -177,10 +177,9 @@ export default function NumberInputForm() {
                     val === null
                       ? ''
                       : val.toLocaleString('en-IN', {
-                          style: 'currency',
-                          currency: 'INR'
-                        })
-                  }
+                        style: 'currency',
+                        currency: 'INR'
+                      })}
                   label="Annual salary"
                   placeholder="e.g. 85000"
                   helperText="Shows ₹ with lakh grouping (e.g. ₹85,000.00) on blur; plain number while editing"

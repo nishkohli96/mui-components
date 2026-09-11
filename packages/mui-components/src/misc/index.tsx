@@ -1,5 +1,8 @@
 import MUIColorPicker, { type MUIColorPickerProps } from './color-picker';
-import MUIPhoneInput, { type MUIPhoneInputProps, type MUIPhoneInputValue } from './phone-input';
+import MUIPhoneInput, {
+  type MUIPhoneInputProps,
+  type MUIPhoneInputValue
+} from './phone-input';
 import MUIRichTextEditor, {
   DefaultEditorConfig,
   type MUIRichTextEditorProps

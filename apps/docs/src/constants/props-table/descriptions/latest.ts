@@ -732,12 +732,13 @@ export const PropsDescription = Object.freeze({
       'Callback fired when uploaded files fail type, size, or count validation.',
     type: '(errors: FileUploadErrorDetails[]) => void'
   },
-  dropZoneProps: {
+  dropZoneProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'dropZoneProps',
     description:
       'Props applied to the drag-and-drop wrapper `Box`. Pass an object, or a callback receiving `{ isDragging, disabled, error }`. Ignored when `disableDragAndDrop` is true.',
-    type: 'BoxProps | (state) => BoxProps'
-  },
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/) | state => [BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
   disableDragAndDrop: {
     name: 'disableDragAndDrop',
     description:
@@ -768,16 +769,18 @@ export const PropsDescription = Object.freeze({
       'Custom renderer for each newly selected file. Call the provided `removeFile(event)` from your remove button to delete the file from the value.',
     type: '({ file, index, removeFile }) => ReactNode'
   },
-  existingFileListProps: {
+  existingFileListProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'existingFileListProps',
-    description: 'Props applied to the wrapper Box containing existing files.',
-    type: 'BoxProps'
-  },
-  uploadedFileListProps: {
+    description: 'Props applied to the wrapper `Box` containing existing files.',
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
+  uploadedFileListProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'uploadedFileListProps',
-    description: 'Props applied to the wrapper Box containing new uploads.',
-    type: 'BoxProps'
-  },
+    description: 'Props applied to the wrapper `Box` containing new uploads.',
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
   inputRef_FileUploader: {
     name: 'inputRef',
     description: 'Ref for the hidden file `<input>` element.',
@@ -785,7 +788,7 @@ export const PropsDescription = Object.freeze({
   },
   fullWidth_FileUploader: {
     name: 'fullWidth',
-    description: 'When true, the component expands to fill its container width.\n\n**Default:** `false`',
+    description: 'When `true`, the component expands to fill its container width.\n\n**Default:** `false`',
     type: 'boolean'
   },
 
@@ -1121,16 +1124,18 @@ export const PropsDescription = Object.freeze({
     description: 'Additional options passed straight through to the `useEditor` hook — e.g. `onCreate`, `onFocus`, `onBlur`, `autofocus`, `editorProps.handleDOMEvents`, `parseOptions`, `injectCSS`. `editorProps.attributes` is deep-merged instead of replaced.\n\n`onUpdate` is also passed through, but this component\'s own `onUpdate` (which calls `onValueChange`) always runs first.',
     type: 'UseEditorOptions'
   },
-  containerProps_TipTapRte: {
+  containerProps_TipTapRte: (args: MuiPropsDescriptionArgs) => ({
     name: 'containerProps',
     description: 'Props forwarded to the outer bordered container wrapping the toolbar and editor content. `containerProps.sx` is merged with the component\'s own base styles (border, radius, focus ring) rather than replacing them, and accepts any `sx` form — object, array, or function.',
-    type: 'BoxProps'
-  },
-  contentContainerProps_TipTapRte: {
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
+  contentContainerProps_TipTapRte: (args: MuiPropsDescriptionArgs) => ({
     name: 'contentContainerProps',
     description: 'Props forwarded to the scrollable `Box` directly wrapping `EditorContent` (padding, min/max height, and the `.ProseMirror`/placeholder styling). `contentContainerProps.sx` is merged the same way as `containerProps.sx`.',
-    type: 'BoxProps'
-  },
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
   renderToolbar_TipTapRte: {
     name: 'renderToolbar',
     description: 'Custom toolbar renderer, called with the live `editor` instance and the field\'s resolved `disabled` state. Defaults to this package\'s built-in `Toolbar`. Pass `() => null` to hide the toolbar entirely.',
