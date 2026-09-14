@@ -3,7 +3,9 @@
 import {
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
   useState,
   type ChangeEvent,
   type ClipboardEvent,
@@ -264,6 +266,22 @@ const MUINumberInput = ({
     || muiValue === undefined
     || Number.isNaN(muiValue);
 
+  /**
+   * `editBuffer` only tracks keystrokes (see `onChange`) — an external
+   * `value` change while still focused (a form reset, parent-side
+   * normalization) would otherwise never reach it. `lastEmittedValue` is set
+   * synchronously in `onChange` so this effect can tell "value changed
+   * because we typed it" (skip — the buffer already matches) apart from
+   * "value changed from outside" (resync the buffer).
+   */
+  const lastEmittedValueRef = useRef(muiValue);
+  useEffect(() => {
+    if (isTextMode && isFocused && muiValue !== lastEmittedValueRef.current) {
+      setEditBuffer(isEmptyValue ? '' : String(muiValue));
+    }
+    lastEmittedValueRef.current = muiValue;
+  }, [muiValue, isTextMode, isFocused, isEmptyValue]);
+
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
   const fieldErrorMessage = isError
@@ -480,6 +498,9 @@ const MUINumberInput = ({
                 onlyIntegers ? parseInt(safeInputValue, 10) : Number(safeInputValue)
               );
             const safeValue = Number.isNaN(parsed) ? null : parsed;
+            if (isTextMode) {
+              lastEmittedValueRef.current = safeValue;
+            }
             onValueChange({ newValue: safeValue, event: changeEvent });
           }
         }}

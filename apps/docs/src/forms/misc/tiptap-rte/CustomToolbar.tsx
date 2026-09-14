@@ -54,6 +54,7 @@ export default function CustomToolbar({ editor, disabled }: CustomToolbarProps) 
         disabled={disabled || !editor.can().undo()}
         color="secondary"
         onClick={() => editor.chain().focus().undo().run()}
+        aria-label="Undo"
       >
         <UndoIcon fontSize="small" />
       </Button>
@@ -62,6 +63,7 @@ export default function CustomToolbar({ editor, disabled }: CustomToolbarProps) 
         disabled={disabled || !editor.can().redo()}
         color="secondary"
         onClick={() => editor.chain().focus().redo().run()}
+        aria-label="Redo"
       >
         <RedoIcon fontSize="small" />
       </Button>

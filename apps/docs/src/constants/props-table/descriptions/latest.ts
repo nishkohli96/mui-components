@@ -604,15 +604,15 @@ export const PropsDescription = Object.freeze({
   },
   valueInputProps_UnitInput: {
     name: 'valueInputProps',
-    description: 'Props forwarded to the internal `MUINumberInput` determining the **value** of the field.',
-    type: 'MUINumberInputProps',
-    hasLinkInType: false
+    description: 'Props forwarded to the internal [MUINumberInput](/components/mui/number-input#api) determining the **value** of the field.',
+    type: '[MUINumberInputProps](/components/mui/number-input#api)',
+    hasLinkInType: true
   },
   unitSelectProps_UnitInput: {
     name: 'unitSelectProps',
-    description: 'Props forwarded to the internal **unit** `MUISelect`.',
-    type: 'MUISelectProps',
-    hasLinkInType: false
+    description: 'Props forwarded to the internal **unit** [MUISelect](/components/mui/select#api).',
+    type: '[MUISelectProps](/components/mui/select#api)',
+    hasLinkInType: true
   },
   customIds_UnitInput: {
     name: 'customIds',

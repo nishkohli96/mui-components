@@ -42,6 +42,18 @@ export const PropsDescription_v1 = Object.freeze({
     type: `[InputLabelProps](${getMuiDocsUrl(args.muiVersion)}/api/input-label/)`,
     hasLinkInType: true
   }),
+  valueInputProps_UnitInput: {
+    name: 'valueInputProps',
+    description: 'Props forwarded to the internal [MUINumberInput](/v1/components/mui/number-input#api) determining the **value** of the field.',
+    type: '[MUINumberInputProps](/v1/components/mui/number-input#api)',
+    hasLinkInType: true
+  },
+  unitSelectProps_UnitInput: {
+    name: 'unitSelectProps',
+    description: 'Props forwarded to the internal **unit** [MUISelect](/v1/components/mui/select#api).',
+    type: '[MUISelectProps](/v1/components/mui/select#api)',
+    hasLinkInType: true
+  },
   circularProgressProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'circularProgressProps',
     description: `[CircularProgressProps](${getMuiDocsUrl(args.muiVersion)}/api/circular-progress/) forwarded to the loading spinner shown while \`loading\` is \`true\` — custom \`color\`, \`size\`, etc.\n\n**Added in** \`v1.1\`.`,

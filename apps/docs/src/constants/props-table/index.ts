@@ -75,7 +75,7 @@ const buildComponentProps = (
     MUIFileUploader: fileUploaderRows(args),
     MUISelect: selectRows(args, docsVersion),
     MUINativeSelect: nativeSelectRows(args),
-    MUIUnitInput: unitInputRows(args),
+    MUIUnitInput: unitInputRows(args, docsVersion),
     MUIAutocomplete: autocompleteRows(args, docsVersion),
     MUIAutocompleteObject: autocompleteObjectRows(args, docsVersion),
     MUICountrySelect: countrySelectRows(args),

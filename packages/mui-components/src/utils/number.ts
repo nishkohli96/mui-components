@@ -25,14 +25,15 @@ export function clampNumber(value: number, min?: number, max?: number) {
 }
 
 /**
- * Resolves the effective lower bound for a number field: `nonNegative` acts as
- * an implicit `min` of `0` and can only tighten an explicit `min`.
+ * Resolves the effective lower bound for a number field: `nonNegative` sets an
+ * implicit `min` of `0`, but an explicit `min` always overrides it — including
+ * a negative one.
  */
 export function resolveMinBound(nonNegative: boolean, min?: number) {
-  if (nonNegative) {
-    return Math.max(0, min ?? 0);
+  if (min !== undefined) {
+    return min;
   }
-  return min;
+  return nonNegative ? 0 : undefined;
 }
 
 /**

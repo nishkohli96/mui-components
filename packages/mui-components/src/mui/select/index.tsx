@@ -443,9 +443,9 @@ const MUISelect = <
           );
           return (
             <Fragment>
-              {renderValue?.(
-                value
-              ) ?? optionLabel}
+              {isValueEmpty
+                ? optionLabel
+                : renderValue?.(value) ?? optionLabel}
             </Fragment>
           );
         }}
