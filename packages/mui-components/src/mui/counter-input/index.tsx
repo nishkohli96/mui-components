@@ -26,7 +26,8 @@ import {
   resolveBounds,
   resolveStepAmount,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 
@@ -192,7 +193,7 @@ const MUICounterInput = ({
         />
       )}
       <Box
-        sx={{
+        sx={mergeSx({
           display: 'flex',
           alignItems: 'center',
           border: '1px solid',
@@ -210,9 +211,8 @@ const MUICounterInput = ({
             borderColor: isError ? 'error.main' : 'primary.main',
             borderWidth: '2px',
             m: '-1px'
-          },
-          ...muiSx
-        }}
+          }
+        }, muiSx)}
       >
         <IconButton
           {...iconButtonProps}
@@ -264,13 +264,15 @@ const MUICounterInput = ({
                 };
               }
             }}
-            sx={{
+            sx={mergeSx({
               '& input[type=number]': {
                 textAlign: 'center',
                 ...(hasCaption ? { paddingBottom: '18px' } : {}),
-                ...(muiSx as Record<string, object> | undefined)?.['& input[type=number]']
+                ...(muiSx && !Array.isArray(muiSx) && typeof muiSx !== 'function'
+                  ? (muiSx as Record<string, object>)['& input[type=number]']
+                  : undefined)
               }
-            }}
+            })}
           />
           {hasCaption && (
             <Box
