@@ -351,12 +351,12 @@ export const PropsDescription = Object.freeze({
   hideLabel: {
     name: 'hideLabel',
     description:
-      'When true, hides the rendered field label while preserving accessible labeling where possible.',
+      'When `true`, hides the rendered field label while preserving accessible labeling where possible.',
     type: 'boolean'
   },
   showLabelAboveFormField: (args: PropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
-    description: `When true, renders the field label above the form field in the [FormLabel](${muiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
+    description: `When `true`, renders the field label above the form field in the [FormLabel](${muiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
     type: 'boolean'
   }),
   showLabelAboveFormField_Default: {
@@ -402,7 +402,7 @@ export const PropsDescription = Object.freeze({
   hideErrorMessage: {
     name: 'hideErrorMessage',
     description:
-      'If true, hides the error message text while keeping the field in an error state.',
+      'If `true`, hides the error message text while keeping the field in an error state.',
     type: 'boolean'
   },
   helperText: (args: PropsDescriptionArgs) => ({
@@ -883,7 +883,7 @@ export const PropsDescription = Object.freeze({
   /* ------------------------------------------------------------------ */
   multiple: {
     name: 'multiple',
-    description: 'When true, allows selecting multiple values.',
+    description: 'When `true`, allows selecting multiple values.',
     type: 'boolean'
   },
   disableClearable: {
@@ -986,7 +986,7 @@ export const PropsDescription = Object.freeze({
   },
   disabled: {
     name: 'disabled',
-    description: 'When true, disables the field and associated controls.',
+    description: 'When `true`, disables the field and associated controls.',
     type: 'boolean'
   },
   customIds: {

@@ -85,7 +85,7 @@ export type MUIAutocompleteObjectProps<
    */
   fieldName: string;
   /**
-   * Currently selected option object(s): `Option[]` when `multiple` is true,
+   * Currently selected option object(s): `Option[]` when `multiple` is `true`,
    * otherwise a single `Option`. This is a controlled component: `value` and
    * `onValueChange` must be supplied together, typically backed by your own state
    * or form library.
@@ -98,8 +98,8 @@ export type MUIAutocompleteObjectProps<
    * without reducing them to `valueKey`. Call your state setter (or form library's
    * setter) with `newValue` to update `value`.
    *
-   * @param newValue - Selected value(s): `Option[]` when `multiple` is true, otherwise `Option`.
-   * Includes `null` only when clearing is allowed (`disableClearable` is false).
+   * @param newValue - Selected value(s): `Option[]` when `multiple` is `true`, otherwise
+   * `Option`. Includes `null` only when clearing is allowed (`disableClearable` is false).
    * @param event - Original MUI Autocomplete change event.
    * @param reason - MUI Autocomplete reason for the change.
    * @param details - Additional MUI Autocomplete change details, when available.
@@ -123,11 +123,11 @@ export type MUIAutocompleteObjectProps<
    */
   valueKey: ValueKey;
   /**
-   * When true, allows selecting multiple values.
+   * When `true`, allows selecting multiple values.
    */
   multiple?: Multiple;
   /**
-   * When true, the selected value cannot be cleared from the input.
+   * When `true`, the selected value cannot be cleared from the input.
    * @default false
    */
   disableClearable?: DisableClearable;
@@ -136,7 +136,7 @@ export type MUIAutocompleteObjectProps<
    */
   label?: ReactNode;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -144,11 +144,11 @@ export type MUIAutocompleteObjectProps<
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
-   * When true, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
@@ -180,7 +180,7 @@ export type MUIAutocompleteObjectProps<
    */
   helperText?: ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**
@@ -193,7 +193,7 @@ export type MUIAutocompleteObjectProps<
   textFieldProps?: AutoCompleteTextFieldProps;
   /**
    * Props forwarded to the internal MUI `CircularProgress` shown in the input
-   * while `loading` is true.
+   * while `loading` is `true`.
    */
   circularProgressProps?: CircularProgressProps;
   /**

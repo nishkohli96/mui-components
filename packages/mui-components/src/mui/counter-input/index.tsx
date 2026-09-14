@@ -49,7 +49,7 @@ export type MUICounterInputProps = Omit<MUINumberInputProps, 'showMarkers' | 'va
    */
   iconButtonProps?: IconButtonProps;
   /**
-   * Content rendered under the value (e.g. an icon + "Bedrooms" label).
+   * Content rendered under the value (e.g. an icon and/or a label).
    */
   caption?: ReactNode;
 };

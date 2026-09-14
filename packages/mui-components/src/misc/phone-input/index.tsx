@@ -232,7 +232,7 @@ export type MUIPhoneInputProps = {
    */
   countrySelectProps?: CountrySelectProps;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -240,7 +240,7 @@ export type MUIPhoneInputProps = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -268,7 +268,7 @@ export type MUIPhoneInputProps = {
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**
