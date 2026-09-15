@@ -56,6 +56,8 @@ export default function RHFUnitInput<
   unitRegisterOptions,
   valueRegisterOptions,
   errorMessage,
+  unitSelectProps,
+  valueInputProps,
   ...unitInputProps
 }: RHFUnitInputProps<T, Option, LabelKey, ValueKey>) {
   return (
@@ -63,24 +65,61 @@ export default function RHFUnitInput<
       name={fieldName.value}
       control={control}
       rules={valueRegisterOptions}
-      render={({ field: valueField, fieldState: valueState }) => (
+      render={({
+        field: {
+          value: valueValue,
+          onChange: valueOnChange,
+          onBlur: valueOnBlur,
+          ref: valueRef,
+        },
+        fieldState: {
+          error: valueError
+        }
+      }) => (
         <Controller
           name={fieldName.unit}
           control={control}
           rules={unitRegisterOptions}
-          render={({ field: unitField }) => (
+          render={({
+            field: {
+              value: unitValue,
+              onChange: unitOnChange,
+              onBlur: unitOnBlur,
+            },
+            fieldState: {
+              error: unitError
+            }
+          }) => (
             <MUIUnitInput<Option, LabelKey, ValueKey>
               {...unitInputProps}
               fieldName={fieldName}
               value={{
-                unit: unitField.value,
-                value: valueField.value
+                unit: unitValue,
+                value: valueValue
               }}
               onValueChange={({ newValue }) => {
-                unitField.onChange(newValue.unit);
-                valueField.onChange(newValue.value);
+                unitOnChange(newValue.unit);
+                valueOnChange(newValue.value);
               }}
-              errorMessage={errorMessage ?? valueState.error?.message?.toString()}
+              unitSelectProps={{
+                ...unitSelectProps,
+                onBlur: (unitSelectBlurEvent) => {
+                  unitOnBlur();
+                  unitSelectProps?.onBlur?.(unitSelectBlurEvent);
+                }
+              }}
+              valueInputProps={{
+                ...valueInputProps,
+                inputRef: valueRef,
+                onBlur: (valueInputBlurEvent) => {
+                  valueOnBlur();
+                  valueInputProps?.onBlur?.(valueInputBlurEvent);
+                }
+              }}
+              errorMessage={[
+                valueError?.message?.toString() ?? '',
+                unitError?.message?.toString() ?? '',
+              ]}
             />
           )}
         />

@@ -24,12 +24,12 @@ import {
   GridContainer,
   FieldVariantInfo,
   FormState,
-  RHFUnitInput,
   SubmitButton,
   ResetButton
 } from '@/components';
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
+import RHFUnitInput from './rhf-unit-input';
 
 type WeightUnit = 'kg' | 'lb';
 type TemperatureUnit = '°C' | '°F';
