@@ -24,7 +24,7 @@ import {
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 
-export type MUICounterInputProps = Omit<MUINumberInputProps, 'showMarkers' | 'variant'> & {
+export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'variant'> & {
   /**
    * Custom icon for the decrement (`-`) button.
    *
@@ -61,11 +61,11 @@ export type MUICounterInputProps = Omit<MUINumberInputProps, 'showMarkers' | 'va
  * `MUINumberInput` (rendered borderless inside the pill) — this component
  * only owns the pill chrome, the buttons and the optional unit caption.
  *
- * Docs: [MUICounterInput](https://mui-components-docs.vercel.app/v1/components/mui/counter-input)
+ * Docs: [MUINumberStepper](https://mui-components-docs.vercel.app/v1/components/mui/number-stepper)
  *
- * API: [MUICounterInputProps](https://mui-components-docs.vercel.app/v1/components/mui/counter-input#api)
+ * API: [MUINumberStepperProps](https://mui-components-docs.vercel.app/v1/components/mui/number-stepper#api)
  */
-const MUICounterInput = ({
+const MUINumberStepper = ({
   fieldName,
   value: muiValue,
   disabled: muiDisabled,
@@ -93,7 +93,7 @@ const MUICounterInput = ({
   sx: muiSx,
   slotProps: muiSlotProps,
   ...otherNumberInputProps
-}: MUICounterInputProps) => {
+}: MUINumberStepperProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const {
     fieldId,
@@ -321,4 +321,4 @@ const MUICounterInput = ({
   );
 };
 
-export default MUICounterInput;
+export default MUINumberStepper;

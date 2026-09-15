@@ -118,8 +118,8 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'Controlled numeric Material UI input with decimal, integer, non-negative, min/max and step constraints.'
   },
-  MUICounterInput: {
-    title: 'MUICounterInput',
+  MUINumberStepper: {
+    title: 'MUINumberStepper',
     description:
       'Pill-shaped numeric counter with always-visible - / + buttons flanking the value, min/max clamping and per-bound button disabling.'
   },

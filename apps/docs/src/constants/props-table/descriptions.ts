@@ -356,7 +356,7 @@ export const PropsDescription = Object.freeze({
   },
   showLabelAboveFormField: (args: PropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
-    description: `When `true`, renders the field label above the form field in the [FormLabel](${muiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
+    description: `When \`true\`, renders the field label above the form field in the [FormLabel](${muiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
     type: 'boolean'
   }),
   showLabelAboveFormField_Default: {
@@ -479,44 +479,44 @@ export const PropsDescription = Object.freeze({
       'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.\n\n**Added in** `v1.3`.',
     type: 'number'
   },
-  min_CounterInput: {
+  min_NumberStepper: {
     name: 'min',
     description:
       'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` sets the default value to `0` unless overridden.',
     type: 'number'
   },
-  max_CounterInput: {
+  max_NumberStepper: {
     name: 'max',
     description:
       'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.',
     type: 'number'
   },
-  decrementIcon_CounterInput: {
+  decrementIcon_NumberStepper: {
     name: 'decrementIcon',
     description:
       'Custom icon for the decrement (`-`) button.\n\n**Default:** Material UI `Remove` icon',
     type: 'ReactNode'
   },
-  incrementIcon_CounterInput: {
+  incrementIcon_NumberStepper: {
     name: 'incrementIcon',
     description:
       'Custom icon for the increment (`+`) button.\n\n**Default:** Material UI `Add` icon',
     type: 'ReactNode'
   },
-  swapButtons_CounterInput: {
+  swapButtons_NumberStepper: {
     name: 'swapButtons',
     description:
       'When `true`, swaps both the icons and the behaviour of the two buttons - the left button increments and the right button decrements, each with its icon, `aria-label` and disabled-at-bound state swapped to match.',
     type: 'boolean'
   },
-  iconButtonProps_CounterInput: {
+  iconButtonProps_NumberStepper: {
     name: 'iconButtonProps',
     description:
       'Props forwarded to both internal stepper [IconButton](https://v7.mui.com/material-ui/api/icon-button/)s — e.g. a custom `size` or `sx`.',
     type: 'IconButtonProps',
     hasLinkInType: false
   },
-  caption_CounterInput: {
+  caption_NumberStepper: {
     name: 'caption',
     description: 'Content rendered under the value.\n\n E.g. an icon + label.',
     type: 'ReactNode'

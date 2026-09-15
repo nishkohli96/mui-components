@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * MUICounterInput example — integrated with TanStack Form
+ * MUINumberStepper example — integrated with TanStack Form
  * (`@tanstack/react-form`) to show the always-visible `-` / `+` steppers
  * alongside the shared numeric constraints: `onlyIntegers`, `nonNegative`,
  * `maxDecimalPlaces`, `stepAmount`, plus the stepper-only `min` / `max`
@@ -18,7 +18,7 @@ import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
-import MUICounterInput from '@nish1896/mui-components/mui/counter-input';
+import MUINumberStepper from '@nish1896/mui-components/mui/number-stepper';
 import {
   FormContainer,
   GridContainer,
@@ -30,19 +30,19 @@ import {
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent, tanstackErrors } from '@/utils';
 
-type CounterInputFormValues = {
+type NumberStepperFormValues = {
   quantity: number | null;
   price: number | null;
   targetTemp: number | null;
 };
 
-const initialValues: CounterInputFormValues = {
+const initialValues: NumberStepperFormValues = {
   quantity: 1,
   price: null,
   targetTemp: 20
 };
 
-export default function CounterInputForm() {
+export default function NumberStepperForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
 
@@ -85,7 +85,7 @@ export default function CounterInputForm() {
               }}
             >
               {field => (
-                <MUICounterInput
+                <MUINumberStepper
                   fieldName="quantity"
                   value={field.state.value}
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
@@ -118,7 +118,7 @@ export default function CounterInputForm() {
               }}
             >
               {field => (
-                <MUICounterInput
+                <MUINumberStepper
                   fieldName="price"
                   label="Unit price ($)"
                   value={field.state.value}
@@ -149,7 +149,7 @@ export default function CounterInputForm() {
               }}
             >
               {field => (
-                <MUICounterInput
+                <MUINumberStepper
                   fieldName="targetTemp"
                   label="Target temp (°C)"
                   value={field.state.value}
