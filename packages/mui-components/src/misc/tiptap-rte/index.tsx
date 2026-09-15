@@ -255,12 +255,12 @@ const MUITipTapRte = ({
     extensions,
     content: value ?? '',
     editable: !muiDisabled,
-    onUpdate: updateProps => {
+    onUpdate: onUpdateProps => {
       onValueChange({
-        newValue: updateProps.editor.getHTML(),
-        editor: updateProps.editor
+        newValue: onUpdateProps.editor.getHTML(),
+        editor: onUpdateProps.editor
       });
-      editorOptions?.onUpdate?.(updateProps);
+      editorOptions?.onUpdate?.(onUpdateProps);
     },
     editorProps: {
       ...editorOptions?.editorProps,
