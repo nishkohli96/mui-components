@@ -150,7 +150,7 @@ export type MUICountrySelectProps<
    * Currently selected country value(s): the property named by `valueKey` when
    * it is provided, otherwise the complete `CountryDetails` object(s). An array
    * when `multiple` is `true`; `null` is allowed for a single selection unless
-   * `disableClearable` is set to `false`.
+   * `disableClearable` is set.
    *
    * `undefined`/`null`/`[]` are treated as no selection.
    */
@@ -163,7 +163,7 @@ export type MUICountrySelectProps<
    * `newValue` mirrors `value`: the `valueKey` property (e.g. a `string`) when
    * `valueKey` is set, otherwise the full `CountryDetails` object — arrayed when
    * `multiple` is `true`, and `null` for a cleared single selection unless
-   * `disableClearable` is set to `false`.
+   * `disableClearable` is set.
    *
    * @param newValue - Normalized country value, or country value array when `multiple` is `true`.
    * @param event - Original MUI Autocomplete change event.

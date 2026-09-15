@@ -97,7 +97,7 @@ export type MUIMultiAutocompleteProps<
   /**
    * Currently selected string values (normalized with `valueKey` for object options).
    *
-   * `undefined`/`null`/`[]` are treated as an empty selection.
+   * `undefined`/`null`/`[]` are treated as no selection.
    */
   value?: string[];
   /**

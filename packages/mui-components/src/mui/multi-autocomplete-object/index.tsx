@@ -97,7 +97,7 @@ export type MUIMultiAutocompleteObjectProps<
   /**
    * Currently selected option objects.
    *
-   * `undefined`/`null`/`[]` are treated as an empty selection.
+   * `undefined`/`null`/`[]` are treated as no selection.
    */
   value?: Option[];
   /**

@@ -121,7 +121,7 @@ export type MUIFileUploaderProps<Multiple extends boolean = false> = {
    * Current value of the field. When `multiple` is `true` this is `File[]`,
    * otherwise `File | null`.
    *
-   * `undefined`/`null` is treated as no files selected.
+   * `undefined`/`null`/`[]` is treated as no file(s) selected.
    */
   value?: FileUploaderValue<Multiple>;
   /**
