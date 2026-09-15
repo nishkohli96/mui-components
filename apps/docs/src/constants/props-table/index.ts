@@ -54,12 +54,12 @@ export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
   MUIPasswordInput: passwordInputRows(currentVersionArgs),
   MUINumberInput: numberInputRows(currentVersionArgs),
   MUINumberStepper: numberStepperRows(currentVersionArgs),
-  MUIUnitInput: unitInputRows(currentVersionArgs),
   MUIOTPInput: otpInputRows(currentVersionArgs),
   MUITagsInput: tagsInputRows(currentVersionArgs),
   MUIFileUploader: fileUploaderRows(currentVersionArgs),
   MUISelect: selectRows(currentVersionArgs),
   MUINativeSelect: nativeSelectRows(currentVersionArgs),
+  MUIUnitInput: unitInputRows(currentVersionArgs),
   MUIAutocomplete: autocompleteRows(currentVersionArgs),
   MUIAutocompleteObject: autocompleteObjectRows(currentVersionArgs),
   MUIMultiAutocomplete: multiAutocompleteRows(currentVersionArgs),
@@ -78,7 +78,7 @@ export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
   MUIDateTimePicker: dateTimePickerRows(currentVersionArgs),
 
   MUIColorPicker: colorPickerRows(currentVersionArgs),
-  MUIPhoneInput: phoneInputRows(currentVersionArgs),
   MUIRichTextEditor: richTextEditorRows(currentVersionArgs),
-  MUITipTapRte: tipTapRteRows(currentVersionArgs)
+  MUITipTapRte: tipTapRteRows(currentVersionArgs),
+  MUIPhoneInput: phoneInputRows(currentVersionArgs)
 });

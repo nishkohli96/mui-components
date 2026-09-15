@@ -193,7 +193,16 @@ export default function TipTapRteForm() {
               {' '}
               <code>editor.storage.markdown.getMarkdown()</code>
               {' '}
-              (from the <code>Markdown</code> extension) via <code>editorOptions.onCreate</code>/<code>onUpdate</code>.
+              (from the
+              {' '}
+              <code>Markdown</code>
+              {' '}
+              extension) via
+              {' '}
+              <code>editorOptions.onCreate</code>
+              /
+              <code>onUpdate</code>
+              .
             </Typography>
           </Grid>
 
