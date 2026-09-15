@@ -127,7 +127,7 @@ export type MUIMultiAutocompleteObjectProps<
    */
   disableClearable?: DisableClearable;
   /**
-   * Text to display for the "Select All" option.
+   * Text to display for the "**Select All**" option.
    */
   selectAllText?: string;
   /**
