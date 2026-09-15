@@ -104,7 +104,7 @@ export default function RHFUnitInput<
               unitSelectProps={{
                 ...unitSelectProps,
                 inputRef: unitRef,
-                onBlur: (unitSelectBlurEvent) => {
+                onBlur: unitSelectBlurEvent => {
                   unitOnBlur();
                   unitSelectProps?.onBlur?.(unitSelectBlurEvent);
                 }
@@ -112,7 +112,7 @@ export default function RHFUnitInput<
               valueInputProps={{
                 ...valueInputProps,
                 inputRef: valueRef,
-                onBlur: (valueInputBlurEvent) => {
+                onBlur: valueInputBlurEvent => {
                   valueOnBlur();
                   valueInputProps?.onBlur?.(valueInputBlurEvent);
                 }

@@ -32,6 +32,10 @@ vertical divider between the two controls.
 `unitOptions` accepts either a plain string array, or an object array read via
 `labelKey`/`valueKey` — the same convention as `MUISelect`.
 
+Always seed `value.unit` with a real option — an empty/missing `unit` renders
+the **unit** `Select` with nothing selected rather than silently defaulting to
+`unitOptions[0]`, so what's shown always matches what you passed in.
+
 ## Usage
 
 ```tsx

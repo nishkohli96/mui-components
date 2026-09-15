@@ -17,7 +17,6 @@ import {
   generateUnitInputFieldNameErrMsg,
   useFieldIds,
   getErrorList,
-  getOptionValue,
   mergeSx,
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
@@ -143,7 +142,9 @@ export type MUIUnitInputProps<
    */
   valueKey?: ValueKey;
   /**
-   * Current value of the field.
+   * Current value of the field. Always pass an explicit `unit` — an empty
+   * `value.unit` renders the **unit** `Select` with no option selected
+   * rather than silently defaulting to `unitOptions[0]`.
    *
    * `unit` and `value` are always reported together through `onValueChange`,
    * even though they're two controls.
@@ -380,10 +381,7 @@ const MUIUnitInput = <
     : undefined;
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
-  const resolvedUnit = value?.unit
-    ?? (unitOptions.length > 0
-      ? getOptionValue(unitOptions[0], valueKey)
-      : ('' as ResolvedUnit<Option, ValueKey>));
+  const resolvedUnit = value?.unit ?? ('' as ResolvedUnit<Option, ValueKey>);
 
   const valueInput = (
     <Box

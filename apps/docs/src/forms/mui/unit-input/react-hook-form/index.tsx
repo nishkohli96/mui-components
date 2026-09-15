@@ -58,6 +58,8 @@ const distanceOptions: DistanceOption[] = [
 ];
 
 const initialValues: Partial<UnitInputFormValues> = {
+  // distanceUnit: 'km',
+  // distanceAmount: null,
   storage: {
     unit: 'MB',
     amount: 500,
@@ -112,7 +114,8 @@ export default function UnitInputRHFForm() {
               valueKey="code"
               unitPosition="start"
               unitSelectProps={{
-                getOptionDisabled: opn => opn.code === 'nmi'
+                getOptionDisabled: opn => opn.code === 'nmi',
+                placeholder: 'Unit'
               }}
               placeholder="Enter distance"
               nonNegative
