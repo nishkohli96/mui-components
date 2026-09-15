@@ -250,7 +250,7 @@ export type MUIUnitInputProps<
    */
   hideLabel?: boolean;
   /**
-   * When `true`, marks both the **unit** and **value** controls as required.
+   * When `true`, marks both the "**unit**" and "**value**" controls as **required**.
    */
   required?: boolean;
   /**
