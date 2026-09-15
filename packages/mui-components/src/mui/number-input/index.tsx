@@ -67,7 +67,9 @@ export type MUINumberInputProps = {
    */
   fieldName: string;
   /**
-   * Current numeric value of the field. Pass `null` or `undefined` to render an empty input.
+   * Current numeric value of the field.
+   *
+   * Pass `null` or `undefined` to render an empty input.
    */
   value?: number | null;
   /**

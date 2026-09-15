@@ -242,8 +242,7 @@ const MUIColorPicker = ({
       aria-required={required}
       aria-labelledby={!hideLabel && isLabelAboveControl
         ? labelId
-        : undefined
-      }
+        : undefined}
       aria-label={
         hideLabel || !isLabelAboveControl
           ? accessibleFieldLabel

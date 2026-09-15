@@ -213,6 +213,7 @@ export type MUIPhoneInputProps = {
   /**
    * Current phone value. You may initialize it with a phone string, but
    * `onValueChange` always emits the structured `MUIPhoneInputValue` shape.
+   *
    * `undefined`/`null` start the input empty with the default country.
    */
   value?: MUIPhoneInputValue | string | null;

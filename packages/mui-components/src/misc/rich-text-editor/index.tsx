@@ -50,9 +50,9 @@ export type MUIRichTextEditorProps = {
    */
   fieldName: string;
   /**
-   * Current editor HTML string. This is a controlled component: `value` and
-   * `onValueChange` must be supplied together. `undefined`/`null` render an
-   * empty editor.
+   * Current editor HTML string.
+   *
+   * `undefined`/`null` render an empty editor.
    */
   value?: string | null;
   /**

@@ -86,9 +86,7 @@ export type MUIAutocompleteObjectProps<
   fieldName: string;
   /**
    * Currently selected option object(s): `Option[]` when `multiple` is `true`,
-   * otherwise a single `Option`. This is a controlled component: `value` and
-   * `onValueChange` must be supplied together, typically backed by your own
-   * state or form library.
+   * otherwise a single `Option`.
    *
    * `undefined`/`null`/`[]` are treated as no selection.
    */
@@ -98,8 +96,8 @@ export type MUIAutocompleteObjectProps<
    * without reducing them to `valueKey`. Call your state setter (or form library's
    * setter) with `newValue` to update `value`.
    *
-   * @param newValue - Selected value(s): `Option[]` when `multiple` is true, otherwise `Option`.
-   * Includes `null` only when clearing is allowed (`disableClearable` is false).
+   * @param newValue - Selected value(s): `Option[]` when `multiple` is `true`, otherwise `Option`.
+   * Includes `null` only when clearing is allowed (`disableClearable` is `false`).
    * @param event - Original MUI Autocomplete change event.
    * @param reason - MUI Autocomplete reason for the change.
    * @param details - Additional MUI Autocomplete change details, when available.

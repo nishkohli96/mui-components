@@ -111,9 +111,7 @@ export type MUIAutocompleteProps<
   fieldName: string;
   /**
    * Currently selected value(s): `string[]` when `multiple` is `true`, otherwise a
-   * `string` (values are normalized with `valueKey` for object options). This is a
-   * controlled component: `value` and `onValueChange` must be supplied together,
-   * typically backed by your own state or form library.
+   * `string` (values are normalized with `valueKey` for object options).
    *
    * `undefined`/`null`/`[]` are treated as no selection.
    */
@@ -124,7 +122,7 @@ export type MUIAutocompleteProps<
    * to update `value`.
    *
    * @param newValue - Selected value(s): `string[]` when `multiple` is `true`,
-   * otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is false).
+   * otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is `false`).
    * @param selectedOption - Raw MUI selected option/value, including free-solo strings when enabled.
    * @param event - Original MUI Autocomplete change event.
    * @param reason - MUI Autocomplete reason for the change.

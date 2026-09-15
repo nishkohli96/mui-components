@@ -29,8 +29,8 @@ export type MUICheckboxProps = {
    */
   fieldName: string;
   /**
-   * Current checked state. This is a controlled component: `value` and `onValueChange`
-   * must be supplied together, typically backed by your own state or form library.
+   * Current checked state of the checkbox.
+   *
    * `undefined`/`false` are treated as unchecked.
    */
   value?: boolean;

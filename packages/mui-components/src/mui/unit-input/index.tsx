@@ -143,8 +143,10 @@ export type MUIUnitInputProps<
    */
   valueKey?: ValueKey;
   /**
-   * Current value of the field. `unit` and `value` are always reported
-   * together through `onValueChange`, even though they're two controls.
+   * Current value of the field.
+   *
+   * `unit` and `value` are always reported together through `onValueChange`,
+   * even though they're two controls.
    */
   value?: NoInfer<MUIUnitInputValue<ResolvedUnit<Option, ValueKey>>>;
   /**

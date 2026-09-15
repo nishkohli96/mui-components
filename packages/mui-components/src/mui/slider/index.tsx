@@ -48,9 +48,7 @@ export type MUISliderProps<Value extends SliderValue = SliderValue> = {
   fieldName: string;
   /**
    * Current slider value: a `number` for a single-thumb slider, or a `number[]`
-   * for a range slider. This is a controlled component: `value` and
-   * `onValueChange` must be supplied together, typically backed by your own state
-   * or form library.
+   * for a range slider.
    *
    * `undefined`/`null`/`[]` are treated as `0`.
    */

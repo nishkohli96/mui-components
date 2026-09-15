@@ -90,8 +90,9 @@ export type MUISelectProps<
   multiple?: Multiple;
   /**
    * Current select value, normalized with `valueKey` for object options.
-   * For `multiple`, pass an array. `undefined`/`null` are treated as no
-   * selection (an empty array when `multiple` is `true`).
+   * For `multiple`, pass an array.
+   *
+   * `undefined`/`null`/`[]` are treated as no selection.
    */
   value?: NoInfer<SelectValue<OptionValue<Option, ValueKey>, Multiple>> | null;
   /**

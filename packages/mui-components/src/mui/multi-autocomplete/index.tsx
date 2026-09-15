@@ -96,8 +96,7 @@ export type MUIMultiAutocompleteProps<
   fieldName: string;
   /**
    * Currently selected string values (normalized with `valueKey` for object options).
-   * This is a controlled component: `value` and `onValueChange` must be supplied
-   * together, typically backed by your own state or form library.
+   *
    * `undefined`/`null`/`[]` are treated as an empty selection.
    */
   value?: string[];
