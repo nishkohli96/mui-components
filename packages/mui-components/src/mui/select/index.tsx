@@ -35,7 +35,7 @@ import {
   getErrorList
 } from '@/utils';
 
-type SelectValue<Value, Multiple extends boolean> = Multiple extends true
+export type SelectValue<Value, Multiple extends boolean> = Multiple extends true
   ? Value[]
   : Value;
 
@@ -86,8 +86,9 @@ export type MUISelectProps<
   valueKey?: ValueKey;
   /**
    * Current select value, normalized with `valueKey` for object options.
-   * For `multiple`, pass an array. `undefined`/`null` are treated as no
-   * selection (an empty array when `multiple` is true).
+   * For `multiple`, pass an array.
+   *
+   * `undefined`/`null`/`[]` are treated as no selection.
    */
   value?: NoInfer<SelectValue<OptionValue<Option, ValueKey>, Multiple>> | null;
   /**
@@ -124,7 +125,7 @@ export type MUISelectProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
-   * When true, allows selecting multiple values.
+   * When `true`, allows selecting multiple values.
    */
   multiple?: Multiple;
   /**
@@ -151,7 +152,7 @@ export type MUISelectProps<
    */
   defaultOptionText?: string;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -166,7 +167,7 @@ export type MUISelectProps<
    */
   inputLabelProps?: InputLabelProps;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -194,7 +195,7 @@ export type MUISelectProps<
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**
@@ -216,7 +217,20 @@ export type MUISelectProps<
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
-} & SelectProps;
+  /**
+   * Custom renderer for the closed select's displayed value — distinct from
+   * `renderOptionLabel`, which only affects each `MenuItem` in the open
+   * dropdown. Re-declared here (rather than inherited from MUI's `SelectProps`)
+   * so `value` is typed against this select's own `Option`/`ValueKey`/`Multiple`
+   * instead of MUI's default `unknown`, which otherwise forced callers to
+   * annotate the parameter by hand.
+   *
+   * @param value - The current normalized value(s), same shape as `value`/`onValueChange`'s `newValue`.
+   */
+  renderValue?: (
+    value: SelectValue<OptionValue<Option, ValueKey>, Multiple>
+  ) => ReactNode;
+} & Omit<SelectProps, 'renderValue'>;
 
 /**
  * Controlled wrapper around MUI's `Select`, supporting single or multiple selection.
@@ -420,7 +434,9 @@ const MUISelect = <
               );
             return (
               <Fragment>
-                {renderValue?.(value) ?? labels.join(', ')}
+                {renderValue?.(
+                  value as SelectValue<OptionValue<Option, ValueKey>, Multiple>
+                ) ?? labels.join(', ')}
               </Fragment>
             );
           }
@@ -432,7 +448,9 @@ const MUISelect = <
           );
           return (
             <Fragment>
-              {renderValue?.(value) ?? optionLabel}
+              {isValueEmpty
+                ? optionLabel
+                : renderValue?.(value) ?? optionLabel}
             </Fragment>
           );
         }}

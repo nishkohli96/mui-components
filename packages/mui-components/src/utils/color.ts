@@ -26,7 +26,7 @@ export function colorToString(color: ColorObject, excludeAlpha?: boolean): strin
     throw new Error('Invalid color object or type');
   }
 
-  const shouldExcludeAlpha = (color.a === undefined || color.a === 1) && excludeAlpha;
+  const shouldExcludeAlpha = !!excludeAlpha;
 
   if (isRGBColor) {
     return shouldExcludeAlpha
