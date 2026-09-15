@@ -19,8 +19,8 @@ export const sidebarLinks: Page[] = [
           { title: 'Password Input', href: '/components/mui/password-input' },
           { title: 'Number Input', href: '/components/mui/number-input' },
           {
-            title: 'Counter Input',
-            href: '/components/mui/counter-input',
+            title: 'Number Stepper',
+            href: '/components/mui/number-stepper',
             isNew: true
           },
           {

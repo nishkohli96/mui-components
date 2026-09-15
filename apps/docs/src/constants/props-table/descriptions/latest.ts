@@ -473,43 +473,43 @@ export const PropsDescription = Object.freeze({
       'Formats the numeric value for display, e.g. `value => value?.toLocaleString() ?? \'\'` for thousands separators. Switches the input to `type="text"` (which can render grouping characters); the formatted string is shown only while the field is **not** focused — on focus it reverts to the raw number and every typing / paste / `min` / `max` rule still applies. `value` stays a real `number | null`.\n\n**Added in** `v2.2`.',
     type: '(value: number | null) => string'
   },
-  min_CounterInput: {
+  min_NumberStepper: {
     name: 'min',
     description:
       'Lower bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur. `nonNegative` sets the lower bound to `0`, but `min` overrides it when set.',
     type: 'number'
   },
-  max_CounterInput: {
+  max_NumberStepper: {
     name: 'max',
     description:
       'Upper bound for the value. Stepping (arrow keys / markers) clamps to this and the value is clamped on blur.',
     type: 'number'
   },
-  decrementIcon_CounterInput: {
+  decrementIcon_NumberStepper: {
     name: 'decrementIcon',
     description:
       'Custom icon for the decrement (`-`) button.\n\n**Default:** Material UI `Remove` icon',
     type: 'ReactNode'
   },
-  incrementIcon_CounterInput: {
+  incrementIcon_NumberStepper: {
     name: 'incrementIcon',
     description:
       'Custom icon for the increment (`+`) button.\n\n**Default:** Material UI `Add` icon',
     type: 'ReactNode'
   },
-  swapButtons_CounterInput: {
+  swapButtons_NumberStepper: {
     name: 'swapButtons',
     description:
       'When `true`, swaps both the icons and the behaviour of the two buttons: the left button increments and the right button decrements.',
     type: 'boolean'
   },
-  iconButtonProps_CounterInput: (args: MuiPropsDescriptionArgs) => ({
+  iconButtonProps_NumberStepper: (args: MuiPropsDescriptionArgs) => ({
     name: 'iconButtonProps',
     description: '`IconButtonProps` forwarded to both stepper IconButtons — custom \`size\`, \`sx\`, etc. The interaction/accessibility essentials (\`onClick\`, \`onMouseDown\`, \`edge\`, \`disabled\`, \`aria-label\`) are controlled by the component.',
     type: `[IconButtonProps](${getMuiDocsUrl(args.muiVersion)}/api/icon-button/)`,
     hasLinkInType: true
   }),
-  caption_CounterInput: {
+  caption_NumberStepper: {
     name: 'caption',
     description: 'Content rendered under the value.\n\n E.g. an icon + label.',
     type: 'ReactNode'

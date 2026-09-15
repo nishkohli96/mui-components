@@ -1,18 +1,22 @@
-import { DocsPage, AvailabilityBanner, PropsTable } from '@/components/docs';
-import { componentMetadata, componentProps } from '@/constants';
-import CounterInputForm from '@/forms/mui/counter-input/Client';
+import {
+  DocsPage,
+  PropsTable,
+  AvailabilityBanner
+} from '@/components/docs';
+import { componentMetadata, componentPropsV1 } from '@/constants';
+import NumberStepperForm from '@/forms/mui/number-stepper/Client';
 
-export const metadata = componentMetadata.MUICounterInput;
+export const metadata = componentMetadata.MUINumberStepper;
 
 export default function Layout({ children }) {
   return <DocsPage>{children}</DocsPage>;
 }
 
-# MUICounterInput
+# MUINumberStepper
 
-<AvailabilityBanner componentName="MUICounterInput" version="2.2" />
+<AvailabilityBanner componentName="MUINumberStepper" version="1.3" />
 
-`MUICounterInput` is [MUINumberInput](/components/mui/number-input) with
+`MUINumberStepper` is [MUINumberInput](/v1/components/mui/number-input) with
 always-visible `-` / `+` buttons flanking the input instead of the native
 browser steppers. Every numeric behaviour — `number | null` value,
 `onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `min` / `max`
@@ -23,13 +27,13 @@ once its `min` / `max` bound is reached.
 ## Usage
 
 ```tsx
-import MUICounterInput, { MUICounterInputProps } from '@nish1896/mui-components/mui/counter-input';
+import MUINumberStepper, { MUINumberStepperProps } from '@nish1896/mui-components/mui/number-stepper';
 ```
 
 ```tsx
 const [quantity, setQuantity] = useState<number | null>(1);
 
-<MUICounterInput
+<MUINumberStepper
   fieldName="quantity"
   value={quantity}
   onValueChange={({ newValue }) => setQuantity(newValue)}
@@ -52,7 +56,7 @@ const [quantity, setQuantity] = useState<number | null>(1);
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-<MUICounterInput
+<MUINumberStepper
   fieldName="temperature"
   value={temp}
   onValueChange={({ newValue }) => setTemp(newValue)}
@@ -64,20 +68,10 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 ## API
 
-`MUICounterInputProps` extends [MUINumberInputProps](/components/mui/number-input#api)
-(minus `showMarkers`) and also accepts most
-[TextFieldProps](https://mui.com/material-ui/api/text-field/), with some props
-excluded, including `type`, `multiline` and `rows`.
-
-Props marked with
+`MUINumberStepperProps` extends [MUINumberInputProps](/v1/components/mui/number-input#api)
+(minus `showMarkers` and `variant`) and also accepts the remaining
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), except `type`,
+`multiline` and `rows`. Props marked with
 <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUICounterInput} />
-
-## Playground
-
-Integrated with [TanStack Form](https://tanstack.com/form/latest) — covers
-`onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `min` / `max`
-bounds and `swapButtons`, with validation surfaced through `errorMessage`.
-
-<CounterInputForm />
+<PropsTable rows={componentPropsV1.MUINumberStepper} />
