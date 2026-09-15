@@ -32,8 +32,8 @@ export type MUITextFieldProps = {
    */
   fieldName: string;
   /**
-   * Current value of the field. This is a controlled component: `value` and `onValueChange`
-   * must be supplied together, typically backed by your own state or form library.
+   * Current value of the field.
+   *
    * `undefined`/`null` are treated as an empty string.
    */
   value?: string | null;

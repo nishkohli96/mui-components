@@ -42,8 +42,8 @@ export type MUIRatingProps = {
    */
   fieldName: string;
   /**
-   * Current rating value. This is a controlled component: `value` and `onValueChange`
-   * must be supplied together, typically backed by your own state or form library.
+   * Current rating value.
+   *
    * `undefined`/`null` are treated as no rating selected.
    */
   value?: number | null;

@@ -144,8 +144,7 @@ export type MUIUnitInputProps<
   /**
    * Current value of the field. Always pass an explicit `unit` — an empty
    * `value.unit` renders the **unit** `Select` with no option selected
-   * rather than silently defaulting to `unitOptions[0]`, so what's shown
-   * always matches what you passed in.
+   * rather than silently defaulting to `unitOptions[0]`.
    *
    * `unit` and `value` are always reported together through `onValueChange`,
    * even though they're two controls.

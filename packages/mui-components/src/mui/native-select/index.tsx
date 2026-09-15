@@ -75,19 +75,9 @@ export type MUINativeSelectProps<
    */
   valueKey?: ValueKey;
   /**
-   * Custom renderer for dropdown options.
-   *
-   * Use this prop to customize how each option is displayed in the `<option>` element.
-   * When not provided, the option label derived from `labelKey` (or the
-   * option value itself for primitive options) is rendered.
-   *
-   * @param option - The option being rendered.
-   * @returns Custom React content to display for the option.
-   */
-  /**
    * Current select value, normalized with `valueKey` for object options.
-   * This is a controlled component: `value` and `onValueChange` must be
-   * supplied together. `undefined`/`null` are treated as no selection.
+   *
+   * `undefined`/`null` are treated as no selection.
    */
   value?: NoInfer<OptionValue<Option, ValueKey>> | null;
   /**
@@ -100,6 +90,16 @@ export type MUINativeSelectProps<
     newValue,
     event
   }: OnValueChangeProps<Option, ValueKey>) => void;
+  /**
+   * Custom renderer for dropdown options.
+   *
+   * Use this prop to customize how each option is displayed in the `<option>` element.
+   * When not provided, the option label derived from `labelKey` (or the
+   * option value itself for primitive options) is rendered.
+   *
+   * @param option - The option being rendered.
+   * @returns Custom React content to display for the option.
+   */
   renderOptionLabel?: (option: Option, state: OptionRenderState) => ReactNode;
   /**
    * Function to dynamically disable specific option(s).

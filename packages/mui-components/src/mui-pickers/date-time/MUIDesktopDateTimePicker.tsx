@@ -44,8 +44,8 @@ export type MUIDesktopDateTimePickerProps<TDate extends PickerValidDate = Picker
   fieldName: string;
   /**
    * Current picker value, in the date type of your configured `dateAdapter`
-   * (e.g. `Dayjs`, `Moment`, `DateTime`, native `Date`). This is a controlled
-   * component: `value` and `onValueChange` must be supplied together.
+   * (e.g. `Dayjs`, `Moment`, `DateTime`, native `Date`).
+   *
    * Pass `null` or `undefined` to clear the picker.
    *
    * `TDate` is inferred from the `value` you pass, so `newValue` on
