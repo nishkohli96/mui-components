@@ -95,11 +95,9 @@ export type MUIMultiAutocompleteObjectProps<
    */
   fieldName: string;
   /**
-   * Currently selected option objects. This is a controlled component: `value`
-   * and `onValueChange` must be supplied together, typically backed by your own
-   * state or form library.
+   * Currently selected option objects.
    *
-   * `undefined`/`null`/`[]` are treated as an empty selection.
+   * `undefined`/`null`/`[]` are treated as no selection.
    */
   value?: Option[];
   /**

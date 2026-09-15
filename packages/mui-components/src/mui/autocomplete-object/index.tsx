@@ -86,9 +86,7 @@ export type MUIAutocompleteObjectProps<
   fieldName: string;
   /**
    * Currently selected option object(s): `Option[]` when `multiple` is `true`,
-   * otherwise a single `Option`. This is a controlled component: `value` and
-   * `onValueChange` must be supplied together, typically backed by your own state
-   * or form library.
+   * otherwise a single `Option`.
    *
    * `undefined`/`null`/`[]` are treated as no selection.
    */

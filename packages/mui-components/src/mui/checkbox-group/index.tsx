@@ -73,14 +73,9 @@ export type MUICheckboxGroupProps<
   valueKey?: ValueKey;
   /**
    * Currently checked option values: `string[]` for string options, `number[]`
-   * for number options, or the `valueKey` property type for object options. This
-   * is a controlled component: `value` and `onValueChange` must be supplied
-   * together, typically backed by your own state or form library. `undefined` or
-   * `[]` is treated as an empty selection.
+   * for number options, or the `valueKey` property type for object options.
    *
-   * `Value` is a dedicated generic inferred from `value` (constrained to the
-   * option-derived type), so `Option` is inferred solely from `options` — no
-   * manual generic needed — while `value` stays precisely typed.
+   * `undefined`/`[]` is treated as an empty selection.
    */
   value?: Value[];
   /**

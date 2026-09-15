@@ -112,9 +112,7 @@ export type MUIAutocompleteProps<
   fieldName: string;
   /**
    * Currently selected value(s): `string[]` when `multiple` is `true`, otherwise a
-   * `string` (values are normalized with `valueKey` for object options). This is a
-   * controlled component: `value` and `onValueChange` must be supplied together,
-   * typically backed by your own state or form library.
+   * `string` (values are normalized with `valueKey` for object options).
    *
    * `undefined`/`null`/`[]` are treated as no selection.
    */

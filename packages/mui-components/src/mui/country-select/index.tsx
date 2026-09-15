@@ -152,8 +152,6 @@ export type MUICountrySelectProps<
    * when `multiple` is `true`; `null` is allowed for a single selection unless
    * `disableClearable` is set.
    *
-   * This is a controlled component: `value` and `onValueChange`
-   * must be supplied together, typically backed by your own state or form library.
    * `undefined`/`null`/`[]` are treated as no selection.
    */
   value?: CountrySelectStoredValue<Multiple, DisableClearable, ValueKey>;
