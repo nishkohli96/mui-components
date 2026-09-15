@@ -123,7 +123,7 @@ export type MUIAutocompleteProps<
    * to update `value`.
    *
    * @param newValue - Selected value(s): `string[]` when `multiple` is `true`,
-   * otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is false).
+   * otherwise `string`. Includes `null` only when clearing is allowed (`disableClearable` is `false`).
    * @param selectedOption - Raw MUI selected option/value, including free-solo strings when enabled.
    * @param event - Original MUI Autocomplete change event.
    * @param reason - MUI Autocomplete reason for the change.
