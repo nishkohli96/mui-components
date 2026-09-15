@@ -219,7 +219,7 @@ const MUIColorPicker = ({
 
   const getFormattedColor = (color: IColor) =>
     valueKey === 'hex'
-      ? color.hex
+      ? (excludeAlpha ? color.hex.slice(0, 7) : color.hex)
       : colorToString(color[valueKey], excludeAlpha);
 
   const wrappedSetColor = (newColor: IColor) => {
@@ -239,7 +239,10 @@ const MUIColorPicker = ({
       component="fieldset"
       error={isError}
       disabled={muiDisabled}
-      aria-labelledby={!hideLabel && isLabelAboveControl ? labelId : undefined}
+      aria-required={required}
+      aria-labelledby={!hideLabel && isLabelAboveControl
+        ? labelId
+        : undefined}
       aria-label={
         hideLabel || !isLabelAboveControl
           ? accessibleFieldLabel

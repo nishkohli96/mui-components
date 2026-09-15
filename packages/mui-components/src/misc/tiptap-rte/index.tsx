@@ -55,22 +55,6 @@ export type MUITipTapRteProps = {
    */
   onValueChange: ({ newValue, editor }: MUITipTapRteOnValueChangeProps) => void;
   /**
-   * Placeholder text shown when the editor is empty. Always applied via an
-   * internal `Placeholder` extension appended after `editorExtensions` (or
-   * `DefaultEditorExtensions`), regardless of which set is active.
-   */
-  placeholder?: string;
-  /**
-   * When `true`, marks the field as **required** in the UI and accessibility attributes.
-   */
-  required?: boolean;
-  /**
-   * Tiptap extensions passed to `useEditor`.
-   *
-   * Defaults to this package's `DefaultEditorExtensions`.
-   */
-  editorExtensions?: AnyExtension[];
-  /**
    * Additional options passed straight through to `useEditor` — e.g.
    * `autofocus`, `onCreate`, `onFocus`, `onBlur`, `editorProps.handleDOMEvents`,
    * `parseOptions`, `injectCSS`.
@@ -94,9 +78,11 @@ export type MUITipTapRteProps = {
     'extensions' | 'content' | 'editable'
   >;
   /**
-   * When `true`, disables the field and associated controls.
+   * Tiptap extensions passed to `useEditor`.
+   *
+   * Defaults to this package's `DefaultEditorExtensions`.
    */
-  disabled?: boolean;
+  editorExtensions?: AnyExtension[];
   /**
    * Props forwarded to the outer bordered container wrapping the toolbar
    * and editor content. `containerProps.sx` is merged with the component's
@@ -116,6 +102,20 @@ export type MUITipTapRteProps = {
    * `Toolbar`. Pass `() => null` to hide the toolbar entirely.
    */
   renderToolbar?: (editor: Editor, disabled: boolean) => ReactNode;
+  /**
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
+   */
+  required?: boolean;
+  /**
+   * Placeholder text shown when the editor is empty. Always applied via an
+   * internal `Placeholder` extension appended after `editorExtensions` (or
+   * `DefaultEditorExtensions`), regardless of which set is active.
+   */
+  placeholder?: string;
+  /**
+   * When `true`, disables the field and associated controls.
+   */
+  disabled?: boolean;
   /**
    * Label content shown for the field. Defaults to a label generated from `fieldName`.
    */
@@ -192,14 +192,14 @@ const MUITipTapRte = ({
   fieldName,
   value,
   onValueChange,
-  placeholder,
-  required,
-  editorExtensions,
   editorOptions,
-  disabled: muiDisabled,
+  editorExtensions,
   containerProps,
   contentContainerProps,
   renderToolbar,
+  required,
+  placeholder,
+  disabled: muiDisabled,
   label,
   showLabelAboveFormField,
   formLabelProps,
