@@ -64,7 +64,7 @@ export type MUIMobileDateTimePickerProps<TDate extends PickerValidDate = PickerV
     context
   }: PickerOnValueChangeProps<TDate, DateTimeValidationError>) => void;
   /**
-   * When `true`, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**

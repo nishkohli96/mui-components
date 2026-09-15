@@ -72,7 +72,7 @@ export type MUISliderProps<Value extends SliderValue = SliderValue> = {
     event
   }: OnValueChangeProps<Value>) => void;
   /**
-   * When `true`, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**

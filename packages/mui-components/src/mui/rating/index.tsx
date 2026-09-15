@@ -56,7 +56,7 @@ export type MUIRatingProps = {
    */
   onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * When `true`, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**

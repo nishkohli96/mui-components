@@ -144,7 +144,7 @@ export type MUIRadioGroupProps<
    */
   formControlLabelProps?: FormControlLabelProps;
   /**
-   * When `true`, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**

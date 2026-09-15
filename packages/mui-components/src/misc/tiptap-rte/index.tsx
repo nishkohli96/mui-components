@@ -93,7 +93,7 @@ export type MUITipTapRteProps = {
    */
   renderToolbar?: (editor: Editor, disabled: boolean) => ReactNode;
   /**
-   * When `true`, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**

@@ -64,7 +64,7 @@ export type MUITimePickerProps<TDate extends PickerValidDate = PickerValidDate> 
     context
   }: PickerOnValueChangeProps<TDate, TimeValidationError>) => void;
   /**
-   * When `true`, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**

@@ -68,7 +68,7 @@ export type MUIColorPickerProps = {
    */
   excludeAlpha?: boolean;
   /**
-   * When `true`, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
