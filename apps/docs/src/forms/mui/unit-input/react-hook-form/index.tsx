@@ -32,7 +32,6 @@ import { showToastMessage, logFirebaseEvent } from '@/utils';
 import RHFUnitInput from './rhf-unit-input';
 
 type WeightUnit = 'kg' | 'lb';
-type TemperatureUnit = '°C' | '°F';
 type Currency = 'USD' | 'INR' | 'EUR' | 'GBP' | 'YEN';
 
 type CurrencyOption = {
@@ -44,10 +43,10 @@ type CurrencyOption = {
 type UnitInputFormValues = {
   priceUnit: Currency;
   priceAmount: number | null;
-  weightUnit: WeightUnit;
-  weightAmount: number | null;
-  temperatureUnit: TemperatureUnit;
-  temperatureAmount: number | null;
+  weight: {
+    unit: WeightUnit;
+    amount: number | null;
+  };
 };
 
 const currencyOptions: CurrencyOption[] = [
@@ -73,10 +72,10 @@ const currencyFormat: Record<Currency, { locale: string; currency: string }> = {
 const initialValues: UnitInputFormValues = {
   priceUnit: 'USD',
   priceAmount: null,
-  weightUnit: 'kg',
-  weightAmount: 5,
-  temperatureUnit: '°C',
-  temperatureAmount: null
+  weight: {
+    unit: 'kg',
+    amount: 5,
+  }
 };
 
 export default function UnitInputForm() {
@@ -115,7 +114,7 @@ export default function UnitInputForm() {
 
           <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="Currency, object unitOptions via labelKey/valueKey, unit on the left, renderOption/getOptionDisabled, and renderValue reformatting per selected currency" />
-            <RHFUnitInput<UnitInputFormValues, CurrencyOption, 'label', 'code'>
+            <RHFUnitInput
               control={control}
               fieldName={{ unit: 'priceUnit', value: 'priceAmount' }}
               label="Price"
@@ -148,31 +147,13 @@ export default function UnitInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Weight, plain string unitOptions, responsive unitWidth (40% on mobile, 30% from md up)" />
-            <RHFUnitInput<UnitInputFormValues>
+            <FieldVariantInfo title="Weight, plain string unitOptions, responsive unitWidth (40% on mobile, 30% from md up), containerProps, dividerProps, and sx overrides" />
+            <RHFUnitInput
               control={control}
-              fieldName={{ unit: 'weightUnit', value: 'weightAmount' }}
+              fieldName={{ unit: 'weight.unit', value: 'weight.amount' }}
               label="Package weight"
               unitOptions={['kg', 'lb']}
               unitWidth={{ xs: '40%', md: '30%' }}
-              onlyIntegers
-              min={0}
-              max={150}
-              stepAmount={5}
-              required
-              valueRegisterOptions={{ required: 'Weight is required' }}
-              helperText="Only Integers, stepAmount: 5, max limit: 150"
-              disabled={disableAllFields}
-            />
-          </Grid>
-
-          <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Temperature — containerProps, dividerProps, and sx overrides on the internal quantity input & unit Select" />
-            <RHFUnitInput<UnitInputFormValues>
-              control={control}
-              fieldName={{ unit: 'temperatureUnit', value: 'temperatureAmount' }}
-              label="Target temperature"
-              unitOptions={['°C', '°F']}
               containerProps={{
                 sx: {
                   borderColor: 'info.main',
@@ -182,26 +163,13 @@ export default function UnitInputForm() {
               dividerProps={{
                 sx: { borderColor: 'info.main' }
               }}
-              valueInputProps={{
-                sx: {
-                  '& input[type=number]': {
-                    fontWeight: 700,
-                    color: 'secondary.dark'
-                  }
-                }
-              }}
-              unitSelectProps={{
-                sx: {
-                  fontStyle: 'italic',
-                  color: 'success.dark'
-                }
-              }}
               onlyIntegers
-              min={-50}
+              min={0}
               max={150}
+              stepAmount={5}
               required
-              valueRegisterOptions={{ required: 'Temperature is required' }}
-              helperText="containerProps/dividerProps/valueInputProps.sx/unitSelectProps.sx all overridden here"
+              valueRegisterOptions={{ required: 'Weight is required' }}
+              helperText="Only Integers, stepAmount: 5, max limit: 150"
               disabled={disableAllFields}
             />
           </Grid>

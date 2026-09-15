@@ -55,7 +55,6 @@ export default function RHFUnitInput<
   fieldName,
   unitRegisterOptions,
   valueRegisterOptions,
-  errorMessage,
   unitSelectProps,
   valueInputProps,
   ...unitInputProps
