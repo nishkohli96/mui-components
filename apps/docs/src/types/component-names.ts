@@ -2,11 +2,13 @@ export enum MuiComponents {
   TextField = 'MUITextField',
   PasswordInput = 'MUIPasswordInput',
   NumberInput = 'MUINumberInput',
+  NumberStepper = 'MUINumberStepper',
   OTPInput = 'MUIOTPInput',
   TagsInput = 'MUITagsInput',
   FileUploader = 'MUIFileUploader',
   Select = 'MUISelect',
   NativeSelect = 'MUINativeSelect',
+  UnitInput = 'MUIUnitInput',
   Autocomplete = 'MUIAutocomplete',
   AutocompleteObject = 'MUIAutocompleteObject',
   MultiAutocomplete = 'MUIMultiAutocomplete',
@@ -29,5 +31,6 @@ export enum MuiPickersComponents {
 export enum MiscComponents {
   ColorPicker = 'MUIColorPicker',
   RichTextEditor = 'MUIRichTextEditor',
-  PhoneInput = 'MUIPhoneInput',
+  TipTapRte = 'MUITipTapRte',
+  PhoneInput = 'MUIPhoneInput'
 }

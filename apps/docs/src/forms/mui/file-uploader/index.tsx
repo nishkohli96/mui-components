@@ -10,6 +10,7 @@
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MUIFileUploader, {
@@ -30,6 +31,7 @@ import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 
 const MAX_AVATAR_SIZE = 2 * 1024 * 1024; // 2 MB
+const MAX_RESUME_SIZE = 5 * 1024 * 1024; // 5 MB
 
 export default function FileUploaderForm() {
   const pathName = usePathname();
@@ -37,11 +39,13 @@ export default function FileUploaderForm() {
   const [avatar, setAvatar] = useState<File | null>(null);
   const [avatarError, setAvatarError] = useState<string>();
   const [documents, setDocuments] = useState<File[]>([]);
+  const [resume, setResume] = useState<File | null>(null);
   const [disableAllFields, setDisableAllFields] = useState(false);
 
   const formValues = {
     avatar: avatar?.name ?? null,
-    documents: documents.map(file => file.name)
+    documents: documents.map(file => file.name),
+    resume: resume?.name ?? null
   };
   const errors = { avatar: avatarError };
 
@@ -60,6 +64,7 @@ export default function FileUploaderForm() {
     setAvatar(null);
     setAvatarError(undefined);
     setDocuments([]);
+    setResume(null);
   }
 
   async function onFormSubmit() {
@@ -129,6 +134,63 @@ export default function FileUploaderForm() {
                 <UploadedFile file={file} onRemove={removeFile} />
               )}
               helperText="Up to 3 PDF or Word documents"
+              disabled={disableAllFields}
+            />
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="PDF only, drag-drop disabled, native input look (renderUploadButton)" />
+            <MUIFileUploader
+              fieldName="resume"
+              value={resume}
+              onValueChange={({ newValue }) => setResume(newValue as File | null)}
+              accept=".pdf"
+              maxSize={MAX_RESUME_SIZE}
+              disableDragAndDrop
+              fullWidth
+              renderUploadButton={fileInput => (
+                <Box
+                  component="label"
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'stretch',
+                    border: '1px solid',
+                    borderColor: 'divider',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                    cursor: disableAllFields ? 'not-allowed' : 'pointer'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      px: 2,
+                      py: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      bgcolor: 'action.hover',
+                      color: 'text.secondary',
+                      fontSize: 14,
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    Choose file
+                  </Box>
+                  <Box
+                    sx={{
+                      px: 2,
+                      display: 'flex',
+                      alignItems: 'center',
+                      flex: 1,
+                      fontSize: 14,
+                      color: resume ? 'text.primary' : 'text.disabled'
+                    }}
+                  >
+                    {resume?.name ?? 'No file chosen'}
+                  </Box>
+                  {fileInput}
+                </Box>
+              )}
+              helperText="PDF only (MAX. 5 MB)."
               disabled={disableAllFields}
             />
           </Grid>

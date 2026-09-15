@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/mui-components",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "A suite of 25+ production-ready, form-library-agnostic Material UI components — build forms with any form library, or drop in each one standalone. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://mui-components-docs.vercel.app",
@@ -25,6 +25,13 @@
     "@mui/system": "^9.2.0",
     "@mui/x-date-pickers": "^9.10.1",
     "@nish1896/eslint-flat-config": "^3.1.6",
+    "@tiptap/core": "^3.31.3",
+    "@tiptap/extension-link": "^3.31.3",
+    "@tiptap/extension-placeholder": "^3.31.3",
+    "@tiptap/extension-text-align": "^3.31.3",
+    "@tiptap/extension-underline": "^3.31.3",
+    "@tiptap/react": "^3.31.3",
+    "@tiptap/starter-kit": "^3.31.3",
     "@types/lodash": "^4.17.25",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
@@ -43,7 +50,37 @@
     "@mui/system": "^9.0.0",
     "@mui/material": "^9.0.0",
     "@mui/icons-material": "^9.0.0",
-    "@mui/x-date-pickers": "^9.0.0"
+    "@mui/x-date-pickers": "^9.0.0",
+    "@tiptap/core": "^3.0.0",
+    "@tiptap/extension-link": "^3.0.0",
+    "@tiptap/extension-placeholder": "^3.0.0",
+    "@tiptap/extension-text-align": "^3.0.0",
+    "@tiptap/extension-underline": "^3.0.0",
+    "@tiptap/react": "^3.0.0",
+    "@tiptap/starter-kit": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tiptap/core": {
+      "optional": true
+    },
+    "@tiptap/extension-link": {
+      "optional": true
+    },
+    "@tiptap/extension-placeholder": {
+      "optional": true
+    },
+    "@tiptap/extension-text-align": {
+      "optional": true
+    },
+    "@tiptap/extension-underline": {
+      "optional": true
+    },
+    "@tiptap/react": {
+      "optional": true
+    },
+    "@tiptap/starter-kit": {
+      "optional": true
+    }
   },
   "exports": {
     "./package.json": "./dist/package.json",
