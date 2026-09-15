@@ -115,11 +115,6 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'MUINumberInput with always-visible - / + stepper buttons flanking the input, min/max clamping and per-bound button disabling.'
   },
-  MUIUnitInput: {
-    title: 'MUIUnitInput',
-    description:
-      'Controlled Material UI numeric input paired with a unit Select (currency, weight, temperature) inside one pill, reported together as a single { value, unit } value.'
-  },
   MUIOTPInput: {
     title: 'MUIOTPInput',
     description:
@@ -144,6 +139,11 @@ export const componentMetadata: Record<string, Metadata> = {
     title: 'MUINativeSelect',
     description:
       'Controlled Material UI native <select> for lightweight dropdowns, especially on mobile.'
+  },
+  MUIUnitInput: {
+    title: 'MUIUnitInput',
+    description:
+      'Controlled Material UI numeric input paired with a unit Select (currency, weight, temperature) inside one pill, reported together as a single { value, unit } value.'
   },
   MUIAutocomplete: {
     title: 'MUIAutocomplete',
@@ -219,11 +219,6 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'Controlled color picker built on react-color-palette with label, error and helper-text handling.'
   },
-  MUIPhoneInput: {
-    title: 'MUIPhoneInput',
-    description:
-      'Controlled international phone input with country dropdown, search and structured value output.'
-  },
   MUIRichTextEditor: {
     title: 'MUIRichTextEditor',
     description:
@@ -233,6 +228,11 @@ export const componentMetadata: Record<string, Metadata> = {
     title: 'MUITipTapRte',
     description:
       'Controlled Tiptap rich text editor backed by an HTML string, with a hand-built formatting toolbar — a lighter alternative to the CKEditor 5-based MUIRichTextEditor.'
+  },
+  MUIPhoneInput: {
+    title: 'MUIPhoneInput',
+    description:
+      'Controlled international phone input with country dropdown, search and structured value output.'
   },
   fieldNameToId: {
     title: 'fieldNameToId',
