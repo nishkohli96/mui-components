@@ -163,7 +163,7 @@ export default function UnitInputRHFForm() {
               stepAmount={10}
               required
               errorMessage={errors.storage?.amount?.message}
-              helperText="Only integers, stepAmount: 10, containerProps/dividerProps/valueInputProps.sx/unitSelectProps.sx all overridden here"
+              helperText="Only integers, stepAmount: 10, containerProps, dividerProps, valueInputProps.sx, unitSelectProps.sx all overridden here"
               disabled={disableAllFields}
             />
           </Grid>

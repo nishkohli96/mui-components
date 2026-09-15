@@ -84,6 +84,7 @@ export default function RHFUnitInput<
               value: unitValue,
               onChange: unitOnChange,
               onBlur: unitOnBlur,
+              ref: unitRef,
             },
             fieldState: {
               error: unitError
@@ -102,6 +103,7 @@ export default function RHFUnitInput<
               }}
               unitSelectProps={{
                 ...unitSelectProps,
+                inputRef: unitRef,
                 onBlur: (unitSelectBlurEvent) => {
                   unitOnBlur();
                   unitSelectProps?.onBlur?.(unitSelectBlurEvent);
