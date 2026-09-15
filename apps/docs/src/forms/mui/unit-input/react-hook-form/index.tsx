@@ -2,20 +2,22 @@
 
 /**
  * MUIUnitInput example — driven by React Hook Form via the reusable
- * `RHFUnitInput` wrapper (see `@/components/rhf-unit-input`), which wires
+ * `RHFUnitInput` wrapper (see `./rhf-unit-input`), which wires
  * `MUIUnitInput`'s `{ unit, value }` pair to two RHF field paths through
- * nested `Controller`s. The same wrapper is reused for all three fields
- * below: a currency field (object `unitOptions` via `labelKey`/`valueKey`,
- * unit on the left), a generic weight field (plain string `unitOptions`,
- * responsive `unitWidth`), and a temperature field exercising
- * `containerProps`/`dividerProps` plus `sx` overrides on the internal value
- * `MUINumberInput` and unit `MUISelect`. All three are `required` and
- * validated via RHF's own `registerOptions`.
+ * nested `Controller`s, and validated with Zod (`unitInputFormSchema` in
+ * `./validation`) via `zodResolver`. The same wrapper is reused for both
+ * fields below: a distance field (flat field paths, object `unitOptions`
+ * via `labelKey`/`valueKey`, unit on the left, `renderValue` reformatting
+ * per selected unit), and a file-size field (nested `storage.unit` /
+ * `storage.amount` field paths, plain string `unitOptions`, responsive
+ * `unitWidth`, `containerProps`/`dividerProps` plus `sx` overrides on the
+ * internal value `MUINumberInput` and unit `MUISelect`).
  */
 
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useForm, useWatch } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -30,55 +32,39 @@ import {
 import { formSubmitEventName } from '@/constants';
 import { showToastMessage, logFirebaseEvent } from '@/utils';
 import RHFUnitInput from './rhf-unit-input';
+import { unitInputFormSchema } from './validation';
 
-type WeightUnit = 'kg' | 'lb';
-type Currency = 'USD' | 'INR' | 'EUR' | 'GBP' | 'YEN';
+type DistanceUnit = 'km' | 'mi' | 'nmi';
+type StorageUnit = 'KB' | 'MB' | 'GB' | 'TB';
 
-type CurrencyOption = {
-  code: Currency;
+type DistanceOption = {
+  code: DistanceUnit;
   label: string;
-  symbol: string;
 };
 
 type UnitInputFormValues = {
-  priceUnit: Currency;
-  priceAmount: number | null;
-  weight: {
-    unit: WeightUnit;
+  distanceUnit: DistanceUnit;
+  distanceAmount: number | null;
+  storage: {
+    unit: StorageUnit;
     amount: number | null;
   };
 };
 
-const currencyOptions: CurrencyOption[] = [
-  { code: 'USD', label: 'US Dollar', symbol: '$' },
-  { code: 'INR', label: 'Indian Rupee', symbol: '₹' },
-  { code: 'EUR', label: 'Euro', symbol: '€' },
-  { code: 'GBP', label: 'British Pound', symbol: '£' },
-  { code: 'YEN', label: 'Yen', symbol: '¥' },
+const distanceOptions: DistanceOption[] = [
+  { code: 'km', label: 'Kilometers' },
+  { code: 'mi', label: 'Miles' },
+  { code: 'nmi', label: 'Nautical miles' },
 ];
 
-/**
- * Locale + ISO 4217 code per selectable currency, so `toLocaleString` groups
- * (e.g. INR uses the lakh/crore system) and picks the right symbol.
- */
-const currencyFormat: Record<Currency, { locale: string; currency: string }> = {
-  USD: { locale: 'en-US', currency: 'USD' },
-  INR: { locale: 'en-IN', currency: 'INR' },
-  EUR: { locale: 'de-DE', currency: 'EUR' },
-  GBP: { locale: 'en-GB', currency: 'GBP' },
-  YEN: { locale: 'ja-JP', currency: 'JPY' }
-};
-
-const initialValues: UnitInputFormValues = {
-  priceUnit: 'USD',
-  priceAmount: null,
-  weight: {
-    unit: 'kg',
-    amount: 5,
+const initialValues: Partial<UnitInputFormValues> = {
+  storage: {
+    unit: 'MB',
+    amount: 500,
   }
 };
 
-export default function UnitInputForm() {
+export default function UnitInputRHFForm() {
   const pathName = usePathname();
   const [disableAllFields, setDisableAllFields] = useState(false);
 
@@ -87,9 +73,12 @@ export default function UnitInputForm() {
     reset,
     handleSubmit,
     formState: { errors }
-  } = useForm<UnitInputFormValues>({ defaultValues: initialValues });
+  } = useForm<UnitInputFormValues>({
+    defaultValues: initialValues,
+    resolver: zodResolver(unitInputFormSchema)
+  });
   const formValues = useWatch({ control });
-  const priceUnit = useWatch({ control, name: 'priceUnit' });
+  const distanceUnit = useWatch({ control, name: 'distanceUnit' });
 
   async function onFormSubmit(values: UnitInputFormValues) {
     await logFirebaseEvent(formSubmitEventName, { pathName });
@@ -113,46 +102,38 @@ export default function UnitInputForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Currency, object unitOptions via labelKey/valueKey, unit on the left, renderOption/getOptionDisabled, and renderValue reformatting per selected currency" />
+            <FieldVariantInfo title="Distance, object unitOptions via labelKey/valueKey, unit on the left, getOptionDisabled, and renderValue reformatting per selected unit" />
             <RHFUnitInput
               control={control}
-              fieldName={{ unit: 'priceUnit', value: 'priceAmount' }}
-              label="Price"
-              unitOptions={currencyOptions}
+              fieldName={{ unit: 'distanceUnit', value: 'distanceAmount' }}
+              label="Distance"
+              unitOptions={distanceOptions}
               labelKey="label"
               valueKey="code"
               unitPosition="start"
               unitSelectProps={{
-                renderOptionLabel: opn => `${opn.label} (${opn.symbol})`,
-                getOptionDisabled: opn => opn.code === 'YEN'
+                getOptionDisabled: opn => opn.code === 'nmi'
               }}
-              placeholder="Enter amount"
+              placeholder="Enter distance"
               nonNegative
               maxDecimalPlaces={2}
-              renderValue={val => {
-                if (val === null) {
-                  return '';
-                }
-                const { locale, currency } = currencyFormat[priceUnit];
-                return val.toLocaleString(locale, {
-                  style: 'currency',
-                  currency
-                });
-              }}
+              renderValue={val => val === null
+                ? ''
+                : `${val.toLocaleString()} ${distanceUnit}`}
               required
-              valueRegisterOptions={{ required: 'Price is required' }}
-              helperText="Blur to see it formatted as the selected currency"
+              errorMessage={errors.distanceAmount?.message}
+              helperText="Blur to see it reformatted with the selected unit"
               disabled={disableAllFields}
             />
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Weight, plain string unitOptions, responsive unitWidth (40% on mobile, 30% from md up), containerProps, dividerProps, and sx overrides" />
+            <FieldVariantInfo title="File size, nested storage.unit/storage.amount field paths, plain string unitOptions, responsive unitWidth (40% on mobile, 30% from md up), containerProps, dividerProps, and sx overrides" />
             <RHFUnitInput
               control={control}
-              fieldName={{ unit: 'weight.unit', value: 'weight.amount' }}
-              label="Package weight"
-              unitOptions={['kg', 'lb']}
+              fieldName={{ unit: 'storage.unit', value: 'storage.amount' }}
+              label="File size"
+              unitOptions={['MB', 'GB', 'TB']}
               unitWidth={{ xs: '40%', md: '30%' }}
               containerProps={{
                 sx: {
@@ -163,13 +144,26 @@ export default function UnitInputForm() {
               dividerProps={{
                 sx: { borderColor: 'info.main' }
               }}
+              valueInputProps={{
+                sx: {
+                  '& input[type=number]': {
+                    fontWeight: 700,
+                    color: 'secondary.dark'
+                  }
+                }
+              }}
+              unitSelectProps={{
+                sx: {
+                  fontStyle: 'italic',
+                  color: 'success.dark'
+                }
+              }}
               onlyIntegers
               min={0}
-              max={150}
-              stepAmount={5}
+              stepAmount={10}
               required
-              valueRegisterOptions={{ required: 'Weight is required' }}
-              helperText="Only Integers, stepAmount: 5, max limit: 150"
+              errorMessage={errors.storage?.amount?.message}
+              helperText="Only integers, stepAmount: 10, containerProps/dividerProps/valueInputProps.sx/unitSelectProps.sx all overridden here"
               disabled={disableAllFields}
             />
           </Grid>
