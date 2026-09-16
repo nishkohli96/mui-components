@@ -25,6 +25,8 @@ import {
   getSteppedInputValue,
   resolveBounds,
   resolveStepAmount,
+  isAtMinBound,
+  isAtMaxBound,
   useFieldIds,
   getErrorList,
   mergeSx
@@ -146,14 +148,8 @@ const MUINumberStepper = ({
     max: effectiveMax
   } = resolveBounds(nonNegative, min, max);
 
-  const atMin = effectiveMin !== undefined
-    && muiValue !== null
-    && muiValue !== undefined
-    && muiValue <= effectiveMin;
-  const atMax = effectiveMax !== undefined
-    && muiValue !== null
-    && muiValue !== undefined
-    && muiValue >= effectiveMax;
+  const atMin = isAtMinBound(muiValue, effectiveMin);
+  const atMax = isAtMaxBound(muiValue, effectiveMax);
 
   const stepBy = useCallback(
     (direction: 1 | -1) => {

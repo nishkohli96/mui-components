@@ -192,7 +192,7 @@ export default function NumberInputForm() {
             </form.Field>
           </Grid>
 
-  <Grid size={{ xs: 12, md: 6 }}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <FieldVariantInfo title="renderValue (currency prefix), bounded 0–100 — clamped on blur even though the displayed text is formatted, not the raw number" />
             <form.Field name="budget">
               {field => (

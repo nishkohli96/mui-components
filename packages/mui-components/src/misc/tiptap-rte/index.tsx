@@ -301,10 +301,6 @@ const MUITipTapRte = ({
     editor?.setEditable(!muiDisabled);
   }, [muiDisabled, editor]);
 
-  if (!editor) {
-    return null;
-  }
-
   return (
     <FormControl error={isError} disabled={muiDisabled}>
       {!hideLabel && (
@@ -321,55 +317,57 @@ const MUITipTapRte = ({
           }}
         />
       )}
-      <Box
-        {...containerProps}
-        sx={mergeSx(
-          {
-            border: '1px solid',
-            borderColor: isError ? 'error.main' : 'divider',
-            borderRadius: 1,
-            overflow: 'hidden',
-            bgcolor: 'background.paper',
-            opacity: muiDisabled ? 0.6 : 1,
-            '&:focus-within': {
-              borderColor: isError ? 'error.main' : 'primary.main',
-              borderWidth: '2px',
-              m: '-1px'
-            }
-          },
-          containerProps?.sx
-        )}
-      >
-        {renderToolbar
-          ? renderToolbar(editor, !!muiDisabled)
-          : <Toolbar editor={editor} disabled={muiDisabled} />}
+      {editor && (
         <Box
-          {...contentContainerProps}
+          {...containerProps}
           sx={mergeSx(
             {
-              px: 1.5,
-              py: 1,
-              minHeight: 160,
-              maxHeight: 400,
-              overflowY: 'auto',
-              '& .ProseMirror': {
-                outline: 'none',
-                minHeight: 140
-              },
-              '& .ProseMirror p.is-editor-empty:first-of-type::before': {
-                content: 'attr(data-placeholder)',
-                color: 'text.disabled',
-                float: 'left',
-                height: 0,
-                pointerEvents: 'none'
+              border: '1px solid',
+              borderColor: isError ? 'error.main' : 'divider',
+              borderRadius: 1,
+              overflow: 'hidden',
+              bgcolor: 'background.paper',
+              opacity: muiDisabled ? 0.6 : 1,
+              '&:focus-within': {
+                borderColor: isError ? 'error.main' : 'primary.main',
+                borderWidth: '2px',
+                m: '-1px'
               }
             },
-            contentContainerProps?.sx
+            containerProps?.sx
           )}
         >
-          <EditorContent editor={editor} />
+          {renderToolbar
+            ? renderToolbar(editor, !!muiDisabled)
+            : <Toolbar editor={editor} disabled={muiDisabled} />}
+          <Box
+            {...contentContainerProps}
+            sx={mergeSx(
+              {
+                px: 1.5,
+                py: 1,
+                minHeight: 160,
+                maxHeight: 400,
+                overflowY: 'auto',
+                '& .ProseMirror': {
+                  outline: 'none',
+                  minHeight: 140
+                },
+                '& .ProseMirror p.is-editor-empty:first-of-type::before': {
+                  content: 'attr(data-placeholder)',
+                  color: 'text.disabled',
+                  float: 'left',
+                  height: 0,
+                  pointerEvents: 'none'
+                }
+              },
+              contentContainerProps?.sx
+            )}
+          >
+            <EditorContent editor={editor} />
+          </Box>
         </Box>
-      </Box>
+      )}
       <FormHelperText
         error={isError}
         errorMessage={fieldErrorMessage}

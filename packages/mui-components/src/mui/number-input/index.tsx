@@ -512,10 +512,15 @@ const MUINumberInput = ({
           /**
            * In text mode (`renderValue`), `input.value` while blurred is the
            * *formatted* display string (e.g. `"$150"`) — `Number(...)` on
-           * that is `NaN`, silently skipping the clamp. `editBuffer` still
-           * holds the raw, unformatted numeric string typed by the user.
+           * that is `NaN`, silently skipping the clamp. `editBuffer` holds
+           * the raw, unformatted numeric string once the field has been
+           * focused/edited, but starts out as `''` — falling back to
+           * `muiValue` covers a field that blurs having never entered an
+           * edit session (e.g. an out-of-range value supplied up front).
            */
-          const valueToClamp = isTextMode ? editBuffer : input.value;
+          const valueToClamp = isTextMode
+            ? (editBuffer !== '' ? editBuffer : (isEmptyValue ? '' : String(muiValue)))
+            : input.value;
           if (
             (effectiveMin !== undefined || effectiveMax !== undefined)
             && valueToClamp !== ''
