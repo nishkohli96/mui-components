@@ -75,9 +75,11 @@ export type MUIOTPInputProps = {
   /**
    * Current code value, as a single string with no separators (e.g. `'123456'`).
    *
-   * `undefined` is treated as an empty code. Only the first `length` characters
-   * are shown and editable — a longer `value` (or shrinking `length`) drops the
-   * overflow from the next `onValueChange`, so keep `value.length <= length`.
+   * Only the first `length` characters are shown and editable — a longer `value`
+   * (or shrinking `length`) drops the overflow from the next `onValueChange`,
+   * so keep `value.length <= length`.
+   *
+   * `undefined` is treated as an empty code. 
    */
   value?: string;
   /**
