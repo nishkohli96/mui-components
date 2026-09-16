@@ -1,0 +1,130 @@
+import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
+import { componentProps, componentMetadata } from '@/constants';
+import TipTapForm from '@/forms/misc/tiptap-rte/Client';
+
+export const metadata = componentMetadata.MUITipTapRte;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUITipTapRte
+
+<AvailabilityBanner componentName="MUITipTapRte" version="2.2" />
+
+`MUITipTapRte` wraps [Tiptap](https://tiptap.dev/)'s headless `useEditor` hook,
+backed by an **HTML string** value — a lighter, dependency-thinner alternative to
+[MUIRichTextEditor](/components/misc/rich-text-editor) (CKEditor 5). Since Tiptap
+ships no UI of its own, this component includes a hand-built formatting
+toolbar (bold, italic, underline, strikethrough, headings, lists, blockquote,
+code block, links, alignment, undo/redo) driven entirely by the editor's own
+extensions.
+
+## Usage
+
+```tsx
+import MUITipTapRte, {
+  DefaultEditorExtensions,
+  type MUITipTapRteProps
+} from '@nish1896/mui-components/misc/tiptap-rte';
+```
+
+The value of `bio` will be an **HTML string**.
+
+```tsx
+const [bio, setBio] = useState('');
+
+<MUITipTapRte
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  placeholder="Tell us about yourself"
+/>
+```
+
+To customize the toolbar/formatting options, pass a custom `editorExtensions`
+array (or extend `DefaultEditorExtensions`). Every toolbar button checks whether
+its backing extension is actually loaded before rendering, so a custom set missing
+e.g. `Heading` or `TextAlign` simply omits those buttons instead of throwing when
+clicked:
+
+```tsx
+import MUITipTapRte, { DefaultEditorExtensions } from '@nish1896/mui-components/misc/tiptap-rte';
+import Table from '@tiptap/extension-table';
+
+<MUITipTapRte
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  editorExtensions={[...DefaultEditorExtensions, Table]}
+/>
+```
+
+Reach into `useEditor` itself for anything not exposed as its own prop
+via `editorOptions` — pass `onCreate`/`onFocus`/`onUpdate`/`onBlur` here
+directly and they reach `useEditor` unmodified. `onUpdate` specifically is
+never replaced, only chained: `useEditor`'s `onUpdate` first calls `onValueChange`
+with the editor's latest HTML, then calls your `editorOptions.onUpdate`, so
+`value` is always in sync by the time your own handler runs.
+
+`editorOptions` is layered *underneath* only this component's own required
+wiring (`content`/`editable` and the accessibility attributes), so it can't
+break the controlled-value contract; `editorProps.attributes` is deep-merged
+rather than replaced.
+
+
+```tsx
+<MUITipTapRte
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  editorOptions={{
+    autofocus: true,
+    onCreate: ({ editor }) => console.log('ready', editor),
+    onFocus: ({ editor }) => console.log('focused', editor),
+    onBlur: ({ editor }) => console.log('blurred', editor),
+    onUpdate: ({ editor }) => console.log('newContent', editor.getHTML()),
+    editorProps: { attributes: { spellcheck: 'false' } }
+  }}
+/>
+```
+
+`containerProps`/`contentContainerProps` style the outer bordered box and the scrollable
+box directly wrapping the editor content respectively — both merge their `sx` with this
+component's own base styles rather than replacing them. `renderToolbar` replaces the
+built-in toolbar entirely (pass `() => null` to hide it), receiving the live `editor`
+instance and the field's resolved `disabled` state so a custom toolbar can drive the same
+`editor.chain()...run()` commands and respect the same disabled state:
+
+```tsx
+<MUITipTapRte
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  containerProps={{ sx: { borderColor: 'primary.main' } }}
+  contentContainerProps={{ sx: { minHeight: 240 } }}
+  renderToolbar={(editor, disabled) => (
+    <Button
+      disabled={disabled}
+      onClick={() => editor.chain().focus().toggleBold().run()}
+    >
+      Bold
+    </Button>
+  )}
+/>
+```
+
+## API
+
+Pass a custom `editorExtensions` to control the Tiptap extension set (and, in turn, which
+toolbar buttons render). Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUITipTapRte} />
+
+## Playground
+
+Driven by plain React state — the value is an HTML string; a required editor with a custom
+`label` and validation, plus one with the label above the field.
+
+<TipTapForm />
