@@ -211,7 +211,6 @@ export default function UnitInputForm() {
               max={150}
               required
               errorMessage={temperatureError}
-              helperText="containerProps/dividerProps/quantityInputProps.sx/unitSelectProps.sx all overridden here"
               disabled={disableAllFields}
             />
           </Grid>

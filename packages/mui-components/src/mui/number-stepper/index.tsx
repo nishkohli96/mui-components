@@ -7,7 +7,7 @@ import {
   type MouseEvent,
   type ReactNode
 } from 'react';
-import Box from '@mui/material/Box';
+import Box, { type BoxProps } from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -57,6 +57,15 @@ export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'v
    * Content rendered under the value (e.g. an icon and/or a label).
    */
   caption?: ReactNode;
+  /**
+   * Props forwarded to the `Box` wrapping `caption` — e.g. a custom
+   * `sx` to override its position, spacing, font size or color. Merged
+   * with the component's own base caption styles rather than replacing
+   * them, and accepts any `sx` form — object, array, or function.
+   *
+   * Has no effect when `caption` isn't provided.
+   */
+  captionProps?: Omit<BoxProps, 'children'>;
 };
 
 /**
@@ -96,6 +105,7 @@ const MUINumberStepper = ({
   swapButtons,
   iconButtonProps,
   caption,
+  captionProps,
   sx: muiSx,
   slotProps: muiSlotProps,
   ...otherNumberInputProps
@@ -232,7 +242,12 @@ const MUINumberStepper = ({
         </IconButton>
 
         <Box
-          sx={{ position: 'relative', flex: 1, minWidth: 0 }}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 1,
+            minWidth: 0
+          }}
           onClick={() => inputRef.current?.focus()}
         >
           <MUINumberInput
@@ -267,7 +282,13 @@ const MUINumberStepper = ({
             sx={mergeSx({
               '& input[type=number]': {
                 textAlign: 'center',
-                ...(hasCaption ? { paddingBottom: '18px' } : {}),
+                ...(hasCaption
+                  ? {
+                    paddingTop: '4px',
+                    paddingBottom: '2px'
+                  }
+                  : {}
+                ),
                 ...(muiSx && !Array.isArray(muiSx) && typeof muiSx !== 'function'
                   ? (muiSx as Record<string, object>)['& input[type=number]']
                   : undefined)
@@ -276,20 +297,16 @@ const MUINumberStepper = ({
           />
           {hasCaption && (
             <Box
-              sx={{
-                position: 'absolute',
-                bottom: 4,
-                left: '50%',
-                transform: 'translateX(-50%)',
+              {...captionProps}
+              sx={mergeSx({
                 display: 'flex',
                 alignItems: 'center',
-                gap: 0.5,
+                alignSelf: 'center',
                 fontSize: 11,
                 lineHeight: 1,
                 color: 'text.secondary',
-                pointerEvents: 'none',
                 whiteSpace: 'nowrap'
-              }}
+              }, captionProps?.sx)}
             >
               {caption}
             </Box>

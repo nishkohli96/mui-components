@@ -151,7 +151,7 @@ export const componentMetadata: Record<string, Metadata> = {
   MUIUnitInput: {
     title: 'MUIUnitInput',
     description:
-      'Numeric quantity input paired with a unit Select (currency, weight, temperature or any other unit set), with a generic Unit type for full literal-union safety.'
+      'Numeric value input paired with a unit Select (currency, weight, temperature or any other unit set), with a generic Unit type for full literal-union safety.'
   },
   MUIAutocomplete: {
     title: 'MUIAutocomplete',

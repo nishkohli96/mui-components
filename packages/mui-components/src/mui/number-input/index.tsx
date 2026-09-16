@@ -39,7 +39,8 @@ import {
   isNativeNumberMarkerClick,
   buildNumberInputDecimalPattern,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -553,17 +554,15 @@ const MUINumberInput = ({
           }
         }}
         error={isError}
-        sx={{
-          ...muiSx,
+        sx={mergeSx(muiSx, {
           '& input[type=number]': {
-            ...(muiSx as Record<string, object> | undefined)?.['& input[type=number]'],
             ...(!showMarkers && {
               MozAppearance: 'textfield',
               '&::-webkit-outer-spin-button': { display: 'none' },
               '&::-webkit-inner-spin-button': { display: 'none' },
             }),
           },
-        }}
+        })}
         multiline={false}
       />
       <FormHelperText

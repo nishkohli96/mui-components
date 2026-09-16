@@ -521,6 +521,12 @@ export const PropsDescription = Object.freeze({
     description: 'Content rendered under the value.\n\n E.g. an icon + label.',
     type: 'ReactNode'
   },
+  captionProps_NumberStepper: (args: PropsDescriptionArgs) => ({
+    name: 'captionProps',
+    description: 'Props forwarded to the `Box` wrapping `caption` — e.g. a custom `sx` to override its position, spacing, font size or color. Merged with the component\'s own base caption styles rather than replacing them, and accepts any `sx` form — object, array, or function. Has no effect when `caption` isn\'t provided.',
+    type: `[BoxProps](${muiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
   value_OTPInput: {
     name: 'value',
     description:
@@ -786,20 +792,20 @@ export const PropsDescription = Object.freeze({
   fieldName_UnitInput: {
     name: 'fieldName',
     description:
-      'Name/path of the field\'s two underlying controls, kept separate (rather than one combined `fieldName`) so each can be registered independently against a flat form schema — e.g. `{ quantity: \'weight\', unit: \'weightUnit\' }`.',
+      'Name/path of the field\'s two underlying controls, kept separate (rather than one combined `fieldName`) so each can be registered independently against a flat form schema — e.g. `{ unit: \'weightUnit\', value: \'weight\' }`.',
     required: true,
-    type: '{ quantity: string; unit: string }'
+    type: '{ unit: string; value: string;  }'
   },
   value_UnitInput: {
     name: 'value',
     description:
-      'Current value of the field. `quantity` and `unit` are always reported together through `onValueChange`, even though they\'re two controls.',
-    type: '{ quantity: number | null; unit: string }'
+      'Current value of the field. `unit` and `value` are always reported together through `onValueChange`, even though they\'re two controls.',
+    type: '{ unit: string; value: number | null; }'
   },
   onValueChange_UnitInput: {
     name: 'onValueChange',
     description:
-      'Called whenever either the quantity or the unit changes. Always receives the full `{ quantity, unit }` value.',
+      'Called whenever either the **unit** or the **value** changes. Always receives the full `{ unit, value }` value.',
     type: '({ newValue, event }) => void',
     required: true,
   },
@@ -822,60 +828,58 @@ export const PropsDescription = Object.freeze({
   },
   unitPosition_UnitInput: {
     name: 'unitPosition',
-    description: 'Which side the unit `Select` renders on relative to the quantity input.\n\n**Default:** `\'end\'`',
+    description: 'Which side the **unit** `Select` renders on relative to the **value** input.\n\n**Default:** `\'end\'`',
     type: '\'start\' | \'end\''
   },
   unitWidth_UnitInput: {
     name: 'unitWidth',
     description:
-      'Width of the unit `Select` as a CSS `flex-basis` value, the quantity input fills the rest. Accepts a single value (e.g. `100px` or `\'30%\'`) or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`.\n\nBoth segments have a default `minWidth: 50px` so neither collapses. When omitted, the unit `Select` sizes to its content.',
+      'Width of the **unit** `Select` as a CSS `flex-basis` value, the **value** input fills the rest. Accepts a single value (e.g. `100px` or `\'30%\'`) or a responsive breakpoint object, e.g. `{ xs: \'40%\', md: \'30%\' }`.\n\nBoth segments have a default `minWidth: 50px` so neither collapses. When omitted, the **unit** `Select` sizes to its content.',
     type: 'ResponsiveStyleValue<string>'
   },
   containerProps_UnitInput: (args: PropsDescriptionArgs) => ({
     name: 'containerProps',
-    description: 'Props forwarded to the outer pill container wrapping the quantity input and unit `Select`. `containerProps.sx` is merged with the component\'s own base pill styles rather than replacing them, and accepts any `sx` form — object, array, or function.',
+    description: 'Props forwarded to the outer pill container wrapping the **unit** `Select` and **value** input. `containerProps.sx` is merged with the component\'s own base pill styles rather than replacing them, and accepts any `sx` form — object, array, or function.',
     type: `[BoxProps](${muiDocsUrl(args.muiVersion)}/api/box/)`,
     hasLinkInType: true
   }),
   dividerProps_UnitInput: (args: PropsDescriptionArgs) => ({
     name: 'dividerProps',
-    description: 'Props forwarded to the vertical divider between the quantity input and the unit `Select` (a plain `Box` with `borderLeft`/`borderColor`).',
+    description: 'Props forwarded to the vertical divider between the **value** input and the **unit** `Select` (a plain `Box` with `borderLeft`/`borderColor`).',
     type: `[BoxProps](${muiDocsUrl(args.muiVersion)}/api/box/)`,
     hasLinkInType: true
   }),
   min_UnitInput: {
     name: 'min',
     description:
-      'Lower bound for the quantity value. `nonNegative` sets the default value to `0` unless overridden.',
+      'Lower bound for the **value** of the field. `nonNegative` sets the default value to `0` unless overridden.',
     type: 'number'
   },
   max_UnitInput: {
     name: 'max',
     description:
-      'Upper bound for the quantity value.',
+      'Upper bound for the **value** of the field.',
     type: 'number'
   },
   placeholder_UnitInput: {
     name: 'placeholder',
-    description: 'Placeholder shown in the empty quantity input.',
+    description: 'Placeholder shown in the empty **value** input.',
     type: 'string'
   },
-  quantityInputProps_UnitInput: {
-    name: 'quantityInputProps',
-    description: 'Props forwarded to the internal quantity `MUINumberInput`.',
+  valueInputProps_UnitInput: {
+    name: 'valueInputProps',
+    description: 'Props forwarded to the internal **value** `MUINumberInput`.',
     type: 'MUINumberInputProps',
-    hasLinkInType: false
   },
   unitSelectProps_UnitInput: {
     name: 'unitSelectProps',
-    description: 'Props forwarded to the internal unit `MUISelect`.',
+    description: 'Props forwarded to the internal **unit** `MUISelect`.',
     type: 'MUISelectProps',
-    hasLinkInType: false
   },
   customIds_UnitInput: {
     name: 'customIds',
-    description: 'Custom ids for the quantity and unit controls respectively.',
-    type: '{ quantity?: CustomComponentIds; unit?: CustomComponentIds }'
+    description: 'Custom ids for the **unit** and **value** controls respectively.',
+    type: '{ unit?: CustomComponentIds; value?: CustomComponentIds }'
   },
 
   /* ------------------------------------------------------------------ */

@@ -17,6 +17,7 @@ const numberStepperRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.swapButtons_NumberStepper,
   P.iconButtonProps_NumberStepper,
   P.caption_NumberStepper,
+  resolveProp(P.captionProps_NumberStepper, args),
   P.label,
   resolveProp(P.showLabelAboveFormField, args),
   resolveProp(P.formLabelProps, args),
