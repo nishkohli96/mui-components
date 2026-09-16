@@ -509,12 +509,19 @@ const MUINumberInput = ({
         }}
         onBlur={blurEvent => {
           const input = blurEvent.target as HTMLInputElement;
+          /**
+           * In text mode (`renderValue`), `input.value` while blurred is the
+           * *formatted* display string (e.g. `"$150"`) — `Number(...)` on
+           * that is `NaN`, silently skipping the clamp. `editBuffer` still
+           * holds the raw, unformatted numeric string typed by the user.
+           */
+          const valueToClamp = isTextMode ? editBuffer : input.value;
           if (
             (effectiveMin !== undefined || effectiveMax !== undefined)
-            && input.value !== ''
+            && valueToClamp !== ''
             && !input.validity.badInput
           ) {
-            const parsed = Number(input.value);
+            const parsed = Number(valueToClamp);
             if (!Number.isNaN(parsed)) {
               const clamped = clampNumber(parsed, effectiveMin, effectiveMax);
               if (clamped !== parsed) {

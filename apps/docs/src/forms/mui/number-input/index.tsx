@@ -33,12 +33,14 @@ type NumberFormValues = {
   age: number | null;
   price: number | null;
   randomInt: number | null;
+  budget: number | null;
 };
 
 const initialValues: NumberFormValues = {
   age: null,
   price: null,
-  randomInt: 1
+  randomInt: 1,
+  budget: 150
 };
 
 export default function NumberInputForm() {
@@ -155,6 +157,26 @@ export default function NumberInputForm() {
                   label="Random Integer"
                   placeholder="Enter an integer"
                   helperText="Arrow keys / steppers change by 5"
+                  disabled={disableAllFields}
+                />
+              )}
+            </form.Field>
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="renderValue (currency prefix), bounded 0–100 — clamped on blur even though the displayed text is formatted, not the raw number" />
+            <form.Field name="budget">
+              {field => (
+                <MUINumberInput
+                  fieldName="budget"
+                  value={field.state.value}
+                  onValueChange={({ newValue }) => field.handleChange(newValue)}
+                  onBlur={field.handleBlur}
+                  min={0}
+                  max={100}
+                  renderValue={value => (value === null ? '' : `$${value}`)}
+                  label="Budget"
+                  helperText="Starts at $150 (over the $100 max) — blur without editing to see it clamp to $100"
                   disabled={disableAllFields}
                 />
               )}
