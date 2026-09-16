@@ -16,6 +16,7 @@ import { usePathname } from 'next/navigation';
 import { useForm } from '@tanstack/react-form';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
+import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import MUINumberStepper from '@nish1896/mui-components/mui/number-stepper';
@@ -143,7 +144,7 @@ export default function NumberStepperForm() {
           </Grid>
 
           <Grid size={{ xs: 12, md: 6 }}>
-            <FieldVariantInfo title="Custom step (±2), bounded 16–30, custom icons, tighter caption padding (sx override)" />
+            <FieldVariantInfo title="Custom step (±2), bounded 16–30, custom icons, tighter caption padding (sx override), bolder caption (captionProps override)" />
             <form.Field
               name="targetTemp"
               validators={{
@@ -169,14 +170,21 @@ export default function NumberStepperForm() {
                   caption={(
                     <>
                       <DeviceThermostatIcon sx={{ fontSize: 14 }} />
-                      Degrees
+                      <Typography sx={{ fontSize: 16 }}>°C</Typography>
                     </>
                   )}
+                  captionProps={{
+                    sx: {
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: 'primary.main'
+                    }
+                  }}
+                  iconButtonProps={{
+                    sx: { px: 2 }
+                  }}
                   helperText="Arrow keys / steppers change by 2"
                   disabled={disableAllFields}
-                  sx={{
-                    '& input[type=number]': { paddingBottom: '15px' }
-                  }}
                 />
               )}
             </form.Field>

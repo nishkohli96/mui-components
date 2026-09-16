@@ -24,6 +24,12 @@ clamping, validation and labelling is delegated to `MUINumberInput`. This
 component only adds the buttons and disables the decrement / increment button
 once its `min` / `max` bound is reached.
 
+`caption` renders custom content (text, an icon, or both) just below the
+value — e.g. a unit label like "kg" or "Degrees". `captionProps` styles the
+`Box` wrapping `caption` — its `sx` is merged with the component's own base
+caption styles (position, spacing, font size, color) rather than replacing
+them.
+
 ## Usage
 
 ```tsx

@@ -79,7 +79,7 @@ export type MUIOTPInputProps = {
    * (or shrinking `length`) drops the overflow from the next `onValueChange`,
    * so keep `value.length <= length`.
    *
-   * `undefined` is treated as an empty code. 
+   * `undefined` is treated as an empty code.
    */
   value?: string;
   /**

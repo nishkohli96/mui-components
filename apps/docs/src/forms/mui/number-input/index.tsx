@@ -34,13 +34,15 @@ type NumberFormValues = {
   weight: number | null;
   randomInt: number | null;
   salary: number | null;
+  budget: number | null;
 };
 
 const initialValues: NumberFormValues = {
   age: null,
   weight: null,
   randomInt: 1,
-  salary: null
+  salary: null,
+  budget: 150
 };
 
 export default function NumberInputForm() {
@@ -173,6 +175,7 @@ export default function NumberInputForm() {
                   onValueChange={({ newValue }) => field.handleChange(newValue)}
                   nonNegative
                   maxDecimalPlaces={2}
+                  max={20_00_000}
                   renderValue={val =>
                     val === null
                       ? ''
@@ -182,7 +185,27 @@ export default function NumberInputForm() {
                       })}
                   label="Annual salary"
                   placeholder="e.g. 85000"
-                  helperText="Shows ₹ with lakh grouping (e.g. ₹85,000.00) on blur; plain number while editing"
+                  helperText="Shows ₹ with lakh grouping (e.g. ₹85,000.00) on blur; capped at ₹20,00,000 — type over the cap and blur to see it clamp"
+                  disabled={disableAllFields}
+                />
+              )}
+            </form.Field>
+          </Grid>
+
+  <Grid size={{ xs: 12, md: 6 }}>
+            <FieldVariantInfo title="renderValue (currency prefix), bounded 0–100 — clamped on blur even though the displayed text is formatted, not the raw number" />
+            <form.Field name="budget">
+              {field => (
+                <MUINumberInput
+                  fieldName="budget"
+                  value={field.state.value}
+                  onValueChange={({ newValue }) => field.handleChange(newValue)}
+                  onBlur={field.handleBlur}
+                  min={0}
+                  max={100}
+                  renderValue={value => (value === null ? '' : `$${value}`)}
+                  label="Budget"
+                  helperText="Starts at $150 (over the $100 max) — blur without editing to see it clamp to $100"
                   disabled={disableAllFields}
                 />
               )}

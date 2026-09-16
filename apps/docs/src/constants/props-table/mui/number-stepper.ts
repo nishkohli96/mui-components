@@ -18,6 +18,7 @@ const numberStepperRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.swapButtons_NumberStepper,
   resolveProp(P.iconButtonProps_NumberStepper, args),
   P.caption_NumberStepper,
+  resolveProp(P.captionProps_NumberStepper, args),
   P.label,
   resolveProp(P.showLabelAboveFormField, args),
   resolveProp(P.formLabelProps, args),

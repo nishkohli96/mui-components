@@ -514,6 +514,12 @@ export const PropsDescription = Object.freeze({
     description: 'Content rendered under the value.\n\n E.g. an icon + label.',
     type: 'ReactNode'
   },
+  captionProps_NumberStepper: (args: MuiPropsDescriptionArgs) => ({
+    name: 'captionProps',
+    description: 'Props forwarded to the `Box` wrapping `caption` — e.g. a custom `sx` to override its position, spacing, font size or color. Merged with the component\'s own base caption styles rather than replacing them, and accepts any `sx` form — object, array, or function. Has no effect when `caption` isn\'t provided.',
+    type: `[BoxProps](${getMuiDocsUrl(args.muiVersion)}/api/box/)`,
+    hasLinkInType: true
+  }),
   fieldName_UnitInput: {
     name: 'fieldName',
     description:
