@@ -85,6 +85,10 @@ export type MUISelectProps<
    */
   valueKey?: ValueKey;
   /**
+   * When `true`, allows selecting multiple values.
+   */
+  multiple?: Multiple;
+  /**
    * Current select value, normalized with `valueKey` for object options.
    * For `multiple`, pass an array.
    *
@@ -125,9 +129,15 @@ export type MUISelectProps<
    */
   getOptionDisabled?: (option: Option) => boolean;
   /**
-   * When `true`, allows selecting multiple values.
+   * Custom renderer for the Select's displayed value — distinct from
+   * `renderOptionLabel`, which only affects each `MenuItem` in the open
+   * dropdown.
+   *
+   * @param value - The current normalized value(s), same shape as `value`/`onValueChange`'s `newValue`.
    */
-  multiple?: Multiple;
+  renderValue?: (
+    value: SelectValue<OptionValue<Option, ValueKey>, Multiple>
+  ) => ReactNode;
   /**
    * Props forwarded to each internal MUI `MenuItem`, applied to every rendered
    * option — including the default placeholder option when `showDefaultOption`
@@ -217,19 +227,6 @@ export type MUISelectProps<
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
-  /**
-   * Custom renderer for the closed select's displayed value — distinct from
-   * `renderOptionLabel`, which only affects each `MenuItem` in the open
-   * dropdown. Re-declared here (rather than inherited from MUI's `SelectProps`)
-   * so `value` is typed against this select's own `Option`/`ValueKey`/`Multiple`
-   * instead of MUI's default `unknown`, which otherwise forced callers to
-   * annotate the parameter by hand.
-   *
-   * @param value - The current normalized value(s), same shape as `value`/`onValueChange`'s `newValue`.
-   */
-  renderValue?: (
-    value: SelectValue<OptionValue<Option, ValueKey>, Multiple>
-  ) => ReactNode;
 } & Omit<SelectProps, 'renderValue'>;
 
 /**
@@ -259,11 +256,11 @@ const MUISelect = <
   options,
   labelKey,
   valueKey,
+  multiple,
   value: muiValue,
   onValueChange,
   renderOptionLabel,
   getOptionDisabled,
-  multiple,
   menuItemProps,
   showDefaultOption,
   defaultOptionText,

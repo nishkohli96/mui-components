@@ -79,7 +79,7 @@ export type MUITagsInputProps = {
    * Current tags of the field.
    *
    * Always an array — `undefined` or `[]` is an empty tag list. Removing the
-   * last tag emits `[]`, never `null`.
+   * last tag emits `[]`, not `null`.
    */
   value?: string[];
   /**
