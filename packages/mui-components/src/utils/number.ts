@@ -1,4 +1,5 @@
 import { type MouseEvent } from 'react';
+import { generateInvalidBoundsErrMsg } from './errors';
 
 export function setInputValueAndNotify(input: HTMLInputElement, value: string) {
   const descriptor = Object.getOwnPropertyDescriptor(
@@ -25,6 +26,33 @@ export function clampNumber(value: number, min?: number, max?: number) {
 }
 
 /**
+ * Whether `value` is a real, comparable number — not `null`/`undefined`
+ * (no value entered) and not `NaN`/`Infinity` (nothing meaningful to clamp
+ * or compare against a bound).
+ */
+function isComparableNumber(value: number | null | undefined): value is number {
+  return value !== null && value !== undefined && Number.isFinite(value);
+}
+
+/**
+ * Whether `value` has reached (or passed) `min` — the single source of truth
+ * for "can no longer step down", shared by `MUINumberStepper`'s disabled
+ * state and anywhere else that needs to agree with `clampNumber`/stepping on
+ * what counts as "at the bound". `NaN`/`Infinity` are treated as unbounded
+ * (never "at" a bound) rather than producing an arbitrary comparison result.
+ */
+export function isAtMinBound(value: number | null | undefined, min?: number) {
+  return min !== undefined && isComparableNumber(value) && value <= min;
+}
+
+/**
+ * Whether `value` has reached (or passed) `max` — see `isAtMinBound`.
+ */
+export function isAtMaxBound(value: number | null | undefined, max?: number) {
+  return max !== undefined && isComparableNumber(value) && value >= max;
+}
+
+/**
  * Resolves the effective lower bound for a number field: `nonNegative` acts as
  * a hard floor of `0` — it can only tighten an explicit `min`, never loosen it
  * (a negative `min` is raised to `0` when `nonNegative` is also set).
@@ -37,12 +65,9 @@ export function resolveMinBound(nonNegative: boolean, min?: number) {
 }
 
 /**
- * Resolves the effective `{ min, max }` bounds together (folding in
- * `nonNegative` via `resolveMinBound`), swapping them if the caller's min
- * ends up greater than max (e.g. `min={10} max={5}`, a typo/misconfiguration)
- * so blur-clamping, stepping, native `<input min max>` attributes, and
- * stepper/counter button-disabled state all agree on the same valid range
- * instead of silently disagreeing with each other.
+ * Resolves the effective `{ min, max }` bounds together, folding in
+ * `nonNegative` via `resolveMinBound`. Throws when the resolved lower bound
+ * ends up greater than `max` (e.g. `min={10} max={5}`, a typo/misconfiguration).
  */
 export function resolveBounds(
   nonNegative: boolean,
@@ -51,7 +76,7 @@ export function resolveBounds(
 ): { min?: number; max?: number } {
   const effectiveMin = resolveMinBound(nonNegative, min);
   if (effectiveMin !== undefined && max !== undefined && effectiveMin > max) {
-    return { min: max, max: effectiveMin };
+    throw new Error(generateInvalidBoundsErrMsg(effectiveMin, max));
   }
   return { min: effectiveMin, max };
 }
