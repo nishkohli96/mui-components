@@ -311,10 +311,6 @@ const MUITipTapRte = ({
     editor?.setEditable(!muiDisabled);
   }, [muiDisabled, editor]);
 
-  if (!editor) {
-    return null;
-  }
-
   return (
     <FormControl error={isError} disabled={muiDisabled}>
       {!hideLabel && (
@@ -350,9 +346,10 @@ const MUITipTapRte = ({
           containerProps?.sx
         )}
       >
-        {renderToolbar
+        {editor && (renderToolbar
           ? renderToolbar(editor, !!muiDisabled)
-          : <Toolbar editor={editor} disabled={muiDisabled} />}
+          : <Toolbar editor={editor} disabled={muiDisabled} />
+        )}
         <Box
           {...contentContainerProps}
           sx={mergeSx(
@@ -377,7 +374,7 @@ const MUITipTapRte = ({
             contentContainerProps?.sx
           )}
         >
-          <EditorContent editor={editor} />
+          {editor && <EditorContent editor={editor} />}
         </Box>
       </Box>
       <FormHelperText
