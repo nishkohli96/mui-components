@@ -1,0 +1,69 @@
+import {
+  DocsPage,
+  PropsTable,
+  AvailabilityBanner
+} from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import NumberStepperForm from '@/forms/mui/number-stepper/Client';
+
+export const metadata = componentMetadata.MUINumberStepper;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUINumberStepper
+
+<AvailabilityBanner componentName="MUINumberStepper" version="1.3" />
+
+`MUINumberStepper` is a pill-shaped numeric counter - always-visible `-` / `+`
+buttons flush against the rounded ends of a bordered pill, flanking the value
+instead of the native browser steppers. Every numeric behaviour like
+`number | null` value, `onlyIntegers`, `nonNegative` etc., is delegated
+to [MUINumberInput](/components/mui/number-input) rendered borderless inside
+the pill. This component only owns the pill chrome, the buttons and the
+optional `caption` content, and disables the decrement / increment button
+once its `min` / `max` bound is reached.
+
+`captionProps` styles the `Box` wrapping `caption` — its `sx` is merged with
+the component's own base caption styles (position, spacing, font size, color)
+rather than replacing them.
+
+## Usage
+
+```tsx
+import MUINumberStepper, { MUINumberStepperProps } from '@nish1896/mui-components/mui/number-stepper';
+```
+
+```tsx
+const [quantity, setQuantity] = useState<number | null>(1);
+
+<MUINumberStepper
+  fieldName="quantity"
+  value={quantity}
+  onValueChange={({ newValue }) => setQuantity(newValue)}
+  onlyIntegers
+  min={1}
+  max={10}
+/>
+```
+
+## API
+
+`MUINumberStepperProps` extends [MUINumberInputProps](/components/mui/number-input#api)
+(minus `showMarkers` and `variant`) and also accepts the remaining
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), except `type`,
+`multiline` and `rows`. Props marked with
+<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUINumberStepper} />
+
+## Playground
+
+Integrated with [TanStack Form](https://tanstack.com/form/latest) — covers
+`onlyIntegers`, `nonNegative`, `maxDecimalPlaces`, `stepAmount`, `min` / `max`
+bounds, custom stepper icons, `caption`/`captionProps`, and
+`sx`/`iconButtonProps` overrides, with validation surfaced through
+`errorMessage`.
+
+<NumberStepperForm />

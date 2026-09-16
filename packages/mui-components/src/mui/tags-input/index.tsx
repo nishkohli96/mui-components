@@ -76,12 +76,10 @@ export type MUITagsInputProps = {
    */
   fieldName: string;
   /**
-   * Current tags of the field. This is a controlled component: `value` and `onValueChange`
-   * must be supplied together, typically backed by your own state or form library.
+   * Current tags of the field.
    *
    * Always an array — `undefined` or `[]` is an empty tag list. Removing the
-   * last tag emits `[]`, never `null`, so `newValue` can be fed straight back
-   * into `value`.
+   * last tag emits `[]`, not `null`.
    */
   value?: string[];
   /**
@@ -167,7 +165,7 @@ export type MUITagsInputProps = {
    */
   maxTags?: number;
   /**
-   * When true, renders the field label above the form field instead of inside or beside it.
+   * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
   /**
@@ -175,7 +173,7 @@ export type MUITagsInputProps = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -203,7 +201,7 @@ export type MUITagsInputProps = {
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**

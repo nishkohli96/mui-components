@@ -6,6 +6,8 @@ const numberInputRows = (args: PropsDescriptionArgs): PropsInfo[] => [
   P.fieldName,
   P.value_NumberInput,
   P.onValueChange_NumberInput,
+  P.min_NumberInput,
+  P.max_NumberInput,
   P.nonNegative,
   P.onlyIntegers,
   P.maxDecimalPlaces,

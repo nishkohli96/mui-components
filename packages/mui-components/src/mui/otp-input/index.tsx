@@ -75,9 +75,11 @@ export type MUIOTPInputProps = {
   /**
    * Current code value, as a single string with no separators (e.g. `'123456'`).
    *
-   * `undefined` is treated as an empty code. Only the first `length` characters
-   * are shown and editable — a longer `value` (or shrinking `length`) drops the
-   * overflow from the next `onValueChange`, so keep `value.length <= length`.
+   * Only the first `length` characters are shown and editable — a longer `value`
+   * (or shrinking `length`) drops the overflow from the next `onValueChange`,
+   * so keep `value.length <= length`.
+   *
+   * `undefined` is treated as an empty code.
    */
   value?: string;
   /**
@@ -115,7 +117,7 @@ export type MUIOTPInputProps = {
    */
   alphanumeric?: boolean;
   /**
-   * When true, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
@@ -161,7 +163,7 @@ export type MUIOTPInputProps = {
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**
@@ -178,7 +180,7 @@ export type MUIOTPInputProps = {
    */
   disabled?: boolean;
   /**
-   * When true, focuses the first empty box (or the first box, if the code
+   * When `true`, focuses the first empty box (or the first box, if the code
    * is already complete) on mount.
    * @default false
    */

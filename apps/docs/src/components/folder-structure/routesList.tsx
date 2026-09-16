@@ -20,13 +20,17 @@ const componentRoutes: Record<
   MuiComponents | MuiPickersComponents | MiscComponents,
   string
 > = {
+  /* mui-components */
   [MuiComponents.TextField]: 'textfield',
   [MuiComponents.PasswordInput]: 'password-input',
   [MuiComponents.NumberInput]: 'number-input',
+  [MuiComponents.NumberStepper]: 'number-stepper',
+  [MuiComponents.OTPInput]: 'otp-input',
   [MuiComponents.TagsInput]: 'tags-input',
   [MuiComponents.FileUploader]: 'file-uploader',
   [MuiComponents.Select]: 'select',
   [MuiComponents.NativeSelect]: 'native-select',
+  [MuiComponents.UnitInput]: 'unit-input',
   [MuiComponents.Autocomplete]: 'autocomplete',
   [MuiComponents.AutocompleteObject]: 'autocomplete-object',
   [MuiComponents.MultiAutocomplete]: 'multi-autocomplete',
@@ -38,23 +42,28 @@ const componentRoutes: Record<
   [MuiComponents.Slider]: 'slider',
   [MuiComponents.Switch]: 'switch',
   [MuiComponents.Rating]: 'rating',
-  /* Picker variations share one page per family. */
+  /* mui-pickers: Picker variations share one page per family. */
   [MuiPickersComponents.DatePicker]: 'date',
   [MuiPickersComponents.TimePicker]: 'time',
   [MuiPickersComponents.DateTimePicker]: 'date-time',
+  /* misc-components */
   [MiscComponents.ColorPicker]: 'color-picker',
   [MiscComponents.RichTextEditor]: 'rich-text-editor',
+  [MiscComponents.TipTapRte]: 'tiptap-rte',
   [MiscComponents.PhoneInput]: 'phone-input'
 };
 
 const muiComponents = [
   MuiComponents.TextField,
-  MuiComponents.NumberInput,
   MuiComponents.PasswordInput,
+  MuiComponents.NumberInput,
+  MuiComponents.NumberStepper,
+  MuiComponents.OTPInput,
   MuiComponents.TagsInput,
   MuiComponents.FileUploader,
   MuiComponents.Select,
   MuiComponents.NativeSelect,
+  MuiComponents.UnitInput,
   MuiComponents.Autocomplete,
   MuiComponents.AutocompleteObject,
   MuiComponents.CountrySelect,
@@ -77,6 +86,7 @@ const muiPickersComponents = [
 const miscComponents = [
   MiscComponents.ColorPicker,
   MiscComponents.RichTextEditor,
+  MiscComponents.TipTapRte,
   MiscComponents.PhoneInput
 ];
 

@@ -48,9 +48,7 @@ export type MUISliderProps<Value extends SliderValue = SliderValue> = {
   fieldName: string;
   /**
    * Current slider value: a `number` for a single-thumb slider, or a `number[]`
-   * for a range slider. This is a controlled component: `value` and
-   * `onValueChange` must be supplied together, typically backed by your own state
-   * or form library.
+   * for a range slider.
    *
    * `undefined`/`null`/`[]` are treated as `0`.
    */
@@ -74,7 +72,7 @@ export type MUISliderProps<Value extends SliderValue = SliderValue> = {
     event
   }: OnValueChangeProps<Value>) => void;
   /**
-   * When true, marks the field as required in the UI and accessibility attributes.
+   * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
   /**
@@ -94,7 +92,7 @@ export type MUISliderProps<Value extends SliderValue = SliderValue> = {
    */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When true, hides the rendered field label while preserving accessible labeling where possible.
+   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
    */
   hideLabel?: boolean;
   /**
@@ -122,7 +120,7 @@ export type MUISliderProps<Value extends SliderValue = SliderValue> = {
    */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If true, hides the error message text while keeping the field in an error state.
+   * If `true`, hides the error message text while keeping the field in an error state.
    */
   hideErrorMessage?: boolean;
   /**
