@@ -1,6 +1,12 @@
 'use client';
 
-import { useCallback, useContext, useRef, type MouseEvent, type ReactNode } from 'react';
+import {
+  useCallback,
+  useContext,
+  useRef,
+  type MouseEvent,
+  type ReactNode
+} from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -20,7 +26,8 @@ import {
   resolveBounds,
   resolveStepAmount,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  mergeSx
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 
@@ -38,14 +45,12 @@ export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'v
    */
   incrementIcon?: ReactNode;
   /**
-   * Swap both the icons and the behaviour of the two buttons — the left
-   * button increments and the right button decrements, each with its icon,
-   * `aria-label` and disabled-at-bound state swapped to match.
+   * Swap both the icons and the behaviour of the two buttons: the left
+   * button increments and the right button decrements.
    */
   swapButtons?: boolean;
   /**
-   * Props forwarded to both the stepper `IconButton`s. Use
-   * `swapButtons` prop to swap the icons themselves.
+   * Props forwarded to both the decrement and increment `IconButton`s.
    */
   iconButtonProps?: IconButtonProps;
   /**
@@ -55,11 +60,12 @@ export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'v
 };
 
 /**
- * A pill-shaped numeric stepper: `-` / `+` buttons flush against the rounded
- * ends of a single bordered pill, with the value centered between them.
- * Numeric parsing, sanitization and clamping are all delegated to
- * `MUINumberInput` (rendered borderless inside the pill) — this component
- * only owns the pill chrome, the buttons and the optional unit caption.
+ * `MUINumberInput` with always-visible `-` / `+` stepper buttons flanking the
+ * input instead of the native browser steppers.
+ *
+ * Numeric parsing, sanitization and clamping are all delegated to `MUINumberInput`
+ * (rendered borderless inside the pill). This component only owns the pill container,
+ * the buttons and the optional unit caption.
  *
  * Docs: [MUINumberStepper](https://mui-components-docs.vercel.app/v1/components/mui/number-stepper)
  *
@@ -187,7 +193,7 @@ const MUINumberStepper = ({
         />
       )}
       <Box
-        sx={{
+        sx={mergeSx({
           display: 'flex',
           alignItems: 'center',
           border: '1px solid',
@@ -206,8 +212,7 @@ const MUINumberStepper = ({
             borderWidth: '2px',
             m: '-1px'
           },
-          ...muiSx
-        }}
+        }, muiSx)}
       >
         <IconButton
           {...iconButtonProps}
@@ -259,13 +264,15 @@ const MUINumberStepper = ({
                 };
               }
             }}
-            sx={{
+            sx={mergeSx({
               '& input[type=number]': {
                 textAlign: 'center',
                 ...(hasCaption ? { paddingBottom: '18px' } : {}),
-                ...(muiSx as Record<string, object> | undefined)?.['& input[type=number]']
+                ...(muiSx && !Array.isArray(muiSx) && typeof muiSx !== 'function'
+                  ? (muiSx as Record<string, object>)['& input[type=number]']
+                  : undefined)
               }
-            }}
+            })}
           />
           {hasCaption && (
             <Box
