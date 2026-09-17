@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/mui-components-root",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "A suite of 25+ production-ready, form-library-agnostic Material UI components — build forms with any form library, or drop in each one standalone. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "private": true,
@@ -22,7 +22,8 @@
     "doc": "pnpm -F @nish1896/mui-components-docs run dev",
     "docs:lint": "pnpm -F @nish1896/mui-components-docs run lint",
     "docs:build": "pnpm -F @nish1896/mui-components-docs run build",
-    "docs:prod": "pnpm -F @nish1896/mui-components-docs run prod"
+    "docs:prod": "pnpm -F @nish1896/mui-components-docs run prod",
+    "rag": "pnpm -F @nish1896/mui-components-rag run ingest"
   },
   "devDependencies": {
     "turbo": "2.10.0"
