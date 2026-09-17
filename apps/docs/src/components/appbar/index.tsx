@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { appName } from '@/constants';
 import DrawerMenu from './DrawerMenu';
 import VersionSwitcher from '../version-switcher';
+import SearchBar from '../search-bar';
 import {
   GithubButton,
   NpmButton,
@@ -88,6 +89,7 @@ const AppBar = () => {
           </Box>
         </Link>
         <Box sx={{ flexGrow: 1 }} />
+        <SearchBar />
         <VersionSwitcher />
         <Box
           sx={{
