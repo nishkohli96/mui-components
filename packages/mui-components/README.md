@@ -94,11 +94,7 @@ You can also check out my [eslint config](https://www.npmjs.com/package/@nish189
 
 ## 🌟 Sponsors
 
-<a
-  href="https://www.linkedin.com/in/eramakanth/"
-  target="_blank"
-  title="Eramakanth"
->
+<a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
   <img
     src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/version-2/apps/docs/public/sponsors/ramakant.jpeg"
     width="40"

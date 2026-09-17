@@ -24,9 +24,17 @@ export const useThemeContext = () => useContext(ThemeContext);
  */
 const ThemeContextBridge = ({ children }: { children: React.ReactNode }) => {
   const { mode, systemMode, setMode } = useColorScheme();
-  const currentTheme = mode === 'system'
-    ? systemMode ?? defaultTheme
-    : mode ?? defaultTheme;
+  /*
+   * `mode` mirrors whatever's in localStorage verbatim — MUI only sanitizes
+   * it for its own `data-mui-color-scheme` attribute, not for the value this
+   * hook returns. An unsupported stored value (manual edit, stale key from a
+   * previous app version) would otherwise flow straight into `currentTheme`
+   * and get written to `data-theme` as-is, which is why "dark" is spelled
+   * out here instead of trusting `mode` beyond `'system'`.
+   */
+  const currentTheme: PaletteMode = (mode === 'dark' || mode === 'light')
+    ? mode
+    : systemMode ?? defaultTheme;
 
   const toggleTheme = () => {
     setMode(currentTheme === 'light' ? 'dark' : 'light');
