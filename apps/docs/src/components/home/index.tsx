@@ -11,7 +11,8 @@ import {
   PopularComponents,
   ComponentDirectory,
   HowItCompares,
-  RHFMuiSection
+  RHFMuiSection,
+  Sponsors
 } from './components';
 
 const installCommand = 'npm install @nish1896/mui-components';
@@ -224,6 +225,7 @@ const HomeLanding = () => {
             section to add the package and wire up your first field.
           </Typography>
         </Box>
+        <Sponsors />
       </Container>
       <Footer />
     </Box>
