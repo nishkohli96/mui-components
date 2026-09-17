@@ -15,9 +15,9 @@ We welcome improvements, bug fixes, documentation updates, and new feature propo
 3. Create a new branch from main using the following format - `v_a.b.c`, for example, `v_3.2.2`.
 4. Update the version of all packages to match your release version by running:
     ```bash
-    sh scripts/bump-version.sh a.b.c
+    bash scripts/bump-version.sh a.b.c
     ```
-   Replace `a.b.c` with the version corresponding to your release branch, for example, `4.1.1`.
+   Replace `a.b.c` with the version corresponding to your release branch, for example, `2.3.1`.
 
 ## 🚀 Development Guidelines
 
@@ -30,7 +30,7 @@ We welcome improvements, bug fixes, documentation updates, and new feature propo
 
 Please ensure the following:
 - ✅ All packages build successfully:
-  ```
+  ```bash
   turbo build
   ```
 - ✅ Linting passes for all packages.
@@ -40,7 +40,9 @@ Please ensure the following:
 ## 🔄 Pull Request Process
 
 - Open a Pull Request against the main branch.
-- Provide a clear description of the changes.
+- PR Title must be of the form: `va.b.c - ...`.
+- Provide a clear description of the change.
+- Review, fix and resolve `CodeAnt-AI` comments.
 - Reference related issues (if any).
 - Wait for review and feedback.
 

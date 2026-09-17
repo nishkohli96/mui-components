@@ -49,7 +49,7 @@ pnpm install
 pnpm dev
 ```
 
-## Components List
+## 🧩 Components List
 
 Below is a comprehensive list of all components included in this package, categorized by module.
 
@@ -91,3 +91,15 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**
 
 You can also check out my [eslint config](https://www.npmjs.com/package/@nish1896/eslint-flat-config), to format and prettify your javascript code.
+
+## 🌟 Sponsors
+
+<a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
+  <img
+    src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/version-2/apps/docs/public/sponsors/ramakant.jpeg"
+    width="40"
+    height="40"
+    style="border-radius: 50%;"
+    alt="Ramakanth Evani"
+  />
+</a>

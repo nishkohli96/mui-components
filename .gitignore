@@ -56,4 +56,5 @@ publish-pkg.sh
 
 # AI Agents
 .claude
+.impeccable
 apps/rag/.output

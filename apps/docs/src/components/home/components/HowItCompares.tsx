@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import MuiLink from '@mui/material/Link';
 import { Callout } from '@/components';
 
 type RowDef = {
@@ -90,6 +91,7 @@ const HowItCompares = () => (
                     ? 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
                     : undefined,
                   fontSize: index < 2 ? 13 : 14,
+                  color: 'primary.main',
                   borderBottomColor: 'divider',
                   ...(index === HIGHLIGHT_COL && { bgcolor: 'action.hover' })
                 }}
@@ -134,9 +136,15 @@ const HowItCompares = () => (
         <Typography sx={{ fontSize: 'inherit', lineHeight: 'inherit' }}>
           Standardized on React Hook Form?
           {' '}
-          <Box component="code" sx={{ fontWeight: 700 }}>
-            rhf-mui-components
-          </Box>
+          <MuiLink
+            href="https://rhf-mui-components.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            underline="hover"
+            sx={{ fontWeight: 700 }}
+          >
+            RHF-MUI Components
+          </MuiLink>
           {' '}
           is the closer fit.
         </Typography>
