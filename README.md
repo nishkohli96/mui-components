@@ -107,6 +107,18 @@ Feel free to reach out directly at [nishantkohli96@gmail.com](mailto:nishantkohl
 
 You can also check out my [eslint config](https://www.npmjs.com/package/@nish1896/eslint-flat-config) to format and prettify your JavaScript/TypeScript code.
 
+## Sponsors
+
+<a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
+  <img
+    src="https://media.licdn.com/dms/image/v2/D5603AQE-dQQQ1DjfCA/profile-displayphoto-crop_800_800/B56Zj5Pu4BHcAM-/0/1756528309155?e=1791417600&v=beta&t=RTpxCBsdZhFDOxXwSLm4nn8Wf5XpMNkMOULOzYI3Ft0"
+    width="40"
+    height="40"
+    style="border-radius: 50%;"
+    alt="Ramakanth Evani"
+  />
+</a>
+
 ## License
 
 MIT © [Nishant Kohli](https://github.com/nishkohli96)
