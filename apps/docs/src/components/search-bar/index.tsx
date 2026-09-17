@@ -1,7 +1,6 @@
 'use client';
 
 import { DocSearch } from '@docsearch/react';
-import '@docsearch/react/style';
 import { ENV_VARS } from '@/constants';
 
 /**

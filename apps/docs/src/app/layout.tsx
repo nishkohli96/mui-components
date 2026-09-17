@@ -13,6 +13,7 @@ import { AppThemeProvider } from '@/theme';
 import { colorSchemeAttribute, modeStorageKey } from '@/theme/constants';
 import { roboto } from '@/theme/fonts';
 import './globals.css';
+import '@docsearch/css/dist/style.css';
 
 type RootLayoutProps = {
   children: React.ReactNode;
