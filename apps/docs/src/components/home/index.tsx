@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Image from 'next/image';
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded';
 import Box from '@mui/material/Box';
@@ -11,7 +12,10 @@ import {
   PopularComponents,
   ComponentDirectory,
   HowItCompares,
-  RHFMuiSection
+  RHFMuiSection,
+  Sponsors,
+  TrustBadges,
+  TrustBadgesSkeleton
 } from './components';
 
 const installCommand = 'npm install @nish1896/mui-components';
@@ -115,6 +119,9 @@ const HomeLanding = () => {
             form library. Production-ready with built-in state management, validation,
             and a consistent API designed to minimize boilerplate.
           </Typography>
+          <Suspense fallback={<TrustBadgesSkeleton />}>
+            <TrustBadges />
+          </Suspense>
           <Paper
             variant="outlined"
             sx={{
@@ -224,6 +231,7 @@ const HomeLanding = () => {
             section to add the package and wire up your first field.
           </Typography>
         </Box>
+        <Sponsors />
       </Container>
       <Footer />
     </Box>

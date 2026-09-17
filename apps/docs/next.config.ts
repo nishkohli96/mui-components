@@ -50,10 +50,6 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'img.icons8.com'
-      },
-      {
-        protocol: 'https',
         hostname: 'raw.githubusercontent.com'
       },
       {
