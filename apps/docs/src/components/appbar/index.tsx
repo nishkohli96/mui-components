@@ -6,7 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { appName } from '@/constants';
 import DrawerMenu from './DrawerMenu';
 import VersionSwitcher from '../version-switcher';
-import SearchBar from '../search-bar/Client';
+import SearchBar from '../search-bar';
 import {
   GithubButton,
   NpmButton,

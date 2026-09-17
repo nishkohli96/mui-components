@@ -2,6 +2,7 @@
 
 import { DocSearch } from '@docsearch/react';
 import { ENV_VARS } from '@/constants';
+import '@docsearch/css/dist/style.css';
 
 /**
  * Algolia DocSearch trigger + modal. Renders nothing when the env vars
