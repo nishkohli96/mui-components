@@ -12,7 +12,8 @@ import {
   ComponentDirectory,
   HowItCompares,
   RHFMuiSection,
-  Sponsors
+  Sponsors,
+  TrustBadges
 } from './components';
 
 const installCommand = 'npm install @nish1896/mui-components';
@@ -116,6 +117,7 @@ const HomeLanding = () => {
             form library. Production-ready with built-in state management, validation,
             and a consistent API designed to minimize boilerplate.
           </Typography>
+          <TrustBadges />
           <Paper
             variant="outlined"
             sx={{

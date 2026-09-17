@@ -4,3 +4,4 @@ export { default as ComponentDirectory } from './ComponentDirectory';
 export { default as HowItCompares } from './HowItCompares';
 export { default as RHFMuiSection } from './RHFMuiSection';
 export { default as Sponsors } from './Sponsors';
+export { default as TrustBadges } from './TrustBadges';
