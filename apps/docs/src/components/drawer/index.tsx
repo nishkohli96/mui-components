@@ -1,274 +1,49 @@
 'use client';
 
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
-import Image from 'next/image';
-import MuiAppBar from '@mui/material/AppBar';
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
-import { appName, sidebarLinks } from '@/constants';
-import { type Page } from '@/types';
-import { buildVersionedSidebar, getDocsVersion } from '@/utils';
-import {
-  GithubButton,
-  NpmButton,
-  // PlaygroundButton
-} from '../buttons';
-
-const containsPath = (page: Page, pathname: string): boolean => {
-  return (
-    page.href === pathname
-    || page.pages?.some(child => containsPath(child, pathname)) === true
-  );
-};
-
-type SidebarItemProps = DrawerProps & {
-  page: Page;
-  pathname: string;
-  depth?: number;
-};
-
-const SidebarItem = ({ page, pathname, onNavigate, depth = 0 }: SidebarItemProps) => {
-  const hasChildren = Boolean(page.pages?.length);
-  const containsActivePage = containsPath(page, pathname);
-  const isActive = page.href === pathname;
-  const [open, setOpen] = useState(containsActivePage);
-
-  /**
-   * Auto-expand when this branch newly contains the active page (e.g.
-   * client-side nav into a collapsed section). Adjusting state during
-   * render — tracking the previous value — is React's recommended
-   * alternative to a setState-in-effect and avoids an extra paint.
-   */
-  const [wasActive, setWasActive] = useState(containsActivePage);
-  if (containsActivePage !== wasActive) {
-    setWasActive(containsActivePage);
-    if (containsActivePage) {
-      setOpen(true);
-    }
-  }
-
-  return (
-    <>
-      <ListItem disablePadding>
-        <ListItemButton
-          {...(!hasChildren && page.href ? { href: page.href } : {})}
-          onClick={hasChildren ? () => setOpen(value => !value) : onNavigate}
-          selected={isActive}
-          aria-expanded={hasChildren ? open : undefined}
-          sx={{
-            borderRadius: 2,
-            my: 0.25,
-            pl: 2 + depth * 2,
-            '&.Mui-selected': { color: 'primary.main', bgcolor: 'action.selected' },
-            '&.Mui-selected:hover': { bgcolor: 'action.selected' }
-          }}
-        >
-          <ListItemText
-            slotProps={{
-              primary: {
-                sx: {
-                  fontSize: '0.9rem',
-                  fontWeight: isActive || (hasChildren && containsActivePage) ? 600 : 400
-                }
-              }
-            }}
-          >
-            {page.title}
-          </ListItemText>
-          {hasChildren && (open
-            ? <ExpandLess fontSize="small" />
-            : <ExpandMore fontSize="small" />
-          )}
-          {page.isNew && (
-            /*
-             * "New" comes from CSS pseudo-content + aria-hidden, so it is
-             * absent from the link's text content / accessible name — a
-             * decorative badge with no anchor-text or SEO impact.
-             */
-            <Box
-              component="span"
-              aria-hidden
-              sx={{
-                ml: 1,
-                px: 0.75,
-                py: '1px',
-                flexShrink: 0,
-                fontSize: '0.625rem',
-                fontWeight: 700,
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-                borderRadius: 1,
-                color: 'success.contrastText',
-                bgcolor: 'success.main',
-                '&::after': { content: '"New"' }
-              }}
-            />
-          )}
-        </ListItemButton>
-      </ListItem>
-      {hasChildren && (
-        <Collapse in={open} timeout="auto">
-          <List component="div" dense disablePadding>
-            {page.pages?.map(child => (
-              <SidebarItem
-                key={child.href ?? child.title}
-                page={child}
-                pathname={pathname}
-                onNavigate={onNavigate}
-                depth={depth + 1}
-              />
-            ))}
-          </List>
-        </Collapse>
-      )}
-    </>
-  );
-};
-
-type DrawerProps = {
-  /** Called after a link is clicked, e.g. to close the mobile drawer. */
-  onNavigate?: () => void;
-};
+import { Fragment, useState } from 'react';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import DrawerContent from '@/components/drawer/DrawerContent';
 
 /**
- * Side-navigation list shared by the desktop rail and the mobile drawer.
- * Highlights the current route and, on navigation, scrolls the active item
- * into view within the rail's own scroll area — otherwise landing on a deep
- * item (e.g. Rating) leaves the rail scrolled to the top with the highlight
- * off-screen.
+ * Mobile-only menu button that opens the side navigation in a temporary
+ * drawer. Closes automatically when a page link is selected.
  */
-const Drawer = ({ onNavigate }: DrawerProps) => {
-  const pathname = usePathname();
-  const listRef = useRef<HTMLUListElement>(null);
+const DrawerMenu = () => {
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
-  /*
-   * Rebuild the tree for whichever version the reader is in, so every link
-   * stays inside it (`/v1/...` keeps navigating within v1) and sections that
-   * version doesn't have are hidden rather than linking to a 404.
-   */
-  const versionedLinks = useMemo(
-    () => buildVersionedSidebar(sidebarLinks, getDocsVersion(pathname)),
-    [pathname]
-  );
-
-  useLayoutEffect(() => {
-    const list = listRef.current;
-    const active = list?.querySelector<HTMLElement>('.Mui-selected');
-    if (!list || !active) {
-      return;
-    }
-
-    /**
-     * Nearest scrollable ancestor — the desktop rail's overflow box or the
-     * mobile drawer paper. Scroll only this element, never the window.
-     */
-    let container: HTMLElement | null = list.parentElement;
-    while (container) {
-      const { overflowY } = getComputedStyle(container);
-      if (overflowY === 'auto' || overflowY === 'scroll') {
-        break;
-      }
-      container = container.parentElement;
-    }
-    if (!container) {
-      return;
-    }
-
-    const containerRect = container.getBoundingClientRect();
-    const activeRect = active.getBoundingClientRect();
-    const fullyVisible
-      = activeRect.top >= containerRect.top
-        && activeRect.bottom <= containerRect.bottom;
-    if (fullyVisible) {
-      return;
-    }
-
-    /* Center the active item in the rail's viewport. */
-    container.scrollTop
-      += (activeRect.top - containerRect.top)
-        - (container.clientHeight - activeRect.height) / 2;
-  }, [pathname]);
+  const toggleDrawer = (newOpen: boolean) => () => {
+    setDrawerOpen(newOpen);
+  };
 
   return (
-    <>
-      <MuiAppBar
-        position="sticky"
-        elevation={0}
+    <Fragment>
+      <IconButton
+        aria-label="Menu"
+        onClick={toggleDrawer(true)}
         color="inherit"
-        sx={{
-          bgcolor: 'background.default',
-          color: 'text.primary',
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-          display: { md: 'none' }
+        sx={{ display: { xs: 'inline-flex', md: 'none' }, mr: 0.5 }}
+      >
+        <MenuIcon />
+      </IconButton>
+      <Drawer
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        slotProps={{
+          paper: {
+            elevation: 0,
+            sx: {
+              width: 'min(320px, 80vw)',
+              overlay: 'none'
+            },
+          }
         }}
       >
-        <Toolbar sx={{ px: { xs: 1, sm: 2 }, gap: 0.5 }}>
-          <Avatar
-            src="/logo.svg"
-            alt="Logo"
-            sx={{ width: '35px', height: '35px' }}
-          />
-          <Box
-            sx={{
-              display: { xs: 'flex', md: 'none' },
-              alignItems: 'center',
-              ml: 1.25,
-              '& img': {
-                height: 28,
-                width: 'auto',
-                /* wordmark.svg intrinsic viewBox is 530.5 × 85 */
-                aspectRatio: '530.5 / 85'
-              },
-              '@media (max-width: 479px)': {
-                display: 'none'
-              }
-            }}
-          >
-            <Image
-              src={'/wordmark.svg'}
-              alt={appName}
-              priority
-              width={175}
-              height={28}
-            />
-          </Box>
-          <Box
-            sx={{
-              display: { xs: 'flex', sm: 'none' },
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: 0.5,
-              ml: 'auto',
-            }}
-          >
-            {/* <PlaygroundButton /> */}
-            <NpmButton />
-            <GithubButton />
-          </Box>
-        </Toolbar>
-      </MuiAppBar>
-      <List dense sx={{ px: 1 }} ref={listRef}>
-        {versionedLinks.map(link => (
-          <SidebarItem
-            key={link.href ?? link.title}
-            page={link}
-            pathname={pathname}
-            onNavigate={onNavigate}
-          />
-        ))}
-      </List>
-    </>
+        <DrawerContent onNavigate={toggleDrawer(false)} />
+      </Drawer>
+    </Fragment>
   );
 };
 
-export default Drawer;
+export default DrawerMenu;
