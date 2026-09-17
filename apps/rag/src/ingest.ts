@@ -7,9 +7,6 @@
  *
  * v1/** pages are intentionally excluded — same component names, different
  * (older) prop sets, which would make retrieval ambiguous between versions.
- *
- * Output is a pipeline intermediate (consumed by the step-2 embedding
- * script), not source — not committed.
  */
 import { createHash } from 'node:crypto';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
@@ -22,6 +19,8 @@ const OUT_FILE = path.resolve(import.meta.dirname, '../.output/chunks.json');
 
 type Chunk = {
   id: string;
+  /** Hash of `content` — lets the embed step skip chunks whose text hasn't changed. */
+  contentHash: string;
   type: 'prose' | 'prop';
   componentName: string | null;
   pageUrl: string;
@@ -30,8 +29,34 @@ type Chunk = {
   propType?: string;
 };
 
+/**
+ * sha256 hashes content (the chunk text) → fixed-length digest.
+ * .digest('hex') renders it as a hex string (64 chars for sha256) instead of raw bytes.
+ * .slice(0, 16) truncates to first 16 hex chars (64 bits) — plenty unique for ~800 chunks,
+ * just shorter to store/compare, collision risk negligible at this scale.
+ */
+
+/**
+ * id = hashId([pageUrl, heading]) (or [pageUrl, 'prop', propName])
+ *
+ * Hashes the chunk's location, not its text. Stable as long as the page URL
+ * and heading/prop-name don't change.
+ *
+ * This is the Pinecone vector's primary key — used for upsert (same id = overwrite in place)
+ * and delete (chunk removed from docs → id vanishes from chunks.json → embed script deletes that vector).
+ */
 const hashId = (parts: string[]) =>
   createHash('sha256').update(parts.join('::')).digest('hex').slice(0, 16);
+
+/**
+ * contentHash = hashContent(content)
+ *
+ * Hashes the chunk's text. Changes the instant the prose or prop description changes,
+ * even if id stays identical (e.g. you edit renderValue's description but the prop name
+ * and page don't move — same id, new contentHash).
+ */
+const hashContent = (content: string) =>
+  createHash('sha256').update(content).digest('hex').slice(0, 16);
 
 const filePathToUrl = (filePath: string) => {
   const rel = path
@@ -93,6 +118,7 @@ async function main() {
     for (const { heading, content } of splitIntoSections(mdx)) {
       chunks.push({
         id: hashId([pageUrl, heading]),
+        contentHash: hashContent(content),
         type: 'prose',
         componentName,
         pageUrl,
@@ -110,13 +136,15 @@ async function main() {
         console.warn(`No componentProps entry for "${key}" referenced in ${filePath}`);
       } else {
         for (const row of rows) {
+          const content = `Prop \`${row.name}\` (${row.type})${row.required ? ' — required' : ''}: ${row.description}`;
           chunks.push({
             id: hashId([pageUrl, 'prop', row.name]),
+            contentHash: hashContent(content),
             type: 'prop',
             componentName: key,
             pageUrl,
             sectionHeading: `API > ${row.name}`,
-            content: `Prop \`${row.name}\` (${row.type})${row.required ? ' — required' : ''}: ${row.description}`,
+            content,
             propType: row.type
           });
         }

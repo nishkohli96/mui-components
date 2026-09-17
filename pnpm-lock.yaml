@@ -209,6 +209,13 @@ importers:
         version: 6.0.3
 
   apps/rag:
+    dependencies:
+      '@pinecone-database/pinecone':
+        specifier: ^9.0.0
+        version: 9.0.0
+      openai:
+        specifier: ^7.16.0
+        version: 7.16.0(undici@6.28.1)(zod@4.6.5)
     devDependencies:
       '@types/node':
         specifier: ^26.1.2
@@ -2017,6 +2024,10 @@ packages:
 
   '@oxc-project/types@0.149.0':
     resolution: {integrity: sha512-Efcc+iF0j3Bf67YjEqIqWXbX5XddXoK/Mw4K1/JuXwRCZ8N16VR7iT23nlCc9XrveFVh/E5Rqs2StT0V8v9LdA==}
+
+  '@pinecone-database/pinecone@9.0.0':
+    resolution: {integrity: sha512-2SEZEGbQPJTXWiRKSQJghqe7XjfmMRtLvkCdjPc5o+vxTa4ufgSid8j2wd+uQkX2B+n6h8+82SGGeTLttvGZGA==}
+    engines: {node: '>=22.0.0'}
 
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
@@ -4653,6 +4664,30 @@ packages:
 
   oniguruma-to-es@4.3.6:
     resolution: {integrity: sha512-csuQ9x3Yr0cEIs/Zgx/OEt9iBw9vqIunAPQkx19R/fiMq2oGVTgcMqO/V3Ybqefr1TBvosI6jU539ksaBULJyA==}
+
+  openai@7.16.0:
+    resolution: {integrity: sha512-aeDOKi45g3KdjxBFOQAHLZ75p7ASPBR3Mx7h3P34+tNPsJ+Wzi7SRF8gOcXFvNuLh+7LxHRYgIERrTIzhdI2VA==}
+    engines: {node: '>=22.0.0'}
+    peerDependencies:
+      '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
+      '@smithy/hash-node': '>=4.3.0 <5'
+      '@smithy/signature-v4': '>=5.4.0 <6'
+      undici: '>=5 <9'
+      ws: ^8.21.0
+      zod: ^3.25 || ^4.0
+    peerDependenciesMeta:
+      '@aws-sdk/credential-provider-node':
+        optional: true
+      '@smithy/hash-node':
+        optional: true
+      '@smithy/signature-v4':
+        optional: true
+      undici:
+        optional: true
+      ws:
+        optional: true
+      zod:
+        optional: true
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -7834,6 +7869,8 @@ snapshots:
 
   '@oxc-project/types@0.149.0': {}
 
+  '@pinecone-database/pinecone@9.0.0': {}
+
   '@popperjs/core@2.11.8': {}
 
   '@protobufjs/aspromise@1.1.2': {}
@@ -10964,6 +11001,11 @@ snapshots:
       oniguruma-parser: 0.12.2
       regex: 6.1.0
       regex-recursion: 6.0.2
+
+  openai@7.16.0(undici@6.28.1)(zod@4.6.5):
+    optionalDependencies:
+      undici: 6.28.1
+      zod: 4.6.5
 
   optionator@0.9.4:
     dependencies:

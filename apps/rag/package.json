@@ -5,7 +5,12 @@
   "author": "Nishant Kohli",
   "type": "module",
   "scripts": {
-    "ingest": "tsx src/ingest.ts"
+    "ingest": "tsx src/ingest.ts",
+    "embed": "tsx src/embed.ts"
+  },
+  "dependencies": {
+    "@pinecone-database/pinecone": "^9.0.0",
+    "openai": "^7.16.0"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
