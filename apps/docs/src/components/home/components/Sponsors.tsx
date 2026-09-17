@@ -46,7 +46,8 @@ const Sponsors = () => (
             aria-label={sponsor.name}
             sx={{
               display: 'block',
-              width: 'fit-content',
+              width: { xs: 35, sm: 45 },
+              height: { xs: 35, sm: 45 },
               lineHeight: 0,
               borderRadius: '50%',
               outlineOffset: 2,
@@ -59,7 +60,11 @@ const Sponsors = () => (
               alt={sponsor.name}
               width={45}
               height={45}
-              style={{ borderRadius: '50%' }}
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: '50%'
+              }}
             />
           </Box>
         </Tooltip>
