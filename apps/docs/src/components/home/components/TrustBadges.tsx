@@ -4,6 +4,7 @@ import StarRoundedIcon from '@mui/icons-material/StarRounded';
 import GavelRoundedIcon from '@mui/icons-material/GavelRounded';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
+import Skeleton from '@mui/material/Skeleton';
 import { githubRepoLink, npmLink } from '@/constants';
 
 const npmPackage = '@nish1896/mui-components';
@@ -70,10 +71,10 @@ const getGithubStars = async () => {
  * of shields.io badges so it reads as part of this page, not a pasted README.
  */
 const TrustBadges = async () => {
-  const [npmInfo, downloads, stars] = await Promise.all([
+  const [npmInfo, downloads] = await Promise.all([
     getNpmPackageInfo(),
     getNpmMonthlyDownloads(),
-    getGithubStars()
+    // getGithubStars()
   ]);
 
   const badges = [
@@ -89,12 +90,12 @@ const TrustBadges = async () => {
       href: npmLink,
       icon: <DownloadRoundedIcon />
     },
-    stars !== null && {
-      key: 'stars',
-      label: `${compactNumber.format(stars)} stars`,
-      href: githubRepoLink,
-      icon: <StarRoundedIcon />
-    },
+    // stars !== null && {
+    //   key: 'stars',
+    //   label: `${compactNumber.format(stars)} stars`,
+    //   href: githubRepoLink,
+    //   icon: <StarRoundedIcon />
+    // },
     npmInfo?.license && {
       key: 'license',
       label: npmInfo.license,
@@ -141,5 +142,31 @@ const TrustBadges = async () => {
     </Box>
   );
 };
+
+/**
+ * Same footprint as the loaded chips (row of four ~24px pills), so swapping
+ * it out for the real content inside the `<Suspense>` boundary in
+ * `home/index.tsx` doesn't shift anything below it.
+ */
+export const TrustBadgesSkeleton = () => (
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      gap: 1,
+      mt: 4
+    }}
+  >
+    {[70, 130, 60].map((width, i) => (
+      <Skeleton
+        key={i}
+        variant="rounded"
+        width={width}
+        height={24}
+        sx={{ borderRadius: 4 }}
+      />
+    ))}
+  </Box>
+);
 
 export default TrustBadges;
