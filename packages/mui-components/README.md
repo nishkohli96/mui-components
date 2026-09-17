@@ -49,7 +49,7 @@ pnpm install
 pnpm dev
 ```
 
-## Components List
+## 🧩 Components List
 
 Below is a comprehensive list of all components included in this package, categorized by module.
 
@@ -92,7 +92,7 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
 
 You can also check out my [eslint config](https://www.npmjs.com/package/@nish1896/eslint-flat-config), to format and prettify your javascript code.
 
-## Sponsors
+## 🌟 Sponsors
 
 <a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
   <img

@@ -58,7 +58,7 @@ function ProfileForm() {
 }
 ```
 
-## Explore and Get Started
+## 🚀 Explore and Get Started
 
 ### 📖 Documentation
 Full setup instructions, API references, and examples for every component:
@@ -107,7 +107,7 @@ Feel free to reach out directly at [nishantkohli96@gmail.com](mailto:nishantkohl
 
 You can also check out my [eslint config](https://www.npmjs.com/package/@nish1896/eslint-flat-config) to format and prettify your JavaScript/TypeScript code.
 
-## Sponsors
+## 🌟 Sponsors
 
 <a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
   <img
@@ -119,6 +119,6 @@ You can also check out my [eslint config](https://www.npmjs.com/package/@nish189
   />
 </a>
 
-## License
+## 📄 License
 
 MIT © [Nishant Kohli](https://github.com/nishkohli96)

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useLayoutEffect } from 'react';
 import { ThemeProvider, useColorScheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { type PaletteMode } from '@mui/material';
@@ -31,6 +31,21 @@ const ThemeContextBridge = ({ children }: { children: React.ReactNode }) => {
   const toggleTheme = () => {
     setMode(currentTheme === 'light' ? 'dark' : 'light');
   };
+
+  /**
+   * DocSearch's own CSS reads `data-theme` on `<html>` for its dark palette
+   * (`:root[data-theme=dark]`) — a different attribute than MUI's own
+   * `colorSchemeAttribute`. Mirror it here so DocSearch follows the app's
+   * theme instead of always rendering light.
+   *
+   * `useLayoutEffect`, not `useEffect`: MUI's own `data-mui-color-scheme`
+   * swap (inside `useColorScheme`) happens synchronously before paint, so a
+   * post-paint `useEffect` here would let one frame render with the new MUI
+   * colors but DocSearch still reading the stale `data-theme`.
+   */
+  useLayoutEffect(() => {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+  }, [currentTheme]);
 
   return (
     <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>
