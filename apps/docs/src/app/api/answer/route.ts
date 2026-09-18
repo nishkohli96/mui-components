@@ -8,7 +8,7 @@ const openai = createOpenAI({
   apiKey: process.env.OPENAI_PLATFORM_KEY
 });
 
-const NOT_COVERED_ANSWER = "This isn't covered in the MUI Components docs.";
+const NOT_COVERED_ANSWER = 'This isn\'t covered in the MUI Components docs.';
 
 const answerSchema = z.object({
   answer: z
@@ -31,7 +31,10 @@ export async function POST(request: Request) {
   const chunks = await retrieveChunks(question);
 
   if (chunks.length === 0) {
-    return Response.json({ answer: NOT_COVERED_ANSWER, citations: [] as Citation[] });
+    return Response.json({
+      answer: NOT_COVERED_ANSWER,
+      citations: [] as Citation[]
+    });
   }
 
   const { object } = await generateObject({
@@ -47,9 +50,12 @@ Context chunks:
 ${chunks.map((c, i) => `[${i + 1}] (${c.pageUrl} > ${c.sectionHeading})\n${c.content}`).join('\n\n')}`
   });
 
-  // Map the model's chunk numbers back to our own exact metadata — the model
-  // never generates pageUrl/sectionHeading/componentName itself, so citations
-  // can't drift or get hallucinated the way freeform fields did.
+  /**
+   * Map the model's chunk numbers back to our own exact metadata.
+   * The model never generates pageUrl/sectionHeading/componentName
+   * itself, so citations can't drift or get hallucinated the way
+   * freeform fields did.
+   */
   const citations: Citation[] = object.usedChunkNumbers
     .map(n => chunks[n - 1])
     .filter((c): c is RetrievedMatch => c !== undefined)

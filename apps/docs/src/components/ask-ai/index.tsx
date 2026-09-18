@@ -6,13 +6,13 @@ import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
+import MUITextField from '@nish1896/mui-components/mui/textfield';
 import type { Citation } from '@/app/api/answer/route';
 
 type ChatMessage = {
@@ -36,13 +36,18 @@ const AskAI = () => {
 
   const scrollToBottom = () => {
     requestAnimationFrame(() => {
-      scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' });
+      scrollRef.current?.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
     });
   };
 
   const handleSend = async () => {
     const question = input.trim();
-    if (!question || loading) return;
+    if (!question || loading) {
+      return;
+    }
 
     setMessages(prev => [...prev, { role: 'user', content: question }]);
     setInput('');
@@ -103,8 +108,8 @@ const AskAI = () => {
               py: 1.5,
               borderBottom: '1px solid',
               borderColor: 'divider',
-              alignItems: "center",
-              justifyContent: "space-between"
+              alignItems: 'center',
+              justifyContent: 'space-between'
             }}
           >
             <Stack
@@ -139,12 +144,15 @@ const AskAI = () => {
               p: 2,
               display: 'flex',
               flexDirection: 'column',
-              gap: 1.5 
+              gap: 1.5
             }}
           >
             {messages.length === 0 && (
-              <Typography variant="body2" color="text.secondary">
-                Ask anything about the MUI Components docs — e.g. &ldquo;does MUINumberInput support renderValue?&rdquo;
+              <Typography
+                variant="body2"
+                color="text.secondary"
+              >
+                Ask anything about the MUI Components docs — e.g. &ldquo;Does MUINumberInput support renderValue?&rdquo;
               </Typography>
             )}
             {messages.map((msg, i) => (
@@ -206,12 +214,10 @@ const AskAI = () => {
               gap: 1
             }}
           >
-            <TextField
-              size="small"
-              fullWidth
-              placeholder="Ask a question..."
+            <MUITextField
+              fieldName="user-question"
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onValueChange={({ newValue }) => setInput(newValue)}
               onKeyDown={e => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -219,6 +225,10 @@ const AskAI = () => {
                 }
               }}
               disabled={loading}
+              size="small"
+              fullWidth
+              hideLabel
+              placeholder="Ask a question..."
             />
             <IconButton
               color="primary"
