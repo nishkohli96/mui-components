@@ -36,7 +36,7 @@ export async function POST(request: Request) {
   });
 
   const results: RetrievedMatch[] = (matches ?? [])
-    .filter(match => (match.score ?? 0) >= openAIConfig.relevanceThreshold && match.metadata)
+    .filter(match => (match.score ?? 0) >= pineconeConfig.relevanceThreshold && match.metadata)
     .map(match => ({ id: match.id, score: match.score ?? 0, ...match.metadata! }));
 
   return Response.json({ results });
