@@ -10,7 +10,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
-import type { Chunk, EmbedManifest } from './types';
+import type { Chunk } from '@nish1896/rag-types';
 
 process.loadEnvFile(path.resolve(import.meta.dirname, '../.env'));
 
@@ -20,6 +20,9 @@ const INDEX_NAME = 'mui-components-docs';
 const EMBEDDING_MODEL = 'text-embedding-3-small';
 const EMBEDDING_DIMENSION = 1536;
 const EMBED_BATCH_SIZE = 100;
+
+/** chunk id -> contentHash already embedded and stored in Pinecone */
+type EmbedManifest = Record<string, string>;
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_PLATFORM_KEY });
 const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });

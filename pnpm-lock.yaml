@@ -68,6 +68,12 @@ importers:
       '@nish1896/mui-components':
         specifier: workspace:*
         version: link:../../packages/mui-components
+      '@nish1896/rag-types':
+        specifier: workspace:*
+        version: link:../../packages/rag-types
+      '@pinecone-database/pinecone':
+        specifier: ^9.0.0
+        version: 9.0.0
       '@shikijs/rehype':
         specifier: ^4.4.3
         version: 4.4.3
@@ -137,6 +143,9 @@ importers:
       next:
         specifier: 16.3.5
         version: 16.3.5(@babel/core@7.29.7(supports-color@8.1.1))(@opentelemetry/api@1.9.1)(@types/node@26.1.2)(babel-plugin-macros@3.1.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      openai:
+        specifier: ^7.16.0
+        version: 7.16.0(undici@6.28.1)(zod@4.6.5)
       react:
         specifier: ^19.3.0
         version: 19.3.0
@@ -210,6 +219,9 @@ importers:
 
   apps/rag:
     dependencies:
+      '@nish1896/rag-types':
+        specifier: workspace:*
+        version: link:../../packages/rag-types
       '@pinecone-database/pinecone':
         specifier: ^9.0.0
         version: 9.0.0
@@ -319,6 +331,8 @@ importers:
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
+
+  packages/rag-types: {}
 
 packages:
 
