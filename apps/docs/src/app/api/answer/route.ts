@@ -1,14 +1,12 @@
 import { generateObject } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
-import type { RetrievedMatch } from '@nish1896/rag-config';
+import { NOT_COVERED_ANSWER, type RetrievedMatch } from '@nish1896/rag-config';
 import { retrieveChunks } from '@/lib/rag/retrieve';
 
 const openai = createOpenAI({
   apiKey: process.env.OPENAI_PLATFORM_KEY
 });
-
-const NOT_COVERED_ANSWER = 'This isn\'t covered in the MUI Components docs.';
 
 const answerSchema = z.object({
   answer: z

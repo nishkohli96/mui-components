@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "ingest": "tsx src/ingest.ts",
-    "embed": "tsx src/embed.ts"
+    "embed": "tsx src/embed.ts",
+    "eval": "tsx src/eval/run-eval.ts"
   },
   "dependencies": {
     "@nish1896/rag-config": "workspace:*",

@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
 import Fab from '@mui/material/Fab';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
@@ -49,7 +50,10 @@ const AskAI = () => {
       return;
     }
 
-    setMessages(prev => [...prev, { role: 'user', content: question }]);
+    setMessages(prev => [
+      ...prev,
+      { role: 'user', content: question }
+    ]);
     setInput('');
     setLoading(true);
     scrollToBottom();
@@ -126,6 +130,17 @@ const AskAI = () => {
               >
                 Ask AI
               </Typography>
+              <Chip
+                label="Beta"
+                size="small"
+                color="secondary"
+                variant="outlined"
+                sx={{
+                  height: 20,
+                  fontSize: 11,
+                  fontWeight: 700
+                }}
+              />
             </Stack>
             <IconButton
               size="small"

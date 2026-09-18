@@ -1,0 +1,12 @@
+[
+  {
+    "question": "Does MUINumberInput support renderValue?",
+    "expectMatch": true,
+    "expectedKeywords": ["renderValue"],
+    "expectedPageUrl": "/components/mui/number-input"
+  },
+  {
+    "question": "How do I set up Kubernetes ingress for this app?",
+    "expectMatch": false
+  }
+]
