@@ -9,20 +9,51 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import CircularProgress from '@mui/material/CircularProgress';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 import type { Citation } from '@/app/api/answer/route';
+import type { ExternalLink } from '@/lib/rag/muiLinks';
 
 type ChatMessage = {
   role: 'user' | 'assistant';
   content: string;
   citations?: Citation[];
+  externalLinks?: ExternalLink[];
 };
 
 const ASK_AI_TOOLTIP = 'Ask AI about these docs';
+
+const TypingDots = () => (
+  <Stack
+    direction="row"
+    sx={{
+      alignSelf: 'flex-start',
+      gap: 0.5,
+      px: 1.5,
+      py: 1.4
+    }}
+  >
+    {[0, 1, 2].map(i => (
+      <Box
+        key={i}
+        sx={{
+          width: 6,
+          height: 6,
+          borderRadius: '50%',
+          bgcolor: 'text.secondary',
+          animation: 'askAiTypingBounce 1.2s infinite ease-in-out',
+          animationDelay: `${i * 0.2}s`,
+          '@keyframes askAiTypingBounce': {
+            '0%, 80%, 100%': { opacity: 0.3, transform: 'scale(0.8)' },
+            '40%': { opacity: 1, transform: 'scale(1)' }
+          }
+        }}
+      />
+    ))}
+  </Stack>
+);
 
 /**
  * Sitewide "Ask AI" widget: a bottom-right FAB that opens a scrollable chat
@@ -68,8 +99,16 @@ const AskAI = () => {
       setMessages(prev => [
         ...prev,
         res.ok
-          ? { role: 'assistant', content: data.answer, citations: data.citations }
-          : { role: 'assistant', content: data.error ?? 'Something went wrong asking that — try again.' }
+          ? {
+            role: 'assistant',
+            content: data.answer,
+            citations: data.citations,
+            externalLinks: data.externalLinks
+          }
+          : {
+            role: 'assistant',
+            content: data.error ?? 'Something went wrong asking that — try again.'
+          }
       ]);
     } catch {
       setMessages(prev => [
@@ -203,19 +242,30 @@ const AskAI = () => {
                     ))}
                   </Stack>
                 )}
+                {!!msg.externalLinks?.length && (
+                  <Stack sx={{ mt: 1, gap: 0.5 }}>
+                    <Typography variant="caption" color="text.secondary">MUI docs:</Typography>
+                    {msg.externalLinks.map((link, li) => (
+                      <a
+                        key={li}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          fontSize: 12,
+                          textDecoration: 'underline'
+                        }}
+                      >
+                        {link.label}
+                        {' '}
+                        ↗
+                      </a>
+                    ))}
+                  </Stack>
+                )}
               </Box>
             ))}
-            {loading && (
-              <Box
-                sx={{
-                  alignSelf: 'flex-start',
-                  px: 1.5,
-                  py: 1
-                }}
-              >
-                <CircularProgress size={18} />
-              </Box>
-            )}
+            {loading && <TypingDots />}
           </Box>
 
           <Stack

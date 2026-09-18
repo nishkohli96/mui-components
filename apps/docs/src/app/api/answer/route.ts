@@ -5,6 +5,7 @@ import { NOT_COVERED_ANSWER, type RetrievedMatch } from '@nish1896/rag-config';
 import { embedQuestion, retrieveChunksForEmbedding } from '@/lib/rag/retrieve';
 import { checkRateLimit, getClientIp } from '@/lib/rag/rateLimit';
 import { getCachedAnswer, setCachedAnswer } from '@/lib/rag/answerCache';
+import { extractMuiLinks, dedupeLinks, type ExternalLink } from '@/lib/rag/muiLinks';
 
 const openai = createOpenAI({
   apiKey: process.env.OPENAI_PLATFORM_KEY
@@ -43,17 +44,19 @@ export async function POST(request: Request) {
   if (cached) {
     return Response.json({
       answer: cached.answer,
-      citations: cached.citations
+      citations: cached.citations,
+      externalLinks: cached.externalLinks
     });
   }
 
   const chunks = await retrieveChunksForEmbedding(embedding);
 
   if (chunks.length === 0) {
-    setCachedAnswer(embedding, NOT_COVERED_ANSWER, []);
+    setCachedAnswer(embedding, NOT_COVERED_ANSWER, [], []);
     return Response.json({
       answer: NOT_COVERED_ANSWER,
-      citations: [] as Citation[]
+      citations: [] as Citation[],
+      externalLinks: [] as ExternalLink[]
     });
   }
 
@@ -76,12 +79,21 @@ ${chunks.map((c, i) => `[${i + 1}] (${c.pageUrl} > ${c.sectionHeading})\n${c.con
    * itself, so citations can't drift or get hallucinated the way
    * freeform fields did.
    */
-  const citations: Citation[] = object.usedChunkNumbers
+  const usedChunks = object.usedChunkNumbers
     .map(n => chunks[n - 1])
-    .filter((c): c is RetrievedMatch => c !== undefined)
-    .map(({ pageUrl, sectionHeading, componentName }) => ({ pageUrl, sectionHeading, componentName }));
+    .filter((c): c is RetrievedMatch => c !== undefined);
 
-  setCachedAnswer(embedding, object.answer, citations);
+  const citations: Citation[] = usedChunks.map(
+    ({ pageUrl, sectionHeading, componentName }) => ({ pageUrl, sectionHeading, componentName })
+  );
 
-  return Response.json({ answer: object.answer, citations });
+  const externalLinks = dedupeLinks(usedChunks.flatMap(c => extractMuiLinks(c.content)));
+
+  setCachedAnswer(embedding, object.answer, citations, externalLinks);
+
+  return Response.json({
+    answer: object.answer,
+    citations,
+    externalLinks
+  });
 }

@@ -1,4 +1,5 @@
 import type { Citation } from '@/app/api/answer/route';
+import type { ExternalLink } from './muiLinks';
 
 /**
  * Embedding-similarity cache for /api/answer: near-duplicate questions
@@ -26,6 +27,7 @@ type CacheEntry = {
   embedding: number[];
   answer: string;
   citations: Citation[];
+  externalLinks: ExternalLink[];
 };
 
 const cache: CacheEntry[] = [];
@@ -34,7 +36,7 @@ function cosineSimilarity(a: number[], b: number[]): number {
   let dot = 0;
   let normA = 0;
   let normB = 0;
-  for (let i = 0; i < a.length; i++) {
+  for (let i = 0; i < a.length; i += 1) {
     dot += a[i]! * b[i]!;
     normA += a[i]! * a[i]!;
     normB += b[i]! * b[i]!;
@@ -46,7 +48,14 @@ export function getCachedAnswer(embedding: number[]): CacheEntry | undefined {
   return cache.find(entry => cosineSimilarity(entry.embedding, embedding) >= SIMILARITY_THRESHOLD);
 }
 
-export function setCachedAnswer(embedding: number[], answer: string, citations: Citation[]): void {
-  if (cache.length >= MAX_ENTRIES) cache.shift();
-  cache.push({ embedding, answer, citations });
+export function setCachedAnswer(
+  embedding: number[],
+  answer: string,
+  citations: Citation[],
+  externalLinks: ExternalLink[]
+): void {
+  if (cache.length >= MAX_ENTRIES) {
+    cache.shift();
+  }
+  cache.push({ embedding, answer, citations, externalLinks });
 }

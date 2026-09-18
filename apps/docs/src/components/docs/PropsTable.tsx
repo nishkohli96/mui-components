@@ -58,6 +58,13 @@ type PropsTableProps = {
    * `componentProps` / `PropsDescription` in `constants/props-table`.
    */
   rows: PropsInfo[];
+  /**
+   * Opt-in per-row deep link, e.g. `slug="textfield"` anchors the `value`
+   * row at `#textfield-prop-value`. Omitted by default so existing tables
+   * render exactly as before; only pass it once a component's prop-table
+   * URL is meant to be stable and shareable.
+   */
+  slug?: string;
 };
 
 /**
@@ -66,7 +73,7 @@ type PropsTableProps = {
  * crawlable. Rows are typed `PropsInfo[]` maintained centrally, keeping prop
  * docs consistent across components and package versions.
  */
-const PropsTable = ({ rows }: PropsTableProps) => {
+const PropsTable = ({ rows, slug }: PropsTableProps) => {
   return (
     <table>
       <thead>
@@ -77,43 +84,64 @@ const PropsTable = ({ rows }: PropsTableProps) => {
         </tr>
       </thead>
       <tbody>
-        {rows.map(row => (
-          <tr key={row.name}>
-            <td>
-              <code>
-                {row.name}
-              </code>
-              {row.required && (
-                <span
-                  aria-label="required"
-                  style={{
-                    color: 'var(--mui-palette-error-main)',
-                    marginLeft: 2,
-                    fontWeight: 700
-                  }}
-                >
-                  *
-                </span>
-              )}
-            </td>
-            <td>
-              {row.hasLinkInType
-                ? renderInlineMd(row.type)
-                : (
-                  <code>
-                    {row.type}
-                  </code>
+        {rows.map(row => {
+          const anchorId = slug ? `${slug}-prop-${row.name}` : undefined;
+          return (
+            <tr
+              key={row.name}
+              id={anchorId}
+              style={anchorId ? { scrollMarginTop: 90 } : undefined}
+            >
+              <td>
+                <code>
+                  {row.name}
+                </code>
+                {row.required && (
+                  <span
+                    aria-label="required"
+                    style={{
+                      color: 'var(--mui-palette-error-main)',
+                      marginLeft: 2,
+                      fontWeight: 700
+                    }}
+                  >
+                    *
+                  </span>
                 )}
-            </td>
-            <td>
-              {row.description.split('\n\n').map((paragraph, index) => (
-                <div key={index} style={index > 0 ? { marginTop: 6 } : undefined}>
-                  {renderInlineMd(paragraph)}
-                </div>
-              ))}
-            </td>
-          </tr>
-        ))}
+                {anchorId && (
+                  /*
+                   * Same hover-reveal "#" pattern as heading anchors
+                   * (mdx-components.tsx) — CSS-only content so it never
+                   * lands in copied text or search snippets, and toggling
+                   * opacity (not display) means it can't shift the row's
+                   * layout.
+                   */
+                  <a
+                    href={`#${anchorId}`}
+                    className="prop-anchor"
+                    aria-label={`Link to the ${row.name} prop`}
+                  />
+                )}
+              </td>
+              <td>
+                {row.hasLinkInType
+                  ? renderInlineMd(row.type)
+                  : (
+                    <code>
+                      {row.type}
+                    </code>
+                  )}
+              </td>
+              <td>
+                {row.description.split('\n\n').map((paragraph, index) => (
+                  <div key={index} style={index > 0 ? { marginTop: 6 } : undefined}>
+                    {renderInlineMd(paragraph)}
+                  </div>
+                ))}
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
