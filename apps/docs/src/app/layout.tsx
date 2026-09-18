@@ -9,6 +9,7 @@ import {
   websiteUrl
 } from '@/constants';
 import AppShell from '@/components/app-shell';
+import { AskAI } from '@/components';
 import { AppThemeProvider } from '@/theme';
 import { colorSchemeAttribute, modeStorageKey } from '@/theme/constants';
 import { roboto } from '@/theme/fonts';
@@ -93,6 +94,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
             <AppShell>
               {children}
             </AppShell>
+            <AskAI />
             <Analytics />
             <ToastContainer
               autoClose={3000}
