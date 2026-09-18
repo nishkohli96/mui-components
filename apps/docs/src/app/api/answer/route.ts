@@ -2,7 +2,9 @@ import { generateObject } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { NOT_COVERED_ANSWER, type RetrievedMatch } from '@nish1896/rag-config';
-import { retrieveChunks } from '@/lib/rag/retrieve';
+import { embedQuestion, retrieveChunksForEmbedding } from '@/lib/rag/retrieve';
+import { checkRateLimit, getClientIp } from '@/lib/rag/rateLimit';
+import { getCachedAnswer, setCachedAnswer } from '@/lib/rag/answerCache';
 
 const openai = createOpenAI({
   apiKey: process.env.OPENAI_PLATFORM_KEY
@@ -20,15 +22,35 @@ const answerSchema = z.object({
 export type Citation = Pick<RetrievedMatch, 'pageUrl' | 'sectionHeading' | 'componentName'>;
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+  const rateLimit = checkRateLimit(ip);
+  if (!rateLimit.allowed) {
+    return Response.json(
+      { error: 'Too many questions — try again shortly.' },
+      { status: 429, headers: { 'Retry-After': String(rateLimit.retryAfterSeconds) } }
+    );
+  }
+
   const { question } = await request.json();
 
   if (typeof question !== 'string' || !question.trim()) {
     return Response.json({ error: 'question is required' }, { status: 400 });
   }
 
-  const chunks = await retrieveChunks(question);
+  const embedding = await embedQuestion(question);
+
+  const cached = getCachedAnswer(embedding);
+  if (cached) {
+    return Response.json({
+      answer: cached.answer,
+      citations: cached.citations
+    });
+  }
+
+  const chunks = await retrieveChunksForEmbedding(embedding);
 
   if (chunks.length === 0) {
+    setCachedAnswer(embedding, NOT_COVERED_ANSWER, []);
     return Response.json({
       answer: NOT_COVERED_ANSWER,
       citations: [] as Citation[]
@@ -58,6 +80,8 @@ ${chunks.map((c, i) => `[${i + 1}] (${c.pageUrl} > ${c.sectionHeading})\n${c.con
     .map(n => chunks[n - 1])
     .filter((c): c is RetrievedMatch => c !== undefined)
     .map(({ pageUrl, sectionHeading, componentName }) => ({ pageUrl, sectionHeading, componentName }));
+
+  setCachedAnswer(embedding, object.answer, citations);
 
   return Response.json({ answer: object.answer, citations });
 }

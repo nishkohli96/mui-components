@@ -67,11 +67,9 @@ const AskAI = () => {
       const data = await res.json();
       setMessages(prev => [
         ...prev,
-        {
-          role: 'assistant',
-          content: data.answer,
-          citations: data.citations
-        }
+        res.ok
+          ? { role: 'assistant', content: data.answer, citations: data.citations }
+          : { role: 'assistant', content: data.error ?? 'Something went wrong asking that — try again.' }
       ]);
     } catch {
       setMessages(prev => [
