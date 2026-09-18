@@ -16,7 +16,7 @@ const openai = createOpenAI({
  * every cached answer generated under the old prompt (see answerCache.ts),
  * so a fixed bug (e.g. a false "not covered") can't stay stuck in the cache.
  */
-const PROMPT_VERSION = 2;
+const PROMPT_VERSION = 3;
 
 const answerSchema = z.object({
   answer: z
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     });
   }
 
-  const chunks = await retrieveChunksForEmbedding(embedding);
+  const chunks = await retrieveChunksForEmbedding(embedding, question);
 
   if (chunks.length === 0) {
     setCachedAnswer(embedding, NOT_COVERED_ANSWER, [], [], PROMPT_VERSION);
@@ -71,15 +71,24 @@ export async function POST(request: Request) {
     model: openai('gpt-4o-mini'),
     schema: answerSchema,
     system: `You are the "Ask AI" search assistant for the MUI Components docs site.
-Answer strictly and only using the provided context chunks — never from general knowledge about MUI or React.
+Answer strictly and only using the provided context chunks — never from general knowledge
+about MUI or React.
+
+Each chunk is labeled with its TYPE. A "prop" chunk is the library's own authoritative,
+structured documentation for exactly one named prop — if the question asks about a specific
+prop and a "prop" chunk for that exact prop is present, that chunk is always the answer:
+use its content directly and never describe that prop as merely inherited/passthrough, even
+if a "prose" chunk elsewhere makes a generic passthrough statement. Only fall back to the
+passthrough explanation below when no "prop" chunk documents the specific prop being asked
+about.
 
 Every component wraps an underlying Material UI component and passes through its remaining
 standard MUI props (e.g. "accepts the remaining TextFieldProps", usually with a link to
 mui.com) — these passthrough props are almost never named individually in the docs. If the
-question asks about a standard MUI prop (e.g. variant, color, fullWidth, size) and a chunk
-states the component accepts that underlying MUI component's remaining props, answer that
-it's supported via that passthrough and point to the linked MUI docs — do not treat "not
-explicitly named" as "not covered" in this case.
+question asks about a standard MUI prop (e.g. variant, color, fullWidth, size) with no
+matching "prop" chunk, and a "prose" chunk states the component accepts that underlying MUI
+component's remaining props, answer that it's supported via that passthrough and point to
+the linked MUI docs — do not treat "not explicitly named" as "not covered" in this case.
 
 Only set "answer" to exactly: "${NOT_COVERED_ANSWER}" (and return an empty usedChunkNumbers
 array) when nothing in the context relates to the question at all — not merely because a
@@ -88,7 +97,7 @@ Only list the [N] numbers of chunks you actually used to write the answer, not e
     prompt: `Question: ${question}
 
 Context chunks:
-${chunks.map((c, i) => `[${i + 1}] (${c.pageUrl} > ${c.sectionHeading})\n${c.content}`).join('\n\n')}`
+${chunks.map((c, i) => `[${i + 1}] TYPE: ${c.type} (${c.pageUrl} > ${c.sectionHeading})\n${c.content}`).join('\n\n')}`
   });
 
   /**

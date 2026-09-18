@@ -13,15 +13,22 @@ import type { ExternalLink } from './muiLinks';
  */
 const MAX_ENTRIES = 200;
 /**
- * Calibrated against a spot-check with `text-embedding-3-small`: a genuine
- * paraphrase ("does X support Y" vs "can X format the value with Y") scored
- * 0.8486, while a different prop on the *same* component ("renderValue" vs
- * "min") scored only 0.6634 — 0.83 sits with margin above the negative case
- * while still catching the paraphrase. Not eval-harness-tuned; revisit if
- * real usage shows false cache hits (unrelated questions sharing an answer)
- * or misses (obvious paraphrases not hitting cache).
+ * A pure cosine threshold turned out unsafe at 0.83: "numberinput min prop"
+ * vs "numberinput max prop" — two DIFFERENT props, wrong to ever share an
+ * answer — scored 0.8907, *higher* than the genuine paraphrase pair used to
+ * calibrate the original threshold (0.8486, "does X support Y" vs "can X
+ * format the value with Y"). A single-word swap between near-synonym
+ * technical terms ("min"/"max") embeds closer than a full paraphrase does,
+ * so no cutoff between 0.85 and 0.89 is safe.
+ *
+ * 0.95 sacrifices that genuine-paraphrase cache hit (a miss there just costs
+ * one extra LLM call) to stay safely clear of the false-positive case (a hit
+ * there serves a confidently wrong answer) — correctness over hit rate.
+ * Still not eval-harness-tuned; a real fix would veto hits across chunks
+ * with different prop names (the same lexical-rescue idea used in
+ * retrieve.ts) rather than relying on cosine similarity alone.
  */
-const SIMILARITY_THRESHOLD = 0.83;
+const SIMILARITY_THRESHOLD = 0.95;
 
 type CacheEntry = {
   embedding: number[];

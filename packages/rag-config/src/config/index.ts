@@ -14,7 +14,18 @@ export const pineconeConfig = {
    * as relevant — lets the retrieval route say "not covered in the docs"
    * instead of forcing a weak match into the LLM prompt.
    */
-  relevanceThreshold: 0.5
+  relevanceThreshold: 0.5,
+  /**
+   * How many raw matches to pull from Pinecone before filtering, wider than
+   * `topK` — needed so the exact-prop-name rescue (see retrieve.ts) has a
+   * pool to search. Short, common prop names ("min", "max") embed weakly
+   * against short queries and can rank outside the top `topK` on pure
+   * cosine similarity even when they're the literal right answer — spot
+   * check: "numberinput min prop" scored the actual `min` chunk 0.4517,
+   * ranked 15th, while unrelated prose chunks scored higher (0.53) purely
+   * from sharing more surface vocabulary with the query.
+   */
+  candidatePoolSize: 20
 };
 
 /**

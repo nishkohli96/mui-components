@@ -23,23 +23,53 @@ export async function embedQuestion(question: string): Promise<number[]> {
   return data[0]!.embedding;
 }
 
+const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/** A `prop`-type chunk's `sectionHeading` is always `API > propName` — pull propName back out. */
+const propNameFromHeading = (heading: string) => heading.replace(/^API > /, '');
+
 /**
- * Queries Pinecone with an already-computed question embedding, filtered by
- * `pineconeConfig.relevanceThreshold`. Split out from `retrieveChunks` so
- * `/api/answer` can reuse one embedding for both the query-cache lookup and
- * the Pinecone query, instead of embedding the question twice.
+ * Queries Pinecone with an already-computed question embedding. Split out
+ * from `retrieveChunks` so `/api/answer` can reuse one embedding for both
+ * the query-cache lookup and the Pinecone query, instead of embedding the
+ * question twice.
+ *
+ * Combines semantic (embedding) search with a lexical rescue: short, common
+ * prop names ("min", "max") embed weakly against short queries and can rank
+ * below `relevanceThreshold` on pure cosine similarity even when they are
+ * the literal right answer (see `candidatePoolSize`'s doc comment for a
+ * concrete spot-check). Any `prop`-type chunk whose exact prop name appears
+ * as a whole word in `question` is included regardless of its embedding
+ * score — pure vector search alone can't be trusted for exact identifiers.
  */
-export async function retrieveChunksForEmbedding(embedding: number[]): Promise<RetrievedMatch[]> {
+export async function retrieveChunksForEmbedding(embedding: number[], question: string): Promise<RetrievedMatch[]> {
   const index = pinecone.index<ChunkMetadata>({ name: pineconeConfig.indexName });
   const { matches } = await index.query({
     vector: embedding,
-    topK: pineconeConfig.topK,
+    topK: pineconeConfig.candidatePoolSize,
     includeMetadata: true
   });
 
-  return (matches ?? [])
-    .filter(match => (match.score ?? 0) >= pineconeConfig.relevanceThreshold && match.metadata)
-    .map(match => ({ id: match.id, score: match.score ?? 0, ...match.metadata! }));
+  const candidates = (matches ?? []).filter(match => match.metadata);
+
+  const exactPropMatches = candidates.filter(match => {
+    if (match.metadata!.type !== 'prop') return false;
+    const propName = propNameFromHeading(match.metadata!.sectionHeading);
+    return new RegExp(`\\b${escapeRegExp(propName)}\\b`, 'i').test(question);
+  });
+
+  const semanticMatches = candidates
+    .filter(match => (match.score ?? 0) >= pineconeConfig.relevanceThreshold)
+    .slice(0, pineconeConfig.topK);
+
+  const byId = new Map(
+    [...exactPropMatches, ...semanticMatches].map(match => [
+      match.id,
+      { id: match.id, score: match.score ?? 0, ...match.metadata! }
+    ])
+  );
+
+  return [...byId.values()];
 }
 
 /**
@@ -49,5 +79,5 @@ export async function retrieveChunksForEmbedding(embedding: number[]): Promise<R
  */
 export async function retrieveChunks(question: string): Promise<RetrievedMatch[]> {
   const embedding = await embedQuestion(question);
-  return retrieveChunksForEmbedding(embedding);
+  return retrieveChunksForEmbedding(embedding, question);
 }
