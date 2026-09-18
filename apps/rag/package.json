@@ -9,7 +9,7 @@
     "embed": "tsx src/embed.ts"
   },
   "dependencies": {
-    "@nish1896/rag-types": "workspace:*",
+    "@nish1896/rag-config": "workspace:*",
     "@pinecone-database/pinecone": "^9.0.0",
     "openai": "^7.16.0"
   },

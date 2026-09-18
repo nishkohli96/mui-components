@@ -10,22 +10,26 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
-import type { Chunk } from '@nish1896/rag-types';
+import {
+  pineconeConfig,
+  openAIConfig,
+  type Chunk
+} from '@nish1896/rag-config';
 
 process.loadEnvFile(path.resolve(import.meta.dirname, '../.env'));
 
 const CHUNKS_FILE = path.resolve(import.meta.dirname, '../.output/chunks.json');
 const MANIFEST_FILE = path.resolve(import.meta.dirname, '../.output/embed-manifest.json');
-const INDEX_NAME = 'mui-components-docs';
-const EMBEDDING_MODEL = 'text-embedding-3-small';
-const EMBEDDING_DIMENSION = 1536;
-const EMBED_BATCH_SIZE = 100;
 
 /** chunk id -> contentHash already embedded and stored in Pinecone */
 type EmbedManifest = Record<string, string>;
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_PLATFORM_KEY });
-const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_PLATFORM_KEY!
+});
+const pinecone = new Pinecone({
+  apiKey: process.env.PINECONE_API_KEY!
+});
 
 async function loadManifest(): Promise<EmbedManifest> {
   try {
@@ -37,18 +41,20 @@ async function loadManifest(): Promise<EmbedManifest> {
 
 async function ensureIndex() {
   const { indexes } = await pinecone.indexes.list();
-  if (indexes?.some(i => i.name === INDEX_NAME)) return;
+  if (indexes?.some(i => i.name === pineconeConfig.indexName)) return;
 
-  console.log(`Creating Pinecone index "${INDEX_NAME}"...`);
+  console.log(`Creating Pinecone index "${pineconeConfig.indexName}"...`);
   /**
    * Free Starter plan only supports serverless indexes in us-east-1 (N. Virginia));
    * ap-south-1 (Mumbai) needs a paid plan.
    */
   await pinecone.indexes.create({
-    name: INDEX_NAME,
-    dimension: EMBEDDING_DIMENSION,
+    name: pineconeConfig.indexName,
+    dimension: openAIConfig.embedding.dimension,
     metric: 'cosine',
-    spec: { serverless: { cloud: 'aws', region: 'us-east-1' } },
+    spec: {
+      serverless: { cloud: 'aws', region: 'us-east-1' }
+    },
     waitUntilReady: true
   });
 }
@@ -72,11 +78,11 @@ async function main() {
   );
 
   await ensureIndex();
-  const index = pinecone.index({ name: INDEX_NAME });
+  const index = pinecone.index({ name: pineconeConfig.indexName });
 
-  for (const batch of chunkArray(toEmbed, EMBED_BATCH_SIZE)) {
+  for (const batch of chunkArray(toEmbed, openAIConfig.embedding.batchSize)) {
     const { data } = await openai.embeddings.create({
-      model: EMBEDDING_MODEL,
+      model: openAIConfig.embedding.model,
       input: batch.map(c => c.content)
     });
 

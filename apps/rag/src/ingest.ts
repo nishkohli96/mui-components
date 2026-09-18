@@ -12,8 +12,8 @@ import { createHash } from 'node:crypto';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import path from 'node:path';
+import type { Chunk } from '@nish1896/rag-config';
 import { componentProps } from '../../docs/src/constants/props-table/index';
-import type { Chunk } from '@nish1896/rag-types';
 
 const DOCS_APP_DIR = path.resolve(import.meta.dirname, '../../docs/src/app');
 const OUT_FILE = path.resolve(import.meta.dirname, '../.output/chunks.json');
