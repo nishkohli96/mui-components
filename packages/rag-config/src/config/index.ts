@@ -28,14 +28,6 @@ export const pineconeConfig = {
   candidatePoolSize: 20
 };
 
-/**
- * The exact fallback string `/api/answer` returns when no retrieved chunk
- * clears the relevance threshold. Shared with the eval harness (apps/rag),
- * which checks answers against this exact string to verify the "not
- * covered" guardrail actually fires — kept here so the two can't drift.
- */
-export const NOT_COVERED_ANSWER = "🔍 This isn't covered in the MUI Components docs.";
-
 export const openAIConfig = {
   embedding: {
     /**

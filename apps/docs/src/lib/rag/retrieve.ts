@@ -6,6 +6,7 @@ import {
   type ChunkMetadata,
   type RetrievedMatch
 } from '@nish1896/rag-config';
+import { expandComponentMentions } from './componentNames';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_PLATFORM_KEY
@@ -14,11 +15,17 @@ const pinecone = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY!
 });
 
-/** Embeds `question` with the same model the corpus was indexed with. */
+/**
+ * Embeds `question` with the same model the corpus was indexed with.
+ * Component mentions are expanded to their canonical name first (see
+ * `expandComponentMentions`) — the corpus always uses the canonical name,
+ * so a query missing the "MUI" prefix or using different
+ * casing/separators embeds closer to the right chunk once rewritten.
+ */
 export async function embedQuestion(question: string): Promise<number[]> {
   const { data } = await openai.embeddings.create({
     model: openAIConfig.embedding.model,
-    input: question
+    input: expandComponentMentions(question)
   });
   return data[0]!.embedding;
 }
@@ -34,15 +41,21 @@ const propNameFromHeading = (heading: string) => heading.replace(/^API > /, '');
  * the query-cache lookup and the Pinecone query, instead of embedding the
  * question twice.
  *
- * Combines semantic (embedding) search with a lexical rescue: short, common
- * prop names ("min", "max") embed weakly against short queries and can rank
- * below `relevanceThreshold` on pure cosine similarity even when they are
- * the literal right answer (see `candidatePoolSize`'s doc comment for a
- * concrete spot-check). Any `prop`-type chunk whose exact prop name appears
- * as a whole word in `question` is included regardless of its embedding
- * score — pure vector search alone can't be trusted for exact identifiers.
+ * Combines semantic (embedding) search with two lexical rescues, since pure
+ * vector search can't be trusted for exact identifiers:
+ *
+ * - Short, common prop names ("min", "max") embed weakly against short
+ *   queries and can rank below `relevanceThreshold` even when they are the
+ *   literal right answer (see `candidatePoolSize`'s doc comment for a
+ *   concrete spot-check) — any `prop`-type chunk whose exact prop name
+ *   appears as a whole word in `question` is included regardless of score.
+ * - Any chunk whose `componentName` is mentioned (after the same
+ *   canonicalization `embedQuestion` applies) is included regardless of
+ *   score too, as a second line of defense on top of the embedding rewrite.
  */
 export async function retrieveChunksForEmbedding(embedding: number[], question: string): Promise<RetrievedMatch[]> {
+  const expandedQuestion = expandComponentMentions(question);
+
   const index = pinecone.index<ChunkMetadata>({ name: pineconeConfig.indexName });
   const { matches } = await index.query({
     vector: embedding,
@@ -58,12 +71,17 @@ export async function retrieveChunksForEmbedding(embedding: number[], question: 
     return new RegExp(`\\b${escapeRegExp(propName)}\\b`, 'i').test(question);
   });
 
+  const exactComponentMatches = candidates.filter(match => {
+    const componentName = match.metadata!.componentName;
+    return !!componentName && new RegExp(`\\b${escapeRegExp(componentName)}\\b`, 'i').test(expandedQuestion);
+  });
+
   const semanticMatches = candidates
     .filter(match => (match.score ?? 0) >= pineconeConfig.relevanceThreshold)
     .slice(0, pineconeConfig.topK);
 
   const byId = new Map(
-    [...exactPropMatches, ...semanticMatches].map(match => [
+    [...exactPropMatches, ...exactComponentMatches, ...semanticMatches].map(match => [
       match.id,
       { id: match.id, score: match.score ?? 0, ...match.metadata! }
     ])
