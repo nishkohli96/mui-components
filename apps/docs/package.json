@@ -54,6 +54,7 @@
     "dayjs": "^1.11.23",
     "firebase": "^12.19.0",
     "formik": "^2.4.9",
+    "github-slugger": "^2.0.0",
     "joi": "^18.2.9",
     "luxon": "^3.7.2",
     "moment": "^2.31.0",

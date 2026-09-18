@@ -6,6 +6,7 @@ import { embedQuestion, retrieveChunksForEmbedding } from '@/lib/rag/retrieve';
 import { checkRateLimit, getClientIp } from '@/lib/rag/rateLimit';
 import { getCachedAnswer, setCachedAnswer } from '@/lib/rag/answerCache';
 import { extractMuiLinks, dedupeLinks, type ExternalLink } from '@/lib/rag/muiLinks';
+import { computeCitationAnchor } from '@/lib/rag/citationAnchor';
 
 const openai = createOpenAI({
   apiKey: process.env.OPENAI_PLATFORM_KEY
@@ -27,7 +28,7 @@ const answerSchema = z.object({
     .describe('The [N] numbers of the context chunks actually used to write the answer — a subset of what was provided, not all of it. Empty if the answer is the "not covered" fallback.')
 });
 
-export type Citation = Pick<RetrievedMatch, 'pageUrl' | 'sectionHeading' | 'componentName'>;
+export type Citation = Pick<RetrievedMatch, 'pageUrl' | 'sectionHeading' | 'componentName'> & { anchor: string };
 
 const PASSTHROUGH_STATEMENT_RE = /accepts\s+(?:most|all|the remaining)\s+\[?\w*Props/i;
 
@@ -141,9 +142,12 @@ ${chunks.map((c, i) => `[${i + 1}] TYPE: ${c.type} | COMPONENT: ${c.componentNam
     .filter((c): c is RetrievedMatch => c !== undefined);
 
   let answer = object.answer;
-  let citations: Citation[] = usedChunks.map(
-    ({ pageUrl, sectionHeading, componentName }) => ({ pageUrl, sectionHeading, componentName })
-  );
+  let citations: Citation[] = usedChunks.map(c => ({
+    pageUrl: c.pageUrl,
+    sectionHeading: c.sectionHeading,
+    componentName: c.componentName,
+    anchor: computeCitationAnchor(c)
+  }));
   let externalLinks = dedupeLinks(usedChunks.flatMap(c => extractMuiLinks(c.content)));
 
   if (answer === NOT_COVERED_ANSWER) {
@@ -155,7 +159,8 @@ ${chunks.map((c, i) => `[${i + 1}] TYPE: ${c.type} | COMPONENT: ${c.componentNam
       citations = [{
         pageUrl: passthroughChunk.pageUrl,
         sectionHeading: passthroughChunk.sectionHeading,
-        componentName: passthroughChunk.componentName
+        componentName: passthroughChunk.componentName,
+        anchor: computeCitationAnchor(passthroughChunk)
       }];
       externalLinks = dedupeLinks(links);
     }

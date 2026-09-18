@@ -15,7 +15,7 @@ import SendIcon from '@mui/icons-material/Send';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 import type { Citation } from '@/app/api/answer/route';
 import type { ExternalLink } from '@/lib/rag/muiLinks';
-import { renderInlineMd } from '@/utils/inline-markdown';
+import { renderAnswerBlocks } from '@/utils/inline-markdown';
 
 type ChatMessage = {
   role: 'user' | 'assistant';
@@ -221,18 +221,24 @@ const AskAI = () => {
                   py: 1
                 }}
               >
-                <Typography
-                  variant="body2"
-                  sx={{ whiteSpace: 'pre-wrap' }}
-                >
-                  {msg.role === 'assistant' ? renderInlineMd(msg.content) : msg.content}
-                </Typography>
+                {msg.role === 'assistant' ? (
+                  <Box sx={{ typography: 'body2' }}>
+                    {renderAnswerBlocks(msg.content)}
+                  </Box>
+                ) : (
+                  <Typography
+                    variant="body2"
+                    sx={{ whiteSpace: 'pre-wrap' }}
+                  >
+                    {msg.content}
+                  </Typography>
+                )}
                 {!!msg.citations?.length && (
                   <Stack sx={{ mt: 1, gap: 0.5 }}>
                     {msg.citations.map((c, ci) => (
                       <Link
                         key={ci}
-                        href={c.pageUrl}
+                        href={c.anchor ? `${c.pageUrl}#${c.anchor}` : c.pageUrl}
                         style={{
                           fontSize: 12,
                           textDecoration: 'underline'
