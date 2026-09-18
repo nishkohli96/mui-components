@@ -28,6 +28,8 @@ type CacheEntry = {
   answer: string;
   citations: Citation[];
   externalLinks: ExternalLink[];
+  /** The synthesis prompt version active when this answer was generated — see promptVersion param below. */
+  promptVersion: number;
 };
 
 const cache: CacheEntry[] = [];
@@ -44,18 +46,30 @@ function cosineSimilarity(a: number[], b: number[]): number {
   return dot / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
-export function getCachedAnswer(embedding: number[]): CacheEntry | undefined {
-  return cache.find(entry => cosineSimilarity(entry.embedding, embedding) >= SIMILARITY_THRESHOLD);
+/**
+ * `promptVersion` must match the caller's current version, not just the
+ * embedding similarity — otherwise a bad answer cached under an old prompt
+ * (e.g. a false "not covered" that a prompt fix would have avoided) stays
+ * stuck in the cache, sometimes indefinitely, since a fixed prompt has no
+ * other way to know the old entry is stale. Bumping the caller's version
+ * constant makes every prior entry invisible to lookups immediately —
+ * they just age out via the MAX_ENTRIES cap instead of ever being served.
+ */
+export function getCachedAnswer(embedding: number[], promptVersion: number): CacheEntry | undefined {
+  return cache.find(
+    entry => entry.promptVersion === promptVersion && cosineSimilarity(entry.embedding, embedding) >= SIMILARITY_THRESHOLD
+  );
 }
 
 export function setCachedAnswer(
   embedding: number[],
   answer: string,
   citations: Citation[],
-  externalLinks: ExternalLink[]
+  externalLinks: ExternalLink[],
+  promptVersion: number
 ): void {
   if (cache.length >= MAX_ENTRIES) {
     cache.shift();
   }
-  cache.push({ embedding, answer, citations, externalLinks });
+  cache.push({ embedding, answer, citations, externalLinks, promptVersion });
 }

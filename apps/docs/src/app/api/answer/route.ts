@@ -11,6 +11,13 @@ const openai = createOpenAI({
   apiKey: process.env.OPENAI_PLATFORM_KEY
 });
 
+/**
+ * Bump this whenever the system prompt below changes meaning — it invalidates
+ * every cached answer generated under the old prompt (see answerCache.ts),
+ * so a fixed bug (e.g. a false "not covered") can't stay stuck in the cache.
+ */
+const PROMPT_VERSION = 2;
+
 const answerSchema = z.object({
   answer: z
     .string()
@@ -40,7 +47,7 @@ export async function POST(request: Request) {
 
   const embedding = await embedQuestion(question);
 
-  const cached = getCachedAnswer(embedding);
+  const cached = getCachedAnswer(embedding, PROMPT_VERSION);
   if (cached) {
     return Response.json({
       answer: cached.answer,
@@ -52,7 +59,7 @@ export async function POST(request: Request) {
   const chunks = await retrieveChunksForEmbedding(embedding);
 
   if (chunks.length === 0) {
-    setCachedAnswer(embedding, NOT_COVERED_ANSWER, [], []);
+    setCachedAnswer(embedding, NOT_COVERED_ANSWER, [], [], PROMPT_VERSION);
     return Response.json({
       answer: NOT_COVERED_ANSWER,
       citations: [] as Citation[],
@@ -65,7 +72,18 @@ export async function POST(request: Request) {
     schema: answerSchema,
     system: `You are the "Ask AI" search assistant for the MUI Components docs site.
 Answer strictly and only using the provided context chunks — never from general knowledge about MUI or React.
-If the context doesn't actually answer the question, set "answer" to exactly: "${NOT_COVERED_ANSWER}" and return an empty usedChunkNumbers array.
+
+Every component wraps an underlying Material UI component and passes through its remaining
+standard MUI props (e.g. "accepts the remaining TextFieldProps", usually with a link to
+mui.com) — these passthrough props are almost never named individually in the docs. If the
+question asks about a standard MUI prop (e.g. variant, color, fullWidth, size) and a chunk
+states the component accepts that underlying MUI component's remaining props, answer that
+it's supported via that passthrough and point to the linked MUI docs — do not treat "not
+explicitly named" as "not covered" in this case.
+
+Only set "answer" to exactly: "${NOT_COVERED_ANSWER}" (and return an empty usedChunkNumbers
+array) when nothing in the context relates to the question at all — not merely because a
+specific prop name isn't spelled out.
 Only list the [N] numbers of chunks you actually used to write the answer, not every chunk provided.`,
     prompt: `Question: ${question}
 
@@ -89,7 +107,7 @@ ${chunks.map((c, i) => `[${i + 1}] (${c.pageUrl} > ${c.sectionHeading})\n${c.con
 
   const externalLinks = dedupeLinks(usedChunks.flatMap(c => extractMuiLinks(c.content)));
 
-  setCachedAnswer(embedding, object.answer, citations, externalLinks);
+  setCachedAnswer(embedding, object.answer, citations, externalLinks, PROMPT_VERSION);
 
   return Response.json({
     answer: object.answer,

@@ -58,13 +58,6 @@ type PropsTableProps = {
    * `componentProps` / `PropsDescription` in `constants/props-table`.
    */
   rows: PropsInfo[];
-  /**
-   * Opt-in per-row deep link, e.g. `slug="textfield"` anchors the `value`
-   * row at `#textfield-prop-value`. Omitted by default so existing tables
-   * render exactly as before; only pass it once a component's prop-table
-   * URL is meant to be stable and shareable.
-   */
-  slug?: string;
 };
 
 /**
@@ -73,7 +66,7 @@ type PropsTableProps = {
  * crawlable. Rows are typed `PropsInfo[]` maintained centrally, keeping prop
  * docs consistent across components and package versions.
  */
-const PropsTable = ({ rows, slug }: PropsTableProps) => {
+const PropsTable = ({ rows }: PropsTableProps) => {
   return (
     <table>
       <thead>
@@ -85,12 +78,12 @@ const PropsTable = ({ rows, slug }: PropsTableProps) => {
       </thead>
       <tbody>
         {rows.map(row => {
-          const anchorId = slug ? `${slug}-prop-${row.name}` : undefined;
+          const anchorId = `prop-${row.name}`;
           return (
             <tr
               key={row.name}
               id={anchorId}
-              style={anchorId ? { scrollMarginTop: 90 } : undefined}
+              style={{ scrollMarginTop: 90 }}
             >
               <td>
                 <code>
@@ -108,20 +101,11 @@ const PropsTable = ({ rows, slug }: PropsTableProps) => {
                     *
                   </span>
                 )}
-                {anchorId && (
-                  /*
-                   * Same hover-reveal "#" pattern as heading anchors
-                   * (mdx-components.tsx) — CSS-only content so it never
-                   * lands in copied text or search snippets, and toggling
-                   * opacity (not display) means it can't shift the row's
-                   * layout.
-                   */
-                  <a
-                    href={`#${anchorId}`}
-                    className="prop-anchor"
-                    aria-label={`Link to the ${row.name} prop`}
-                  />
-                )}
+                <a
+                  href={`#${anchorId}`}
+                  className="prop-anchor"
+                  aria-label={`Link to the ${row.name} prop`}
+                />
               </td>
               <td>
                 {row.hasLinkInType
