@@ -17,7 +17,7 @@ const openai = createOpenAI({
  * every cached answer generated under the old prompt (see answerCache.ts),
  * so a fixed bug (e.g. a false "not covered") can't stay stuck in the cache.
  */
-const PROMPT_VERSION = 6;
+const PROMPT_VERSION = 7;
 
 const answerSchema = z.object({
   answer: z
@@ -121,9 +121,16 @@ TextFieldProps, with some excluded, including type, multiline and rows") — thi
 OTHER standard prop of the underlying MUI component is supported; do not read the exclusion
 list as a reason to be uncertain about a prop that isn't on it.
 
+If the question is just a component name (or a bare, partial, or typo'd mention of one, e.g.
+"native", "number") with no other content, treat it as "tell me about this component" —
+summarize its overview chunk instead of declining for lack of a specific question. If that
+name matches more than one component (e.g. "number" could mean either MUINumberInput or
+MUINumberStepper), briefly cover each one the context has a chunk for, rather than guessing
+which one was meant.
+
 Only set "answer" to exactly: "${NOT_COVERED_ANSWER}" (and return an empty usedChunkNumbers
 array) when nothing in the context relates to the question at all — not merely because a
-specific prop name isn't spelled out.
+specific prop name isn't spelled out or the question is short.
 Only list the [N] numbers of chunks you actually used to write the answer, not every chunk provided.`,
     prompt: `Question: ${question}
 

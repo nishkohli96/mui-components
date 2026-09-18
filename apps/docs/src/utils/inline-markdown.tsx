@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from 'react';
+import Box from '@mui/material/Box';
 
 /**
  * Matches the inline markdown constructs used across the docs site's own
@@ -32,7 +33,7 @@ export const renderInlineMd = (text: string): ReactNode => (
       }
       if (part.startsWith('`') && part.endsWith('`')) {
         return (
-          <code key={index}>
+          <code key={index} className="inline-code">
             {part.slice(1, -1)}
           </code>
         );
@@ -64,13 +65,21 @@ export const renderInlineMd = (text: string): ReactNode => (
  * bullet marker. Only a true markdown "- item" line matches.
  */
 const bulletLineRe = /^\s*-\s+(.*)$/;
+/** Opening or closing fence of a code block: ``` optionally followed by a language tag. */
+const fenceLineRe = /^```(\w*)\s*$/;
 
 /**
  * Renders a full answer string with the same inline markdown as
- * `renderInlineMd`, plus block-level "- " bullet lists — the "Ask AI"
- * synthesis prompt sometimes returns lists (e.g. "MUIOTPInput works as
- * follows: - Typing a character...") which `renderInlineMd` alone left as
- * literal "- " text instead of an actual list.
+ * `renderInlineMd`, plus two block-level constructs `renderInlineMd` alone
+ * can't express:
+ *
+ * - "- " bullet lists — the synthesis prompt sometimes returns lists (e.g.
+ *   "MUIOTPInput works as follows: - Typing a character...").
+ * - ``` fenced code blocks — the prompt often echoes a real usage snippet
+ *   verbatim. These are rendered as raw preformatted text (no per-line
+ *   bullet/inline-markdown parsing inside the fence — a code line like
+ *   `**foo**: number` or a backtick-containing string must render literally,
+ *   not get parsed as bold/inline-code).
  */
 export const renderAnswerBlocks = (text: string): ReactNode => {
   const blocks: ReactNode[] = [];
@@ -88,7 +97,45 @@ export const renderAnswerBlocks = (text: string): ReactNode => {
     currentListItems = [];
   };
 
-  for (const line of text.split('\n')) {
+  const lines = text.split('\n');
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]!;
+
+    const fenceMatch = fenceLineRe.exec(line);
+    if (fenceMatch) {
+      flushList();
+      const language = fenceMatch[1];
+      const codeLines: string[] = [];
+      i++;
+      while (i < lines.length && !fenceLineRe.test(lines[i]!)) {
+        codeLines.push(lines[i]!);
+        i++;
+      }
+      // i now sits on the closing fence (or ran off the end of an unterminated block) — the outer loop's i++ moves past it.
+      blocks.push(
+        <Box
+          key={blocks.length}
+          component="pre"
+          sx={{
+            m: '4px 0',
+            p: 1.25,
+            borderRadius: 1,
+            overflowX: 'auto',
+            fontSize: '0.8125rem',
+            bgcolor: 'action.selected'
+          }}
+        >
+          {language && (
+            <Box component="span" sx={{ display: 'block', mb: 0.5, fontSize: '0.7rem', color: 'text.secondary' }}>
+              {language}
+            </Box>
+          )}
+          <code>{codeLines.join('\n')}</code>
+        </Box>
+      );
+      continue;
+    }
+
     const bulletMatch = bulletLineRe.exec(line);
     if (bulletMatch) {
       currentListItems.push(bulletMatch[1]!);
