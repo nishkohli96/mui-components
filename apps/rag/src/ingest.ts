@@ -13,21 +13,10 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { glob } from 'node:fs/promises';
 import path from 'node:path';
 import { componentProps } from '../../docs/src/constants/props-table/index';
+import type { Chunk } from './types';
 
 const DOCS_APP_DIR = path.resolve(import.meta.dirname, '../../docs/src/app');
 const OUT_FILE = path.resolve(import.meta.dirname, '../.output/chunks.json');
-
-type Chunk = {
-  id: string;
-  /** Hash of `content` — lets the embed step skip chunks whose text hasn't changed. */
-  contentHash: string;
-  type: 'prose' | 'prop';
-  componentName: string | null;
-  pageUrl: string;
-  sectionHeading: string;
-  content: string;
-  propType?: string;
-};
 
 /**
  * sha256 hashes content (the chunk text) → fixed-length digest.

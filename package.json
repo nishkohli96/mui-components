@@ -23,7 +23,8 @@
     "docs:lint": "pnpm -F @nish1896/mui-components-docs run lint",
     "docs:build": "pnpm -F @nish1896/mui-components-docs run build",
     "docs:prod": "pnpm -F @nish1896/mui-components-docs run prod",
-    "rag": "pnpm -F @nish1896/mui-components-rag run ingest"
+    "ingest": "pnpm -F @nish1896/mui-components-rag run ingest",
+    "embed": "pnpm -F @nish1896/mui-components-rag run embed"
   },
   "devDependencies": {
     "turbo": "2.10.0"

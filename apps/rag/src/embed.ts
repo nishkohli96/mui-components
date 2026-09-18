@@ -10,6 +10,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { Pinecone } from '@pinecone-database/pinecone';
 import OpenAI from 'openai';
+import type { Chunk, EmbedManifest } from './types';
 
 process.loadEnvFile(path.resolve(import.meta.dirname, '../.env'));
 
@@ -20,23 +21,10 @@ const EMBEDDING_MODEL = 'text-embedding-3-small';
 const EMBEDDING_DIMENSION = 1536;
 const EMBED_BATCH_SIZE = 100;
 
-type Chunk = {
-  id: string;
-  contentHash: string;
-  type: 'prose' | 'prop';
-  componentName: string | null;
-  pageUrl: string;
-  sectionHeading: string;
-  content: string;
-  propType?: string;
-};
-
-type Manifest = Record<string, string>; // chunk id -> contentHash already stored in Pinecone
-
 const openai = new OpenAI({ apiKey: process.env.OPENAI_PLATFORM_KEY });
 const pinecone = new Pinecone({ apiKey: process.env.PINECONE_API_KEY! });
 
-async function loadManifest(): Promise<Manifest> {
+async function loadManifest(): Promise<EmbedManifest> {
   try {
     return JSON.parse(await readFile(MANIFEST_FILE, 'utf-8'));
   } catch {
@@ -45,11 +33,15 @@ async function loadManifest(): Promise<Manifest> {
 }
 
 async function ensureIndex() {
-  const { indexes } = await pinecone.listIndexes();
+  const { indexes } = await pinecone.indexes.list();
   if (indexes?.some(i => i.name === INDEX_NAME)) return;
 
   console.log(`Creating Pinecone index "${INDEX_NAME}"...`);
-  await pinecone.createIndex({
+  /**
+   * Free Starter plan only supports serverless indexes in us-east-1 (N. Virginia));
+   * ap-south-1 (Mumbai) needs a paid plan.
+   */
+  await pinecone.indexes.create({
     name: INDEX_NAME,
     dimension: EMBEDDING_DIMENSION,
     metric: 'cosine',
@@ -77,7 +69,7 @@ async function main() {
   );
 
   await ensureIndex();
-  const index = pinecone.index(INDEX_NAME);
+  const index = pinecone.index({ name: INDEX_NAME });
 
   for (const batch of chunkArray(toEmbed, EMBED_BATCH_SIZE)) {
     const { data } = await openai.embeddings.create({
@@ -85,10 +77,10 @@ async function main() {
       input: batch.map(c => c.content)
     });
 
-    await index.upsert(
-      batch.map((chunk, i) => ({
+    await index.upsert({
+      records: batch.map((chunk, i) => ({
         id: chunk.id,
-        values: data[i].embedding,
+        values: data[i]!.embedding,
         metadata: {
           type: chunk.type,
           componentName: chunk.componentName ?? '',
@@ -98,7 +90,7 @@ async function main() {
           ...(chunk.propType ? { propType: chunk.propType } : {})
         }
       }))
-    );
+    });
 
     for (const chunk of batch) manifest[chunk.id] = chunk.contentHash;
     console.log(`Embedded + upserted batch of ${batch.length}`);
