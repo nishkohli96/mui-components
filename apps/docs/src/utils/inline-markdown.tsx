@@ -147,8 +147,8 @@ export const renderAnswerBlocks = (text: string): ReactNode => {
                 mb: 0.5,
                 fontSize: '0.7rem',
                 color: 'text.secondary'
-                }}
-              >
+              }}
+            >
               {language}
             </Box>
           )}
@@ -157,21 +157,19 @@ export const renderAnswerBlocks = (text: string): ReactNode => {
           </code>
         </Box>
       );
-      continue;
+    } else {
+      const bulletMatch = bulletLineRe.exec(line);
+      if (bulletMatch) {
+        currentListItems.push(bulletMatch[1]!);
+      } else {
+        flushList();
+        if (line.trim() !== '') {
+          blocks.push(<div key={blocks.length}>
+            {renderInlineMd(line)}
+          </div>);
+        }
+      }
     }
-
-    const bulletMatch = bulletLineRe.exec(line);
-    if (bulletMatch) {
-      currentListItems.push(bulletMatch[1]!);
-      continue;
-    }
-    flushList();
-    if (line.trim() === '') {
-      continue;
-    }
-    blocks.push(<div key={blocks.length}>
-      {renderInlineMd(line)}
-    </div>);
   }
   flushList();
 
