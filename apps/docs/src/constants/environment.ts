@@ -13,5 +13,6 @@ export const envConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID as string,
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID as string,
   },
-  openAIApiKey: process.env.OPENAI_API_KEY as string
+  openAIApiKey: process.env.OPENAI_API_KEY as string,
+  pineconeApiKey: process.env.PINECONE_API_KEY as string,
 };

@@ -6,13 +6,14 @@ import {
   type ChunkMetadata,
   type RetrievedMatch
 } from '@nish1896/rag-config';
+import { envConfig } from '@/constants';
 import { expandComponentMentions } from './componentNames';
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: envConfig.openAIApiKey
 });
 const pinecone = new Pinecone({
-  apiKey: process.env.PINECONE_API_KEY!
+  apiKey: envConfig.pineconeApiKey
 });
 
 /**
