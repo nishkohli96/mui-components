@@ -329,13 +329,7 @@ body {
 
 /* --- Inline code --- */
 
-/*
- * Silver background with black text, deliberately the same in both themes —
- * a light chip reads as "code" against either a light or dark page without
- * needing a separate dark-mode color pair.
- */
-.doc-article :not(pre) > code,
-.inline-code {
+:not(pre) > code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.82em;
   padding: 2px 6px;

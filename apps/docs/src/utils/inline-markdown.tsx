@@ -40,7 +40,7 @@ export const renderInlineMd = (text: string): ReactNode => (
       }
       if (part.startsWith('`') && part.endsWith('`')) {
         return (
-          <code key={index} className="inline-code">
+          <code key={index}>
             {part.slice(1, -1)}
           </code>
         );
