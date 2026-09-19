@@ -1,4 +1,4 @@
-# Get ALGOLIA_CRAWLER_USERID from
+# Get ALGOLIA_CRAWLER_USERID & ALGOLIA_CRAWLER_API_KEY from
 # https://crawler.algolia.com/admin/user/settings/
 #
 # ALGOLIA_APP_ID & ALGOLIA_CRAWLER_ID is obtained from
@@ -12,11 +12,12 @@ on:
 jobs:
   reindex:
     runs-on: ubuntu-latest
+    environment: Production
     steps:
       - name: Trigger Algolia Crawler
         # -f makes curl exit nonzero on 4xx/5xx, so the
         # step (and workflow) now fails properly on auth/reindex errors.
         run: |
           curl -f -X POST \
-            -u "${{ secrets.ALGOLIA_APP_ID }}:${{ secrets.ALGOLIA_CRAWLER_USERID }}" \
+            -u "${{ secrets.ALGOLIA_CRAWLER_USERID }}:${{ secrets.ALGOLIA_CRAWLER_API_KEY }}" \
             "https://crawler.algolia.com/api/1/crawlers/${{ secrets.ALGOLIA_CRAWLER_ID }}/reindex"
