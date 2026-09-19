@@ -1,5 +1,5 @@
 import MuiLink from '@mui/material/Link';
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
 import {
   componentPropsV1,
   componentMetadata,
@@ -280,3 +280,10 @@ The renderer receives:
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUIFileUploader} />
+
+## Source Code
+
+<ComponentSourceLink
+  path="mui/file-uploader"
+  docsVersion={1}
+/>

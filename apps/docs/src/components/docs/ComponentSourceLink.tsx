@@ -1,70 +1,40 @@
-'use client';
-
-import { usePathname } from 'next/navigation';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import MuiLink from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 import { githubRepoLink } from '@/constants';
 import packageJson from '../../../../../packages/mui-components/package.json';
 
-/**
- * Component doc pages mirror the package's own folder structure 1:1
- * (`/components/mui/textfield` <-> `packages/mui-components/src/mui/textfield`),
- * so the source path is derived from the URL rather than hand-maintained
- * per page. `/v{N}/components/...` pages (older docs versions) link to the
- * `version-{N}` branch that snapshot was built from; the current docs link
- * to the tag matching this package's own `package.json` version — not the
- * live npm registry, so it stays correct even for an unreleased version
- * being worked on locally.
- */
-const pageSourcePath = /^(?:\/v(\d+))?\/components\/(.+)$/;
+type ComponentSourceLinkProps = {
+  /** Path to the component's folder under packages/mui-components/src, e.g. "mui/textfield". */
+  path: string;
+  /** Set only on /v{N}/ (older) docs pages — links to the version-{N} branch that snapshot was built from, instead of the current package version tag. */
+  docsVersion?: number;
+};
 
 /**
- * Renders nothing on non-component pages (introduction, installation, etc.)
- * — only component docs have a matching source file.
+ * Placed directly in a component's page.mdx (like <PropsTable>) under a
+ * literal `## Source Code` heading — a server component, no route
+ * introspection needed, since the caller already knows its own path. The
+ * real MDX heading gets a real id via rehype-slug, so it shows up in the
+ * page's "Contents" rail the same way every other section does.
  */
-const ComponentSourceLink = () => {
-  const pathname = usePathname();
-  const match = pageSourcePath.exec(pathname);
-  if (!match) return null;
-
-  const [, docsVersion, relativePath] = match;
-  const ref = docsVersion
-    ? `version-${docsVersion}`
-    : `v${packageJson.version}`;
-  const href = `${githubRepoLink}/blob/${ref}/packages/mui-components/src/${relativePath}/index.tsx`;
+const ComponentSourceLink = ({ path, docsVersion }: ComponentSourceLinkProps) => {
+  const ref = docsVersion ? `version-${docsVersion}` : `v${packageJson.version}`;
+  const href = `${githubRepoLink}/blob/${ref}/packages/mui-components/src/${path}/index.tsx`;
 
   return (
-    <Box
-      sx={{
-        mt: 4,
-        pt: 3,
-        borderTop: '1px solid',
-        borderColor: 'divider'
-      }}
-    >
-      <Typography
-        component="h2"
-        variant="h5"
-        className="doc-heading"
-        sx={{ mb: 1, fontWeight: 600 }}
+    <Typography variant="body1" color="text.secondary">
+      View the full implementation of this component on
+      {' '}
+      <MuiLink
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        underline="hover"
       >
-        Source Code
-      </Typography>
-      <Typography variant="body1" color="text.secondary">
-        View the full implementation of this component on
-        {' '}
-        <MuiLink
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          underline="hover"
-        >
-          GitHub
-        </MuiLink>
-        .
-      </Typography>
-    </Box>
+        GitHub
+      </MuiLink>
+      .
+    </Typography>
   );
 };
 

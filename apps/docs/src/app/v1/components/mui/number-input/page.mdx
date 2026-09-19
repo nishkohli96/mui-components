@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
 import {
   componentMetadata,
   componentPropsV1,
@@ -74,3 +74,10 @@ Props marked with
 <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUINumberInput} />
+
+## Source Code
+
+<ComponentSourceLink
+  path="mui/number-input"
+  docsVersion={1}
+/>
