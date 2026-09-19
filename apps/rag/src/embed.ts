@@ -25,7 +25,7 @@ const MANIFEST_FILE = path.resolve(import.meta.dirname, '../.output/embed-manife
 type EmbedManifest = Record<string, string>;
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_PLATFORM_KEY!
+  apiKey: process.env.OPENAI_API_KEY!
 });
 const pinecone = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY!

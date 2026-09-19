@@ -9,7 +9,7 @@ import {
 import { expandComponentMentions } from './componentNames';
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_PLATFORM_KEY
+  apiKey: process.env.OPENAI_API_KEY
 });
 const pinecone = new Pinecone({
   apiKey: process.env.PINECONE_API_KEY!

@@ -9,7 +9,7 @@ import { extractMuiLinks, dedupeLinks, type ExternalLink } from '@/lib/rag/muiLi
 import { computeCitationAnchor } from '@/lib/rag/citationAnchor';
 
 const openai = createOpenAI({
-  apiKey: process.env.OPENAI_PLATFORM_KEY
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 /**
