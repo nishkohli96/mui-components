@@ -16,7 +16,7 @@ import SendIcon from '@mui/icons-material/Send';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
 import type { Citation } from '@/app/api/answer/route';
 import type { ExternalLink } from '@/lib/rag/muiLinks';
-import { renderAnswerBlocks } from '@/utils/inline-markdown';
+import { renderInlineMd, renderAnswerBlocks } from '@/utils/inline-markdown';
 
 type ChatMessage = {
   role: 'user' | 'assistant';
@@ -206,7 +206,9 @@ const AskAI = () => {
                 variant="body2"
                 color="text.secondary"
               >
-                Ask anything about the MUI Components docs — e.g. &ldquo;Does MUINumberInput support renderValue?&rdquo;
+                {renderInlineMd(
+                  'Ask anything about the MUI Components docs — e.g. "**Does `MUINumberInput` support `renderValue`?**"'
+                )}
               </Typography>
             )}
             {messages.map((msg, i) => (
@@ -222,18 +224,20 @@ const AskAI = () => {
                   py: 1
                 }}
               >
-                {msg.role === 'assistant' ? (
-                  <Box sx={{ typography: 'body2' }}>
-                    {renderAnswerBlocks(msg.content)}
-                  </Box>
-                ) : (
-                  <Typography
-                    variant="body2"
-                    sx={{ whiteSpace: 'pre-wrap' }}
-                  >
-                    {msg.content}
-                  </Typography>
-                )}
+                {msg.role === 'assistant'
+                  ? (
+                    <Box sx={{ typography: 'body2' }}>
+                      {renderAnswerBlocks(msg.content)}
+                    </Box>
+                  )
+                  : (
+                    <Typography
+                      variant="body2"
+                      sx={{ whiteSpace: 'pre-wrap' }}
+                    >
+                      {msg.content}
+                    </Typography>
+                  )}
                 {!!msg.citations?.length && (
                   <Stack sx={{ mt: 1, gap: 0.5 }}>
                     {msg.citations.map((c, ci) => (
@@ -270,8 +274,8 @@ const AskAI = () => {
                             display: 'inline-block',
                             ml: 0.5,
                             fontSize: 10
-                            }}
-                          >
+                          }}
+                        >
                           ↗
                         </Box>
                       </MuiLink>

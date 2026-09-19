@@ -13,7 +13,7 @@ const inlineMdPattern
   = /(\[[^\]]+\]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|_[^_]+_)/g;
 const linkPattern = /^\[([^\]]+)\]\(([^)]+)\)$/;
 /** Same external-link test `mdx-components.tsx` uses for its own `a` mapping — keep the two in sync. */
-const isExternalUrl = (url: string) => /^https?:\/\//.test(url);
+const isExternalUrl = (url: string) => (/^https?:\/\//).test(url);
 
 /**
  * Renders a description/type/answer string with minimal inline markdown support.
@@ -93,11 +93,15 @@ export const renderAnswerBlocks = (text: string): ReactNode => {
   let currentListItems: string[] = [];
 
   const flushList = () => {
-    if (currentListItems.length === 0) return;
+    if (currentListItems.length === 0) {
+      return;
+    }
     blocks.push(
       <ul key={blocks.length} style={{ margin: '4px 0', paddingLeft: 20 }}>
         {currentListItems.map((item, i) => (
-          <li key={i}>{renderInlineMd(item)}</li>
+          <li key={i}>
+            {renderInlineMd(item)}
+          </li>
         ))}
       </ul>
     );
@@ -105,7 +109,7 @@ export const renderAnswerBlocks = (text: string): ReactNode => {
   };
 
   const lines = text.split('\n');
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i]!;
 
     const fenceMatch = fenceLineRe.exec(line);
@@ -113,12 +117,15 @@ export const renderAnswerBlocks = (text: string): ReactNode => {
       flushList();
       const language = fenceMatch[1];
       const codeLines: string[] = [];
-      i++;
+      i += 1;
       while (i < lines.length && !fenceLineRe.test(lines[i]!)) {
         codeLines.push(lines[i]!);
-        i++;
+        i += 1;
       }
-      // i now sits on the closing fence (or ran off the end of an unterminated block) — the outer loop's i++ moves past it.
+      /**
+       * i now sits on the closing fence (or ran off the end of an unterminated block)
+       * — the outer loop's i++ moves past it.
+       */
       blocks.push(
         <Box
           key={blocks.length}
@@ -133,11 +140,21 @@ export const renderAnswerBlocks = (text: string): ReactNode => {
           }}
         >
           {language && (
-            <Box component="span" sx={{ display: 'block', mb: 0.5, fontSize: '0.7rem', color: 'text.secondary' }}>
+            <Box
+              component="span"
+              sx={{
+                display: 'block',
+                mb: 0.5,
+                fontSize: '0.7rem',
+                color: 'text.secondary'
+                }}
+              >
               {language}
             </Box>
           )}
-          <code>{codeLines.join('\n')}</code>
+          <code>
+            {codeLines.join('\n')}
+          </code>
         </Box>
       );
       continue;
@@ -149,10 +166,18 @@ export const renderAnswerBlocks = (text: string): ReactNode => {
       continue;
     }
     flushList();
-    if (line.trim() === '') continue;
-    blocks.push(<div key={blocks.length}>{renderInlineMd(line)}</div>);
+    if (line.trim() === '') {
+      continue;
+    }
+    blocks.push(<div key={blocks.length}>
+      {renderInlineMd(line)}
+    </div>);
   }
   flushList();
 
-  return <Fragment>{blocks}</Fragment>;
+  return (
+    <Fragment>
+      {blocks}
+    </Fragment>
+  );
 };

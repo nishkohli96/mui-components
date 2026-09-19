@@ -66,7 +66,9 @@ export async function retrieveChunksForEmbedding(embedding: number[], question: 
   const candidates = (matches ?? []).filter(match => match.metadata);
 
   const exactPropMatches = candidates.filter(match => {
-    if (match.metadata!.type !== 'prop') return false;
+    if (match.metadata!.type !== 'prop') {
+      return false;
+    }
     const propName = propNameFromHeading(match.metadata!.sectionHeading);
     return new RegExp(`\\b${escapeRegExp(propName)}\\b`, 'i').test(question);
   });

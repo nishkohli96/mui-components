@@ -158,8 +158,12 @@ const PageNav = () => {
   ].filter(Boolean);
 
   const stringifyDeterministic = (obj: unknown): string => {
-    if (obj === null || typeof obj !== 'object') return JSON.stringify(obj);
-    if (Array.isArray(obj)) return `[${obj.map(stringifyDeterministic).join(',')}]`;
+    if (obj === null || typeof obj !== 'object') {
+      return JSON.stringify(obj);
+    }
+    if (Array.isArray(obj)) {
+      return `[${obj.map(stringifyDeterministic).join(',')}]`;
+    }
     const keys = Object.keys(obj as Record<string, unknown>).sort();
     return `{${keys.map(k => `"${k}":${stringifyDeterministic((obj as Record<string, unknown>)[k])}`).join(',')}}`;
   };

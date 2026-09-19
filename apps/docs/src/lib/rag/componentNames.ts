@@ -21,7 +21,9 @@ const normalizedEntries = componentNames.map(name => ({
  */
 function findComponentMatches(rawToken: string): string[] {
   const token = normalize(rawToken);
-  if (token.length < MIN_PARTIAL_LENGTH) return [];
+  if (token.length < MIN_PARTIAL_LENGTH) {
+    return [];
+  }
   return normalizedEntries
     .filter(e => e.full === token || e.short === token || e.short.startsWith(token) || e.full.startsWith(token))
     .map(e => e.name);
@@ -46,7 +48,9 @@ function findComponentMatches(rawToken: string): string[] {
 export function expandComponentMentions(question: string): string {
   const matched = new Set<string>();
   for (const token of question.split(/\s+/)) {
-    for (const name of findComponentMatches(token)) matched.add(name);
+    for (const name of findComponentMatches(token)) {
+      matched.add(name);
+    }
   }
   return matched.size === 0 ? question : `${question} ${[...matched].join(' ')}`;
 }

@@ -64,7 +64,8 @@ function cosineSimilarity(a: number[], b: number[]): number {
  */
 export function getCachedAnswer(embedding: number[], promptVersion: number): CacheEntry | undefined {
   return cache.find(
-    entry => entry.promptVersion === promptVersion && cosineSimilarity(entry.embedding, embedding) >= SIMILARITY_THRESHOLD
+    entry =>
+      entry.promptVersion === promptVersion && cosineSimilarity(entry.embedding, embedding) >= SIMILARITY_THRESHOLD
   );
 }
 
