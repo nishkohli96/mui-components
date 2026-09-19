@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import PageToc from './PageToc';
 import PageNav from './PageNav';
+import ComponentSourceLink from './ComponentSourceLink';
 
 type DocsPageProps = {
   children: ReactNode;
@@ -16,6 +17,7 @@ const DocsPage = ({ children }: DocsPageProps) => {
     <div className="doc-page">
       <article className="doc-article">
         {children}
+        <ComponentSourceLink />
         <PageNav />
       </article>
       <PageToc />
