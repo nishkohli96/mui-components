@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -26,6 +26,26 @@ type ChatMessage = {
 };
 
 const ASK_AI_TOOLTIP = 'Ask AI about these docs';
+
+const STORAGE_KEY = 'ask-ai-conversation';
+/** Stale after 30min idle — also guards against surfacing an old conversation after `PROMPT_VERSION` bumps invalidate its answers. */
+const STORAGE_TTL_MS = 30 * 60 * 1000;
+
+const loadStoredMessages = (): ChatMessage[] => {
+  if (typeof window === 'undefined') {
+    return [];
+  }
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return [];
+    }
+    const { messages, timestamp } = JSON.parse(raw) as { messages: ChatMessage[]; timestamp: number };
+    return Date.now() - timestamp > STORAGE_TTL_MS ? [] : messages;
+  } catch {
+    return [];
+  }
+};
 
 const TypingDots = () => (
   <Stack
@@ -63,10 +83,28 @@ const TypingDots = () => (
  */
 const AskAI = () => {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  /**
+   * Safe to seed from sessionStorage in the lazy initializer itself (unlike a
+   * post-mount effect): `open` always starts `false` and isn't persisted, so
+   * the message list never appears in the server-rendered markup for
+   * hydration to mismatch against.
+   */
+  const [messages, setMessages] = useState<ChatMessage[]>(loadStoredMessages);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    try {
+      if (messages.length === 0) {
+        sessionStorage.removeItem(STORAGE_KEY);
+      } else {
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ messages, timestamp: Date.now() }));
+      }
+    } catch {
+      // sessionStorage unavailable (private mode, quota) — conversation just won't persist.
+    }
+  }, [messages]);
 
   const scrollToBottom = () => {
     requestAnimationFrame(() => {
