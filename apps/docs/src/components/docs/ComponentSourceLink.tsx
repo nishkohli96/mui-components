@@ -4,10 +4,21 @@ import { githubRepoLink } from '@/constants';
 import packageJson from '../../../../../packages/mui-components/package.json';
 
 type ComponentSourceLinkProps = {
-  /** Path to the component's folder under packages/mui-components/src, e.g. "mui/textfield". */
+  /**
+   * Path to the component's folder under packages/mui-components/src.
+   * E.g. "mui/textfield".
+   */
   path: string;
-  /** Set only on /v{N}/ (older) docs pages — links to the version-{N} branch that snapshot was built from, instead of the current package version tag. */
+  /**
+   * Set only on /v{N}/ (older) docs pages — links to the version-{N} branch
+   * that snapshot was built from, instead of the current package version tag.
+   */
   docsVersion?: number;
+  /**
+   * For "mui-pickers" components, navigate to the source directory, instead
+   * of `dir_path/index.tsx`.
+   */
+  isDateOrTimePicker?: boolean;
 };
 
 /**
@@ -17,9 +28,14 @@ type ComponentSourceLinkProps = {
  * real MDX heading gets a real id via rehype-slug, so it shows up in the
  * page's "Contents" rail the same way every other section does.
  */
-const ComponentSourceLink = ({ path, docsVersion }: ComponentSourceLinkProps) => {
+const ComponentSourceLink = ({
+  path,
+  docsVersion,
+  isDateOrTimePicker
+}: ComponentSourceLinkProps) => {
   const ref = docsVersion ? `version-${docsVersion}` : `v${packageJson.version}`;
-  const href = `${githubRepoLink}/blob/${ref}/packages/mui-components/src/${path}/index.tsx`;
+  const dirPath = `${githubRepoLink}/blob/${ref}/packages/mui-components/src/${path}`;
+  const href = isDateOrTimePicker ? dirPath : `${dirPath}/index.tsx`;
 
   return (
     <Typography variant="body1" color="text.secondary">

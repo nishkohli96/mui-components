@@ -126,7 +126,7 @@ const PageNav = () => {
     '@context': 'https://schema.org',
     '@type': 'SoftwareSourceCode',
     name: componentTitle,
-    codeRepository: componentSourceLink(componentSrcPath),
+    codeRepository: componentSourceLink(componentSrcPath, componentSrcPath?.startsWith('/mui-pickers/')),
     programmingLanguage: 'TypeScript',
     url: `${websiteUrl}${pathname}`
   };

@@ -22,9 +22,18 @@ export const stackblitzFileLink = (filePath: string) => `${stackblitzLink}?file=
 /**
  * Source file for a component page, e.g. `/mui/textfield` (the canonical
  * path with `/components` stripped) → .../src/mui/textfield/index.tsx.
+ * For "mui-pickers" components, navigate to the source directory, instead
+ * of `dir_path/index.tsx`.
  */
-export const componentSourceLink = (componentSrcPath: string) =>
-  `${pkgRepoLink}packages/mui-components/src${componentSrcPath}/index.tsx`;
+export const componentSourceLink = (
+  componentSrcPath: string,
+  isDateOrTimePicker: boolean = false,
+) => {
+  const srcCodePath = `${pkgRepoLink}packages/mui-components/src${componentSrcPath}`;
+  return isDateOrTimePicker
+    ? srcCodePath
+    : `${srcCodePath}/index.tsx`;
+};
 
 export const externalLinks = Object.freeze({
   githubRepo: {
