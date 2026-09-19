@@ -1,5 +1,6 @@
 import GithubSlugger from 'github-slugger';
 import type { RetrievedMatch } from '@nish1896/rag-config';
+import { propNameFromHeading } from './retrieve';
 
 /**
  * The page anchor a citation should link to, matching how the real page
@@ -11,7 +12,7 @@ import type { RetrievedMatch } from '@nish1896/rag-config';
  */
 export function computeCitationAnchor(chunk: Pick<RetrievedMatch, 'type' | 'sectionHeading'>): string {
   if (chunk.type === 'prop') {
-    return `prop-${chunk.sectionHeading.replace(/^API > /, '')}`;
+    return `prop-${propNameFromHeading(chunk.sectionHeading)}`;
   }
   return new GithubSlugger().slug(chunk.sectionHeading);
 }

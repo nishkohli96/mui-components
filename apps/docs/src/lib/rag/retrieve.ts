@@ -32,8 +32,11 @@ export async function embedQuestion(question: string): Promise<number[]> {
 
 const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-/** A `prop`-type chunk's `sectionHeading` is always `API > propName` — pull propName back out. */
-const propNameFromHeading = (heading: string) => heading.replace(/^API > /, '');
+/**
+ * A `prop`-type chunk's `sectionHeading` is always `API > propName`
+ * — pull propName back out.
+ */
+export const propNameFromHeading = (heading: string) => heading.replace(/^API > /, '');
 
 /**
  * Queries Pinecone with an already-computed question embedding. Split out
