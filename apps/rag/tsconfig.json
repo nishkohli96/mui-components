@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es2022",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "paths": {
+      "@/utils": ["../docs/src/utils/component-props.ts"],
+      "@/types": ["../docs/src/types/docs.ts"],
+      "@/*": ["../docs/src/*"]
+    }
+  },
+  "include": ["src"]
+}

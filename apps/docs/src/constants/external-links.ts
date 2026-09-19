@@ -1,10 +1,14 @@
+const githubUserName = 'nishkohli96';
+const packageName = 'mui-components';
+
 export const personalWebsite = 'https://nishkohli96.vercel.app';
-export const githubProfile = 'https://github.com/nishkohli96';
+export const githubProfile = `https://github.com/${githubUserName}`;
 
 const pkgRepoLink = `${githubProfile}/mui-components/blob/main/`;
 const cslRepo = `${githubProfile}/client-server-libs/blob/main/`;
 
-export const githubRepoLink = `${githubProfile}/mui-components`;
+export const githubRepoName = `${githubUserName}/${packageName}`;
+export const githubRepoLink = `${githubProfile}/${packageName}`;
 export const npmLink = 'https://www.npmjs.com/package/@nish1896/mui-components';
 export const websiteUrl = 'https://mui-components-docs.vercel.app';
 export const stackblitzLink = 'https://stackblitz.com/github/nishkohli96/mui-components/tree/v1-playground';
@@ -18,9 +22,18 @@ export const stackblitzFileLink = (filePath: string) => `${stackblitzLink}?file=
 /**
  * Source file for a component page, e.g. `/mui/textfield` (the canonical
  * path with `/components` stripped) → .../src/mui/textfield/index.tsx.
+ * For "mui-pickers" components, navigate to the source directory, instead
+ * of `dir_path/index.tsx`.
  */
-export const componentSourceLink = (componentSrcPath: string) =>
-  `${pkgRepoLink}packages/mui-components/src${componentSrcPath}/index.tsx`;
+export const componentSourceLink = (
+  componentSrcPath: string,
+  isDateOrTimePicker: boolean = false,
+) => {
+  const srcCodePath = `${pkgRepoLink}packages/mui-components/src${componentSrcPath}`;
+  return isDateOrTimePicker
+    ? srcCodePath
+    : `${srcCodePath}/index.tsx`;
+};
 
 export const externalLinks = Object.freeze({
   githubRepo: {

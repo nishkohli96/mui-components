@@ -1,0 +1,124 @@
+/**
+ * Embeds chunks.json with OpenAI and upserts into Pinecone.
+ *
+ * Diffs against a local manifest (id -> contentHash) so re-running after a
+ * docs change only re-embeds chunks whose content actually changed, and
+ * deletes vectors for chunks that no longer exist in chunks.json — instead
+ * of paying to re-embed all ~785 chunks on every run.
+ */
+import { readFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { Pinecone } from '@pinecone-database/pinecone';
+import OpenAI from 'openai';
+import {
+  pineconeConfig,
+  openAIConfig,
+  type Chunk
+} from '@nish1896/rag-config';
+
+process.loadEnvFile(path.resolve(import.meta.dirname, '../.env'));
+
+const CHUNKS_FILE = path.resolve(import.meta.dirname, '../.output/chunks.json');
+const MANIFEST_FILE = path.resolve(import.meta.dirname, '../.output/embed-manifest.json');
+
+/** chunk id -> contentHash already embedded and stored in Pinecone */
+type EmbedManifest = Record<string, string>;
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY!
+});
+const pinecone = new Pinecone({
+  apiKey: process.env.PINECONE_API_KEY!
+});
+
+async function loadManifest(): Promise<EmbedManifest> {
+  try {
+    return JSON.parse(await readFile(MANIFEST_FILE, 'utf-8'));
+  } catch {
+    return {};
+  }
+}
+
+async function ensureIndex() {
+  const { indexes } = await pinecone.indexes.list();
+  if (indexes?.some(i => i.name === pineconeConfig.indexName)) return;
+
+  console.log(`Creating Pinecone index "${pineconeConfig.indexName}"...`);
+  /**
+   * Free Starter plan only supports serverless indexes in us-east-1 (N. Virginia));
+   * ap-south-1 (Mumbai) needs a paid plan.
+   */
+  await pinecone.indexes.create({
+    name: pineconeConfig.indexName,
+    dimension: openAIConfig.embedding.dimension,
+    metric: 'cosine',
+    spec: {
+      serverless: { cloud: 'aws', region: 'us-east-1' }
+    },
+    waitUntilReady: true
+  });
+}
+
+function chunkArray<T>(arr: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
+  return out;
+}
+
+async function main() {
+  const chunks: Chunk[] = JSON.parse(await readFile(CHUNKS_FILE, 'utf-8'));
+  const manifest = await loadManifest();
+
+  await ensureIndex();
+  const index = pinecone.index({ name: pineconeConfig.indexName });
+
+  const stats = await index.describeIndexStats();
+  if (!stats.totalRecordCount && Object.keys(manifest).length) {
+    console.log('Index is empty but manifest is not — treating manifest as stale, re-embedding everything.');
+    for (const id of Object.keys(manifest)) delete manifest[id];
+  }
+
+  const toEmbed = chunks.filter(c => manifest[c.id] !== c.contentHash);
+  const currentIds = new Set(chunks.map(c => c.id));
+  const toDelete = Object.keys(manifest).filter(id => !currentIds.has(id));
+
+  console.log(
+    `${chunks.length} chunks total — ${toEmbed.length} new/changed, ${toDelete.length} removed, ${chunks.length - toEmbed.length} unchanged (skipped)`
+  );
+
+  for (const batch of chunkArray(toEmbed, openAIConfig.embedding.batchSize)) {
+    const { data } = await openai.embeddings.create({
+      model: openAIConfig.embedding.model,
+      input: batch.map(c => c.content)
+    });
+
+    await index.upsert({
+      records: batch.map((chunk, i) => ({
+        id: chunk.id,
+        values: data[i]!.embedding,
+        metadata: {
+          type: chunk.type,
+          componentName: chunk.componentName ?? '',
+          pageUrl: chunk.pageUrl,
+          sectionHeading: chunk.sectionHeading,
+          content: chunk.content,
+          ...(chunk.propType ? { propType: chunk.propType } : {})
+        }
+      }))
+    });
+
+    for (const chunk of batch) manifest[chunk.id] = chunk.contentHash;
+    console.log(`Embedded + upserted batch of ${batch.length}`);
+  }
+
+  if (toDelete.length) {
+    await index.deleteMany(toDelete);
+    for (const id of toDelete) delete manifest[id];
+    console.log(`Deleted ${toDelete.length} stale vectors`);
+  }
+
+  await writeFile(MANIFEST_FILE, JSON.stringify(manifest, null, 2));
+  console.log('Done.');
+}
+
+main();

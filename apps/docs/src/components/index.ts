@@ -1,4 +1,5 @@
 export { default as AppBar } from './appbar';
+export { default as AskAI } from './ask-ai';
 export * from './buttons';
 export * from './containers';
 export { default as Drawer } from './drawer/DrawerContent';

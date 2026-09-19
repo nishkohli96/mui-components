@@ -12,7 +12,8 @@
     },
     "build": {
       "dependsOn": ["^lib:build"],
-      "outputs": ["build/**", "dist/**", ".next/**", "!.next/cache/**"]
+      "outputs": ["build/**", "dist/**", ".next/**", "!.next/cache/**"],
+      "env": ["OPENAI_API_KEY", "PINECONE_API_KEY"]
     }
   }
 }

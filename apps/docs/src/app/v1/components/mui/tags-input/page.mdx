@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
 import {
   componentMetadata,
   componentPropsV1,
@@ -95,3 +95,10 @@ with some props excluded, including `value`, `multiline` and `error`.
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUITagsInput} />
+
+## Source Code
+
+<ComponentSourceLink
+  path="mui/tags-input"
+  docsVersion={1}
+/>

@@ -1,0 +1,22 @@
+{
+  "name": "@nish1896/mui-components-rag",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Nishant Kohli",
+  "type": "module",
+  "scripts": {
+    "ingest": "tsx src/ingest.ts",
+    "embed": "tsx src/embed.ts",
+    "eval": "tsx src/eval/run-eval.ts"
+  },
+  "dependencies": {
+    "@nish1896/rag-config": "workspace:*",
+    "@pinecone-database/pinecone": "^9.0.0",
+    "openai": "^7.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "tsx": "^4.23.12",
+    "typescript": "^6.0.3"
+  }
+}
