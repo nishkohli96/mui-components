@@ -25,7 +25,7 @@ function findComponentMatches(rawToken: string): string[] {
     return [];
   }
   return normalizedEntries
-    .filter(e => e.full === token || e.short === token || e.short.startsWith(token) || e.full.startsWith(token))
+    .filter(e => e.full === token || e.short === token || e.short.startsWith(token))
     .map(e => e.name);
 }
 

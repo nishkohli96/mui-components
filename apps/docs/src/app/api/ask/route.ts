@@ -1,7 +1,8 @@
 import { retrieveChunks } from '@/lib/rag/retrieve';
 
 export async function POST(request: Request) {
-  const { question } = await request.json();
+  const body = await request.json().catch(() => null);
+  const question = body?.question;
 
   if (typeof question !== 'string' || !question.trim()) {
     return Response.json({ error: 'question is required' }, { status: 400 });

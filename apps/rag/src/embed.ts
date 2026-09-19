@@ -69,6 +69,15 @@ async function main() {
   const chunks: Chunk[] = JSON.parse(await readFile(CHUNKS_FILE, 'utf-8'));
   const manifest = await loadManifest();
 
+  await ensureIndex();
+  const index = pinecone.index({ name: pineconeConfig.indexName });
+
+  const stats = await index.describeIndexStats();
+  if (!stats.totalRecordCount && Object.keys(manifest).length) {
+    console.log('Index is empty but manifest is not — treating manifest as stale, re-embedding everything.');
+    for (const id of Object.keys(manifest)) delete manifest[id];
+  }
+
   const toEmbed = chunks.filter(c => manifest[c.id] !== c.contentHash);
   const currentIds = new Set(chunks.map(c => c.id));
   const toDelete = Object.keys(manifest).filter(id => !currentIds.has(id));
@@ -76,9 +85,6 @@ async function main() {
   console.log(
     `${chunks.length} chunks total — ${toEmbed.length} new/changed, ${toDelete.length} removed, ${chunks.length - toEmbed.length} unchanged (skipped)`
   );
-
-  await ensureIndex();
-  const index = pinecone.index({ name: pineconeConfig.indexName });
 
   for (const batch of chunkArray(toEmbed, openAIConfig.embedding.batchSize)) {
     const { data } = await openai.embeddings.create({

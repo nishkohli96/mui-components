@@ -32,6 +32,7 @@ const answerSchema = z.object({
 export type Citation = Pick<RetrievedMatch, 'pageUrl' | 'sectionHeading' | 'componentName'> & { anchor: string };
 
 const PASSTHROUGH_STATEMENT_RE = /accepts\s+(?:most|all|the remaining)\s+\[?\w*Props/i;
+const EXCLUSION_LIST_RE = /excluded,?\s+including\s+([^.]+)/i;
 
 /**
  * Even with an explicit instruction and temperature 0, gpt-4o-mini still
@@ -44,8 +45,18 @@ const PASSTHROUGH_STATEMENT_RE = /accepts\s+(?:most|all|the remaining)\s+\[?\w*P
  * was actually retrieved, don't trust the model's "not covered" — verify
  * it in code instead.
  */
-function findPassthroughChunk(chunks: RetrievedMatch[]): RetrievedMatch | undefined {
-  return chunks.find(c => PASSTHROUGH_STATEMENT_RE.test(c.content) && extractMuiLinks(c.content).length > 0);
+function findPassthroughChunk(chunks: RetrievedMatch[], question: string): RetrievedMatch | undefined {
+  return chunks.find(c => {
+    if (!PASSTHROUGH_STATEMENT_RE.test(c.content) || extractMuiLinks(c.content).length === 0) {
+      return false;
+    }
+    const exclusionList = c.content.match(EXCLUSION_LIST_RE)?.[1];
+    if (!exclusionList) {
+      return true;
+    }
+    const excludedProps = exclusionList.split(/,|\band\b/).map(p => p.trim()).filter(Boolean);
+    return !excludedProps.some(prop => new RegExp(`\\b${prop}\\b`, 'i').test(question));
+  });
 }
 
 export async function POST(request: Request) {
@@ -159,7 +170,7 @@ ${chunks.map((c, i) => `[${i + 1}] TYPE: ${c.type} | COMPONENT: ${c.componentNam
   let externalLinks = dedupeLinks(usedChunks.flatMap(c => extractMuiLinks(c.content)));
 
   if (answer === NOT_COVERED_ANSWER) {
-    const passthroughChunk = findPassthroughChunk(chunks);
+    const passthroughChunk = findPassthroughChunk(chunks, question);
     if (passthroughChunk) {
       const links = extractMuiLinks(passthroughChunk.content);
       const component = passthroughChunk.componentName || 'This component';

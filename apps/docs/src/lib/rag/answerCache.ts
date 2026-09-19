@@ -30,6 +30,15 @@ const MAX_ENTRIES = 200;
  */
 const SIMILARITY_THRESHOLD = 0.95;
 
+/**
+ * `embed.ts` runs standalone, decoupled from docs deploys — a doc content
+ * change doesn't necessarily cold-start this server, so "resets on
+ * redeploy" isn't a real bound on staleness. This TTL is the actual bound:
+ * a cached answer/citation set is never served more than an hour after its
+ * underlying chunks might have changed.
+ */
+const CACHE_TTL_MS = 60 * 60 * 1000;
+
 type CacheEntry = {
   embedding: number[];
   answer: string;
@@ -37,6 +46,7 @@ type CacheEntry = {
   externalLinks: ExternalLink[];
   /** The synthesis prompt version active when this answer was generated — see promptVersion param below. */
   promptVersion: number;
+  createdAt: number;
 };
 
 const cache: CacheEntry[] = [];
@@ -62,10 +72,15 @@ function cosineSimilarity(a: number[], b: number[]): number {
  * constant makes every prior entry invisible to lookups immediately —
  * they just age out via the MAX_ENTRIES cap instead of ever being served.
  */
-export function getCachedAnswer(embedding: number[], promptVersion: number): CacheEntry | undefined {
+export function getCachedAnswer(
+  embedding: number[],
+  promptVersion: number
+): CacheEntry | undefined {
   return cache.find(
     entry =>
-      entry.promptVersion === promptVersion && cosineSimilarity(entry.embedding, embedding) >= SIMILARITY_THRESHOLD
+      entry.promptVersion === promptVersion
+      && Date.now() - entry.createdAt < CACHE_TTL_MS
+      && cosineSimilarity(entry.embedding, embedding) >= SIMILARITY_THRESHOLD
   );
 }
 
@@ -79,5 +94,12 @@ export function setCachedAnswer(
   if (cache.length >= MAX_ENTRIES) {
     cache.shift();
   }
-  cache.push({ embedding, answer, citations, externalLinks, promptVersion });
+  cache.push({
+    embedding,
+    answer,
+    citations,
+    externalLinks,
+    promptVersion,
+    createdAt: Date.now()
+  });
 }

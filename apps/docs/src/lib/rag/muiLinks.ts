@@ -1,6 +1,6 @@
 export type ExternalLink = { label: string; url: string };
 
-const MUI_MARKDOWN_LINK_RE = /\[([^\]]+)\]\((https:\/\/[^)\s]*\bmui\.com[^)\s]*)\)/g;
+const MUI_MARKDOWN_LINK_RE = /\[([^\]]+)\]\((https:\/\/(?:www\.)?mui\.com(?:\/[^)\s]*)?)\)/g;
 
 /**
  * Doc prose already links out to the official MUI v9 API docs for
