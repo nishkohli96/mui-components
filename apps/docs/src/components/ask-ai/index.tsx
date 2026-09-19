@@ -9,6 +9,7 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import MuiLink from '@mui/material/Link';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
@@ -253,20 +254,27 @@ const AskAI = () => {
                   <Stack sx={{ mt: 1, gap: 0.5 }}>
                     <Typography variant="caption" color="text.secondary">MUI docs:</Typography>
                     {msg.externalLinks.map((link, li) => (
-                      <a
+                      <MuiLink
                         key={li}
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        style={{
-                          fontSize: 12,
-                          textDecoration: 'underline'
-                        }}
+                        underline="hover"
+                        sx={{ fontSize: 12 }}
                       >
                         {link.label}
-                        {' '}
-                        ↗
-                      </a>
+                        <Box
+                          component="span"
+                          sx={{
+                            textDecoration: 'none',
+                            display: 'inline-block',
+                            ml: 0.5,
+                            fontSize: 10
+                            }}
+                          >
+                          ↗
+                        </Box>
+                      </MuiLink>
                     ))}
                   </Stack>
                 )}

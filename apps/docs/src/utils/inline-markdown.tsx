@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from 'react';
 import Box from '@mui/material/Box';
+import MuiLink from '@mui/material/Link';
 
 /**
  * Matches the inline markdown constructs used across the docs site's own
@@ -11,6 +12,8 @@ import Box from '@mui/material/Box';
 const inlineMdPattern
   = /(\[[^\]]+\]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|_[^_]+_)/g;
 const linkPattern = /^\[([^\]]+)\]\(([^)]+)\)$/;
+/** Same external-link test `mdx-components.tsx` uses for its own `a` mapping — keep the two in sync. */
+const isExternalUrl = (url: string) => /^https?:\/\//.test(url);
 
 /**
  * Renders a description/type/answer string with minimal inline markdown support.
@@ -20,15 +23,19 @@ export const renderInlineMd = (text: string): ReactNode => (
     {text.split(inlineMdPattern).map((part, index) => {
       const link = part.match(linkPattern);
       if (link) {
+        const isExternal = isExternalUrl(link[2]!);
         return (
-          <a
+          <MuiLink
             key={index}
             href={link[2]}
-            target="_blank"
-            rel="noopener noreferrer"
+            underline="hover"
+            {...(isExternal && {
+              target: '_blank',
+              rel: 'noopener noreferrer'
+            })}
           >
             {link[1]}
-          </a>
+          </MuiLink>
         );
       }
       if (part.startsWith('`') && part.endsWith('`')) {
