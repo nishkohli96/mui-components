@@ -1,7 +1,7 @@
 'use client';
 
 import { DocSearch } from '@docsearch/react';
-import { ENV_VARS, appName } from '@/constants';
+import { envConfig, appName } from '@/constants';
 import '@docsearch/css/dist/style.css';
 
 /**
@@ -94,7 +94,7 @@ const transformItems = (items: DocSearchHit[]) => dedupeSelfTitleHits(items).map
  * of throwing — DocSearch requires all three to be non-empty strings.
  */
 const SearchBar = () => {
-  const { appId, apiKey, indexName } = ENV_VARS.algoliaConfig;
+  const { appId, apiKey, indexName } = envConfig.algoliaConfig;
   if (!appId || !apiKey || !indexName) {
     return null;
   }

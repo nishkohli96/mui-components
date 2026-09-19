@@ -2,6 +2,7 @@ import { generateText, Output } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { NOT_COVERED_ANSWER, type RetrievedMatch } from '@nish1896/rag-config';
+import { envConfig } from '@/constants';
 import { embedQuestion, retrieveChunksForEmbedding } from '@/lib/rag/retrieve';
 import { checkRateLimit, getClientIp } from '@/lib/rag/rateLimit';
 import { getCachedAnswer, setCachedAnswer } from '@/lib/rag/answerCache';
@@ -9,7 +10,7 @@ import { extractMuiLinks, dedupeLinks, type ExternalLink } from '@/lib/rag/muiLi
 import { computeCitationAnchor } from '@/lib/rag/citationAnchor';
 
 const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY
+  apiKey: envConfig.openAIApiKey
 });
 
 /**

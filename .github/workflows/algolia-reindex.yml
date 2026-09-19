@@ -10,5 +10,5 @@ jobs:
       - name: Trigger Algolia Crawler
         run: |
           curl -X POST \
-            -u "${{ secrets.ALGOLIA_CRAWLER_USER_ID }}:${{ secrets.ALGOLIA_CRAWLER_API_KEY }}" \
+            -u "${{ secrets.ALGOLIA_APP_ID }}:${{ secrets.ALGOLIA_API_KEY }}" \
             "https://crawler.algolia.com/api/1/crawlers/${{ secrets.ALGOLIA_CRAWLER_ID }}/reindex"

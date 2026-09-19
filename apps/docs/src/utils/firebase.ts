@@ -1,9 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
-import { ENV_VARS } from '@/constants/environment';
+import { envConfig } from '@/constants/environment';
 import { appName } from '@/constants/page-metadata';
 
-const firebaseApp = initializeApp(ENV_VARS.firebaseConfig);
+const firebaseApp = initializeApp(envConfig.firebaseConfig);
 
 const analyticsPromise
   = typeof window !== 'undefined'
