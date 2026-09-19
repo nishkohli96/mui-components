@@ -55,7 +55,9 @@ const filePathToUrl = (filePath: string) => {
   return rel === '' ? '/' : `/${rel}`;
 };
 
-/** Splits MDX body into H2/H3 sections, each carrying the nearest heading text. */
+/**
+ * Splits MDX body into H2/H3 sections, each carrying the nearest heading text.
+ */
 function splitIntoSections(mdx: string): { heading: string; content: string }[] {
   // strip the leading import/export/frontmatter block — not documentation content
   const bodyStart = mdx.search(/^#\s+/m);

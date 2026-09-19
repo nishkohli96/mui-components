@@ -1,4 +1,4 @@
-import { generateObject } from 'ai';
+import { generateText, Output } from 'ai';
 import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { NOT_COVERED_ANSWER, type RetrievedMatch } from '@nish1896/rag-config';
@@ -85,10 +85,10 @@ export async function POST(request: Request) {
     });
   }
 
-  const { object } = await generateObject({
+  const { output: object } = await generateText({
     model: openai('gpt-4o-mini'),
     temperature: 0,
-    schema: answerSchema,
+    output: Output.object({ schema: answerSchema }),
     system: `You are the "Ask AI" search assistant for the MUI Components docs site.
 Answer strictly and only using the provided context chunks — never from general knowledge
 about MUI or React.
