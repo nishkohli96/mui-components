@@ -1,3 +1,9 @@
+# Get ALGOLIA_CRAWLER_USERID from
+# https://crawler.algolia.com/admin/user/settings/
+#
+# ALGOLIA_APP_ID & ALGOLIA_CRAWLER_ID is obtained from
+# the crawler settings page
+
 name: Algolia reindex
 on:
   push:
@@ -12,5 +18,5 @@ jobs:
         # step (and workflow) now fails properly on auth/reindex errors.
         run: |
           curl -f -X POST \
-            -u "${{ secrets.ALGOLIA_APP_ID }}:${{ secrets.ALGOLIA_API_KEY }}" \
+            -u "${{ secrets.ALGOLIA_APP_ID }}:${{ secrets.ALGOLIA_CRAWLER_USERID }}" \
             "https://crawler.algolia.com/api/1/crawlers/${{ secrets.ALGOLIA_CRAWLER_ID }}/reindex"
