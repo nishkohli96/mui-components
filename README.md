@@ -121,4 +121,4 @@ You can also check out my [eslint config](https://www.npmjs.com/package/@nish189
 
 ## 📄 License
 
-MIT © [Nishant Kohli](https://github.com/nishkohli96)
+MIT © [Nishant Kohli](https://nishkohli96.vercel.app/)

@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable, AvailabilityBanner } from '@/components/docs';
+import { DocsPage, PropsTable, AvailabilityBanner, ComponentSourceLink } from '@/components/docs';
 import { componentPropsV1, componentMetadata } from '@/constants';
 
 export const metadata = componentMetadata.MUITipTapRte;
@@ -120,3 +120,10 @@ toolbar buttons render). Props marked with
 <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUITipTapRte} />
+
+## Source Code
+
+<ComponentSourceLink
+  path="misc/tiptap-rte"
+  docsVersion={1}
+/>

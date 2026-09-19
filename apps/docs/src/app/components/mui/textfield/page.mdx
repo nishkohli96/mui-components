@@ -1,4 +1,4 @@
-import { DocsPage, PropsTable } from '@/components/docs';
+import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
 import TextFieldsForm from '@/forms/mui/textfield/Client';
 
@@ -57,7 +57,7 @@ in addition to the props below.
 
 Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
-<PropsTable rows={componentProps.MUITextField} />
+<PropsTable rows={componentProps.MUITextField} withAnchors />
 
 ## Playground
 
@@ -65,3 +65,7 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
 
 ## Reference
 - [MUI TextField](https://mui.com/material-ui/react-text-field/)
+
+## Source Code
+
+<ComponentSourceLink path="mui/textfield" />
