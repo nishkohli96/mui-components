@@ -48,14 +48,14 @@ export const renderInlineMd = (text: string): ReactNode => (
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
           <strong key={index}>
-            {part.slice(2, -2)}
+            {renderInlineMd(part.slice(2, -2))}
           </strong>
         );
       }
       if (part.startsWith('_') && part.endsWith('_')) {
         return (
           <em key={index}>
-            {part.slice(1, -1)}
+            {renderInlineMd(part.slice(1, -1))}
           </em>
         );
       }
