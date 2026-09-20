@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/rag-config",
-  "version": "2.2.3",
+  "version": "2.2.2",
   "private": true,
   "type": "module",
   "types": "src/index.ts",
