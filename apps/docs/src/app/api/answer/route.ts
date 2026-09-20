@@ -6,7 +6,12 @@ import { envConfig } from '@/constants';
 import { embedQuestion, retrieveChunksForEmbedding } from '@/lib/rag/retrieve';
 import { checkRateLimit, getClientIp } from '@/lib/rag/rateLimit';
 import { getCachedAnswer, setCachedAnswer } from '@/lib/rag/answerCache';
-import { extractMuiLinks, dedupeLinks, type ExternalLink } from '@/lib/rag/muiLinks';
+import {
+  extractMuiLinks,
+  dedupeLinks,
+  hasUnbackedExternalLink,
+  type ExternalLink
+} from '@/lib/rag/muiLinks';
 import { computeCitationAnchor } from '@/lib/rag/citationAnchor';
 
 const openai = createOpenAI({
@@ -168,6 +173,7 @@ ${chunks.map((c, i) => `[${i + 1}] TYPE: ${c.type} | COMPONENT: ${c.componentNam
     anchor: computeCitationAnchor(c)
   }));
   let externalLinks = dedupeLinks(usedChunks.flatMap(c => extractMuiLinks(c.content)));
+  let backingChunks = usedChunks;
 
   if (answer === NOT_COVERED_ANSWER) {
     const passthroughChunk = findPassthroughChunk(chunks, question);
@@ -182,10 +188,13 @@ ${chunks.map((c, i) => `[${i + 1}] TYPE: ${c.type} | COMPONENT: ${c.componentNam
         anchor: computeCitationAnchor(passthroughChunk)
       }];
       externalLinks = dedupeLinks(links);
+      backingChunks = [passthroughChunk];
     }
   }
 
-  setCachedAnswer(embedding, answer, citations, externalLinks, PROMPT_VERSION);
+  if (!hasUnbackedExternalLink(answer, backingChunks.map(c => c.content))) {
+    setCachedAnswer(embedding, answer, citations, externalLinks, PROMPT_VERSION);
+  }
 
   return Response.json({ answer, citations, externalLinks });
 }

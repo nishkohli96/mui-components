@@ -1,5 +1,7 @@
 name: Build Docs Website
 on: [push]
+permissions:
+  contents: read
 jobs:
   build-docs:
     name: Build Docs

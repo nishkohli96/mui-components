@@ -12,8 +12,36 @@ import MuiLink from '@mui/material/Link';
 const inlineMdPattern
   = /(\[[^\]]+\]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|_[^_]+_)/g;
 const linkPattern = /^\[([^\]]+)\]\(([^)]+)\)$/;
-/** Same external-link test `mdx-components.tsx` uses for its own `a` mapping — keep the two in sync. */
+
+/**
+ * Same external-link test `mdx-components.tsx` uses for its own `a` mapping
+ * — keep the two in sync.
+ */
 const isExternalUrl = (url: string) => (/^https?:\/\//).test(url);
+
+/**
+ * A same-origin relative link, e.g. "/components/mui/select#api" or
+ * "#api" — a single leading slash (not "//", which is protocol-relative to
+ * an arbitrary host) or a bare fragment.
+ */
+const isRelativeUrl = (url: string) => (/^\/(?!\/)/).test(url) || url.startsWith('#');
+
+/**
+ * This renderer's most sensitive caller is "Ask AI" answer text — LLM
+ * output over retrieved doc chunks, not static site content — where a link
+ * could be a prompt-injected external URL. Every doc-authored link (props
+ * table, changelog) is already same-origin or mui.com, same as the vetted
+ * links in `muiLinks.ts`, so applying the same allowlist here for every
+ * caller costs nothing today and closes the AI path without a separate
+ * trust-level flag.
+ *
+ * Explicit allowlist, not "not external": anything that isn't an `http(s)://`
+ * URL isn't automatically same-origin — `javascript:`, `data:`, `vbscript:`,
+ * and protocol-relative `//host` URLs all fail the `isExternalUrl` regex too,
+ * so a bare negation would let them through as if they were relative paths.
+ */
+const isAllowedHref = (url: string) =>
+  isRelativeUrl(url) || (/^https:\/\/(?:www\.)?mui\.com(?:\/|$)/).test(url);
 
 /**
  * Renders a description/type/answer string with minimal inline markdown support.
@@ -22,6 +50,9 @@ export const renderInlineMd = (text: string): ReactNode => (
   <Fragment>
     {text.split(inlineMdPattern).map((part, index) => {
       const link = part.match(linkPattern);
+      if (link && !isAllowedHref(link[2]!)) {
+        return link[1];
+      }
       if (link) {
         const isExternal = isExternalUrl(link[2]!);
         return (
