@@ -9,6 +9,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   reindex:
     runs-on: ubuntu-latest
@@ -17,7 +20,12 @@ jobs:
       - name: Trigger Algolia Crawler
         # -f makes curl exit nonzero on 4xx/5xx, so the
         # step (and workflow) now fails properly on auth/reindex errors.
+        # Creds passed via env (not inline in the command) so they don't show up in the process table.
+        env:
+          CRAWLER_USERID: ${{ secrets.ALGOLIA_CRAWLER_USERID }}
+          CRAWLER_API_KEY: ${{ secrets.ALGOLIA_CRAWLER_API_KEY }}
+          CRAWLER_ID: ${{ secrets.ALGOLIA_CRAWLER_ID }}
         run: |
           curl -f -X POST \
-            -u "${{ secrets.ALGOLIA_CRAWLER_USERID }}:${{ secrets.ALGOLIA_CRAWLER_API_KEY }}" \
-            "https://crawler.algolia.com/api/1/crawlers/${{ secrets.ALGOLIA_CRAWLER_ID }}/reindex"
+            -u "${CRAWLER_USERID}:${CRAWLER_API_KEY}" \
+            "https://crawler.algolia.com/api/1/crawlers/${CRAWLER_ID}/reindex"

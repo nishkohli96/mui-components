@@ -12,8 +12,24 @@ import MuiLink from '@mui/material/Link';
 const inlineMdPattern
   = /(\[[^\]]+\]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|_[^_]+_)/g;
 const linkPattern = /^\[([^\]]+)\]\(([^)]+)\)$/;
-/** Same external-link test `mdx-components.tsx` uses for its own `a` mapping — keep the two in sync. */
+
+/**
+ * Same external-link test `mdx-components.tsx` uses for its own `a` mapping
+ * — keep the two in sync.
+ */
 const isExternalUrl = (url: string) => (/^https?:\/\//).test(url);
+
+/**
+ * This renderer's most sensitive caller is "Ask AI" answer text — LLM
+ * output over retrieved doc chunks, not static site content — where a link
+ * could be a prompt-injected external URL. Every doc-authored link (props
+ * table, changelog) is already same-origin or mui.com, same as the vetted
+ * links in `muiLinks.ts`, so applying the same allowlist here for every
+ * caller costs nothing today and closes the AI path without a separate
+ * trust-level flag.
+ */
+const isAllowedHref = (url: string) =>
+  !isExternalUrl(url) || (/^https:\/\/(?:www\.)?mui\.com(?:\/|$)/).test(url);
 
 /**
  * Renders a description/type/answer string with minimal inline markdown support.
@@ -22,6 +38,9 @@ export const renderInlineMd = (text: string): ReactNode => (
   <Fragment>
     {text.split(inlineMdPattern).map((part, index) => {
       const link = part.match(linkPattern);
+      if (link && !isAllowedHref(link[2]!)) {
+        return link[1];
+      }
       if (link) {
         const isExternal = isExternalUrl(link[2]!);
         return (
