@@ -20,6 +20,13 @@ const linkPattern = /^\[([^\]]+)\]\(([^)]+)\)$/;
 const isExternalUrl = (url: string) => (/^https?:\/\//).test(url);
 
 /**
+ * A same-origin relative link, e.g. "/components/mui/select#api" or
+ * "#api" — a single leading slash (not "//", which is protocol-relative to
+ * an arbitrary host) or a bare fragment.
+ */
+const isRelativeUrl = (url: string) => (/^\/(?!\/)/).test(url) || url.startsWith('#');
+
+/**
  * This renderer's most sensitive caller is "Ask AI" answer text — LLM
  * output over retrieved doc chunks, not static site content — where a link
  * could be a prompt-injected external URL. Every doc-authored link (props
@@ -27,9 +34,14 @@ const isExternalUrl = (url: string) => (/^https?:\/\//).test(url);
  * links in `muiLinks.ts`, so applying the same allowlist here for every
  * caller costs nothing today and closes the AI path without a separate
  * trust-level flag.
+ *
+ * Explicit allowlist, not "not external": anything that isn't an `http(s)://`
+ * URL isn't automatically same-origin — `javascript:`, `data:`, `vbscript:`,
+ * and protocol-relative `//host` URLs all fail the `isExternalUrl` regex too,
+ * so a bare negation would let them through as if they were relative paths.
  */
 const isAllowedHref = (url: string) =>
-  !isExternalUrl(url) || (/^https:\/\/(?:www\.)?mui\.com(?:\/|$)/).test(url);
+  isRelativeUrl(url) || (/^https:\/\/(?:www\.)?mui\.com(?:\/|$)/).test(url);
 
 /**
  * Renders a description/type/answer string with minimal inline markdown support.
