@@ -7,6 +7,7 @@ import MuiLink from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
+import { packageName } from '@/constants';
 import {
   CopyInstallCommand,
   PopularComponents,
@@ -18,7 +19,7 @@ import {
   TrustBadgesSkeleton
 } from './components';
 
-const installCommand = 'npm install @nish1896/mui-components';
+const installCommand = `npm install @nish1896/${packageName}`;
 
 const features = [
   {
