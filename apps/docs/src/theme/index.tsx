@@ -32,9 +32,10 @@ const ThemeContextBridge = ({ children }: { children: React.ReactNode }) => {
    * and get written to `data-theme` as-is, which is why "dark" is spelled
    * out here instead of trusting `mode` beyond `'system'`.
    */
-  const currentTheme: PaletteMode = (mode === 'dark' || mode === 'light')
+  const resolvedTheme: PaletteMode | undefined = (mode === 'dark' || mode === 'light')
     ? mode
-    : systemMode ?? defaultTheme;
+    : systemMode;
+  const currentTheme: PaletteMode = resolvedTheme ?? defaultTheme;
 
   const toggleTheme = () => {
     setMode(currentTheme === 'light' ? 'dark' : 'light');
@@ -50,10 +51,18 @@ const ThemeContextBridge = ({ children }: { children: React.ReactNode }) => {
    * swap (inside `useColorScheme`) happens synchronously before paint, so a
    * post-paint `useEffect` here would let one frame render with the new MUI
    * colors but DocSearch still reading the stale `data-theme`.
+   *
+   * `mode`/`systemMode` are both `undefined` until MUI's own post-mount
+   * effect resolves them (`useCurrentColorScheme`'s `isClient` gate) — until
+   * then `resolvedTheme` is `undefined` and this skips, so it never clobbers
+   * the correct value `InitColorSchemeScript`/the inline sync script already
+   * wrote pre-hydration with a guessed `defaultTheme`.
    */
   useLayoutEffect(() => {
-    document.documentElement.setAttribute('data-theme', currentTheme);
-  }, [currentTheme]);
+    if (resolvedTheme) {
+      document.documentElement.setAttribute('data-theme', resolvedTheme);
+    }
+  }, [resolvedTheme]);
 
   return (
     <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>

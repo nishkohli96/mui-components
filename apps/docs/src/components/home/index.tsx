@@ -7,6 +7,7 @@ import MuiLink from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { AppBar, Footer, GradientButton, Wordmark } from '@/components';
+import { packageName } from '@/constants';
 import {
   CopyInstallCommand,
   PopularComponents,
@@ -18,7 +19,7 @@ import {
   TrustBadgesSkeleton
 } from './components';
 
-const installCommand = 'npm install @nish1896/mui-components';
+const installCommand = `npm install @nish1896/${packageName}`;
 
 const features = [
   {
@@ -141,6 +142,8 @@ const HomeLanding = () => {
               sx={{
                 px: { xs: 1.5, sm: 2 },
                 py: 1.1,
+                borderTopRightRadius: '0px !important',
+                borderBottomRightRadius: '0px !important',
                 fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
                 fontSize: { xs: 11, sm: 13 },
                 color: 'text.primary',

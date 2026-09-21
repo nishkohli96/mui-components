@@ -47,17 +47,51 @@ const normalize = (value?: string | null) => (value ?? '').trim().toLowerCase();
  */
 const urlWithoutAnchor = (url: string) => url.split('#')[0]!;
 
+const ownHeading = (item: DocSearchHit) => (
+  item.hierarchy?.lvl3 ?? item.hierarchy?.lvl2 ?? item.hierarchy?.lvl1
+);
+
 const dedupeSelfTitleHits = (items: DocSearchHit[]) => {
   const firstTitleByUrl = new Map<string, string>();
   return items.filter(item => {
     const urlKey = item.url_without_anchor ?? urlWithoutAnchor(item.url);
-    const heading = normalize(stripTitleSuffix(item.hierarchy?.lvl1));
+    const heading = normalize(stripTitleSuffix(ownHeading(item)));
     const firstTitle = firstTitleByUrl.get(urlKey);
     if (firstTitle === undefined) {
       firstTitleByUrl.set(urlKey, heading);
       return true;
     }
     return heading !== firstTitle;
+  });
+};
+
+/**
+ * Prop rows are now crawled as their own `lvl3` hits, anchored on the
+ * `#prop-<name>` id set in `PropsTable.tsx`. Within a page's group of hits,
+ * put those ahead of prose hits — reordering only inside each
+ * `url_without_anchor` group (not globally) keeps Algolia's cross-page
+ * relevance ranking intact.
+ */
+const isPropHit = (item: DocSearchHit) => item.anchor?.startsWith('prop-') ?? false;
+
+const propsFirst = (items: DocSearchHit[]) => {
+  const groupOrder: string[] = [];
+  const groups = new Map<string, { props: DocSearchHit[]; rest: DocSearchHit[] }>();
+
+  items.forEach(item => {
+    const urlKey = item.url_without_anchor ?? urlWithoutAnchor(item.url);
+    let group = groups.get(urlKey);
+    if (!group) {
+      group = { props: [], rest: [] };
+      groups.set(urlKey, group);
+      groupOrder.push(urlKey);
+    }
+    (isPropHit(item) ? group.props : group.rest).push(item);
+  });
+
+  return groupOrder.flatMap(urlKey => {
+    const group = groups.get(urlKey)!;
+    return [...group.props, ...group.rest];
   });
 };
 
@@ -69,7 +103,7 @@ const dedupeSelfTitleHits = (items: DocSearchHit[]) => {
  * unstripped, since `lvl2` is a *different* string that doesn't itself end
  * in the suffix but is displayed alongside the un-stripped `lvl1` breadcrumb.
  */
-const transformItems = (items: DocSearchHit[]) => dedupeSelfTitleHits(items).map(item => ({
+const transformItems = (items: DocSearchHit[]) => propsFirst(dedupeSelfTitleHits(items)).map(item => ({
   ...item,
   hierarchy: {
     ...item.hierarchy,

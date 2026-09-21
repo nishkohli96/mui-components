@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import { CopyCodeIcon } from '@/components/buttons';
 
 type CopyInstallCommandProps = {
   command: string;
@@ -11,9 +12,9 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
   const [copied, setCopied] = useState(false);
 
   return (
-    <Button
+    <IconButton
       size="small"
-      variant="text"
+      aria-label={copied ? 'Copied to clipboard' : 'Copy install command'}
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(command);
@@ -24,16 +25,13 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
         }
       }}
       sx={{
-        minWidth: 42,
-        px: 1,
-        color: 'text.secondary',
-        fontSize: 11,
-        fontWeight: 700,
-        textTransform: 'none'
+        mx: 1,
+        p: 1,
+        color: 'text.secondary'
       }}
     >
-      {copied ? 'Copied' : 'Copy'}
-    </Button>
+      <CopyCodeIcon isCopied={copied} />
+    </IconButton>
   );
 };
 
