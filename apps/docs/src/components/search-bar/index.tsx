@@ -62,6 +62,36 @@ const dedupeSelfTitleHits = (items: DocSearchHit[]) => {
 };
 
 /**
+ * Prop rows are now crawled as their own `lvl3` hits, anchored on the
+ * `#prop-<name>` id set in `PropsTable.tsx`. Within a page's group of hits,
+ * put those ahead of prose hits — reordering only inside each
+ * `url_without_anchor` group (not globally) keeps Algolia's cross-page
+ * relevance ranking intact.
+ */
+const isPropHit = (item: DocSearchHit) => item.anchor?.startsWith('prop-') ?? false;
+
+const propsFirst = (items: DocSearchHit[]) => {
+  const groupOrder: string[] = [];
+  const groups = new Map<string, { props: DocSearchHit[]; rest: DocSearchHit[] }>();
+
+  items.forEach(item => {
+    const urlKey = item.url_without_anchor ?? urlWithoutAnchor(item.url);
+    let group = groups.get(urlKey);
+    if (!group) {
+      group = { props: [], rest: [] };
+      groups.set(urlKey, group);
+      groupOrder.push(urlKey);
+    }
+    (isPropHit(item) ? group.props : group.rest).push(item);
+  });
+
+  return groupOrder.flatMap(urlKey => {
+    const group = groups.get(urlKey)!;
+    return [...group.props, ...group.rest];
+  });
+};
+
+/**
  * DocSearch's own result renderer picks `lvl1` for a page-level hit but
  * `lvl2` for a "content" hit anchored on a subsection — only `lvl1` carries
  * the " | MUI Components" suffix, but stripping just `lvl1` left a `lvl2`
@@ -69,7 +99,7 @@ const dedupeSelfTitleHits = (items: DocSearchHit[]) => {
  * unstripped, since `lvl2` is a *different* string that doesn't itself end
  * in the suffix but is displayed alongside the un-stripped `lvl1` breadcrumb.
  */
-const transformItems = (items: DocSearchHit[]) => dedupeSelfTitleHits(items).map(item => ({
+const transformItems = (items: DocSearchHit[]) => propsFirst(dedupeSelfTitleHits(items)).map(item => ({
   ...item,
   hierarchy: {
     ...item.hierarchy,
