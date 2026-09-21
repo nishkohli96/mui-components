@@ -47,11 +47,15 @@ const normalize = (value?: string | null) => (value ?? '').trim().toLowerCase();
  */
 const urlWithoutAnchor = (url: string) => url.split('#')[0]!;
 
+const ownHeading = (item: DocSearchHit) => (
+  item.hierarchy?.lvl3 ?? item.hierarchy?.lvl2 ?? item.hierarchy?.lvl1
+);
+
 const dedupeSelfTitleHits = (items: DocSearchHit[]) => {
   const firstTitleByUrl = new Map<string, string>();
   return items.filter(item => {
     const urlKey = item.url_without_anchor ?? urlWithoutAnchor(item.url);
-    const heading = normalize(stripTitleSuffix(item.hierarchy?.lvl1));
+    const heading = normalize(stripTitleSuffix(ownHeading(item)));
     const firstTitle = firstTitleByUrl.get(urlKey);
     if (firstTitle === undefined) {
       firstTitleByUrl.set(urlKey, heading);

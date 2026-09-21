@@ -14,6 +14,7 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
   return (
     <IconButton
       size="small"
+      aria-label={copied ? 'Copied to clipboard' : 'Copy install command'}
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(command);
