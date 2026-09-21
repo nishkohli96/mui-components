@@ -1,7 +1,7 @@
 import MuiLink from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { githubRepoLink, packageName } from '@/constants';
-import { DocsVersion } from '@/types';
+import { type DocsVersion } from '@/types';
 import packageJson from '../../../../../packages/mui-components/package.json';
 
 type ComponentSourceLinkProps = {

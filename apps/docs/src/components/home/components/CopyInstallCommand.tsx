@@ -1,11 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import ContentPasteIcon from '@mui/icons-material/ContentPaste';
-import CheckIcon from '@mui/icons-material/Check';
+import { CopyCodeIcon } from '@/components/buttons';
 
 type CopyInstallCommandProps = {
   command: string;
@@ -32,27 +29,7 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
         color: 'text.secondary'
       }}
     >
-      <Box sx={{ position: 'relative', display: 'flex' }}>
-        {copied
-          ? <ContentPasteIcon fontSize="inherit" />
-          : <ContentCopyIcon fontSize="inherit" />
-        }
-        {copied && (
-          <CheckIcon
-            fontSize="inherit"
-            sx={{
-              position: 'absolute',
-              bottom: -4,
-              right: -4,
-              fontSize: 10,
-              bgcolor: 'background.paper',
-              color: 'success.main',
-              borderRadius: '50%',
-              boxShadow: 1
-            }}
-          />
-        )}
-      </Box>
+      <CopyCodeIcon isCopied={copied} />
     </IconButton>
   );
 };
