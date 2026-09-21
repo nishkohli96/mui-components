@@ -1,7 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
+import CheckIcon from '@mui/icons-material/Check';
 
 type CopyInstallCommandProps = {
   command: string;
@@ -11,9 +15,8 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
   const [copied, setCopied] = useState(false);
 
   return (
-    <Button
+    <IconButton
       size="small"
-      variant="text"
       onClick={async () => {
         try {
           await navigator.clipboard.writeText(command);
@@ -24,16 +27,33 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
         }
       }}
       sx={{
-        minWidth: 42,
-        px: 1,
-        color: 'text.secondary',
-        fontSize: 11,
-        fontWeight: 700,
-        textTransform: 'none'
+        mx: 1,
+        p: 1,
+        color: 'text.secondary'
       }}
     >
-      {copied ? 'Copied' : 'Copy'}
-    </Button>
+      <Box sx={{ position: 'relative', display: 'flex' }}>
+        {copied
+          ? <ContentPasteIcon fontSize="inherit" />
+          : <ContentCopyIcon fontSize="inherit" />
+        }
+        {copied && (
+          <CheckIcon
+            fontSize="inherit"
+            sx={{
+              position: 'absolute',
+              bottom: -4,
+              right: -4,
+              fontSize: 10,
+              bgcolor: 'background.paper',
+              color: 'success.main',
+              borderRadius: '50%',
+              boxShadow: 1
+            }}
+          />
+        )}
+      </Box>
+    </IconButton>
   );
 };
 
