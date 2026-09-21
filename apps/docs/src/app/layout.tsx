@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 import { ToastContainer } from 'react-toastify';
 import { Analytics } from '@vercel/analytics/next';
 import {
@@ -20,20 +21,12 @@ type RootLayoutProps = {
 };
 
 /*
- * Synchronous, no-flash color-scheme bootstrap. Runs as the first child of
- * <body>, so it executes during HTML parsing — before the browser paints
- * any body content — and stamps data-mui-color-scheme on <html> to match
- * the palette CSS already inlined in <head>.
- *
- * Why not `next/script strategy="beforeInteractive"`: that pushes the file
- * onto Next's async `__next_s` queue, which the runtime loads only AFTER the
- * first paint — so the page paints once in the default (light) scheme, then
- * repaints in the stored scheme. That one-frame repaint is the theme flash.
- * An inline <script dangerouslySetInnerHTML> has no such queue; it blocks and
- * runs in document order, guaranteeing the attribute is set before paint.
- * (Keep this logic in sync with src/theme/constants.ts.)
+ * DocSearch's own CSS reads a separate `data-theme` attribute (its
+ * `[data-theme=dark]` selector), not MUI's `data-mui-color-scheme` — mirror
+ * one into the other, synchronously, right after InitColorSchemeScript sets
+ * it, so DocSearch never renders one frame behind on first paint.
  */
-const colorSchemeInit = `(function(){try{var v=localStorage.getItem('${modeStorageKey}');var m=(v==='light'||v==='dark'||v==='system')?v:'system';var s=m==='system'?(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):m;document.documentElement.setAttribute('${colorSchemeAttribute}',s);document.documentElement.setAttribute('data-theme',s);}catch(e){}})();`;
+const syncDocSearchTheme = `document.documentElement.setAttribute('data-theme',document.documentElement.getAttribute('${colorSchemeAttribute}'));`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(websiteUrl),
@@ -84,10 +77,14 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={roboto.className}>
-        {/* Must be the first body child — see colorSchemeInit above. */}
+        {/* Must be the first body child — runs before paint, no theme flash. */}
+        <InitColorSchemeScript
+          attribute={colorSchemeAttribute}
+          modeStorageKey={modeStorageKey}
+          defaultMode="system"
+        />
         <script
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{ __html: colorSchemeInit }}
+          dangerouslySetInnerHTML={{ __html: syncDocSearchTheme }}
         />
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <AppThemeProvider>
