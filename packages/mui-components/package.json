@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/mui-components",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "A suite of 25+ production-ready, form-library-agnostic Material UI components — build forms with any form library, or drop in each one standalone. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://mui-components-docs.vercel.app",
@@ -15,9 +15,9 @@
   "type": "module",
   "sideEffects": false,
   "devDependencies": {
-    "@ckeditor/ckeditor5-core": "43.3.0",
+    "@ckeditor/ckeditor5-core": "43.0.0",
     "@ckeditor/ckeditor5-react": "9.0.0",
-    "@ckeditor/ckeditor5-utils": "43.3.0",
+    "@ckeditor/ckeditor5-utils": "43.0.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.4.0",

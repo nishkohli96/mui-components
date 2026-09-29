@@ -82,7 +82,7 @@ const TrustBadges = async () => {
       key: 'version',
       label: `v${npmInfo.version}`,
       href: npmLink,
-      icon: <LocalOfferRoundedIcon fontSize="small" />
+      icon: <LocalOfferRoundedIcon />
     },
     downloads !== null && {
       key: 'downloads',
@@ -132,10 +132,18 @@ const TrustBadges = async () => {
           variant="outlined"
           sx={{
             fontWeight: 600,
-            padding: '4px',
-            '& .MuiChip-icon': { color: 'text.secondary' },
-            '&:hover': { borderColor: 'primary.main', color: 'primary.main' },
-            '&:hover .MuiChip-icon': { color: 'primary.main' }
+            padding: '6px 4px',
+            '& .MuiChip-icon': {
+              color: 'text.secondary',
+              fontSize: 16
+            },
+            '&:hover': {
+              borderColor: 'primary.main',
+              color: 'primary.main'
+            },
+            '&:hover .MuiChip-icon': {
+              color: 'primary.main'
+            }
           }}
         />
       ))}

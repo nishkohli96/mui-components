@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 import { CopyCodeIcon } from '@/components/buttons';
 
 type CopyInstallCommandProps = {
@@ -12,6 +13,10 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
   const [copied, setCopied] = useState(false);
 
   return (
+        <Tooltip
+      title={copied ? 'Copied!' : 'Copy code'}
+      placement="right"
+    >
     <IconButton
       size="small"
       aria-label={copied ? 'Copied to clipboard' : 'Copy install command'}
@@ -32,6 +37,7 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
     >
       <CopyCodeIcon isCopied={copied} />
     </IconButton>
+    </Tooltip>
   );
 };
 
