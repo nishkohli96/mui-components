@@ -235,6 +235,10 @@ export type MUIPhoneInputProps = {
    */
   countrySelectProps?: CountrySelectProps;
   /**
+   * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
+   */
+  phoneInputProps?: PhoneInputProps;
+  /**
    * When `true`, renders the field label above the form field instead of inside or beside it.
    */
   showLabelAboveFormField?: boolean;
@@ -279,10 +283,6 @@ export type MUIPhoneInputProps = {
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
-   * Configuration passed to `react-international-phone`'s `usePhoneInput` hook.
-   */
-  phoneInputProps?: PhoneInputProps;
-  /**
    * Custom ids for generated field, label, helper text, and error elements.
    */
   customIds?: CustomComponentIds;
@@ -303,6 +303,9 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     fieldName,
     value,
     onValueChange,
+    searchCountryProps,
+    countrySelectProps,
+    phoneInputProps,
     label,
     showLabelAboveFormField,
     formLabelProps,
@@ -314,13 +317,10 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     helperText,
     formHelperTextProps,
     disabled: muiDisabled,
-    phoneInputProps,
     slotProps,
     onBlur,
     autoComplete = defaultAutocompleteValue,
     customIds,
-    searchCountryProps,
-    countrySelectProps,
     ...otherPhoneInputPropsForTextField
   }: MUIPhoneInputProps,
   ref: Ref<HTMLInputElement>

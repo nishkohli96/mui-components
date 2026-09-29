@@ -27,7 +27,10 @@ const MdxPre = (props: ComponentPropsWithoutRef<'pre'>) => {
 
   return (
     <div ref={wrapperRef} className="doc-code-block">
-      <Tooltip title={copied ? 'Copied!' : 'Copy code'} placement="left">
+      <Tooltip
+        title={copied ? 'Copied!' : 'Copy code'}
+        placement="right"
+      >
         <IconButton
           size="small"
           onClick={handleCopy}

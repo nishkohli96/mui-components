@@ -71,6 +71,9 @@ export type MUIRichTextEditorProps = {
    * HTML id applied to the CKEditor instance.
    *
    * Defaults to the generated field id.
+   *
+   * @deprecated This prop will be removed in the next minor version.
+   * Use `customIds.field` to assign an **id** to the `CKEditor` instance.
    */
   id?: string;
   /**
