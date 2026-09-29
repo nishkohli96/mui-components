@@ -232,7 +232,7 @@ const HomeLanding = () => {
               Installation
             </MuiLink>
             {' '}
-            section to add the package and wire up your first field.
+            section to install the package in your application and wire up your first field.
           </Typography>
         </Box>
         <Sponsors />
