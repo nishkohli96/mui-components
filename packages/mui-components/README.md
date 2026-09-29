@@ -26,8 +26,8 @@
 - Every component is designed to work out of the box with minimal configuration, allowing you to focus on building features instead of implementing core logic..
 - **Form-library-agnostic**: every component is controlled through `value` / `onValueChange`, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required.
 - Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/v1/customization#configprovider).
-- Includes well-configured unique components like [Rich Text Editor](https://mui-components-docs.vercel.app/v1/components/misc/rich-text-editor), [Country Select](https://mui-components-docs.vercel.app/v1/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/v1/components/mui/tags-input), saving development time.
-- Provides full control over value validation and transformation before updates are committed to form state.
+- Includes well-configured unique components like [Phone Input](https://mui-components-docs.vercel.app/v1/components/misc/phone-input), [Country Select](https://mui-components-docs.vercel.app/v1/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/v1/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/v1/components/mui/tags-input), saving development time.
+- Provides full control over value validation and transformation before updates are committed to component state.
 - Comprehensive docs showcasing multiple variations for each component.
 
 ## 🚀 Explore and Get Started 
@@ -97,7 +97,7 @@ You can also check out my [eslint config](https://www.npmjs.com/package/@nish189
 
 <a href="https://www.linkedin.com/in/eramakanth/" target="_blank" title="Eramakanth">
   <img
-    src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/v_2.2.1/apps/docs/public/sponsors/ramakant.jpeg"
+    src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/version-1/apps/docs/public/sponsors/ramakant.jpeg"
     width="40"
     height="40"
     style="border-radius: 50%;"
