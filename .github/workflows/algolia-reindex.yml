@@ -29,7 +29,6 @@ jobs:
     if: >
       github.event.state == 'success' &&
       contains(github.event.context, 'Vercel') &&
-      contains(github.event.context, 'docs') &&
       contains(github.event.branches.*.name, 'main')
     runs-on: ubuntu-latest
     environment: Production
