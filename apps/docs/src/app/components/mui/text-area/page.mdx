@@ -1,0 +1,96 @@
+import {
+  DocsPage,
+  AvailabilityBanner,
+  PropsTable,
+  ComponentSourceLink
+} from '@/components/docs';
+import { componentMetadata, componentProps } from '@/constants';
+import TextAreaForm from '@/forms/mui/text-area/Client';
+
+export const metadata = componentMetadata.MUITextArea;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUITextArea
+
+<AvailabilityBanner componentName="MUITextArea" version="2.3" />
+
+`MUITextArea` is a multiline Material UI [TextField](https://mui.com/material-ui/react-text-field/)
+that wires up the label, error state and helper text for you. It is a controlled component
+that works with plain `useState` or any form library able to provide a value and receive changes.
+
+Unless you set `rows`, the field grows with its content. Use `maxChars` to cap the length: typing
+stops at the limit and pasted text is cut to fit.
+
+For single-line values, use [MUITextField](/components/mui/textfield) instead.
+
+## Usage
+
+```tsx
+import MUITextArea, { MUITextAreaProps } from '@nish1896/mui-components/mui/text-area';
+```
+
+Provide `fieldName`, `value` and `onValueChange` to render a fully functional text area:
+
+```tsx
+const [bio, setBio] = useState();
+
+<MUITextArea
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+/>
+```
+
+Set `rows` for a fixed height, and `maxChars` to limit the length. Typing past the limit is
+ignored, and a pasted text longer than the room left is truncated:
+
+```tsx
+<MUITextArea
+  fieldName="feedback"
+  value={feedback}
+  onValueChange={({ newValue }) => setFeedback(newValue)}
+  rows={4}
+  maxChars={50}
+  helperText={`${feedback?.length ?? 0}/50 characters`}
+/>
+```
+
+`maxChars` uses the native `maxLength` attribute, which counts UTF-16 code units — an emoji
+counts as 2 characters. A `value` you set from code is not truncated.
+
+Validation stays in your hands — derive `errorMessage` from your own state or form
+library and the field renders in an error state:
+
+```tsx
+<MUITextArea
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  onBlur={() => setBioError(validateBio(bio))}
+  errorMessage={bioError}
+/>
+```
+
+## API
+
+`MUITextAreaProps` also accepts the remaining
+[TextFieldProps](https://mui.com/material-ui/api/text-field/), except `multiline`
+(always on), in addition to the props below.
+
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentProps.MUITextArea} />
+
+## Playground
+
+<TextAreaForm />
+
+## Reference
+- [MUI TextField](https://mui.com/material-ui/react-text-field/)
+
+## Source Code
+
+<ComponentSourceLink path="mui/text-area" />

@@ -51,6 +51,15 @@ export type MUITextAreaProps = {
 	 */
   onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
+	 * Maximum number of characters the field accepts. Typing and pasting stop
+	 * at this limit — pasted text is cut to fit — via the native `maxLength`
+	 * attribute, so it also applies to assistive tech and mobile keyboards.
+	 *
+	 * Counts UTF-16 code units, so a single emoji counts as 2. A value set
+	 * programmatically through `value` is not truncated.
+	 */
+  maxChars?: number;
+  /**
 	 * When `true`, renders the field label above the form field instead of inside or beside it.
 	 */
   showLabelAboveFormField?: boolean;
@@ -117,6 +126,7 @@ const MUITextArea = ({
   required,
   value: muiValue,
   onValueChange,
+  maxChars,
   onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
@@ -215,6 +225,7 @@ const MUITextArea = ({
           ...muiSlotProps,
           htmlInput: {
             ...muiSlotProps?.htmlInput,
+            ...(maxChars !== undefined && { maxLength: maxChars }),
             'aria-labelledby': !hideLabel && isLabelAboveFormField ? labelId : undefined,
             'aria-label': hideLabel ? accessibleFieldLabel : undefined,
             'aria-describedby': showHelperTextElement ? (isError ? errorId : helperTextId) : undefined,

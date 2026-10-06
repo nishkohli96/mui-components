@@ -18,6 +18,7 @@ export const NOT_COVERED_ANSWER = "🔍 This isn't covered in the MUI Components
  */
 export const componentNames = [
   'MUITextField',
+  'MUITextArea',
   'MUIPasswordInput',
   'MUINumberInput',
   'MUINumberStepper',

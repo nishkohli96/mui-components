@@ -697,6 +697,18 @@ export const PropsDescription = Object.freeze({
       'Maximum number of tags that can be added. Keyboard entries beyond the limit are ignored; pasted tags are truncated to fit.',
     type: 'number'
   },
+  maxChars_TextArea: {
+    name: 'maxChars',
+    description:
+      'Maximum number of characters the field accepts. Typing stops at the limit and pasted text is cut to fit, via the native `maxLength` attribute — so it also applies on mobile keyboards. Counts UTF-16 code units, so an emoji counts as 2. A `value` set from code is not truncated.',
+    type: 'number'
+  },
+  rows_TextArea: {
+    name: 'rows',
+    description:
+      'Fixed number of visible text rows. When omitted, the field starts at one row and grows with its content.',
+    type: 'number'
+  },
   limitTags_TagsInput: {
     name: 'limitTags',
     description:
