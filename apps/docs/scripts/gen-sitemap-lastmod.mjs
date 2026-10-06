@@ -10,11 +10,12 @@
  * access out of the traced graph; sitemap.ts just imports the static JSON.
  */
 import { execFileSync } from 'node:child_process';
-import { readdirSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, relative, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const appDir = fileURLToPath(new URL('../src/app', import.meta.url));
+const srcDir = fileURLToPath(new URL('../src', import.meta.url));
 const outFile = fileURLToPath(
   new URL('../src/generated/sitemap-lastmod.json', import.meta.url)
 );
@@ -44,11 +45,39 @@ try {
   /* first run — no committed file yet. */
 }
 
-for (const file of walkPages(appDir)) {
+/*
+ * A shallow clone (Vercel's default) can't see a file's real history: `git log`
+ * resolves every file to the shallow-boundary commit, stamping all pages with
+ * one bogus date. Keep the committed map there — it's regenerated, from full
+ * history, on every local `dev` / `build`; commit it with the change.
+ */
+const isShallow = execFileSync('git', ['rev-parse', '--is-shallow-repository'], {
+  encoding: 'utf8'
+}).trim() === 'true';
+
+/*
+ * A page's content isn't only its page file: component pages render a
+ * same-named props table and demo form, the homepage renders `components/home`.
+ * Take the latest change across all of them, so editing a props table bumps
+ * that page's date even though `page.mdx` itself was untouched.
+ */
+function contentPaths(route, pageFile) {
+  const extra = route === '/'
+    ? ['components/home']
+    : route.startsWith('/components/')
+      ? [
+        `constants/props-table${route.replace('/components', '')}.ts`,
+        `forms${route.replace('/components', '')}`
+      ]
+      : [];
+  return [pageFile, ...extra.map(path => join(srcDir, path)).filter(existsSync)];
+}
+
+for (const file of isShallow ? [] : walkPages(appDir)) {
   const rel = relative(appDir, dirname(file)).replace(/\\/g, '/');
   const route = rel === '' ? '/' : `/${rel}`;
   try {
-    const iso = execFileSync('git', ['log', '-1', '--format=%aI', '--', file], {
+    const iso = execFileSync('git', ['log', '-1', '--format=%aI', '--', ...contentPaths(route, file)], {
       encoding: 'utf8',
       stdio: ['ignore', 'pipe', 'ignore']
     }).trim();
