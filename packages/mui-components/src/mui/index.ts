@@ -33,6 +33,7 @@ import MUISlider, { type MUISliderProps } from './slider';
 import MUISwitch, { type MUISwitchProps } from './switch';
 import MUITagsInput, { type MUITagsInputProps } from './tags-input';
 import MUITextField, { type MUITextFieldProps } from './textfield';
+import MUITextArea, { type MUITextAreaProps } from './text-area';
 import MUIUnitInput, {
   type MUIUnitInputProps,
   type MUIUnitInputValue
@@ -59,6 +60,7 @@ export {
   MUISlider,
   MUISwitch,
   MUITextField,
+  MUITextArea,
   MUITagsInput,
   MUIUnitInput,
   countryList,
@@ -89,6 +91,7 @@ export type {
   MUISwitchProps,
   MUITagsInputProps,
   MUITextFieldProps,
+  MUITextAreaProps,
   MUIUnitInputProps,
   MUIUnitInputValue,
   CountrySelectValueKey,

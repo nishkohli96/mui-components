@@ -1,6 +1,11 @@
 'use client';
 
-import { useContext, type ReactNode, type ChangeEvent } from 'react';
+import {
+  useContext,
+  type ReactNode,
+  type ChangeEvent,
+  type FocusEvent
+} from 'react';
 import TextField from '@mui/material/TextField';
 import {
   FormControl,
@@ -23,77 +28,77 @@ import {
 
 type OnValueChangeProps = {
   newValue: string;
-  event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
+  event: ChangeEvent<HTMLTextAreaElement>;
 };
 
-export type MUITextFieldProps = {
+export type MUITextAreaProps = {
   /**
-   * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
-   */
+	 * Name/path of the field. Used to derive the `id`, the default label, and the `name` attribute.
+	 */
   fieldName: string;
   /**
-   * Current value of the field.
-   *
-   * `undefined`/`null` are treated as an empty string.
-   */
+	 * Current value of the field.
+	 *
+	 * `undefined`/`null` are treated as an empty string.
+	 */
   value?: string | null;
   /**
-   * Called on every input change with the next string value and the original change event.
-   * Call your state setter (or form library's setter) with `newValue` to update `value`.
-   *
-   * @param newValue - Next input string.
-   * @param event - Original input change event.
-   */
+	 * Called on every input change with the next string value and the original change event.
+	 * Call your state setter (or form library's setter) with `newValue` to update `value`.
+	 *
+	 * @param newValue - Next input string.
+	 * @param event - Original input change event.
+	 */
   onValueChange: ({ newValue, event }: OnValueChangeProps) => void;
   /**
-   * When `true`, renders the field label above the form field instead of inside or beside it.
-   */
+	 * When `true`, renders the field label above the form field instead of inside or beside it.
+	 */
   showLabelAboveFormField?: boolean;
   /**
-   * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
-   */
+	 * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+	 */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-   * When `true`, hides the rendered field label while preserving accessible labeling where possible.
-   */
+	 * When `true`, hides the rendered field label while preserving accessible labeling where possible.
+	 */
   hideLabel?: boolean;
   /**
-   * Validation error for the field — pass a single message `string`, or a
-   * `string[]` when the field can fail multiple rules at once (every message
-   * is shown together).
-   *
-   * A non-empty string or a non-empty array puts the field into an error state
-   * and surfaces the message(s) through `FormHelperText`; `undefined`, `''` or
-   * `[]` clear it.
-   *
-   * Use `renderError` to customize how the message(s) are rendered.
-   */
+	 * Validation error for the field — pass a single message `string`, or a
+	 * `string[]` when the field can fail multiple rules at once (every message
+	 * is shown together).
+	 *
+	 * A non-empty string or a non-empty array puts the field into an error state
+	 * and surfaces the message(s) through `FormHelperText`; `undefined`, `''` or
+	 * `[]` clear it.
+	 *
+	 * Use `renderError` to customize how the message(s) are rendered.
+	 */
   errorMessage?: string | string[];
   /**
-   * Custom renderer for the resolved error message(s), called only when the
-   * field is in an error state. Always receives a `string[]` — use `errors[0]`
-   * for the common single-message case, or map over `errors` when a field fails
-   * several rules.
-   *
-   * When omitted, a single message renders as plain text and multiple
-   * messages render on separate lines.
-   *
-   * @param errors - Resolved error messages for this field (never empty).
-   */
+	 * Custom renderer for the resolved error message(s), called only when the
+	 * field is in an error state. Always receives a `string[]` — use `errors[0]`
+	 * for the common single-message case, or map over `errors` when a field fails
+	 * several rules.
+	 *
+	 * When omitted, a single message renders as plain text and multiple
+	 * messages render on separate lines.
+	 *
+	 * @param errors - Resolved error messages for this field (never empty).
+	 */
   renderError?: (errors: string[]) => ReactNode;
   /**
-   * If `true`, hides the error message text while keeping the field in an error state.
-   */
+	 * If `true`, hides the error message text while keeping the field in an error state.
+	 */
   hideErrorMessage?: boolean;
   /**
-   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
-   */
+	 * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+	 */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
-   * Custom ids for generated field, label, helper text, and error elements.
-   */
+	 * Custom ids for generated field, label, helper text, and error elements.
+	 */
   customIds?: CustomComponentIds;
-} & TextFieldProps;
+} & Omit<TextFieldProps, 'multiline'>;
 
 /**
  * Controlled wrapper around MUI's `TextField`, wired to a `fieldName` and
@@ -103,11 +108,11 @@ export type MUITextFieldProps = {
  * text out of the box, so callers don't have to wire `FormHelperText`/error
  * state by hand.
  *
- * Docs: [MUITextField](https://mui-components-docs.vercel.app/components/mui/textfield)
+ * Docs: [MUITextArea](https://mui-components-docs.vercel.app/components/mui/text-area)
  *
- * API: [MUITextFieldProps](https://mui-components-docs.vercel.app/components/mui/textfield#api)
+ * API: [MUITextAreaProps](https://mui-components-docs.vercel.app/components/mui/text-area#api)
  */
-const MUITextField = ({
+const MUITextArea = ({
   fieldName,
   required,
   value: muiValue,
@@ -125,9 +130,14 @@ const MUITextField = ({
   formHelperTextProps,
   autoComplete = defaultAutocompleteValue,
   slotProps: muiSlotProps,
+  /**
+	 * Unless the rows prop is set, the height of the text field
+	 * dynamically matches its content.
+	 */
+  rows,
   customIds,
-  ...otherTextFieldProps
-}: MUITextFieldProps) => {
+  ...otherTextAreaProps
+}: MUITextAreaProps) => {
   const {
     fieldId,
     labelId,
@@ -178,7 +188,7 @@ const MUITextField = ({
         />
       )}
       <TextField
-        {...otherTextFieldProps}
+        {...otherTextAreaProps}
         id={fieldId}
         name={fieldName}
         autoComplete={autoComplete}
@@ -189,12 +199,16 @@ const MUITextField = ({
         }
         value={muiValue ?? ''}
         onChange={event => {
-          const newValue = event.target.value;
-          onValueChange({ newValue, event });
+          const changeEvent = event as ChangeEvent<HTMLTextAreaElement>;
+          const newValue = changeEvent.target.value;
+          onValueChange({ newValue, event: changeEvent });
         }}
-        onBlur={blurEvent => {
+        onBlur={event => {
+          const blurEvent = event as FocusEvent<HTMLTextAreaElement, Element>;
           muiOnBlur?.(blurEvent);
         }}
+        multiline
+        rows={rows}
         error={isError}
         disabled={muiDisabled}
         slotProps={{
@@ -223,4 +237,4 @@ const MUITextField = ({
   );
 };
 
-export default MUITextField;
+export default MUITextArea;
