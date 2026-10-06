@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
    * `nosniff` stops MIME-confusion on the SVGs served via `dangerouslyAllowSVG`,
    * and `frame-ancestors`/`X-Frame-Options` block clickjacking of the docs.
    */
+  /* `/index` serves the home page too — 308 it to `/` so there's one URL. */
+  async redirects() {
+    return [{ source: '/index', destination: '/', permanent: true }];
+  },
   async headers() {
     return [
       {
