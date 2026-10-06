@@ -94,7 +94,7 @@ export const pageMetadata: Record<string, Metadata> = {
  * so the same record can back the v2 docs — each `page.mdx` just does
  * `export const metadata = componentMetadata.MUIXxx;`.
  */
-export const componentMetadata: Record<string, Metadata> = {
+const rawComponentMetadata: Record<string, Metadata> = {
   MUITextField: {
     title: 'MUITextField',
     description:
@@ -257,3 +257,30 @@ export const componentMetadata: Record<string, Metadata> = {
 };
 
 export const formSubmitEventName = 'form_submit';
+
+const titleLabelOverrides: Record<string, string> = { MUITipTapRte: 'Tiptap Rich Text Editor' };
+
+/*
+ * Searchers type "react material ui text field", not "MUITextField", so every
+ * component's `<title>` gets a descriptor, built from the key. `absolute`
+ * skips the layout's ` | MUI Components` suffix, which would push most past
+ * ~60 chars; over-long names drop " for React", then "Material UI".
+ */
+const componentTitle = (name: string) => {
+  const label = titleLabelOverrides[name]
+    ?? name.slice(3).replace(/([a-z])([A-Z])/g, '$1 $2').replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
+  return [
+    `${name} — Material UI ${label} for React`,
+    `${name} — Material UI ${label}`,
+    `${name} — ${label}`
+  ].find(title => title.length <= 60)!;
+};
+
+export const componentMetadata: Record<string, Metadata> = Object.fromEntries(
+  Object.entries(rawComponentMetadata).map(([name, metadata]) => [
+    name,
+    name.startsWith('MUI')
+      ? { ...metadata, title: { absolute: componentTitle(name) } }
+      : metadata
+  ])
+);
