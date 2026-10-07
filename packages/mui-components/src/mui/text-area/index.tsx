@@ -70,7 +70,8 @@ export type MUITextAreaProps = {
   /**
 	 * When `true`, shows a `current/max` character counter at the bottom-right
 	 * inside the field, in its own strip below the text so typed content never
-	 * runs under it. Has no effect unless `maxChars` is set.
+	 * runs under it. Has no effect unless `maxChars` is set. Passing
+	 * `renderCharLimit` also shows the counter, so this can be omitted then.
 	 *
 	 * Replaces any `slotProps.input.endAdornment` while shown. Use
 	 * `renderCharLimit` to customize what the counter renders.
@@ -78,8 +79,9 @@ export type MUITextAreaProps = {
   showCharLimit?: boolean;
   /**
 	 * Custom renderer for the character counter, replacing the default
-	 * `current/max` text. Only used when `showCharLimit` is `true` and `maxChars`
-	 * is set; the counter keeps its bottom-right strip inside the field.
+	 * `current/max` text. Providing it shows the counter even without
+	 * `showCharLimit`, as long as `maxChars` is set; the counter keeps its
+	 * bottom-right strip inside the field.
 	 *
 	 * @param charCount - Current number of characters in `value`.
 	 * @param maxChars - The `maxChars` limit.
@@ -195,7 +197,7 @@ const MUITextArea = ({
     : defaultFieldLabel;
 
   const charCount = muiValue?.length ?? 0;
-  const charLimitNode = showCharLimit && maxChars !== undefined
+  const charLimitNode = (showCharLimit || renderCharLimit) && maxChars !== undefined
     ? (
       <Box sx={{ alignSelf: 'flex-end', mt: 0.5 }}>
         {renderCharLimit

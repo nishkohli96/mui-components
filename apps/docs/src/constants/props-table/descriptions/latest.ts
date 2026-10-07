@@ -706,13 +706,13 @@ export const PropsDescription = Object.freeze({
   showCharLimit_TextArea: {
     name: 'showCharLimit',
     description:
-      'When `true`, shows a `current/max` character counter at the bottom-right inside the field, in its own strip below the text so typed content never runs under it. Has no effect unless `maxChars` is set. Replaces any `slotProps.input.endAdornment` while shown.',
+      'When `true`, shows a `current/max` character counter at the bottom-right inside the field, in its own strip below the text so typed content never runs under it. Has no effect unless `maxChars` is set. Passing `renderCharLimit` also shows the counter, so this can be omitted then. Replaces any `slotProps.input.endAdornment` while shown.',
     type: 'boolean'
   },
   renderCharLimit_TextArea: {
     name: 'renderCharLimit',
     description:
-      'Custom renderer for the character counter, replacing the default `current/max` text. Only used when `showCharLimit` is `true` and `maxChars` is set; the counter keeps its bottom-right strip inside the field.',
+      'Custom renderer for the character counter, replacing the default `current/max` text. Providing it shows the counter even without `showCharLimit`, as long as `maxChars` is set; the counter keeps its bottom-right strip inside the field.',
     type: '(charCount: number, maxChars: number) => ReactNode'
   },
   rows_TextArea: {

@@ -128,7 +128,6 @@ export default function TextAreaForm() {
             variant="filled"
             rows={4}
             maxChars={feedbackMaxChars}
-            showCharLimit
             renderCharLimit={(charCount, maxChars) => {
               const isReachingCharLimit = maxChars - charCount <= 10;
               return (
