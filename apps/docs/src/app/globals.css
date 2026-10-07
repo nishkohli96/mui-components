@@ -243,9 +243,8 @@ body {
 
 .doc-code-copy {
   position: absolute !important;
-  top: 50%;
+  top: 8px;
   right: 8px;
-  transform: translateY(-50%);
   color: rgba(0, 0, 0, 0.55) !important;
   background-color: rgba(0, 0, 0, 0.05) !important;
 }

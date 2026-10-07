@@ -40,6 +40,10 @@ import MUIAutocompleteObject, {
 } from '@nish1896/mui-components/mui/autocomplete-object';
 ```
 
+`options` must be an **array of objects**, and both `labelKey` and `valueKey`
+**are required**. `labelKey` is the property used as each option's visible label,
+and `valueKey` identifies an option value. `value` is the whole option object.
+
 ```tsx
 const [user, setUser] = useState<User | null>(null);
 
@@ -56,30 +60,7 @@ const [user, setUser] = useState<User | null>(null);
 `onValueChange` receives `{ newValue, event, reason, details }`: the
 selected object (or objects) as Material UI reports them, the original
 event, MUI's change `reason` and extra `details`. There is no
-`selectedOption`, because `newValue` already is the option.
-
-### With an array of objects
-
-`options` must be an array of objects, and both `labelKey` and `valueKey` are required. `labelKey` is the
-property used as each option's visible label, and `valueKey` identifies an option. `value` is the whole
-option object, and it matches the option with the same `valueKey` property even when it is a different
-object instance, such as one loaded from your API:
-
-```tsx
-const [user, setUser] = useState<User | null>({ id: 2, name: 'Ravi' });
-
-<MUIAutocompleteObject
-  fieldName="user"
-  options={users}
-  labelKey="name"
-  valueKey="id"
-  value={user}
-  onValueChange={({ newValue }) => setUser(newValue)}
-/>
-```
-
-Here `user` isn't one of the objects in `users`, but it is shown as selected because its `id` matches
-one of the options. With `multiple`, `value` is an `Option[]` and each object is matched the same way.
+`selectedOption`, because `newValue` already has the selected option.
 
 ### Multiple selection
 

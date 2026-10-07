@@ -52,10 +52,10 @@ Material UI selection: the option object, or the typed string with `freeSolo`.
 
 ### With an array of objects
 
-Options can also be objects. Provide both `labelKey` and `valueKey`: `labelKey`
-is the property used as each option's visible label, and `valueKey` is the
-property used as its value. `value` then holds the `valueKey` property of
-the selected option, not the whole object.
+Options can also be objects. In this case, both `labelKey` and `valueKey`
+**are required**. `labelKey` is the property used as each option's visible
+label, and `valueKey` is the property used as its value. `value` then holds
+the `valueKey` property of the selected option, not the whole object.
 
 To store the whole object, use [MUIAutocompleteObject](autocomplete-object) instead.
 
@@ -67,11 +67,6 @@ To store the whole object, use [MUIAutocompleteObject](autocomplete-object) inst
   valueKey="iso3"
 />
 ```
-
-<Callout type="warning">
-  If either `labelKey` or `valueKey` is missing or when `options` is not
-  an array, an error is thrown.
-</Callout>
 
 ### Multiple selection
 

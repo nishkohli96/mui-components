@@ -14,26 +14,14 @@ export default function Layout({ children }) {
 rendering each option with a checkbox and an optional "**Select All**" row.
 It stores an array of **string** values. 
 
-This feature is particularly useful for scenarios where users need to handle bulk selections,
-such as assigning multiple tags, selecting categories, or choosing items in batch operations.
-The implementation stays flexible while preserving the same validation, customization, and
-styling options as `MUIAutocomplete`.
+This feature is particularly useful for scenarios where users need to handle
+bulk selections, such as assigning multiple tags, selecting categories, or
+choosing items in batch operations. The implementation stays flexible while
+preserving the same validation, customization, and styling options as
+[MUIAutocomplete](autocomplete).
 
-Use [MUIMultiAutocompleteObject](multi-autocomplete-object) when you need to store full option objects.
-
-<Callout type="note">
-  Even though `freeSolo` prop is supported, but is not compatible with `selectAllText`
-  and will hide the "**Select All**" option.
-
-  When using `freeSolo` with object-based options, custom renderers such as `renderValue`,
-  `renderTags`, or `renderOptionLabel` should handle both option objects and user-entered
-  string values. A common approach is:
-
-  ```ts
-  typeof value === 'string'
-  ```
-  to distinguish free-form input from predefined option objects.
-</Callout>
+Use [MUIMultiAutocompleteObject](multi-autocomplete-object) when you need
+to store full option objects.
 
 ## Usage
 
@@ -51,6 +39,189 @@ const [skills, setSkills] = useState<string[]>([]);
   options={['React', 'Vue', 'Angular', 'Svelte']}
   value={skills}
   onValueChange={({ newValue }) => setSkills(newValue)}
+/>
+```
+
+The type of `value` is a `string[]` when the `options` is an array of
+strings, or the `valueKey` property for an array of objects. `undefined`,
+`null` and `[]` all mean no selection, and clearing the field gives `[]`.
+Every option has a checkbox, and the menu stays open while the user picks.
+Selected values are shown as chips.
+
+`onValueChange` receives `{ newValue, selectedOption }`: the next array,
+and the value that triggered the change. The value of `selectedOption` is
+`'__ALL__'` when "**Select All**" is toggled, and `undefined` when the field
+is cleared. There is no `event` or `reason`, unlike `MUIAutocomplete`.
+
+### With an array of objects
+
+Options can also be an array of objects, and in this case both `labelKey`
+and `valueKey` **are required**. `labelKey` is the property used as each
+option's visible label, and `valueKey` is the property used as its value.
+`value` is then a `string[]` of the `valueKey` properties of the selected
+options, not the whole objects.
+
+To store the whole objects, use
+[MUIMultiAutocompleteObject](multi-autocomplete-object) instead.
+
+```tsx
+const [planIds, setPlanIds] = useState<string[]>([]);
+
+<MUIMultiAutocomplete
+  fieldName="plans"
+  options={[
+    { id: 'free', name: 'Free' },
+    { id: 'pro', name: 'Pro' },
+    { id: 'team', name: 'Team' }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  value={planIds}
+  onValueChange={({ newValue }) => setPlanIds(newValue)}
+/>
+```
+
+### Select All
+
+A "**Select All**" row is added at the top of the menu. `selectAllText`
+changes its text (`Select All` by default) and `hideSelectAllOption`
+removes it. It is also hidden automatically when there are fewer than
+two options that can be selected, or when `freeSolo` is on. Its checkbox
+is checked when every option is selected and indeterminate when only some
+are, and clicking it again deselects everything.
+
+Disabled options (see `getOptionDisabled` below) are left alone. Select All
+adds every selectable option and keeps the disabled ones as they are, and
+deselecting keeps only the disabled ones that were already selected.
+They don't count towards the checkbox's checked or indeterminate state.
+
+```tsx
+<MUIMultiAutocomplete
+  fieldName="skills"
+  options={['React', 'Vue', 'Angular', 'Svelte']}
+  value={skills}
+  onValueChange={({ newValue }) => setSkills(newValue)}
+  selectAllText="All skills"
+/>
+```
+
+Pass `hideSelectAllOption` to remove the row entirely.
+
+### Customizing individual options
+
+`renderOptionLabel` customizes the label shown next to an option's checkbox.
+It receives the option and a state object with `selected`, `index`, `inputValue`
+and `disabled`, so the label can react to the option's status.
+
+`getOptionDisabled` receives an option and returns `true` to disable it.
+
+```tsx
+<MUIMultiAutocomplete
+  fieldName="plans"
+  options={[
+    { id: 'free', name: 'Free', soldOut: false },
+    { id: 'pro', name: 'Pro', soldOut: false },
+    { id: 'team', name: 'Team', soldOut: true }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  value={plans}
+  onValueChange={({ newValue }) => setPlans(newValue)}
+  getOptionDisabled={option => option.soldOut}
+  renderOptionLabel={(option, { disabled }) => (
+    <span style={{ opacity: disabled ? 0.5 : 1 }}>
+      {option.name}{disabled ? ' (sold out)' : ''}
+    </span>
+  )}
+/>
+```
+
+### Styling the checkboxes
+
+`checkboxProps` is forwarded to every `Checkbox`, and `formControlLabelProps`
+to every `FormControlLabel` that wraps it. The `sx` of `formControlLabelProps`
+is merged with the default `FormControlLabel` styles from `ConfigProvider`.
+
+```tsx
+<MUIMultiAutocomplete
+  fieldName="skills"
+  options={['React', 'Vue', 'Angular', 'Svelte']}
+  value={skills}
+  onValueChange={({ newValue }) => setSkills(newValue)}
+  checkboxProps={{ size: 'small', color: 'secondary' }}
+  formControlLabelProps={{ sx: { m: 0 } }}
+/>
+```
+
+### Limiting the visible chips
+
+While the field is not focused, only the first `limitTags` chips (default `2`)
+are shown, followed by a "**+N More**" chip. `limitTags={-1}` shows all of
+them, and `getLimitTagsText` receives the number of hidden chips and returns
+your own text. `ChipProps` customizes the chips.
+
+```tsx
+<MUIMultiAutocomplete
+  fieldName="skills"
+  options={['React', 'Vue', 'Angular', 'Svelte']}
+  value={skills}
+  onValueChange={({ newValue }) => setSkills(newValue)}
+  limitTags={3}
+  getLimitTagsText={hiddenCount => `+${hiddenCount} skills`}
+  ChipProps={{ color: 'primary', size: 'small' }}
+/>
+```
+
+### Free text entry
+
+`freeSolo` lets the user add a value that isn't in `options`. The typed
+string is passed to `onValueChange` as it is, and shown as a chip.
+`autoSelect` defaults to `true` with `freeSolo`, so text typed in the field
+is committed when it loses focus. Pass `autoSelect={false}` to require Enter. 
+
+```tsx
+<MUIMultiAutocomplete
+  fieldName="tags"
+  options={['bug', 'feature', 'docs']}
+  value={tags}
+  onValueChange={({ newValue }) => setTags(newValue)}
+  freeSolo
+/>
+```
+
+<Callout type="note">
+  Even though `freeSolo` prop is supported, but is not compatible with
+  `selectAllText` and will hide the "**Select All**" option.
+
+  When using `freeSolo` with object-based options, custom renderers such
+  as `renderValue`, `renderTags`, or `renderOptionLabel` should handle both
+  option objects and user-entered string values. A common approach is:
+
+  ```ts
+  typeof value === 'string'
+  ```
+  to distinguish free-form input from predefined option objects.
+</Callout>
+
+### Clearing, loading and placeholder
+
+A clear button is shown once there is a selection, and `disableClearable`
+removes it. Set `loading` while the options are being fetched: a small
+spinner appears at the end of the input (customize it with
+`circularProgressProps`), and the popup shows the loading text instead
+of "No options" when there are no options yet. `autoHighlight` is `true`
+by default, which differs from Material UI, so the first option is
+highlighted as the user types. A `placeholder` in `textFieldProps` is
+shown only while nothing is selected.
+
+```tsx
+<MUIMultiAutocomplete
+  fieldName="skills"
+  options={['React', 'Vue', 'Angular', 'Svelte']}
+  value={skills}
+  onValueChange={({ newValue }) => setSkills(newValue)}
+  loading={isFetchingSkills}
+  textFieldProps={{ placeholder: 'Pick your skills' }}
 />
 ```
 

@@ -47,7 +47,8 @@ the Material UI change event, and the selected option element.
 
 ### With an array of objects
 
-When `options` is an array of objects, `labelKey` and `valueKey` must be supplied:
+When `options` is an array of objects,  both `labelKey` and `valueKey`
+**are required**.
 
 - `labelKey`: the property used as each option's visible label.
 - `valueKey`: the property used as each option's value.
@@ -70,11 +71,6 @@ For example:
   multiple
 />
 ```
-
-<Callout type="warning">
-  If either `labelKey` or `valueKey` is missing or when `options` is not
-  an array, an error is thrown.
-</Callout>
 
 ### Default option & placeholder
 
