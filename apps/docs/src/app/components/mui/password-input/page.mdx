@@ -20,6 +20,18 @@ error state and helper text, and stays a plain controlled component.
 import MUIPasswordInput, { MUIPasswordInputProps } from '@nish1896/mui-components/mui/password-input';
 ```
 
+`MUIPasswordInput` is a controlled input: pass `fieldName`, `value` and `onValueChange`, and it handles
+the rest.
+
+- A show/hide button at the end of the field swaps the input `type` between `password` and
+  `text`. It is a real button, so it works from the keyboard, and clicking it doesn't take
+  focus away from the input.
+- The button's accessible name switches between "Show password" and "Hide password".
+- `autoComplete` defaults to `off`. Set it to `current-password` on a login form, or
+  `new-password` when creating or changing a password, so password managers can fill or
+  offer to save it.
+
+
 ```tsx
 const [password, setPassword] = useState();
 
@@ -29,6 +41,102 @@ const [password, setPassword] = useState();
   onValueChange={({ newValue }) => setPassword(newValue)}
 />
 ```
+
+The sections below show how to customize the button with `showPasswordIcon`,
+`hidePasswordIcon` and `iconButtonProps`.
+
+### Custom show/hide icons
+
+`showPasswordIcon` is displayed while the password is hidden (clicking it reveals the value),
+and `hidePasswordIcon` while it is visible (clicking it hides the value). They default to the
+Material `Visibility` and `VisibilityOff` icons, and accept any `ReactNode`:
+
+```tsx
+import KeyIcon from '@mui/icons-material/Key';
+import KeyOffIcon from '@mui/icons-material/KeyOff';
+
+<MUIPasswordInput
+  fieldName="password"
+  value={password}
+  onValueChange={({ newValue }) => setPassword(newValue)}
+  showPasswordIcon={<KeyIcon />}
+  hidePasswordIcon={<KeyOffIcon />}
+/>
+```
+
+Plain text works too. Give the button a rounded-rectangle shape so the text fits:
+
+```tsx
+<MUIPasswordInput
+  fieldName="password"
+  value={password}
+  onValueChange={({ newValue }) => setPassword(newValue)}
+  showPasswordIcon="Show"
+  hidePasswordIcon="Hide"
+  iconButtonProps={{
+    sx: {
+      borderRadius: 1,
+      px: 1.5,
+      fontSize: 14
+    }
+  }}
+/>
+```
+
+### Styling the toggle button
+
+`iconButtonProps` forwards [IconButtonProps](https://mui.com/material-ui/api/icon-button/)
+to the toggle, for example a `size`, `color` or `sx`:
+
+```tsx
+<MUIPasswordInput
+  fieldName="password"
+  value={password}
+  onValueChange={({ newValue }) => setPassword(newValue)}
+  iconButtonProps={{
+    size: 'small',
+    color: 'warning',
+    sx: { '&:hover': { bgcolor: 'action.selected' } }
+  }}
+/>
+```
+
+`type`, `onClick`, `onMouseDown`, `edge`, `disabled` and `aria-label` are controlled by the
+component, so overriding them has no effect. In particular:
+
+- There is no callback for the visibility change, since `onClick` can't be replaced.
+- The accessible name is fixed to "Show password" / "Hide password".
+
+### Adding your own end adornment
+
+An end adornment passed through `slotProps.input` is rendered before the toggle, so both
+stay in the field:
+
+```tsx
+import InputAdornment from '@mui/material/InputAdornment';
+import LockIcon from '@mui/icons-material/Lock';
+
+<MUIPasswordInput
+  fieldName="password"
+  value={password}
+  onValueChange={({ newValue }) => setPassword(newValue)}
+  slotProps={{
+    input: {
+      endAdornment: (
+        <InputAdornment position="end">
+          <LockIcon fontSize="small" />
+        </InputAdornment>
+      )
+    }
+  }}
+/>
+```
+
+### Read-only and disabled
+
+With `readOnly`, the value can't be edited but the toggle still works, so
+the user can reveal it to verify it. `disabled` makes the whole field inert,
+including the toggle.
 
 ## API
 
@@ -51,6 +159,7 @@ validates against another field, and there are custom show/hide icons.
 
 ## Reference
 - [TextField with Input Adornment](https://mui.com/material-ui/react-text-field/#input-adornments)
+- [MUI IconButton](https://mui.com/material-ui/api/icon-button/)
 
 ## Source Code
 
