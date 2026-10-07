@@ -32,7 +32,7 @@ export default function Layout({ children }) {
 import MUIFileUploader, { MUIFileUploaderProps } from '@nish1896/mui-components/mui/file-uploader';
 ```
 
-Here is a basic example of the component configured to accept a single file:
+Here is a basic example of the component configured to accept a single file.
 
 ```tsx
 const [file, setFile] = useState<File | null>(null);
@@ -43,6 +43,17 @@ const [file, setFile] = useState<File | null>(null);
   onValueChange={({ newValue }) => setFile(newValue)}
 />
 ```
+
+You can also pass `multiple` prop to allow selection of multiple files.
+
+`value` is a single `File`, or `null` when empty, and a `File[]` when `multiple`
+is set. Removing the last file yields `null` for a single-file field and `[]` for
+a multi-file field. `onValueChange` receives `{ newValue, event }`, where `event`
+is the input change, drop or remove-button click that caused the change.
+
+The component only manages the files. It doesn't list them, so render the selected
+files with `renderFileItem` and the server-side ones with `existingFiles` and
+`renderExistingFileItem` props(see below).
 
 A file object has the following properties:
 
@@ -56,6 +67,7 @@ A file object has the following properties:
   webkitRelativePath: ""
 }
 ```
+
 When uploading files through an API, send them in a **FormData** object.
 
 ```ts
@@ -73,50 +85,17 @@ async function onFormSubmit(formValues: FormSchema) {
 }
 ```
 
-On a Node.js Express server, you can handle this incoming data with the [Multer](https://www.npmjs.com/package/multer) middleware.
+On a Node.js Express server, you can handle this incoming data with the
+[Multer](https://www.npmjs.com/package/multer) middleware.
+
 See:
 - <MuiLink href={externalLinks.githubExamples.multerFileUpload} target="_blank" rel="noopener noreferrer">Multer File Upload Example</MuiLink>
 - <MuiLink href={externalLinks.githubExamples.fileUploadMiddleware} target="_blank" rel="noopener noreferrer">File Upload Middleware Examples</MuiLink>
 
-### Multiple Files & Validation
-
-`MUIFileUploader` can be configured to:
-- Accept multiple files
-- Restrict file types using `accept`
-- Limit file size using `maxSize`
-- Limit uploaded file count using `maxFiles`
-- Handle upload validation errors
-- Render custom upload buttons
-- Render custom file items
-
-```jsx
-const [files, setFiles] = useState<File[] | null>(null);
-
-<MUIFileUploader
-  fieldName="pictures"
-  value={files}
-  onValueChange={({ newValue }) => setFiles(newValue)}
-  multiple
-  accept="image/*"
-  maxFiles={3}
-  maxSize={5 * 1024 * 1024}
-  onUploadError={(errors) => {
-    alert(`${errors.length} file(s) were rejected.`);
-  }}
-/>
-```
-
 ### Drag and Drop
 
-Drag-and-drop uploads are enabled by default.
-
-```jsx
-<MUIFileUploader
-  fieldName="documents"
-/>
-```
-
-Disable drag-and-drop:
+Drag-and-drop uploads are enabled by default, but can be disabled
+using the `disableDragAndDrop` prop.
 
 ```jsx
 <MUIFileUploader
@@ -157,29 +136,6 @@ type FileUploaderDropZoneState = {
 };
 ```
 
-### Existing Files
-
-Use `existingFiles` to display files that have already been uploaded and stored on the server.
-
-```tsx
-<MUIFileUploader
-  fieldName="documents"
-  existingFiles={[
-    {
-      name: 'contract.pdf',
-      url: '/uploads/contract.pdf',
-      size: 102400
-    },
-    {
-      name: 'invoice.pdf',
-      url: '/uploads/invoice.pdf'
-    }
-  ]}
-/>
-```
-
-Existing files are rendered separately from newly uploaded files and are counted toward the `maxFiles` limit.
-
 ### Custom Upload Button
 
 Use `renderUploadButton` to provide a fully custom upload control.
@@ -200,7 +156,7 @@ Use `renderUploadButton` to provide a fully custom upload control.
 />
 ```
 
-### Custom File Rendering
+### Render Uploaded File
 
 Use `renderFileItem` to customize how newly uploaded files are displayed.
 
@@ -236,6 +192,33 @@ The renderer receives:
   ) => void;
 }
 ```
+
+### Existing Files
+
+Use `existingFiles` to display files that have already been uploaded and stored on the server.
+
+```tsx
+<MUIFileUploader
+  fieldName="documents"
+  existingFiles={[
+    {
+      name: 'contract.pdf',
+      url: '/uploads/contract.pdf',
+      size: 102400
+    },
+    {
+      name: 'invoice.pdf',
+      url: '/uploads/invoice.pdf'
+    }
+  ]}
+/>
+```
+
+Existing files are rendered separately from newly uploaded files and are counted toward the `maxFiles` limit.
+
+Existing files are rendered only when `renderExistingFileItem` is provided. They are not part of
+`value`, and the component never removes them, so handle deletion in your own renderer and update
+`existingFiles` yourself.
 
 ### Custom Existing File Rendering
 
@@ -273,6 +256,124 @@ The renderer receives:
   };
   index: number;
 }
+```
+
+Neither the selected files nor the existing files are listed unless you provide the matching
+renderer. Both lists are rendered below the helper text, with the existing files first. Style
+their wrapper `Box` with `existingFileListProps` and `uploadedFileListProps`:
+
+```jsx
+<MUIFileUploader
+  fieldName="documents"
+  multiple
+  existingFiles={existingFiles}
+  renderExistingFileItem={({ file }) => <Typography>{file.name}</Typography>}
+  renderFileItem={({ file }) => <Typography>{file.name}</Typography>}
+  existingFileListProps={{ sx: { mt: 2 } }}
+  uploadedFileListProps={{ sx: { mt: 2, display: 'grid', gap: 1 } }}
+/>
+```
+
+## Validation
+
+`MUIFileUploader` can be configured to:
+- Accept multiple files
+- Restrict file types using `accept`
+- Limit file size using `maxSize`
+- Limit uploaded file count using `maxFiles`
+- Handle upload validation errors
+- Render custom upload buttons
+- Render custom file items
+
+```jsx
+const [files, setFiles] = useState<File[] | null>(null);
+
+<MUIFileUploader
+  fieldName="pictures"
+  value={files}
+  onValueChange={({ newValue }) => setFiles(newValue)}
+  multiple
+  accept="image/*"
+  maxFiles={3}
+  maxSize={5 * 1024 * 1024}
+  onUploadError={(errors) => {
+    alert(`${errors.length} file(s) were rejected.`);
+  }}
+/>
+```
+
+Every incoming file, whether it is picked from the dialog or dropped, is checked on its own:
+
+- `accept` is a comma-separated list of MIME types (`image/png`), wildcards (`image/*`) and
+  extensions (`.pdf`). Matching ignores case, and the same list also filters the browser's file
+  dialog. An extension is compared with the part of the name after the last dot, so `.gz` matches
+  `archive.tar.gz` but `.tar.gz` doesn't.
+- `maxSize` is in bytes, so `5 * 1024 * 1024` is 5 MB.
+- `maxFiles` caps the total. Files from `existingFiles`, files that are already selected and the
+  incoming batch all count towards it, and only the excess files are rejected.
+
+Rejected files are never added to `value`, while the valid files from the same batch still are.
+With `multiple`, accepted files are appended to the current ones. Without it, a valid file
+replaces the current one, and a rejected file leaves the current one in place. In that mode the
+selected file isn't counted by `maxFiles`, since it is replaced.
+
+### Handling upload errors
+
+`onUploadError` is called with one `FileUploadErrorDetails` entry per rejected file: `{ file, errors }`.
+`errors` lists the `FileUploadError` values that apply, and a file can fail more than one check:
+
+| Value | Reported when |
+|---|---|
+| `FileUploadError.sizeExceeded` (`'FILE_SIZE_EXCEEDED'`) | The file is larger than `maxSize` |
+| `FileUploadError.invalidExtension` (`'FILE_TYPE_NOT_ALLOWED'`) | The file doesn't match `accept` |
+| `FileUploadError.limitExceeded` (`'FILE_LIMIT_EXCEEDED'`) | The file is beyond the `maxFiles` limit |
+
+The callback isn't called when every file is accepted. Use it to set `errorMessage`.
+
+`onUploadError` runs just before `onValueChange` in the same event, and `onValueChange` is still
+called when every file was rejected, with the unchanged value. Clearing the message there
+unconditionally would remove it right after it is set, so remember whether the batch had
+rejections, as in this example:
+
+```tsx
+import MUIFileUploader, {
+  FileUploadError,
+  type FileUploadErrorDetails
+} from '@nish1896/mui-components/mui/file-uploader';
+
+const [uploadError, setUploadError] = useState<string[]>();
+const hadRejections = useRef(false);
+
+function handleUploadError(rejected: FileUploadErrorDetails[]) {
+  hadRejections.current = true;
+  setUploadError(rejected.map(({ file, errors }) => {
+    if (errors.includes(FileUploadError.sizeExceeded)) {
+      return `${file.name} is larger than 5 MB`;
+    }
+    if (errors.includes(FileUploadError.invalidExtension)) {
+      return `${file.name} is not an image`;
+    }
+    return `${file.name} was not added: too many files`;
+  }));
+}
+
+<MUIFileUploader
+  fieldName="pictures"
+  value={files}
+  onValueChange={({ newValue }) => {
+    setFiles(newValue);
+    if (!hadRejections.current) {
+      setUploadError(undefined);
+    }
+    hadRejections.current = false;
+  }}
+  multiple
+  accept="image/*"
+  maxFiles={3}
+  maxSize={5 * 1024 * 1024}
+  onUploadError={handleUploadError}
+  errorMessage={uploadError}
+/>
 ```
 
 ## API
