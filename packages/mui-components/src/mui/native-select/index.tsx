@@ -26,6 +26,7 @@ import {
   isKeyValueOption,
   normalizeSelectValue,
   useFieldIds,
+  validateArray,
   resolveLabelAboveControl,
   getErrorList
 } from '@/utils';
@@ -224,6 +225,8 @@ const MUINativeSelect = <
   customIds,
   ...otherNativeSelectProps
 }: MUINativeSelectProps<Option, LabelKey, ValueKey>) => {
+  validateArray('MUINativeSelect', options, labelKey, valueKey);
+
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,

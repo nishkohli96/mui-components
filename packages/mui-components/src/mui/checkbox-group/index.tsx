@@ -27,6 +27,7 @@ import {
   coerceValue,
   getOptionValue,
   useFieldIds,
+  validateArray,
   resolveLabelAboveControl,
   getErrorList,
   mergeSx
@@ -240,6 +241,8 @@ const MUICheckboxGroup = <
   formHelperTextProps,
   customIds
 }: MUICheckboxGroupProps<Option, LabelKey, ValueKey, Value>) => {
+  validateArray('MUICheckboxGroup', options, labelKey, valueKey);
+
   const {
     defaultFormControlLabelSx,
     allLabelsAboveFields

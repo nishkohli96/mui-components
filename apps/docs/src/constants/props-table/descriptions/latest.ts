@@ -759,8 +759,13 @@ export const PropsDescription = Object.freeze({
   onUploadError: {
     name: 'onUploadError',
     description:
-      'Callback fired when uploaded files fail type, size, or count validation.',
+      'Callback fired when uploaded files fail type, size, or count validation. Receives one `{ file, errors }` entry per rejected file, where `errors` lists `FileUploadError` enum values. Rejected files are never added to `value`.',
     type: '(errors: FileUploadErrorDetails[]) => void'
+  },
+  onBlur_FileUploader: {
+    name: 'onBlur',
+    description: 'Callback fired when the hidden file `<input>` loses focus, which is handy for "touched" state in form libraries.',
+    type: '(event: FocusEvent<HTMLInputElement>) => void'
   },
   dropZoneProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'dropZoneProps',
@@ -813,7 +818,7 @@ export const PropsDescription = Object.freeze({
   }),
   inputRef_FileUploader: {
     name: 'inputRef',
-    description: 'Ref for the hidden file `<input>` element.',
+    description: 'Ref for the hidden file `<input type="file">` element, for example to open the file dialog from your own control.',
     type: 'Ref<HTMLInputElement>'
   },
   fullWidth_FileUploader: {
@@ -1048,6 +1053,30 @@ export const PropsDescription = Object.freeze({
     description:
       'Placeholder text displayed in the select input itself when no option is selected (not rendered as a selectable menu item).',
     type: 'string'
+  },
+  renderOptionLabel_NativeSelect: {
+    name: 'renderOptionLabel',
+    description:
+      'Custom renderer for the text of each `<option>`. Receives the option and a `{ disabled, selected }` state. A native `<option>` can only display text, so return a string or number rather than elements. When not provided, the label comes from the option itself or the property named by `labelKey`.',
+    type: '(option, state) => ReactNode'
+  },
+  defaultOptionText_NativeSelect: {
+    name: 'defaultOptionText',
+    description:
+      'Text of the default option, which is always rendered first with the value `\'\'`. Falls back to `placeholder`, and is empty when neither is set. The option is disabled when the field is `required`.',
+    type: 'string'
+  },
+  placeholder_NativeSelect: {
+    name: 'placeholder',
+    description:
+      'Text of the default option when `defaultOptionText` is not set. A native `<select>` has no placeholder of its own, so this is only the default option\'s text.',
+    type: 'string'
+  },
+  renderValue_Select: {
+    name: 'renderValue',
+    description:
+      'Custom renderer for the selected value shown in the closed field. Unlike `renderOptionLabel`, which only affects the menu items, this changes what the field itself displays. Receives the normalized value, as an array when `multiple`. By default the selected option label is shown, and the labels are joined with `, ` for `multiple`.',
+    type: '(value) => ReactNode'
   },
   showDefaultOption: {
     name: 'showDefaultOption',

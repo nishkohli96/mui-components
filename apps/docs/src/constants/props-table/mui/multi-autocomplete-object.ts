@@ -18,6 +18,8 @@ const multiAutocompleteObjectRows = (
     P.value_MultiAutocompleteObject,
     P.onValueChange_MultiAutocompleteObject,
     P.disableClearable,
+    P.autoHighlight_Autocomplete,
+    P.loading_Autocomplete,
     P.selectAllText,
     P.hideSelectAllOption,
     P.renderOptionLabel_MultiAutocomplete,

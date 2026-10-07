@@ -17,6 +17,7 @@ const selectRows = (
     P.multiple,
     P.value_Select,
     P.onValueChange_Select,
+    P.renderValue_Select,
     ...(!v1
       ? [resolveProp(P.menuItemProps, args)]
       : [resolveProp(Pv1.menuItemProps, args)]

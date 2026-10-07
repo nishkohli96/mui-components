@@ -42,6 +42,7 @@ import {
   fieldNameToLabel,
   isKeyValueOption,
   useFieldIds,
+  validateArray,
   keepLabelAboveFormField,
   getErrorList,
   mergeSx
@@ -295,6 +296,8 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
   >,
   ref: Ref<HTMLInputElement>
 ) {
+  validateArray('MUIMultiAutocomplete', options, labelKey, valueKey);
+
   const {
     allLabelsAboveFields,
     defaultFormControlLabelSx

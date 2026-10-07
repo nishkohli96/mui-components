@@ -27,6 +27,7 @@ import {
   normalizeSelectValue,
   getOptionValue,
   useFieldIds,
+  validateArray,
   resolveLabelAboveControl,
   getErrorList,
   mergeSx
@@ -233,6 +234,8 @@ const MUIRadioGroup = <
   customIds,
   ...otherRadioGroupProps
 }: MUIRadioGroupProps<Option, LabelKey, ValueKey>) => {
+  validateArray('MUIRadioGroup', options, labelKey, valueKey);
+
   const {
     defaultFormControlLabelSx,
     allLabelsAboveFields

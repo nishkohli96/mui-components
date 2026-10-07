@@ -16,6 +16,7 @@ import {
   keepLabelAboveFormField,
   generateUnitInputFieldNameErrMsg,
   useFieldIds,
+  validateArray,
   getErrorList,
   mergeSx,
 } from '@/utils';
@@ -351,6 +352,7 @@ const MUIUnitInput = <
   if (!fieldName.unit || !fieldName.value) {
     throw new Error(generateUnitInputFieldNameErrMsg());
   }
+  validateArray('MUIUnitInput', unitOptions, labelKey, valueKey, 'unitOptions');
 
   const {
     fieldId: valueFieldId,
