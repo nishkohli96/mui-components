@@ -6,6 +6,7 @@ import {
   type ChangeEvent,
   type FocusEvent
 } from 'react';
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import {
@@ -71,9 +72,19 @@ export type MUITextAreaProps = {
 	 * inside the field, in its own strip below the text so typed content never
 	 * runs under it. Has no effect unless `maxChars` is set.
 	 *
-	 * Replaces any `slotProps.input.endAdornment` while shown.
+	 * Replaces any `slotProps.input.endAdornment` while shown. Use
+	 * `renderCharLimit` to customize what the counter renders.
 	 */
   showCharLimit?: boolean;
+  /**
+	 * Custom renderer for the character counter, replacing the default
+	 * `current/max` text. Only used when `showCharLimit` is `true` and `maxChars`
+	 * is set; the counter keeps its bottom-right strip inside the field.
+	 *
+	 * @param charCount - Current number of characters in `value`.
+	 * @param maxChars - The `maxChars` limit.
+	 */
+  renderCharLimit?: (charCount: number, maxChars: number) => ReactNode;
   /**
 	 * When `true`, renders the field label above the form field instead of inside or beside it.
 	 */
@@ -143,6 +154,7 @@ const MUITextArea = ({
   onValueChange,
   maxChars,
   showCharLimit,
+  renderCharLimit,
   onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
@@ -182,6 +194,29 @@ const MUITextArea = ({
     ? fieldLabel
     : defaultFieldLabel;
 
+  const charCount = muiValue?.length ?? 0;
+  const charLimitNode = showCharLimit && maxChars !== undefined
+    ? (
+      <Box sx={{ alignSelf: 'flex-end', mt: 0.5 }}>
+        {renderCharLimit
+          ? renderCharLimit(charCount, maxChars)
+          : (
+            <Typography
+              variant="caption"
+              sx={{
+                display: 'block',
+                lineHeight: 1,
+                color: 'text.disabled',
+                pointerEvents: 'none'
+              }}
+            >
+              {`${charCount}/${maxChars}`}
+            </Typography>
+          )}
+      </Box>
+    )
+    : undefined;
+
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
   const fieldErrorMessage = isError
@@ -195,7 +230,7 @@ const MUITextArea = ({
         ))
     )
     : undefined;
-  const showCharCounter = !!showCharLimit && maxChars !== undefined;
+
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
   return (
@@ -240,7 +275,7 @@ const MUITextArea = ({
         disabled={muiDisabled}
         slotProps={{
           ...muiSlotProps,
-          input: showCharCounter
+          input: charLimitNode
             ? (ownerState: InputSlotOwnerState) => {
               const userInput = typeof muiSlotProps?.input === 'function'
                 ? muiSlotProps.input(ownerState)
@@ -251,20 +286,7 @@ const MUITextArea = ({
                   { flexDirection: 'column', alignItems: 'stretch', pb: 1 },
                   ...(Array.isArray(userInput?.sx) ? userInput.sx : [userInput?.sx])
                 ],
-                endAdornment: (
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      alignSelf: 'flex-end',
-                      mt: 0.5,
-                      lineHeight: 1,
-                      color: 'text.disabled',
-                      pointerEvents: 'none'
-                    }}
-                  >
-                    {`${muiValue?.length ?? 0}/${maxChars}`}
-                  </Typography>
-                )
+                endAdornment: charLimitNode
               };
             }
             : muiSlotProps?.input,

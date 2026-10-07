@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
 import Checkbox from '@mui/material/Checkbox';
+import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MUITextArea from '@nish1896/mui-components/mui/text-area';
 import {
@@ -119,7 +120,7 @@ export default function TextAreaForm() {
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <FieldVariantInfo title="Fixed rows with maxChars — typing stops at the limit and pasted text is cut to fit" />
+          <FieldVariantInfo title="Fixed rows with maxChars, and a custom counter via renderCharLimit — typing stops at the limit and pasted text is cut to fit" />
           <MUITextArea
             fieldName="feedback"
             value={feedback}
@@ -127,6 +128,20 @@ export default function TextAreaForm() {
             variant="filled"
             rows={4}
             maxChars={feedbackMaxChars}
+            showCharLimit
+            renderCharLimit={(charCount, maxChars) => {
+              const isReachingCharLimit = maxChars - charCount <= 10;
+              return (
+                <Typography
+                  variant="caption"
+                  color={isReachingCharLimit ? 'error' : 'text.secondary'}
+                >
+                  {!isReachingCharLimit
+                    ? `${charCount}/${maxChars} characters`
+                    : `${maxChars - charCount} characters left}`}
+                </Typography>
+              );
+            }}
             disabled={disableAllFields}
             helperText={`Paste a long text — only the first ${feedbackMaxChars} characters are kept`}
           />

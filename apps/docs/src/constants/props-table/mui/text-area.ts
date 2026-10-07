@@ -9,6 +9,7 @@ const textAreaRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   P.onValueChange_Inputs,
   P.maxChars_TextArea,
   P.showCharLimit_TextArea,
+  P.renderCharLimit_TextArea,
   P.rows_TextArea,
   P.label,
   resolveProp(P.showLabelAboveFormField, args),

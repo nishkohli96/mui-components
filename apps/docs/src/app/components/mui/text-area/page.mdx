@@ -70,6 +70,24 @@ sits in its own strip below the text, so typed content never runs under it:
 />
 ```
 
+Pass `renderCharLimit` to replace the default `current/max` text with your own node. It receives
+the current count and `maxChars`:
+
+```tsx
+<MUITextArea
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  maxChars={150}
+  showCharLimit
+  renderCharLimit={(charCount, maxChars) => (
+    <Typography variant="caption" color={maxChars - charCount <= 10 ? 'error' : 'text.secondary'}>
+      {maxChars - charCount} characters left
+    </Typography>
+  )}
+/>
+```
+
 `maxChars` uses the native `maxLength` attribute, which counts UTF-16 code units — an emoji
 counts as 2 characters. A `value` you set from code is not truncated.
 
