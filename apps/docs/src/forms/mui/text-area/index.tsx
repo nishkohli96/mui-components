@@ -133,11 +133,11 @@ export default function TextAreaForm() {
               return (
                 <Typography
                   variant="caption"
-                  color={isReachingCharLimit ? 'error' : 'text.secondary'}
+                  color={isReachingCharLimit ? 'error' : 'info'}
                 >
                   {!isReachingCharLimit
                     ? `${charCount}/${maxChars} characters`
-                    : `${maxChars - charCount} characters left}`}
+                    : `${maxChars - charCount} characters left`}
                 </Typography>
               );
             }}

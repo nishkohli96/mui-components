@@ -63,8 +63,11 @@ export type MUITextAreaProps = {
 	 * at this limit — pasted text is cut to fit — via the native `maxLength`
 	 * attribute, so it also applies to assistive tech and mobile keyboards.
 	 *
-	 * Counts UTF-16 code units, so a single emoji counts as 2. A value set
-	 * programmatically through `value` is not truncated.
+	 * Counts UTF-16 code units, so a single emoji counts as 2.
+	 *
+	 * Limits only user input: a `value` set from code (e.g. an initial value) is
+	 * shown in full even if longer than `maxChars`, and the user can then only
+	 * delete characters. Truncate such values yourself.
 	 */
   maxChars?: number;
   /**

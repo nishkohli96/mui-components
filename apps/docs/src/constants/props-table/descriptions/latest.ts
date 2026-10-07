@@ -700,7 +700,7 @@ export const PropsDescription = Object.freeze({
   maxChars_TextArea: {
     name: 'maxChars',
     description:
-      'Maximum number of characters the field accepts. Typing stops at the limit and pasted text is cut to fit, via the native `maxLength` attribute — so it also applies on mobile keyboards. Counts UTF-16 code units, so an emoji counts as 2. A `value` set from code is not truncated.',
+      'Maximum number of characters the field accepts. Typing stops at the limit and pasted text is cut to fit, via the native `maxLength` attribute — so it also applies on mobile keyboards. Counts UTF-16 code units, so an emoji counts as 2. Limits only user input: a `value` set from code (e.g. an initial value) is shown in full even if longer than `maxChars`, and the user can then only delete characters. Truncate such values yourself.',
     type: 'number'
   },
   showCharLimit_TextArea: {

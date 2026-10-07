@@ -32,7 +32,8 @@ For single-line values, use [MUITextField](/components/mui/textfield) instead.
 import MUITextArea, { MUITextAreaProps } from '@nish1896/mui-components/mui/text-area';
 ```
 
-Provide `fieldName`, `value` and `onValueChange` to render a fully functional text area:
+Provide `fieldName`, `value` and `onValueChange` to render a fully functional text area.
+Set `rows` for a fixed height.
 
 ```tsx
 const [bio, setBio] = useState();
@@ -41,18 +42,38 @@ const [bio, setBio] = useState();
   fieldName="bio"
   value={bio}
   onValueChange={({ newValue }) => setBio(newValue)}
+  rows={4}
 />
 ```
 
-Set `rows` for a fixed height, and `maxChars` to limit the length. Typing past the limit is
-ignored, and a pasted text longer than the room left is truncated:
+Validation stays in your hands — derive `errorMessage` from your own state or form
+library and the field renders in an error state:
+
+```tsx
+<MUITextArea
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  onBlur={() => setBioError(validateBio(bio))}
+  errorMessage={bioError}
+/>
+```
+
+### Character Limit
+
+Setting `maxChars` limits the number of characters. Typing past the limit is
+ignored, and pasted text longer than the remaining room is truncated. `maxChars`
+uses the native `maxLength` attribute, which counts UTF-16 code units, so an emoji
+counts as 2 characters. `maxChars` limits only what the user types or pastes. A `value` set from code, such as an initial
+value or a state update, is shown as is, even when it is longer than `maxChars`. The user can
+then only delete characters, until the length drops below the limit. Truncate such values
+yourself before passing them in.
 
 ```tsx
 <MUITextArea
   fieldName="feedback"
   value={feedback}
   onValueChange={({ newValue }) => setFeedback(newValue)}
-  rows={4}
   maxChars={50}
 />
 ```
@@ -71,7 +92,7 @@ sits in its own strip below the text, so typed content never runs under it:
 ```
 
 Pass `renderCharLimit` to replace the default `current/max` text with your own node. It receives
-the current count and `maxChars`, and shows the counter on its own — `showCharLimit` isn't needed:
+the current count and `maxChars`, and shows the counter on its own. `showCharLimit` isn't needed.
 
 ```tsx
 <MUITextArea
@@ -80,26 +101,13 @@ the current count and `maxChars`, and shows the counter on its own — `showChar
   onValueChange={({ newValue }) => setBio(newValue)}
   maxChars={150}
   renderCharLimit={(charCount, maxChars) => (
-    <Typography variant="caption" color={maxChars - charCount <= 10 ? 'error' : 'text.secondary'}>
+    <Typography
+      variant="caption"
+      color={maxChars - charCount <= 10 ? 'error' : 'text.secondary'}
+    >
       {maxChars - charCount} characters left
     </Typography>
   )}
-/>
-```
-
-`maxChars` uses the native `maxLength` attribute, which counts UTF-16 code units — an emoji
-counts as 2 characters. A `value` you set from code is not truncated.
-
-Validation stays in your hands — derive `errorMessage` from your own state or form
-library and the field renders in an error state:
-
-```tsx
-<MUITextArea
-  fieldName="bio"
-  value={bio}
-  onValueChange={({ newValue }) => setBio(newValue)}
-  onBlur={() => setBioError(validateBio(bio))}
-  errorMessage={bioError}
 />
 ```
 
