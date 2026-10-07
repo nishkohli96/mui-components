@@ -703,6 +703,12 @@ export const PropsDescription = Object.freeze({
       'Maximum number of characters the field accepts. Typing stops at the limit and pasted text is cut to fit, via the native `maxLength` attribute — so it also applies on mobile keyboards. Counts UTF-16 code units, so an emoji counts as 2. A `value` set from code is not truncated.',
     type: 'number'
   },
+  showCharLimit_TextArea: {
+    name: 'showCharLimit',
+    description:
+      'When `true`, shows a `current/max` character counter at the bottom-right inside the field, in its own strip below the text so typed content never runs under it. Has no effect unless `maxChars` is set. Replaces any `slotProps.input.endAdornment` while shown.',
+    type: 'boolean'
+  },
   rows_TextArea: {
     name: 'rows',
     description:

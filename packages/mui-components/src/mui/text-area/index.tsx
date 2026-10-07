@@ -7,6 +7,7 @@ import {
   type FocusEvent
 } from 'react';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import {
   FormControl,
   FormLabel,
@@ -25,6 +26,12 @@ import {
   keepLabelAboveFormField,
   useFieldIds
 } from '@/utils';
+
+type InputSlotFn = Extract<
+  NonNullable<TextFieldProps['slotProps']>['input'],
+  (...args: never[]) => unknown
+>;
+type InputSlotOwnerState = Parameters<InputSlotFn>[0];
 
 type OnValueChangeProps = {
   newValue: string;
@@ -59,6 +66,14 @@ export type MUITextAreaProps = {
 	 * programmatically through `value` is not truncated.
 	 */
   maxChars?: number;
+  /**
+	 * When `true`, shows a `current/max` character counter at the bottom-right
+	 * inside the field, in its own strip below the text so typed content never
+	 * runs under it. Has no effect unless `maxChars` is set.
+	 *
+	 * Replaces any `slotProps.input.endAdornment` while shown.
+	 */
+  showCharLimit?: boolean;
   /**
 	 * When `true`, renders the field label above the form field instead of inside or beside it.
 	 */
@@ -127,6 +142,7 @@ const MUITextArea = ({
   value: muiValue,
   onValueChange,
   maxChars,
+  showCharLimit,
   onBlur: muiOnBlur,
   disabled: muiDisabled,
   label,
@@ -179,6 +195,7 @@ const MUITextArea = ({
         ))
     )
     : undefined;
+  const showCharCounter = !!showCharLimit && maxChars !== undefined;
   const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
 
   return (
@@ -223,6 +240,34 @@ const MUITextArea = ({
         disabled={muiDisabled}
         slotProps={{
           ...muiSlotProps,
+          input: showCharCounter
+            ? (ownerState: InputSlotOwnerState) => {
+              const userInput = typeof muiSlotProps?.input === 'function'
+                ? muiSlotProps.input(ownerState)
+                : muiSlotProps?.input;
+              return {
+                ...userInput,
+                sx: [
+                  { flexDirection: 'column', alignItems: 'stretch', pb: 1 },
+                  ...(Array.isArray(userInput?.sx) ? userInput.sx : [userInput?.sx])
+                ],
+                endAdornment: (
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      alignSelf: 'flex-end',
+                      mt: 0.5,
+                      lineHeight: 1,
+                      color: 'text.disabled',
+                      pointerEvents: 'none'
+                    }}
+                  >
+                    {`${muiValue?.length ?? 0}/${maxChars}`}
+                  </Typography>
+                )
+              };
+            }
+            : muiSlotProps?.input,
           htmlInput: {
             ...muiSlotProps?.htmlInput,
             ...(maxChars !== undefined && { maxLength: maxChars }),

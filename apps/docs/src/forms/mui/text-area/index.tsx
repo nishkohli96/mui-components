@@ -99,7 +99,7 @@ export default function TextAreaForm() {
           />
         </Grid>
         <Grid size={{ xs: 12, md: 6 }}>
-          <FieldVariantInfo title="Auto-growing field with required & min length validation, and a live character counter against maxChars" />
+          <FieldVariantInfo title="Auto-growing field with required & min length validation, and an in-field character counter (showCharLimit)" />
           <MUITextArea
             fieldName="bio"
             value={bio}
@@ -113,7 +113,8 @@ export default function TextAreaForm() {
             errorMessage={bioError}
             disabled={disableAllFields}
             maxChars={bioMaxChars}
-            helperText={`${bio?.length ?? 0}/${bioMaxChars} characters`}
+            showCharLimit
+            helperText="Enter at least 20 characters"
             required
           />
         </Grid>

@@ -54,7 +54,19 @@ ignored, and a pasted text longer than the room left is truncated:
   onValueChange={({ newValue }) => setFeedback(newValue)}
   rows={4}
   maxChars={50}
-  helperText={`${feedback?.length ?? 0}/50 characters`}
+/>
+```
+
+Add `showCharLimit` to render a `current/max` counter at the bottom-right inside the field. It
+sits in its own strip below the text, so typed content never runs under it:
+
+```tsx
+<MUITextArea
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  maxChars={150}
+  showCharLimit
 />
 ```
 
