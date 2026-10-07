@@ -16,9 +16,9 @@ export default function Layout({ children }) {
 # MUICountrySelect
 
 `MUICountrySelect` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
-pre-loaded with a list of <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">250 countries</MuiLink>
-(**flag**, **name**, **dial code**, **ISO**). Store the complete `CountryDetails` object,
-or a single property via `valueKey`. Pin common choices with `preferredCountries`.
+pre-loaded with a list of 250 countries (**flag**, **name**, **ISO** and **ISO3** code).
+Store the complete `CountryDetails` object, or a single property via `valueKey`.
+Pin common choices with `preferredCountries`.
 
 ## Usage
 
@@ -31,40 +31,25 @@ import MUICountrySelect, {
 } from '@nish1896/mui-components/mui/country-select';
 ```
 
-`MUICountrySelect` returns the country property specified by `valueKey`.
-If `valueKey` is omitted, the complete country object is returned instead.
+Without a `valueKey`, `value` is the whole `CountryDetails` object, or
+`null` when nothing is selected:
 
 ```tsx
 const [country, setCountry] = useState<CountryDetails | null>(null);
 
-/* Returns "IND" or "AUS" */
 <MUICountrySelect
   fieldName="country"
-  valueKey="iso3"
-  preferredCountries={['US', 'GB', 'IN']}
   value={country}
   onValueChange={({ newValue }) => setCountry(newValue)}
 />
-
-/**
- * Returns
- * {
- *   name: 'India',
- *   iso: 'IN',
- *   iso3: 'IND',
- *   emoji: '🇮🇳'
- * }
- */
-<MUICountrySelect
-  fieldName="nationality"
-  preferredCountries={['IN', 'US', 'AU']}
-  value={nationality}
-  onValueChange={({ newValue }) => setNationality(newValue)}
-/>
 ```
 
-Each option in the list of 250 countries is represented as an object
-structured as follows:
+`onValueChange` receives `{ newValue, event, reason, details }`: the value
+to store, the original change event, and Material UI's change `reason` and `details`.
+
+### Country data
+
+Each country is an object with a `name`, an `iso` code, an `iso3` code and an `emoji` flag:
 
 ```js
 {
@@ -75,29 +60,57 @@ structured as follows:
 }
 ```
 
-The `iso` key is the default identifier used for country option values,
-providing a compact and consistent way to store selections.
-The `iso` key is strongly typed as `CountryISO`, ensuring type safety
-and consistency during integration. You can also retrieve the ***name***
-or ***iso3*** value(s) by setting the desired key through the `valueKey` prop.
+The `iso` key is strongly typed as `CountryISO`, which keeps `preferredCountries`
+and your own code type safe. The full list of 250 countries is exported as `countryList`,
+so you can read or filter it yourself. Its data comes from <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank" rel="noopener noreferrer">this countries database</MuiLink>.
 
-For developers who need access to all available country data,
-the complete list of countries is provided via the `countryList` export
-from this module.
+### Choosing the stored value
 
-The following code snippet demonstrates an advanced use case where users
-can select multiple countries by their names from a predefined list of
-country options. To improve usability, a set of preferred countries is
-prominently displayed at the top of the dropdown. This prioritization
-keeps frequently chosen options easily accessible and streamlines
-the selection process.
+Set `valueKey` to store a single property of the country instead of the whole object.
+It can be `iso`, `iso3` or `name`.
+
+| `valueKey` | Stored value for India |
+|---|---|
+| none | `{ name: 'India', iso: 'IN', iso3: 'IND', emoji: '🇮🇳' }` |
+| `iso` | `'IN'` |
+| `iso3` | `'IND'` |
+| `name` | `'India'` |
+
+```tsx
+const [country, setCountry] = useState<string | null>(null);
+
+/* newValue is "IND" for India, "AUS" for Australia */
+<MUICountrySelect
+  fieldName="country"
+  valueKey="iso3"
+  value={country}
+  onValueChange={({ newValue }) => setCountry(newValue)}
+/>
+```
+
+The stored value is also how a country is matched. With a `valueKey`, a country
+is matched by that property, and a stored value that isn't in the list isn't shown
+as selected.
+
+When `valueKey` is omitted, countries are matched by `iso`, so an object loaded
+from your API matches as long as its `iso` is the same. Clearing the field gives
+`null`, or `[]` with `multiple`, unless `disableClearable` is set.
+
+### Customizing the country list
+
+By default every country in `countryList` is listed in the options.
+Pass `countries` prop to only render the ones that are required.
 
 ```js
-/* Logic for filtering countries */
-const filteredCountries = countryList.filter(
-  country => ['IN', 'US', 'AU', 'FI', 'UA', 'CN', 'GB', 'JP', 'VN'].includes(country.iso)
-);
+const filteredCountries = countryList.filter(country => (
+  ['IN', 'US', 'AU', 'FI', 'UA', 'CN', 'GB', 'JP', 'VN'].includes(country.iso)
+));
 ```
+
+`preferredCountries` pins countries to the top of the dropdown, by `iso` code.
+They appear in the order you list them, followed by the remaining countries in
+their usual order. A pinned country isn't repeated further down, and a code that
+isn't in the list is ignored. It only changes the order of the options, not the value.
 
 ```jsx
 <MUICountrySelect
@@ -109,6 +122,56 @@ const filteredCountries = countryList.filter(
 />
 ```
 
+### Multiple selection
+
+While the field is not focused, only the first `limitTags` chips (default `2`)
+are shown, followed by a chip such as "+1 Country" or "+3 Countries".
+`limitTags={-1}` shows all of them, and `getLimitTagsText` receives the
+number of hidden chips and returns your own text.
+
+`ChipProps` customizes the chips.
+
+```tsx
+const [countries, setCountries] = useState<string[]>([]);
+
+<MUICountrySelect
+  fieldName="countriesVisited"
+  valueKey="iso"
+  value={countries}
+  onValueChange={({ newValue }) => setCountries(newValue)}
+  multiple
+  limitTags={3}
+  getLimitTagsText={hidden => `+${hidden} more`}
+  ChipProps={{ color: 'primary', size: 'small' }}
+/>
+```
+
+### Custom option labels
+
+Each option shows the country's flag and name by default.
+`renderOptionLabel` replaces that content. It receives the
+country and a state object with `selected`, `index`, `inputValue`
+and `disabled`.
+
+```tsx
+<MUICountrySelect
+  fieldName="country"
+  value={country}
+  onValueChange={({ newValue }) => setCountry(newValue)}
+  renderOptionLabel={(option, { selected }) => (
+    <span style={{ fontWeight: selected ? 700 : 400 }}>
+      {option.emoji} {option.name} ({option.iso3})
+    </span>
+  )}
+/>
+```
+
+### Input and behavior
+
+`textFieldProps` is forwarded to the underlying `TextField`, for example a `placeholder`, `variant` or
+`size`. `autoHighlight` is `true` by default, so the first match is highlighted as the user types and Enter
+selects it. `disableClearable` removes the clear button, and a `ref` gives you the input element. Only
+countries from the list can be selected, so `freeSolo` is not supported.
 
 ## API
 
