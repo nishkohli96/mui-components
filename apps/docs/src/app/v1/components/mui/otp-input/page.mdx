@@ -52,20 +52,85 @@ const [code, setCode] = useState('');
 />
 ```
 
-### Separators and alphanumeric codes
+By default the code is **6** digits long, so the example above renders six boxes. `value` is a
+plain string without separators, such as `'123456'`, and is shorter while the user is still
+typing.
+
+### Customizing the length
+
+Use the `length` prop to change the number of boxes. One box is rendered per character:
+
+```tsx
+<MUIOTPInput
+  fieldName="pin"
+  value={pin}
+  onValueChange={({ newValue }) => setPin(newValue)}
+  length={4}
+/>
+```
+
+`onValueChange` always receives `length` characters or fewer, so `newValue.length === length`
+tells you the code is complete. For example, to verify it as soon as the last box is filled:
+
+```tsx
+<MUIOTPInput
+  fieldName="pin"
+  value={pin}
+  onValueChange={({ newValue }) => {
+    setPin(newValue);
+    if (newValue.length === 4) {
+      verifyPin(newValue);
+    }
+  }}
+  length={4}
+/>
+```
+
+Keep `value.length` within `length`. A longer `value`, or a smaller `length`, is cut down to
+`length` characters on the next `onValueChange`.
+
+### Alphanumeric codes
+
+Only digits are accepted by default, and mobile devices show the numeric keyboard. Set
+`alphanumeric` to also accept the letters `A`–`Z` and `a`–`z`:
+
+```tsx
+<MUIOTPInput
+  fieldName="inviteCode"
+  value={code}
+  onValueChange={({ newValue }) => setCode(newValue.toUpperCase())}
+  length={8}
+  alphanumeric
+/>
+```
+
+The case of the letters is kept as typed, so convert it yourself if your codes are uppercase,
+as above. A pasted code is accepted only if **every** character is allowed. Pasting `w2323s`
+into a digits-only field is ignored entirely, instead of being filtered down to `2323`.
+
+### Separator indexes
+
+`separatorIndexes` lists the zero-based indexes of the boxes that a separator is rendered
+after. With `length={8}`, `separatorIndexes={[2, 5]}` renders as `*** - *** - **`: a separator
+after the 3rd and the 6th box. The default `separator` is `'-'`, and it accepts any `ReactNode`.
 
 ```tsx
 <MUIOTPInput
   fieldName="licenseKey"
   value={code}
   onValueChange={({ newValue }) => setCode(newValue)}
-  length={10}
+  length={8}
   alphanumeric
-  separatorIndexes={[2, 6]}
+  separatorIndexes={[2, 5]}
   separator="–"
   textFieldProps={{ size: 'small' }}
 />
 ```
+
+Separators are only visual. They are hidden from assistive technology and are never part of
+`value`, which stays `'ABC1234XYZ'`. They don't count as characters when pasting either, so paste
+the code without separators. An index equal to the last box is ignored, so no separator is
+rendered after the final box.
 
 ## API
 

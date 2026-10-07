@@ -426,7 +426,10 @@ const MUIOTPInput = ({
               <Box
                 component="span"
                 aria-hidden
-                sx={{ color: 'text.secondary', fontWeight: 600 }}
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 600
+                }}
               >
                 {separator}
               </Box>
