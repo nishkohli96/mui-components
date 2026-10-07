@@ -158,7 +158,12 @@ export default function TextAreaForm() {
             }}
             variant="standard"
             showLabelAboveFormField
-            formLabelProps={{ sx: { color: 'blue', fontWeight: 600 } }}
+            formLabelProps={{
+              sx: {
+                color: 'blue',
+                fontWeight: 600
+              }
+            }}
           />
         </Grid>
         <Grid size={12}>

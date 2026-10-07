@@ -62,14 +62,17 @@ const isShallow = execFileSync('git', ['rev-parse', '--is-shallow-repository'], 
  * that page's date even though `page.mdx` itself was untouched.
  */
 function contentPaths(route, pageFile) {
-  const extra = route === '/'
-    ? ['components/home']
-    : route.startsWith('/components/')
-      ? [
-        `constants/props-table${route.replace('/components', '')}.ts`,
-        `forms${route.replace('/components', '')}`
-      ]
-      : [];
+  let extra = [];
+
+  if (route === '/') {
+    extra = ['components/home'];
+  } else if (route.startsWith('/components/')) {
+    extra = [
+      `constants/props-table${route.replace('/components', '')}.ts`,
+      `forms${route.replace('/components', '')}`
+    ];
+  }
+
   return [pageFile, ...extra.map(path => join(srcDir, path)).filter(existsSync)];
 }
 

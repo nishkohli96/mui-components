@@ -83,42 +83,45 @@ export type MUITextAreaProps = {
   /**
 	 * Custom renderer for the character counter, replacing the default
 	 * `current/max` text. Providing it shows the counter even without
-	 * `showCharLimit`, as long as `maxChars` is set; the counter keeps its
-	 * bottom-right strip inside the field.
+	 * `showCharLimit`, as long as `maxChars` is set; the counter keeps
+   * its bottom-right strip inside the field.
 	 *
 	 * @param charCount - Current number of characters in `value`.
 	 * @param maxChars - The `maxChars` limit.
 	 */
   renderCharLimit?: (charCount: number, maxChars: number) => ReactNode;
   /**
-	 * When `true`, renders the field label above the form field instead of inside or beside it.
+	 * When `true`, renders the field label above the form field instead
+   * of inside or beside it.
 	 */
   showLabelAboveFormField?: boolean;
   /**
-	 * Props forwarded to the internal `FormLabel`. The `id` is managed by the component.
+	 * Props forwarded to the internal `FormLabel`. The `id` is managed
+   * by the component.
 	 */
   formLabelProps?: Omit<FormLabelProps, 'id'>;
   /**
-	 * When `true`, hides the rendered field label while preserving accessible labeling where possible.
+	 * When `true`, hides the rendered field label while preserving
+   * accessible labeling where possible.
 	 */
   hideLabel?: boolean;
   /**
-	 * Validation error for the field — pass a single message `string`, or a
-	 * `string[]` when the field can fail multiple rules at once (every message
-	 * is shown together).
+	 * Validation error for the field — pass a single message `string`,
+   * or a `string[]` when the field can fail multiple rules at once
+   * (every message is shown together).
 	 *
-	 * A non-empty string or a non-empty array puts the field into an error state
-	 * and surfaces the message(s) through `FormHelperText`; `undefined`, `''` or
-	 * `[]` clear it.
+	 * A non-empty string or a non-empty array puts the field into an
+   * error state and surfaces the message(s) through `FormHelperText`;
+   * `undefined`, `''` or `[]` clear it.
 	 *
 	 * Use `renderError` to customize how the message(s) are rendered.
 	 */
   errorMessage?: string | string[];
   /**
-	 * Custom renderer for the resolved error message(s), called only when the
-	 * field is in an error state. Always receives a `string[]` — use `errors[0]`
-	 * for the common single-message case, or map over `errors` when a field fails
-	 * several rules.
+	 * Custom renderer for the resolved error message(s), called only when
+   * the field is in an error state. Always receives a `string[]` — use
+   * `errors[0]` for the common single-message case, or map over `errors`
+   * when a field fails several rules.
 	 *
 	 * When omitted, a single message renders as plain text and multiple
 	 * messages render on separate lines.
@@ -127,11 +130,13 @@ export type MUITextAreaProps = {
 	 */
   renderError?: (errors: string[]) => ReactNode;
   /**
-	 * If `true`, hides the error message text while keeping the field in an error state.
+	 * If `true`, hides the error message text while keeping the field in an
+   * error state.
 	 */
   hideErrorMessage?: boolean;
   /**
-	 * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
+	 * Props forwarded to the internal `FormHelperText`. The `id` is managed
+   * by the component.
 	 */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
@@ -141,8 +146,9 @@ export type MUITextAreaProps = {
 } & Omit<TextFieldProps, 'multiline'>;
 
 /**
- * Controlled wrapper around MUI's `TextField`, wired to a `fieldName` and
- * `value`/`onValueChange` pair instead of raw MUI input events.
+ * Controlled wrapper around MUI's `TextField`, rendering a textarea, wired
+ * to a `fieldName` and `value`/`onValueChange` pair instead of raw MUI
+ * input events.
  *
  * Handles label placement, single/multi-message error display, and helper
  * text out of the box, so callers don't have to wire `FormHelperText`/error
@@ -202,7 +208,7 @@ const MUITextArea = ({
   const charCount = muiValue?.length ?? 0;
   const charLimitNode = (showCharLimit || renderCharLimit) && maxChars !== undefined
     ? (
-      <Box sx={{ alignSelf: 'flex-end', mt: 0.5 }}>
+      <Box sx={{ alignSelf: 'flex-end' }}>
         {renderCharLimit
           ? renderCharLimit(charCount, maxChars)
           : (
@@ -212,7 +218,8 @@ const MUITextArea = ({
                 display: 'block',
                 lineHeight: 1,
                 color: 'text.disabled',
-                pointerEvents: 'none'
+                pointerEvents: 'none',
+                mt: 0.5
               }}
             >
               {`${charCount}/${maxChars}`}
