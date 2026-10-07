@@ -61,13 +61,16 @@ library and the field renders in an error state:
 
 ### Character Limit
 
-Setting `maxChars` limits the number of characters. Typing past the limit is
-ignored, and pasted text longer than the remaining room is truncated. `maxChars`
-uses the native `maxLength` attribute, which counts UTF-16 code units, so an emoji
-counts as 2 characters. `maxChars` limits only what the user types or pastes. A `value` set from code, such as an initial
-value or a state update, is shown as is, even when it is longer than `maxChars`. The user can
-then only delete characters, until the length drops below the limit. Truncate such values
-yourself before passing them in.
+Setting `maxChars` limits the number of characters. Typing past the limit
+is ignored, and pasted text longer than the remaining room is truncated.
+`maxChars` limits only what the user types or pastes. A `value` set from
+code, such as an initial value or a state update, is shown as is, even when
+it is longer than `maxChars`. The user can then only delete characters,
+until the length drops below the limit. Truncate such values yourself
+before passing them in.
+
+`maxChars` uses the native `maxLength` attribute, which counts UTF-16 code units, so an emoji
+counts as 2 characters.
 
 ```tsx
 <MUITextArea
