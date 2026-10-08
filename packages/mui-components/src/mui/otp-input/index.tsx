@@ -398,8 +398,20 @@ const MUIOTPInput = ({
                 }
               }}
               multiline={false}
+              /*
+               * Boxes shrink on narrow viewports (long codes), so the default
+               * horizontal input padding is dropped: it would otherwise eat
+               * the whole box and hide the typed character.
+               */
               sx={mergeSx(
-                { width: 48, '& input': { textAlign: 'center' } },
+                {
+                  width: 48,
+                  minWidth: 0,
+                  '& input': {
+                    textAlign: 'center',
+                    paddingInline: 0
+                  }
+                },
                 textFieldProps?.sx
               )}
               slotProps={{
@@ -428,7 +440,8 @@ const MUIOTPInput = ({
                 aria-hidden
                 sx={{
                   color: 'text.secondary',
-                  fontWeight: 600
+                  fontWeight: 600,
+                  flexShrink: 0
                 }}
               >
                 {separator}

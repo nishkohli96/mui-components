@@ -979,11 +979,10 @@ export const PropsDescription = Object.freeze({
       'When `true`, the highlighted option, or with `freeSolo` the typed text, is committed as the value when the input loses focus.\n\n**Default:** `true` with `freeSolo`, otherwise `false`',
     type: 'boolean'
   },
-  limitTags: {    name: 'limitTags',
+  limitTags: { name: 'limitTags',
     description:
       'Maximum number of selected values shown as chips when the input is not focused. Set `-1` to disable the limit.\n\n**Default:** `2`',
-    type: 'number'
-  },
+    type: 'number' },
   getLimitTagsText: {
     name: 'getLimitTagsText',
     description:

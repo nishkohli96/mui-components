@@ -142,6 +142,38 @@ characters when pasting either, so paste the code without separators. An index
 equal to the last box is ignored, so no separator is rendered after the final
 box.
 
+### Long codes on small screens
+
+The boxes share the available width, so a long code on a narrow viewport makes
+each box shrink. The default horizontal padding of each input can then be wider
+than the box itself, and the typed character is clipped even though it was
+entered.
+
+Remove that padding through `textFieldProps`, using a breakpoint-aware `sx` to
+size the boxes for phones. You can also lower the number of boxes with `length`
+and `separatorIndexes`.
+
+```tsx
+<MUIOTPInput
+  fieldName="licenseKey"
+  value={key}
+  onValueChange={({ newValue }) => setKey(newValue)}
+  length={16}
+  alphanumeric
+  separatorIndexes={[3, 7, 11]}
+  textFieldProps={{
+    size: 'small',
+    sx: {
+      minWidth: 0,
+      width: { xs: 28, sm: 48 },
+      '& input': {
+        paddingInline: { xs: 0, sm: 1 }
+      }
+    }
+  }}
+/>
+```
+
 ## API
 
 `MUIOTPInput` does not spread arbitrary
