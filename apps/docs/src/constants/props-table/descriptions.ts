@@ -356,19 +356,19 @@ export const PropsDescription = Object.freeze({
   },
   showLabelAboveFormField: (args: PropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
-    description: `When \`true\`, renders the field label above the form field in the [FormLabel](${muiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
+    description: `When \`true\`, renders the field label above the form field in the [FormLabel](${muiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it. Takes precedence over \`allLabelsAboveFields\` from the \`ConfigProvider\`, so \`false\` keeps the label inside this field even when the config places every label above its field.`,
     type: 'boolean'
   }),
   showLabelAboveFormField_Default: {
     name: 'showLabelAboveFormField',
     description:
-      'Whether the field label renders above the control. This control has no built-in inline label, so it defaults to `true`; pass `false` to hide the visible label (the accessible name is still applied).\n\n**Default:** `true`',
+      'Whether the field label renders above the control. This control has no built-in inline label, so it defaults to `true`; pass `false` to hide the visible label (the accessible name is still applied). Takes precedence over `allLabelsAboveFields` from the `ConfigProvider`.\n\n**Default:** `true`',
     type: 'boolean'
   },
   showLabelAboveFormField_OTPInput: {
     name: 'showLabelAboveFormField',
     description:
-      'Renders the field label above the boxes. The label is otherwise hidden — there is no inline label, but the accessible name is still applied to every box. Set the value to `true` to render the `FormLabel` for this field.\n\n**Default:** `false`',
+      'Renders the field label above the boxes. The label is otherwise hidden — there is no inline label, but the accessible name is still applied to every box. Set the value to `true` to render the `FormLabel` for this field. Takes precedence over `allLabelsAboveFields` from the `ConfigProvider`.\n\n**Default:** `false`',
     type: 'boolean'
   },
   formLabelProps: (args: PropsDescriptionArgs) => ({
@@ -598,6 +598,30 @@ export const PropsDescription = Object.freeze({
     name: 'maxTags',
     description:
       'Maximum number of tags that can be added. Keyboard entries beyond the limit are ignored; pasted tags are truncated to fit.',
+    type: 'number'
+  },
+  maxChars_TextArea: {
+    name: 'maxChars',
+    description:
+      'Maximum number of characters the field accepts. Typing stops at the limit and pasted text is cut to fit, via the native `maxLength` attribute — so it also applies on mobile keyboards. Counts UTF-16 code units, so an emoji counts as 2. Limits only user input: a `value` set from code (e.g. an initial value) is shown in full even if longer than `maxChars`, and the user can then only delete characters. Truncate such values yourself.',
+    type: 'number'
+  },
+  showCharLimit_TextArea: {
+    name: 'showCharLimit',
+    description:
+      'When `true`, shows a `current/max` character counter at the bottom-right inside the field, in its own strip below the text so typed content never runs under it. Has no effect unless `maxChars` is set. Passing `renderCharLimit` also shows the counter, so this can be omitted then. Replaces any `slotProps.input.endAdornment` while shown.',
+    type: 'boolean'
+  },
+  renderCharLimit_TextArea: {
+    name: 'renderCharLimit',
+    description:
+      'Custom renderer for the character counter, replacing the default `current/max` text. Providing it shows the counter even without `showCharLimit`, as long as `maxChars` is set; the counter keeps its bottom-right strip inside the field.',
+    type: '(charCount: number, maxChars: number) => ReactNode'
+  },
+  rows_TextArea: {
+    name: 'rows',
+    description:
+      'Fixed number of visible text rows. When omitted, the field starts at one row and grows with its content.',
     type: 'number'
   },
   limitTags_TagsInput: {

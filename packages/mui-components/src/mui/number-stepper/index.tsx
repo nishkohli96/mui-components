@@ -29,7 +29,8 @@ import {
   isAtMaxBound,
   useFieldIds,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 
@@ -140,7 +141,7 @@ const MUINumberStepper = ({
         ))
     )
     : undefined;
-  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+  const showHelperTextElement = !!(hasContent(helperText) || (isError && !hideErrorMessage));
 
   const resolvedStepAmount = resolveStepAmount(stepAmount, onlyIntegers);
   const {

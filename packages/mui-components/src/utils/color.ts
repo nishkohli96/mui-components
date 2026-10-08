@@ -15,6 +15,8 @@ type ColorObject = {
  * @param type - `'rgb'` or `'hsv'` to specify the color model.
  * @param excludeAlpha - Whether to exclude the alpha value in the output.
  * @returns The formatted color string.
+ *
+ * Docs: [colorToString](https://mui-components-docs.vercel.app/v1/form-helpers/colorToString)
  */
 export function colorToString(color: ColorObject, excludeAlpha?: boolean): string {
   const isRGBColor

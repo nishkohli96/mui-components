@@ -44,7 +44,10 @@ import {
   useFieldIds,
   keepLabelAboveFormField,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent,
+  validateArray
+
 } from '@/utils';
 
 type MultiAutoCompleteProps<
@@ -276,8 +279,8 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
     formHelperTextProps,
     textFieldProps,
     slotProps,
-    circularProgressProps,
     ChipProps,
+    circularProgressProps,
     onBlur,
     loading,
     customIds,
@@ -295,6 +298,8 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
   >,
   ref: Ref<HTMLInputElement>
 ) {
+  validateArray('MUIMultiAutocomplete', options, labelKey, valueKey);
+
   const {
     allLabelsAboveFields,
     defaultFormControlLabelSx
@@ -399,7 +404,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
   const selectedValues: string[] = value ?? [];
@@ -488,12 +493,28 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
         disableClearable={disableClearable}
         autoSelect={freeSolo ? autoSelect ?? true : autoSelect}
         value={selectedOptions}
-        onChange={(_, newSelectedOptions, reason, details) => {
+        onChange={(event, newSelectedOptions, reason, details) => {
           if (reason === 'clear') {
             onValueChange({
               newValue: [],
               selectedOption: undefined
             });
+            return;
+          }
+          /*
+           * With `freeSolo` (which defaults `autoSelect` on), blurring the field
+           * makes MUI "select" the highlighted option. When that option is
+           * already selected MUI toggles it off (reported as `removeOption`),
+           * so typing e.g. "re" and clicking away silently deselects "React".
+           * A blur never changes the selection of an existing value; only an
+           * explicit chip removal, Backspace or option click does.
+           */
+          if (
+            freeSolo
+            && event.type === 'blur'
+            && details?.option !== undefined
+            && selectedSet.has(getOptionLabelOrValue(details.option, valueKey))
+          ) {
             return;
           }
           const isSelectAllSelected

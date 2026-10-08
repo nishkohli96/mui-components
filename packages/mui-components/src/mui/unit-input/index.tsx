@@ -18,6 +18,9 @@ import {
   useFieldIds,
   getErrorList,
   mergeSx,
+  hasContent,
+  validateArray
+
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 import MUISelect, { type MUISelectProps, type SelectValue } from '../select';
@@ -352,6 +355,8 @@ const MUIUnitInput = <
     throw new Error(generateUnitInputFieldNameErrMsg());
   }
 
+  validateArray('MUIUnitInput', unitOptions, labelKey, valueKey, 'unitOptions');
+
   const {
     fieldId: valueFieldId,
     labelId,
@@ -379,7 +384,7 @@ const MUIUnitInput = <
         ))
     )
     : undefined;
-  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+  const showHelperTextElement = !!(hasContent(helperText) || (isError && !hideErrorMessage));
 
   const resolvedUnit = value?.unit ?? ('' as ResolvedUnit<Option, ValueKey>);
 

@@ -22,6 +22,7 @@ const componentRoutes: Record<
 > = {
   /* mui-components */
   [MuiComponents.TextField]: 'textfield',
+  [MuiComponents.TextArea]: 'text-area',
   [MuiComponents.PasswordInput]: 'password-input',
   [MuiComponents.NumberInput]: 'number-input',
   [MuiComponents.NumberStepper]: 'number-stepper',
@@ -55,6 +56,7 @@ const componentRoutes: Record<
 
 const muiComponents = [
   MuiComponents.TextField,
+  MuiComponents.TextArea,
   MuiComponents.PasswordInput,
   MuiComponents.NumberInput,
   MuiComponents.NumberStepper,

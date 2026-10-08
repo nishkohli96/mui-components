@@ -108,6 +108,11 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'MUITextField — a controlled Material UI text field with built-in label, error and helper-text handling. Usage, live examples and full props reference.'
   },
+  MUITextArea: {
+    title: 'MUITextArea',
+    description:
+      'MUITextArea — a controlled multiline Material UI text area with built-in label, error and helper-text handling, auto-growing height and a maxChars limit. Usage, live examples and full props reference.'
+  },
   MUIPasswordInput: {
     title: 'MUIPasswordInput',
     description:
@@ -253,6 +258,10 @@ export const componentMetadata: Record<string, Metadata> = {
   getFileSize: {
     title: 'getFileSize',
     description: 'Formats a byte count into a human-readable file size — bytes, KB, MB or GB — rounded to a whole number or a given precision.'
+  },
+  mergeSx: {
+    title: 'mergeSx',
+    description: 'Merges several sx values — objects, theme callbacks and arrays — into one sx array without losing styles, so a component can combine its base styles with the sx prop it receives.'
   },
   validateFileList: {
     title: 'validateFileList',

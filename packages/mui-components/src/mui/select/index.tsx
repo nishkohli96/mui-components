@@ -32,7 +32,10 @@ import {
   normalizeSelectValue,
   useFieldIds,
   getDisplayLabelForSelectValue,
-  getErrorList
+  getErrorList,
+  hasContent,
+  validateArray
+
 } from '@/utils';
 
 export type SelectValue<Value, Multiple extends boolean> = Multiple extends true
@@ -284,6 +287,8 @@ const MUISelect = <
   inputProps: muiSelectInputProps,
   ...otherSelectProps
 }: MUISelectProps<Option, LabelKey, ValueKey, Multiple>) => {
+  validateArray('MUISelect', options, labelKey, valueKey);
+
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
@@ -331,7 +336,7 @@ const MUISelect = <
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

@@ -26,9 +26,20 @@ date and time pickers, with `AdapterDayjs` being [recommended by Material UI](ht
 There is also a boolean flag, `allLabelsAboveFields`, to simplify label placement
 across form components. When set to **true**, this flag ensures that labels are
 rendered above all form fields globally, eliminating the need to manually specify
-`showLabelAboveFormField` prop for each component. If `allLabelsAboveFields` is
-enabled globally, you can explicitly set `showLabelAboveFormField` to `false` for
-a specific component to override the default behavior.
+`showLabelAboveFormField` prop for each component.
+
+The `showLabelAboveFormField` prop always takes precedence over the flag, so you
+can set it on a single field to override the global setting:
+
+- Fields with an inline label, such as `MUITextField`, keep the label inside the
+  field by default. `showLabelAboveFormField={false}` keeps it inside even when
+  `allLabelsAboveFields` is **true**.
+- Fields with no inline label, such as `MUISlider` or `MUIRating`, show the
+  label above the field by default. `showLabelAboveFormField={false}` hides the
+  visible label, and the accessible name is still applied.
+- `MUIOTPInput` hides its label by default, unless `allLabelsAboveFields` is
+  **true**. Set `showLabelAboveFormField` to `true` to show it, or `false` to
+  hide it even when the flag is on.
 
 ## ConfigProvider
 

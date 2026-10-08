@@ -19,7 +19,8 @@ import {
   fieldNameToLabel,
   resolveLabelAboveControl,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -183,7 +184,7 @@ const MUIRating = ({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 
@@ -218,8 +219,12 @@ const MUIRating = ({
         }}
         onBlur={muiOnBlur}
         aria-required={required || undefined}
-        aria-labelledby={!hideLabel ? labelId : undefined}
-        aria-label={hideLabel ? accessibleFieldLabel : undefined}
+        aria-labelledby={
+          !hideLabel && isLabelAboveControl ? labelId : undefined
+        }
+        aria-label={
+          hideLabel || !isLabelAboveControl ? accessibleFieldLabel : undefined
+        }
         aria-describedby={
           showHelperTextElement
             ? isError
