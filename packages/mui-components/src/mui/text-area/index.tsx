@@ -33,6 +33,11 @@ type InputSlotFn = Extract<
   (...args: never[]) => unknown
 >;
 type InputSlotOwnerState = Parameters<InputSlotFn>[0];
+type HtmlInputSlotFn = Extract<
+  NonNullable<TextFieldProps['slotProps']>['htmlInput'],
+  (...args: never[]) => unknown
+>;
+type HtmlInputSlotOwnerState = Parameters<HtmlInputSlotFn>[0];
 
 type OnValueChangeProps = {
   newValue: string;
@@ -302,14 +307,16 @@ const MUITextArea = ({
               };
             }
             : muiSlotProps?.input,
-          htmlInput: {
-            ...muiSlotProps?.htmlInput,
+          htmlInput: (ownerState: HtmlInputSlotOwnerState) => ({
+            ...(typeof muiSlotProps?.htmlInput === 'function'
+              ? muiSlotProps.htmlInput(ownerState)
+              : muiSlotProps?.htmlInput),
             ...(maxChars !== undefined && { maxLength: maxChars }),
             'aria-labelledby': !hideLabel && isLabelAboveFormField ? labelId : undefined,
             'aria-label': hideLabel ? accessibleFieldLabel : undefined,
             'aria-describedby': showHelperTextElement ? (isError ? errorId : helperTextId) : undefined,
             'aria-required': required
-          }
+          })
         }}
       />
       <FormHelperText
