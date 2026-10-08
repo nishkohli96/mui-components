@@ -10,7 +10,9 @@ export default function Layout({ children }) {
 
 # MUICheckboxGroup
 
-`MUICheckboxGroup` renders a group of [checkboxes](https://mui.com/material-ui/react-checkbox/) from `options` and stores an array of the selected values. Supports primitive or object options via `labelKey`/`valueKey`.
+`MUICheckboxGroup` renders a group of [checkboxes](https://mui.com/material-ui/react-checkbox/)
+from `options` and stores an array of the selected values. Supports
+primitive or object options via `labelKey`/`valueKey`.
 
 ## Usage
 
@@ -21,13 +23,146 @@ import MUICheckboxGroup, {
 ```
 
 ```tsx
+const permissionOptions = ['Read', 'Write', 'Delete'];
 const [permissions, setPermissions] = useState<string[]>([]);
 
 <MUICheckboxGroup
   fieldName="permissions"
-  options={['Read', 'Write', 'Delete']}
+  options={permissionOptions}
   value={permissions}
   onValueChange={({ newValue }) => setPermissions(newValue)}
+/>
+```
+
+`value` is an array of the checked options' values, in the order
+they were checked, and `undefined` or `[]` mean nothing is checked.
+`onValueChange` receives `{ newValue, toggledValue, checked, event }`:
+the next array, the value of the checkbox that was toggled, its
+new checked state, and the change event.
+
+### Option value types
+
+The type of the options is preserved. A checkbox's value is a string
+in the DOM, but the component converts it back to the type of the
+option, so string options give a `string[]` and number options
+give a `number[]`.
+
+Declare primitive options outside the JSX, as below. An array written
+inline is inferred by TypeScript as a union of its literal values,
+such as `1 | 2 | 3 | 4`, and then a `number[]` state doesn't match it.
+
+```tsx
+const roomOptions = [1, 2, 3, 4];
+const [rooms, setRooms] = useState<number[]>([]);
+
+/* newValue is a number[], for example [1, 3] */
+<MUICheckboxGroup
+  fieldName="rooms"
+  options={roomOptions}
+  value={rooms}
+  onValueChange={({ newValue }) => setRooms(newValue)}
+/>
+```
+
+### With an array of objects
+
+Options can also be objects. Both `labelKey` and `valueKey`
+**are required** in this case. `labelKey` is the property
+used as each checkbox's label, and `valueKey` is the property
+used as its value.
+
+`value` is then an array of the `valueKey` properties of the checked
+options, not the whole objects, and it keeps the type of that
+property: a string property gives a `string[]`, and a number property
+gives a `number[]`.
+
+```tsx
+const [roleIds, setRoleIds] = useState<number[]>([]);
+
+<MUICheckboxGroup
+  fieldName="roles"
+  options={[
+    { id: 1, name: 'Admin' },
+    { id: 2, name: 'Editor' },
+    { id: 3, name: 'Viewer' }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  value={roleIds}
+  onValueChange={({ newValue }) => setRoleIds(newValue)}
+/>
+```
+
+### Customizing individual options
+
+`renderOptionLabel` replaces the label of each checkbox. It receives
+the option and a state object with `disabled`, which is `true` when
+the option or the whole group is disabled, and `selected`, which is
+`true` while the checkbox is checked. The label can be any `ReactNode`.
+
+`getOptionDisabled` receives an option and returns `true` to disable
+that checkbox. A disabled checkbox keeps its current state and can't
+be toggled, so a disabled option that is already checked stays in
+`value`. `disabled` on the group disables every option at once.
+
+```tsx
+const [addons, setAddons] = useState<string[]>([]);
+
+<MUICheckboxGroup
+  fieldName="addons"
+  options={[
+    { id: 'wifi', name: 'Wi-Fi', soldOut: false },
+    { id: 'parking', name: 'Parking', soldOut: true },
+    { id: 'breakfast', name: 'Breakfast', soldOut: false }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  value={addons}
+  onValueChange={({ newValue }) => setAddons(newValue)}
+  getOptionDisabled={option => option.soldOut}
+  renderOptionLabel={(option, { disabled, selected }) => (
+    <span
+      style={{
+        opacity: disabled ? 0.5 : 1,
+        fontWeight: selected ? 700 : 400
+      }}
+    >
+      {option.name}{disabled ? ' (unavailable)' : ''}
+    </span>
+  )}
+/>
+```
+
+### Styling each checkbox
+
+`checkboxProps` is forwarded to every `Checkbox`, for example
+a `color`, `size` or custom `icon` and `checkedIcon`.
+`formControlLabelProps` is forwarded to every `FormControlLabel`
+that wraps a checkbox and its label, for example `labelPlacement`.
+Its `sx` is merged with the default `FormControlLabel` styles from
+`ConfigProvider`. The component controls the checkbox's `id`, `name`,
+`value`, `checked`, `disabled` and `onChange`, and the label's
+`control`, `label` and `disabled`.
+
+```tsx
+import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+<MUICheckboxGroup
+  fieldName="permissions"
+  options={permissionOptions}
+  value={permissions}
+  onValueChange={({ newValue }) => setPermissions(newValue)}
+  checkboxProps={{
+    color: 'secondary',
+    size: 'small',
+    icon: <CircleOutlinedIcon />,
+    checkedIcon: <CheckCircleIcon />
+  }}
+  formControlLabelProps={{
+    labelPlacement: 'start',
+    sx: { justifyContent: 'space-between', mx: 0 }
+  }}
 />
 ```
 
