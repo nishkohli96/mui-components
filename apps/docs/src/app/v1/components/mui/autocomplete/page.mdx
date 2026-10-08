@@ -63,11 +63,15 @@ To store the whole object, use [MUIAutocompleteObject](autocomplete-object)
 instead.
 
 ```jsx
+const [countryCode, setCountryCode] = useState(null);
+
 <MUIAutocomplete
   fieldName="countriesVisited"
   options={countryList} // imported from MUICountrySelect
   labelKey="name"
   valueKey="iso3"
+  value={countryCode}
+  onValueChange={({ newValue }) => setCountryCode(newValue)}
 />
 ```
 
