@@ -7,7 +7,7 @@
  * drag-and-drop. File objects are shown by name in the form-state readout.
  */
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -38,9 +38,16 @@ export default function FileUploaderForm() {
 
   const [avatar, setAvatar] = useState<File | null>(null);
   const [avatarError, setAvatarError] = useState<string>();
+
   const [documents, setDocuments] = useState<File[]>([]);
   const [resume, setResume] = useState<File | null>(null);
   const [disableAllFields, setDisableAllFields] = useState(false);
+
+  /**
+   * onUploadError` fires just before `onValueChange`, which
+   * also fires for an all-rejected batch.
+   */
+  const avatarHadRejections = useRef(false);
 
   const formValues = {
     avatar: avatar?.name ?? null,
@@ -50,6 +57,7 @@ export default function FileUploaderForm() {
   const errors = { avatar: avatarError };
 
   function handleAvatarError(fileErrors: FileUploadErrorDetails[]) {
+    avatarHadRejections.current = true;
     const reasons = fileErrors.flatMap(detail => detail.errors);
     if (reasons.includes(FileUploadError.sizeExceeded)) {
       setAvatarError('Image is larger than 2 MB');
@@ -105,7 +113,10 @@ export default function FileUploaderForm() {
               value={avatar}
               onValueChange={({ newValue }) => {
                 setAvatar(newValue);
-                setAvatarError(undefined);
+                if (!avatarHadRejections.current) {
+                  setAvatarError(undefined);
+                }
+                avatarHadRejections.current = false;
               }}
               accept="image/*"
               maxSize={MAX_AVATAR_SIZE}

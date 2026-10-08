@@ -13,30 +13,30 @@ const CopyInstallCommand = ({ command }: CopyInstallCommandProps) => {
   const [copied, setCopied] = useState(false);
 
   return (
-        <Tooltip
+    <Tooltip
       title={copied ? 'Copied!' : 'Copy code'}
       placement="right"
     >
-    <IconButton
-      size="small"
-      aria-label={copied ? 'Copied to clipboard' : 'Copy install command'}
-      onClick={async () => {
-        try {
-          await navigator.clipboard.writeText(command);
-          setCopied(true);
-          window.setTimeout(() => setCopied(false), 2000);
-        } catch {
+      <IconButton
+        size="small"
+        aria-label={copied ? 'Copied to clipboard' : 'Copy install command'}
+        onClick={async () => {
+          try {
+            await navigator.clipboard.writeText(command);
+            setCopied(true);
+            window.setTimeout(() => setCopied(false), 2000);
+          } catch {
           /* Clipboard unavailable (unfocused tab / permissions) — ignore. */
-        }
-      }}
-      sx={{
-        mx: 1,
-        p: 1,
-        color: 'text.secondary'
-      }}
-    >
-      <CopyCodeIcon isCopied={copied} />
-    </IconButton>
+          }
+        }}
+        sx={{
+          mx: 1,
+          p: 1,
+          color: 'text.secondary'
+        }}
+      >
+        <CopyCodeIcon isCopied={copied} />
+      </IconButton>
     </Tooltip>
   );
 };

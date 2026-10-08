@@ -19,7 +19,8 @@ import {
   fieldNameToLabel,
   useFieldIds,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -157,7 +158,7 @@ const MUISwitch = ({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

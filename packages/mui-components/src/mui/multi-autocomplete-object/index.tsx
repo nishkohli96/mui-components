@@ -41,9 +41,11 @@ import {
   fieldNameToLabel,
   isKeyValueOption,
   useFieldIds,
+  validateArray,
   keepLabelAboveFormField,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type AutocompleteOption<Option extends KeyValueOption = KeyValueOption>
@@ -283,6 +285,8 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
     >,
     ref: Ref<HTMLInputElement>
   ) {
+    validateArray('MUIMultiAutocompleteObject', options, labelKey, valueKey);
+
     const {
       allLabelsAboveFields,
       defaultFormControlLabelSx,
@@ -383,7 +387,7 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
       )
       : undefined;
     const showHelperTextElement = !!(
-      helperText
+      hasContent(helperText)
       || (isError && !hideErrorMessage)
     );
     const selectedOptions: Option[] = value ?? [];

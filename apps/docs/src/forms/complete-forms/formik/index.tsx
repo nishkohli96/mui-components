@@ -15,12 +15,16 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { ConfigProvider } from '@nish1896/mui-components/config';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
+import MUITextArea from '@nish1896/mui-components/mui/text-area';
 import MUIPasswordInput from '@nish1896/mui-components/mui/password-input';
 import MUINumberInput from '@nish1896/mui-components/mui/number-input';
+import MUINumberStepper from '@nish1896/mui-components/mui/number-stepper';
+import MUIOTPInput from '@nish1896/mui-components/mui/otp-input';
 import MUITagsInput from '@nish1896/mui-components/mui/tags-input';
 import MUIFileUploader from '@nish1896/mui-components/mui/file-uploader';
 import MUISelect from '@nish1896/mui-components/mui/select';
 import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
+import MUIUnitInput from '@nish1896/mui-components/mui/unit-input';
 import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
 import MUIAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
 import MUICountrySelect from '@nish1896/mui-components/mui/country-select';
@@ -29,15 +33,16 @@ import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autoc
 import MUICheckbox from '@nish1896/mui-components/mui/checkbox';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
 import MUIRadioGroup from '@nish1896/mui-components/mui/radio-group';
-import MUISwitch from '@nish1896/mui-components/mui/switch';
 import MUISlider from '@nish1896/mui-components/mui/slider';
+import MUISwitch from '@nish1896/mui-components/mui/switch';
 import MUIRating from '@nish1896/mui-components/mui/rating';
 import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
 import { MUITimePicker } from '@nish1896/mui-components/mui-pickers/time';
 import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
 import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
-import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
 import MUIRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
+import MUITipTapRte from '@nish1896/mui-components/misc/tiptap-rte';
+import MUIPhoneInput from '@nish1896/mui-components/misc/phone-input';
 import {
   FormContainer,
   GridContainer,
@@ -121,6 +126,20 @@ export default function CompleteFormikForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="TextArea" />
+              <MUITextArea
+                fieldName="about"
+                maxChars={200}
+                showCharLimit
+                rows={3}
+                value={formik.values.about}
+                onValueChange={({ newValue }) => formik.setFieldValue('about', newValue)}
+                errorMessage={showError('about')}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="PasswordInput" />
               <MUIPasswordInput
                 fieldName="password"
@@ -142,6 +161,35 @@ export default function CompleteFormikForm() {
                 nonNegative
                 errorMessage={showError('age')}
                 required
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="NumberStepper" />
+              <MUINumberStepper
+                fieldName="quantity"
+                onlyIntegers
+                min={1}
+                max={10}
+                required
+                value={formik.values.quantity}
+                onValueChange={({ newValue }) => formik.setFieldValue('quantity', newValue)}
+                errorMessage={showError('quantity')}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="OTPInput" />
+              <MUIOTPInput
+                fieldName="otp"
+                label="Verification code"
+                length={6}
+                required
+                value={formik.values.otp}
+                onValueChange={({ newValue }) => formik.setFieldValue('otp', newValue)}
+                errorMessage={showError('otp')}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -192,6 +240,23 @@ export default function CompleteFormikForm() {
                 options={priorityOptions}
                 value={formik.values.priority}
                 onValueChange={({ newValue }) => formik.setFieldValue('priority', newValue)}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="UnitInput" />
+              <MUIUnitInput
+                fieldName={{ unit: 'weightUnit', value: 'weightAmount' }}
+                label="Package weight"
+                unitOptions={['kg', 'lb']}
+                onlyIntegers
+                min={0}
+                max={150}
+                required
+                value={formik.values.weight}
+                onValueChange={({ newValue }) => formik.setFieldValue('weight', newValue)}
+                errorMessage={showError('weight')}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -264,14 +329,12 @@ export default function CompleteFormikForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="RadioGroup" />
-              <MUIRadioGroup
-                fieldName="contact"
-                options={contactOptions}
-                value={formik.values.contact}
-                onValueChange={({ newValue }) => formik.setFieldValue('contact', newValue)}
-                errorMessage={showError('contact')}
-                required
+              <FieldVariantInfo title="Checkbox" />
+              <MUICheckbox
+                fieldName="subscribe"
+                label="Subscribe to the newsletter"
+                value={formik.values.subscribe}
+                onValueChange={({ newValue }) => formik.setFieldValue('subscribe', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -288,7 +351,20 @@ export default function CompleteFormikForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="Slider & Rating" />
+              <FieldVariantInfo title="RadioGroup" />
+              <MUIRadioGroup
+                fieldName="contact"
+                options={contactOptions}
+                value={formik.values.contact}
+                onValueChange={({ newValue }) => formik.setFieldValue('contact', newValue)}
+                errorMessage={showError('contact')}
+                required
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="Slider" />
               <MUISlider
                 fieldName="volume"
                 label="Volume"
@@ -297,30 +373,27 @@ export default function CompleteFormikForm() {
                 valueLabelDisplay="auto"
                 disabled={disableAllFields}
               />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="Switch" />
+              <MUISwitch
+                fieldName="notifications"
+                label="Enable notifications"
+                value={formik.values.notifications}
+                onValueChange={({ newValue }) => formik.setFieldValue('notifications', newValue)}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="Rating" />
               <MUIRating
                 fieldName="rating"
                 value={formik.values.rating}
                 onValueChange={({ newValue }) => formik.setFieldValue('rating', newValue)}
                 errorMessage={showError('rating')}
                 required
-                disabled={disableAllFields}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="Checkbox & Switch" />
-              <MUICheckbox
-                fieldName="subscribe"
-                label="Subscribe to the newsletter"
-                value={formik.values.subscribe}
-                onValueChange={({ newValue }) => formik.setFieldValue('subscribe', newValue)}
-                disabled={disableAllFields}
-              />
-              <MUISwitch
-                fieldName="notifications"
-                label="Enable notifications"
-                value={formik.values.notifications}
-                onValueChange={({ newValue }) => formik.setFieldValue('notifications', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -375,6 +448,31 @@ export default function CompleteFormikForm() {
               />
             </Grid>
 
+            <Grid size={12}>
+              <FieldVariantInfo title="RichTextEditor" />
+              <MUIRichTextEditor
+                fieldName="bio"
+                label="Short bio"
+                value={formik.values.bio}
+                onValueChange={({ newValue }) => formik.setFieldValue('bio', newValue)}
+                errorMessage={showError('bio')}
+                required
+              />
+            </Grid>
+
+            <Grid size={12}>
+              <FieldVariantInfo title="TipTapRte" />
+              <MUITipTapRte
+                fieldName="summary"
+                label="Summary"
+                placeholder="Optional summary"
+                value={formik.values.summary}
+                onValueChange={({ newValue }) => formik.setFieldValue('summary', newValue)}
+                errorMessage={showError('summary')}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="PhoneInput" />
               <MUIPhoneInput
@@ -386,18 +484,6 @@ export default function CompleteFormikForm() {
                 errorMessage={showError('phone')}
                 required
                 disabled={disableAllFields}
-              />
-            </Grid>
-
-            <Grid size={12}>
-              <FieldVariantInfo title="RichTextEditor" />
-              <MUIRichTextEditor
-                fieldName="bio"
-                label="Short bio"
-                value={formik.values.bio}
-                onValueChange={({ newValue }) => formik.setFieldValue('bio', newValue)}
-                errorMessage={showError('bio')}
-                required
               />
             </Grid>
 

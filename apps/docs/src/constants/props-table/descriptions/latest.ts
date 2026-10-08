@@ -344,19 +344,19 @@ export const PropsDescription = Object.freeze({
   },
   showLabelAboveFormField: (args: MuiPropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
-    description: `When \`true\`, renders the field label above the form field in the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
+    description: `When \`true\`, renders the field label above the form field in the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it. Takes precedence over \`allLabelsAboveFields\` from the \`ConfigProvider\`, so \`false\` keeps the label inside this field even when the config places every label above its field.`,
     type: 'boolean'
   }),
   showLabelAboveFormField_Default: {
     name: 'showLabelAboveFormField',
     description:
-      'Whether the field label renders above the control. This control has no built-in inline label, so it defaults to `true`; pass `false` to hide the visible label (the accessible name is still applied).\n\n**Default:** `true`',
+      'Whether the field label renders above the component. Since it has no built-in inline label, the label renders above the component by default; pass `false` to hide the visible label (the accessible name is still applied). Takes precedence over `allLabelsAboveFields` from the `ConfigProvider`.\n\n**Default:** `true`',
     type: 'boolean'
   },
   showLabelAboveFormField_OTPInput: (args: MuiPropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
     description:
-      `Renders the field label above the boxes. The label is otherwise hidden — there is no inline label, but the accessible name is still applied to every box. Set the value to \`true\` to render the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) for this field.\n\n**Default:** \`false\``,
+      `Renders the field label above the boxes. The label is otherwise hidden as there is no inline label, but the accessible name is still applied to every box. Set the value to \`true\` to render the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) for this field. Takes precedence over \`allLabelsAboveFields\` from the \`ConfigProvider\`.\n\n**Default:** \`false\``,
     type: 'boolean'
   }),
   formLabelProps: (args: MuiPropsDescriptionArgs) => ({
@@ -697,6 +697,30 @@ export const PropsDescription = Object.freeze({
       'Maximum number of tags that can be added. Keyboard entries beyond the limit are ignored; pasted tags are truncated to fit.',
     type: 'number'
   },
+  maxChars_TextArea: {
+    name: 'maxChars',
+    description:
+      'Maximum number of characters the field accepts. Typing stops at the limit and pasted text is cut to fit, via the native `maxLength` attribute — so it also applies on mobile keyboards. Counts UTF-16 code units, so an emoji counts as 2. Limits only user input: a `value` set from code (e.g. an initial value) is shown in full even if longer than `maxChars`, and the user can then only delete characters. Truncate such values yourself.',
+    type: 'number'
+  },
+  showCharLimit_TextArea: {
+    name: 'showCharLimit',
+    description:
+      'When `true`, shows a `current/max` character counter at the bottom-right inside the field, in its own strip below the text so typed content never runs under it. Has no effect unless `maxChars` is set. Passing `renderCharLimit` also shows the counter, so this can be omitted then. Replaces any `slotProps.input.endAdornment` while shown.',
+    type: 'boolean'
+  },
+  renderCharLimit_TextArea: {
+    name: 'renderCharLimit',
+    description:
+      'Custom renderer for the character counter, replacing the default `current/max` text. Providing it shows the counter even without `showCharLimit`, as long as `maxChars` is set; the counter keeps its bottom-right strip inside the field.',
+    type: '(charCount: number, maxChars: number) => ReactNode'
+  },
+  rows_TextArea: {
+    name: 'rows',
+    description:
+      'Fixed number of visible text rows. When omitted, the field starts at one row and grows with its content.',
+    type: 'number'
+  },
   limitTags_TagsInput: {
     name: 'limitTags',
     description:
@@ -735,8 +759,13 @@ export const PropsDescription = Object.freeze({
   onUploadError: {
     name: 'onUploadError',
     description:
-      'Callback fired when uploaded files fail type, size, or count validation.',
+      'Callback fired when uploaded files fail type, size, or count validation. Receives one `{ file, errors }` entry per rejected file, where `errors` lists `FileUploadError` enum values. Rejected files are never added to `value`.',
     type: '(errors: FileUploadErrorDetails[]) => void'
+  },
+  onBlur_FileUploader: {
+    name: 'onBlur',
+    description: 'Callback fired when the hidden file `<input>` loses focus, which is handy for "touched" state in form libraries.',
+    type: '(event: FocusEvent<HTMLInputElement>) => void'
   },
   dropZoneProps: (args: MuiPropsDescriptionArgs) => ({
     name: 'dropZoneProps',
@@ -789,7 +818,7 @@ export const PropsDescription = Object.freeze({
   }),
   inputRef_FileUploader: {
     name: 'inputRef',
-    description: 'Ref for the hidden file `<input>` element.',
+    description: 'Ref for the hidden file `<input type="file">` element, for example to open the file dialog from your own control.',
     type: 'Ref<HTMLInputElement>'
   },
   fullWidth_FileUploader: {
@@ -932,12 +961,28 @@ export const PropsDescription = Object.freeze({
     description: 'When `true`, hides the select-all option.',
     type: 'boolean'
   },
-  limitTags: {
-    name: 'limitTags',
+  loading_Autocomplete: {
+    name: 'loading',
+    description:
+      'When `true`, a small spinner is shown at the end of the input and, when there are no options, the popup shows the loading text (`loadingText`, default `Loading…`) instead of "No options". Customize the spinner with `circularProgressProps`.',
+    type: 'boolean'
+  },
+  autoHighlight_Autocomplete: {
+    name: 'autoHighlight',
+    description:
+      'When `true`, the first option is highlighted while the user types, so pressing Enter selects it.\n\n**Default:** `true`',
+    type: 'boolean'
+  },
+  autoSelect_Autocomplete: {
+    name: 'autoSelect',
+    description:
+      'When `true`, the highlighted option, or with `freeSolo` the typed text, is committed as the value when the input loses focus.\n\n**Default:** `true` with `freeSolo`, otherwise `false`',
+    type: 'boolean'
+  },
+  limitTags: { name: 'limitTags',
     description:
       'Maximum number of selected values shown as chips when the input is not focused. Set `-1` to disable the limit.\n\n**Default:** `2`',
-    type: 'number'
-  },
+    type: 'number' },
   getLimitTagsText: {
     name: 'getLimitTagsText',
     description:
@@ -1024,6 +1069,30 @@ export const PropsDescription = Object.freeze({
     description:
       'Placeholder text displayed in the select input itself when no option is selected (not rendered as a selectable menu item).',
     type: 'string'
+  },
+  renderOptionLabel_NativeSelect: {
+    name: 'renderOptionLabel',
+    description:
+      'Custom renderer for the text of each `<option>`. Receives the option and a `{ disabled, selected }` state. A native `<option>` can only display text, so return a string or number rather than elements. When not provided, the label comes from the option itself or the property named by `labelKey`.',
+    type: '(option, state) => ReactNode'
+  },
+  defaultOptionText_NativeSelect: {
+    name: 'defaultOptionText',
+    description:
+      'Text of the default option, which is always rendered first with the value `\'\'`. Falls back to `placeholder`, and is empty when neither is set. The option is disabled when the field is `required`.',
+    type: 'string'
+  },
+  placeholder_NativeSelect: {
+    name: 'placeholder',
+    description:
+      'Text of the default option when `defaultOptionText` is not set. A native `<select>` has no placeholder of its own, so this is only the default option\'s text.',
+    type: 'string'
+  },
+  renderValue_Select: {
+    name: 'renderValue',
+    description:
+      'Custom renderer for the selected value shown in the closed field. Unlike `renderOptionLabel`, which only affects the menu items, this changes what the field itself displays. Receives the normalized value, as an array when `multiple`. By default the selected option label is shown, and the labels are joined with `, ` for `multiple`.',
+    type: '(value) => ReactNode'
   },
   showDefaultOption: {
     name: 'showDefaultOption',

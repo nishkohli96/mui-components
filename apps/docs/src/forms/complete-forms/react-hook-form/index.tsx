@@ -22,33 +22,38 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import Grid from '@mui/material/Grid';
 import { ConfigProvider } from '@nish1896/mui-components/config';
 import MUITextField from '@nish1896/mui-components/mui/textfield';
+import MUITextArea from '@nish1896/mui-components/mui/text-area';
 import MUIPasswordInput from '@nish1896/mui-components/mui/password-input';
 import MUINumberInput from '@nish1896/mui-components/mui/number-input';
+import MUINumberStepper from '@nish1896/mui-components/mui/number-stepper';
+import MUIOTPInput from '@nish1896/mui-components/mui/otp-input';
 import MUITagsInput from '@nish1896/mui-components/mui/tags-input';
 import MUIFileUploader from '@nish1896/mui-components/mui/file-uploader';
 import MUISelect from '@nish1896/mui-components/mui/select';
 import MUINativeSelect from '@nish1896/mui-components/mui/native-select';
+import MUIUnitInput from '@nish1896/mui-components/mui/unit-input';
 import MUIAutocomplete from '@nish1896/mui-components/mui/autocomplete';
 import MUIAutocompleteObject from '@nish1896/mui-components/mui/autocomplete-object';
-import MUIMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
-import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
 import MUICountrySelect, {
   type CountryDetails
 } from '@nish1896/mui-components/mui/country-select';
+import MUIMultiAutocomplete from '@nish1896/mui-components/mui/multi-autocomplete';
+import MUIMultiAutocompleteObject from '@nish1896/mui-components/mui/multi-autocomplete-object';
 import MUICheckbox from '@nish1896/mui-components/mui/checkbox';
 import MUICheckboxGroup from '@nish1896/mui-components/mui/checkbox-group';
 import MUIRadioGroup from '@nish1896/mui-components/mui/radio-group';
-import MUISwitch from '@nish1896/mui-components/mui/switch';
 import MUISlider from '@nish1896/mui-components/mui/slider';
+import MUISwitch from '@nish1896/mui-components/mui/switch';
 import MUIRating from '@nish1896/mui-components/mui/rating';
 import { MUIDatePicker } from '@nish1896/mui-components/mui-pickers/date';
 import { MUITimePicker } from '@nish1896/mui-components/mui-pickers/time';
 import { MUIDateTimePicker } from '@nish1896/mui-components/mui-pickers/date-time';
 import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
+import MUIRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
+import MUITipTapRte from '@nish1896/mui-components/misc/tiptap-rte';
 import MUIPhoneInput, {
   type MUIPhoneInputValue
 } from '@nish1896/mui-components/misc/phone-input';
-import MUIRichTextEditor from '@nish1896/mui-components/misc/rich-text-editor';
 import {
   FormContainer,
   GridContainer,
@@ -125,6 +130,20 @@ export default function CompleteRHFForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="TextArea" />
+              <MUITextArea
+                fieldName="about"
+                maxChars={200}
+                showCharLimit
+                rows={3}
+                value={formValues.about}
+                onValueChange={({ newValue }) => setValue('about', newValue, { shouldValidate: true })}
+                errorMessage={errors.about?.message}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="PasswordInput" />
               <MUIPasswordInput
                 fieldName="password"
@@ -146,6 +165,35 @@ export default function CompleteRHFForm() {
                 nonNegative
                 errorMessage={errors.age?.message}
                 required
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="NumberStepper" />
+              <MUINumberStepper
+                fieldName="quantity"
+                onlyIntegers
+                min={1}
+                max={10}
+                required
+                value={formValues.quantity}
+                onValueChange={({ newValue }) => setValue('quantity', newValue, { shouldValidate: true })}
+                errorMessage={errors.quantity?.message}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="OTPInput" />
+              <MUIOTPInput
+                fieldName="otp"
+                label="Verification code"
+                length={6}
+                required
+                value={formValues.otp}
+                onValueChange={({ newValue }) => setValue('otp', newValue, { shouldValidate: true })}
+                errorMessage={errors.otp?.message}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -196,6 +244,23 @@ export default function CompleteRHFForm() {
                 options={priorityOptions}
                 value={formValues.priority}
                 onValueChange={({ newValue }) => setValue('priority', newValue)}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="UnitInput" />
+              <MUIUnitInput
+                fieldName={{ unit: 'weightUnit', value: 'weightAmount' }}
+                label="Package weight"
+                unitOptions={['kg', 'lb']}
+                onlyIntegers
+                min={0}
+                max={150}
+                required
+                value={formValues.weight as CompleteFormValues['weight']}
+                onValueChange={({ newValue }) => setValue('weight', newValue, { shouldValidate: true })}
+                errorMessage={errors.weight?.message}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -268,14 +333,12 @@ export default function CompleteRHFForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="RadioGroup" />
-              <MUIRadioGroup
-                fieldName="contact"
-                options={contactOptions}
-                value={formValues.contact}
-                onValueChange={({ newValue }) => setValue('contact', newValue, { shouldValidate: true })}
-                errorMessage={errors.contact?.message}
-                required
+              <FieldVariantInfo title="Checkbox" />
+              <MUICheckbox
+                fieldName="subscribe"
+                label="Subscribe to the newsletter"
+                value={formValues.subscribe}
+                onValueChange={({ newValue }) => setValue('subscribe', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -292,7 +355,20 @@ export default function CompleteRHFForm() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="Slider & Rating" />
+              <FieldVariantInfo title="RadioGroup" />
+              <MUIRadioGroup
+                fieldName="contact"
+                options={contactOptions}
+                value={formValues.contact}
+                onValueChange={({ newValue }) => setValue('contact', newValue, { shouldValidate: true })}
+                errorMessage={errors.contact?.message}
+                required
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="Slider" />
               <MUISlider
                 fieldName="volume"
                 label="Volume"
@@ -301,30 +377,27 @@ export default function CompleteRHFForm() {
                 valueLabelDisplay="auto"
                 disabled={disableAllFields}
               />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="Switch" />
+              <MUISwitch
+                fieldName="notifications"
+                label="Enable notifications"
+                value={formValues.notifications}
+                onValueChange={({ newValue }) => setValue('notifications', newValue)}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
+            <Grid size={{ xs: 12, md: 6 }}>
+              <FieldVariantInfo title="Rating" />
               <MUIRating
                 fieldName="rating"
                 value={formValues.rating}
                 onValueChange={({ newValue }) => setValue('rating', newValue, { shouldValidate: true })}
                 errorMessage={errors.rating?.message}
                 required
-                disabled={disableAllFields}
-              />
-            </Grid>
-
-            <Grid size={{ xs: 12, md: 6 }}>
-              <FieldVariantInfo title="Checkbox & Switch" />
-              <MUICheckbox
-                fieldName="subscribe"
-                label="Subscribe to the newsletter"
-                value={formValues.subscribe}
-                onValueChange={({ newValue }) => setValue('subscribe', newValue)}
-                disabled={disableAllFields}
-              />
-              <MUISwitch
-                fieldName="notifications"
-                label="Enable notifications"
-                value={formValues.notifications}
-                onValueChange={({ newValue }) => setValue('notifications', newValue)}
                 disabled={disableAllFields}
               />
             </Grid>
@@ -379,6 +452,31 @@ export default function CompleteRHFForm() {
               />
             </Grid>
 
+            <Grid size={12}>
+              <FieldVariantInfo title="RichTextEditor" />
+              <MUIRichTextEditor
+                fieldName="bio"
+                label="Short bio"
+                value={formValues.bio}
+                onValueChange={({ newValue }) => setValue('bio', newValue, { shouldValidate: true })}
+                errorMessage={errors.bio?.message}
+                required
+              />
+            </Grid>
+
+            <Grid size={12}>
+              <FieldVariantInfo title="TipTapRte" />
+              <MUITipTapRte
+                fieldName="summary"
+                label="Summary"
+                placeholder="Optional summary"
+                value={formValues.summary}
+                onValueChange={({ newValue }) => setValue('summary', newValue, { shouldValidate: true })}
+                errorMessage={errors.summary?.message}
+                disabled={disableAllFields}
+              />
+            </Grid>
+
             <Grid size={{ xs: 12, md: 6 }}>
               <FieldVariantInfo title="PhoneInput" />
               <MUIPhoneInput
@@ -390,18 +488,6 @@ export default function CompleteRHFForm() {
                 errorMessage={errors.phone?.message}
                 required
                 disabled={disableAllFields}
-              />
-            </Grid>
-
-            <Grid size={12}>
-              <FieldVariantInfo title="RichTextEditor" />
-              <MUIRichTextEditor
-                fieldName="bio"
-                label="Short bio"
-                value={formValues.bio}
-                onValueChange={({ newValue }) => setValue('bio', newValue, { shouldValidate: true })}
-                errorMessage={errors.bio?.message}
-                required
               />
             </Grid>
 

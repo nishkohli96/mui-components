@@ -13,9 +13,11 @@ export default function Layout({ children }) {
 
 # MUINumberInput
 
-`MUINumberInput` is a [TextField](https://v7.mui.com/material-ui/react-text-field/)-based
-numeric input that enforces number-only entry with options for integers-only, non-negative values,
-a maximum number of decimal places, `min` / `max` bounds, and keyboard step increments.
+`MUINumberInput` is a
+[TextField](https://v7.mui.com/material-ui/react-text-field/)-based numeric
+input that enforces number-only entry with options for integers-only,
+non-negative values, a maximum number of decimal places, `min` / `max` bounds,
+and keyboard step increments.
 
 For always-visible `-` / `+` buttons instead of the native browser steppers,
 use [MUINumberStepper](/v1/components/mui/number-stepper).
@@ -38,13 +40,120 @@ const [age, setAge] = useState<number | null>(null);
 />
 ```
 
+
+### Validation
+
+`MUINumberInput` rejects invalid keystrokes and pasted text up front, instead of
+correcting them afterwards. Combine the props below to describe the numbers you
+accept. The characters `e`, `E` and `+` are always blocked, and so is a second
+minus sign.
+
+#### Integers only
+
+`onlyIntegers` blocks the decimal point. A pasted decimal is cut to its whole
+part, so `43.234` becomes `43`. Stepping also moves by whole numbers:
+`stepAmount` is rounded down, with a minimum of `1`.
+
+```tsx
+<MUINumberInput
+  fieldName="quantity"
+  value={quantity}
+  onValueChange={({ newValue }) => setQuantity(newValue)}
+  onlyIntegers
+/>
+```
+
+#### Non-negative values
+
+`nonNegative` blocks the minus sign, typed or pasted, so a pasted `-43.5`
+becomes `43.5`. It also acts as an implicit `min` of `0`.
+
+```tsx
+<MUINumberInput
+  fieldName="price"
+  value={price}
+  onValueChange={({ newValue }) => setPrice(newValue)}
+  nonNegative
+/>
+```
+
+#### Decimal places
+
+`maxDecimalPlaces` limits the digits after the decimal point. The user can't
+type more, and a pasted `3.14159` becomes `3.14` when the limit is `2`. Don't
+combine it with `onlyIntegers`.
+
+```tsx
+<MUINumberInput
+  fieldName="weight"
+  value={weight}
+  onValueChange={({ newValue }) => setWeight(newValue)}
+  nonNegative
+  maxDecimalPlaces={2}
+/>
+```
+
+#### Minimum and maximum
+
+The `min` and `max` props, added in `v1.3` set the upper and lower bounds.
+Stepping with the arrow keys or the markers stops at them. Typing and pasting
+are **not** blocked while the user is editing, so the field can briefly hold
+an out-of-range number, such as `7` on the way to `70`. When the field loses
+focus, an out-of-range value is clamped to the nearest bound and `onValueChange`
+is called with the clamped number.
+
+`nonNegative` sets the lower bound to `0`, and an explicit `min` overrides it.
+A `min` greater than `max` throws an error.
+
+```tsx
+<MUINumberInput
+  fieldName="age"
+  value={age}
+  onValueChange={({ newValue }) => setAge(newValue)}
+  onlyIntegers
+  min={18}
+  max={65}
+/>
+```
+
+#### Showing validation messages
+
+Because the bounds are applied on blur, show a message while the user is still
+typing by checking the new value yourself and passing the result to
+`errorMessage`. The error clears as soon as the value is back in range,
+including when the blur clamps it:
+
+```tsx
+const [age, setAge] = useState<number | null>(null);
+const [ageError, setAgeError] = useState<string>();
+
+<MUINumberInput
+  fieldName="age"
+  value={age}
+  onValueChange={({ newValue }) => {
+    setAge(newValue);
+    setAgeError(
+      newValue !== null && (newValue < 18 || newValue > 65)
+        ? 'Enter an age between 18 and 65'
+        : undefined
+    );
+  }}
+  errorMessage={ageError}
+  helperText="Between 18 and 65"
+  onlyIntegers
+  min={18}
+  max={65}
+/>
+```
+
 ### Formatting the displayed value
 
 The `renderValue` prop, added in `v1.3` formats the number for display -
-thousands separators, a currency prefix, fixed decimals. The field switches
-to `type="text"` (which can render grouping characters) and shows the formatted
+thousands separators, a currency prefix, fixed decimals. The field switches to
+`type="text"` (which can render grouping characters) and shows the formatted
 string only while it is **not** focused; on focus it reverts to the raw number
-and every typing / paste / `min` / `max` rule still applies. `value` stays a real `number | null`.
+and every typing / paste / `min` / `max` rule still applies. `value` stays a
+real `number | null`.
 
 ```tsx
 const [salary, setSalary] = useState<number | null>(null);
@@ -67,13 +176,17 @@ const [salary, setSalary] = useState<number | null>(null);
 
 ## API
 
-`MUINumberInputProps` accepts most [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/),
-with some props excluded, including `type`, `multiline` and `rows`.
+`MUINumberInputProps` accepts most
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), with some
+props excluded, including `type`, `multiline` and `rows`.
 
-Props marked with
-<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUINumberInput} />
+
+## Reference
+- [MUI Number Field](https://v7.mui.com/material-ui/react-number-field/)
 
 ## Source Code
 

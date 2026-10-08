@@ -13,8 +13,10 @@ export default function Layout({ children }) {
 
 # MUIMultiAutocompleteObject
 
-`MUIMultiAutocompleteObject` is a multi-select [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) with checkboxes and
-an optional "**Select All**" row that stores an array of **complete option objects**.
+`MUIMultiAutocompleteObject` is a multi-select
+[Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) with
+checkboxes and an optional "**Select All**" row that stores an array of
+**complete option objects**.
 
 ## Usage
 
@@ -23,6 +25,13 @@ import MUIMultiAutocompleteObject, {
   MUIMultiAutocompleteObjectProps
 } from '@nish1896/mui-components/mui/multi-autocomplete-object';
 ```
+
+`onValueChange` receives `{ newValue, selectedOption }`: the next array of
+objects, and the option that triggered the change. `selectedOption` is
+`'__ALL__'` when "**Select All**" is toggled. Clearing the field yields
+`newValue` as `[]` and `selectedOption` as `undefined`.
+
+Every option has a checkbox, and the menu stays open while the user picks.
 
 ```tsx
 const [members, setMembers] = useState<User[]>([]);
@@ -37,11 +46,141 @@ const [members, setMembers] = useState<User[]>([]);
 />
 ```
 
+`onValueChange` receives `{ newValue, selectedOption }`: the next array of
+objects, and the option that triggered the change. `selectedOption` is
+`'__ALL__'` when "Select All" was toggled. Clearing the field gives `[]` without
+a `selectedOption`.
+
+Every option has a checkbox, and the menu stays open while the user picks.
+
+### Select All
+
+A "**Select All**" row is added at the top of the menu. `selectAllText`
+changes its text (`Select All` by default) and `hideSelectAllOption`
+removes it. It is also hidden automatically when there are fewer than
+two options that can be selected. Its checkbox is checked when every 
+option is selected and indeterminate when only some are, and clicking it
+again deselects everything.
+
+Disabled options (see `getOptionDisabled` below) are left alone. The **Select
+All** option adds every selectable option and keeps the disabled ones as they
+are, and deselecting keeps only the disabled ones that were already selected.
+They don't count towards the checkbox's checked or indeterminate state.
+
+```tsx
+<MUIMultiAutocompleteObject
+  fieldName="skills"
+  options={skillOptions}
+  labelKey="name"
+  valueKey="id"
+  value={skills}
+  onValueChange={({ newValue }) => setSkills(newValue)}
+  selectAllText="All skills"
+/>
+```
+
+Pass `hideSelectAllOption` to remove the row entirely.
+
+### Disabled options and custom labels
+
+`renderOptionLabel` customizes the label shown next to an option's
+checkbox. It receives the option and a state object with `selected`,
+`index`, `inputValue` and `disabled`, so the label can react to the
+option's status.
+
+`getOptionDisabled` receives an option and returns `true` to disable it.
+
+```tsx
+<MUIMultiAutocompleteObject
+  fieldName="plans"
+  options={[
+    { id: 'free', name: 'Free', soldOut: false },
+    { id: 'pro', name: 'Pro', soldOut: false },
+    { id: 'team', name: 'Team', soldOut: true }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  value={plans}
+  onValueChange={({ newValue }) => setPlans(newValue)}
+  getOptionDisabled={option => option.soldOut}
+  renderOptionLabel={(option, { disabled }) => (
+    <span style={{ opacity: disabled ? 0.5 : 1 }}>
+      {option.name}{disabled ? ' (sold out)' : ''}
+    </span>
+  )}
+/>
+```
+
+### Styling the checkboxes
+
+`checkboxProps` is forwarded to every `Checkbox`, and `formControlLabelProps`
+to every `FormControlLabel` that wraps it. The `sx` of `formControlLabelProps`
+is merged with the default `FormControlLabel` styles from `ConfigProvider`.
+
+```tsx
+<MUIMultiAutocompleteObject
+  fieldName="skills"
+  options={skillOptions}
+  labelKey="name"
+  valueKey="id"
+  value={skills}
+  onValueChange={({ newValue }) => setSkills(newValue)}
+  checkboxProps={{ size: 'small', color: 'secondary' }}
+  formControlLabelProps={{ sx: { m: 0 } }}
+/>
+```
+
+### Limiting the visible chips
+
+While the field is not focused, only the first `limitTags` chips (default `2`)
+are shown, followed by a "**+N More**" chip. `limitTags={-1}` shows all of them,
+and `getLimitTagsText` receives the number of hidden chips and returns your own
+text. `ChipProps` customizes the chips.
+
+```tsx
+<MUIMultiAutocompleteObject
+  fieldName="skills"
+  options={skillOptions}
+  labelKey="name"
+  valueKey="id"
+  value={skills}
+  onValueChange={({ newValue }) => setSkills(newValue)}
+  limitTags={3}
+  getLimitTagsText={hiddenCount => `+${hiddenCount} skills`}
+  ChipProps={{ color: 'primary', size: 'small' }}
+/>
+```
+
+### Clearing, loading and placeholder
+
+A clear button is shown once there is a selection, and `disableClearable`
+removes it. Set `loading` while the options are being fetched: a small
+spinner appears at the end of the input (customize it with
+`circularProgressProps`), and the popup shows the loading text instead
+of "No options" when there are no options yet. `autoHighlight` is `true`
+by default, which differs from Material UI, so the first option is
+highlighted as the user types. A `placeholder` in `textFieldProps` is
+shown only while nothing is selected.
+
+```tsx
+<MUIMultiAutocompleteObject
+  fieldName="skills"
+  options={skillOptions}
+  labelKey="name"
+  valueKey="id"
+  value={skills}
+  onValueChange={({ newValue }) => setSkills(newValue)}
+  loading={isFetchingSkills}
+  textFieldProps={{ placeholder: 'Pick your skills' }}
+/>
+```
+
 ## API
 
 `labelKey` and `valueKey` are required.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUIMultiAutocompleteObject} />
 

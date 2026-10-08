@@ -17,6 +17,7 @@
 
 import type { PropsInfo, MuiPropsDescriptionArgs, DocsVersion } from '@/types';
 import textFieldRows from './mui/textfield';
+import textAreaRows from './mui/text-area';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
 import numberStepperRows from './mui/number-stepper';
@@ -67,6 +68,7 @@ const buildComponentProps = (
 ): Record<string, PropsInfo[]> =>
   Object.freeze({
     MUITextField: textFieldRows(args),
+    MUITextArea: textAreaRows(args),
     MUIPasswordInput: passwordInputRows(args, docsVersion),
     MUINumberInput: numberInputRows(args, docsVersion),
     MUINumberStepper: numberStepperRows(args),

@@ -23,7 +23,8 @@ import {
   fieldNameToLabel,
   resolveLabelAboveControl,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
@@ -67,15 +68,6 @@ export type MUIRichTextEditorProps = {
    * When `true`, marks the field as **required** in the UI and accessibility attributes.
    */
   required?: boolean;
-  /**
-   * HTML id applied to the CKEditor instance.
-   *
-   * Defaults to the generated field id.
-   *
-   * @deprecated This prop will be removed in the next minor version.
-   * Use `customIds.field` to assign an **id** to the `CKEditor` instance.
-   */
-  id?: string;
   /**
    * CKEditor configuration passed to `ClassicEditor`.
    *
@@ -177,7 +169,6 @@ const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
     value,
     onValueChange,
     required,
-    id,
     editorConfig,
     onReady,
     onFocus,
@@ -203,11 +194,7 @@ const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
     customIds
   );
 
-  const defaultFieldLabel = fieldNameToLabel(fieldName);
-  const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string'
-    ? fieldLabel
-    : defaultFieldLabel;
+  const fieldLabel = label ?? fieldNameToLabel(fieldName);
   const isLabelAboveControl = resolveLabelAboveControl(
     showLabelAboveFormField,
     allLabelsAboveFields
@@ -226,7 +213,7 @@ const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 
@@ -247,7 +234,7 @@ const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
         />
       )}
       <CKEditor
-        id={id ?? fieldId}
+        id={fieldId}
         editor={ClassicEditor}
         config={editorConfig ?? DefaultEditorConfig}
         data={value ?? ''}
@@ -261,18 +248,6 @@ const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
         ref={ref}
         onReady={onReady}
         onBlur={onBlur}
-        aria-labelledby={
-          !hideLabel && isLabelAboveControl ? labelId : undefined
-        }
-        aria-label={hideLabel ? accessibleFieldLabel : undefined}
-        aria-describedby={
-          showHelperTextElement
-            ? isError
-              ? errorId
-              : helperTextId
-            : undefined
-        }
-        aria-required={required}
         onFocus={onFocus}
         onError={onError}
         disabled={muiDisabled}

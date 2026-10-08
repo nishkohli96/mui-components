@@ -31,8 +31,10 @@ import {
   getOptionValue,
   normalizeSelectValue,
   useFieldIds,
+  validateArray,
   getDisplayLabelForSelectValue,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 export type SelectValue<Value, Multiple extends boolean> = Multiple extends true
@@ -283,6 +285,8 @@ const MUISelect = <
   inputProps: muiSelectInputProps,
   ...otherSelectProps
 }: MUISelectProps<Option, LabelKey, ValueKey, Multiple>) => {
+  validateArray('MUISelect', options, labelKey, valueKey);
+
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
@@ -298,16 +302,17 @@ const MUISelect = <
   const accessibleFieldLabel = typeof fieldLabel === 'string'
     ? fieldLabel
     : defaultFieldLabel;
-
   const SelectFormLabel = (
     <FormLabelText label={fieldLabel} required={required} />
   );
+
   const resolvedValue = muiValue ?? (multiple ? [] : '');
   const isValueEmpty
     = muiValue === undefined
       || muiValue === null
       || muiValue === ''
       || (multiple && Array.isArray(muiValue) && !muiValue.length);
+
   const showPlaceholder = isValueEmpty && !!placeholder;
   const selectLabelValue
     = hideLabel || isLabelAboveFormField || showPlaceholder || isValueEmpty
@@ -316,6 +321,7 @@ const MUISelect = <
   const selectLabelId = isLabelAboveFormField || hideLabel
     ? undefined
     : labelId;
+
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
   const fieldErrorMessage = isError
@@ -330,7 +336,7 @@ const MUISelect = <
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 
@@ -465,6 +471,7 @@ const MUISelect = <
           const opnLabel = isObject
             ? String(option[labelKey!])
             : String(option);
+
           const isOptionDisabled = getOptionDisabled?.(option) ?? false;
           /**
            * `Array.isArray` can't narrow the generic `SelectValue` union, so
@@ -475,6 +482,7 @@ const MUISelect = <
             Array.isArray(resolvedValue) ? resolvedValue : [resolvedValue]
           ) as OptionValue<Option, ValueKey>[];
           const isSelected = currentValues.includes(opnValue);
+
           return (
             <MenuItem
               {...menuItemProps}

@@ -10,12 +10,15 @@ export default function Layout({ children }) {
 
 # MUIColorPicker
 
-`MUIColorPicker` wraps [react-color-palette](https://www.npmjs.com/package/react-color-palette) with the suite's
-label/error/helper-text handling. The emitted value format (`hex`, `rgb`, `hsv`) is chosen with `valueKey`.
+`MUIColorPicker` wraps
+[react-color-palette](https://www.npmjs.com/package/react-color-palette) with
+the suite's label/error/helper-text handling. The emitted value format (`hex`,
+`rgb`, `hsv`) is chosen with `valueKey`.
 
 ## Installation
 
-Make sure to install [react-color-palette](https://www.npmjs.com/package/react-color-palette) package
+Make sure to install
+[react-color-palette](https://www.npmjs.com/package/react-color-palette) package
 before using this component.
 
 <PackageManagerTabs
@@ -29,17 +32,18 @@ before using this component.
 import MUIColorPicker from '@nish1896/mui-components/misc/color-picker';
 ```
 
-The color picker accepts string values in `hex`, `rgb`, `hsl`, or text format, such as:
+The color picker accepts string values in `hex`, `rgb`, `hsl`, or text format,
+such as:
 - `#00ffff`
 - `rgb(0 255 255)`
 - `hsl(180 100% 100% / 1)`
 - `cyan`
 
-If the field value is uninitialized, the default color **black** (`#000000`) is selected,
-which can be configured using the `defaultColor` prop. Refer to the
-[colorToString](../../../form-helpers/colorToString) function to convert
-an **RGB** or **HSV** color object into a string, which can be used to
-set the default color for the color picker.
+If the field value is uninitialized, the default color **black** (`#000000`) is
+selected, which can be configured using the `defaultColor` prop. Refer to the
+[colorToString](../../../form-helpers/colorToString) function to convert an
+**RGB** or **HSV** color object into a string, which can be used to set the
+default color for the color picker.
 
 ```tsx
 const [color, setColor] = useState('#1976d2');
@@ -51,8 +55,8 @@ const [color, setColor] = useState('#1976d2');
 />
 ```
 
-The color value returned from the `onValueChange` prop is an object containing the equivalent
-**hex**, **rgb**, and **hsv** values:
+The color value returned from the `onValueChange` prop is an object containing
+the equivalent **hex**, **rgb**, and **hsv** values:
 
 ```js
 {
@@ -74,9 +78,52 @@ The color value returned from the `onValueChange` prop is an object containing t
  
 `colorValue` will be string in `hex`, `rgb` or `hsl` format.
 
+### Choosing the value format
+
+`valueKey` decides which format `colorValue` is emitted in: `'hex'` (the
+default), `'rgb'` or `'hsv'`. The `color` object always carries all three, so
+use it when you need more than one format.
+
+With `valueKey="hsv"`, the picker renders only the saturation panel and the hue
+slider, without the text inputs or the alpha slider.
+
+```tsx
+<MUIColorPicker
+  fieldName="accent"
+  valueKey="rgb"
+  value={accent}
+  onValueChange={({ colorValue }) => setAccent(colorValue)}
+/>
+```
+
+### Customizing the picker
+
+- `excludeAlpha` drops the alpha channel from the emitted `colorValue`, for
+  example `#00ffff` instead of `#00ffffff`.
+- `hideAlpha` hides the alpha slider, and `hideInput` hides some or all of the
+  `hex`, `rgb` and `hsv` text inputs.
+- `height` sets the height, in pixels, of the saturation panel. It defaults to
+  `200`.
+- `setColor`, received in `onValueChange`, updates the picker's internal color.
+  Use it to reset the color, or to reject a value by setting the previous one
+  back.
+
+```tsx
+<MUIColorPicker
+  fieldName="accent"
+  value={accent}
+  onValueChange={({ colorValue }) => setAccent(colorValue)}
+  excludeAlpha
+  hideAlpha
+  hideInput={['rgb', 'hsv']}
+  height={240}
+/>
+```
+
 ## API
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIColorPicker} />
 

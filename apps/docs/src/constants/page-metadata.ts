@@ -94,11 +94,16 @@ export const pageMetadata: Record<string, Metadata> = {
  * so the same record can back the v2 docs — each `page.mdx` just does
  * `export const metadata = componentMetadata.MUIXxx;`.
  */
-export const componentMetadata: Record<string, Metadata> = {
+const rawComponentMetadata: Record<string, Metadata> = {
   MUITextField: {
     title: 'MUITextField',
     description:
       'MUITextField — a controlled Material UI text field with built-in label, error and helper-text handling. Usage, live examples and full props reference.'
+  },
+  MUITextArea: {
+    title: 'MUITextArea',
+    description:
+      'MUITextArea — a controlled multiline Material UI text area with built-in label, error and helper-text handling, auto-growing height and a maxChars limit. Usage, live examples and full props reference.'
   },
   MUIPasswordInput: {
     title: 'MUIPasswordInput',
@@ -254,6 +259,37 @@ export const componentMetadata: Record<string, Metadata> = {
     title: 'colorToString',
     description: 'Converts an RGB or HSV color object into a valid CSS color string, with an option to omit a fully-opaque alpha channel.'
   },
+  mergeSx: {
+    title: 'mergeSx',
+    description: 'Merges several sx values — objects, theme callbacks and arrays — into one sx array without losing styles, so a component can combine its base styles with the sx prop it receives.'
+  },
 };
 
 export const formSubmitEventName = 'form_submit';
+
+const titleLabelOverrides: Record<string, string> = { MUITipTapRte: 'Tiptap Rich Text Editor' };
+
+/*
+ * Searchers type "react material ui text field", not "MUITextField", so every
+ * component's `<title>` gets a descriptor, built from the key. `absolute`
+ * skips the layout's ` | MUI Components` suffix, which would push most past
+ * ~60 chars; over-long names drop " for React", then "Material UI".
+ */
+const componentTitle = (name: string) => {
+  const label = titleLabelOverrides[name]
+    ?? name.slice(3).replace(/([a-z])([A-Z])/g, '$1 $2').replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2');
+  return [
+    `${name} — Material UI ${label} for React`,
+    `${name} — Material UI ${label}`,
+    `${name} — ${label}`
+  ].find(title => title.length <= 60)!;
+};
+
+export const componentMetadata: Record<string, Metadata> = Object.fromEntries(
+  Object.entries(rawComponentMetadata).map(([name, metadata]) => [
+    name,
+    name.startsWith('MUI')
+      ? { ...metadata, title: { absolute: componentTitle(name) } }
+      : metadata
+  ])
+);

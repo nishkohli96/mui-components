@@ -29,7 +29,8 @@ import {
   resolveLabelAboveControl,
   useFieldIds,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 import { DefaultEditorExtensions } from './config';
 import Toolbar from './Toolbar';
@@ -230,7 +231,7 @@ const MUITipTapRte = ({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 
@@ -270,7 +271,7 @@ const MUITipTapRte = ({
         role: 'textbox',
         'aria-multiline': 'true',
         'aria-labelledby': !hideLabel && isLabelAboveControl ? labelId : '',
-        'aria-label': hideLabel ? accessibleFieldLabel : '',
+        'aria-label': hideLabel || !isLabelAboveControl ? accessibleFieldLabel : '',
         'aria-describedby': showHelperTextElement
           ? (isError ? errorId : helperTextId)
           : '',

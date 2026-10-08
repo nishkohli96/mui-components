@@ -13,7 +13,10 @@ export default function Layout({ children }) {
 
 # MUINativeSelect
 
-`MUINativeSelect` wraps the Material UI [Native Select](https://v7.mui.com/material-ui/react-select/#native-select) — a real `<select>` element, ideal for mobile and lightweight dropdowns — with the same label/error/helper-text handling as the rest of the suite.
+`MUINativeSelect` wraps the Material UI [Native
+Select](https://v7.mui.com/material-ui/react-select/#native-select) — a real
+`<select>` element, ideal for mobile and lightweight dropdowns — with the same
+label/error/helper-text handling as the rest of the suite.
 
 ## Usage
 
@@ -32,16 +35,104 @@ const [country, setCountry] = useState();
 />
 ```
 
-<Callout type="warning">
-  When using an array of objects for options, both `labelKey` and `valueKey` 
-  are required. If either is missing, an error will be thrown.
-</Callout>
+Only a single selection is supported, and `undefined` or `null` mean no
+selection. The type of selected value matches the type of each element in the
+`options` array. `onValueChange` receives `{ newValue, event }`: the normalized
+value and the native change event. The control always fills the width of its
+container.
+
+### With an array of objects
+
+When `options` is an array of objects,  both `labelKey` and `valueKey`
+**are required**.
+
+- `labelKey`: the property used as each option's visible label.
+- `valueKey`: the property used as each option's value.
+
+The selected value has the type of the `valueKey` property: a string property
+gives a `string`, and a number property gives a `number`.
+
+```tsx
+const [country, setCountry] = useState();
+
+<MUINativeSelect
+  fieldName="country"
+  options={[
+    { code: 'AUS', country: 'Australia' },
+    { code: 'IN', country: 'India' },
+    { code: 'UAE', country: 'United Arab Emirates' }
+  ]}
+  labelKey="country"
+  valueKey="code"
+  value={country}
+  onValueChange={({ newValue }) => setCountry(newValue)}
+/>
+```
+
+### Default option & placeholder
+
+A native select always renders a first `<option>` with the value `''`. Its
+text is `defaultOptionText`, falling back to `placeholder`, and it is empty
+when neither is set. The option is disabled when the field is `required`, so
+it can't be picked again once a real option is chosen. Picking it, when it is
+enabled, gives `''` as the new value.
+
+```tsx
+<MUINativeSelect
+  fieldName="currency"
+  options={['USD', 'EUR', 'GBP']}
+  value={currency}
+  onValueChange={({ newValue }) => setCurrency(newValue)}
+  defaultOptionText="Select currency"
+  required
+/>
+```
+
+`placeholder` works as a shorthand for the same text. A native `<select>` has
+no placeholder of its own, so it only sets the default option's text.
+
+### Customizing individual options
+
+`renderOptionLabel` customizes the text of each option. It also receives a
+`{ disabled, selected }` state, which tells you whether the option is disabled
+or it has been selected. An `<option>` can only display text, so return a
+string or number, not elements.
+
+`getOptionDisabled` receives an option and returns `true` to disable it.
+
+```tsx
+<MUINativeSelect
+  fieldName="product"
+  options={[
+    { id: 1, name: 'Keyboard', stock: 12 },
+    { id: 2, name: 'Monitor', stock: 0 },
+    { id: 3, name: 'Mouse', stock: 4 }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  value={product}
+  onValueChange={({ newValue }) => setProduct(newValue)}
+  getOptionDisabled={option => option.stock === 0}
+  renderOptionLabel={(option, { disabled }) => (
+    disabled ? `${option.name} (out of stock)` : `${option.name} (${option.stock} left)`
+  )}
+/>
+```
+
+### Label placement
+
+A native select has no inline label, so `showLabelAboveFormField` defaults to
+`true` and the label is rendered above the control. Pass `false` to hide the
+visible label while keeping the accessible name. The prop takes precedence over
+`allLabelsAboveFields` from the config, so `false` hides this label even when
+the config places every label above its field.
 
 ## API
 
 For object options, pass `labelKey` and `valueKey`.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUINativeSelect} />
 

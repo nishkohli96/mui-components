@@ -13,21 +13,33 @@ export default function Layout({ children }) {
 
 # Time Pickers
 
-These components wrap the Material UI X [Time Picker](https://v8.mui.com/x/react-date-pickers/time-picker/) with the
-suite's label, error and helper-text handling. Each comes in four flavors that share
-the same controlled contract — a `value` in your date library's format and an
-`onValueChange` callback:
+These components wrap the Material UI X [Time
+Picker](https://v8.mui.com/x/react-date-pickers/time-picker/) with the suite's
+label, error and helper-text handling.
 
-- `MUITimePicker` — responsive (renders the desktop UI on pointer devices, the mobile UI on touch).
+Use a time picker when you need a time of day without a date, such as
+an appointment slot, a shop's opening hours or an alarm. The value is
+a date object from your date library in which only the hours and minutes
+matter, so the date part is just a placeholder that you can leave alone
+or replace when you submit.
+
+Each time picker comes in four variants:
+
+- `MUITimePicker` — responsive (renders the desktop UI on pointer devices, the
+  mobile UI on touch).
 - `MUIDesktopTimePicker` — always renders the desktop (keyboard-first) UI.
 - `MUIMobileTimePicker` — always renders the mobile (modal) UI.
 - `MUIStaticTimePicker` — an always-visible inline picker with no text field.
 
+All of these share the same controlled contract — a `value` in your date
+library's format and an `onValueChange` callback.
+
 ## Setup
 
-All pickers read their date adapter from `ConfigProvider`. Wrap your app once and pass
-the adapter for your date library ([Day.js](https://day.js.org/), [Luxon](https://moment.github.io/luxon/#/),
-[date-fns](https://date-fns.org/) or [Moment](https://momentjs.com/)):
+All pickers read their date adapter from `ConfigProvider`. Wrap your app
+once and pass the adapter for your date library ([Day.js](https://day.js.org/),
+[Luxon](https://moment.github.io/luxon/#/), [date-fns](https://date-fns.org/)
+or [Moment](https://momentjs.com/)).
 
 ```tsx
 import { ConfigProvider } from '@nish1896/mui-components/config';
@@ -38,7 +50,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 </ConfigProvider>
 ```
 
-Without a `dateAdapter`, the pickers throw at render — this is the one required piece of setup.
+<Callout type="warning">
+  Without a `dateAdapter`, the pickers throw at render — this is the one
+  required piece of setup.
+</Callout>
 
 ## Usage
 
@@ -57,15 +72,114 @@ const [value, setValue] = useState<Dayjs | null>(null);
 />
 ```
 
-The default handler stores the value only when it is valid — inspect
-`context.validationError` in `onValueChange` if you need to react to invalid entries.
+`value` uses the date type of your date adapter, such as a `Dayjs` for
+`AdapterDayjs`, where only the time of day matters, and `null` or `undefined`
+clears the picker. `newValue` has the same type, inferred from the `value` you
+pass. `onValueChange` receives `{ newValue, context }` and is called for every
+change, including entries that aren't valid times, so check
+`context.validationError` before relying on `newValue`.
+
+### Other variants
+
+The other three variants are exported from the same module and take the same
+props. Use `MUIDesktopTimePicker` for the keyboard-first popover on every
+device, `MUIMobileTimePicker` for a modal dialog, and `MUIStaticTimePicker` for
+an always-visible clock without a text field (see the note below the API table).
+
+```tsx
+import {
+  MUIDesktopTimePicker,
+  MUIMobileTimePicker,
+  MUIStaticTimePicker
+} from '@nish1896/mui-components/mui-pickers/time';
+
+<MUIMobileTimePicker
+  fieldName="reminder"
+  value={value}
+  onValueChange={({ newValue }) => setValue(newValue)}
+/>
+```
+
+`onAccept` is passed through to MUI X and fires when the user finishes picking a
+value.
+
+### 12-hour or 24-hour clock
+
+By default the clock follows the locale. Set `ampm` to `false` for a 24-hour
+clock, or `true` for a 12-hour clock with an AM/PM switch.
+
+```tsx
+<MUITimePicker
+  fieldName="departure"
+  value={value}
+  onValueChange={({ newValue }) => setValue(newValue)}
+  ampm={false}
+/>
+```
+
+### Validation and time limits
+
+Limit the selectable times with the MUI X props `minTime`, `maxTime`,
+`minutesStep` and `shouldDisableTime`, and with `disablePast` and
+`disableFuture`.
+
+Disabled times can't be picked on the clock, and a typed time outside
+the limits is reported through `context.validationError`. It is one of
+`'invalidDate'`, `'minTime'`, `'maxTime'`, `'minutesStep'`, `'disablePast'`,
+`'disableFuture'`, `'shouldDisableTime-hours'`, `'shouldDisableTime-minutes'`
+or `'shouldDisableTime-seconds'`, and `null` when the value is valid.
+Map it to your own `errorMessage`.
+
+```tsx
+import dayjs, { type Dayjs } from 'dayjs';
+
+const messages: Record<string, string> = {
+  invalidDate: 'Enter a valid time',
+  minTime: 'We open at 9:00',
+  maxTime: 'We close at 17:00'
+};
+
+const [value, setValue] = useState<Dayjs | null>(null);
+const [error, setError] = useState<string>();
+
+<MUITimePicker
+  fieldName="pickupTime"
+  value={value}
+  onValueChange={({ newValue, context }) => {
+    setValue(newValue);
+    setError(context.validationError ? messages[context.validationError] : undefined);
+  }}
+  minTime={dayjs().hour(9).minute(0)}
+  maxTime={dayjs().hour(17).minute(0)}
+  errorMessage={error}
+/>
+```
+
+### Customizing the input
+
+`format` sets how the time is written in the field, using the tokens of your
+date library, such as `'HH:mm'` for Day.js. `slotProps.textField` is forwarded
+to the text field, as an object or a function, for props like `size` and
+`fullWidth`. The component controls the text field's `id`, `error` and ARIA
+attributes.
+
+```tsx
+<MUITimePicker
+  fieldName="alarm"
+  value={alarm}
+  onValueChange={({ newValue }) => setAlarm(newValue)}
+  format="HH:mm"
+  slotProps={{ textField: { size: 'small', fullWidth: true } }}
+/>
+```
 
 ## API
 
-All four variants (`MUITimePicker`, `MUIDesktopTimePicker`, `MUIMobileTimePicker`,
-`MUIStaticTimePicker`) share the props below.
+All four variants (`MUITimePicker`, `MUIDesktopTimePicker`,
+`MUIMobileTimePicker`, `MUIStaticTimePicker`) share the props below.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUITimePicker} />
 
@@ -74,7 +188,8 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
   slightly differently: `fieldName` only derives the generated ids and default
   label (no `name` attribute, since there's no input), and
   `showLabelAboveFormField` defaults to `false` — with no built-in inline label,
-  that means no visible label renders at all (the accessible name is still applied).
+  that means no visible label renders at all (the accessible name is still
+  applied).
 </Callout>
 
 ## Source Code

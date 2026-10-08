@@ -29,7 +29,8 @@ import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type StaticDateTimePickerInputProps = Omit<
@@ -184,7 +185,7 @@ const MUIStaticDateTimePickerInner = forwardRef(function MUIStaticDateTimePicker
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

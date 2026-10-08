@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
-import RadioGroupForm from '@/forms/mui/radio-group/Client';
+import RadioGroupForm from '@/forms/mui/radio-group';
 
 export const metadata = componentMetadata.MUIRadioGroup;
 
@@ -10,7 +10,10 @@ export default function Layout({ children }) {
 
 # MUIRadioGroup
 
-`MUIRadioGroup` wraps the Material UI [RadioGroup](https://mui.com/material-ui/react-radio-button/) for a single choice among `options`, storing the selected value. Supports primitive or object options via `labelKey`/`valueKey`.
+`MUIRadioGroup` wraps the Material UI
+[RadioGroup](https://mui.com/material-ui/react-radio-button/) for a single
+choice among `options`, storing the selected value. Supports primitive or object
+options via `labelKey`/`valueKey`.
 
 ## Usage
 
@@ -29,20 +32,131 @@ const [plan, setPlan] = useState();
 />
 ```
 
-Example with an array of objects:
+`value` is the selected option's value, and `undefined` or `null`
+mean nothing is selected. `onValueChange` receives `{ newValue, event }`:
+the selected value and the change event.
 
-```jsx
+### Option value types
+
+The type of the options is preserved. A radio button's value is a
+string in the DOM, but the component maps it back to the option,
+so string options give a `string` and number options give a `number`.
+
+Declare primitive options outside the JSX, as below. An array written
+inline is inferred by TypeScript as a union of its literal values, such
+as `10 | 25 | 50`, and then a `number | null` state doesn't match it.
+
+```tsx
+const pageSizeOptions = [10, 25, 50];
+const [pageSize, setPageSize] = useState<number | null>(null);
+
+/* newValue is a number, for example 25 */
+<MUIRadioGroup
+  fieldName="pageSize"
+  options={pageSizeOptions}
+  value={pageSize}
+  onValueChange={({ newValue }) => setPageSize(newValue)}
+/>
+```
+
+### With an array of objects
+
+Options can also be objects. In this case, both `labelKey` and `valueKey`
+**are required**. `labelKey` is the property used as each radio button's
+label, and `valueKey` is the property used as its value.
+
+`value` is then the `valueKey` property of the selected option, not the
+whole object, and it keeps the type of that property: a string
+property gives a `string`, and a number property gives a `number`.
+
+```tsx
+const [nationality, setNationality] = useState<string | null>(null);
+
 <MUIRadioGroup
   fieldName="nationality"
   options={[
     { code: 'AUS', country: 'Australia' },
     { code: 'IN', country: 'India' },
-    { code: 'USA', country: 'United States of America' }
+    { code: 'USA', country: 'United States of America' },
     { code: 'UAE', country: 'United Arab Emirates' }
   ]}
   labelKey="country"
   valueKey="code"
   value={nationality}
+  onValueChange={({ newValue }) => setNationality(newValue)}
+/>
+```
+
+### Customizing individual options
+
+`renderOptionLabel` replaces the label of each radio button. It
+receives the option and a state object with `disabled`, which
+is `true` when the option or the whole group is disabled, and
+`selected`, which is `true` for the current value. The label
+can be any `ReactNode`.
+
+`getOptionDisabled` receives an option and returns `true` to
+disable that radio button. A disabled option can't be picked
+but if it is the current value it stays selected. `disabled`
+on the group disables every option at once.
+
+```tsx
+const [seat, setSeat] = useState<string | null>(null);
+
+<MUIRadioGroup
+  fieldName="seat"
+  options={[
+    { id: 'window', name: 'Window', taken: false },
+    { id: 'aisle', name: 'Aisle', taken: true },
+    { id: 'middle', name: 'Middle', taken: false }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  value={seat}
+  onValueChange={({ newValue }) => setSeat(newValue)}
+  getOptionDisabled={option => option.taken}
+  renderOptionLabel={(option, { disabled, selected }) => (
+    <span
+      style={{
+        opacity: disabled ? 0.5 : 1,
+        fontWeight: selected ? 700 : 400
+      }}
+    >
+      {option.name}{disabled ? ' (taken)' : ''}
+    </span>
+  )}
+/>
+```
+
+### Styling each radio button
+
+`radioProps` is forwarded to every `Radio`, for example a `color`,
+`size` or custom `icon` and `checkedIcon`. `formControlLabelProps`
+is forwarded to every `FormControlLabel` that wraps a radio button
+and its label, for example `labelPlacement`. Its `sx` is merged with
+the default `FormControlLabel` styles from `ConfigProvider`. The
+component controls the radio button's `id` and `disabled`, and the label's
+`control`, `value`, `label` and `disabled`.
+
+```tsx
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+<MUIRadioGroup
+  fieldName="plan"
+  options={planOptions}
+  value={plan}
+  onValueChange={({ newValue }) => setPlan(newValue)}
+  radioProps={{
+    color: 'secondary',
+    size: 'small',
+    icon: <RadioButtonUncheckedIcon />,
+    checkedIcon: <CheckCircleIcon />
+  }}
+  formControlLabelProps={{
+    labelPlacement: 'start',
+    sx: { justifyContent: 'space-between', mx: 0 }
+  }}
 />
 ```
 
@@ -50,14 +164,16 @@ Example with an array of objects:
 
 For object options, pass `labelKey` and `valueKey`.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIRadioGroup} />
 
 ## Playground
 
-Driven by plain React state — string and object options (`labelKey` / `valueKey`),
-`getOptionDisabled`, `radioProps`, a custom `renderOptionLabel`, and required validation.
+Driven by plain React state — string and object options (`labelKey` /
+`valueKey`), `getOptionDisabled`, `radioProps`, a custom `renderOptionLabel`,
+and required validation.
 
 <RadioGroupForm />
 

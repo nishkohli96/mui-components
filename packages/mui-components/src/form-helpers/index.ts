@@ -6,6 +6,7 @@
 export {
   fieldNameToId,
   fieldNameToLabel,
+  mergeSx,
   validateFileList,
   getFileSize,
   colorToString

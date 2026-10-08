@@ -19,6 +19,8 @@ const autocompleteObjectRows = (
     P.onValueChange_AutocompleteObject,
     P.multiple,
     P.disableClearable,
+    P.autoHighlight_Autocomplete,
+    P.loading_Autocomplete,
     P.limitTags,
     P.getLimitTagsText,
     resolveProp(P.textFieldProps, args),

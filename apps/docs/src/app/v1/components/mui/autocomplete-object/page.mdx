@@ -13,11 +13,26 @@ export default function Layout({ children }) {
 
 # MUIAutocompleteObject
 
-`MUIAutocompleteObject` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) that stores the **complete option object** rather than a primitive.
+`MUIAutocompleteObject` is an
+[Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) that stores
+the **complete option object** rather than a primitive.
+
+A common use case is picking a record when you need more than its ID later. In
+an "Assign reviewer" form, the options are users loaded from an API, such as
+`{ id, name, email, role }`. `MUIAutocompleteObject` shows each `name` and
+stores the selected user object itself, so the rest of the form can use the
+`email` for a confirmation message or the `role` for validation, without
+searching the list again for the matching ID. [MUIAutocomplete](autocomplete),
+which stores a single property, would leave you to do that lookup.
+
+It also suits edit forms. The saved reviewer can come back from the API as a
+fresh object and still be shown as selected, because options are matched by
+`valueKey` rather than by object identity.
 
 <Callout type="note">
-  `freeSolo` is intentionally unsupported to keep the value type predictable — use [MUIAutocomplete](autocomplete)
-  or [MUIMultiAutocomplete](multi-autocomplete) instead.
+  `freeSolo` is intentionally unsupported to keep the value type predictable —
+  use [MUIAutocomplete](autocomplete) or
+  [MUIMultiAutocomplete](multi-autocomplete) instead.
 </Callout>
 
 ## Usage
@@ -27,6 +42,11 @@ import MUIAutocompleteObject, {
   MUIAutocompleteObjectProps
 } from '@nish1896/mui-components/mui/autocomplete-object';
 ```
+
+`options` must be an **array of objects**, and both `labelKey` and `valueKey`
+**are required**. `labelKey` is the property used as each option's visible
+label, and `valueKey` identifies an option value. `value` is the whole option
+object.
 
 ```tsx
 const [user, setUser] = useState<User | null>(null);
@@ -41,16 +61,117 @@ const [user, setUser] = useState<User | null>(null);
 />
 ```
 
+`onValueChange` receives `{ newValue, event, reason, details }`: the
+selected object (or objects) as Material UI reports them, the original
+event, MUI's change `reason` and extra `details`. There is no
+`selectedOption`, because `newValue` already has the selected option.
+
+### Multiple selection
+
+Set `multiple` to store an `Option[]` and show each selection as a chip. The
+menu stays open while the user picks, whereas a single select closes and blurs
+after a choice.
+
+While the field is not focused, only the first `limitTags` chips (default `2`)
+are shown, followed by a "**+N More**" chip. `limitTags={-1}` shows all of them,
+and `getLimitTagsText` receives the number of hidden chips and returns your own
+text. `ChipProps` customizes the chips.
+
+```tsx
+const [members, setMembers] = useState<User[]>([]);
+
+<MUIAutocompleteObject
+  fieldName="members"
+  options={users}
+  labelKey="name"
+  valueKey="id"
+  value={members}
+  onValueChange={({ newValue }) => setMembers(newValue)}
+  multiple
+  limitTags={3}
+  getLimitTagsText={hiddenCount => `+${hiddenCount} members`}
+  ChipProps={{ color: 'primary', size: 'small' }}
+/>
+```
+
+### Clearing the value
+
+A clear button is shown once there is a value. `disableClearable` removes it,
+so `newValue` is never `null` and the value type no longer includes `null`.
+Give the field an initial value in that case.
+
+```tsx
+const [user, setUser] = useState<User>(users[0]);
+
+<MUIAutocompleteObject
+  fieldName="user"
+  options={users}
+  labelKey="name"
+  valueKey="id"
+  value={user}
+  onValueChange={({ newValue }) => setUser(newValue)}
+  disableClearable
+/>
+```
+
+### Loading state
+
+Set `loading` while the options are being fetched. A small spinner appears at
+the end of the input, and when there are no options yet, the popup shows the
+loading text (`loadingText`, `Loading…` by default) instead of "No options".
+
+`circularProgressProps` customizes the spinner, which is `20px` by default.
+
+```tsx
+<MUIAutocompleteObject
+  fieldName="user"
+  options={users}
+  labelKey="name"
+  valueKey="id"
+  value={user}
+  onValueChange={({ newValue }) => setUser(newValue)}
+  loading={isFetchingUsers}
+  circularProgressProps={{ size: 16 }}
+/>
+```
+
+### Customizing the input
+
+`textFieldProps` is forwarded to the underlying `TextField`, for example
+a `placeholder`, `variant` or `size`. `autoHighlight` is `true` by default,
+which differs from Material UI, so the first option is highlighted as the
+user types and Enter selects it. Pass `autoHighlight={false}` to turn that off.
+A `ref` gives you the input element.
+
+```tsx
+const inputRef = useRef<HTMLInputElement>(null);
+
+<MUIAutocompleteObject
+  fieldName="user"
+  options={users}
+  labelKey="name"
+  valueKey="id"
+  value={user}
+  onValueChange={({ newValue }) => setUser(newValue)}
+  ref={inputRef}
+  autoHighlight={false}
+  textFieldProps={{ placeholder: 'Search users', size: 'small' }}
+/>
+```
+
 ## API
 
-`MUIAutocompleteObjectProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/).
+`MUIAutocompleteObjectProps` also accepts most
+[AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/).
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUIAutocompleteObject} />
 
 ## Reference
-- [Autocomplete Variations](https://v7.mui.com/material-ui/react-autocomplete/#playground)
+- [Autocomplete
+  Variations](https://v7.mui.com/material-ui/react-autocomplete/#playground)
 
 ## Source Code
 

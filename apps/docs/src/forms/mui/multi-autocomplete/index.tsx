@@ -67,7 +67,12 @@ export default function MultiAutocompleteForm() {
 
   return (
     <FormContainer>
-      <form onSubmit={formik.handleSubmit}>
+      <form
+        onSubmit={event => {
+          event.preventDefault();
+          formik.handleSubmit(event);
+        }}
+      >
         <GridContainer>
           <Grid size={12}>
             <FormControlLabel
@@ -90,6 +95,7 @@ export default function MultiAutocompleteForm() {
               selectAllText="Select all skills"
               limitTags={3}
               checkboxProps={{ color: 'secondary' }}
+              freeSolo
               disabled={disableAllFields}
               required
               errorMessage={formikError(formik.submitCount > 0 && formik.errors.skills)}

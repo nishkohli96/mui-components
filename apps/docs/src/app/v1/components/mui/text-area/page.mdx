@@ -1,0 +1,143 @@
+import {
+  DocsPage,
+  AvailabilityBanner,
+  PropsTable,
+  ComponentSourceLink
+} from '@/components/docs';
+import { componentMetadata, componentPropsV1 } from '@/constants';
+
+export const metadata = componentMetadata.MUITextArea;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# MUITextArea
+
+<AvailabilityBanner componentName="MUITextArea" version="1.4" />
+
+`MUITextArea` is a multiline Material UI
+[TextField](https://v7.mui.com/material-ui/react-text-field/) that wires up the
+label, error state and helper text for you. It is a controlled component that
+works with plain `useState` or any form library able to provide a value and
+receive changes.
+
+Unless you set `rows`, the field grows with its content. Use `maxChars` to cap
+the length: typing stops at the limit and pasted text is cut to fit.
+
+For single-line values, use [MUITextField](/v1/components/mui/textfield)
+instead.
+
+## Usage
+
+```tsx
+import MUITextArea, { MUITextAreaProps } from '@nish1896/mui-components/mui/text-area';
+```
+
+Provide `fieldName`, `value` and `onValueChange` to render a fully functional
+text area. Set `rows` for a fixed height.
+
+```tsx
+const [bio, setBio] = useState();
+
+<MUITextArea
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  rows={4}
+/>
+```
+
+Validation stays in your hands — derive `errorMessage` from your own state or
+form library and the field renders in an error state:
+
+```tsx
+<MUITextArea
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  onBlur={() => setBioError(validateBio(bio))}
+  errorMessage={bioError}
+/>
+```
+
+### Character Limit
+
+Setting `maxChars` limits the number of characters. Typing past the limit
+is ignored, and pasted text longer than the remaining room is truncated.
+`maxChars` limits only what the user types or pastes. A `value` set from
+code, such as an initial value or a state update, is shown as is, even when
+it is longer than `maxChars`. The user can then only delete characters,
+until the length drops below the limit. Truncate such values yourself
+before passing them in.
+
+`maxChars` uses the native `maxLength` attribute, which counts UTF-16 code
+units, so an emoji counts as 2 characters.
+
+```tsx
+<MUITextArea
+  fieldName="feedback"
+  value={feedback}
+  onValueChange={({ newValue }) => setFeedback(newValue)}
+  maxChars={50}
+/>
+```
+
+#### Custom character limit text
+
+Add `showCharLimit` to render a `current/max` counter at the bottom-right inside
+the field. It sits in its own strip below the text, so typed content never runs
+under it:
+
+```tsx
+<MUITextArea
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  maxChars={150}
+  showCharLimit
+/>
+```
+
+Pass `renderCharLimit` to replace the default `current/max` text with your own
+node. It receives the current count and `maxChars`, and shows the counter on its
+own. `showCharLimit` isn't needed.
+
+```tsx
+<MUITextArea
+  fieldName="bio"
+  value={bio}
+  onValueChange={({ newValue }) => setBio(newValue)}
+  maxChars={150}
+  renderCharLimit={(charCount, maxChars) => (
+    <Typography
+      variant="caption"
+      color={maxChars - charCount <= 10 ? 'error' : 'text.secondary'}
+    >
+      {maxChars - charCount} characters left
+    </Typography>
+  )}
+/>
+```
+
+## API
+
+`MUITextAreaProps` also accepts the remaining
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), except
+`multiline` (always on), in addition to the props below.
+
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+
+<PropsTable rows={componentPropsV1.MUITextArea} />
+
+## Reference
+- [MUI Multiline
+  TextField](https://v7.mui.com/material-ui/react-text-field/#multiline)
+
+## Source Code
+
+<ComponentSourceLink
+  path="mui/text-area"
+  docsVersion={1}
+/>

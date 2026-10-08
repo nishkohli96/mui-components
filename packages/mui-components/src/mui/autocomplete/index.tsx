@@ -38,8 +38,10 @@ import {
   fieldNameToLabel,
   isKeyValueOption,
   useFieldIds,
+  validateArray,
   keepLabelAboveFormField,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type OmittedAutocompleteProps<
@@ -297,8 +299,9 @@ const MUIAutocompleteInner = forwardRef(function MUIAutocomplete<
   >,
   ref: Ref<HTMLInputElement>
 ) {
-  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
+  validateArray('MUIAutocomplete', options, labelKey, valueKey);
 
+  const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
   const { fieldId, labelId, helperTextId, errorId } = useFieldIds(
     fieldName,
     customIds
@@ -355,7 +358,7 @@ const MUIAutocompleteInner = forwardRef(function MUIAutocomplete<
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

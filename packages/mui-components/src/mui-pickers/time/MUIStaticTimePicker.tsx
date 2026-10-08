@@ -29,7 +29,8 @@ import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type StaticTimePickerInputProps = Omit<
@@ -184,7 +185,7 @@ const MUIStaticTimePickerInner = forwardRef(function MUIStaticTimePicker<
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

@@ -29,7 +29,8 @@ import {
   useFieldIds,
   getErrorList,
   mergeSx,
-  mergeRefs
+  mergeRefs,
+  hasContent
 } from '@/utils';
 
 type OTPChangeEvent
@@ -171,8 +172,7 @@ export type MUIOTPInputProps = {
    */
   helperText?: ReactNode;
   /**
-   * Props forwarded to the internal `FormHelperText`. The `id` is managed by
-   * the component.
+   * Props forwarded to the internal `FormHelperText`. The `id` is managed by the component.
    */
   formHelperTextProps?: Omit<FormHelperTextProps, 'id'>;
   /**
@@ -276,7 +276,7 @@ const MUIOTPInput = ({
         ))
     )
     : undefined;
-  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+  const showHelperTextElement = !!(hasContent(helperText) || (isError && !hideErrorMessage));
 
   /**
    * Anchored so a typed or pasted string is accepted only when *every*
@@ -374,6 +374,7 @@ const MUIOTPInput = ({
       <Box
         role="group"
         aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+        aria-label={isLabelAboveFormField ? undefined : accessibleFieldLabel}
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         {inputValueChars.map((char, index) => (
@@ -398,27 +399,44 @@ const MUIOTPInput = ({
                 }
               }}
               multiline={false}
+              /*
+               * Boxes shrink on narrow viewports (long codes), so the default
+               * horizontal input padding is dropped: it would otherwise eat
+               * the whole box and hide the typed character.
+               */
               sx={mergeSx(
-                { width: 48, '& input': { textAlign: 'center' } },
+                {
+                  width: 48,
+                  minWidth: 0,
+                  '& input': {
+                    textAlign: 'center',
+                    paddingInline: 0
+                  }
+                },
                 textFieldProps?.sx
               )}
               slotProps={{
                 ...textFieldProps?.slotProps,
-                htmlInput: {
-                  ...textFieldProps?.slotProps?.htmlInput,
-                  maxLength: 1,
-                  inputMode: alphanumeric ? 'text' : 'numeric',
-                  /*
-                   * Per-box name only — no `aria-labelledby`. With both set,
-                   * `aria-labelledby` would win and every box would announce
-                   * identically, losing the character position. The group is
-                   * named via `role="group"` on the wrapper instead.
-                   */
-                  'aria-label': `${accessibleFieldLabel} — character ${index + 1} of ${length}`,
-                  'aria-describedby': showHelperTextElement
-                    ? (isError ? errorId : helperTextId)
-                    : undefined,
-                  'aria-required': required
+                htmlInput: ownerState => {
+                  const callerHtmlInput = textFieldProps?.slotProps?.htmlInput;
+                  return {
+                    ...(typeof callerHtmlInput === 'function'
+                      ? callerHtmlInput(ownerState)
+                      : callerHtmlInput),
+                    maxLength: 1,
+                    inputMode: alphanumeric ? 'text' : 'numeric',
+                    /**
+                     * Per-box name only — no `aria-labelledby`. With both set,
+                     * `aria-labelledby` would win and every box would announce
+                     * identically, losing the character position. The group is
+                     * named via `role="group"` on the wrapper instead.
+                     */
+                    'aria-label': `${accessibleFieldLabel} — character ${index + 1} of ${length}`,
+                    'aria-describedby': showHelperTextElement
+                      ? (isError ? errorId : helperTextId)
+                      : undefined,
+                    'aria-required': required
+                  };
                 }
               }}
             />
@@ -426,7 +444,11 @@ const MUIOTPInput = ({
               <Box
                 component="span"
                 aria-hidden
-                sx={{ color: 'text.secondary', fontWeight: 600 }}
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 600,
+                  flexShrink: 0
+                }}
               >
                 {separator}
               </Box>

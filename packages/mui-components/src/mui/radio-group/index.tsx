@@ -27,9 +27,11 @@ import {
   normalizeSelectValue,
   getOptionValue,
   useFieldIds,
+  validateArray,
   resolveLabelAboveControl,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps<
@@ -233,6 +235,8 @@ const MUIRadioGroup = <
   customIds,
   ...otherRadioGroupProps
 }: MUIRadioGroupProps<Option, LabelKey, ValueKey>) => {
+  validateArray('MUIRadioGroup', options, labelKey, valueKey);
+
   const {
     defaultFormControlLabelSx,
     allLabelsAboveFields
@@ -269,7 +273,7 @@ const MUIRadioGroup = <
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 
@@ -309,8 +313,12 @@ const MUIRadioGroup = <
         }}
         onBlur={muiOnBlur}
         aria-required={required || undefined}
-        aria-labelledby={!hideLabel ? labelId : undefined}
-        aria-label={hideLabel ? accessibleFieldLabel : undefined}
+        aria-labelledby={
+          !hideLabel && isLabelAboveControl ? labelId : undefined
+        }
+        aria-label={
+          hideLabel || !isLabelAboveControl ? accessibleFieldLabel : undefined
+        }
         aria-describedby={
           showHelperTextElement
             ? isError

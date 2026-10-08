@@ -13,7 +13,9 @@ export default function Layout({ children }) {
 
 # MUISwitch
 
-`MUISwitch` is a single [Switch](https://v7.mui.com/material-ui/react-switch/) with a boolean value, an inline label, and optional helper text or error state.
+`MUISwitch` is a single [Switch](https://v7.mui.com/material-ui/react-switch/)
+with a boolean value, an inline label, and optional helper text
+or error state.
 
 ## Usage
 
@@ -32,11 +34,75 @@ const [enabled, setEnabled] = useState(false);
 />
 ```
 
+`value` is a boolean, and `undefined` counts as off. `onValueChange`
+receives `{ newValue, event }`: the next checked state and the change
+event. The label defaults to text generated from `fieldName`, so
+`notifications` becomes "Notifications", and `hideLabel` removes the
+visible label.
+
+### Label and placement
+
+`label` accepts any `ReactNode`. The label sits after the switch by
+default. `formControlLabelProps` is forwarded to the `FormControlLabel`
+around the switch, so `labelPlacement` can move it to the `'start'`,
+`'top'` or `'bottom'`. Its `sx` is merged with the default `FormControlLabel`
+styles from `ConfigProvider`. The component controls the `FormControlLabel`'s
+`control`, `label` and `disabled`.
+
+```tsx
+<MUISwitch
+  fieldName="darkMode"
+  value={darkMode}
+  onValueChange={({ newValue }) => setDarkMode(newValue)}
+  label="Dark mode"
+  formControlLabelProps={{
+    labelPlacement: 'start',
+    sx: { justifyContent: 'space-between', ml: 0 }
+  }}
+/>
+```
+
+### Styling the switch
+
+The remaining [SwitchProps](https://v7.mui.com/material-ui/api/switch/)
+are passed to the `Switch`, for example `color`, `size`, `edge` and
+`sx`. `slotProps` is forwarded too. `name`, `value`, `checked`,
+`defaultChecked` and `onChange` are managed by the component, so they
+can't be set.
+
+```tsx
+<MUISwitch
+  fieldName="notifications"
+  value={enabled}
+  onValueChange={({ newValue }) => setEnabled(newValue)}
+  color="secondary"
+  size="small"
+/>
+```
+
+### Helper text and errors
+
+A switch can't be invalid by itself, so set `errorMessage` from your
+own rule. The message replaces the `helperText` while it is shown.
+
+```tsx
+<MUISwitch
+  fieldName="acceptTerms"
+  value={accepted}
+  onValueChange={({ newValue }) => setAccepted(newValue)}
+  label="I accept the terms"
+  helperText="Required to continue"
+  errorMessage={submitted && !accepted ? 'You must accept the terms' : undefined}
+/>
+```
+
 ## API
 
-`MUISwitchProps` also accepts most [SwitchProps](https://v7.mui.com/material-ui/api/switch/).
+`MUISwitchProps` also accepts most
+[SwitchProps](https://v7.mui.com/material-ui/api/switch/).
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUISwitch} />
 

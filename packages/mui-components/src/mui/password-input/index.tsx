@@ -26,7 +26,7 @@ import {
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds, getErrorList } from '@/utils';
+import { fieldNameToLabel, keepLabelAboveFormField, useFieldIds, getErrorList, hasContent } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: string;
@@ -207,7 +207,7 @@ const MUIPasswordInput = ({
         ))
     )
     : undefined;
-  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+  const showHelperTextElement = !!(hasContent(helperText) || (isError && !hideErrorMessage));
 
   const handleClickShowPassword = () => setShowPassword(show => !show);
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {

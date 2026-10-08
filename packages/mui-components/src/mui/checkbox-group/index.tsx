@@ -27,9 +27,11 @@ import {
   coerceValue,
   getOptionValue,
   useFieldIds,
+  validateArray,
   resolveLabelAboveControl,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps<
@@ -240,6 +242,8 @@ const MUICheckboxGroup = <
   formHelperTextProps,
   customIds
 }: MUICheckboxGroupProps<Option, LabelKey, ValueKey, Value>) => {
+  validateArray('MUICheckboxGroup', options, labelKey, valueKey);
+
   const {
     defaultFormControlLabelSx,
     allLabelsAboveFields
@@ -278,7 +282,7 @@ const MUICheckboxGroup = <
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 
@@ -304,8 +308,12 @@ const MUICheckboxGroup = <
   return (
     <FormControl
       component="fieldset"
-      aria-labelledby={!hideLabel ? labelId : undefined}
-      aria-label={hideLabel ? accessibleFieldLabel : undefined}
+      aria-labelledby={
+        !hideLabel && isLabelAboveControl ? labelId : undefined
+      }
+      aria-label={
+        hideLabel || !isLabelAboveControl ? accessibleFieldLabel : undefined
+      }
       aria-describedby={
         showHelperTextElement
           ? isError

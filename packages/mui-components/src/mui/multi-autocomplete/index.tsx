@@ -32,9 +32,9 @@ import {
   type CheckboxProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
+  type AutocompleteOptionRenderState,
   type MuiChipProps,
-  type CircularProgressProps,
-  type AutocompleteOptionRenderState
+  type CircularProgressProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { StrObjOption, CustomComponentIds } from '@/types';
@@ -42,9 +42,11 @@ import {
   fieldNameToLabel,
   isKeyValueOption,
   useFieldIds,
+  validateArray,
   keepLabelAboveFormField,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type MultiAutoCompleteProps<
@@ -132,7 +134,7 @@ export type MUIMultiAutocompleteProps<
    * The typed string is passed to `onValueChange` as-is.
    *
    * To keep things predictable and type-safe, `freeSolo` is not compatible with
-   * `selectAllText` and will hide the "Select All" option.
+   * `selectAllText` and will hide the "**Select All**" option.
    */
   freeSolo?: FreeSolo;
   /**
@@ -140,7 +142,7 @@ export type MUIMultiAutocompleteProps<
    */
   selectAllText?: string;
   /**
-   * When `true`, hides the "**Select All**"" option.
+   * When `true`, hides the "**Select All**" option.
    */
   hideSelectAllOption?: boolean;
   /**
@@ -295,6 +297,8 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
   >,
   ref: Ref<HTMLInputElement>
 ) {
+  validateArray('MUIMultiAutocomplete', options, labelKey, valueKey);
+
   const {
     allLabelsAboveFields,
     defaultFormControlLabelSx
@@ -399,7 +403,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
   const selectedValues: string[] = value ?? [];
@@ -488,12 +492,28 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
         disableClearable={disableClearable}
         autoSelect={freeSolo ? autoSelect ?? true : autoSelect}
         value={selectedOptions}
-        onChange={(_, newSelectedOptions, reason, details) => {
+        onChange={(event, newSelectedOptions, reason, details) => {
           if (reason === 'clear') {
             onValueChange({
               newValue: [],
               selectedOption: undefined
             });
+            return;
+          }
+          /*
+           * With `freeSolo` (which defaults `autoSelect` on), blurring the field
+           * makes MUI "select" the highlighted option. When that option is
+           * already selected MUI toggles it off (reported as `removeOption`),
+           * so typing e.g. "re" and clicking away silently deselects "React".
+           * A blur never changes the selection of an existing value; only an
+           * explicit chip removal, Backspace or option click does.
+           */
+          if (
+            freeSolo
+            && event.type === 'blur'
+            && details?.option !== undefined
+            && selectedSet.has(getOptionLabelOrValue(details.option, valueKey))
+          ) {
             return;
           }
           const isSelectAllSelected

@@ -22,6 +22,8 @@ const fileUploaderRows = (args: MuiPropsDescriptionArgs): PropsInfo[] => [
   resolveProp(P.existingFileListProps, args),
   resolveProp(P.uploadedFileListProps, args),
   P.inputRef_FileUploader,
+  P.onBlur_FileUploader,
+  P.disabled,
   P.label,
   resolveProp(P.showLabelAboveFormField, args),
   resolveProp(P.formLabelProps, args),

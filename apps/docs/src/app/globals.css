@@ -141,6 +141,10 @@ body {
   padding-left: 26px;
 }
 
+.doc-toc li.doc-toc-sub2 a {
+  padding-left: 40px;
+}
+
 .doc-toc li a:hover {
   opacity: 1;
 }
@@ -239,9 +243,8 @@ body {
 
 .doc-code-copy {
   position: absolute !important;
-  top: 50%;
+  top: 8px;
   right: 8px;
-  transform: translateY(-50%);
   color: rgba(0, 0, 0, 0.55) !important;
   background-color: rgba(0, 0, 0, 0.05) !important;
 }

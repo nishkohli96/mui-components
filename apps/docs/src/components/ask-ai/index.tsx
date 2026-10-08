@@ -279,16 +279,15 @@ const AskAI = () => {
                 {!!msg.citations?.length && (
                   <Stack sx={{ mt: 1, gap: 0.5 }}>
                     {msg.citations.map((c, ci) => (
-                      <Link
+                      <MuiLink
                         key={ci}
+                        component={Link}
                         href={c.anchor ? `${c.pageUrl}#${c.anchor}` : c.pageUrl}
-                        style={{
-                          fontSize: 12,
-                          textDecoration: 'underline'
-                        }}
+                        underline="hover"
+                        sx={{ fontSize: 12 }}
                       >
                         {(c.componentName ? `${c.componentName} — ` : '') + c.sectionHeading}
-                      </Link>
+                      </MuiLink>
                     ))}
                   </Stack>
                 )}

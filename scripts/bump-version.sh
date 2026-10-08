@@ -36,9 +36,9 @@ fi
 
 echo "Bumping all workspace package versions to $VERSION using $PM..."
 
-# Loop through all package.json files in the workspace, excluding apps/rag
+# Loop through all package.json files in the workspace
 # (internal tooling, versioned independently of the published packages/docs site)
-find . -name "package.json" -not -path "*/node_modules/*" -not -path "*/apps/rag/*" | while read -r pkg; do
+find . -name "package.json" -not -path "*/node_modules/*" | while read -r pkg; do
   echo "Updating $pkg to version $VERSION"
   tmp=$(mktemp)
   jq --arg ver "$VERSION" '.version = $ver' "$pkg" > "$tmp" && mv "$tmp" "$pkg"

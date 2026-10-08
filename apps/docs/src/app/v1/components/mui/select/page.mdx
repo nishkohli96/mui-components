@@ -1,9 +1,5 @@
 import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
-import {
-  componentMetadata,
-  componentPropsV1,
-  stackblitzFileLink
-} from '@/constants';
+import { componentMetadata, componentPropsV1 } from '@/constants';
 
 export const metadata = componentMetadata.MUISelect;
 
@@ -13,12 +9,16 @@ export default function Layout({ children }) {
 
 # MUISelect
 
-`MUISelect` wraps the Material UI [Select](https://v7.mui.com/material-ui/react-select/) with label, error and helper-text handling. It supports single or multiple selection and either primitive or object options via `labelKey`/`valueKey`.
+`MUISelect` wraps the Material UI
+[Select](https://v7.mui.com/material-ui/react-select/) with label, error and
+helper-text handling. It supports single or multiple selection and either
+primitive or object options via `labelKey`/`valueKey`.
 
 <Callout type="tip">
-  If the number of options **exceeds 20**, consider using [MUIAutocomplete](autocomplete)
-  or [MUIMultiAutocomplete](multi-autocomplete) for better searchability, improved keyboard
-  navigation, and overall performance.
+  If the number of options **exceeds 20**, consider using
+  [MUIAutocomplete](autocomplete) or [MUIMultiAutocomplete](multi-autocomplete)
+  for better searchability, improved keyboard navigation, and overall
+  performance.
 </Callout>
 
 ## Usage
@@ -38,7 +38,53 @@ const [role, setRole] = useState();
 />
 ```
 
-For options as an array of objects:
+With primitive options, the selected `value` has the same type as the options,
+so a string option gives a `string` and a number option gives a `number`.
+`onValueChange` receives `{ newValue, event, child }`: the normalized value,
+the Material UI change event, and the selected option element.
+
+`undefined`, `null` and `''` all mean no selection.
+
+### Selecting multiple values
+
+To select more than one option, set the `multiple` prop to `true`. `value` and
+`newValue` then become arrays, in the order the options were selected. The
+values keep the type of the options, so string options give a `string[]` and
+number options give a `number[]`.
+
+`undefined`, `null` and `[]` all mean no selection. An empty string is not a
+valid value for `multiple`.
+
+```tsx
+const roles = ['Admin', 'Editor', 'Viewer'];
+const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
+
+<MUISelect
+  fieldName="roles"
+  options={roles}
+  value={selectedRoles}
+  onValueChange={({ newValue }) => setSelectedRoles(newValue)}
+  multiple
+/>
+```
+
+The closed field shows the labels of the selected options joined with `, `.
+Use `renderValue` to display it differently, as described in
+[Custom selected value](#custom-selected-value) section. Object options work
+the same way, and `value` is then an array of their `valueKey` properties.
+
+### With an array of objects
+
+When `options` is an array of objects,  both `labelKey` and `valueKey`
+**are required**.
+
+- `labelKey`: the property used as each option's visible label.
+- `valueKey`: the property used as each option's value.
+
+The selected value has the type of the `valueKey` property: a string property
+gives a `string`, and a number property gives a `number`.
+
+For example:
 
 ```jsx
 <MUISelect
@@ -54,16 +100,120 @@ For options as an array of objects:
 />
 ```
 
-<Callout type="warning">
-  When using an array of objects for options, both `labelKey` and `valueKey` 
-  are required. If either is missing, an error will be thrown.
-</Callout>
+### Default option & placeholder
+
+Two props help when nothing is selected yet. `showDefaultOption` adds a first
+menu item with the value `''`, labelled with `defaultOptionText`, which defaults
+to "Select" followed by the label generated from `fieldName`, such as
+`Select Role`. Choosing it clears the selection. It is disabled when the field
+is `required`, so it can't be picked once a real option is chosen.
+
+`placeholder` is text shown inside the closed field while nothing is selected.
+Unlike the default option it isn't a menu item, it is shown faded, and the
+inline label is not rendered while it is shown.
+
+```tsx
+<MUISelect
+  fieldName="role"
+  options={['Admin', 'Editor', 'Viewer']}
+  value={role}
+  onValueChange={({ newValue }) => setRole(newValue)}
+  showDefaultOption
+  defaultOptionText="No role"
+/>
+
+<MUISelect
+  fieldName="plan"
+  options={['Free', 'Pro', 'Team']}
+  value={plan}
+  onValueChange={({ newValue }) => setPlan(newValue)}
+  placeholder="Choose a plan"
+/>
+```
+
+### Customizing individual options
+
+`renderOptionLabel` replaces the content of each menu item. It receives the
+option and a state object with `disabled` and `selected`, so the label can
+react to either.
+
+`getOptionDisabled` receives an option and returns `true` to disable it.
+
+```tsx
+<MUISelect
+  fieldName="product"
+  options={[
+    { id: 1, name: 'Keyboard', stock: 12 },
+    { id: 2, name: 'Monitor', stock: 0 },
+    { id: 3, name: 'Mouse', stock: 4 }
+  ]}
+  labelKey="name"
+  valueKey="id"
+  value={product}
+  onValueChange={({ newValue }) => setProduct(newValue)}
+  renderOptionLabel={(option, { disabled, selected }) => (
+    <span
+      style={{
+        opacity: disabled ? 0.5 : 1,
+        fontWeight: selected ? 700 : 400
+      }}
+    >
+      {option.name} ({option.stock} in stock)
+    </span>
+  )}
+  getOptionDisabled={option => option.stock === 0}
+/>
+```
+
+### Custom selected value
+
+`renderValue` changes what the closed field displays, while `renderOptionLabel`
+only changes the menu items. It receives the normalized value, which is an array
+when `multiple` is set. By default the selected option's label is shown, and the
+labels are joined with `, ` for multiple selection.
+
+```tsx
+<MUISelect
+  fieldName="tags"
+  options={['Bug', 'Feature', 'Docs', 'Chore']}
+  value={tags}
+  onValueChange={({ newValue }) => setTags(newValue)}
+  multiple
+  renderValue={selected => (
+    selected.length ? `${selected.length} selected` : ''
+  )}
+/>
+```
+
+### Styling the options
+
+`menuItemProps` is forwarded to every
+[MenuItem](https://v7.mui.com/material-ui/api/menu-item/), including the default
+option, which is handy for a shared `dense`, `divider` or `sx`.
+`inputLabelProps` is forwarded to the
+[InputLabel](https://v7.mui.com/material-ui/api/input-label/) shown inside the
+field's outline. It has no effect when the field uses a label above
+(`showLabelAboveFormField`), `hideLabel`, or a `placeholder` with no value
+selected.
+
+```tsx
+<MUISelect
+  fieldName="role"
+  options={['Admin', 'Editor', 'Viewer']}
+  value={role}
+  onValueChange={({ newValue }) => setRole(newValue)}
+  menuItemProps={{ dense: true, sx: { fontSize: 14 } }}
+  inputLabelProps={{ sx: { fontWeight: 600 } }}
+/>
+```
 
 ## API
 
-`MUISelectProps` also accepts the remaining [SelectProps](https://v7.mui.com/material-ui/api/select/).
+`MUISelectProps` also accepts the remaining
+[SelectProps](https://v7.mui.com/material-ui/api/select/).
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUISelect} />
 

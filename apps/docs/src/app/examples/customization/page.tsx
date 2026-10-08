@@ -10,7 +10,7 @@ import {
   type ComponentSnippet
 } from '@/components';
 import { pageMetadata } from '@/constants';
-import StyledReusableComponentForm from '@/forms/styled-components/Client';
+import StyledReusableComponentForm from '@/forms/styled-components';
 
 export const metadata = pageMetadata.customizationExample;
 

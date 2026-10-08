@@ -18,7 +18,8 @@ import {
   fieldNameToLabel,
   getErrorList,
   keepLabelAboveFormField,
-  useFieldIds
+  useFieldIds,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -128,13 +129,23 @@ const MUITextField = ({
   customIds,
   ...otherTextFieldProps
 }: MUITextFieldProps) => {
-  const { fieldId, labelId, helperTextId, errorId } = useFieldIds(fieldName, customIds);
+  const {
+    fieldId,
+    labelId,
+    helperTextId,
+    errorId
+  } = useFieldIds(fieldName, customIds);
   const { allLabelsAboveFields } = useContext(MUIComponentsConfigContext);
-  const isLabelAboveFormField = keepLabelAboveFormField(showLabelAboveFormField, allLabelsAboveFields);
+  const isLabelAboveFormField = keepLabelAboveFormField(
+    showLabelAboveFormField,
+    allLabelsAboveFields
+  );
 
   const defaultFieldLabel = fieldNameToLabel(fieldName);
   const fieldLabel = label ?? defaultFieldLabel;
-  const accessibleFieldLabel = typeof fieldLabel === 'string' ? fieldLabel : defaultFieldLabel;
+  const accessibleFieldLabel = typeof fieldLabel === 'string'
+    ? fieldLabel
+    : defaultFieldLabel;
 
   const errorList = getErrorList(errorMessage);
   const isError = errorList.length > 0;
@@ -149,7 +160,7 @@ const MUITextField = ({
         ))
     )
     : undefined;
-  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+  const showHelperTextElement = !!(hasContent(helperText) || (isError && !hideErrorMessage));
 
   return (
     <FormControl error={isError} disabled={muiDisabled}>

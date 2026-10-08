@@ -1,6 +1,6 @@
 import { DocsPage, PropsTable, ComponentSourceLink } from '@/components/docs';
 import { componentMetadata, componentProps } from '@/constants';
-import TextFieldsForm from '@/forms/mui/textfield/Client';
+import TextFieldsForm from '@/forms/mui/textfield';
 
 export const metadata = componentMetadata.MUITextField;
 
@@ -10,13 +10,16 @@ export default function Layout({ children }) {
 
 # MUITextField
 
-`MUITextField` extends the Material UI [TextField](https://mui.com/material-ui/react-text-field/)
-component, accepting almost all of its props while wiring up the label, error state and
-helper text for you. It is a controlled component that works with plain `useState` or any
+`MUITextField` extends the Material UI
+[TextField](https://mui.com/material-ui/react-text-field/) component, accepting
+almost all of its props while wiring up the label, error state and helper text
+for you. It is a controlled component that works with plain `useState` or any
 form library able to provide a value and receive changes.
 
-For specialized inputs, you can also use [MUIPasswordInput](/components/mui/password-input)
-for password values or [MUINumberInput](/components/mui/number-input) for numeric input.
+For specialized inputs, you can also use
+[MUIPasswordInput](/components/mui/password-input) for password values,
+[MUINumberInput](/components/mui/number-input) for numeric input, or
+[MUITextArea](/components/mui/text-area) for multiline text.
 
 ## Usage
 
@@ -24,7 +27,8 @@ for password values or [MUINumberInput](/components/mui/number-input) for numeri
 import MUITextField, { MUITextFieldProps } from '@nish1896/mui-components/mui/textfield';
 ```
 
-Provide `fieldName`, `value` and `onValueChange` to render a fully functional text field:
+Provide `fieldName`, `value` and `onValueChange` to render a fully functional
+text field:
 
 ```tsx
 const [firstName, setFirstName] = useState();
@@ -36,8 +40,8 @@ const [firstName, setFirstName] = useState();
 />
 ```
 
-Validation stays in your hands — derive `errorMessage` from your own state or form
-library and the field renders in an error state:
+Validation stays in your hands — derive `errorMessage` from your own state or
+form library and the field renders in an error state:
 
 ```tsx
 <MUITextField
@@ -49,13 +53,116 @@ library and the field renders in an error state:
 />
 ```
 
+### Customizing the label
+
+The label defaults to one generated from `fieldName`, so `firstName` becomes
+"First Name". Use `label` to override it with any `ReactNode`. `required`
+appends the required marker.
+
+`showLabelAboveFormField` renders the label above the input instead of inside
+it, and `hideLabel` removes the visible label while keeping an accessible one.
+`formLabelProps` is forwarded to the label, for example to style it with `sx`.
+
+```tsx
+<MUITextField
+  fieldName="email"
+  label="Work email"
+  required
+  showLabelAboveFormField
+  formLabelProps={{
+    sx: { fontWeight: 600 }
+  }}
+  helperText="We never share your email"
+  formHelperTextProps={{
+    sx: { fontStyle: 'italic' }
+  }}
+  value={email}
+  onValueChange={({ newValue }) => setEmail(newValue)}
+/>
+```
+
+To place every label above its field at once, use `allLabelsAboveFields` in
+[ConfigProvider](/customization).
+
+### Validation
+
+`MUITextField` doesn't validate on its own. You apply the rules you need, such
+as a minimum or maximum length or a specific pattern, in your own code or form
+library, and pass the resulting message to `errorMessage`. The field then
+switches to an error state and shows the message below the input. The examples
+below show the common patterns.
+
+#### Using a regex
+
+`onValueChange` receives `{ newValue, event }`. Run your rule on `newValue` and
+keep the message in state, so the field shows the error as the user types:
+
+```tsx
+const [username, setUsername] = useState('');
+const [usernameError, setUsernameError] = useState<string>();
+
+<MUITextField
+  fieldName="username"
+  value={username}
+  onValueChange={({ newValue }) => {
+    setUsername(newValue);
+    setUsernameError(
+      /^[a-z0-9_]{3,16}$/.test(newValue)
+        ? undefined
+        : 'Use 3-16 lowercase letters, digits or underscores'
+    );
+  }}
+  errorMessage={usernameError}
+/>
+```
+
+To block invalid characters instead of reporting them, only update the state
+when `newValue` passes the check:
+
+```tsx
+onValueChange={({ newValue }) => {
+  if (/^\d*$/.test(newValue)) setZip(newValue);
+}}
+```
+
+#### Showing multiple errors
+
+`errorMessage` also accepts a `string[]`. Every message is shown together, which
+suits a field that can fail several rules at once. `renderError` receives the
+same list as `errors` and can render it your way, and `hideErrorMessage` keeps
+the error state without showing any text.
+
+```tsx
+const errors = [
+  !/[A-Z]/.test(value) && 'Add an uppercase letter',
+  !/\d/.test(value) && 'Add a digit',
+  value.length < 8 && 'Use at least 8 characters'
+].filter(Boolean) as string[];
+
+<MUITextField
+  fieldName="handle"
+  value={value}
+  onValueChange={({ newValue }) => setValue(newValue)}
+  errorMessage={errors}
+  renderError={errors => (
+    <ul style={{ margin: 0, paddingLeft: 16 }}>
+      {errors.map(error => <li key={error}>{error}</li>)}
+    </ul>
+  )}
+/>
+```
+
+An empty string or an empty array clears the error. `helperText` is shown while
+there is no visible error.
+
 ## API
 
 `MUITextFieldProps` also accepts the remaining
 [TextFieldProps](https://mui.com/material-ui/api/text-field/)
 in addition to the props below.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUITextField} />
 

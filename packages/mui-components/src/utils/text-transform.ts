@@ -7,6 +7,8 @@
  * - "parseJSONData" to "Parse JSON Data"
  * - "enable_HTTP_Config" to "Enable HTTP Config"
  * - users.0.email -> Users Email
+ *
+ * Docs: [fieldNameToLabel](https://mui-components-docs.vercel.app/form-helpers/fieldNameToLabel)
  */
 export function fieldNameToLabel(str: string) {
   return str
@@ -31,6 +33,8 @@ export function fieldNameToLabel(str: string) {
  * - "user.email" to "user-email"
  * - "phones[0]" to "phones-0"
  * - "user.profile@details" to "user-profile-details"
+ *
+ * Docs: [fieldNameToId](https://mui-components-docs.vercel.app/form-helpers/fieldNameToId)
  */
 export function fieldNameToId(fieldName: string): string {
   const id = fieldName
