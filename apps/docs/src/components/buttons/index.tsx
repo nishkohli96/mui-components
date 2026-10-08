@@ -128,6 +128,7 @@ export const NpmButton = () => {
           alt="NPM"
           width={36}
           height={14.4}
+          style={{ width: 36, height: 'auto' }}
         />
       </IconButton>
     </Tooltip>
