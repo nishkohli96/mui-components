@@ -108,6 +108,11 @@ export const componentMetadata: Record<string, Metadata> = {
     description:
       'MUITextField — a controlled Material UI text field with built-in label, error and helper-text handling. Usage, live examples and full props reference.'
   },
+  MUITextArea: {
+    title: 'MUITextArea',
+    description:
+      'MUITextArea — a controlled multiline Material UI text area with built-in label, error and helper-text handling, auto-growing height and a maxChars limit. Usage, live examples and full props reference.'
+  },
   MUIPasswordInput: {
     title: 'MUIPasswordInput',
     description:

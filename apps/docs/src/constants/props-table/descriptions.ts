@@ -600,6 +600,30 @@ export const PropsDescription = Object.freeze({
       'Maximum number of tags that can be added. Keyboard entries beyond the limit are ignored; pasted tags are truncated to fit.',
     type: 'number'
   },
+  maxChars_TextArea: {
+    name: 'maxChars',
+    description:
+      'Maximum number of characters the field accepts. Typing stops at the limit and pasted text is cut to fit, via the native `maxLength` attribute — so it also applies on mobile keyboards. Counts UTF-16 code units, so an emoji counts as 2. Limits only user input: a `value` set from code (e.g. an initial value) is shown in full even if longer than `maxChars`, and the user can then only delete characters. Truncate such values yourself.',
+    type: 'number'
+  },
+  showCharLimit_TextArea: {
+    name: 'showCharLimit',
+    description:
+      'When `true`, shows a `current/max` character counter at the bottom-right inside the field, in its own strip below the text so typed content never runs under it. Has no effect unless `maxChars` is set. Passing `renderCharLimit` also shows the counter, so this can be omitted then. Replaces any `slotProps.input.endAdornment` while shown.',
+    type: 'boolean'
+  },
+  renderCharLimit_TextArea: {
+    name: 'renderCharLimit',
+    description:
+      'Custom renderer for the character counter, replacing the default `current/max` text. Providing it shows the counter even without `showCharLimit`, as long as `maxChars` is set; the counter keeps its bottom-right strip inside the field.',
+    type: '(charCount: number, maxChars: number) => ReactNode'
+  },
+  rows_TextArea: {
+    name: 'rows',
+    description:
+      'Fixed number of visible text rows. When omitted, the field starts at one row and grows with its content.',
+    type: 'number'
+  },
   limitTags_TagsInput: {
     name: 'limitTags',
     description:

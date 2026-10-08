@@ -57,6 +57,7 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
 
 - **mui**
   - [TextField](https://mui-components-docs.vercel.app/v1/components/mui/textfield)
+  - [Text Area](https://mui-components-docs.vercel.app/v1/components/mui/text-area)
   - [Password Input](https://mui-components-docs.vercel.app/v1/components/mui/password-input)
   - [Number Input](https://mui-components-docs.vercel.app/v1/components/mui/number-input)
   - [Number Stepper](https://mui-components-docs.vercel.app/v1/components/mui/number-stepper)

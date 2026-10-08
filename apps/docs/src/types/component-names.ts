@@ -1,5 +1,6 @@
 export enum MuiComponents {
   TextField = 'MUITextField',
+  TextArea = 'MUITextArea',
   PasswordInput = 'MUIPasswordInput',
   NumberInput = 'MUINumberInput',
   NumberStepper = 'MUINumberStepper',

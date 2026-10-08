@@ -16,6 +16,7 @@ export const sidebarLinks: Page[] = [
         title: 'MUI',
         pages: [
           { title: 'Text Field', href: '/components/mui/textfield' },
+          { title: 'Text Area', href: '/components/mui/text-area' },
           { title: 'Password Input', href: '/components/mui/password-input' },
           { title: 'Number Input', href: '/components/mui/number-input' },
           { title: 'Number Stepper', href: '/components/mui/number-stepper' },

@@ -13,6 +13,7 @@
 
 import type { PropsInfo, PropsDescriptionArgs } from '@/types';
 import textFieldRows from './mui/textfield';
+import textAreaRows from './mui/text-area';
 import passwordInputRows from './mui/password-input';
 import numberInputRows from './mui/number-input';
 import numberStepperRows from './mui/number-stepper';
@@ -51,6 +52,7 @@ export const currentVersionArgs: PropsDescriptionArgs = {
 
 export const componentProps: Record<string, PropsInfo[]> = Object.freeze({
   MUITextField: textFieldRows(currentVersionArgs),
+  MUITextArea: textAreaRows(currentVersionArgs),
   MUIPasswordInput: passwordInputRows(currentVersionArgs),
   MUINumberInput: numberInputRows(currentVersionArgs),
   MUINumberStepper: numberStepperRows(currentVersionArgs),
