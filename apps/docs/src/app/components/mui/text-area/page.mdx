@@ -59,6 +59,47 @@ library and the field renders in an error state:
 />
 ```
 
+### Sizing
+
+By default the field starts at one row and grows with its content. `rows` fixes the height
+instead, and the content scrolls once it no longer fits. To keep the auto-growing behavior
+within bounds, pass `minRows` and `maxRows`, which are forwarded to the underlying
+`TextField`.
+
+```tsx
+<MUITextArea
+  fieldName="notes"
+  value={notes}
+  onValueChange={({ newValue }) => setNotes(newValue)}
+  minRows={3}
+  maxRows={8}
+/>
+```
+
+### Validating the length
+
+`maxChars` only caps what the user can type. To enforce a minimum, or to explain a rule,
+derive `errorMessage` from the value. It works well together with the counter:
+
+```tsx
+<MUITextArea
+  fieldName="review"
+  value={review}
+  onValueChange={({ newValue }) => setReview(newValue)}
+  maxChars={300}
+  showCharLimit
+  helperText="Tell us what you liked"
+  errorMessage={
+    review.trim().length < 20 ? 'Write at least 20 characters' : undefined
+  }
+/>
+```
+
+`errorMessage` also accepts a `string[]`, `renderError` customizes how the messages are
+shown, and `hideErrorMessage` keeps the error state without the text. The label can be
+customized with `label`, `showLabelAboveFormField`, `hideLabel` and `formLabelProps`, as
+described for [MUITextField](/components/mui/textfield#customizing-the-label).
+
 ### Character Limit
 
 Setting `maxChars` limits the number of characters. Typing past the limit
@@ -93,6 +134,8 @@ sits in its own strip below the text, so typed content never runs under it:
   showCharLimit
 />
 ```
+
+#### Custom character limit text
 
 Pass `renderCharLimit` to replace the default `current/max` text with your own node. It receives
 the current count and `maxChars`, and shows the counter on its own. `showCharLimit` isn't needed.
@@ -130,7 +173,7 @@ required.
 <TextAreaForm />
 
 ## Reference
-- [MUI TextField](https://mui.com/material-ui/react-text-field/)
+- [MUI Multiline TextField](https://mui.com/material-ui/react-text-field/#multiline)
 
 ## Source Code
 

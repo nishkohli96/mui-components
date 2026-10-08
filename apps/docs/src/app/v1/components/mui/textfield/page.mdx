@@ -54,6 +54,107 @@ library and the field renders in an error state:
 />
 ```
 
+### Customizing the label
+
+The label defaults to one generated from `fieldName`, so `firstName` becomes
+"First Name". Use `label` to override it with any `ReactNode`. `required` appends the
+required marker.
+
+`showLabelAboveFormField` renders the label above the input instead of inside it, and
+`hideLabel` removes the visible label while keeping an accessible one. `formLabelProps` is
+forwarded to the label, for example to style it with `sx`.
+
+```tsx
+<MUITextField
+  fieldName="email"
+  label="Work email"
+  required
+  showLabelAboveFormField
+  formLabelProps={{
+    sx: { fontWeight: 600 }
+  }}
+  helperText="We never share your email"
+  formHelperTextProps={{
+    sx: { fontStyle: 'italic' }
+  }}
+  value={email}
+  onValueChange={({ newValue }) => setEmail(newValue)}
+/>
+```
+
+To place every label above its field at once, use `allLabelsAboveFields` in
+[ConfigProvider](/v1/customization).
+
+### Validation
+
+`MUITextField` doesn't validate on its own. You apply the rules you need, such as a minimum
+or maximum length or a specific pattern, in your own code or form library, and pass the
+resulting message to `errorMessage`. The field then switches to an error state and shows
+the message below the input. The examples below show the common patterns.
+
+#### Using a regex
+
+`onValueChange` receives `{ newValue, event }`. Run your rule on `newValue` and keep the
+message in state, so the field shows the error as the user types:
+
+```tsx
+const [username, setUsername] = useState('');
+const [usernameError, setUsernameError] = useState<string>();
+
+<MUITextField
+  fieldName="username"
+  value={username}
+  onValueChange={({ newValue }) => {
+    setUsername(newValue);
+    setUsernameError(
+      /^[a-z0-9_]{3,16}$/.test(newValue)
+        ? undefined
+        : 'Use 3-16 lowercase letters, digits or underscores'
+    );
+  }}
+  errorMessage={usernameError}
+/>
+```
+
+To block invalid characters instead of reporting them, only update the state when
+`newValue` passes the check:
+
+```tsx
+onValueChange={({ newValue }) => {
+  if (/^\d*$/.test(newValue)) setZip(newValue);
+}}
+```
+
+#### Showing multiple errors
+
+`errorMessage` also accepts a `string[]`. Every message is shown together, which suits a
+field that can fail several rules at once. `renderError` receives the same list as
+`errors` and can render it your way, and `hideErrorMessage` keeps the error state without
+showing any text.
+
+```tsx
+const errors = [
+  !/[A-Z]/.test(value) && 'Add an uppercase letter',
+  !/\d/.test(value) && 'Add a digit',
+  value.length < 8 && 'Use at least 8 characters'
+].filter(Boolean) as string[];
+
+<MUITextField
+  fieldName="handle"
+  value={value}
+  onValueChange={({ newValue }) => setValue(newValue)}
+  errorMessage={errors}
+  renderError={errors => (
+    <ul style={{ margin: 0, paddingLeft: 16 }}>
+      {errors.map(error => <li key={error}>{error}</li>)}
+    </ul>
+  )}
+/>
+```
+
+An empty string or an empty array clears the error. `helperText` is shown while there is
+no visible error.
+
 ## API
 
 `MUITextFieldProps` also accepts the remaining
