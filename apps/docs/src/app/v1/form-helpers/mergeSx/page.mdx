@@ -1,0 +1,111 @@
+import { DocsPage, AvailabilityBanner, Callout } from '@/components/docs';
+import { componentMetadata } from '@/constants';
+
+export const metadata = componentMetadata.mergeSx;
+
+export default function Layout({ children }) {
+  return <DocsPage>{children}</DocsPage>;
+}
+
+# mergeSx
+
+<AvailabilityBanner componentName="mergeSx" version="1.4.0" />
+
+Combines several [sx](https://v7.mui.com/system/getting-started/the-sx-prop/)
+values into a single `sx` array that you can pass to any Material UI component.
+It is what the components in this package use internally to merge their own base
+styles with the `sx` you pass in, and it is useful whenever you build a reusable
+component that accepts an `sx` prop of its own.
+
+```ts
+function mergeSx(
+  ...sources: (SxProps<Theme> | false | null | undefined)[]
+): SxProps<Theme>;
+```
+
+## Usage
+
+```js
+import { mergeSx } from '@nish1896/mui-components/form-helpers';
+```
+
+### Why not spread the objects?
+
+`sx` accepts an object, a callback that receives the theme, or an array of
+those. Spreading two values, `{ ...a, ...b }`, only works while both are plain
+objects:
+
+- An array collapses into numeric keys, so its styles are lost.
+- A callback has no own properties, so it is dropped.
+
+`mergeSx` keeps every form intact by returning an array, which is the format
+MUI recommends for combining `sx` values.
+
+### Parameters
+
+`...sources` - Any number of `sx` values, merged from left to right:
+
+- An object, a theme callback or an array of those.
+- `false`, `null` or `undefined`, which are skipped. This lets you pass a
+  conditional style inline, as in `isActive && { color: 'primary.main' }`.
+
+### Returns
+
+A new `sx` array. Later sources win over earlier ones, exactly like object
+spread. The inputs are never mutated.
+
+An array source is spread one level, and its own entries are kept as they are.
+MUI accepts objects, callbacks and `false` inside an `sx` array.
+
+<Callout type="tip">
+  The result can be passed anywhere MUI expects an `sx`, such as
+  `slotProps.input.sx` or `slotProps.paper.sx`.
+</Callout>
+
+## Examples
+
+### Forwarding the `sx` prop
+
+Put your base styles first and the `sx` received from props last, so the caller
+can override them:
+
+```tsx
+import Box from '@mui/material/Box';
+import type { SxProps, Theme } from '@mui/material/styles';
+import { mergeSx } from '@nish1896/mui-components/form-helpers';
+
+type CardProps = { sx?: SxProps<Theme> };
+
+const Card = ({ sx }: CardProps) => (
+  <Box
+    sx={mergeSx(
+      { p: 2, borderRadius: 1 },
+      sx
+    )}
+  />
+);
+
+<Card sx={{ p: 4 }} />; // padding is 4, the border radius stays
+```
+
+### Conditional styles
+
+```tsx
+<Box
+  sx={mergeSx(
+    baseSx,
+    isActive && { color: 'primary.main' },
+    sx
+  )}
+/>
+```
+
+### Theme callbacks and arrays
+
+```tsx
+const merged = mergeSx(
+  { px: 2 },
+  theme => ({ borderColor: theme.palette.divider }),
+  [{ mt: 1 }, isDense && { mt: 0 }]
+);
+```

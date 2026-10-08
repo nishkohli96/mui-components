@@ -259,6 +259,10 @@ const rawComponentMetadata: Record<string, Metadata> = {
     title: 'colorToString',
     description: 'Converts an RGB or HSV color object into a valid CSS color string, with an option to omit a fully-opaque alpha channel.'
   },
+  mergeSx: {
+    title: 'mergeSx',
+    description: 'Merges several sx values — objects, theme callbacks and arrays — into one sx array without losing styles, so a component can combine its base styles with the sx prop it receives.'
+  },
 };
 
 export const formSubmitEventName = 'form_submit';
