@@ -74,6 +74,10 @@ export const sidebarLinks: Page[] = [
         href: '/form-helpers/fieldNameToLabel',
       },
       {
+        title: 'mergeSx',
+        href: '/form-helpers/mergeSx'
+      },
+      {
         title: 'validateFileList',
         href: '/form-helpers/validateFileList'
       },

@@ -29,6 +29,8 @@ type ValidateFileListOptions = {
  * @param options.precision - Decimal places to show for KB/MB/GB values;
  * trailing zeros are stripped. Default `1`.
  * @throws {Error} If `size` is negative.
+ *
+ * Docs: [getFileSize](https://mui-components-docs.vercel.app/v1/form-helpers/getFileSize)
  */
 export function getFileSize(size: number, options?: FileSizeOptions): string {
   if (size < 0) {
@@ -82,6 +84,8 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
  * @returns
  *   - `acceptedFiles` that passed every check
  *   - `rejectedFiles` each rejected file paired with its `FileUploadErrorDetails`.
+ *
+ * Docs: [validateFileList](https://mui-components-docs.vercel.app/v1/form-helpers/validateFileList)
  */
 export function validateFileList(
   fileList: FileList | File[],

@@ -259,6 +259,10 @@ export const componentMetadata: Record<string, Metadata> = {
     title: 'getFileSize',
     description: 'Formats a byte count into a human-readable file size — bytes, KB, MB or GB — rounded to a whole number or a given precision.'
   },
+  mergeSx: {
+    title: 'mergeSx',
+    description: 'Merges several sx values — objects, theme callbacks and arrays — into one sx array without losing styles, so a component can combine its base styles with the sx prop it receives.'
+  },
   validateFileList: {
     title: 'validateFileList',
     description: 'Validates a FileList against a max size, accepted file types and a file-count limit, splitting it into accepted and rejected files with per-file error reasons.'
