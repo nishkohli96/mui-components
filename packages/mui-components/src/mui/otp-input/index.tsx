@@ -213,9 +213,9 @@ export type MUIOTPInputProps = {
  *
  * Only digits are accepted unless `alphanumeric` is set.
  *
- * Docs: [MUIOTPInput](https://mui-components-docs.vercel.app/components/mui/otp-input)
+ * Docs: [MUIOTPInput](https://mui-components-docs.vercel.app/v1/components/mui/otp-input)
  *
- * API: [MUIOTPInputProps](https://mui-components-docs.vercel.app/components/mui/otp-input#api)
+ * API: [MUIOTPInputProps](https://mui-components-docs.vercel.app/v1/components/mui/otp-input#api)
  */
 const MUIOTPInput = ({
   fieldName,
@@ -397,8 +397,21 @@ const MUIOTPInput = ({
                   mergeRefs(inputRef)(el);
                 }
               }}
+              multiline={false}
+              /*
+               * Boxes shrink on narrow viewports (long codes), so the default
+               * horizontal input padding is dropped: it would otherwise eat
+               * the whole box and hide the typed character.
+               */
               sx={mergeSx(
-                { width: 48, '& input': { textAlign: 'center' } },
+                {
+                  width: 48,
+                  minWidth: 0,
+                  '& input': {
+                    textAlign: 'center',
+                    paddingInline: 0
+                  }
+                },
                 textFieldProps?.sx
               )}
               slotProps={{
@@ -411,6 +424,12 @@ const MUIOTPInput = ({
                       : callerHtmlInput),
                     maxLength: 1,
                     inputMode: alphanumeric ? 'text' : 'numeric',
+                    /**
+                     * Per-box name only — no `aria-labelledby`. With both set,
+                     * `aria-labelledby` would win and every box would announce
+                     * identically, losing the character position. The group is
+                     * named via `role="group"` on the wrapper instead.
+                    */
                     'aria-label': `${accessibleFieldLabel} — character ${index + 1} of ${length}`,
                     'aria-describedby': showHelperTextElement
                       ? (isError ? errorId : helperTextId)
@@ -424,7 +443,11 @@ const MUIOTPInput = ({
               <Box
                 component="span"
                 aria-hidden
-                sx={{ color: 'text.secondary', fontWeight: 600 }}
+                sx={{
+                  color: 'text.secondary',
+                  fontWeight: 600,
+                  flexShrink: 0
+                }}
               >
                 {separator}
               </Box>
