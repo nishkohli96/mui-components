@@ -10,6 +10,7 @@ import moment from 'moment';
 import { type PickerValidDate } from '@mui/x-date-pickers/models';
 import { type CountryDetails } from '@nish1896/mui-components/mui/country-select';
 import { type MUIPhoneInputValue } from '@nish1896/mui-components/misc/phone-input';
+import { type MUIUnitInputValue } from '@nish1896/mui-components/mui/unit-input';
 import { type CityOption, isBlankHtml } from '../data';
 
 export const zodFormSchema = z.object({
@@ -62,6 +63,17 @@ export const zodFormSchema = z.object({
     val => Boolean((val as MUIPhoneInputValue | null)?.phoneNo),
     { message: 'Enter your phone number' }
   ),
+  quantity: z.custom<number | null>(
+    val => typeof val === 'number' && val >= 1,
+    { message: 'Quantity is required' }
+  ),
+  weight: z.custom<MUIUnitInputValue<'kg' | 'lb'>>(
+    val => (val as MUIUnitInputValue | null)?.value != null,
+    { message: 'Weight is required' }
+  ),
+  otp: z.string().length(6, { message: 'Enter all 6 digits' }),
+  about: z.string(),
+  summary: z.string(),
   bio: z
     .string()
     .refine(value => !isBlankHtml(value), { message: 'Add a short bio' })

@@ -32,9 +32,9 @@ import {
   type CheckboxProps,
   type FormHelperTextProps,
   type AutoCompleteTextFieldProps,
+  type AutocompleteOptionRenderState,
   type MuiChipProps,
-  type CircularProgressProps,
-  type AutocompleteOptionRenderState
+  type CircularProgressProps
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { StrObjOption, CustomComponentIds } from '@/types';
@@ -134,7 +134,7 @@ export type MUIMultiAutocompleteProps<
    * The typed string is passed to `onValueChange` as-is.
    *
    * To keep things predictable and type-safe, `freeSolo` is not compatible with
-   * `selectAllText` and will hide the "Select All" option.
+   * `selectAllText` and will hide the "**Select All**" option.
    */
   freeSolo?: FreeSolo;
   /**
@@ -142,7 +142,7 @@ export type MUIMultiAutocompleteProps<
    */
   selectAllText?: string;
   /**
-   * When `true`, hides the "**Select All**"" option.
+   * When `true`, hides the "**Select All**" option.
    */
   hideSelectAllOption?: boolean;
   /**

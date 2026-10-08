@@ -13,6 +13,7 @@ import {
   type CountryISO
 } from '@nish1896/mui-components/mui/country-select';
 import { type MUIPhoneInputValue } from '@nish1896/mui-components/misc/phone-input';
+import { type MUIUnitInputValue } from '@nish1896/mui-components/mui/unit-input';
 
 export type CityOption = { id: string; name: string; country: string };
 
@@ -56,6 +57,11 @@ export type CompleteFormValues = {
   appointment: PickerValidDate | null;
   brandColor: string;
   phone: MUIPhoneInputValue | null;
+  quantity: number | null;
+  weight: MUIUnitInputValue<'kg' | 'lb'>;
+  otp: string;
+  about: string;
+  summary: string;
   bio: string;
 };
 
@@ -85,6 +91,11 @@ export const initialValues: CompleteFormValues = {
   appointment: null,
   brandColor: '#1976d2',
   phone: null,
+  quantity: null,
+  weight: { unit: 'kg', value: null },
+  otp: '',
+  about: '',
+  summary: '',
   bio: ''
 };
 
@@ -132,6 +143,15 @@ export function validateCompleteForm(values: CompleteFormValues): CompleteFormEr
   }
   if (!values.phone?.phoneNo) {
     errors.phone = 'Enter your phone number';
+  }
+  if (values.quantity === null) {
+    errors.quantity = 'Quantity is required';
+  }
+  if (values.weight.value === null) {
+    errors.weight = 'Weight is required';
+  }
+  if (values.otp.length < 6) {
+    errors.otp = 'Enter all 6 digits';
   }
   if (isBlankHtml(values.bio)) {
     errors.bio = 'Add a short bio';

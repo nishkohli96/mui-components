@@ -64,6 +64,25 @@ export const completeFormSchema = Joi.object({
       'object.base': 'Enter your phone number',
       'any.required': 'Enter your phone number'
     }),
+  quantity: Joi.number().min(1).max(10).required().messages({
+    'number.base': 'Quantity is required',
+    'number.min': 'Quantity is required',
+    'any.required': 'Quantity is required'
+  }),
+  weight: Joi.object({
+    unit: Joi.string(),
+    value: Joi.number().required().messages({
+      'number.base': 'Weight is required',
+      'any.required': 'Weight is required'
+    })
+  })
+    .required()
+    .messages({ 'object.base': 'Weight is required' }),
+  otp: Joi.string().length(6).required().messages({
+    'string.empty': 'Enter all 6 digits',
+    'string.length': 'Enter all 6 digits',
+    'any.required': 'Enter all 6 digits'
+  }),
   bio: Joi.string()
     .required()
     .custom((value, helpers) => (isBlankHtml(value) ? helpers.error('any.invalid') : value))
@@ -75,6 +94,8 @@ export const completeFormSchema = Joi.object({
 
   /* Fields without validation rules — still declared so the object is valid. */
   tags: Joi.array().items(Joi.string()),
+  about: Joi.string().allow(''),
+  summary: Joi.string().allow(''),
   avatar: Joi.any(),
   priority: Joi.string(),
   skills: Joi.array().items(Joi.string()),
