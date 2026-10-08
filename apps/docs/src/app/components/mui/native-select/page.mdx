@@ -119,8 +119,9 @@ string or number, not elements.
 
 A native select has no inline label, so `showLabelAboveFormField` defaults to
 `true` and the label is rendered above the control. Pass `false` to hide the
-visible label while keeping the accessible name. When `allLabelsAboveFields` is
-set in the config, it takes precedence over this prop.
+visible label while keeping the accessible name. The prop takes precedence over
+`allLabelsAboveFields` from the config, so `false` hides this label even when
+the config places every label above its field.
 
 ## API
 

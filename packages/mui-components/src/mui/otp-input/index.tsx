@@ -374,6 +374,7 @@ const MUIOTPInput = ({
       <Box
         role="group"
         aria-labelledby={isLabelAboveFormField ? labelId : undefined}
+        aria-label={isLabelAboveFormField ? undefined : accessibleFieldLabel}
         sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
       >
         {inputValueChars.map((char, index) => (

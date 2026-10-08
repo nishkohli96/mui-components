@@ -344,19 +344,19 @@ export const PropsDescription = Object.freeze({
   },
   showLabelAboveFormField: (args: MuiPropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
-    description: `When \`true\`, renders the field label above the form field in the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it.`,
+    description: `When \`true\`, renders the field label above the form field in the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) component, instead of inside or beside it. Takes precedence over \`allLabelsAboveFields\` from the \`ConfigProvider\`, so \`false\` keeps the label inside this field even when the config places every label above its field.`,
     type: 'boolean'
   }),
   showLabelAboveFormField_Default: {
     name: 'showLabelAboveFormField',
     description:
-      'Whether the field label renders above the control. This control has no built-in inline label, so it defaults to `true`; pass `false` to hide the visible label (the accessible name is still applied).\n\n**Default:** `true`',
+      'Whether the field label renders above the component. Since it has no built-in inline label, the label renders above the component by default; pass `false` to hide the visible label (the accessible name is still applied). Takes precedence over `allLabelsAboveFields` from the `ConfigProvider`.\n\n**Default:** `true`',
     type: 'boolean'
   },
   showLabelAboveFormField_OTPInput: (args: MuiPropsDescriptionArgs) => ({
     name: 'showLabelAboveFormField',
     description:
-      `Renders the field label above the boxes. The label is otherwise hidden — there is no inline label, but the accessible name is still applied to every box. Set the value to \`true\` to render the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) for this field.\n\n**Default:** \`false\``,
+      `Renders the field label above the boxes. The label is otherwise hidden as there is no inline label, but the accessible name is still applied to every box. Set the value to \`true\` to render the [FormLabel](${getMuiDocsUrl(args.muiVersion)}/api/form-label/) for this field. Takes precedence over \`allLabelsAboveFields\` from the \`ConfigProvider\`.\n\n**Default:** \`false\``,
     type: 'boolean'
   }),
   formLabelProps: (args: MuiPropsDescriptionArgs) => ({

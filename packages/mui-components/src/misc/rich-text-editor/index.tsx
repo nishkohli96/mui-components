@@ -265,7 +265,9 @@ const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
         aria-labelledby={
           !hideLabel && isLabelAboveControl ? labelId : undefined
         }
-        aria-label={hideLabel ? accessibleFieldLabel : undefined}
+        aria-label={
+          hideLabel || !isLabelAboveControl ? accessibleFieldLabel : undefined
+        }
         aria-describedby={
           showHelperTextElement
             ? isError

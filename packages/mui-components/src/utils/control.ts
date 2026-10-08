@@ -1,5 +1,14 @@
 import type { ReactNode, Ref } from 'react';
 
+/**
+ * Whether the shared `FormLabel` should render above a control that already
+ * has an inline (floating) label, e.g. `TextField`. The label stays inside the
+ * field unless asked otherwise.
+ *
+ * Precedence: `showLabelAboveFormField` (prop) → `allLabelsAboveFields` (config)
+ * → `false`. The prop wins, so a field can opt out (`false`) even when the
+ * config places every label above its field.
+ */
 export function keepLabelAboveFormField(
   showLabelAboveFormField?: boolean,
   allLabelsAboveFields?: boolean
@@ -12,7 +21,9 @@ export function keepLabelAboveFormField(
  * For components with **no** built-in label (e.g. `NativeSelect`, `Rating`), the
  * default is to show the label above unless overridden.
  *
- * Precedence: `allLabelsAboveFields` (config) → `showLabelAboveFormField` (prop) → `true`.
+ * Precedence: `showLabelAboveFormField` (prop) → `allLabelsAboveFields` (config) → `true`.
+ * The prop wins, so a field can opt out (`false`) even when the config places
+ * every label above its field.
  *
  * Contrast with `keepLabelAboveFormField`, which defaults to `false` for controls
  * that already provide a floating/integrated label (e.g. `TextField`).
@@ -21,7 +32,7 @@ export function resolveLabelAboveControl(
   showLabelAboveFormField?: boolean,
   allLabelsAboveFields?: boolean
 ): boolean {
-  return allLabelsAboveFields ?? showLabelAboveFormField ?? true;
+  return showLabelAboveFormField ?? allLabelsAboveFields ?? true;
 }
 
 export function mergeRefs<T>(...refs: (Ref<T> | undefined)[]) {
