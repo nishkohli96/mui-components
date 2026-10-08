@@ -48,7 +48,7 @@ const normalize = (value?: string | null) => (value ?? '').trim().toLowerCase();
 const urlWithoutAnchor = (url: string) => url.split('#')[0]!;
 
 const ownHeading = (item: DocSearchHit) => (
-  item.hierarchy?.lvl3 ?? item.hierarchy?.lvl2 ?? item.hierarchy?.lvl1
+  item.hierarchy?.lvl4 ?? item.hierarchy?.lvl3 ?? item.hierarchy?.lvl2 ?? item.hierarchy?.lvl1
 );
 
 const dedupeSelfTitleHits = (items: DocSearchHit[]) => {

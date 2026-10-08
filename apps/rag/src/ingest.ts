@@ -1,6 +1,6 @@
 /**
  * RAG ingestion: walks non-v1 doc pages and emits one chunk per MDX prose
- * section (H2/H3) plus one chunk per prop row (from the props-table modules,
+ * section (H2–H4) plus one chunk per prop row (from the props-table modules,
  * which hold the real prop name/type/description — MDX only references them
  * via `<PropsTable rows={componentProps.X} />`, so parsing MDX text alone
  * would miss all prop content).
@@ -56,7 +56,7 @@ const filePathToUrl = (filePath: string) => {
 };
 
 /**
- * Splits MDX body into H2/H3 sections, each carrying the nearest heading text.
+ * Splits MDX body into H2/H3/H4 sections, each carrying the nearest heading text.
  */
 function splitIntoSections(mdx: string): { heading: string; content: string }[] {
   // strip the leading import/export/frontmatter block — not documentation content
@@ -75,7 +75,7 @@ function splitIntoSections(mdx: string): { heading: string; content: string }[] 
   };
 
   for (const line of lines) {
-    const h = /^(#{1,3})\s+(.*)$/.exec(line);
+    const h = /^(#{1,4})\s+(.*)$/.exec(line);
     if (h) {
       flush();
       currentHeading = h[2].trim();

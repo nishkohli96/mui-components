@@ -14,7 +14,7 @@ Reads MDX pages and props-table data from `../docs/src` and writes chunks to `.o
 
 Two chunk sources per doc page:
 
-- **Prose** — MDX split into `H2`/`H3` sections.
+- **Prose** — MDX split into `H2`/`H3`/`H4` sections.
 - **Props** — one chunk per prop, pulled from `../docs/src/constants/props-table` (the actual prop name/type/description live there as structured data, resolved before `<PropsTable>` renders them — parsing MDX text alone would miss this entirely).
 
 `apps/docs/src/app/v1/**` pages are excluded: same component names as latest, different/older prop sets, which would make retrieval ambiguous between versions.
