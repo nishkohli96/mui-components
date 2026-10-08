@@ -13,8 +13,8 @@ export default function Layout({ children }) {
 
 # MUIRating
 
-`MUIRating` wraps the Material UI [Rating](https://v7.mui.com/material-ui/react-rating/) star input.
-The value is a number (or `null` when cleared).
+`MUIRating` wraps the Material UI [Rating](https://v7.mui.com/material-ui/react-rating/)
+star input. The value is a number (or `null` when cleared).
 
 ## Usage
 
@@ -31,6 +31,67 @@ const [score, setScore] = useState<number | null>(null);
   onValueChange={({ newValue }) => setScore(newValue)}
 />
 ```
+
+`value` is a number, or `null` when there is no rating. `onValueChange`
+receives `{ newValue, event }`, and `newValue` is `null` when the user
+clears the rating by clicking the selected star again.
+
+### Number of stars and precision
+
+The remaining [RatingProps](https://v7.mui.com/material-ui/api/rating/)
+are passed through. `max` sets how many stars are shown, which is `5`
+by default, `precision` sets the smallest step that can be chosen,
+and `size` scales the stars. Use `precision={0.5}` to allow half stars.
+
+```tsx
+<MUIRating
+  fieldName="score"
+  value={score}
+  onValueChange={({ newValue }) => setScore(newValue)}
+  max={10}
+  precision={0.5}
+  size="large"
+/>
+```
+
+### Custom icons
+
+`icon` replaces the filled icon, and `emptyIcon` replaces the empty one.
+Give the icons `fontSize="inherit"` so that `size` still applies.
+
+```tsx
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
+<MUIRating
+  fieldName="love"
+  value={love}
+  onValueChange={({ newValue }) => setLove(newValue)}
+  icon={<FavoriteIcon fontSize="inherit" />}
+  emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+  sx={{ color: 'error.main' }}
+/>
+```
+
+### Read-only and disabled
+
+`readOnly` shows a rating that the user can't change, which suits
+displaying an average. `disabled` dims the control and blocks input.
+
+```tsx
+<MUIRating
+  fieldName="average"
+  value={4.5}
+  onValueChange={() => undefined}
+  precision={0.5}
+  readOnly
+/>
+```
+
+### Label placement
+
+A rating has no inline label, so `showLabelAboveFormField` defaults to `true`
+and the label is shown above the stars. Pass `false` to hide the visible label.
 
 ## API
 

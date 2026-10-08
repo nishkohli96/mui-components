@@ -33,6 +33,82 @@ const [accepted, setAccepted] = useState(false);
 />
 ```
 
+`value` is a boolean, and `undefined` counts as unchecked. `onValueChange`
+receives `{ newValue, event }`: the next checked state and the change event.
+The label defaults to text generated from `fieldName`, so `terms` becomes
+"Terms", and `hideLabel` removes the visible label.
+
+### Label and placement
+
+`label` accepts any `ReactNode`, so it can hold a link, such as one to the
+terms. The label sits after the checkbox by default. `formControlLabelProps`
+is forwarded to the `FormControlLabel` around the checkbox, so `labelPlacement`
+can move it to the `'start'`, `'top'` or `'bottom'`. Its `sx` is merged with
+the default `FormControlLabel` styles from `ConfigProvider`. The component
+controls the `FormControlLabel`'s `control`, `label` and `disabled`.
+
+```tsx
+<MUICheckbox
+  fieldName="terms"
+  value={accepted}
+  onValueChange={({ newValue }) => setAccepted(newValue)}
+  label={<>I accept the <a href="/terms">terms and conditions</a></>}
+  formControlLabelProps={{
+    labelPlacement: 'start',
+    sx: { justifyContent: 'space-between', ml: 0 }
+  }}
+/>
+```
+
+### Styling the checkbox
+
+The remaining [CheckboxProps](https://v7.mui.com/material-ui/api/checkbox/)
+are passed to the `Checkbox`, for example `color`, `size`, `sx`, and
+custom `icon` and `checkedIcon`. `slotProps` is forwarded too. The
+checkbox's `id`, `name`, `checked`, `disabled` and `onChange` are managed
+by the component, so setting them has no effect.
+
+```tsx
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
+<MUICheckbox
+  fieldName="favourite"
+  value={favourite}
+  onValueChange={({ newValue }) => setFavourite(newValue)}
+  color="error"
+  size="small"
+  icon={<FavoriteBorderIcon />}
+  checkedIcon={<FavoriteIcon />}
+/>
+```
+
+The `indeterminate` prop shows the dash icon, which is useful for a
+"select all" box that controls other checkboxes. It only changes how
+the checkbox looks, and `value` still decides whether it is checked.
+
+### Required, helper text and errors
+
+`required` marks the underlying input as required, so the browser's
+own validation blocks a form submit while it is unchecked. For your
+own validation, set `errorMessage` from a rule, such as accepting
+the terms. The message replaces the `helperText` while it is shown.
+
+```tsx
+<MUICheckbox
+  fieldName="terms"
+  value={accepted}
+  onValueChange={({ newValue }) => setAccepted(newValue)}
+  label="I accept the terms and conditions"
+  required
+  helperText="Required to continue"
+  errorMessage={submitted && !accepted
+    ? 'You must accept the terms'
+    : undefined
+  }
+/>
+```
+
 ## API
 
 `MUICheckboxProps` also accepts most [CheckboxProps](https://v7.mui.com/material-ui/api/checkbox/).

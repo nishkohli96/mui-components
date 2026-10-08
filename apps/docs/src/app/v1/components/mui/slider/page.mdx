@@ -14,7 +14,8 @@ export default function Layout({ children }) {
 # MUISlider
 
 `MUISlider` wraps the Material UI [Slider](https://v7.mui.com/material-ui/react-slider/)
-for a single number or a range (number array), with label, error and helper-text handling.
+for a single number or a range (number array), with label, error
+and helper-text handling.
 
 ## Usage
 
@@ -28,11 +29,90 @@ const [volume, setVolume] = useState(30);
 <MUISlider
   fieldName="volume"
   value={volume}
-  onValueChange={({ newValue }) => setVolume(newValue as number)}
+  onValueChange={({ newValue }) => setVolume(newValue)}
   min={0}
   max={100}
 />
 ```
+
+`value` is a `number` for a single-thumb slider and a `number[]`
+for a range slider, and `newValue` has the same shape as `value`,
+so no cast is needed. `undefined` and `null` are treated as `0`.
+
+`onValueChange` receives `{ newValue, activeThumb, event }`: the
+new value, the index of the thumb that is being moved, and the
+change event.
+
+### Range slider
+
+Pass an array of numbers as `value` to get one thumb per number.
+The slider announces a range to screen readers as, for example,
+"20 to 60".
+
+```tsx
+const [range, setRange] = useState<number[]>([20, 60]);
+
+<MUISlider
+  fieldName="priceRange"
+  value={range}
+  onValueChange={({ newValue }) => setRange(newValue)}
+  valueLabelDisplay="auto"
+/>
+```
+
+`activeThumb` tells you which thumb moved, which is useful for
+rules between the thumbs. This keeps them at least 10 apart, and
+`disableSwap` stops one thumb from passing the other.
+
+```tsx
+const minDistance = 10;
+const [range, setRange] = useState<number[]>([20, 60]);
+
+<MUISlider
+  fieldName="priceRange"
+  value={range}
+  onValueChange={({ newValue, activeThumb }) => {
+    if (activeThumb === 0) {
+      setRange([Math.min(newValue[0], range[1] - minDistance), range[1]]);
+    } else {
+      setRange([range[0], Math.max(newValue[1], range[0] + minDistance)]);
+    }
+  }}
+  disableSwap
+/>
+```
+
+### Steps, marks and value labels
+
+Most of the slider's appearance comes from the underlying Material UI props,
+which are passed through: `min`, `max` and `step` set the scale, `marks`
+adds labelled ticks, and `valueLabelDisplay` controls the bubble above the
+thumb: `'auto'` on hover or drag, `'on'` always, or `'off'`.
+
+```tsx
+<MUISlider
+  fieldName="temperature"
+  value={temperature}
+  onValueChange={({ newValue }) => setTemperature(newValue)}
+  min={0}
+  max={40}
+  step={10}
+  marks={[
+    { value: 0, label: '0°C' },
+    { value: 10, label: '10°C' },
+    { value: 20, label: '20°C' },
+    { value: 30, label: '30°C' },
+    { value: 40, label: '40°C' }
+  ]}
+  valueLabelDisplay="auto"
+/>
+```
+
+### Label placement
+
+A slider has no inline label, so `showLabelAboveFormField` defaults to
+`true` and the label is shown above the track. Pass `false` to hide the
+visible label.
 
 ## API
 

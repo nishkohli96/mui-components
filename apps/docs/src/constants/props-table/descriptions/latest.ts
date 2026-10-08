@@ -961,8 +961,25 @@ export const PropsDescription = Object.freeze({
     description: 'When `true`, hides the select-all option.',
     type: 'boolean'
   },
-  limitTags: {
-    name: 'limitTags',
+  loading_Autocomplete: {
+    name: 'loading',
+    description:
+      'When `true`, a small spinner is shown at the end of the input and, when there are no options, the popup shows the loading text (`loadingText`, default `Loading…`) instead of "No options". Customize the spinner with `circularProgressProps`.',
+    type: 'boolean'
+  },
+  autoHighlight_Autocomplete: {
+    name: 'autoHighlight',
+    description:
+      'When `true`, the first option is highlighted while the user types, so pressing Enter selects it.\n\n**Default:** `true`',
+    type: 'boolean'
+  },
+  autoSelect_Autocomplete: {
+    name: 'autoSelect',
+    description:
+      'When `true`, the highlighted option, or with `freeSolo` the typed text, is committed as the value when the input loses focus.\n\n**Default:** `true` with `freeSolo`, otherwise `false`',
+    type: 'boolean'
+  },
+  limitTags: {    name: 'limitTags',
     description:
       'Maximum number of selected values shown as chips when the input is not focused. Set `-1` to disable the limit.\n\n**Default:** `2`',
     type: 'number'
