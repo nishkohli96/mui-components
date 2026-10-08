@@ -10,21 +10,31 @@ export default function Layout({ children }) {
 
 # Date Pickers
 
-These components wrap the Material UI X [Date Picker](https://mui.com/x/react-date-pickers/date-picker/) with the
-suite's label, error and helper-text handling. Each comes in four flavors that share
-the same controlled contract — a `value` in your date library's format and an
-`onValueChange` callback:
+These components wrap the Material UI X [Date Picker](https://mui.com/x/react-date-pickers/date-picker/)
+with the suite's label, error and helper-text handling.
+
+Use a date picker when you need a calendar day without a time, such
+as a date of birth, a check-in date or an invoice due date. The value
+is a date object from your date library, so you can compare it with
+other dates, limit it with `minDate` and `maxDate`, or format it however
+your API expects.
+
+Each date picker comes in four variants:
 
 - `MUIDatePicker` — responsive (renders the desktop UI on pointer devices, the mobile UI on touch).
 - `MUIDesktopDatePicker` — always renders the desktop (keyboard-first) UI.
 - `MUIMobileDatePicker` — always renders the mobile (modal) UI.
 - `MUIStaticDatePicker` — an always-visible inline picker with no text field.
 
+All of these share the same controlled contract — a `value` in your
+datelibrary's format and an `onValueChange` callback.
+
 ## Setup
 
-All pickers read their date adapter from `ConfigProvider`. Wrap your app once and pass
-the adapter for your date library ([Day.js](https://day.js.org/), [Luxon](https://moment.github.io/luxon/#/),
-[date-fns](https://date-fns.org/) or [Moment](https://momentjs.com/)):
+All pickers read their date adapter from `ConfigProvider`. Wrap your app
+once and pass the adapter for your date library ([Day.js](https://day.js.org/),
+[Luxon](https://moment.github.io/luxon/#/), [date-fns](https://date-fns.org/)
+or [Moment](https://momentjs.com/)).
 
 ```tsx
 import { ConfigProvider } from '@nish1896/mui-components/config';
@@ -35,7 +45,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 </ConfigProvider>
 ```
 
-Without a `dateAdapter`, the pickers throw an error at render — this is the one required piece of setup.
+<Callout type="warning">
+  Without a `dateAdapter`, the pickers throw an error at render — this is
+  the one required piece of setup.
+</Callout>
 
 ## Usage
 
@@ -54,7 +67,90 @@ const [value, setValue] = useState<Dayjs | null>(null);
 />
 ```
 
-Inspect `context.validationError` in `onValueChange` if you need to react to invalid entries.
+`value` uses the date type of your date adapter, such as a `Dayjs`
+for `AdapterDayjs`, and `null` or `undefined` clears the picker.
+`newValue` has the same type, inferred from the `value` you pass.
+`onValueChange` receives `{ newValue, context }` and is called for
+every change, including entries that aren't valid dates, so check
+`context.validationError` before relying on `newValue`.
+
+### Other variants
+
+The other three variants are exported from the same module and take
+the same props. Use `MUIDesktopDatePicker` for the keyboard-first
+popover on every device, `MUIMobileDatePicker` for a modal dialog, and
+`MUIStaticDatePicker` for an always-visible calendar without a text
+field (see the note below the API table).
+
+```tsx
+import {
+  MUIDesktopDatePicker,
+  MUIMobileDatePicker,
+  MUIStaticDatePicker
+} from '@nish1896/mui-components/mui-pickers/date';
+
+<MUIMobileDatePicker
+  fieldName="appointment"
+  value={value}
+  onValueChange={({ newValue }) => setValue(newValue)}
+/>
+```
+
+`onAccept` is passed through to MUI X and fires when the user
+finishes picking a value.
+
+### Validation and date limits
+
+Limit the selectable dates with the MUI X props `minDate`, `maxDate`,
+`disablePast`, `disableFuture` and `shouldDisableDate`. Disabled days
+can't be picked in the calendar, and a typed date outside the limits is
+reported through `context.validationError`. It is one of `'invalidDate'`,
+`'minDate'`, `'maxDate'`, `'disablePast'`, `'disableFuture'`,
+`'shouldDisableDate'`, `'shouldDisableMonth'` or `'shouldDisableYear'`,
+and `null` when the value is valid. Map it to your own `errorMessage`.
+
+```tsx
+import dayjs, { type Dayjs } from 'dayjs';
+
+const messages: Record<string, string> = {
+  invalidDate: 'Enter a valid date',
+  minDate: 'The date is too early',
+  maxDate: 'The date is too far ahead'
+};
+
+const [value, setValue] = useState<Dayjs | null>(null);
+const [error, setError] = useState<string>();
+
+<MUIDatePicker
+  fieldName="travelDate"
+  value={value}
+  onValueChange={({ newValue, context }) => {
+    setValue(newValue);
+    setError(context.validationError ? messages[context.validationError] : undefined);
+  }}
+  minDate={dayjs()}
+  maxDate={dayjs().add(1, 'year')}
+  errorMessage={error}
+/>
+```
+
+### Customizing the input
+
+`format` sets how the date is written in the field, using the tokens
+of your date library, such as `'DD/MM/YYYY'` for Day.js. `slotProps.textField`
+is forwarded to the text field, as an object or a function, for props
+like `size` and `fullWidth`. The component controls the text field's
+`id`, `error` and ARIA attributes.
+
+```tsx
+<MUIDatePicker
+  fieldName="dob"
+  value={dob}
+  onValueChange={({ newValue }) => setDob(newValue)}
+  format="DD/MM/YYYY"
+  slotProps={{ textField: { size: 'small', fullWidth: true } }}
+/>
+```
 
 ## API
 
@@ -68,9 +164,9 @@ Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*
 <Callout type="info">
   `MUIStaticDatePicker` renders inline with no text field, so two props behave
   slightly differently: `fieldName` only derives the generated ids and default
-  label (no `name` attribute, since there's no input), and
-  `showLabelAboveFormField` defaults to `false` — with no built-in inline label,
-  that means no visible label renders at all (the accessible name is still applied).
+  label (no `name` attribute, since there's no input), and `showLabelAboveFormField`
+  defaults to `false` — with no built-in inline label, that means no visible
+  label renders at all (the accessible name is still applied).
 </Callout>
 
 ## Playground

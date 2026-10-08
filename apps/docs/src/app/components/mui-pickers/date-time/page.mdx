@@ -10,10 +10,15 @@ export default function Layout({ children }) {
 
 # Date-Time Pickers
 
-These components wrap the Material UI X [Date-time Picker](https://mui.com/x/react-date-pickers/date-time-picker/) with the
-suite's label, error and helper-text handling. Each comes in four flavors that share
-the same controlled contract — a `value` in your date library's format and an
-`onValueChange` callback:
+These components wrap the Material UI X [Date-time Picker](https://mui.com/x/react-date-pickers/date-time-picker/)
+with the suite's label, error and helper-text handling.
+
+Use a date-time picker when something needs both a day and a time, such as
+a meeting, a flight departure or a delivery slot. A single field captures
+both, so you don't have to keep a separate date and time in sync.
+
+Each comes in four variants that share the same controlled contract — a `value`
+in your date library's format and an `onValueChange` callback:
 
 - `MUIDateTimePicker` — responsive (renders the desktop UI on pointer devices, the mobile UI on touch).
 - `MUIDesktopDateTimePicker` — always renders the desktop (keyboard-first) UI.
@@ -22,9 +27,10 @@ the same controlled contract — a `value` in your date library's format and an
 
 ## Setup
 
-All pickers read their date adapter from `ConfigProvider`. Wrap your app once and pass
-the adapter for your date library ([Day.js](https://day.js.org/), [Luxon](https://moment.github.io/luxon/#/),
-[date-fns](https://date-fns.org/) or [Moment](https://momentjs.com/)):
+All pickers read their date adapter from `ConfigProvider`. Wrap your app once
+and pass the adapter for your date library ([Day.js](https://day.js.org/),
+[Luxon](https://moment.github.io/luxon/#/), [date-fns](https://date-fns.org/)
+or [Moment](https://momentjs.com/)).
 
 ```tsx
 import { ConfigProvider } from '@nish1896/mui-components/config';
@@ -35,7 +41,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 </ConfigProvider>
 ```
 
-Without a `dateAdapter`, the pickers throw at render — this is the one required piece of setup.
+<Callout type="warning">
+  Without a `dateAdapter`, the pickers throw at render — this is the
+  one required piece of setup.
+</Callout>
 
 ## Usage
 
@@ -54,8 +63,99 @@ const [value, setValue] = useState<Dayjs | null>(null);
 />
 ```
 
-The default handler stores the value only when it is valid — inspect
-`context.validationError` in `onValueChange` if you need to react to invalid entries.
+`value` uses the date type of your date adapter, such as a `Dayjs` for
+`AdapterDayjs`, and `null` or `undefined` clears the picker. `newValue`
+has the same type, inferred from the `value` you pass. `onValueChange`
+receives `{ newValue, context }` and is called for every change, including
+entries that aren't valid dates and times, so check `context.validationError`
+before relying on `newValue`.
+
+### Other variants
+
+The other three variants are exported from the same module and take the
+same props. Use `MUIDesktopDateTimePicker` for the keyboard-first popover
+on every device, `MUIMobileDateTimePicker` for a modal dialog, and
+`MUIStaticDateTimePicker` for an always-visible picker without a text
+field (see the note below the API table).
+
+```tsx
+import {
+  MUIDesktopDateTimePicker,
+  MUIMobileDateTimePicker,
+  MUIStaticDateTimePicker
+} from '@nish1896/mui-components/mui-pickers/date-time';
+
+<MUIMobileDateTimePicker
+  fieldName="meeting"
+  value={value}
+  onValueChange={({ newValue }) => setValue(newValue)}
+/>
+```
+
+`onAccept` is passed through to MUI X and fires when the user
+finishes picking a value.
+
+### Validation and limits
+
+Limit the selectable values with the MUI X props `minDateTime`,
+`maxDateTime`, `disablePast` and `disableFuture`, or limit the
+date and the time separately with `minDate`, `maxDate`, `minTime`
+and `maxTime`.
+
+Disabled values can't be picked, and a typed value outside the
+limits is reported through `context.validationError`. It combines
+the date and time errors, such as `'invalidDate'`, `'minDate'`,
+`'maxDate'`, `'minTime'`, `'maxTime'`, `'disablePast'` and
+`'disableFuture'`, and is `null` when the value is valid.
+Map it to your own `errorMessage`.
+
+```tsx
+import dayjs, { type Dayjs } from 'dayjs';
+
+const messages: Record<string, string> = {
+  invalidDate: 'Enter a valid date and time',
+  minDate: 'Pick a later date',
+  disablePast: 'Pick a time in the future'
+};
+
+const [value, setValue] = useState<Dayjs | null>(null);
+const [error, setError] = useState<string>();
+
+<MUIDateTimePicker
+  fieldName="meeting"
+  value={value}
+  onValueChange={({ newValue, context }) => {
+    setValue(newValue);
+    setError(context.validationError ? messages[context.validationError] : undefined);
+  }}
+  disablePast
+  errorMessage={error}
+/>
+```
+
+### 12-hour or 24-hour clock
+
+By default the clock follows the locale. Set `ampm` to `false` for
+a 24-hour clock, or `true` for a 12-hour clock with an AM/PM switch.
+
+### Customizing the input
+
+`format` sets how the value is written in the field, using the tokens
+of your date library, such as `'DD/MM/YYYY HH:mm'` for Day.js.
+`slotProps.textField` is forwarded to the text field, as an object or
+a function, for props like `size` and `fullWidth`. The component
+controls the text field's `id`, `error` and ARIA attributes.
+
+```tsx
+<MUIDateTimePicker
+  fieldName="meeting"
+  value={value}
+  onValueChange={({ newValue }) => setValue(newValue)}
+  format="DD/MM/YYYY HH:mm"
+  ampm={false}
+  slotProps={{ textField: { size: 'small', fullWidth: true } }}
+/>
+```
 
 ## API
 
