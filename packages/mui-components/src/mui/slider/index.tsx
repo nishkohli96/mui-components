@@ -239,7 +239,9 @@ const MUISlider = <Value extends SliderValue = SliderValue>({
         aria-labelledby={
           !hideLabel && isLabelAboveControl ? labelId : undefined
         }
-        aria-label={hideLabel ? accessibleFieldLabel : undefined}
+        aria-label={
+          hideLabel || !isLabelAboveControl ? accessibleFieldLabel : undefined
+        }
         aria-valuetext={
           Array.isArray(sliderValue)
             ? sliderValue.join(' to ')

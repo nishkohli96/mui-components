@@ -281,7 +281,7 @@ const MUITipTapRte = ({
         role: 'textbox',
         'aria-multiline': 'true',
         'aria-labelledby': !hideLabel && isLabelAboveControl ? labelId : '',
-        'aria-label': hideLabel ? accessibleFieldLabel : '',
+        'aria-label': hideLabel || !isLabelAboveControl ? accessibleFieldLabel : '',
         'aria-describedby': showHelperTextElement
           ? (isError ? errorId : helperTextId)
           : '',
