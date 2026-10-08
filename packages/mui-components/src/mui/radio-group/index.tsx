@@ -30,7 +30,9 @@ import {
   resolveLabelAboveControl,
   getErrorList,
   mergeSx,
-  hasContent
+  hasContent,
+  validateArray
+
 } from '@/utils';
 
 type OnValueChangeProps<
@@ -234,6 +236,8 @@ const MUIRadioGroup = <
   customIds,
   ...otherRadioGroupProps
 }: MUIRadioGroupProps<Option, LabelKey, ValueKey>) => {
+  validateArray('MUIRadioGroup', options, labelKey, valueKey);
+
   const {
     defaultFormControlLabelSx,
     allLabelsAboveFields

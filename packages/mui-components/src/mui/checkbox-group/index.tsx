@@ -30,7 +30,9 @@ import {
   resolveLabelAboveControl,
   getErrorList,
   mergeSx,
-  hasContent
+  hasContent,
+  validateArray
+
 } from '@/utils';
 
 type OnValueChangeProps<
@@ -241,6 +243,8 @@ const MUICheckboxGroup = <
   formHelperTextProps,
   customIds
 }: MUICheckboxGroupProps<Option, LabelKey, ValueKey, Value>) => {
+  validateArray('MUICheckboxGroup', options, labelKey, valueKey);
+
   const {
     defaultFormControlLabelSx,
     allLabelsAboveFields

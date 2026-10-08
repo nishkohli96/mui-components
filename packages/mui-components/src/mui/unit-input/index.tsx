@@ -18,7 +18,9 @@ import {
   useFieldIds,
   getErrorList,
   mergeSx,
-  hasContent
+  hasContent,
+  validateArray
+
 } from '@/utils';
 import MUINumberInput, { type MUINumberInputProps } from '../number-input';
 import MUISelect, { type MUISelectProps, type SelectValue } from '../select';
@@ -352,6 +354,8 @@ const MUIUnitInput = <
   if (!fieldName.unit || !fieldName.value) {
     throw new Error(generateUnitInputFieldNameErrMsg());
   }
+
+  validateArray('MUIUnitInput', unitOptions, labelKey, valueKey, 'unitOptions');
 
   const {
     fieldId: valueFieldId,
