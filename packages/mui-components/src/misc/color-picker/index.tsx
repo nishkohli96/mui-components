@@ -26,7 +26,8 @@ import {
   colorToString,
   useFieldIds,
   resolveLabelAboveControl,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 import 'react-color-palette/css';
 
@@ -213,7 +214,7 @@ const MUIColorPicker = ({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

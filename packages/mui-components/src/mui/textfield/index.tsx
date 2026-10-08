@@ -18,7 +18,8 @@ import {
   fieldNameToLabel,
   getErrorList,
   keepLabelAboveFormField,
-  useFieldIds
+  useFieldIds,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -159,7 +160,7 @@ const MUITextField = ({
         ))
     )
     : undefined;
-  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+  const showHelperTextElement = !!(hasContent(helperText) || (isError && !hideErrorMessage));
 
   return (
     <FormControl error={isError} disabled={muiDisabled}>

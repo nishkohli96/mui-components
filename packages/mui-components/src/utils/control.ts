@@ -1,4 +1,4 @@
-import { type Ref } from 'react';
+import type { ReactNode, Ref } from 'react';
 
 export function keepLabelAboveFormField(
   showLabelAboveFormField?: boolean,
@@ -37,4 +37,16 @@ export function mergeRefs<T>(...refs: (Ref<T> | undefined)[]) {
       }
     });
   };
+}
+
+/**
+ * Whether a `ReactNode` renders anything. Unlike a truthiness check, the number
+ * `0` counts as content, so `helperText={0}` is shown.
+ */
+export function hasContent(node: ReactNode): boolean {
+  return (
+    node !== undefined && node !== null
+    && node !== false && node !== true
+    && node !== ''
+  );
 }

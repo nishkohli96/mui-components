@@ -19,7 +19,8 @@ import {
   fieldNameToLabel,
   resolveLabelAboveControl,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -183,7 +184,7 @@ const MUIRating = ({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

@@ -36,7 +36,8 @@ import {
   fieldNameToLabel,
   keepLabelAboveFormField,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 import CountryMenuItem from './CountryMenuItem';
 import { countryList } from './countries';
@@ -361,7 +362,7 @@ const MUICountrySelectInner = forwardRef(function MUICountrySelect<
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

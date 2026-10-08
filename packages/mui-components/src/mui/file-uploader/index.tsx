@@ -26,7 +26,8 @@ import {
   keepLabelAboveFormField,
   useFieldIds,
   validateFileList,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 import { HiddenInput, UploadButton } from './components';
 
@@ -419,7 +420,7 @@ const MUIFileUploader = <Multiple extends boolean = false>({
         ))
     )
     : undefined;
-  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+  const showHelperTextElement = !!(hasContent(helperText) || (isError && !hideErrorMessage));
 
   /**
    * Internal setter. The parameter stays loose because `FileUploaderValue<Multiple>`

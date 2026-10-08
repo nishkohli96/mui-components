@@ -18,7 +18,8 @@ import {
   fieldNameToLabel,
   resolveLabelAboveControl,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type SliderInputProps = Omit<
@@ -201,7 +202,7 @@ const MUISlider = <Value extends SliderValue = SliderValue>({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

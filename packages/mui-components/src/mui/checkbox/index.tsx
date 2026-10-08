@@ -16,7 +16,7 @@ import {
 } from '@/common';
 import { MUIComponentsConfigContext } from '@/config/ConfigProvider';
 import type { CustomComponentIds } from '@/types';
-import { fieldNameToLabel, useFieldIds, getErrorList, mergeSx } from '@/utils';
+import { fieldNameToLabel, useFieldIds, getErrorList, mergeSx, hasContent } from '@/utils';
 
 type OnValueChangeProps = {
   newValue: boolean;
@@ -150,7 +150,7 @@ const MUICheckbox = ({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

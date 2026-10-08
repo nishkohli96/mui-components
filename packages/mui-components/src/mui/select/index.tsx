@@ -33,7 +33,8 @@ import {
   useFieldIds,
   validateArray,
   getDisplayLabelForSelectValue,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 export type SelectValue<Value, Multiple extends boolean> = Multiple extends true
@@ -335,7 +336,7 @@ const MUISelect = <
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

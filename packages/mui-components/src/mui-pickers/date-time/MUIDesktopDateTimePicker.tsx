@@ -24,7 +24,8 @@ import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type DesktopDateTimePickerInputProps = Omit<
@@ -186,7 +187,7 @@ const MUIDesktopDateTimePicker = <TDate extends PickerValidDate = PickerValidDat
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

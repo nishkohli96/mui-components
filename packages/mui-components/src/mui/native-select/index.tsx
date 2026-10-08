@@ -28,7 +28,8 @@ import {
   useFieldIds,
   validateArray,
   resolveLabelAboveControl,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type InputNativeSelectProps = Omit<
@@ -258,7 +259,7 @@ const MUINativeSelect = <
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

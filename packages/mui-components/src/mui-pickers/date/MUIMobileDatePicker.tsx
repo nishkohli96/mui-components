@@ -24,7 +24,8 @@ import {
   generateDateAdapterErrMsg,
   keepLabelAboveFormField,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type MobileDatePickerInputProps = Omit<
@@ -186,7 +187,7 @@ const MUIMobileDatePicker = <TDate extends PickerValidDate = PickerValidDate>({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

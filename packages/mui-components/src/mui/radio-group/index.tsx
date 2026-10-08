@@ -30,7 +30,8 @@ import {
   validateArray,
   resolveLabelAboveControl,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps<
@@ -272,7 +273,7 @@ const MUIRadioGroup = <
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 
