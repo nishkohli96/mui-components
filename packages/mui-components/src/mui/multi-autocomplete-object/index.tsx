@@ -43,7 +43,8 @@ import {
   useFieldIds,
   keepLabelAboveFormField,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type AutocompleteOption<Option extends KeyValueOption = KeyValueOption>
@@ -383,7 +384,7 @@ const MUIMultiAutocompleteObjectInner = forwardRef(
       )
       : undefined;
     const showHelperTextElement = !!(
-      helperText
+      hasContent(helperText)
       || (isError && !hideErrorMessage)
     );
     const selectedOptions: Option[] = value ?? [];

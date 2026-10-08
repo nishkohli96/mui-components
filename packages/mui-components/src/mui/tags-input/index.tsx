@@ -32,7 +32,8 @@ import {
   fieldNameToId,
   useFieldIds,
   normalizeString,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type TextFieldInputProps = Omit<
@@ -324,7 +325,7 @@ const MUITagsInput = ({
         ))
     )
     : undefined;
-  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+  const showHelperTextElement = !!(hasContent(helperText) || (isError && !hideErrorMessage));
 
   /**
    * Similar to MuiAutocomplete, if limitTags = -1, show all the

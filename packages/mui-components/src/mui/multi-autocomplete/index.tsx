@@ -44,7 +44,8 @@ import {
   useFieldIds,
   keepLabelAboveFormField,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type MultiAutoCompleteProps<
@@ -399,7 +400,7 @@ const MUIMultiAutocompleteInner = forwardRef(function MUIMultiAutocomplete<
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
   const selectedValues: string[] = value ?? [];

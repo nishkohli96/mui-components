@@ -40,7 +40,8 @@ import {
   buildNumberInputDecimalPattern,
   useFieldIds,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps = {
@@ -299,7 +300,7 @@ const MUINumberInput = ({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

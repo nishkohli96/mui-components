@@ -50,7 +50,8 @@ import {
   mergeRefs,
   useFieldIds,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 import CountryMenuItem from './CountryMenuItem';
 import 'react-international-phone/style.css';
@@ -467,7 +468,7 @@ const MUIPhoneInput = forwardRef(function MUIPhoneInput(
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

@@ -29,7 +29,8 @@ import {
   resolveLabelAboveControl,
   useFieldIds,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 import { DefaultEditorExtensions } from './config';
 import Toolbar from './Toolbar';
@@ -240,7 +241,7 @@ const MUITipTapRte = ({
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

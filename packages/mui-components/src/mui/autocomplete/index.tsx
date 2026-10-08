@@ -39,7 +39,8 @@ import {
   isKeyValueOption,
   useFieldIds,
   keepLabelAboveFormField,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 
 type OmittedAutocompleteProps<
@@ -356,7 +357,7 @@ const MUIAutocompleteInner = forwardRef(function MUIAutocomplete<
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

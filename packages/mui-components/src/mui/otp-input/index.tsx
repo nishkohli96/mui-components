@@ -29,7 +29,8 @@ import {
   useFieldIds,
   getErrorList,
   mergeSx,
-  mergeRefs
+  mergeRefs,
+  hasContent
 } from '@/utils';
 
 type OTPChangeEvent
@@ -275,7 +276,7 @@ const MUIOTPInput = ({
         ))
     )
     : undefined;
-  const showHelperTextElement = !!(helperText || (isError && !hideErrorMessage));
+  const showHelperTextElement = !!(hasContent(helperText) || (isError && !hideErrorMessage));
 
   /**
    * Anchored so a typed or pasted string is accepted only when *every*

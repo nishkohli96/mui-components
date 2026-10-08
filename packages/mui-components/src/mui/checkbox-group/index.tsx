@@ -29,7 +29,8 @@ import {
   useFieldIds,
   resolveLabelAboveControl,
   getErrorList,
-  mergeSx
+  mergeSx,
+  hasContent
 } from '@/utils';
 
 type OnValueChangeProps<
@@ -278,7 +279,7 @@ const MUICheckboxGroup = <
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 

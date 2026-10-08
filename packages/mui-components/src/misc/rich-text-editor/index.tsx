@@ -23,7 +23,8 @@ import {
   fieldNameToLabel,
   resolveLabelAboveControl,
   useFieldIds,
-  getErrorList
+  getErrorList,
+  hasContent
 } from '@/utils';
 import { DefaultEditorConfig } from './config';
 import 'ckeditor5/ckeditor5.css';
@@ -226,7 +227,7 @@ const MUIRichTextEditor = forwardRef(function MUIRichTextEditor(
     )
     : undefined;
   const showHelperTextElement = !!(
-    helperText
+    hasContent(helperText)
     || (isError && !hideErrorMessage)
   );
 
