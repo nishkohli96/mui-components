@@ -11,8 +11,9 @@ export default function Layout({ children }) {
 # MUIMultiAutocompleteObject
 
 `MUIMultiAutocompleteObject` is a multi-select
-[Autocomplete](https://mui.com/material-ui/react-autocomplete/) with checkboxes and an optional
-"**Select All**" row that stores an array of **complete option objects**.
+[Autocomplete](https://mui.com/material-ui/react-autocomplete/) with checkboxes
+and an optional "**Select All**" row that stores an array of **complete option
+objects**.
 
 ## Usage
 
@@ -23,8 +24,9 @@ import MUIMultiAutocompleteObject, {
 ```
 
 `options` must be an **array of objects**, and both `labelKey` and `valueKey`
-**are required**. `labelKey` is the property used as each option's visible label,
-and `valueKey` identifies an option value. `value` is the whole option object.
+**are required**. `labelKey` is the property used as each option's visible
+label, and `valueKey` identifies an option value. `value` is the whole option
+object.
 
 ```tsx
 const [members, setMembers] = useState<User[]>([]);
@@ -55,10 +57,10 @@ two options that can be selected. Its checkbox is checked when every
 option is selected and indeterminate when only some are, and clicking it
 again deselects everything.
 
-Disabled options (see `getOptionDisabled` below) are left alone. The **Select All**
-option adds every selectable option and keeps the disabled ones as they
-are, and deselecting keeps only the disabled ones that were already
-selected. They don't count towards the checkbox's checked or indeterminate state.
+Disabled options (see `getOptionDisabled` below) are left alone. The **Select
+All** option adds every selectable option and keeps the disabled ones as they
+are, and deselecting keeps only the disabled ones that were already selected.
+They don't count towards the checkbox's checked or indeterminate state.
 
 ```tsx
 <MUIMultiAutocompleteObject
@@ -125,10 +127,10 @@ is merged with the default `FormControlLabel` styles from `ConfigProvider`.
 
 ### Limiting the visible chips
 
-While the field is not focused, only the first `limitTags` chips (default `2`) are
-shown, followed by a "**+N More**" chip. `limitTags={-1}` shows all of them,
-and `getLimitTagsText` receives the number of hidden chips and returns your
-own text. `ChipProps` customizes the chips.
+While the field is not focused, only the first `limitTags` chips (default `2`)
+are shown, followed by a "**+N More**" chip. `limitTags={-1}` shows all of them,
+and `getLimitTagsText` receives the number of hidden chips and returns your own
+text. `ChipProps` customizes the chips.
 
 ```tsx
 <MUIMultiAutocompleteObject
@@ -172,15 +174,16 @@ shown only while nothing is selected.
 
 `labelKey` and `valueKey` are required.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
-required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIMultiAutocompleteObject} />
 
 ## Playground
 
 Driven by plain React state — a checkbox multi-select storing whole objects,
-with a Select-All option, `limitTags`, `ChipProps` and a custom `renderOptionLabel`.
+with a Select-All option, `limitTags`, `ChipProps` and a custom
+`renderOptionLabel`.
 
 <MultiAutocompleteObjectForm />
 

@@ -14,16 +14,18 @@ export default function Layout({ children }) {
 # Date Pickers
 
 These components wrap the Material UI X [Date
-Picker](https://v8.mui.com/x/react-date-pickers/date-picker/) with the suite's label, error and
-helper-text handling.
+Picker](https://v8.mui.com/x/react-date-pickers/date-picker/) with the suite's
+label, error and helper-text handling.
 
-Use a date picker when you need a calendar day without a time, such as a date of birth, a check-in
-date or an invoice due date. The value is a date object from your date library, so you can compare
-it with other dates, limit it with `minDate` and `maxDate`, or format it however your API expects.
+Use a date picker when you need a calendar day without a time, such as a date of
+birth, a check-in date or an invoice due date. The value is a date object from
+your date library, so you can compare it with other dates, limit it with
+`minDate` and `maxDate`, or format it however your API expects.
 
 Each date picker comes in four variants:
 
-- `MUIDatePicker` — responsive (renders the desktop UI on pointer devices, the mobile UI on touch).
+- `MUIDatePicker` — responsive (renders the desktop UI on pointer devices, the
+  mobile UI on touch).
 - `MUIDesktopDatePicker` — always renders the desktop (keyboard-first) UI.
 - `MUIMobileDatePicker` — always renders the mobile (modal) UI.
 - `MUIStaticDatePicker` — an always-visible inline picker with no text field.
@@ -156,20 +158,21 @@ like `size` and `fullWidth`. The component controls the text field's
 
 ## API
 
-All four variants (`MUIDatePicker`, `MUIDesktopDatePicker`, `MUIMobileDatePicker`,
-`MUIStaticDatePicker`) share the props below.
+All four variants (`MUIDatePicker`, `MUIDesktopDatePicker`,
+`MUIMobileDatePicker`, `MUIStaticDatePicker`) share the props below.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
-required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUIDatePicker} />
 
 <Callout type="info">
   `MUIStaticDatePicker` renders inline with no text field, so two props behave
   slightly differently: `fieldName` only derives the generated ids and default
-  label (no `name` attribute, since there's no input), and `showLabelAboveFormField`
-  defaults to `false` — with no built-in inline label, that means no visible
-  label renders at all (the accessible name is still applied).
+  label (no `name` attribute, since there's no input), and
+  `showLabelAboveFormField` defaults to `false` — with no built-in inline label,
+  that means no visible label renders at all (the accessible name is still
+  applied).
 </Callout>
 
 ## Source Code

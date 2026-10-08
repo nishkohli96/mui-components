@@ -13,22 +13,24 @@ export default function Layout({ children }) {
 
 # MUIPasswordInput
 
-`MUIPasswordInput` is a [TextField](https://v7.mui.com/material-ui/react-text-field/)-based
-password field with a built-in show/hide visibility toggle. It handles the label,
-error state and helper text, and stays a plain controlled component.
+`MUIPasswordInput` is a
+[TextField](https://v7.mui.com/material-ui/react-text-field/)-based password
+field with a built-in show/hide visibility toggle. It handles the label, error
+state and helper text, and stays a plain controlled component.
 
 ## Usage
 
-`MUIPasswordInput` is controlled: pass `fieldName`, `value` and `onValueChange`, and it handles
-the rest.
+`MUIPasswordInput` is controlled: pass `fieldName`, `value` and `onValueChange`,
+and it handles the rest.
 
-- A show/hide button at the end of the field swaps the input `type` between `password` and
-  `text`. It is a real button, so it works from the keyboard, and clicking it doesn't take
-  focus away from the input.
-- The button's accessible name switches between "Show password" and "Hide password".
-- `autoComplete` defaults to `off`. Set it to `current-password` on a login form, or
-  `new-password` when creating or changing a password, so password managers can fill or
-  offer to save it.
+- A show/hide button at the end of the field swaps the input `type` between
+  `password` and `text`. It is a real button, so it works from the keyboard, and
+  clicking it doesn't take focus away from the input.
+- The button's accessible name switches between "Show password" and "Hide
+  password".
+- `autoComplete` defaults to `off`. Set it to `current-password` on a login
+  form, or `new-password` when creating or changing a password, so password
+  managers can fill or offer to save it.
 
 ```tsx
 import MUIPasswordInput, { MUIPasswordInputProps } from '@nish1896/mui-components/mui/password-input';
@@ -49,9 +51,10 @@ The sections below show how to customize the button with `showPasswordIcon`,
 
 ### Custom show/hide icons
 
-`showPasswordIcon` is displayed while the password is hidden (clicking it reveals the value),
-and `hidePasswordIcon` while it is visible (clicking it hides the value). They default to the
-Material `Visibility` and `VisibilityOff` icons, and accept any `ReactNode`:
+`showPasswordIcon` is displayed while the password is hidden (clicking it
+reveals the value), and `hidePasswordIcon` while it is visible (clicking it
+hides the value). They default to the Material `Visibility` and `VisibilityOff`
+icons, and accept any `ReactNode`:
 
 ```tsx
 import KeyIcon from '@mui/icons-material/Key';
@@ -66,7 +69,8 @@ import KeyOffIcon from '@mui/icons-material/KeyOff';
 />
 ```
 
-Plain text works too. Give the button a rounded-rectangle shape so the text fits:
+Plain text works too. Give the button a rounded-rectangle shape so the text
+fits:
 
 ```tsx
 <MUIPasswordInput
@@ -88,8 +92,8 @@ Plain text works too. Give the button a rounded-rectangle shape so the text fits
 ### Styling the toggle button
 
 `iconButtonProps` introduced in `v1.1`, forwards
-[IconButtonProps](https://v7.mui.com/material-ui/api/icon-button/) to the toggle, for example a
-`size`, `color` or `sx`:
+[IconButtonProps](https://v7.mui.com/material-ui/api/icon-button/) to the
+toggle, for example a `size`, `color` or `sx`:
 
 ```tsx
 <MUIPasswordInput
@@ -104,16 +108,17 @@ Plain text works too. Give the button a rounded-rectangle shape so the text fits
 />
 ```
 
-`type`, `onClick`, `onMouseDown`, `edge`, `disabled` and `aria-label` are controlled by the
-component, so overriding them has no effect. In particular:
+`type`, `onClick`, `onMouseDown`, `edge`, `disabled` and `aria-label` are
+controlled by the component, so overriding them has no effect. In particular:
 
-- There is no callback for the visibility change, since `onClick` can't be replaced.
+- There is no callback for the visibility change, since `onClick` can't be
+  replaced.
 - The accessible name is fixed to "Show password" / "Hide password".
 
 ### Adding your own end adornment
 
-An end adornment passed through `slotProps.input` is rendered before the toggle, so both
-stay in the field:
+An end adornment passed through `slotProps.input` is rendered before the toggle,
+so both stay in the field:
 
 ```tsx
 import InputAdornment from '@mui/material/InputAdornment';
@@ -144,11 +149,11 @@ including the toggle.
 ## API
 
 `MUIPasswordInputProps` also accepts the remaining
-[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) (`variant`, `placeholder`,
-`slotProps`, `sx`) except `type`, `multiline` and `rows`.
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/) (`variant`,
+`placeholder`, `slotProps`, `sx`) except `type`, `multiline` and `rows`.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong>
-are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUIPasswordInput} />
 

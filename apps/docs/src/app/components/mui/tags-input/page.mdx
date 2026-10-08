@@ -10,16 +10,19 @@ export default function Layout({ children }) {
 
 # MUITagsInput
 
-`MUITagsInput` renders a [TextField](https://mui.com/material-ui/react-text-field/) that turns typed
-or pasted text into chips. Add, delete and paste actions can be intercepted, transformed or blocked,
-and the visible chip count can be limited when unfocused.
+`MUITagsInput` renders a
+[TextField](https://mui.com/material-ui/react-text-field/) that turns typed or
+pasted text into chips. Add, delete and paste actions can be intercepted,
+transformed or blocked, and the visible chip count can be limited when
+unfocused.
 
 ## Working
 
 `MUITagsInput` works as follows:
 
-- Users can type a keyword, press **Enter** or the **delimiter key** (default `","`), and see it
-  rendered as a chip, with the input field cleared for the next entry.
+- Users can type a keyword, press **Enter** or the **delimiter key** (default
+  `","`), and see it rendered as a chip, with the input field cleared for the
+  next entry.
 - Pasting comma-separated values automatically generates
 chips for each value. The delimiter can also be configured, for example `"|"`.
 - Users can remove a chip by clicking its "x" button.
@@ -46,17 +49,18 @@ const [tags, setTags] = useState<string[]>([]);
 />
 ```
 
-`value` is always a `string[]`, and a missing value is an empty list. Removing the last tag emits
-`[]`, never `null`. Tags are trimmed, empty entries are dropped, and a tag is skipped when it
-matches an existing one, ignoring letter case and spaces (`React` and `react`, or `New York` and
-`newyork`).
+`value` is always a `string[]`, and a missing value is an empty list. Removing
+the last tag emits `[]`, never `null`. Tags are trimmed, empty entries are
+dropped, and a tag is skipped when it matches an existing one, ignoring letter
+case and spaces (`React` and `react`, or `New York` and `newyork`).
 
 ### Delimiter
 
-The `delimiter` (default `','`) is the key that turns the typed text into a tag, alongside
-**Enter**. Pasted text is split on it as well, so pasting `red;green;blue` creates three tags when
-the delimiter is `';'`. Leading and trailing spaces around each tag are trimmed, so
-`red; green ; blue` creates the same three tags.
+The `delimiter` (default `','`) is the key that turns the typed text into a tag,
+alongside **Enter**. Pasted text is split on it as well, so pasting
+`red;green;blue` creates three tags when the delimiter is `';'`. Leading and
+trailing spaces around each tag are trimmed, so `red; green ; blue` creates the
+same three tags.
 
 ```tsx
 <MUITagsInput
@@ -67,14 +71,14 @@ the delimiter is `';'`. Leading and trailing spaces around each tag are trimmed,
 />
 ```
 
-The delimiter is matched against the pressed key, so use a single character. That key is
-intercepted, which means a tag can't contain the delimiter.
+The delimiter is matched against the pressed key, so use a single character.
+That key is intercepted, which means a tag can't contain the delimiter.
 
 ### Tag Events
 
-Use `onTagAdd`, `onTagDelete`, and `onTagPaste` to validate, transform, or prevent
-tag changes before the form value is updated. Each callback receives a single object
-argument with the current field value available as `currentValue`.
+Use `onTagAdd`, `onTagDelete`, and `onTagPaste` to validate, transform, or
+prevent tag changes before the form value is updated. Each callback receives a
+single object argument with the current field value available as `currentValue`.
 
 - **`onTagAdd`** — called before a tag is added, with `currentValue` (the field
 value before the addition) and `newTag` (the tag the user is attempting to add).
@@ -83,11 +87,11 @@ instead of `newTag`, or `true`/`void` to add `newTag` unchanged.
 - **`onTagDelete`** — called before a tag is removed, with `currentValue` (the
 field value before the removal) and `deletedTag` (the tag being removed). Return
 `false` to prevent the deletion, or `true`/`void` to allow it.
-- **`onTagPaste`** — called when one or more tags are pasted, with `currentValue`
-and `pastedTags` (the tags parsed from the pasted text — already split on the
-configured `delimiter`, trimmed, and deduplicated). Return `false` to discard all
-pasted tags, a `string[]` to replace them with a custom set, or `void` to add
-`pastedTags` unchanged.
+- **`onTagPaste`** — called when one or more tags are pasted, with
+  `currentValue` and `pastedTags` (the tags parsed from the pasted text —
+  already split on the configured `delimiter`, trimmed, and deduplicated).
+  Return `false` to discard all pasted tags, a `string[]` to replace them with a
+  custom set, or `void` to add `pastedTags` unchanged.
 
 ```jsx
 <MUITagsInput
@@ -112,10 +116,10 @@ pasted tags, a `string[]` to replace them with a custom set, or `void` to add
 
 ### Limiting the visible tags
 
-While the field is not focused, only the first `limitTags` tags (default `2`) are shown, followed by
-a "**+N more**" chip. Focusing the field shows every tag. Set `limitTags` to `-1` to always show all
-of them. `getLimitTagsText` receives the number of hidden tags and returns the text of the extra
-chip:
+While the field is not focused, only the first `limitTags` tags (default `2`)
+are shown, followed by a "**+N more**" chip. Focusing the field shows every tag.
+Set `limitTags` to `-1` to always show all of them. `getLimitTagsText` receives
+the number of hidden tags and returns the text of the extra chip:
 
 ```tsx
 <MUITagsInput
@@ -129,14 +133,16 @@ chip:
 
 ### Maximum number of tags
 
-`maxTags` caps how many tags the field holds. By default there is no limit. Once it is reached:
+`maxTags` caps how many tags the field holds. By default there is no limit. Once
+it is reached:
 
 - New tags typed from the keyboard are ignored, and the text stays in the input.
-- Pasted tags are cut to the free slots. Pasting five tags with two slots left adds the first two.
+- Pasted tags are cut to the free slots. Pasting five tags with two slots left
+  adds the first two.
 
-`onTagAdd` isn't called for a tag that is blocked by the limit. `onTagPaste` still receives every
-parsed tag, and its result is cut to the free slots afterwards. A counter in `helperText` tells
-users how many slots are left:
+`onTagAdd` isn't called for a tag that is blocked by the limit. `onTagPaste`
+still receives every parsed tag, and its result is cut to the free slots
+afterwards. A counter in `helperText` tells users how many slots are left:
 
 ```tsx
 <MUITagsInput
@@ -150,9 +156,11 @@ users how many slots are left:
 
 ### Customizing the chips
 
-`ChipProps` is forwarded to every tag [Chip](https://mui.com/material-ui/api/chip/) — for example
-`color`, `variant`, `size` or an `icon`. It also applies to the "**+N more**" chip. The `id`,
-`role`, `label`, `disabled` and `onDelete` props are controlled by the component:
+`ChipProps` is forwarded to every tag
+[Chip](https://mui.com/material-ui/api/chip/) — for example `color`, `variant`,
+`size` or an `icon`. It also applies to the "**+N more**" chip. The `id`,
+`role`, `label`, `disabled` and `onDelete` props are controlled by the
+component:
 
 ```tsx
 <MUITagsInput
@@ -165,12 +173,14 @@ users how many slots are left:
 
 ### Transform tag content
 
-By default, each chip shows its tag exactly as it was typed. To transform how a tag is displayed,
-for example by adding a `#` prefix, changing its letter case or adding an icon, pass a function to
-`renderTagLabel`. The stored value stays the same; only the chip's label changes.
+By default, each chip shows its tag exactly as it was typed. To transform how a
+tag is displayed, for example by adding a `#` prefix, changing its letter case
+or adding an icon, pass a function to `renderTagLabel`. The stored value stays
+the same; only the chip's label changes.
 
-`renderTagLabel` receives a tag string and returns the `ReactNode` to display as that chip's label,
-instead of the plain text. For example, to prefix every tag with `#`:
+`renderTagLabel` receives a tag string and returns the `ReactNode` to display as
+that chip's label, instead of the plain text. For example, to prefix every tag
+with `#`:
 
 ```tsx
 <MUITagsInput
@@ -205,19 +215,19 @@ import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 />
 ```
 
-This only transforms the content display in an individual chip. `value`, the `onTagAdd`,
-`onTagDelete` and `onTagPaste` callbacks, and the duplicate check all keep using the original
-tag, so `#react` is shown but `'react'` is stored. The "**+N more**" chip isn't affected;
-use `getLimitTagsText` to change it.
+This only transforms the content display in an individual chip. `value`, the
+`onTagAdd`, `onTagDelete` and `onTagPaste` callbacks, and the duplicate check
+all keep using the original tag, so `#react` is shown but `'react'` is stored.
+The "**+N more**" chip isn't affected; use `getLimitTagsText` to change it.
 
 ## API
 
 `MUITagsInputProps` also accepts the remaining
-[TextFieldProps](https://mui.com/material-ui/api/text-field/), with some props excluded, including
-`value`, `multiline` and `error`.
+[TextFieldProps](https://mui.com/material-ui/api/text-field/), with some props
+excluded, including `value`, `multiline` and `error`.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
-required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUITagsInput} />
 

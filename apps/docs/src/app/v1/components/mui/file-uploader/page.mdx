@@ -47,13 +47,13 @@ const [file, setFile] = useState<File | null>(null);
 You can also pass `multiple` prop to allow selection of multiple files.
 
 `value` is a single `File`, or `null` when empty, and a `File[]` when `multiple`
-is set. Removing the last file yields `null` for a single-file field and `[]` for
-a multi-file field. `onValueChange` receives `{ newValue, event }`, where `event`
-is the input change, drop or remove-button click that caused the change.
+is set. Removing the last file yields `null` for a single-file field and `[]`
+for a multi-file field. `onValueChange` receives `{ newValue, event }`, where
+`event` is the input change, drop or remove-button click that caused the change.
 
-The component only manages the files. It doesn't list them, so render the selected
-files with `renderFileItem` and the server-side ones with `existingFiles` and
-`renderExistingFileItem` props(see below).
+The component only manages the files. It doesn't list them, so render the
+selected files with `renderFileItem` and the server-side ones with
+`existingFiles` and `renderExistingFileItem` props(see below).
 
 A file object has the following properties:
 
@@ -90,8 +90,9 @@ On a Node.js Express server, you can handle this incoming data with the
 See:
 - <MuiLink href={externalLinks.githubExamples.multerFileUpload} target="_blank"
   rel="noopener noreferrer">Multer File Upload Example</MuiLink>
-- <MuiLink href={externalLinks.githubExamples.fileUploadMiddleware} target="_blank"
-  rel="noopener noreferrer">File Upload Middleware Examples</MuiLink>
+- <MuiLink href={externalLinks.githubExamples.fileUploadMiddleware}
+  target="_blank" rel="noopener noreferrer">File Upload Middleware
+  Examples</MuiLink>
 
 ### Drag and Drop
 
@@ -196,7 +197,8 @@ The renderer receives:
 
 ### Existing Files
 
-Use `existingFiles` to display files that have already been uploaded and stored on the server.
+Use `existingFiles` to display files that have already been uploaded and stored
+on the server.
 
 ```tsx
 <MUIFileUploader
@@ -215,12 +217,12 @@ Use `existingFiles` to display files that have already been uploaded and stored 
 />
 ```
 
-Existing files are rendered separately from newly uploaded files and are counted toward the
-`maxFiles` limit.
+Existing files are rendered separately from newly uploaded files and are counted
+toward the `maxFiles` limit.
 
-Existing files are rendered only when `renderExistingFileItem` is provided. They are not part of
-`value`, and the component never removes them, so handle deletion in your own renderer and update
-`existingFiles` yourself.
+Existing files are rendered only when `renderExistingFileItem` is provided. They
+are not part of `value`, and the component never removes them, so handle
+deletion in your own renderer and update `existingFiles` yourself.
 
 ### Custom Existing File Rendering
 
@@ -260,9 +262,10 @@ The renderer receives:
 }
 ```
 
-Neither the selected files nor the existing files are listed unless you provide the matching
-renderer. Both lists are rendered below the helper text, with the existing files first. Style
-their wrapper `Box` with `existingFileListProps` and `uploadedFileListProps`:
+Neither the selected files nor the existing files are listed unless you provide
+the matching renderer. Both lists are rendered below the helper text, with the
+existing files first. Style their wrapper `Box` with `existingFileListProps` and
+`uploadedFileListProps`:
 
 ```jsx
 <MUIFileUploader
@@ -304,26 +307,30 @@ const [files, setFiles] = useState<File[] | null>(null);
 />
 ```
 
-Every incoming file, whether it is picked from the dialog or dropped, is checked on its own:
+Every incoming file, whether it is picked from the dialog or dropped, is checked
+on its own:
 
-- `accept` is a comma-separated list of MIME types (`image/png`), wildcards (`image/*`) and
-  extensions (`.pdf`). Matching ignores case, and the same list also filters the browser's file
-  dialog. An extension is compared with the part of the name after the last dot, so `.gz` matches
-  `archive.tar.gz` but `.tar.gz` doesn't.
+- `accept` is a comma-separated list of MIME types (`image/png`), wildcards
+  (`image/*`) and extensions (`.pdf`). Matching ignores case, and the same list
+  also filters the browser's file dialog. An extension is compared with the part
+  of the name after the last dot, so `.gz` matches `archive.tar.gz` but
+  `.tar.gz` doesn't.
 - `maxSize` is in bytes, so `5 * 1024 * 1024` is 5 MB.
-- `maxFiles` caps the total. Files from `existingFiles`, files that are already selected and the
-  incoming batch all count towards it, and only the excess files are rejected.
+- `maxFiles` caps the total. Files from `existingFiles`, files that are already
+  selected and the incoming batch all count towards it, and only the excess
+  files are rejected.
 
-Rejected files are never added to `value`, while the valid files from the same batch still are.
-With `multiple`, accepted files are appended to the current ones. Without it, a valid file
-replaces the current one, and a rejected file leaves the current one in place. In that mode the
-selected file isn't counted by `maxFiles`, since it is replaced.
+Rejected files are never added to `value`, while the valid files from the same
+batch still are. With `multiple`, accepted files are appended to the current
+ones. Without it, a valid file replaces the current one, and a rejected file
+leaves the current one in place. In that mode the selected file isn't counted by
+`maxFiles`, since it is replaced.
 
 ### Handling upload errors
 
-`onUploadError` is called with one `FileUploadErrorDetails` entry per rejected file:
-`{ file, errors }`. `errors` lists the `FileUploadError` values that apply, and a file can fail more
-than one check:
+`onUploadError` is called with one `FileUploadErrorDetails` entry per rejected
+file: `{ file, errors }`. `errors` lists the `FileUploadError` values that
+apply, and a file can fail more than one check:
 
 | Value | Reported when |
 |---|---|
@@ -331,12 +338,13 @@ than one check:
 | `FileUploadError.invalidExtension` (`'FILE_TYPE_NOT_ALLOWED'`) | The file doesn't match `accept` |
 | `FileUploadError.limitExceeded` (`'FILE_LIMIT_EXCEEDED'`) | The file exceeds `maxFiles` |
 
-The callback isn't called when every file is accepted. Use it to set `errorMessage`.
+The callback isn't called when every file is accepted. Use it to set
+`errorMessage`.
 
-`onUploadError` runs just before `onValueChange` in the same event, and `onValueChange` is still
-called when every file was rejected, with the unchanged value. Clearing the message there
-unconditionally would remove it right after it is set, so remember whether the batch had
-rejections, as in this example:
+`onUploadError` runs just before `onValueChange` in the same event, and
+`onValueChange` is still called when every file was rejected, with the unchanged
+value. Clearing the message there unconditionally would remove it right after it
+is set, so remember whether the batch had rejections, as in this example:
 
 ```tsx
 import MUIFileUploader, {
@@ -381,8 +389,8 @@ function handleUploadError(rejected: FileUploadErrorDetails[]) {
 
 ## API
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
-required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUIFileUploader} />
 

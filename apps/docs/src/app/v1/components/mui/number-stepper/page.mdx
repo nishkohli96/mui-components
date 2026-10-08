@@ -48,8 +48,9 @@ const [quantity, setQuantity] = useState<number | null>(1);
 ### Customizing icons
 
 - `decrementIcon` / `incrementIcon` — replace the default `-` / `+` icons.
-- `swapButtons` — swap the button positions and behaviour, so the increment (`+`)
-  button sits on the left of the input and the decrement (`-`) button on the right.
+- `swapButtons` — swap the button positions and behaviour, so the increment
+  (`+`) button sits on the left of the input and the decrement (`-`) button on
+  the right.
 - `iconButtonProps` — forwarded to both stepper
   [IconButton](https://mui.com/material-ui/api/icon-button/)s (e.g. `size`,
   `sx`). Interaction and accessibility props are managed by the component.
@@ -70,8 +71,9 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 ### Adding a caption
 
-`caption` renders content just below the value, centered between the two buttons. It accepts any
-`ReactNode` — text, an icon, or both — which makes it a good fit for a unit label:
+`caption` renders content just below the value, centered between the two
+buttons. It accepts any `ReactNode` — text, an icon, or both — which makes it a
+good fit for a unit label:
 
 ```tsx
 <MUINumberStepper
@@ -84,8 +86,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 />
 ```
 
-For an icon with text, pass both as the caption. The caption is a flex container, so the two
-sit side by side and are vertically centered:
+For an icon with text, pass both as the caption. The caption is a flex
+container, so the two sit side by side and are vertically centered:
 
 ```tsx
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
@@ -103,15 +105,17 @@ import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 />
 ```
 
-A falsy `caption` (`undefined`, `null`, `''` or `0`) renders nothing. While a caption is shown, the
-input's vertical padding is reduced so the value and caption sit close together.
+A falsy `caption` (`undefined`, `null`, `''` or `0`) renders nothing. While a
+caption is shown, the input's vertical padding is reduced so the value and
+caption sit close together.
 
 ### Styling the caption
 
 `captionProps` is forwarded to the `Box` that wraps `caption` — any
-[Box](https://v7.mui.com/material-ui/api/box/) prop except `children`, such as `sx`, `className` or
-`data-*` attributes. Its `sx` is merged with the caption's base styles instead of replacing them, so
-you only list what you want to change. The base styles are:
+[Box](https://v7.mui.com/material-ui/api/box/) prop except `children`, such as
+`sx`, `className` or `data-*` attributes. Its `sx` is merged with the caption's
+base styles instead of replacing them, so you only list what you want to change.
+The base styles are:
 
 | Style | Default |
 |---|---|
@@ -143,11 +147,12 @@ you only list what you want to change. The base styles are:
 
 ## API
 
-`MUINumberStepperProps` extends [MUINumberInputProps](/v1/components/mui/number-input#api)
-(minus `showMarkers` and `variant`) and also accepts the remaining
+`MUINumberStepperProps` extends
+[MUINumberInputProps](/v1/components/mui/number-input#api) (minus `showMarkers`
+and `variant`) and also accepts the remaining
 [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), except `type`,
-`multiline` and `rows`. Props marked with
-<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+`multiline` and `rows`. Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUINumberStepper} />
 

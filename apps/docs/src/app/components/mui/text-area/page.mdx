@@ -17,12 +17,14 @@ export default function Layout({ children }) {
 
 <AvailabilityBanner componentName="MUITextArea" version="2.3" />
 
-`MUITextArea` is a multiline Material UI [TextField](https://mui.com/material-ui/react-text-field/)
-that wires up the label, error state and helper text for you. It is a controlled component
-that works with plain `useState` or any form library able to provide a value and receive changes.
+`MUITextArea` is a multiline Material UI
+[TextField](https://mui.com/material-ui/react-text-field/) that wires up the
+label, error state and helper text for you. It is a controlled component that
+works with plain `useState` or any form library able to provide a value and
+receive changes.
 
-Unless you set `rows`, the field grows with its content. Use `maxChars` to cap the length: typing
-stops at the limit and pasted text is cut to fit.
+Unless you set `rows`, the field grows with its content. Use `maxChars` to cap
+the length: typing stops at the limit and pasted text is cut to fit.
 
 For single-line values, use [MUITextField](/components/mui/textfield) instead.
 
@@ -32,8 +34,8 @@ For single-line values, use [MUITextField](/components/mui/textfield) instead.
 import MUITextArea, { MUITextAreaProps } from '@nish1896/mui-components/mui/text-area';
 ```
 
-Provide `fieldName`, `value` and `onValueChange` to render a fully functional text area.
-Set `rows` for a fixed height.
+Provide `fieldName`, `value` and `onValueChange` to render a fully functional
+text area. Set `rows` for a fixed height.
 
 ```tsx
 const [bio, setBio] = useState();
@@ -46,8 +48,8 @@ const [bio, setBio] = useState();
 />
 ```
 
-Validation stays in your hands — derive `errorMessage` from your own state or form
-library and the field renders in an error state:
+Validation stays in your hands — derive `errorMessage` from your own state or
+form library and the field renders in an error state:
 
 ```tsx
 <MUITextArea
@@ -61,10 +63,10 @@ library and the field renders in an error state:
 
 ### Sizing
 
-By default the field starts at one row and grows with its content. `rows` fixes the height
-instead, and the content scrolls once it no longer fits. To keep the auto-growing behavior
-within bounds, pass `minRows` and `maxRows`, which are forwarded to the underlying
-`TextField`.
+By default the field starts at one row and grows with its content. `rows` fixes
+the height instead, and the content scrolls once it no longer fits. To keep the
+auto-growing behavior within bounds, pass `minRows` and `maxRows`, which are
+forwarded to the underlying `TextField`.
 
 ```tsx
 <MUITextArea
@@ -78,8 +80,9 @@ within bounds, pass `minRows` and `maxRows`, which are forwarded to the underlyi
 
 ### Validating the length
 
-`maxChars` only caps what the user can type. To enforce a minimum, or to explain a rule,
-derive `errorMessage` from the value. It works well together with the counter:
+`maxChars` only caps what the user can type. To enforce a minimum, or to explain
+a rule, derive `errorMessage` from the value. It works well together with the
+counter:
 
 ```tsx
 <MUITextArea
@@ -95,10 +98,11 @@ derive `errorMessage` from the value. It works well together with the counter:
 />
 ```
 
-`errorMessage` also accepts a `string[]`, `renderError` customizes how the messages are
-shown, and `hideErrorMessage` keeps the error state without the text. The label can be
-customized with `label`, `showLabelAboveFormField`, `hideLabel` and `formLabelProps`, as
-described for [MUITextField](/components/mui/textfield#customizing-the-label).
+`errorMessage` also accepts a `string[]`, `renderError` customizes how the
+messages are shown, and `hideErrorMessage` keeps the error state without the
+text. The label can be customized with `label`, `showLabelAboveFormField`,
+`hideLabel` and `formLabelProps`, as described for
+[MUITextField](/components/mui/textfield#customizing-the-label).
 
 ### Character Limit
 
@@ -110,8 +114,8 @@ it is longer than `maxChars`. The user can then only delete characters,
 until the length drops below the limit. Truncate such values yourself
 before passing them in.
 
-`maxChars` uses the native `maxLength` attribute, which counts UTF-16 code units, so an emoji
-counts as 2 characters.
+`maxChars` uses the native `maxLength` attribute, which counts UTF-16 code
+units, so an emoji counts as 2 characters.
 
 ```tsx
 <MUITextArea
@@ -122,8 +126,9 @@ counts as 2 characters.
 />
 ```
 
-Add `showCharLimit` to render a `current/max` counter at the bottom-right inside the field. It
-sits in its own strip below the text, so typed content never runs under it:
+Add `showCharLimit` to render a `current/max` counter at the bottom-right inside
+the field. It sits in its own strip below the text, so typed content never runs
+under it:
 
 ```tsx
 <MUITextArea
@@ -137,8 +142,9 @@ sits in its own strip below the text, so typed content never runs under it:
 
 #### Custom character limit text
 
-Pass `renderCharLimit` to replace the default `current/max` text with your own node. It receives
-the current count and `maxChars`, and shows the counter on its own. `showCharLimit` isn't needed.
+Pass `renderCharLimit` to replace the default `current/max` text with your own
+node. It receives the current count and `maxChars`, and shows the counter on its
+own. `showCharLimit` isn't needed.
 
 ```tsx
 <MUITextArea
@@ -160,11 +166,11 @@ the current count and `maxChars`, and shows the counter on its own. `showCharLim
 ## API
 
 `MUITextAreaProps` also accepts the remaining
-[TextFieldProps](https://mui.com/material-ui/api/text-field/), except `multiline`
-(always on), in addition to the props below.
+[TextFieldProps](https://mui.com/material-ui/api/text-field/), except
+`multiline` (always on), in addition to the props below.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
-required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUITextArea} />
 
@@ -173,7 +179,8 @@ required.
 <TextAreaForm />
 
 ## Reference
-- [MUI Multiline TextField](https://mui.com/material-ui/react-text-field/#multiline)
+- [MUI Multiline
+  TextField](https://mui.com/material-ui/react-text-field/#multiline)
 
 ## Source Code
 

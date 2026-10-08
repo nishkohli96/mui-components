@@ -20,18 +20,23 @@ character, backed by a single string `value` with no separators.
 
 `MUIOTPInput` works as follows:
 
-- Typing a character fills the current box and auto-advances focus to the next one.
-- **Backspace** on an empty box clears the previous box and moves focus back to it.
+- Typing a character fills the current box and auto-advances focus to the next
+  one.
+- **Backspace** on an empty box clears the previous box and moves focus back to
+  it.
 - **Arrow Left / Right** move focus between boxes without changing the value.
-- Focusing a box selects its character, so typing replaces it instead of appending.
+- Focusing a box selects its character, so typing replaces it instead of
+  appending.
 - Pasting a code distributes its characters across the remaining boxes starting
-  from the box where the cursor is — paste into the first box to fill the whole field.
-- By default only digits are accepted; a non-digit keystroke or paste is ignored.
-  Set `alphanumeric` to also allow letters.
+  from the box where the cursor is — paste into the first box to fill the whole
+  field.
+- By default only digits are accepted; a non-digit keystroke or paste is
+  ignored. Set `alphanumeric` to also allow letters.
 - `separatorIndexes` renders a `separator` (default `'-'`) after the given
   zero-based indexes.
 
-  **E.g.** `separatorIndexes={[2, 6]}` with `length={10}` renders as `*** - **** - ***`.
+  **E.g.** `separatorIndexes={[2, 6]}` with `length={10}` renders as
+  `*** - **** - ***`.
 - There is no inline label. The label is hidden unless `showLabelAboveFormField`
   (or the `allLabelsAboveFields` config) renders it above the boxes; either way
   the accessible name is applied to every box.
@@ -52,13 +57,14 @@ const [code, setCode] = useState('');
 />
 ```
 
-By default the code is **6** digits long, so the example above renders six boxes. `value` is a
-plain string without separators, such as `'123456'`, and is shorter while the user is still
-typing.
+By default the code is **6** digits long, so the example above renders six
+boxes. `value` is a plain string without separators, such as `'123456'`, and is
+shorter while the user is still typing.
 
 ### Customizing the length
 
-Use the `length` prop to change the number of boxes. One box is rendered per character:
+Use the `length` prop to change the number of boxes. One box is rendered per
+character:
 
 ```tsx
 <MUIOTPInput
@@ -69,8 +75,9 @@ Use the `length` prop to change the number of boxes. One box is rendered per cha
 />
 ```
 
-`onValueChange` always receives `length` characters or fewer, so `newValue.length === length`
-tells you the code is complete. For example, to verify it as soon as the last box is filled:
+`onValueChange` always receives `length` characters or fewer, so
+`newValue.length === length` tells you the code is complete. For example, to
+verify it as soon as the last box is filled:
 
 ```tsx
 <MUIOTPInput
@@ -86,13 +93,13 @@ tells you the code is complete. For example, to verify it as soon as the last bo
 />
 ```
 
-Keep `value.length` within `length`. A longer `value`, or a smaller `length`, is cut down to
-`length` characters on the next `onValueChange`.
+Keep `value.length` within `length`. A longer `value`, or a smaller `length`, is
+cut down to `length` characters on the next `onValueChange`.
 
 ### Alphanumeric codes
 
-Only digits are accepted by default, and mobile devices show the numeric keyboard. Set
-`alphanumeric` to also accept the letters `A`–`Z` and `a`–`z`:
+Only digits are accepted by default, and mobile devices show the numeric
+keyboard. Set `alphanumeric` to also accept the letters `A`–`Z` and `a`–`z`:
 
 ```tsx
 <MUIOTPInput
@@ -104,15 +111,17 @@ Only digits are accepted by default, and mobile devices show the numeric keyboar
 />
 ```
 
-The case of the letters is kept as typed, so convert it yourself if your codes are uppercase,
-as above. A pasted code is accepted only if **every** character is allowed. Pasting `w2323s`
-into a digits-only field is ignored entirely, instead of being filtered down to `2323`.
+The case of the letters is kept as typed, so convert it yourself if your codes
+are uppercase, as above. A pasted code is accepted only if **every** character
+is allowed. Pasting `w2323s` into a digits-only field is ignored entirely,
+instead of being filtered down to `2323`.
 
 ### Separator indexes
 
-`separatorIndexes` lists the zero-based indexes of the boxes that a separator is rendered
-after. With `length={8}`, `separatorIndexes={[2, 5]}` renders as `*** - *** - **`: a separator
-after the 3rd and the 6th box. The default `separator` is `'-'`, and it accepts any `ReactNode`.
+`separatorIndexes` lists the zero-based indexes of the boxes that a separator is
+rendered after. With `length={8}`, `separatorIndexes={[2, 5]}` renders as
+`*** - *** - **`: a separator after the 3rd and the 6th box. The default
+`separator` is `'-'`, and it accepts any `ReactNode`.
 
 ```tsx
 <MUIOTPInput
@@ -127,16 +136,17 @@ after the 3rd and the 6th box. The default `separator` is `'-'`, and it accepts 
 />
 ```
 
-Separators are only visual. They are hidden from assistive technology and are never part of
-`value`, which stays `'ABC1234XYZ'`. They don't count as characters when pasting either, so paste
-the code without separators. An index equal to the last box is ignored, so no separator is
-rendered after the final box.
+Separators are only visual. They are hidden from assistive technology and are
+never part of `value`, which stays `'ABC1234XYZ'`. They don't count as
+characters when pasting either, so paste the code without separators. An index
+equal to the last box is ignored, so no separator is rendered after the final
+box.
 
 ## API
 
 `MUIOTPInput` does not spread arbitrary
-[TextFieldProps](https://m7.mui.com/material-ui/api/text-field/) on itself — use `textFieldProps` to
-customize every character box. Props marked with <strong
+[TextFieldProps](https://m7.mui.com/material-ui/api/text-field/) on itself — use
+`textFieldProps` to customize every character box. Props marked with <strong
 style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUIOTPInput} />

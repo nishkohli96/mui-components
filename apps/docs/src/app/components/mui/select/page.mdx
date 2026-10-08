@@ -10,14 +10,16 @@ export default function Layout({ children }) {
 
 # MUISelect
 
-`MUISelect` wraps the Material UI [Select](https://mui.com/material-ui/react-select/) with label,
-error and helper-text handling. It supports single or multiple selection and either primitive or
-object options via `labelKey`/`valueKey`.
+`MUISelect` wraps the Material UI
+[Select](https://mui.com/material-ui/react-select/) with label, error and
+helper-text handling. It supports single or multiple selection and either
+primitive or object options via `labelKey`/`valueKey`.
 
 <Callout type="tip">
-  If the number of options **exceeds 20**, consider using [MUIAutocomplete](autocomplete)
-  or [MUIMultiAutocomplete](multi-autocomplete) for better searchability, improved keyboard
-  navigation, and overall performance.
+  If the number of options **exceeds 20**, consider using
+  [MUIAutocomplete](autocomplete) or [MUIMultiAutocomplete](multi-autocomplete)
+  for better searchability, improved keyboard navigation, and overall
+  performance.
 </Callout>
 
 ## Usage
@@ -55,8 +57,8 @@ When `options` is an array of objects,  both `labelKey` and `valueKey`
 - `labelKey`: the property used as each option's visible label.
 - `valueKey`: the property used as each option's value.
 
-The selected value has the type of the `valueKey` property: a string property gives
-a `string`, and a number property gives a `number`.
+The selected value has the type of the `valueKey` property: a string property
+gives a `string`, and a number property gives a `number`.
 
 For example:
 
@@ -78,13 +80,13 @@ For example:
 
 Two props help when nothing is selected yet. `showDefaultOption` adds a first
 menu item with the value `''`, labelled with `defaultOptionText`, which defaults
-to "Select" followed by the label generated from `fieldName`, such as `Select Role`.
-Choosing it clears the selection. It is disabled when the field is `required`, so
-it can't be picked once a real option is chosen.
+to "Select" followed by the label generated from `fieldName`, such as
+`Select Role`. Choosing it clears the selection. It is disabled when the field
+is `required`, so it can't be picked once a real option is chosen.
 
-`placeholder` is text shown inside the closed field while nothing is selected. Unlike
-the default option it isn't a menu item, it is shown faded, and the inline label is
-not rendered while it is shown.
+`placeholder` is text shown inside the closed field while nothing is selected.
+Unlike the default option it isn't a menu item, it is shown faded, and the
+inline label is not rendered while it is shown.
 
 ```tsx
 <MUISelect
@@ -161,11 +163,14 @@ labels are joined with `, ` for multiple selection.
 
 ### Styling the options
 
-`menuItemProps` is forwarded to every [MenuItem](https://mui.com/material-ui/api/menu-item/),
-including the default option, which is handy for a shared `dense`, `divider` or `sx`.
-`inputLabelProps` is forwarded to the [InputLabel](https://mui.com/material-ui/api/input-label/)
-shown inside the field's outline. It has no effect when the field uses a label above
-(`showLabelAboveFormField`), `hideLabel`, or a `placeholder` with no value selected.
+`menuItemProps` is forwarded to every
+[MenuItem](https://mui.com/material-ui/api/menu-item/), including the default
+option, which is handy for a shared `dense`, `divider` or `sx`.
+`inputLabelProps` is forwarded to the
+[InputLabel](https://mui.com/material-ui/api/input-label/) shown inside the
+field's outline. It has no effect when the field uses a label above
+(`showLabelAboveFormField`), `hideLabel`, or a `placeholder` with no value
+selected.
 
 ```tsx
 <MUISelect
@@ -180,10 +185,11 @@ shown inside the field's outline. It has no effect when the field uses a label a
 
 ## API
 
-`MUISelectProps` also accepts the remaining [SelectProps](https://mui.com/material-ui/api/select/).
+`MUISelectProps` also accepts the remaining
+[SelectProps](https://mui.com/material-ui/api/select/).
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
-required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUISelect} />
 

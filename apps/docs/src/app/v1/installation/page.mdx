@@ -27,13 +27,13 @@ The package expects Material UI (`v6` or `v7`) and its peers in your app.
 Match your project's MUI version by installing with the `latest-v6` or
 `latest-v7` tag:
 
-<PackageManagerTabs
-  id="install-mui-peers"
-  command="@mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled"
+<PackageManagerTabs id="install-mui-peers"
+command="@mui/material@latest-v7 @mui/icons-material@latest-v7 @emotion/react @emotion/styled"
 />
 
-Date & time pickers additionally use [MUI X](https://v8.mui.com/x/react-date-pickers/) (`v7` or
-`v8`) and a date adapter of your choice, with `AdapterDayjs` being [recommended by Material
+Date & time pickers additionally use [MUI
+X](https://v8.mui.com/x/react-date-pickers/) (`v7` or `v8`) and a date adapter
+of your choice, with `AdapterDayjs` being [recommended by Material
 UI](https://v8.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
 
 <PackageManagerTabs
@@ -41,9 +41,10 @@ UI](https://v8.mui.com/x/react-date-pickers/base-concepts/#recommended-library).
   command="@mui/x-date-pickers@latest-v8 dayjs"
 />
 
-To minimize the bundle size during the build process, this package includes both named and default
-exports within each module. Similar to Material-UI, developers are encouraged to use default import
-syntax to [reduce bundle size](https://v7.mui.com/material-ui/guides/minimizing-bundle-size/).
+To minimize the bundle size during the build process, this package includes both
+named and default exports within each module. Similar to Material-UI, developers
+are encouraged to use default import syntax to [reduce bundle
+size](https://v7.mui.com/material-ui/guides/minimizing-bundle-size/).
 
 The type for each component can also be imported to modify or customize an 
 existing component.
@@ -154,6 +155,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 </ConfigProvider>
 ```
 
-Explore the <MuiLink href={stackblitzFileLink('src/forms/styled-components/index.tsx')}
-target="_blank" rel="noopener noreferrer" underline="hover">Customization</MuiLink> example for a
-complete working implementation.
+Explore the <MuiLink
+href={stackblitzFileLink('src/forms/styled-components/index.tsx')}
+target="_blank" rel="noopener noreferrer"
+underline="hover">Customization</MuiLink> example for a complete working
+implementation.

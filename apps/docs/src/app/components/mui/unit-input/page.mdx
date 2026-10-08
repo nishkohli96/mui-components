@@ -13,10 +13,11 @@ export default function Layout({ children }) {
 
 <AvailabilityBanner componentName="MUIUnitInput" version="2.2" />
 
-`MUIUnitInput` pairs a numeric **value** ([MUINumberInput](/components/mui/number-input))
-with a **unit** picker ([MUISelect](/components/mui/select)) - currency, weight, temperature,
-or any other unit set - rendered borderless inside one bordered pill, similar in spirit to
-[MUIPhoneInput](/components/misc/phone-input)'s country + number pairing.
+`MUIUnitInput` pairs a numeric **value**
+([MUINumberInput](/components/mui/number-input)) with a **unit** picker
+([MUISelect](/components/mui/select)) - currency, weight, temperature, or any
+other unit set - rendered borderless inside one bordered pill, similar in spirit
+to [MUIPhoneInput](/components/misc/phone-input)'s country + number pairing.
 
 `fieldName` and `customIds` are both `{ unit, value }` objects — one entry per
 control, so each is registered independently against a flat form schema.
@@ -68,7 +69,8 @@ in `value.unit`. The type of `newValue.unit` comes from the
 `valueKey` property.
 
 In the above example below, the type of `price.value` will be
-`'USD' | 'EUR' | 'GBP'`, so the type of `price` will be `MUIUnitInputValue<Currency>`.
+`'USD' | 'EUR' | 'GBP'`, so the type of `price` will be
+`MUIUnitInputValue<Currency>`.
 
 ```tsx
 type Currency = 'USD' | 'EUR' | 'GBP';
@@ -100,23 +102,28 @@ const [price, setPrice] = useState<MUIUnitInputValue<Currency>>({
 ```
 
 <Callout type="warning">
-  When `unitOptions` is an array of objects, an error is thrown if either `labelKey` or `valueKey`
-  is missing. An error is also thrown when `unitOptions` is not an array.
+  When `unitOptions` is an array of objects, an error is thrown if either
+  `labelKey` or `valueKey` is missing. An error is also thrown when
+  `unitOptions` is not an array.
 </Callout>
 
 ### Value input options
 
-The **value** input is a [MUINumberInput](/components/mui/number-input), so its usual number props
-are available directly on `MUIUnitInput`, and they apply to the numeric `value` only:
+The **value** input is a [MUINumberInput](/components/mui/number-input), so its
+usual number props are available directly on `MUIUnitInput`, and they apply to
+the numeric `value` only:
 
-- `min` and `max`: the lower and upper bounds. Stepping stops at them, and an out-of-range value is
-  clamped when the input loses focus.
-- `nonNegative`: blocks the minus sign and acts as an implicit `min` of `0`, unless you set `min`.
-- `onlyIntegers`: allows whole numbers only. Don't combine it with `maxDecimalPlaces`.
+- `min` and `max`: the lower and upper bounds. Stepping stops at them, and an
+  out-of-range value is clamped when the input loses focus.
+- `nonNegative`: blocks the minus sign and acts as an implicit `min` of `0`,
+  unless you set `min`.
+- `onlyIntegers`: allows whole numbers only. Don't combine it with
+  `maxDecimalPlaces`.
 - `maxDecimalPlaces`: limits how many digits can follow the decimal point.
 - `stepAmount`: how much the arrow keys change the value by. Defaults to `1`.
-- `renderValue`: formats the number for display, such as a currency or thousands separators. The raw
-  number is shown while the input is focused, and `value.value` stays a real `number | null`.
+- `renderValue`: formats the number for display, such as a currency or thousands
+  separators. The raw number is shown while the input is focused, and
+  `value.value` stays a real `number | null`.
 - `placeholder`: text shown while the value input is empty.
 
 ```tsx
@@ -139,11 +146,12 @@ are available directly on `MUIUnitInput`, and they apply to the numeric `value` 
 
 ### Customizing the value input
 
-`valueInputProps` is forwarded to the internal `MUINumberInput`, for example an `sx`, an `onBlur`
-handler or an `inputRef`. The component controls a few props itself, so they can't be set here:
-the field name, `value` and `onValueChange`, `variant`, `showMarkers`, the label, error and helper
-text props, `customIds`, `required`, `disabled`, `placeholder`, and the number props listed above.
-Set the last group directly on `MUIUnitInput` instead.
+`valueInputProps` is forwarded to the internal `MUINumberInput`, for example an
+`sx`, an `onBlur` handler or an `inputRef`. The component controls a few props
+itself, so they can't be set here: the field name, `value` and `onValueChange`,
+`variant`, `showMarkers`, the label, error and helper text props, `customIds`,
+`required`, `disabled`, `placeholder`, and the number props listed above. Set
+the last group directly on `MUIUnitInput` instead.
 
 ```tsx
 <MUIUnitInput
@@ -163,11 +171,13 @@ Set the last group directly on `MUIUnitInput` instead.
 
 ### Customizing the unit select
 
-`unitSelectProps` is forwarded to the internal [MUISelect](/components/mui/select) that picks the
-unit. That makes `renderOptionLabel`, `getOptionDisabled`, `renderValue` and `menuItemProps`
-available for the unit options. Its `sx` is merged with the select's base styles. The component
-controls the field name, `options`, `labelKey`, `valueKey`, `value` and `onValueChange`, `variant`,
-`multiple`, the label, error and helper text props, `customIds`, `required` and `disabled`.
+`unitSelectProps` is forwarded to the internal
+[MUISelect](/components/mui/select) that picks the unit. That makes
+`renderOptionLabel`, `getOptionDisabled`, `renderValue` and `menuItemProps`
+available for the unit options. Its `sx` is merged with the select's base
+styles. The component controls the field name, `options`, `labelKey`,
+`valueKey`, `value` and `onValueChange`, `variant`, `multiple`, the label, error
+and helper text props, `customIds`, `required` and `disabled`.
 
 ```tsx
 <MUIUnitInput
@@ -190,15 +200,18 @@ controls the field name, `options`, `labelKey`, `valueKey`, `value` and `onValue
 
 ### Unit position and width
 
-`unitPosition` sets which side of the value input the unit select renders on: `'end'` (the default)
-or `'start'`. The divider between the two controls moves with it. Use `'start'` for formats where
-the unit comes first, such as a currency.
+`unitPosition` sets which side of the value input the unit select renders on:
+`'end'` (the default) or `'start'`. The divider between the two controls moves
+with it. Use `'start'` for formats where the unit comes first, such as a
+currency.
 
-`unitWidth` sets the width of the unit select as a CSS `flex-basis`, and the value input fills the
-rest of the pill. Pass a percentage of the pill such as `'30%'`, a fixed width such as `'100px'`, or
-a responsive object such as `{ xs: '40%', md: '30%' }`. Once it is set, the unit select keeps that
-width instead of shrinking. When `unitWidth` is omitted, the unit select is sized to its selected
-option. Either way, both controls keep a minimum width of `50px`, so neither collapses.
+`unitWidth` sets the width of the unit select as a CSS `flex-basis`, and the
+value input fills the rest of the pill. Pass a percentage of the pill such as
+`'30%'`, a fixed width such as `'100px'`, or a responsive object such as
+`{ xs: '40%', md: '30%' }`. Once it is set, the unit select keeps that width
+instead of shrinking. When `unitWidth` is omitted, the unit select is sized to
+its selected option. Either way, both controls keep a minimum width of `50px`,
+so neither collapses.
 
 ```tsx
 <MUIUnitInput
@@ -231,19 +244,20 @@ A responsive width gives the unit select more room on small screens:
 
 ## API
 
-Props marked with
-<strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUIUnitInput} />
 
 ## Playground
 
-Driven by plain React state — three fields, all `required` and validated on submit:
+Driven by plain React state — three fields, all `required` and validated on
+submit:
 
-- **Currency** — object `unitOptions` via `labelKey`/`valueKey`, unit on the left
-  (`unitPosition="start"`), with `renderOptionLabel` and `getOptionDisabled`
-  forwarded through `unitSelectProps`; `nonNegative` with `maxDecimalPlaces={2}`,
-  and `renderValue`.
+- **Currency** — object `unitOptions` via `labelKey`/`valueKey`, unit on the
+  left (`unitPosition="start"`), with `renderOptionLabel` and
+  `getOptionDisabled` forwarded through `unitSelectProps`; `nonNegative` with
+  `maxDecimalPlaces={2}`, and `renderValue`.
 - **Weight** — plain string `unitOptions`, responsive `unitWidth`
   (`{ xs: '40%', md: '30%' }`), `onlyIntegers` and `max={150}`.
 - **Temperature** — `containerProps` / `dividerProps` and `sx` overrides on the

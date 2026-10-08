@@ -15,8 +15,9 @@ export default function Layout({ children }) {
 
 # MUICountrySelect
 
-`MUICountrySelect` is an [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
-pre-loaded with a list of 250 countries (**flag**, **name**, **ISO** and **ISO3** code).
+`MUICountrySelect` is an
+[Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) pre-loaded
+with a list of 250 countries (**flag**, **name**, **ISO** and **ISO3** code).
 Store the complete `CountryDetails` object, or a single property via `valueKey`.
 Pin common choices with `preferredCountries`.
 
@@ -44,12 +45,14 @@ const [country, setCountry] = useState<CountryDetails | null>(null);
 />
 ```
 
-`onValueChange` receives `{ newValue, event, reason, details }`: the value
-to store, the original change event, and Material UI's change `reason` and `details`.
+`onValueChange` receives `{ newValue, event, reason, details }`: the value to
+store, the original change event, and Material UI's change `reason` and
+`details`.
 
 ### Country data
 
-Each country is an object with a `name`, an `iso` code, an `iso3` code and an `emoji` flag:
+Each country is an object with a `name`, an `iso` code, an `iso3` code and an
+`emoji` flag:
 
 ```js
 {
@@ -60,15 +63,16 @@ Each country is an object with a `name`, an `iso` code, an `iso3` code and an `e
 }
 ```
 
-The `iso` key is strongly typed as `CountryISO`, which keeps `preferredCountries` and your own code
-type safe. The full list of 250 countries is exported as `countryList`, so you can read or filter it
-yourself. Its data comes from <MuiLink href={externalLinks.githubRepo.countriesList} target="_blank"
-rel="noopener noreferrer">this countries database</MuiLink>.
+The `iso` key is strongly typed as `CountryISO`, which keeps
+`preferredCountries` and your own code type safe. The full list of 250 countries
+is exported as `countryList`, so you can read or filter it yourself. Its data
+comes from <MuiLink href={externalLinks.githubRepo.countriesList}
+target="_blank" rel="noopener noreferrer">this countries database</MuiLink>.
 
 ### Choosing the stored value
 
-Set `valueKey` to store a single property of the country instead of the whole object.
-It can be `iso`, `iso3` or `name`.
+Set `valueKey` to store a single property of the country instead of the whole
+object. It can be `iso`, `iso3` or `name`.
 
 | `valueKey` | Stored value for India |
 |---|---|
@@ -90,8 +94,8 @@ const [country, setCountry] = useState<string | null>(null);
 ```
 
 The stored value is also how a country is matched. With a `valueKey`, a country
-is matched by that property, and a stored value that isn't in the list isn't shown
-as selected.
+is matched by that property, and a stored value that isn't in the list isn't
+shown as selected.
 
 When `valueKey` is omitted, countries are matched by `iso`, so an object loaded
 from your API matches as long as its `iso` is the same. Clearing the field gives
@@ -111,7 +115,8 @@ const filteredCountries = countryList.filter(country => (
 `preferredCountries` pins countries to the top of the dropdown, by `iso` code.
 They appear in the order you list them, followed by the remaining countries in
 their usual order. A pinned country isn't repeated further down, and a code that
-isn't in the list is ignored. It only changes the order of the options, not the value.
+isn't in the list is ignored. It only changes the order of the options, not the
+value.
 
 ```jsx
 <MUICountrySelect
@@ -169,23 +174,26 @@ and `disabled`.
 
 ### Input and behavior
 
-`textFieldProps` is forwarded to the underlying `TextField`, for example a `placeholder`, `variant`
-or `size`. `autoHighlight` is `true` by default, so the first match is highlighted as the user types
-and Enter selects it. `disableClearable` removes the clear button, and a `ref` gives you the input
-element. Only countries from the list can be selected, so `freeSolo` is not supported.
+`textFieldProps` is forwarded to the underlying `TextField`, for example a
+`placeholder`, `variant` or `size`. `autoHighlight` is `true` by default, so the
+first match is highlighted as the user types and Enter selects it.
+`disableClearable` removes the clear button, and a `ref` gives you the input
+element. Only countries from the list can be selected, so `freeSolo` is not
+supported.
 
 ## API
 
-Pass `valueKey` (e.g. `iso` or `name`) to store a single country property instead of the full
-object.
+Pass `valueKey` (e.g. `iso` or `name`) to store a single country property
+instead of the full object.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
-required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentPropsV1.MUICountrySelect} />
 
 ## Reference
-- [Country select](https://v7.mui.com/material-ui/react-autocomplete/#country-select)
+- [Country
+  select](https://v7.mui.com/material-ui/react-autocomplete/#country-select)
 
 ## Source Code
 

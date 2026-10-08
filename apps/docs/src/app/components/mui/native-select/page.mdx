@@ -11,9 +11,9 @@ export default function Layout({ children }) {
 # MUINativeSelect
 
 `MUINativeSelect` wraps the Material UI [Native
-Select](https://mui.com/material-ui/react-select/#native-select) — a real `<select>` element, ideal
-for mobile and lightweight dropdowns — with the same label/error/helper-text handling as the rest of
-the suite.
+Select](https://mui.com/material-ui/react-select/#native-select) — a real
+`<select>` element, ideal for mobile and lightweight dropdowns — with the same
+label/error/helper-text handling as the rest of the suite.
 
 ## Usage
 
@@ -32,9 +32,10 @@ const [country, setCountry] = useState();
 />
 ```
 
-Only a single selection is supported, and `undefined` or `null` mean no selection.
-`onValueChange` receives `{ newValue, event }`: the normalized value and
-the native change event. The control always fills the width of its container.
+Only a single selection is supported, and `undefined` or `null` mean no
+selection. `onValueChange` receives `{ newValue, event }`: the normalized value
+and the native change event. The control always fills the width of its
+container.
 
 ### With an array of objects
 
@@ -44,8 +45,8 @@ When `options` is an array of objects,  both `labelKey` and `valueKey`
 - `labelKey`: the property used as each option's visible label.
 - `valueKey`: the property used as each option's value.
 
-The selected value has the type of the `valueKey` property: a string property gives
-a `string`, and a number property gives a `number`.
+The selected value has the type of the `valueKey` property: a string property
+gives a `string`, and a number property gives a `number`.
 
 ```tsx
 const [country, setCountry] = useState();
@@ -116,16 +117,17 @@ string or number, not elements.
 
 ### Label placement
 
-A native select has no inline label, so `showLabelAboveFormField` defaults to `true` and the label
-is rendered above the control. Pass `false` to hide the visible label while keeping the accessible
-name. When `allLabelsAboveFields` is set in the config, it takes precedence over this prop.
+A native select has no inline label, so `showLabelAboveFormField` defaults to
+`true` and the label is rendered above the control. Pass `false` to hide the
+visible label while keeping the accessible name. When `allLabelsAboveFields` is
+set in the config, it takes precedence over this prop.
 
 ## API
 
 For object options, pass `labelKey` and `valueKey`.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
-required.
+Props marked with <strong
+style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
 
 <PropsTable rows={componentProps.MUINativeSelect} />
 
