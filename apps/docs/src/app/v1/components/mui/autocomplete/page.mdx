@@ -13,10 +13,10 @@ export default function Layout({ children }) {
 
 # MUIAutocomplete
 
-`MUIAutocomplete` wraps the Material UI [Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/)
-and stores **primitive** values (the option string, or the `valueKey` property
-for object options). It supports single or multiple selection, `disableClearable`
-and `freeSolo`.
+`MUIAutocomplete` wraps the Material UI
+[Autocomplete](https://v7.mui.com/material-ui/react-autocomplete/) and stores **primitive** values
+(the option string, or the `valueKey` property for object options). It supports single or multiple
+selection, `disableClearable` and `freeSolo`.
 
 Use [MUIAutocompleteObject](autocomplete-object) when you need to store the full option object.
 
@@ -97,9 +97,9 @@ const [skills, setSkills] = useState<string[]>([]);
 ### Free text entry
 
 `freeSolo` lets the user enter a value that isn't in `options`. The typed string is passed to
-`onValueChange` as it is and stored in `value`. `autoSelect` defaults to `true` with `freeSolo`, so text
-typed in the field is committed when it loses focus. Pass `autoSelect={false}` to require Enter.
-With `multiple`, each typed value becomes its own chip.
+`onValueChange` as it is and stored in `value`. `autoSelect` defaults to `true` with `freeSolo`, so
+text typed in the field is committed when it loses focus. Pass `autoSelect={false}` to require
+Enter. With `multiple`, each typed value becomes its own chip.
 
 ```tsx
 const [city, setCity] = useState<string | null>(null);
@@ -114,9 +114,9 @@ const [city, setCity] = useState<string | null>(null);
 ```
 
 <Callout type="note">
-When using `freeSolo` with object-based options, custom renderers such as `renderValue`, `renderTags`,
-or `renderOption` should account for both option objects and user-entered string values. A common
-approach is:
+When using `freeSolo` with object-based options, custom renderers such as `renderValue`,
+`renderTags`, or `renderOption` should account for both option objects and user-entered string
+values. A common approach is:
 
 ```ts
 typeof value === 'string'
@@ -162,10 +162,10 @@ default) instead of "No options".
 
 ### Customizing the input
 
-`textFieldProps` is forwarded to the underlying `TextField`, for example a `placeholder`, `variant` or
-`size`. `autoHighlight` is `true` by default, which differs from Material UI, so the first option is
-highlighted as the user types and Enter selects it. Pass `autoHighlight={false}` to turn that off.
-A `ref` gives you the input element.
+`textFieldProps` is forwarded to the underlying `TextField`, for example a `placeholder`, `variant`
+or `size`. `autoHighlight` is `true` by default, which differs from Material UI, so the first option
+is highlighted as the user types and Enter selects it. Pass `autoHighlight={false}` to turn that
+off. A `ref` gives you the input element.
 
 ```tsx
 const inputRef = useRef<HTMLInputElement>(null);
@@ -183,9 +183,11 @@ const inputRef = useRef<HTMLInputElement>(null);
 
 ## API
 
-`MUIAutocompleteProps` also accepts most [AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/).
+`MUIAutocompleteProps` also accepts most
+[AutocompleteProps](https://v7.mui.com/material-ui/api/autocomplete/).
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
+required.
 
 <PropsTable rows={componentPropsV1.MUIAutocomplete} />
 

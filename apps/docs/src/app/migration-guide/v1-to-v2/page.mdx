@@ -73,11 +73,11 @@ Then read MUI's own guides, which cover everything outside this package:
 MUI `v9` removed `TextField`'s legacy prop bag in favour of `slotProps`. In this package that
 surfaces in three places:
 
-| Where | Components |
-| --- | --- |
-| `textFieldProps` | `MUIAutocomplete`, `MUIAutocompleteObject`, `MUIMultiAutocomplete`, `MUIMultiAutocompleteObject`, `MUICountrySelect` |
-| Props applied **directly** to the component | `MUIPhoneInput`, `MUITextField`, `MUIPasswordInput`, `MUINumberInput`, `MUITagsInput` — these accept `TextFieldProps` inline |
-| `searchCountryProps.textFieldProps` | `MUIPhoneInput`'s country-search box |
+- `textFieldProps`: `MUIAutocomplete`, `MUIAutocompleteObject`, `MUIMultiAutocomplete`,
+  `MUIMultiAutocompleteObject`, `MUICountrySelect`.
+- Props applied **directly** to the component: `MUIPhoneInput`, `MUITextField`, `MUIPasswordInput`,
+  `MUINumberInput`, `MUITagsInput`. These accept `TextFieldProps` inline.
+- `searchCountryProps.textFieldProps`: `MUIPhoneInput`'s country-search box.
 
 ```diff
   <MUIAutocomplete
@@ -258,8 +258,8 @@ You are running a `v1` build against MUI `v9`. In `v7` the label props reached t
 implicitly through the params rest-spread; in `v9` they live under `slotProps.inputLabel`, so
 the spread silently stops delivering them. Upgrade to `v2`.
 
-**`Cannot read properties of undefined (reading 'input')` inside `renderInput`.**
-A `v2` build running against MUI `v7`/`v8` — `params.slotProps` does not exist there. Upgrade MUI to `v9`.
+**`Cannot read properties of undefined (reading 'input')` inside `renderInput`.** A `v2` build
+running against MUI `v7`/`v8` — `params.slotProps` does not exist there. Upgrade MUI to `v9`.
 
 **Picker fields lost their `aria-*` attributes.**
 You are still passing `slotProps.textField.inputProps`. Move it to

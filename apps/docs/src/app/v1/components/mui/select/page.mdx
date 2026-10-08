@@ -9,7 +9,9 @@ export default function Layout({ children }) {
 
 # MUISelect
 
-`MUISelect` wraps the Material UI [Select](https://v7.mui.com/material-ui/react-select/) with label, error and helper-text handling. It supports single or multiple selection and either primitive or object options via `labelKey`/`valueKey`.
+`MUISelect` wraps the Material UI [Select](https://v7.mui.com/material-ui/react-select/) with label,
+error and helper-text handling. It supports single or multiple selection and either primitive or
+object options via `labelKey`/`valueKey`.
 
 <Callout type="tip">
   If the number of options **exceeds 20**, consider using [MUIAutocomplete](autocomplete)
@@ -159,11 +161,10 @@ labels are joined with `, ` for multiple selection.
 ### Styling the options
 
 `menuItemProps` is forwarded to every [MenuItem](https://v7.mui.com/material-ui/api/menu-item/),
-including the default option, which is handy for a shared `dense`,
-`divider` or `sx`. `inputLabelProps` is forwarded to the [InputLabel](https://v7.mui.com/material-ui/api/input-label/)
-shown inside the field's outline. It has no effect when the field uses a
-label above (`showLabelAboveFormField`), `hideLabel`, or a `placeholder`
-with no value selected.
+including the default option, which is handy for a shared `dense`, `divider` or `sx`.
+`inputLabelProps` is forwarded to the [InputLabel](https://v7.mui.com/material-ui/api/input-label/)
+shown inside the field's outline. It has no effect when the field uses a label above
+(`showLabelAboveFormField`), `hideLabel`, or a `placeholder` with no value selected.
 
 ```tsx
 <MUISelect
@@ -178,9 +179,11 @@ with no value selected.
 
 ## API
 
-`MUISelectProps` also accepts the remaining [SelectProps](https://v7.mui.com/material-ui/api/select/).
+`MUISelectProps` also accepts the remaining
+[SelectProps](https://v7.mui.com/material-ui/api/select/).
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
+required.
 
 <PropsTable rows={componentPropsV1.MUISelect} />
 

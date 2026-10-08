@@ -13,14 +13,16 @@ export default function Layout({ children }) {
 
 # MUITagsInput
 
-`MUITagsInput` renders a [TextField](https://v7.mui.com/material-ui/react-text-field/) that turns typed or pasted text into chips. Add, delete and paste actions can be intercepted, transformed or blocked, and the visible chip count can be limited when unfocused.
+`MUITagsInput` renders a [TextField](https://v7.mui.com/material-ui/react-text-field/) that turns
+typed or pasted text into chips. Add, delete and paste actions can be intercepted, transformed or
+blocked, and the visible chip count can be limited when unfocused.
 
 ## Working
 
 `MUITagsInput` works as follows:
 
-- Users can type a keyword, press **Enter** or the **delimiter key** (default `","`), and see it rendered
-as a chip, with the input field cleared for the next entry.
+- Users can type a keyword, press **Enter** or the **delimiter key** (default `","`), and see it
+  rendered as a chip, with the input field cleared for the next entry.
 - Pasting comma-separated values automatically generates
 chips for each value. The delimiter can also be configured, for example `"|"`.
 - Users can remove a chip by clicking its "x" button.
@@ -47,9 +49,10 @@ const [tags, setTags] = useState<string[]>([]);
 />
 ```
 
-`value` is always a `string[]`, and a missing value is an empty list. Removing the last tag emits `[]`,
-never `null`. Tags are trimmed, empty entries are dropped, and a tag is skipped when it matches an
-existing one, ignoring letter case and spaces (`React` and `react`, or `New York` and `newyork`).
+`value` is always a `string[]`, and a missing value is an empty list. Removing the last tag emits
+`[]`, never `null`. Tags are trimmed, empty entries are dropped, and a tag is skipped when it
+matches an existing one, ignoring letter case and spaces (`React` and `react`, or `New York` and
+`newyork`).
 
 ### Delimiter
 
@@ -112,9 +115,10 @@ pasted tags, a `string[]` to replace them with a custom set, or `void` to add
 
 ### Limiting the visible tags
 
-While the field is not focused, only the first `limitTags` tags (default `2`) are shown, followed
-by a "**+N more**" chip. Focusing the field shows every tag. Set `limitTags` to `-1` to always show all
-of them. `getLimitTagsText` receives the number of hidden tags and returns the text of the extra chip:
+While the field is not focused, only the first `limitTags` tags (default `2`) are shown, followed by
+a "**+N more**" chip. Focusing the field shows every tag. Set `limitTags` to `-1` to always show all
+of them. `getLimitTagsText` receives the number of hidden tags and returns the text of the extra
+chip:
 
 ```tsx
 <MUITagsInput
@@ -149,9 +153,9 @@ users how many slots are left:
 
 ### Customizing the chips
 
-`ChipProps` is forwarded to every tag [Chip](https://v7.mui.com/material-ui/api/chip/) — for example `color`, `variant`, `size` or
-an `icon`. It also applies to the "**+N more**" chip. The `id`, `role`, `label`, `disabled` and `onDelete`
-props are controlled by the component:
+`ChipProps` is forwarded to every tag [Chip](https://v7.mui.com/material-ui/api/chip/) — for example
+`color`, `variant`, `size` or an `icon`. It also applies to the "**+N more**" chip. The `id`,
+`role`, `label`, `disabled` and `onDelete` props are controlled by the component:
 
 ```tsx
 <MUITagsInput
@@ -211,10 +215,12 @@ use `getLimitTagsText` to change it.
 
 ## API
 
-`MUITagsInputProps` also accepts the remaining [TextFieldProps](https://v7.mui.com/material-ui/api/text-field/),
-with some props excluded, including `value`, `multiline` and `error`.
+`MUITagsInputProps` also accepts the remaining
+[TextFieldProps](https://v7.mui.com/material-ui/api/text-field/), with some props excluded,
+including `value`, `multiline` and `error`.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
+required.
 
 <PropsTable rows={componentPropsV1.MUITagsInput} />
 

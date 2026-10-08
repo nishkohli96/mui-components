@@ -16,8 +16,9 @@ dropdown. It emits a structured `MUIPhoneInputValue` (`phone`, `country`, `dialC
 
 ## Installation
 
-Make sure to install [react-international-phone](https://www.npmjs.com/package/react-international-phone) package
-before using this component.
+Make sure to install
+[react-international-phone](https://www.npmjs.com/package/react-international-phone) package before
+using this component.
 
 <PackageManagerTabs
   id="install-react-international-phone"
@@ -111,6 +112,24 @@ Use:
 **This is the main reason the field value shape changed from a `string` to an `object`
 in `v4`.**
 
+### Customizing the input
+
+`phoneInputProps` is passed to the `usePhoneInput` hook of `react-international-phone`, so
+options such as `defaultCountry`, `preferredCountries` (countries pinned at the top of the
+dropdown) and `forceDialCode` (keeps the dial code from being edited) are set there.
+
+```tsx
+<MUIPhoneInput
+  fieldName="phone"
+  value={phone}
+  onValueChange={({ newValue }) => setPhone(newValue)}
+  phoneInputProps={{
+    defaultCountry: 'in',
+    preferredCountries: ['in', 'us', 'gb']
+  }}
+/>
+```
+
 ### Search Countries
 
 Because the country list is large, `MUIPhoneInput` has an inline search field
@@ -121,9 +140,12 @@ The search field is enabled by default and can be customized using `searchCountr
 with the following properties:
 
 - `allowCountrySearch` - Shows or hides the inline search field. Defaults to `true`.
-- `textFieldProps` - [TextFieldProps](https://mui.com/material-ui/api/text-field/) for customizing the search text field.
-- `renderCountryMenuItem` - Customizes the content of each `MenuItem` in the country search dropdown.
-- `noCountryFoundText` - Text shown when no countries match the search. Defaults to "**No countries found**".
+- `textFieldProps` - [TextFieldProps](https://mui.com/material-ui/api/text-field/) for customizing
+  the search text field.
+- `renderCountryMenuItem` - Customizes the content of each `MenuItem` in the country search
+  dropdown.
+- `noCountryFoundText` - Text shown when no countries match the search. Defaults to "**No countries
+  found**".
 
 ```jsx
 <MUIPhoneInput
@@ -145,10 +167,12 @@ the top while the country list is scrolled.
 
 ## API
 
-`MUIPhoneInputProps` also accepts most [TextFieldProps](https://mui.com/material-ui/api/text-field/),
-with some props excluded, including `name`, `value`, `onChange`.
+`MUIPhoneInputProps` also accepts most
+[TextFieldProps](https://mui.com/material-ui/api/text-field/), with some props excluded, including
+`name`, `value`, `onChange`.
 
-Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are required.
+Props marked with <strong style={{ color: 'var(--mui-palette-error-main)' }}>{'*'}</strong> are
+required.
 
 <PropsTable rows={componentProps.MUIPhoneInput} />
 

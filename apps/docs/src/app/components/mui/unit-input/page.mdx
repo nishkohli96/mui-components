@@ -106,8 +106,8 @@ const [price, setPrice] = useState<MUIUnitInputValue<Currency>>({
 
 ### Value input options
 
-The **value** input is a [MUINumberInput](/components/mui/number-input), so its usual number props are
-available directly on `MUIUnitInput`, and they apply to the numeric `value` only:
+The **value** input is a [MUINumberInput](/components/mui/number-input), so its usual number props
+are available directly on `MUIUnitInput`, and they apply to the numeric `value` only:
 
 - `min` and `max`: the lower and upper bounds. Stepping stops at them, and an out-of-range value is
   clamped when the input loses focus.
@@ -163,11 +163,11 @@ Set the last group directly on `MUIUnitInput` instead.
 
 ### Customizing the unit select
 
-`unitSelectProps` is forwarded to the internal [MUISelect](/components/mui/select) that picks the unit.
-That makes `renderOptionLabel`, `getOptionDisabled`, `renderValue` and `menuItemProps` available for the
-unit options. Its `sx` is merged with the select's base styles. The component controls the field
-name, `options`, `labelKey`, `valueKey`, `value` and `onValueChange`, `variant`, `multiple`, the label,
-error and helper text props, `customIds`, `required` and `disabled`.
+`unitSelectProps` is forwarded to the internal [MUISelect](/components/mui/select) that picks the
+unit. That makes `renderOptionLabel`, `getOptionDisabled`, `renderValue` and `menuItemProps`
+available for the unit options. Its `sx` is merged with the select's base styles. The component
+controls the field name, `options`, `labelKey`, `valueKey`, `value` and `onValueChange`, `variant`,
+`multiple`, the label, error and helper text props, `customIds`, `required` and `disabled`.
 
 ```tsx
 <MUIUnitInput
@@ -190,15 +190,15 @@ error and helper text props, `customIds`, `required` and `disabled`.
 
 ### Unit position and width
 
-`unitPosition` sets which side of the value input the unit select renders on: `'end'` (the default) or
-`'start'`. The divider between the two controls moves with it. Use `'start'` for formats where the unit
-comes first, such as a currency.
+`unitPosition` sets which side of the value input the unit select renders on: `'end'` (the default)
+or `'start'`. The divider between the two controls moves with it. Use `'start'` for formats where
+the unit comes first, such as a currency.
 
-`unitWidth` sets the width of the unit select as a CSS `flex-basis`, and the value input fills the rest of
-the pill. Pass a percentage of the pill such as `'30%'`, a fixed width such as `'100px'`, or a responsive
-object such as `{ xs: '40%', md: '30%' }`. Once it is set, the unit select keeps that width instead of
-shrinking. When `unitWidth` is omitted, the unit select is sized to its selected option. Either way,
-both controls keep a minimum width of `50px`, so neither collapses.
+`unitWidth` sets the width of the unit select as a CSS `flex-basis`, and the value input fills the
+rest of the pill. Pass a percentage of the pill such as `'30%'`, a fixed width such as `'100px'`, or
+a responsive object such as `{ xs: '40%', md: '30%' }`. Once it is set, the unit select keeps that
+width instead of shrinking. When `unitWidth` is omitted, the unit select is sized to its selected
+option. Either way, both controls keep a minimum width of `50px`, so neither collapses.
 
 ```tsx
 <MUIUnitInput
