@@ -53,9 +53,13 @@ const [code, setCode] = useState('');
 <MUIOTPInput
   fieldName="otp"
   value={code}
-  onValueChange={({ newValue }) => setCode(newValue)}
+  onValueChange={({ newValue, event }) => setCode(newValue)}
 />
 ```
+
+`onValueChange` receives `{ newValue, event }`: the full code as a single
+string, and the event that caused the change, which is a keystroke, a backspace
+or a paste.
 
 By default the code is **6** digits long, so the example above renders six
 boxes. `value` is a plain string without separators, such as `'123456'`, and is

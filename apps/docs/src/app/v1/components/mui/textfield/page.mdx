@@ -47,9 +47,12 @@ const [firstName, setFirstName] = useState();
 <MUITextField
   fieldName="firstName"
   value={firstName}
-  onValueChange={({ newValue }) => setFirstName(newValue)}
+  onValueChange={({ newValue, event }) => setFirstName(newValue)}
 />
 ```
+
+`onValueChange` receives `{ newValue, event }`: the typed string and the change
+event.
 
 Validation stays in your hands — derive `errorMessage` from your own state or
 form library and the field renders in an error state:
@@ -105,8 +108,8 @@ below show the common patterns.
 
 #### Using a regex
 
-`onValueChange` receives `{ newValue, event }`. Run your rule on `newValue` and
-keep the message in state, so the field shows the error as the user types:
+Run your rule on `newValue` and keep the message in state, so the field shows
+the error as the user types:
 
 ```tsx
 const [username, setUsername] = useState('');

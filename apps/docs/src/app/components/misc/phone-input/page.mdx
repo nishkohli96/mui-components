@@ -43,9 +43,14 @@ const [phone, setPhone] = useState<MUIPhoneInputValue>();
 <MUIPhoneInput
   fieldName="phone"
   value={phone}
-  onValueChange={({ newValue }) => setPhone(newValue)}
+  onValueChange={({ newValue, phoneData }) => setPhone(newValue)}
 />
 ```
+
+`onValueChange` receives `{ newValue, phoneData }`: `newValue` is the structured
+`MUIPhoneInputValue` described below, and `phoneData` is the raw payload from
+`react-international-phone`, with the formatted `phone`, the `inputValue` and
+the selected `country`.
 
 <Callout type="tip">
   For validation, consider enforcing the following minimum lengths:

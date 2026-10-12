@@ -37,7 +37,7 @@ const [members, setMembers] = useState<User[]>([]);
   labelKey="name"
   valueKey="id"
   value={members}
-  onValueChange={({ newValue }) => setMembers(newValue)}
+  onValueChange={({ newValue, selectedOption }) => setMembers(newValue)}
 />
 ```
 

@@ -49,17 +49,17 @@ selected, which can be configured using the `defaultColor` prop. Refer to the
 default color for the color picker.
 
 ```tsx
-const [color, setColor] = useState('#1976d2');
+const [brandColor, setBrandColor] = useState('#1976d2');
 
 <MUIColorPicker
   fieldName="brandColor"
-  value={color}
-  onValueChange={({ color, colorValue }) => setColor(colorValue)}
+  value={brandColor}
+  onValueChange={({ color, colorValue, setColor }) => setBrandColor(colorValue)}
 />
 ```
 
-The color value returned from the `onValueChange` prop is an object containing
-the equivalent **hex**, **rgb**, and **hsv** values:
+`onValueChange` receives `{ color, colorValue, setColor }`. `color` is an object
+containing the equivalent **hex**, **rgb**, and **hsv** values:
 
 ```js
 {
@@ -79,7 +79,9 @@ the equivalent **hex**, **rgb**, and **hsv** values:
 }
 ```
  
-`colorValue` will be string in `hex`, `rgb` or `hsl` format.
+`colorValue` is the same color as a string in the format chosen with `valueKey`
+(`hex`, `rgb` or `hsv`), and `setColor` updates the color shown by the picker,
+e.g. to reset it or to reject a value.
 
 ### Choosing the value format
 

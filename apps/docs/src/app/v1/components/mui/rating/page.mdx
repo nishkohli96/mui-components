@@ -29,7 +29,7 @@ const [score, setScore] = useState<number | null>(null);
 <MUIRating
   fieldName="score"
   value={score}
-  onValueChange={({ newValue }) => setScore(newValue)}
+  onValueChange={({ newValue, event }) => setScore(newValue)}
 />
 ```
 

@@ -43,10 +43,13 @@ const [bio, setBio] = useState();
 <MUITextArea
   fieldName="bio"
   value={bio}
-  onValueChange={({ newValue }) => setBio(newValue)}
+  onValueChange={({ newValue, event }) => setBio(newValue)}
   rows={4}
 />
 ```
+
+`onValueChange` receives `{ newValue, event }`: the typed string and the change
+event of the underlying `textarea`.
 
 Validation stays in your hands — derive `errorMessage` from your own state or
 form library and the field renders in an error state:

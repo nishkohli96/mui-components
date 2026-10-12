@@ -28,7 +28,7 @@ const [country, setCountry] = useState();
   fieldName="country"
   options={['India', 'United States', 'Germany']}
   value={country}
-  onValueChange={({ newValue }) => setCountry(newValue)}
+  onValueChange={({ newValue, event }) => setCountry(newValue)}
 />
 ```
 

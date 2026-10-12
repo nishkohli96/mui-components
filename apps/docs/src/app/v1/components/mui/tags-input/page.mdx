@@ -52,6 +52,9 @@ const [tags, setTags] = useState<string[]>([]);
 />
 ```
 
+`onValueChange` receives `{ newValue }`: the next array of tags. To validate,
+transform or block a tag before it is added, use `onTagAdd`.
+
 `value` is always a `string[]`, and a missing value is an empty list. Removing
 the last tag emits `[]`, never `null`. Tags are trimmed, empty entries are
 dropped, and a tag is skipped when it matches an existing one, ignoring letter

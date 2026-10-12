@@ -57,7 +57,7 @@ const [user, setUser] = useState<User | null>(null);
   labelKey="name"
   valueKey="id"
   value={user}
-  onValueChange={({ newValue }) => setUser(newValue)}
+  onValueChange={({ newValue, event, reason, details }) => setUser(newValue)}
 />
 ```
 

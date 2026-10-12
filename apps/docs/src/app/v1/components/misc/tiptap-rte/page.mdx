@@ -36,10 +36,13 @@ const [bio, setBio] = useState('');
 <MUITipTapRte
   fieldName="bio"
   value={bio}
-  onValueChange={({ newValue }) => setBio(newValue)}
+  onValueChange={({ newValue, editor }) => setBio(newValue)}
   placeholder="Tell us about yourself"
 />
 ```
+
+`onValueChange` receives `{ newValue, editor }`: the HTML string and the Tiptap
+`Editor` instance, so you can read other formats such as `editor.getJSON()`.
 
 ### Choosing the formatting options
 

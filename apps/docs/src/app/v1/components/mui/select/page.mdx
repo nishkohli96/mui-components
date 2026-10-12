@@ -34,7 +34,7 @@ const [role, setRole] = useState();
   fieldName="role"
   options={['Admin', 'Editor', 'Viewer']}
   value={role}
-  onValueChange={({ newValue }) => setRole(newValue)}
+  onValueChange={({ newValue, event, child }) => setRole(newValue)}
 />
 ```
 

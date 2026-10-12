@@ -34,7 +34,7 @@ const [color, setColor] = useState<string | null>(null);
   fieldName="color"
   options={['Red', 'Green', 'Blue']}
   value={color}
-  onValueChange={({ newValue }) => setColor(newValue)}
+  onValueChange={({ newValue, selectedOption, event, reason, details }) => setColor(newValue)}
 />
 ```
 

@@ -40,9 +40,12 @@ const [password, setPassword] = useState();
 <MUIPasswordInput
   fieldName="password"
   value={password}
-  onValueChange={({ newValue }) => setPassword(newValue)}
+  onValueChange={({ newValue, event }) => setPassword(newValue)}
 />
 ```
+
+`onValueChange` receives `{ newValue, event }`: the typed string and the change
+event.
 
 The sections below show how to customize the button with `showPasswordIcon`,
 `hidePasswordIcon` and `iconButtonProps`.

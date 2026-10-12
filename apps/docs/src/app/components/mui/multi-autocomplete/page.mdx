@@ -39,7 +39,7 @@ const [skills, setSkills] = useState<string[]>([]);
   fieldName="skills"
   options={['React', 'Vue', 'Angular', 'Svelte']}
   value={skills}
-  onValueChange={({ newValue }) => setSkills(newValue)}
+  onValueChange={({ newValue, selectedOption }) => setSkills(newValue)}
 />
 ```
 

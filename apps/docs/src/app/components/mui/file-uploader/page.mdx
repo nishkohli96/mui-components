@@ -40,7 +40,7 @@ const [file, setFile] = useState<File | null>(null);
 <MUIFileUploader
   fieldName="resume"
   value={file}
-  onValueChange={({ newValue }) => setFile(newValue)}
+  onValueChange={({ newValue, event }) => setFile(newValue)}
 />
 ```
 

@@ -41,7 +41,7 @@ const [country, setCountry] = useState<CountryDetails | null>(null);
 <MUICountrySelect
   fieldName="country"
   value={country}
-  onValueChange={({ newValue }) => setCountry(newValue)}
+  onValueChange={({ newValue, event, reason, details }) => setCountry(newValue)}
 />
 ```
 

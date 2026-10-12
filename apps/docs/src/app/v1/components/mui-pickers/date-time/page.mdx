@@ -65,7 +65,7 @@ const [value, setValue] = useState<Dayjs | null>(null);
 <MUIDateTimePicker
   fieldName="datetime"
   value={value}
-  onValueChange={({ newValue }) => setValue(newValue)}
+  onValueChange={({ newValue, context }) => setValue(newValue)}
 />
 ```
 

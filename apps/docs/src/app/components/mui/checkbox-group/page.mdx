@@ -31,7 +31,7 @@ const [permissions, setPermissions] = useState<string[]>([]);
   fieldName="permissions"
   options={permissionOptions}
   value={permissions}
-  onValueChange={({ newValue }) => setPermissions(newValue)}
+  onValueChange={({ newValue, toggledValue, checked, event }) => setPermissions(newValue)}
 />
 ```
 
