@@ -35,7 +35,8 @@ Each component handles its own state logic, validation, labels, and error displa
 
 **What you get:**
 
-- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider).
+- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider), whose `sx` defaults accept an object, a theme callback or an array.
+- Helpers exported from `form-helpers` module, such as [mergeSx](https://mui-components-docs.vercel.app/form-helpers/mergeSx), to merge `sx` values without losing styles, and others like [fieldNameToLabel](https://mui-components-docs.vercel.app/form-helpers/fieldNameToLabel), [validateFileList](https://mui-components-docs.vercel.app/form-helpers/validateFileList).
 - Well-configured unique components like [OTP Input](https://mui-components-docs.vercel.app/components/mui/otp-input), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
 - Full control over value validation and transformation before updates are committed to the component state.
 - Comprehensive docs showcasing multiple variations for each component.
