@@ -44,7 +44,7 @@ type ResolvedUnit<
  * A single value, an array indexed by breakpoint, or an object keyed by
  * breakpoint name — the same shape `sx` accepts for responsive values.
  */
-type ResponsiveStyleValue<T> = T | Array<T | null> | { [breakpoint: string]: T | null };
+type ResponsiveStyleValue<T> = T | (T | null)[] | Record<string, T | null>;
 
 export type MUIUnitInputValue<Unit extends string = string> = {
   /** Currently selected unit — one of the values passed via `unitOptions`. */

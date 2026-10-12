@@ -92,7 +92,7 @@ Here is the same country `Select` — options are an array of objects, with a la
 + />
 ```
 
-Same UI, identical functional, but **25 lines become 11.** The label is generated from `fieldName`, the ids and `aria-*` attributes are wired for you, and the error replaces the helper text automatically. Every other component follows the same pattern, so the savings repeat for each field in a form.
+Same UI, identical function, but **25 lines become 11.** The label is generated from `fieldName`, the ids and `aria-*` attributes are wired for you, and the error replaces the helper text automatically. Every other component follows the same pattern, so the savings repeat for each field in a form.
 
 ## Install
 

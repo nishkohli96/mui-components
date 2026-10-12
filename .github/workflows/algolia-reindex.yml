@@ -5,7 +5,8 @@
 # still-old production site.
 #
 # NOTE: Vercel's GitHub integration reports build results via the Commit
-# Status API (`on: status`).
+# Status API (`on: status`). Only the production deployment of the current
+# head of `main` triggers the crawler; see the `guard` job.
 #
 # Get ALGOLIA_CRAWLER_USERID & ALGOLIA_CRAWLER_API_KEY from
 # https://crawler.algolia.com/admin/user/settings/
@@ -25,11 +26,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  reindex:
+  # `github.event.branches` (the branches that contain the status commit) is
+  # capped at 10 and also lists any branch that happens to contain the commit,
+  # so it is not a reliable "is this main?" check. Compare the status commit to
+  # the current head of main instead: only the production deployment of main
+  # passes. A preview deployment of a PR branch, or of a commit main has since
+  # moved past, is skipped (the newer main deployment triggers its own run).
+  guard:
     if: >
       github.event.state == 'success' &&
       contains(github.event.context, 'Vercel') &&
-      contains(github.event.branches.*.name, 'main')
+      !contains(github.event.context, 'Preview Comments')
+    runs-on: ubuntu-latest
+    outputs:
+      is_main_head: ${{ steps.check.outputs.is_main_head }}
+    steps:
+      - name: Check the commit is the head of main
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS_SHA: ${{ github.event.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          main_sha=$(gh api "repos/${REPO}/git/ref/heads/main" --jq .object.sha)
+          if [ "$main_sha" = "$STATUS_SHA" ]; then
+            echo "is_main_head=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_main_head=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping: ${STATUS_SHA} is not the head of main (${main_sha})."
+          fi
+
+  reindex:
+    needs: guard
+    if: needs.guard.outputs.is_main_head == 'true'
     runs-on: ubuntu-latest
     environment: Production
     steps:
