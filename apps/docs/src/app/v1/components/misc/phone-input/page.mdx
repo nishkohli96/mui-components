@@ -46,17 +46,14 @@ const [phone, setPhone] = useState<MUIPhoneInputValue>();
 <MUIPhoneInput
   fieldName="phone"
   value={phone}
-  onValueChange={({ newValue }) => setPhone(newValue)}
+  onValueChange={({ newValue, phoneData }) => setPhone(newValue)}
 />
 ```
 
-<Callout type="tip">
-  For validation, consider enforcing the following minimum lengths:
-
-  - `phone` and `phoneNo`: at least **6** characters
-  - `country`: exactly **2** characters (ISO country code)
-  - `dialCode`: **1–4** digits, depending on the selected country
-</Callout>
+`onValueChange` receives `{ newValue, phoneData }`: `newValue` is the structured
+`MUIPhoneInputValue` described below, and `phoneData` is the raw payload from
+`react-international-phone`, with the formatted `phone`, the `inputValue` and
+the selected `country`.
 
 ### Return Value
 
@@ -113,6 +110,13 @@ Use:
 - `phone` when you need the complete international number.
 - `phoneNo` when you only need the national number.
 - `country` for country-specific logic or validation.
+
+### Validation
+
+For validation, consider enforcing the following minimum lengths:
+- `phone` and `phoneNo`: at least **6** characters
+- `country`: exactly **2** characters (ISO country code)
+- `dialCode`: **1–4** digits, depending on the selected country
 
 ### PhoneInput Props
 

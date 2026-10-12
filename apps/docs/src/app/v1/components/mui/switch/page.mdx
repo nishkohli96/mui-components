@@ -29,7 +29,7 @@ const [enabled, setEnabled] = useState(false);
 <MUISwitch
   fieldName="notifications"
   value={enabled}
-  onValueChange={({ newValue }) => setEnabled(newValue)}
+  onValueChange={({ newValue, event }) => setEnabled(newValue)}
   label="Email notifications"
 />
 ```

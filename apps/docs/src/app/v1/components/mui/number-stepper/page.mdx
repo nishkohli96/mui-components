@@ -38,12 +38,16 @@ const [quantity, setQuantity] = useState<number | null>(1);
 <MUINumberStepper
   fieldName="quantity"
   value={quantity}
-  onValueChange={({ newValue }) => setQuantity(newValue)}
+  onValueChange={({ newValue, event }) => setQuantity(newValue)}
   onlyIntegers
   min={1}
   max={10}
 />
 ```
+
+`onValueChange` receives `{ newValue, event }`, the same as `MUINumberInput`:
+the number, or `null` when the field is empty, and the change event. The `-` and
+`+` buttons call it as well.
 
 ### Customizing icons
 

@@ -29,7 +29,7 @@ const [accepted, setAccepted] = useState(false);
 <MUICheckbox
   fieldName="terms"
   value={accepted}
-  onValueChange={({ newValue }) => setAccepted(newValue)}
+  onValueChange={({ newValue, event }) => setAccepted(newValue)}
   label="I accept the terms and conditions"
 />
 ```

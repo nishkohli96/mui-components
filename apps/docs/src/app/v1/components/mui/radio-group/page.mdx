@@ -28,7 +28,7 @@ const [plan, setPlan] = useState();
   fieldName="plan"
   options={['Free', 'Pro', 'Enterprise']}
   value={plan}
-  onValueChange={({ newValue }) => setPlan(newValue)}
+  onValueChange={({ newValue, event }) => setPlan(newValue)}
 />
 ```
 

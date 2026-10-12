@@ -34,11 +34,14 @@ const [age, setAge] = useState<number | null>(null);
 <MUINumberInput
   fieldName="age"
   value={age}
-  onValueChange={({ newValue }) => setAge(newValue)}
+  onValueChange={({ newValue, event }) => setAge(newValue)}
   onlyIntegers
   nonNegative
 />
 ```
+
+`onValueChange` receives `{ newValue, event }`: the parsed number, or `null`
+when the field is empty, and the change event.
 
 
 ### Validation

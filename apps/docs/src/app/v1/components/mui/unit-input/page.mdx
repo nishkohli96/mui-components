@@ -51,12 +51,16 @@ const [price, setPrice] = useState<MUIUnitInputValue>({
     value: 'priceAmount'
   }}
   value={price}
-  onValueChange={({ newValue }) => setPrice(newValue)}
+  onValueChange={({ newValue, event }) => setPrice(newValue)}
   unitOptions={['USD', 'EUR', 'GBP']}
   nonNegative
   maxDecimalPlaces={2}
 />
 ```
+
+`onValueChange` receives `{ newValue, event }`: `newValue` is the whole
+`{ unit, value }` object, and `event` is the event of the part that changed,
+either the number input or the unit select.
 
 ### With an array of objects
 

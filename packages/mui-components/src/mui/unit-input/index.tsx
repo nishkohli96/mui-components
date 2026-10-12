@@ -2,7 +2,6 @@
 
 import { useContext, type ReactNode } from 'react';
 import Box, { type BoxProps } from '@mui/material/Box';
-import type { ResponsiveStyleValue } from '@mui/system';
 import {
   FormControl,
   FormLabel,
@@ -40,6 +39,12 @@ type ResolvedUnit<
   Option extends StrObjOption,
   ValueKey extends Extract<keyof Option, string>
 > = SelectValue<OptionValue<Option, ValueKey>, false> & string;
+
+/**
+ * A single value, an array indexed by breakpoint, or an object keyed by
+ * breakpoint name — the same shape `sx` accepts for responsive values.
+ */
+type ResponsiveStyleValue<T> = T | (T | null)[] | Record<string, T | null>;
 
 export type MUIUnitInputValue<Unit extends string = string> = {
   /** Currently selected unit — one of the values passed via `unitOptions`. */

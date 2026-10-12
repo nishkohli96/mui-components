@@ -1,0 +1,7 @@
+version: 2
+
+secret:
+  ignored_paths:
+    # Route -> git date map for the sitemap. Route names such as
+    # /password-input` trip the generic password detector.
+    - apps/docs/src/generated/sitemap-lastmod.json

@@ -68,7 +68,7 @@ const [value, setValue] = useState<Dayjs | null>(null);
 <MUITimePicker
   fieldName="time"
   value={value}
-  onValueChange={({ newValue }) => setValue(newValue)}
+  onValueChange={({ newValue, context }) => setValue(newValue)}
 />
 ```
 

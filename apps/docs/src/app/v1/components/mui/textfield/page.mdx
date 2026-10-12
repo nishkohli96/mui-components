@@ -21,9 +21,16 @@ helper text for you. It is a controlled component that works with plain
 
 For specialized inputs, you can also use
 [MUIPasswordInput](/components/mui/password-input) for password values,
-[MUINumberInput](/components/mui/number-input) for numeric input, or
-[MUITextArea](/v1/components/mui/text-area) for multiline text.
+[MUINumberInput](/components/mui/number-input) for numeric input.
 
+
+<Callout type="tip">
+  For multiline input, use [MUITextArea](/v1/components/mui/text-area) instead
+  of setting `multiline` on `MUITextField`. It grows with its content, and adds
+  `maxChars` to cap the length, with an optional `current/max` character counter
+  (`showCharLimit`, `renderCharLimit`). `MUITextArea` is available from version
+  **1.4**.
+</Callout>
 
 ## Usage
 
@@ -40,9 +47,12 @@ const [firstName, setFirstName] = useState();
 <MUITextField
   fieldName="firstName"
   value={firstName}
-  onValueChange={({ newValue }) => setFirstName(newValue)}
+  onValueChange={({ newValue, event }) => setFirstName(newValue)}
 />
 ```
+
+`onValueChange` receives `{ newValue, event }`: the typed string and the change
+event.
 
 Validation stays in your hands — derive `errorMessage` from your own state or
 form library and the field renders in an error state:
@@ -98,8 +108,8 @@ below show the common patterns.
 
 #### Using a regex
 
-`onValueChange` receives `{ newValue, event }`. Run your rule on `newValue` and
-keep the message in state, so the field shows the error as the user types:
+Run your rule on `newValue` and keep the message in state, so the field shows
+the error as the user types:
 
 ```tsx
 const [username, setUsername] = useState('');

@@ -63,9 +63,12 @@ const [bio, setBio] = useState('');
 <MUIRichTextEditor
   fieldName="bio"
   value={bio}
-  onValueChange={({ newValue }) => setBio(newValue)}
+  onValueChange={({ newValue, event, editor }) => setBio(newValue)}
 />
 ```
+
+`onValueChange` receives `{ newValue, event, editor }`: the HTML string, the
+CKEditor `EventInfo` of the change, and the `ClassicEditor` instance.
 
 To reorder formatting options or add advanced features, you can provide a custom
 configuration via the `editorConfig` prop, or override the existing

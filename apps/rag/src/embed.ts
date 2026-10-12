@@ -3,8 +3,9 @@
  *
  * Diffs against a local manifest (id -> contentHash) so re-running after a
  * docs change only re-embeds chunks whose content actually changed, and
- * deletes vectors for chunks that no longer exist in chunks.json — instead
- * of paying to re-embed all ~785 chunks on every run.
+ * deletes vectors (found by listing Pinecone itself) for chunks that no
+ * longer exist in chunks.json — instead of paying to re-embed all ~785
+ * chunks on every run.
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -59,6 +60,24 @@ async function ensureIndex() {
   });
 }
 
+/**
+ * Pinecone is the source of truth for what's stored, so orphan vectors are
+ * found by listing it rather than trusting the local manifest, which can
+ * drift (reset, another machine) and would then never delete them.
+ */
+async function listAllIds(index: ReturnType<Pinecone['index']>): Promise<string[]> {
+  const ids: string[] = [];
+  let paginationToken: string | undefined;
+  do {
+    const page = await index.listPaginated({ paginationToken });
+    for (const { id } of page.vectors ?? []) {
+      if (id) ids.push(id);
+    }
+    paginationToken = page.pagination?.next;
+  } while (paginationToken);
+  return ids;
+}
+
 function chunkArray<T>(arr: T[], size: number): T[][] {
   const out: T[][] = [];
   for (let i = 0; i < arr.length; i += size) out.push(arr.slice(i, i + size));
@@ -80,7 +99,8 @@ async function main() {
 
   const toEmbed = chunks.filter(c => manifest[c.id] !== c.contentHash);
   const currentIds = new Set(chunks.map(c => c.id));
-  const toDelete = Object.keys(manifest).filter(id => !currentIds.has(id));
+  const indexedIds = await listAllIds(index);
+  const toDelete = [...new Set([...indexedIds, ...Object.keys(manifest)])].filter(id => !currentIds.has(id));
 
   console.log(
     `${chunks.length} chunks total — ${toEmbed.length} new/changed, ${toDelete.length} removed, ${chunks.length - toEmbed.length} unchanged (skipped)`
