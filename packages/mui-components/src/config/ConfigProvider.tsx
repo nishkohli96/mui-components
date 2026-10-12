@@ -1,5 +1,6 @@
 import { createContext, useMemo, type ReactNode } from 'react';
 import type { MUIComponentsConfig, MUIComponentsConfigInput } from '@/types';
+import { mergeSx } from '@/utils';
 import { DefaultMUIComponentsConfig } from './DefaultConfig';
 
 type ConfigProviderProps = {
@@ -30,18 +31,18 @@ export const ConfigProvider = ({
 }: ConfigProviderProps) => {
   const defaultSetting: MUIComponentsConfig = useMemo(
     () => ({
-      defaultFormLabelSx: {
-        ...DefaultMUIComponentsConfig.defaultFormLabelSx,
-        ...defaultFormLabelSx
-      },
-      defaultFormControlLabelSx: {
-        ...DefaultMUIComponentsConfig.defaultFormControlLabelSx,
-        ...defaultFormControlLabelSx
-      },
-      defaultFormHelperTextSx: {
-        ...DefaultMUIComponentsConfig.defaultFormHelperTextSx,
-        ...defaultFormHelperTextSx
-      },
+      defaultFormLabelSx: mergeSx(
+        DefaultMUIComponentsConfig.defaultFormLabelSx,
+        defaultFormLabelSx
+      ),
+      defaultFormControlLabelSx: mergeSx(
+        DefaultMUIComponentsConfig.defaultFormControlLabelSx,
+        defaultFormControlLabelSx
+      ),
+      defaultFormHelperTextSx: mergeSx(
+        DefaultMUIComponentsConfig.defaultFormHelperTextSx,
+        defaultFormHelperTextSx
+      ),
       dateAdapter,
       allLabelsAboveFields,
     }),
