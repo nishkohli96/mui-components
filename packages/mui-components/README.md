@@ -22,16 +22,23 @@
 
 Material UI ships primitives, not form-ready inputs. This library, built on top of Material UI, gives you validated, styled, accessible inputs (Numeric, OTP, tags, country select, file uploader, phone) that work with **any** form library, with no adapters.
 
-Each component handles its own state logic, validation, labels, and error display. Pass props to customize the UI and behavior; skip the boilerplate.
+Each component handles its own state logic, validation, labels, and error display, and works out of the box with minimal configuration. Every component is controlled through a single `value` / `onValueChange` pair, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required. Pass props to customize the UI and behavior; skip the boilerplate.
 
 | Feature | @nish1896/mui-components | Raw MUI |
 | - | - | - |
-| Works with RHF / Formik / TanStack / plain state | ✅ | manual |
-| Numeric, OTP, Tags, Country & File Upload inputs built in | ✅ | ❌ |
+| Works with RHF / Formik / TanStack / plain state | ✅ Pass your form state to `value` and `errorMessage`, and write changes back from `onValueChange` | manual |
+| Numeric, OTP, Tags, Country & File Upload inputs built in | ✅ Same `value` / `onValueChange` / `errorMessage` contract as every other component | ❌ |
 | Label, helper text & error message | ✅ Built into every component | Compose `FormControl`, `InputLabel`, `FormHelperText` yourself |
 | `Select`, `Autocomplete`, `RadioGroup`, `CheckboxGroup` options | ✅ Pass an array of strings or objects (`labelKey` / `valueKey`) | Hand-write `MenuItem` / `renderOption` / mapping logic |
 | Numeric values in `Select`, `RadioGroup`, `CheckboxGroup` | ✅ Return `number` values directly | Values come back as strings; convert manually |
 | TypeScript | ✅ Strict, generic over option types | Partial, manual generics |
+
+**What you get:**
+
+- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider).
+- Well-configured unique components like [OTP Input](https://mui-components-docs.vercel.app/components/mui/otp-input), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
+- Full control over value validation and transformation before updates are committed to the component state.
+- Comprehensive docs showcasing multiple variations for each component.
 
 ## Install
 
@@ -62,15 +69,6 @@ export function ProfileForm() {
 > 📋 **Using [react-hook-form](https://react-hook-form.com/) in your application?**
 >
 > Skip writing the form UI logic and grab the purpose-built sibling: **[@nish1896/rhf-mui-components](https://www.npmjs.com/package/@nish1896/rhf-mui-components)** - the same Material UI components, with first-class RHF bindings baked in.
-
-## ✨ Features
-
-- Every component is designed to work out of the box with minimal configuration, allowing you to focus on building features instead of implementing core logic..
-- **Form-library-agnostic**: every component is controlled through `value` / `onValueChange`, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required.
-- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider).
-- Includes well-configured unique components like [OTP Input](https://mui-components-docs.vercel.app/components/mui/otp-input), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
-- Provides full control over value validation and transformation before updates are committed to the component state.
-- Comprehensive docs showcasing multiple variations for each component.
 
 ## 🚀 Explore and Get Started 
 

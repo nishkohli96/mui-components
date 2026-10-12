@@ -7,7 +7,6 @@
   "repository": {
     "url": "git+https://github.com/nishkohli96/mui-components.git"
   },
-  "license": "MIT",
   "scripts": {
     "lib:build": "tsdown && node scripts/prepare-package-json.mjs && cp README.md dist/ && cp .npmignore dist/",
     "lint": "eslint --fix ."
@@ -126,5 +125,16 @@
     "tags-input",
     "tree-shakable",
     "react-file-uploader"
-  ]
+  ],
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://buymeacoffee.com/nish1896"
+    },
+    {
+      "type": "individual",
+      "url": "https://paypal.me/nocturnalnish"
+    }
+  ],
+  "license": "MIT"
 }
