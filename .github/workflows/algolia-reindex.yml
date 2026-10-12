@@ -34,7 +34,7 @@ jobs:
     environment: Production
     steps:
       - name: Wait 5 mins for prod CDN propagation
-        run: sleep 5*60
+        run: sleep $((5*60))
 
       - name: Trigger Algolia Crawler (dev)
         env:

@@ -10,12 +10,54 @@
   <img alt="NPM Downloads Per Month" src="https://img.shields.io/npm/dm/%40nish1896%2Fmui-components?color=%23e0e063" />
   <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/nishkohli96/mui-components" />
   <img alt="TypeScript Strict" src="https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white" />
+  <img alt="MUI v9" src="https://img.shields.io/badge/MUI-v9-007FFF?logo=mui&logoColor=white" />
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
 <p>
-  <b>A suite of 25+ production-ready, form-library-agnostic <a href="https://v7.mui.com/">Material UI</a> components — fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state) or drop in each component standalone.</b>
+  <b>A suite of 25+ production-ready, form-library-agnostic <a href="https://mui.com/">Material UI</a> components — fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state) or drop in each component standalone.</b>
 </p>
+
+## Why should you use this?
+
+Material UI ships primitives, not form-ready inputs. This library, built on top of Material UI, gives you validated, styled, accessible inputs (Numeric, OTP, tags, country select, file uploader, phone) that work with **any** form library, with no adapters.
+
+Each component handles its own state logic, validation, labels, and error display. Pass props to customize the UI and behavior; skip the boilerplate.
+
+| Feature | @nish1896/mui-components | Raw MUI |
+| - | - | - |
+| Works with RHF / Formik / TanStack / plain state | ✅ | manual |
+| Numeric, OTP, Tags, Country & File Upload inputs built in | ✅ | ❌ |
+| Label, helper text & error message | ✅ Built into every component | Compose `FormControl`, `InputLabel`, `FormHelperText` yourself |
+| `Select`, `Autocomplete`, `RadioGroup`, `CheckboxGroup` options | ✅ Pass an array of strings or objects (`labelKey` / `valueKey`) | Hand-write `MenuItem` / `renderOption` / mapping logic |
+| Numeric values in `Select`, `RadioGroup`, `CheckboxGroup` | ✅ Return `number` values directly | Values come back as strings; convert manually |
+| TypeScript | ✅ Strict, generic over option types | Partial, manual generics |
+
+## Install
+
+```bash
+npm install @nish1896/mui-components @mui/material@latest @mui/x-date-pickers@latest
+```
+
+Peer dependencies: `react >=18`, `@mui/material` **v9**, `@mui/x-date-pickers` **v9**.
+
+## Quick start
+
+```tsx
+import { useState } from 'react';
+import MUITextField from '@nish1896/mui-components/mui/textfield';
+
+export function ProfileForm() {
+  const [name, setName] = useState<string>('');
+  return (
+    <MUITextField
+      fieldName="name"
+      value={name}
+      onValueChange={({ newValue }) => setName(newValue)}
+    />
+  );
+}
+```
 
 > 📋 **Using [react-hook-form](https://react-hook-form.com/) in your application?**
 >
