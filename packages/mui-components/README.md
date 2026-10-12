@@ -100,7 +100,7 @@ Same UI, identical function, but **25 lines become 11.** The label is generated 
 npm install @nish1896/mui-components @mui/material@latest @mui/x-date-pickers@latest
 ```
 
-Peer dependencies: `react >=18`, `@mui/material` **v9**, `@mui/x-date-pickers` **v9**.
+Peer dependencies: `react >=18`, `@mui/material` **v9**, `@mui/icons-material` **v9**, `@mui/x-date-pickers` **v9**.
 
 ## Quick start
 
