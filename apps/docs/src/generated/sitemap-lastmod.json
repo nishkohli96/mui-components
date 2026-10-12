@@ -1,7 +1,7 @@
 {
   "/": "2026-10-09T01:15:24+05:30",
   "/components/misc/color-picker": "2026-10-13T00:32:32+05:30",
-  "/components/misc/phone-input": "2026-10-13T00:32:32+05:30",
+  "/components/misc/phone-input": "2026-10-13T00:53:16+05:30",
   "/components/misc/rich-text-editor": "2026-10-13T00:32:32+05:30",
   "/components/misc/tiptap-rte": "2026-10-13T00:32:32+05:30",
   "/components/mui-pickers/date": "2026-10-09T01:15:24+05:30",
@@ -45,7 +45,7 @@
   "/introduction": "2026-10-09T01:15:24+05:30",
   "/migration-guide/v1-to-v2": "2026-10-09T01:15:24+05:30",
   "/v1/components/misc/color-picker": "2026-10-13T00:32:32+05:30",
-  "/v1/components/misc/phone-input": "2026-10-13T00:32:32+05:30",
+  "/v1/components/misc/phone-input": "2026-10-13T00:53:16+05:30",
   "/v1/components/misc/rich-text-editor": "2026-10-13T00:32:32+05:30",
   "/v1/components/misc/tiptap-rte": "2026-10-13T00:32:32+05:30",
   "/v1/components/mui-pickers/date": "2026-10-09T01:15:24+05:30",

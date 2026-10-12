@@ -20,7 +20,7 @@
 
 ## Why should you use this?
 
-Material UI ships primitives, not form-ready inputs. This library, built on top of Material UI, gives you validated, styled, accessible inputs (Numeric, OTP, tags, country select, file uploader, phone) that work with **any** form library, with no adapters.
+Material UI ships primitives, not form-ready inputs. This library, built on top of Material UI, gives you validated, styled, accessible inputs - Numeric, OTP, tags, country select, file uploader, phone etc. that work with **any** form library, with no adapters.
 
 Each component handles its own state logic, validation, labels, and error display, and works out of the box with minimal configuration. Every component is controlled through a single `value` / `onValueChange` pair, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required. Pass props to customize the UI and behavior; skip the boilerplate.
 

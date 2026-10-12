@@ -50,8 +50,12 @@ const [brandColor, setBrandColor] = useState('#1976d2');
 
 <MUIColorPicker
   fieldName="brandColor"
+  defaultColor="#007ABA"
   value={brandColor}
-  onValueChange={({ color, colorValue, setColor }) => setBrandColor(colorValue)}
+  onValueChange={({ color, colorValue, setColor }) => {
+    setColor(color);
+    setBrandColor(colorValue);
+  }}
 />
 ```
 
@@ -94,12 +98,16 @@ slider, without the text inputs or the alpha slider.
   fieldName="accent"
   valueKey="rgb"
   value={accent}
-  onValueChange={({ colorValue }) => setAccent(colorValue)}
+  onValueChange={({ color, colorValue, setColor }) => {
+    setColor(color);
+    setAccent(colorValue);
+  }}
 />
 ```
 
 ### Customizing the picker
 
+- `defaultColor` to set the initial color used by the picker when value is empty.
 - `excludeAlpha` drops the alpha channel from the emitted `colorValue`, for
   example `#00ffff` instead of `#00ffffff`.
 - `hideAlpha` hides the alpha slider, and `hideInput` hides some or all of the
@@ -114,9 +122,12 @@ slider, without the text inputs or the alpha slider.
 <MUIColorPicker
   fieldName="accent"
   value={accent}
-  onValueChange={({ colorValue }) => setAccent(colorValue)}
-  excludeAlpha
+  onValueChange={({ color, colorValue, setColor }) => {
+    setColor(color);
+    setAccent(colorValue);
+  }}
   hideAlpha
+  excludeAlpha
   hideInput={['rgb', 'hsv']}
   height={240}
 />

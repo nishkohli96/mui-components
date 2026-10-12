@@ -38,7 +38,7 @@ Provide `fieldName`, `value` and `onValueChange` to render a fully functional
 text area. Set `rows` for a fixed height.
 
 ```tsx
-const [bio, setBio] = useState();
+const [bio, setBio] = useState<string | undefined>();
 
 <MUITextArea
   fieldName="bio"
