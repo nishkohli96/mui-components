@@ -18,8 +18,14 @@ form library able to provide a value and receive changes.
 
 For specialized inputs, you can also use
 [MUIPasswordInput](/components/mui/password-input) for password values,
-[MUINumberInput](/components/mui/number-input) for numeric input, or
-[MUITextArea](/components/mui/text-area) for multiline text.
+[MUINumberInput](/components/mui/number-input) for numeric input.
+
+<Callout type="tip">
+  For multiline input, use [MUITextArea](/components/mui/text-area) instead of
+  setting `multiline` on `MUITextField`. It grows with its content, and adds
+  `maxChars` to cap the length, with an optional `current/max` character counter
+  (`showCharLimit`, `renderCharLimit`).
+</Callout>
 
 ## Usage
 

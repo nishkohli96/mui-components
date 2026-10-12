@@ -21,9 +21,16 @@ helper text for you. It is a controlled component that works with plain
 
 For specialized inputs, you can also use
 [MUIPasswordInput](/components/mui/password-input) for password values,
-[MUINumberInput](/components/mui/number-input) for numeric input, or
-[MUITextArea](/v1/components/mui/text-area) for multiline text.
+[MUINumberInput](/components/mui/number-input) for numeric input.
 
+
+<Callout type="tip">
+  For multiline input, use [MUITextArea](/v1/components/mui/text-area) instead
+  of setting `multiline` on `MUITextField`. It grows with its content, and adds
+  `maxChars` to cap the length, with an optional `current/max` character counter
+  (`showCharLimit`, `renderCharLimit`). `MUITextArea` is available from version
+  **1.4**.
+</Callout>
 
 ## Usage
 
