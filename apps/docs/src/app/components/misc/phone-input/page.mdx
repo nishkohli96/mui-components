@@ -52,14 +52,6 @@ const [phone, setPhone] = useState<MUIPhoneInputValue>();
 `react-international-phone`, with the formatted `phone`, the `inputValue` and
 the selected `country`.
 
-<Callout type="tip">
-  For validation, consider enforcing the following minimum lengths:
-
-  - `phone` and `phoneNo`: at least **6** characters
-  - `country`: exactly **2** characters (ISO country code)
-  - `dialCode`: **1–4** digits, depending on the selected country
-</Callout>
-
 ### Return Value
 
 The input and return value is represented as an `MUIPhoneInputValue` object:
@@ -115,6 +107,13 @@ Use:
 - `phone` when you need the complete international number.
 - `phoneNo` when you only need the national number.
 - `country` for country-specific logic or validation.
+
+### Validation
+
+For validation, consider enforcing the following minimum lengths:
+- `phone` and `phoneNo`: at least **6** characters
+- `country`: exactly **2** characters (ISO country code)
+- `dialCode`: **1–4** digits, depending on the selected country
 
 ### PhoneInput Props
 
