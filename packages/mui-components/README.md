@@ -40,6 +40,52 @@ Each component handles its own state logic, validation, labels, and error displa
 - Full control over value validation and transformation before updates are committed to the component state.
 - Comprehensive docs showcasing multiple variations for each component.
 
+### Why not just use MUI?
+
+Here is the same country `Select` — options are an array of objects, with a label, a helper text and an error message — written with plain Material UI, then with this library. The `countries` array and the `useState` are identical in both, so they are left out.
+
+```diff
+- import FormControl from '@mui/material/FormControl';
+- import FormHelperText from '@mui/material/FormHelperText';
+- import InputLabel from '@mui/material/InputLabel';
+- import MenuItem from '@mui/material/MenuItem';
+- import Select from '@mui/material/Select';
++ import MUISelect from '@nish1896/mui-components/mui/select';
+
+- <FormControl error={!!error} fullWidth>
+-   <InputLabel id="country-label">Country</InputLabel>
+-   <Select
+-     labelId="country-label"
+-     id="country"
+-     label="Country"
+-     value={country}
+-     onChange={event => setCountry(event.target.value)}
+-     aria-describedby="country-helper-text"
+-   >
+-     {countries.map(({ code, country }) => (
+-       <MenuItem key={code} value={code}>
+-         {country}
+-       </MenuItem>
+-     ))}
+-   </Select>
+-   <FormHelperText id="country-helper-text">
+-     {error || 'Where do you live?'}
+-   </FormHelperText>
+- </FormControl>
++ <MUISelect
++   fieldName="country"
++   options={countries}
++   labelKey="country"
++   valueKey="code"
++   value={country}
++   onValueChange={({ newValue }) => setCountry(newValue)}
++   errorMessage={error}
++   helperText="Where do you live?"
++ />
+```
+
+Same UI, identical functional, but **25 lines become 11.** The label is generated from `fieldName`, the ids and `aria-*` attributes are wired for you, and the error replaces the helper text automatically. Every other component follows the same pattern, so the savings repeat for each field in a form.
+
 ## Install
 
 ```bash
