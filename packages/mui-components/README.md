@@ -2,7 +2,13 @@
   <img src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/version-2/apps/docs/public/logo.svg" width="200" />
 </p>
 
-<h1>@nish1896/mui-components</h1>
+<h1 align="center">@nish1896/mui-components</h1>
+
+<p align="center">
+  <b>
+    A suite of 25+ production-ready, form-library-agnostic <a href="https://mui.com/">Material UI</a> components — fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state) or drop in each component standalone.
+  </b>
+</p>
 
 <p>
   <img alt="NPM Version" src="https://img.shields.io/npm/v/%40nish1896%2Fmui-components" />
@@ -14,8 +20,9 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
-<p>
-  <b>A suite of 25+ production-ready, form-library-agnostic <a href="https://mui.com/">Material UI</a> components — fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state) or drop in each component standalone.</b>
+<p align="center">
+  <a href="https://mui-components-docs.vercel.app">Docs</a> ·
+  <a href="https://www.paypal.com/paypalme/nocturnalnish">Sponsor</a>
 </p>
 
 ## Why should you use this?
@@ -33,7 +40,7 @@ Each component handles its own state logic, validation, labels, and error displa
 | Numeric values in `Select`, `RadioGroup`, `CheckboxGroup` | ✅ Return `number` values directly | Values come back as strings; convert manually |
 | TypeScript | ✅ Strict, generic over option types | Partial, manual generics |
 
-**What you get:**
+### What you get?
 
 - Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider), whose `sx` defaults accept an object, a theme callback or an array.
 - Helpers exported from `form-helpers` module, such as [mergeSx](https://mui-components-docs.vercel.app/form-helpers/mergeSx), to merge `sx` values without losing styles, and others like [fieldNameToLabel](https://mui-components-docs.vercel.app/form-helpers/fieldNameToLabel), [validateFileList](https://mui-components-docs.vercel.app/form-helpers/validateFileList).
@@ -170,6 +177,7 @@ Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfi
   - [Date](https://mui-components-docs.vercel.app/components/mui-pickers/date)
   - [Time](https://mui-components-docs.vercel.app/components/mui-pickers/time)
   - [DateTime](https://mui-components-docs.vercel.app/components/mui-pickers/date-time)
+
 - **misc**
   - [Color Picker](https://mui-components-docs.vercel.app/components/misc/color-picker)
   - [Rich Text Editor](https://mui-components-docs.vercel.app/components/misc/rich-text-editor)

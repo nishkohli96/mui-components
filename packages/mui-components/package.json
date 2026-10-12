@@ -21,7 +21,6 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
-    "@mui/system": "^9.4.0",
     "@mui/x-date-pickers": "^9.13.0",
     "@nish1896/eslint-flat-config": "^3.1.6",
     "@tiptap/core": "^3.31.3",
@@ -46,7 +45,6 @@
     "typescript": "^6.0.3"
   },
   "peerDependencies": {
-    "@mui/system": "^9.0.0",
     "@mui/material": "^9.0.0",
     "@mui/icons-material": "^9.0.0",
     "@mui/x-date-pickers": "^9.0.0",
