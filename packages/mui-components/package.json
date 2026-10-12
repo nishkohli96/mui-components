@@ -1,6 +1,6 @@
 {
   "name": "@nish1896/mui-components",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A suite of 25+ production-ready, form-library-agnostic Material UI components — build forms with any form library, or drop in each one standalone. Fully typed, tree-shakable, and optimized for enterprise-grade forms.",
   "author": "Nishant Kohli",
   "homepage": "https://mui-components-docs.vercel.app",
@@ -22,7 +22,6 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.9",
     "@mui/material": "^7.3.9",
-    "@mui/system": "^7.3.9",
     "@mui/x-date-pickers": "^8.27.2",
     "@nish1896/eslint-flat-config": "^3.1.6",
     "@tiptap/core": "^3.31.3",
@@ -49,7 +48,6 @@
   "peerDependencies": {
     "@mui/icons-material": "^6.0.0 || ^7.0.0",
     "@mui/material": "^6.0.0 || ^7.0.0",
-    "@mui/system": "^6.0.0 || ^7.0.0",
     "@mui/x-date-pickers": "^7.0.0 || ^8.0.0",
     "@tiptap/core": "^3.0.0",
     "@tiptap/extension-link": "^3.0.0",

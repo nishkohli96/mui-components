@@ -1,4 +1,4 @@
-import type { SxProps, Theme } from '@mui/system';
+import type { SxProps, Theme } from '@mui/material/styles';
 
 export type MuiPickersAdapter = new (...args: any) => any;
 

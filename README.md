@@ -2,19 +2,27 @@
   <img src="https://raw.githubusercontent.com/nishkohli96/mui-components/refs/heads/version-1/apps/docs/public/logo.svg" width="200" />
 </p>
 
-<h1>@nish1896/mui-components</h1>
+<h1 align="center">@nish1896/mui-components</h1>
 
-<p>
+<p align="center">
+  <b>
+    A suite of 25+ production-ready, form-library-agnostic <a href="https://v7.mui.com/">Material UI</a> components — fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state) or drop in each component standalone.
+  </b>
+</p>
+
+<p align="center">
   <img alt="NPM Version" src="https://img.shields.io/npm/v/%40nish1896%2Fmui-components" />
   <img alt="NPM Downloads" src="https://img.shields.io/npm/dt/%40nish1896%2Fmui-components" />
   <img alt="NPM Downloads Per Month" src="https://img.shields.io/npm/dm/%40nish1896%2Fmui-components?color=%23e0e063" />
   <img alt="GitHub Release Date" src="https://img.shields.io/github/release-date/nishkohli96/mui-components" />
   <img alt="TypeScript Strict" src="https://img.shields.io/badge/TypeScript-Strict-3178C6?logo=typescript&logoColor=white" />
+  <img alt="MUI v7" src="https://img.shields.io/badge/MUI-v7-007FFF?logo=mui&logoColor=white" />
   <img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg" />
 </p>
 
-<p>
-  <b>A suite of 25+ production-ready, form-library-agnostic <a href="https://v7.mui.com/">Material UI</a> components - fully typed, tree-shakable, and driven by a single <code>value</code> / <code>onValueChange</code> pair. Build forms with any form library (React Hook Form, TanStack Form, Formik, plain React state) or drop in each component standalone.</b>
+<p align="center">
+  <a href="https://mui-components-docs.vercel.app">Docs</a> ·
+  <a href="https://www.paypal.com/paypalme/nocturnalnish">Sponsor</a>
 </p>
 
 > 📋 **Using [react-hook-form](https://react-hook-form.com/) in your application?**
@@ -33,7 +41,7 @@
 ## 📦 Installation
 
 ```bash
-npm install @nish1896/mui-components @mui/material@latest-v7 @mui/x-date-pickers@latest-v8
+npm install @nish1896/mui-components@latest-v1 @mui/material@latest-v7 @mui/x-date-pickers@latest-v8
 ```
 
 `@mui/material` and `@mui/x-date-pickers` are peer dependencies.
