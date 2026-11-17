@@ -541,9 +541,9 @@ const MUICountrySelectInner = forwardRef(function MUICountrySelect<
  * Renders each option with its flag alongside the name, and supports the
  * same single/multi-select and clearable behavior as `MUIAutocomplete`.
  *
- * Docs: [MUICountrySelect](https://mui-components-docs.vercel.app/v1/components/mui/country-select)
+ * Docs: [MUICountrySelect](https://mui-components.nishkohli.in/v1/components/mui/country-select)
  *
- * API: [MUICountrySelectProps](https://mui-components-docs.vercel.app/v1/components/mui/country-select#api)
+ * API: [MUICountrySelectProps](https://mui-components.nishkohli.in/v1/components/mui/country-select#api)
  */
 const MUICountrySelect = MUICountrySelectInner as <
   ValueKey extends CountrySelectValueKey | undefined = undefined,

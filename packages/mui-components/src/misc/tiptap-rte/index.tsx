@@ -185,9 +185,9 @@ export type MUITipTapRteProps = {
  * hand-built formatting toolbar, since Tiptap ships no UI of its own —
  * override `editorExtensions` to customize.
  *
- * Docs: [MUITipTapRte](https://mui-components-docs.vercel.app/v1/components/misc/tiptap-rte)
+ * Docs: [MUITipTapRte](https://mui-components.nishkohli.in/v1/components/misc/tiptap-rte)
  *
- * API: [MUITipTapRteProps](https://mui-components-docs.vercel.app/v1/components/misc/tiptap-rte#api)
+ * API: [MUITipTapRteProps](https://mui-components.nishkohli.in/v1/components/misc/tiptap-rte#api)
  */
 const MUITipTapRte = ({
   fieldName,

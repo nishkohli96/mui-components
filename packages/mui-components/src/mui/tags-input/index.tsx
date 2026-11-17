@@ -252,9 +252,9 @@ export type MUITagsInputProps = {
  * delimiter-separated text, with duplicate detection and a `maxTags` cap
  * with a "+N more" overflow indicator.
  *
- * Docs: [MUITagsInput](https://mui-components-docs.vercel.app/v1/components/mui/tags-input)
+ * Docs: [MUITagsInput](https://mui-components.nishkohli.in/v1/components/mui/tags-input)
  *
- * API: [MUITagsInputProps](https://mui-components-docs.vercel.app/v1/components/mui/tags-input#api)
+ * API: [MUITagsInputProps](https://mui-components.nishkohli.in/v1/components/mui/tags-input#api)
  */
 const MUITagsInput = ({
   fieldName,

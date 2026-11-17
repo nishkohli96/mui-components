@@ -19,7 +19,7 @@ export const MUIComponentsConfigContext
  * Each config key is merged on top of `DefaultMUIComponentsConfig`, so you
  * only need to pass the keys you want to override.
  *
- * Docs: [Customization](https://mui-components-docs.vercel.app/v1/customization)
+ * Docs: [Customization](https://mui-components.nishkohli.in/v1/customization)
  */
 export const ConfigProvider = ({
   children,

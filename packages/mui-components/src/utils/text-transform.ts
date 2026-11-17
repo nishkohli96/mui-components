@@ -8,7 +8,7 @@
  * - "enable_HTTP_Config" to "Enable HTTP Config"
  * - users.0.email -> Users Email
  *
- * Docs: [fieldNameToLabel](https://mui-components-docs.vercel.app/v1/form-helpers/fieldNameToLabel)
+ * Docs: [fieldNameToLabel](https://mui-components.nishkohli.in/v1/form-helpers/fieldNameToLabel)
  */
 export function fieldNameToLabel(str: string) {
   return str
@@ -34,7 +34,7 @@ export function fieldNameToLabel(str: string) {
  * - "phones[0]" to "phones-0"
  * - "user.profile@details" to "user-profile-details"
  *
- * Docs: [fieldNameToId](https://mui-components-docs.vercel.app/v1/form-helpers/fieldNameToId)
+ * Docs: [fieldNameToId](https://mui-components.nishkohli.in/v1/form-helpers/fieldNameToId)
  */
 export function fieldNameToId(fieldName: string): string {
   const id = fieldName
