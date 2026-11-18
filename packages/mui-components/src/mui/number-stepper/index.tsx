@@ -87,28 +87,30 @@ const MUINumberStepper = ({
   fieldName,
   value: muiValue,
   disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  onlyIntegers = false,
-  nonNegative = false,
   min,
   max,
+  onlyIntegers = false,
+  maxDecimalPlaces,
+  nonNegative = false,
   stepAmount = 1,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  customIds,
-  required,
+  renderValue,
   decrementIcon,
   incrementIcon,
   swapButtons,
   iconButtonProps,
   caption,
   captionProps,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  hideLabel,
+  required,
+  helperText,
+  errorMessage,
+  renderError,
+  hideErrorMessage,
+  formHelperTextProps,
+  customIds,
   sx: muiSx,
   slotProps: muiSlotProps,
   ...otherNumberInputProps
@@ -252,12 +254,14 @@ const MUINumberStepper = ({
             fieldName={fieldName}
             value={muiValue}
             disabled={muiDisabled}
-            onlyIntegers={onlyIntegers}
-            nonNegative={nonNegative}
             min={min}
             max={max}
-            showMarkers={false}
+            onlyIntegers={onlyIntegers}
+            nonNegative={nonNegative}
+            maxDecimalPlaces={maxDecimalPlaces}
             stepAmount={stepAmount}
+            showMarkers={false}
+            renderValue={renderValue}
             required={required}
             customIds={customIds}
             inputRef={inputRef}
