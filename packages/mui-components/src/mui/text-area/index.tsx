@@ -160,9 +160,9 @@ export type MUITextAreaProps = {
  * text out of the box, so callers don't have to wire `FormHelperText`/error
  * state by hand.
  *
- * Docs: [MUITextArea](https://mui-components-docs.vercel.app/v1/components/mui/text-area)
+ * Docs: [MUITextArea](https://mui-components.nishkohli.in/v1/components/mui/text-area)
  *
- * API: [MUITextAreaProps](https://mui-components-docs.vercel.app/v1/components/mui/text-area#api)
+ * API: [MUITextAreaProps](https://mui-components.nishkohli.in/v1/components/mui/text-area#api)
  */
 const MUITextArea = ({
   fieldName,
