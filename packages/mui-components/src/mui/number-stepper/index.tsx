@@ -79,9 +79,9 @@ export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'v
  * (rendered borderless inside the pill). This component only owns the pill container,
  * the buttons and the optional unit caption.
  *
- * Docs: [MUINumberStepper](https://mui-components-docs.vercel.app/components/mui/number-stepper)
+ * Docs: [MUINumberStepper](https://mui-components.nishkohli.in/components/mui/number-stepper)
  *
- * API: [MUINumberStepperProps](https://mui-components-docs.vercel.app/components/mui/number-stepper#api)
+ * API: [MUINumberStepperProps](https://mui-components.nishkohli.in/components/mui/number-stepper#api)
  */
 const MUINumberStepper = ({
   fieldName,

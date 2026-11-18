@@ -237,9 +237,9 @@ export type MUISelectProps<
  * `valueKey` and `labelKey` to specify the properties used for the value and
  * display label, respectively.
  *
- * Docs: [MUISelect](https://mui-components-docs.vercel.app/components/mui/select)
+ * Docs: [MUISelect](https://mui-components.nishkohli.in/components/mui/select)
  *
- * API: [MUISelectProps](https://mui-components-docs.vercel.app/components/mui/select#api)
+ * API: [MUISelectProps](https://mui-components.nishkohli.in/components/mui/select#api)
  */
 const MUISelect = <
   Option extends StrNumObjOption = StrNumObjOption,

@@ -20,7 +20,7 @@ type SxInput = SxProps<Theme> | false | null | undefined;
  *   `false`) are kept as-is, which MUI's `sx` array accepts.
  * - Input arrays are never mutated.
  *
- * Docs: [mergeSx](https://mui-components-docs.vercel.app/form-helpers/mergeSx)
+ * Docs: [mergeSx](https://mui-components.nishkohli.in/form-helpers/mergeSx)
  */
 export function mergeSx(...sources: SxInput[]): SxProps<Theme> {
   return sources.flatMap(sx => {

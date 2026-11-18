@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <a href="https://mui-components-docs.vercel.app">Docs</a> ·
+  <a href="https://mui-components.nishkohli.in">Docs</a> ·
   <a href="https://www.paypal.com/paypalme/nocturnalnish">Sponsor</a>
 </p>
 
@@ -42,9 +42,9 @@ Each component handles its own state logic, validation, labels, and error displa
 
 ### What you get?
 
-- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider), whose `sx` defaults accept an object, a theme callback or an array.
-- Helpers exported from `form-helpers` module, such as [mergeSx](https://mui-components-docs.vercel.app/form-helpers/mergeSx), to merge `sx` values without losing styles, and others like [fieldNameToLabel](https://mui-components-docs.vercel.app/form-helpers/fieldNameToLabel), [validateFileList](https://mui-components-docs.vercel.app/form-helpers/validateFileList).
-- Well-configured unique components like [OTP Input](https://mui-components-docs.vercel.app/components/mui/otp-input), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
+- Style individual components or apply global styles via [ConfigProvider](https://mui-components.nishkohli.in/customization#configprovider), whose `sx` defaults accept an object, a theme callback or an array.
+- Helpers exported from `form-helpers` module, such as [mergeSx](https://mui-components.nishkohli.in/form-helpers/mergeSx), to merge `sx` values without losing styles, and others like [fieldNameToLabel](https://mui-components.nishkohli.in/form-helpers/fieldNameToLabel), [validateFileList](https://mui-components.nishkohli.in/form-helpers/validateFileList).
+- Well-configured unique components like [OTP Input](https://mui-components.nishkohli.in/components/mui/otp-input), [Country Select](https://mui-components.nishkohli.in/components/mui/country-select), [File Uploader](https://mui-components.nishkohli.in/components/mui/file-uploader) and [Tags Input](https://mui-components.nishkohli.in/components/mui/tags-input), saving development time.
 - Full control over value validation and transformation before updates are committed to the component state.
 - Comprehensive docs showcasing multiple variations for each component.
 
@@ -102,8 +102,8 @@ Same UI, identical function, but **25 lines become 11.** The label is generated 
 
 - Every component is designed to work out of the box with minimal configuration, allowing you to focus on building features instead of implementing core logic..
 - **Form-library-agnostic**: every component is controlled through `value` / `onValueChange`, so it works with React Hook Form, TanStack Form, Formik, plain React state, or on its own — no adapter or wrapper required.
-- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider).
-- Includes well-configured unique components like [OTP Input](https://mui-components-docs.vercel.app/components/mui/otp-input), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
+- Style individual components or apply global styles via [ConfigProvider](https://mui-components.nishkohli.in/customization#configprovider).
+- Includes well-configured unique components like [OTP Input](https://mui-components.nishkohli.in/components/mui/otp-input), [Country Select](https://mui-components.nishkohli.in/components/mui/country-select), [File Uploader](https://mui-components.nishkohli.in/components/mui/file-uploader) and [Tags Input](https://mui-components.nishkohli.in/components/mui/tags-input), saving development time.
 - Provides full control over value validation and transformation before updates are committed to the component state.
 - Comprehensive docs showcasing multiple variations for each component.
 
@@ -117,7 +117,7 @@ npm install @nish1896/mui-components @mui/material @mui/icons-material @mui/x-da
 
 **v2 requires MUI v9** — for MUI v6/v7 support, stay on the `1.x` line.
 
-> ⬆️ Upgrading from `1.x`? See the [v1 → v2 migration guide](https://mui-components-docs.vercel.app/migration-guide/v1-to-v2).
+> ⬆️ Upgrading from `1.x`? See the [v1 → v2 migration guide](https://mui-components.nishkohli.in/migration-guide/v1-to-v2).
 
 ```tsx
 import { useState } from 'react';
@@ -140,7 +140,7 @@ function ProfileForm() {
 ### 📖 Documentation
 Full setup instructions, API references, and examples for every component:
 
-👉 [Documentation Website](https://mui-components-docs.vercel.app)
+👉 [Documentation Website](https://mui-components.nishkohli.in)
 
 ### 🧪 Playground
 

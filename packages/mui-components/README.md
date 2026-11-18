@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <a href="https://mui-components-docs.vercel.app">Docs</a> ·
+  <a href="https://mui-components.nishkohli.in">Docs</a> ·
   <a href="https://www.paypal.com/paypalme/nocturnalnish">Sponsor</a>
 </p>
 
@@ -42,9 +42,9 @@ Each component handles its own state logic, validation, labels, and error displa
 
 ### What you get?
 
-- Style individual components or apply global styles via [ConfigProvider](https://mui-components-docs.vercel.app/customization#configprovider), whose `sx` defaults accept an object, a theme callback or an array.
-- Helpers exported from `form-helpers` module, such as [mergeSx](https://mui-components-docs.vercel.app/form-helpers/mergeSx), to merge `sx` values without losing styles, and others like [fieldNameToLabel](https://mui-components-docs.vercel.app/form-helpers/fieldNameToLabel), [validateFileList](https://mui-components-docs.vercel.app/form-helpers/validateFileList).
-- Well-configured unique components like [OTP Input](https://mui-components-docs.vercel.app/components/mui/otp-input), [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select), [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader) and [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input), saving development time.
+- Style individual components or apply global styles via [ConfigProvider](https://mui-components.nishkohli.in/customization#configprovider), whose `sx` defaults accept an object, a theme callback or an array.
+- Helpers exported from `form-helpers` module, such as [mergeSx](https://mui-components.nishkohli.in/form-helpers/mergeSx), to merge `sx` values without losing styles, and others like [fieldNameToLabel](https://mui-components.nishkohli.in/form-helpers/fieldNameToLabel), [validateFileList](https://mui-components.nishkohli.in/form-helpers/validateFileList).
+- Well-configured unique components like [OTP Input](https://mui-components.nishkohli.in/components/mui/otp-input), [Country Select](https://mui-components.nishkohli.in/components/mui/country-select), [File Uploader](https://mui-components.nishkohli.in/components/mui/file-uploader) and [Tags Input](https://mui-components.nishkohli.in/components/mui/tags-input), saving development time.
 - Full control over value validation and transformation before updates are committed to the component state.
 - Comprehensive docs showcasing multiple variations for each component.
 
@@ -129,7 +129,7 @@ export function ProfileForm() {
 ### 📖 Documentation
 Full setup instructions, API references, and examples for every component:
 
-👉 [Documentation Website](https://mui-components-docs.vercel.app)
+👉 [Documentation Website](https://mui-components.nishkohli.in)
 
 ### 🧪 Playground
 
@@ -150,39 +150,39 @@ Below is a comprehensive list of all components included in this package, catego
 Each is imported from its own subpath (e.g. `@nish1896/mui-components/mui/textfield`) for optimal tree-shaking.
 
 - **mui**
-  - [TextField](https://mui-components-docs.vercel.app/components/mui/textfield)
-  - [TextArea](https://mui-components-docs.vercel.app/components/mui/text-area)
-  - [Password Input](https://mui-components-docs.vercel.app/components/mui/password-input)
-  - [Number Input](https://mui-components-docs.vercel.app/components/mui/number-input)
-  - [Number Stepper](https://mui-components-docs.vercel.app/components/mui/number-stepper)
-  - [OTP Input](https://mui-components-docs.vercel.app/components/mui/otp-input)
-  - [Tags Input](https://mui-components-docs.vercel.app/components/mui/tags-input)
-  - [File Uploader](https://mui-components-docs.vercel.app/components/mui/file-uploader)
-  - [Select](https://mui-components-docs.vercel.app/components/mui/select)
-  - [Native Select](https://mui-components-docs.vercel.app/components/mui/native-select)
-  - [Unit Input](https://mui-components-docs.vercel.app/components/mui/unit-input)
-  - [Autocomplete](https://mui-components-docs.vercel.app/components/mui/autocomplete)
-  - [Autocomplete Object](https://mui-components-docs.vercel.app/components/mui/autocomplete-object)
-  - [Multi Autocomplete](https://mui-components-docs.vercel.app/components/mui/multi-autocomplete)
-  - [Multi Autocomplete Object](https://mui-components-docs.vercel.app/components/mui/multi-autocomplete-object)
-  - [Country Select](https://mui-components-docs.vercel.app/components/mui/country-select)
-  - [Checkbox](https://mui-components-docs.vercel.app/components/mui/checkbox)
-  - [Checkbox Group](https://mui-components-docs.vercel.app/components/mui/checkbox-group)
-  - [Radio Group](https://mui-components-docs.vercel.app/components/mui/radio-group)
-  - [Slider](https://mui-components-docs.vercel.app/components/mui/slider)
-  - [Switch](https://mui-components-docs.vercel.app/components/mui/switch)
-  - [Rating](https://mui-components-docs.vercel.app/components/mui/rating)
+  - [TextField](https://mui-components.nishkohli.in/components/mui/textfield)
+  - [TextArea](https://mui-components.nishkohli.in/components/mui/text-area)
+  - [Password Input](https://mui-components.nishkohli.in/components/mui/password-input)
+  - [Number Input](https://mui-components.nishkohli.in/components/mui/number-input)
+  - [Number Stepper](https://mui-components.nishkohli.in/components/mui/number-stepper)
+  - [OTP Input](https://mui-components.nishkohli.in/components/mui/otp-input)
+  - [Tags Input](https://mui-components.nishkohli.in/components/mui/tags-input)
+  - [File Uploader](https://mui-components.nishkohli.in/components/mui/file-uploader)
+  - [Select](https://mui-components.nishkohli.in/components/mui/select)
+  - [Native Select](https://mui-components.nishkohli.in/components/mui/native-select)
+  - [Unit Input](https://mui-components.nishkohli.in/components/mui/unit-input)
+  - [Autocomplete](https://mui-components.nishkohli.in/components/mui/autocomplete)
+  - [Autocomplete Object](https://mui-components.nishkohli.in/components/mui/autocomplete-object)
+  - [Multi Autocomplete](https://mui-components.nishkohli.in/components/mui/multi-autocomplete)
+  - [Multi Autocomplete Object](https://mui-components.nishkohli.in/components/mui/multi-autocomplete-object)
+  - [Country Select](https://mui-components.nishkohli.in/components/mui/country-select)
+  - [Checkbox](https://mui-components.nishkohli.in/components/mui/checkbox)
+  - [Checkbox Group](https://mui-components.nishkohli.in/components/mui/checkbox-group)
+  - [Radio Group](https://mui-components.nishkohli.in/components/mui/radio-group)
+  - [Slider](https://mui-components.nishkohli.in/components/mui/slider)
+  - [Switch](https://mui-components.nishkohli.in/components/mui/switch)
+  - [Rating](https://mui-components.nishkohli.in/components/mui/rating)
 
 - **mui-pickers**
-  - [Date](https://mui-components-docs.vercel.app/components/mui-pickers/date)
-  - [Time](https://mui-components-docs.vercel.app/components/mui-pickers/time)
-  - [DateTime](https://mui-components-docs.vercel.app/components/mui-pickers/date-time)
+  - [Date](https://mui-components.nishkohli.in/components/mui-pickers/date)
+  - [Time](https://mui-components.nishkohli.in/components/mui-pickers/time)
+  - [DateTime](https://mui-components.nishkohli.in/components/mui-pickers/date-time)
 
 - **misc**
-  - [Color Picker](https://mui-components-docs.vercel.app/components/misc/color-picker)
-  - [Rich Text Editor](https://mui-components-docs.vercel.app/components/misc/rich-text-editor)
-  - [TipTap RTE](https://mui-components-docs.vercel.app/components/misc/tiptap-rte)
-  - [Phone Input](https://mui-components-docs.vercel.app/components/misc/phone-input)
+  - [Color Picker](https://mui-components.nishkohli.in/components/misc/color-picker)
+  - [Rich Text Editor](https://mui-components.nishkohli.in/components/misc/rich-text-editor)
+  - [TipTap RTE](https://mui-components.nishkohli.in/components/misc/tiptap-rte)
+  - [Phone Input](https://mui-components.nishkohli.in/components/misc/phone-input)
 
 **This project has been an individual effort so far, and I’d love to invite collaborators to contribute by adding new components or improving the documentation and examples for existing ones. If you're interested, feel free to reach out at [nishantkohli96@gmail.com](mailto:nishantkohli96@gmail.com).**
 

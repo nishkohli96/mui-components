@@ -31,7 +31,7 @@ type ValidateFileListOptions = {
  * trailing zeros are stripped. Default `1`.
  * @throws {Error} If `size` is negative.
  *
- * Docs: [getFileSize](https://mui-components-docs.vercel.app/form-helpers/getFileSize)
+ * Docs: [getFileSize](https://mui-components.nishkohli.in/form-helpers/getFileSize)
  */
 export function getFileSize(size: number, options?: FileSizeOptions): string {
   if (size < 0) {
@@ -86,7 +86,7 @@ export function getFileSize(size: number, options?: FileSizeOptions): string {
  *   - `acceptedFiles` that passed every check
  *   - `rejectedFiles` each rejected file paired with its `FileUploadErrorDetails`.
  *
- * Docs: [validateFileList](https://mui-components-docs.vercel.app/form-helpers/validateFileList)
+ * Docs: [validateFileList](https://mui-components.nishkohli.in/form-helpers/validateFileList)
  */
 export function validateFileList(
   fileList: FileList | File[],

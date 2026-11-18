@@ -187,9 +187,9 @@ export type MUINativeSelectProps<
  * mobile or wherever the lighter-weight native control is preferred over a
  * full `Select` menu.
  *
- * Docs: [MUINativeSelect](https://mui-components-docs.vercel.app/components/mui/native-select)
+ * Docs: [MUINativeSelect](https://mui-components.nishkohli.in/components/mui/native-select)
  *
- * API: [MUINativeSelectProps](https://mui-components-docs.vercel.app/components/mui/native-select#api)
+ * API: [MUINativeSelectProps](https://mui-components.nishkohli.in/components/mui/native-select#api)
  */
 const MUINativeSelect = <
   Option extends StrNumObjOption = StrNumObjOption,

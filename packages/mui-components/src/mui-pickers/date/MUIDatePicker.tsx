@@ -129,9 +129,9 @@ export type MUIDatePickerProps<TDate extends PickerValidDate = PickerValidDate> 
  * Generic over `TDate`, inferred from `value`, so `onValueChange` returns a
  * precisely-typed date instead of MUI X's adapter-agnostic `PickerValidDate`.
  *
- * Docs: [MUIDatePicker](https://mui-components-docs.vercel.app/components/mui-pickers/date)
+ * Docs: [MUIDatePicker](https://mui-components.nishkohli.in/components/mui-pickers/date)
  *
- * API: [MUIDatePickerProps](https://mui-components-docs.vercel.app/components/mui-pickers/date#api)
+ * API: [MUIDatePickerProps](https://mui-components.nishkohli.in/components/mui-pickers/date#api)
  */
 const MUIDatePicker = <TDate extends PickerValidDate = PickerValidDate>({
   fieldName,
