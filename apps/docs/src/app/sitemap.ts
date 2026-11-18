@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { sidebarLinks, currentDocsVersion, websiteUrl } from '@/constants';
 import { buildVersionedSidebar } from '@/utils';
 import type { Page } from '@/types';
-import lastmodMap from '@/generated/sitemap-lastmod.json';
+import { lastmodByPath } from '@/lib/lastmod';
 
 function flattenHrefs(pages: Page[]): string[] {
   return pages.flatMap(page => {
@@ -32,7 +32,7 @@ function flattenHrefs(pages: Page[]): string[] {
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const hrefs = flattenHrefs(buildVersionedSidebar(sidebarLinks, currentDocsVersion));
-  const lastmod: Record<string, string> = lastmodMap;
+  const lastmod = lastmodByPath;
 
   /*
    * Home is `''`, not `/`, so its `<loc>` is the slash-less origin — matching

@@ -1,6 +1,7 @@
 /*
- * Emits src/generated/sitemap-lastmod.json — a { "/route": "<ISO date>" } map
- * of each App Router page's last **author** date (`%aI`), i.e. when the page's
+ * Emits src/generated/sitemap-lastmod.json — a list of
+ * { "path": "/route", "lastmod": "<ISO date>" } entries, one per
+ * App Router page, holding the page's last **author** date (`%aI`), i.e. when the page's
  * content actually last changed. Not committer date (`%cI`, which a rebase or
  * amend rewrites) and not build/deploy time. Run before `dev` / `build`.
  *
@@ -40,7 +41,11 @@ function walkPages(dir) {
  */
 let map = {};
 try {
-  map = JSON.parse(readFileSync(outFile, 'utf8'));
+  const committed = JSON.parse(readFileSync(outFile, 'utf8'));
+  /* Also accepts the old `{ "/route": date }` object shape. */
+  map = Array.isArray(committed)
+    ? Object.fromEntries(committed.map(({ path, lastmod }) => [path, lastmod]))
+    : committed;
 } catch {
   /* first run — no committed file yet. */
 }
@@ -93,5 +98,11 @@ for (const file of isShallow ? [] : walkPages(appDir)) {
 }
 
 mkdirSync(dirname(outFile), { recursive: true });
-writeFileSync(outFile, `${JSON.stringify(map, Object.keys(map).sort(), 2)}\n`);
+/*
+ * Entries, not a `{ "/route": date }` map: route names such as
+ * `/components/mui/password-input` used as keys made secret scanners flag the
+ * file as a leaked password.
+ */
+const entries = Object.keys(map).sort().map(path => ({ path, lastmod: map[path] }));
+writeFileSync(outFile, `${JSON.stringify(entries, null, 2)}\n`);
 console.log(`sitemap-lastmod: ${Object.keys(map).length} routes`);
