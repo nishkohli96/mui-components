@@ -213,9 +213,9 @@ export type MUIOTPInputProps = {
  *
  * Only digits are accepted unless `alphanumeric` is set.
  *
- * Docs: [MUIOTPInput](https://mui-components-docs.vercel.app/components/mui/otp-input)
+ * Docs: [MUIOTPInput](https://mui-components.nishkohli.in/components/mui/otp-input)
  *
- * API: [MUIOTPInputProps](https://mui-components-docs.vercel.app/components/mui/otp-input#api)
+ * API: [MUIOTPInputProps](https://mui-components.nishkohli.in/components/mui/otp-input#api)
  */
 const MUIOTPInput = ({
   fieldName,

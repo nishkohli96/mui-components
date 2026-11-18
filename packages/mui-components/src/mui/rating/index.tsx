@@ -129,9 +129,9 @@ export type MUIRatingProps = {
  * Supports half-star precision and custom icons through the underlying
  * `Rating` props.
  *
- * Docs: [MUIRating](https://mui-components-docs.vercel.app/components/mui/rating)
+ * Docs: [MUIRating](https://mui-components.nishkohli.in/components/mui/rating)
  *
- * API: [MUIRatingProps](https://mui-components-docs.vercel.app/components/mui/rating#api)
+ * API: [MUIRatingProps](https://mui-components.nishkohli.in/components/mui/rating#api)
  */
 const MUIRating = ({
   fieldName,

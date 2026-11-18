@@ -313,9 +313,9 @@ export type MUIUnitInputProps<
  * `onValueChange` still report the pair together as one `{ unit, value }`
  * object.
  *
- * Docs: [MUIUnitInput](https://mui-components-docs.vercel.app/components/mui/unit-input)
+ * Docs: [MUIUnitInput](https://mui-components.nishkohli.in/components/mui/unit-input)
  *
- * API: [MUIUnitInputProps](https://mui-components-docs.vercel.app/components/mui/unit-input#api)
+ * API: [MUIUnitInputProps](https://mui-components.nishkohli.in/components/mui/unit-input#api)
  */
 const MUIUnitInput = <
   Option extends StrObjOption = StrObjOption,

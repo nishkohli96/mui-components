@@ -146,9 +146,9 @@ export type MUISliderProps<Value extends SliderValue = SliderValue> = {
  * Emits the active thumb index alongside the new value, useful for range
  * sliders where callers need to know which handle moved.
  *
- * Docs: [MUISlider](https://mui-components-docs.vercel.app/components/mui/slider)
+ * Docs: [MUISlider](https://mui-components.nishkohli.in/components/mui/slider)
  *
- * API: [MUISliderProps](https://mui-components-docs.vercel.app/components/mui/slider#api)
+ * API: [MUISliderProps](https://mui-components.nishkohli.in/components/mui/slider#api)
  */
 const MUISlider = <Value extends SliderValue = SliderValue>({
   fieldName,

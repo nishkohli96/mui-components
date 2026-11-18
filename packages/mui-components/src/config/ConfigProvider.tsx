@@ -21,7 +21,7 @@ export const MUIComponentsConfigContext
  * object, a theme callback or an array of those, and are merged with `mergeSx`
  * so none of those forms lose their styles.
  *
- * Docs: [Customization](https://mui-components-docs.vercel.app/customization)
+ * Docs: [Customization](https://mui-components.nishkohli.in/customization)
  */
 export const ConfigProvider = ({
   children,

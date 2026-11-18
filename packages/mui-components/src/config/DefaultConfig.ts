@@ -16,7 +16,7 @@ const DefaultStyles = Object.freeze({
  * `FormHelperText` spacing — `dateAdapter` and `allLabelsAboveFields` have
  * no default and stay `undefined` until a `ConfigProvider` sets them.
  *
- * Docs: [Customization](https://mui-components-docs.vercel.app/customization)
+ * Docs: [Customization](https://mui-components.nishkohli.in/customization)
  */
 export const DefaultMUIComponentsConfig: MUIComponentsConfig = {
   defaultFormLabelSx: { mb: DefaultStyles.margin.bottom },

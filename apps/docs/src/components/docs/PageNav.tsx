@@ -14,7 +14,7 @@ import {
   personalWebsite
 } from '@/constants';
 import { getAdjacentPages, getBreadcrumbTrail, toCanonicalPath } from '@/utils';
-import lastmodMap from '@/generated/sitemap-lastmod.json';
+import { lastmodByPath } from '@/lib/lastmod';
 
 type NavCardProps = {
   href: string;
@@ -139,7 +139,7 @@ const PageNav = () => {
    * date distinct from the current version's. No per-page description map
    * exists, so `headline` is the only text.
    */
-  const lastmod: Record<string, string> = lastmodMap;
+  const lastmod = lastmodByPath;
   const techArticleJsonLd = componentSrcPath && componentTitle && {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',

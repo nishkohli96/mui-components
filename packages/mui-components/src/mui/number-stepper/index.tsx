@@ -79,36 +79,38 @@ export type MUINumberStepperProps = Omit<MUINumberInputProps, 'showMarkers' | 'v
  * (rendered borderless inside the pill). This component only owns the pill container,
  * the buttons and the optional unit caption.
  *
- * Docs: [MUINumberStepper](https://mui-components-docs.vercel.app/components/mui/number-stepper)
+ * Docs: [MUINumberStepper](https://mui-components.nishkohli.in/components/mui/number-stepper)
  *
- * API: [MUINumberStepperProps](https://mui-components-docs.vercel.app/components/mui/number-stepper#api)
+ * API: [MUINumberStepperProps](https://mui-components.nishkohli.in/components/mui/number-stepper#api)
  */
 const MUINumberStepper = ({
   fieldName,
   value: muiValue,
   disabled: muiDisabled,
-  label,
-  showLabelAboveFormField,
-  formLabelProps,
-  hideLabel,
-  onlyIntegers = false,
-  nonNegative = false,
   min,
   max,
+  onlyIntegers = false,
+  maxDecimalPlaces,
+  nonNegative = false,
   stepAmount = 1,
-  errorMessage,
-  renderError,
-  hideErrorMessage,
-  helperText,
-  formHelperTextProps,
-  customIds,
-  required,
+  renderValue,
   decrementIcon,
   incrementIcon,
   swapButtons,
   iconButtonProps,
   caption,
   captionProps,
+  label,
+  showLabelAboveFormField,
+  formLabelProps,
+  hideLabel,
+  required,
+  helperText,
+  errorMessage,
+  renderError,
+  hideErrorMessage,
+  formHelperTextProps,
+  customIds,
   sx: muiSx,
   slotProps: muiSlotProps,
   ...otherNumberInputProps
@@ -252,12 +254,14 @@ const MUINumberStepper = ({
             fieldName={fieldName}
             value={muiValue}
             disabled={muiDisabled}
-            onlyIntegers={onlyIntegers}
-            nonNegative={nonNegative}
             min={min}
             max={max}
-            showMarkers={false}
+            onlyIntegers={onlyIntegers}
+            nonNegative={nonNegative}
+            maxDecimalPlaces={maxDecimalPlaces}
             stepAmount={stepAmount}
+            showMarkers={false}
+            renderValue={renderValue}
             required={required}
             customIds={customIds}
             inputRef={inputRef}
